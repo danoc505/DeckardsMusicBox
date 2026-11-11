@@ -36,6 +36,7 @@ import reconcile  # noqa: E402
 import search  # noqa: E402
 import nt  # noqa: E402
 import neoplatonists  # noqa: E402
+import taylor_greek  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 READER = ROOT / "reader"
@@ -871,9 +872,79 @@ class Library:
             u.pop("repo", None)
         corr = self.rows("SELECT unit_n, ocr, read, why, by, applied FROM neo_correction WHERE text_id = ? ORDER BY rowid", text_id)
         n_parts = t["n_parts"]
+        # Milestone 26: Taylor's English of a unit, where he translated it (the propositions of the Elements on the page where they start).
+        here = {u["seq"]: u for u in units}
+        for u in units:
+            u["taylor"] = []
+        if self.has_taylor():
+            for c in self.rows("SELECT c.work_id, c.part_seq, c.seq, c.label, c.greek_units, c.greek_span, c.match_how FROM taylor_chapter c "
+                               "JOIN taylor_work w ON w.id = c.work_id WHERE w.greek_text = ? AND c.match_how NOT IN ('not placed', 'no Greek') ORDER BY c.seq", text_id):
+                span = json.loads(c["greek_span"]) if c["greek_span"] else None
+                useqs = [span["from"][0]] if span else json.loads(c["greek_units"])
+                for us in useqs:
+                    if us in here:
+                        here[us]["taylor"].append({"work": c["work_id"], "part": c["part_seq"], "seq": c["seq"], "label": c["label"], "how": c["match_how"]})
         return {"text": t, "part": p, "units": units, "corrections": corr,
                 "prev": self.one("SELECT seq, label FROM neo_part WHERE text_id = ? AND seq = ?", text_id, part - 1),
                 "next": self.one("SELECT seq, label FROM neo_part WHERE text_id = ? AND seq = ?", text_id, part + 1) if part + 1 < n_parts else None}
+
+    # ------------------------------------------------------------ milestone 26: Taylor's English beside the Greek
+
+    def has_taylor(self):
+        return bool(self.one("SELECT name FROM sqlite_master WHERE name = 'taylor_chapter'"))
+
+    def taylor_works(self):
+        """Taylor's three translations of the Neoplatonists, with their contents and the figures of the matching."""
+        if not self.has_taylor():
+            return {"works": [], "stats": None}
+        works = self.rows("SELECT * FROM taylor_work ORDER BY seq")
+        parts = {}
+        for p in self.rows("SELECT work_id, seq, label, greek_label, first_chapter, last_chapter FROM taylor_part ORDER BY work_id, seq"):
+            parts.setdefault(p.pop("work_id"), []).append(p)
+        for w in works:
+            w["parts"] = parts.get(w["id"], [])
+            w["source"] = self.one("SELECT id, title, repo, licence, provenance FROM source WHERE id = ?", w["source_id"])
+            w["greek"] = self.one("SELECT id, title, edition, editor, year, kind FROM neo_text WHERE id = ?", w["greek_text"])
+        stats = self.one("SELECT value FROM build WHERE key = 'taylor_greek_stats'")
+        return {"works": works, "stats": json.loads(stats["value"]) if stats else None}
+
+    def taylor_part(self, work_id, part):
+        """One part of Taylor's translation (a treatise, a section, ten propositions): each chapter in his English,
+        with the Greek it was matched to, and how."""
+        if not self.has_taylor():
+            return None
+        w = self.one("SELECT * FROM taylor_work WHERE id = ?", work_id)
+        p = self.one("SELECT * FROM taylor_part WHERE work_id = ? AND seq = ?", work_id, part)
+        if not w or not p:
+            return None
+        p["evidence"] = json.loads(p["evidence"]) if p["evidence"] else {}
+        g = self.one("SELECT id, title, edition, kind FROM neo_text WHERE id = ?", w["greek_text"])
+        chapters = self.rows("SELECT * FROM taylor_chapter WHERE work_id = ? AND part_seq = ? ORDER BY seq", work_id, part)
+        cols = "seq, part_seq, n, label, page, lang, text, notes"
+        for c in chapters:
+            c["paras"] = c.pop("text").split("\n\n")
+            c["notes"] = json.loads(c["notes"]) if c["notes"] else []
+            c["checks"] = json.loads(c["checks"]) if c["checks"] else []
+            useqs = json.loads(c.pop("greek_units"))
+            span = json.loads(c.pop("greek_span")) if c["greek_span"] else None
+            units = self.rows(f"SELECT {cols} FROM neo_unit WHERE text_id = ? AND seq IN ({','.join('?' * len(useqs))}) ORDER BY seq",
+                              w["greek_text"], *useqs) if useqs else []
+            c["greek"] = None
+            if span is not None:
+                # the Elements: the pages of the scan the proposition lies on; its Greek from its start to the next one's, where placed
+                c["greek"] = {"pages": [{"label": u["label"], "part": u["part_seq"], "n": u["n"]} for u in units if u["lang"] != "lat"],
+                              "placed": span["placed"]}
+                if span["placed"]:
+                    allu = self.rows(f"SELECT {cols} FROM neo_unit WHERE text_id = ? AND seq BETWEEN ? AND ? ORDER BY seq",
+                                     w["greek_text"], span["from"][0], span["to"][0] if span["to"] else 10 ** 6)
+                    c["greek"]["text"] = taylor_greek.elements_slice(allu, span["from"], span["to"])
+            elif units:
+                c["greek"] = {"units": [{"label": u["label"], "part": u["part_seq"], "n": u["n"], "text": u["text"],
+                                         "notes": json.loads(u["notes"]) if u["notes"] else []} for u in units]}
+        n_parts = w["n_parts"]
+        return {"work": w, "greek_text": g, "part": p, "chapters": chapters,
+                "prev": self.one("SELECT seq, label FROM taylor_part WHERE work_id = ? AND seq = ?", work_id, part - 1),
+                "next": self.one("SELECT seq, label FROM taylor_part WHERE work_id = ? AND seq = ?", work_id, part + 1) if part + 1 < n_parts else None}
 
     def work_sections(self, work_id):
         return [r["ref"] for r in self.rows("SELECT ref FROM section WHERE work_id = ? ORDER BY seq", work_id)]
@@ -1348,6 +1419,11 @@ class Handler(BaseHTTPRequestHandler):
                     return self.send_json(lib.neo())
                 if len(parts) == 3 and parts[0] == "neo" and parts[2].isdigit():
                     d = lib.neo_part(parts[1], int(parts[2]))
+                    return self.send_json(d) if d else self.send_json({"error": "no such part"}, HTTPStatus.NOT_FOUND)
+                if parts == ["taylor-greek"]:
+                    return self.send_json(lib.taylor_works())
+                if len(parts) == 3 and parts[0] == "taylor-greek" and parts[2].isdigit():
+                    d = lib.taylor_part(parts[1], int(parts[2]))
                     return self.send_json(d) if d else self.send_json({"error": "no such part"}, HTTPStatus.NOT_FOUND)
                 if parts == ["studies"]:
                     rows = lib.mine.studies(include_deleted=query.get("deleted") == "1")

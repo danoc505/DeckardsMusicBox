@@ -298,6 +298,30 @@ on the shelf and in the report: Olympiodorus on the Gorgias (the full editions, 
 Phaedo (Norvin's 1913 edition was not found among the scans, and Finckh's 1847 OCR has no Greek letters); Damascius on the
 Parmenides, Phaedo and Philebus; the Greek of Proclus on the Timaeus and the Theology (their English is already here).
 
+**Milestone 26, the commentators' Greek beside Taylor's English: done.** Taylor translated three of the texts on the
+Neoplatonists' shelf, and each is now read in his English with the Greek one tap away: fifteen treatises of Plotinus (Select
+Works, 1817), Iamblichus On the Mysteries (1821) and Proclus' Elements of Theology (1816). The Library lists them under the
+Neoplatonists (*Taylor's English beside the Greek*, `#neo-en/taylor-plotinus`); each chapter has a *Greek* button that opens the
+Greek it translates beneath it, every word tappable for its meaning (*All the Greek* opens it under every chapter), and the
+Greek text links back to Taylor's English of each chapter he translated. Every match says how it was made. Plotinus and
+Iamblichus by Taylor's own chapter numbers, which are the Greek editions' (Ficino's chapters, which Volkmann keeps; Gale's,
+which Parthey keeps): which treatise of the Enneads each is comes from Taylor's list of Plotinus' books in his Introduction and
+from Volkmann's heading, both quoted; numbers the OCR garbled are read from their place, and where the OCR lost one the passage
+holds two chapters and says so. The check: chapter by chapter, Taylor's English runs to about the same multiple of the Greek
+(1.6 English words to one Greek word in Plotinus, 1.4 in Iamblichus); the few chapters outside half to twice that were read and
+are explained in the report. The Elements are harder: Creuzer's Greek is the OCR of a scan and most propositions are not
+numbered in it. A proposition is *found* where Creuzer prints its number (in the Greek, or in his Latin on the facing page);
+otherwise it is *machine-matched*, placed by its length against Taylor's and kept only where the Greek of most of the terms of
+Taylor's statement (*soul* ψυχή, *participates* μετέχει ...) is in its first lines; the rest are *not placed*, and the reader
+shows the pages of the Greek between the placed propositions before and after. Taylor's footnotes that quote the Greek are
+looked for in the Greek matched. `tools/taylor_greek.py`, [`reports/taylor_greek.md`](reports/taylor_greek.md),
+`tests/test_taylor_greek.py`, `tests/taylor_greek_browser.js`. Taylor's English is the Internet Archive's OCR of his books
+(the Elements, Project Gutenberg's transcription), not proofread; a long footnote that runs over a page sometimes stays among
+the text. Not matched: Taylor's Proclus on the Timaeus and the Theology (no Greek of them is on the shelf), and the extracts
+from Synesius in the Plotinus volume.
+
+![Plotinus I.2.3 in Taylor's English, with Volkmann's Greek opened beneath it](docs/reader-m26-taylor-greek.png)
+
 ## Running it
 
 Python 3.10 or later, standard library only. Nothing to install. One command does everything:

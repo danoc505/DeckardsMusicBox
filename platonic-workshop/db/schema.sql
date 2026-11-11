@@ -878,3 +878,54 @@ CREATE TABLE neo_correction (              -- sources/neoplatonists/corrections.
     by          TEXT NOT NULL,
     applied     INTEGER NOT NULL           -- words it changes in the corrected reading
 );
+
+-- Milestone 26: Taylor's English of three Neoplatonist texts, each chapter matched to the Greek of milestone 25
+-- (tools/taylor_greek.py).
+CREATE TABLE taylor_work (
+    id          TEXT PRIMARY KEY,          -- 'taylor-plotinus'
+    seq         INTEGER NOT NULL,
+    author      TEXT NOT NULL,
+    title       TEXT NOT NULL,
+    edition     TEXT NOT NULL,             -- Taylor's printed edition
+    year        INTEGER,
+    source_id   TEXT NOT NULL REFERENCES source(id),
+    text_how    TEXT NOT NULL,             -- where the English comes from: the OCR of a scan, or a transcription
+    greek_text  TEXT NOT NULL REFERENCES neo_text(id),
+    unit_name   TEXT NOT NULL,             -- chapter | proposition
+    about       TEXT NOT NULL,
+    n_parts     INTEGER NOT NULL,
+    n_chapters  INTEGER NOT NULL,
+    n_matched   INTEGER NOT NULL,          -- chapters with their Greek
+    n_paras     INTEGER NOT NULL,
+    words       INTEGER NOT NULL
+);
+
+CREATE TABLE taylor_part (                 -- a treatise of Plotinus, a section of Iamblichus, ten propositions
+    work_id     TEXT NOT NULL REFERENCES taylor_work(id),
+    seq         INTEGER NOT NULL,
+    label       TEXT NOT NULL,
+    greek_label TEXT,                      -- the Greek edition's heading of the same part
+    evidence    TEXT,                      -- JSON: Taylor's heading, his list's words, the Greek heading, a note
+    first_chapter INTEGER NOT NULL,
+    last_chapter  INTEGER NOT NULL,
+    PRIMARY KEY (work_id, seq)
+);
+
+CREATE TABLE taylor_chapter (              -- one of Taylor's chapters (a proposition of the Elements)
+    work_id     TEXT NOT NULL REFERENCES taylor_work(id),
+    seq         INTEGER NOT NULL,
+    part_seq    INTEGER NOT NULL,
+    n           TEXT NOT NULL,             -- the Greek address(es) it translates, comma-separated: '1.2.3', '3.12', or the proposition's number
+    label       TEXT NOT NULL,             -- 'I.2.3', '3.12', 'Prop. 30'
+    printed     TEXT,                      -- the number as the OCR prints it
+    page        INTEGER,                   -- Taylor's page, where read
+    text        TEXT NOT NULL,             -- Taylor's paragraphs, blank-line separated
+    notes       TEXT,                      -- JSON: Taylor's footnotes
+    greek_units TEXT NOT NULL,             -- JSON: neo_unit.seq of the Greek matched (empty: none)
+    greek_span  TEXT,                      -- JSON, the Elements: {"from": [unit, line], "to": [unit, line] | null, "placed": bool}
+    match_how   TEXT NOT NULL,             -- chapter number | found | machine-matched | not placed | no Greek
+    match_note  TEXT,
+    checks      TEXT,                      -- JSON: Taylor's Greek quotations in his notes, and where they were found
+    words       INTEGER NOT NULL,
+    PRIMARY KEY (work_id, seq)
+);

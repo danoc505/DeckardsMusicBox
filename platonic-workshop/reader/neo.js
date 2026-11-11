@@ -69,7 +69,7 @@ function neoShelf() {
 // ------------------------------------------------------------------ a text's contents
 
 async function showNeo(raw) {
-  const [id, part] = raw.split("/");
+  const [id, part, unitN] = raw.split("/");
   state.view = "neo";
   setView("library-view");
   document.body.classList.add("guide-view");
@@ -78,7 +78,7 @@ async function showNeo(raw) {
   if (!NEO.prefRead) { NEO.prefRead = true; NEO.mode = prefsGet("neoMode", "shown"); }
   const t = neoText(decodeURIComponent(id || ""));
   if (!t) { $("#main").innerHTML = `<p class="error">Not found: ${esc(id || "")}. <a href="#library">The Library</a></p>`; return; }
-  if (part !== undefined && /^\d+$/.test(part)) return showNeoPart(t, parseInt(part, 10));
+  if (part !== undefined && /^\d+$/.test(part)) return showNeoPart(t, parseInt(part, 10), unitN === undefined ? null : decodeURIComponent(unitN));
   document.title = `${t.title} · Platonic Workshop`;
   $("#toc").innerHTML = neoToc(t, null);
   const unit = t.kind === "ocr" ? "pages" : t.unit_name === "page" ? "pages of the edition" : "sections";
@@ -104,7 +104,7 @@ function neoToc(t, cur) {
 
 // ------------------------------------------------------------------ reading a part
 
-async function showNeoPart(t, seq) {
+async function showNeoPart(t, seq, unit) {
   const key = `${t.id}/${seq}`;
   let d = NEO.parts.get(key);
   if (!d) {
@@ -115,7 +115,14 @@ async function showNeoPart(t, seq) {
   $("#toc").innerHTML = neoToc(t, seq);
   $("#toc").querySelector(".on")?.scrollIntoView({ block: "center" });
   renderNeoPart(t, d);
-  window.scrollTo(0, 0);
+  const el = unit ? document.getElementById(`neo-${unit}`) : null;
+  if (el) { if (el.tagName === "DETAILS") el.open = true; el.scrollIntoView({ block: "start" }); el.classList.add("neo-here"); } else window.scrollTo(0, 0);
+}
+
+// Milestone 26: where Taylor translated this unit, a link to his English.
+function neoTaylorLinks(u) {
+  if (!u.taylor || !u.taylor.length) return "";
+  return `<p class="tg-back meta">Taylor's English: ${u.taylor.map((c) => `<a href="#neo-en/${esc(c.work)}/${c.part}/${c.seq}">${esc(c.label)}</a>`).join(", ")}</p>`;
 }
 
 // The corrections that apply to this part: those for the whole text, and those for one of its pages.
@@ -159,10 +166,10 @@ function renderNeoPart(t, d) {
       if (u.lang === "lat") {
         h += `<details class="neo-page neo-latin" id="neo-${esc(u.n)}"><summary>${esc(u.label)}: a page in Latin <span class="meta">(the editor's preface, translation or notes)</span></summary>${head}<div class="neo-ocr">${body}</div></details>`;
       } else {
-        h += `<section class="neo-page" id="neo-${esc(u.n)}">${head}<div class="neo-ocr" lang="grc">${body}</div></section>`;
+        h += `<section class="neo-page" id="neo-${esc(u.n)}">${head}${neoTaylorLinks(u)}<div class="neo-ocr" lang="grc">${body}</div></section>`;
       }
     } else {
-      h += `<section class="neo-unit" id="neo-${esc(u.n)}"><h4 class="neo-unit-n">${esc(u.label)}</h4>
+      h += `<section class="neo-unit" id="neo-${esc(u.n)}"><h4 class="neo-unit-n">${esc(u.label)}</h4>${neoTaylorLinks(u)}
         ${u.margin.length ? `<p class="neo-margin meta" title="In the margin of the edition">${u.margin.map(esc).join(" · ")}</p>` : ""}
         <div class="neo-tei" lang="grc">${body}</div>
         ${u.notes.length ? `<ol class="neo-notes meta">${u.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ol>` : ""}</section>`;
@@ -194,4 +201,180 @@ document.addEventListener("click", (ev) => {
   const t = m && neoText(decodeURIComponent(m[1]));
   const d = m && NEO.parts.get(`${t && t.id}/${m[2]}`);
   if (t && d) { const y = window.scrollY; renderNeoPart(t, d); window.scrollTo(0, y); }
+});
+
+// ------------------------------------------------------------------ milestone 26: Taylor's English beside the Greek
+// Taylor translated three of these texts: fifteen treatises of Plotinus, Iamblichus On the Mysteries, and Proclus'
+// Elements of Theology. Each of his chapters (a proposition, in the Elements) is matched to the Greek above, and the
+// Greek is one tap from the English (the "Greek" button under a chapter), its words tappable as everywhere. Every match
+// says how it was made: by Taylor's chapter number (Plotinus, Iamblichus); by Creuzer's printed number, or by machine
+// and checked by Taylor's terms (the Elements); or not placed, with the stretch of the Greek it lies in.
+
+const TG = { data: null, asked: null, parts: new Map(), all: false };
+
+function loadTaylorGreek() {
+  if (!TG.asked) TG.asked = api("taylor-greek").then((d) => { TG.data = d; return d; }).catch(() => { TG.asked = null; return null; });
+  return TG.asked;
+}
+
+const tgWorks = () => (TG.data && TG.data.works) || [];
+const tgWork = (id) => tgWorks().find((w) => w.id === id);
+
+// The Library's list, under the Neoplatonists' shelf.
+function taylorGreekShelf() {
+  if (!tgWorks().length) return "";
+  return `<section id="lib-taylor-greek"><h4>Taylor's English beside the Greek</h4>
+    <p class="meta">Thomas Taylor translated three of these texts. Read his English chapter by chapter, with the Greek of the edition above one tap away (and back from the Greek).
+      Taylor's English is the OCR of his printed books (the Elements, Project Gutenberg's transcription), not proofread.</p>
+    <ul>${tgWorks().map((w) => `<li><a href="#neo-en/${esc(w.id)}"><b>${esc(w.author)}, ${esc(w.title)}</b></a>
+      <span class="meta">Taylor, ${esc(String(w.year))}; ${w.n_chapters.toLocaleString()} ${esc(w.unit_name)}s, ${w.n_matched.toLocaleString()} with the Greek</span></li>`).join("")}</ul></section>`;
+}
+
+const _neoShelf = neoShelf;
+neoShelf = function () {  // eslint-disable-line no-global-assign
+  const h = _neoShelf();
+  return h ? h.replace(/<\/section>$/, `${taylorGreekShelf()}</section>`) : h;
+};
+const _loadNeo = loadNeo;
+loadNeo = function () {  // eslint-disable-line no-global-assign
+  return Promise.all([_loadNeo(), loadTaylorGreek()]).then(([d]) => d);
+};
+
+// How a chapter was matched, as a small label.
+function tgHow(c) {
+  const t = {
+    "chapter number": ["by number", "Taylor's chapter number is the Greek edition's"],
+    "found": ["number found", "Creuzer prints this proposition's number and title here"],
+    "machine-matched": ["machine-matched", "Placed by machine, by length, and checked: Taylor's terms have their Greek in its first lines"],
+    "not placed": ["not placed", "Its start could not be found in the OCR with confidence"],
+    "no Greek": ["no Greek", "The Greek file has no chapter of this number"],
+  }[c.match_how] || [c.match_how, ""];
+  return `<span class="tg-how tg-${esc(c.match_how.replace(/\s+/g, "-"))}" title="${esc(t[1])}">${esc(t[0])}</span>`;
+}
+
+async function showTaylorGreek(raw) {
+  const [id, part, ch] = raw.split("/");
+  state.view = "neo";
+  setView("library-view");
+  document.body.classList.add("guide-view");
+  $("#main").innerHTML = `<p class="loading">Opening…</p>`;
+  await loadNeo();
+  if (!TG.prefRead) { TG.prefRead = true; TG.all = prefsGet("tgAll", "") === "1"; }
+  const w = tgWork(decodeURIComponent(id || ""));
+  if (!w) { $("#main").innerHTML = `<p class="error">Not found: ${esc(id || "")}. <a href="#library">The Library</a></p>`; return; }
+  if (part !== undefined && /^\d+$/.test(part)) return showTaylorGreekPart(w, parseInt(part, 10), ch !== undefined && /^\d+$/.test(ch) ? parseInt(ch, 10) : null);
+  document.title = `Taylor's ${w.title} · Platonic Workshop`;
+  $("#toc").innerHTML = tgToc(w, null);
+  const st = ((TG.data.stats || {}).works || []).find((x) => x.id === w.id) || {};
+  const how = Object.entries(st.how || {}).map(([k, v]) => `${v.toLocaleString()} ${esc(k)}`).join(", ");
+  const g = w.greek || {};
+  $("#main").innerHTML = `<div class="search guide neo-text"><p class="meta">${esc(w.author)}, in Taylor's English</p><h2>${esc(w.title)}</h2>
+    <p class="lead">${esc(w.about)}</p>
+    <p class="meta">${esc(w.edition)}: ${esc(w.text_how)}. ${w.n_chapters.toLocaleString()} ${esc(w.unit_name)}s, ${w.words.toLocaleString()} words.
+      The Greek: <a href="#neo/${esc(g.id || "")}">${esc(g.title || "")}</a>, ${esc(g.edition || "")}.</p>
+    <h3>How each ${esc(w.unit_name)} is matched to the Greek</h3>
+    <p>${w.id === "taylor-elements"
+      ? `Creuzer's Greek is the OCR of a scan, and most propositions are not numbered in it. A proposition's start is <em>found</em> where Creuzer prints its number and title
+         (in the Greek, or in his Latin on the facing page); otherwise it is <em>machine-matched</em>: placed by its length against Taylor's, and kept only where the Greek of
+         most of the terms of Taylor's statement (<em>soul</em> ψυχή, <em>intellect</em> νοῦς, <em>participates</em> μετέχει ...) is in its first lines. The rest are
+         <em>not placed</em>: for those the reader shows the pages between the placed propositions before and after.`
+      : `Taylor numbers his chapters as the Greek editions do, so his chapter n is the Greek chapter n. The numbers are read from the OCR in order;
+         where the OCR garbled a number it is read from its place, and where it lost one the passage holds two chapters and says so.
+         The check: chapter by chapter, Taylor's English is about the same multiple of the Greek.`} ${how ? `<span class="meta">Here: ${how}.</span>` : ""}
+</p>
+    <h3>Contents</h3><ol class="neo-contents">${w.parts.map((p) => `<li><a href="#neo-en/${esc(w.id)}/${p.seq}">${esc(p.label)}</a>
+      ${p.greek_label ? `<span class="meta" lang="grc">${esc(p.greek_label)}</span>` : ""}</li>`).join("")}</ol>
+    <h3>Source and licence</h3><ul class="neo-sources">${w.source ? `<li>${esc(w.source.title)}. <span class="meta">Licence:</span> <q>${esc(w.source.licence || "")}</q></li>` : ""}</ul></div>`;
+  window.scrollTo(0, 0);
+}
+
+function tgToc(w, cur) {
+  return `<p><a href="#library">‹ Library</a></p><h3><a href="#neo-en/${esc(w.id)}">${esc(w.title)}</a></h3>
+    <p class="meta">${esc(w.author)}, tr. Taylor, ${esc(String(w.year))}</p>
+    <ul class="books neo-toc">${w.parts.map((p) => `<li${p.seq === cur ? ' class="on"' : ""}><a href="#neo-en/${esc(w.id)}/${p.seq}"${p.seq === cur ? ' aria-current="page"' : ""}><span>${esc(p.label)}</span></a></li>`).join("")}</ul>`;
+}
+
+async function showTaylorGreekPart(w, seq, chapter) {
+  const key = `${w.id}/${seq}`;
+  let d = TG.parts.get(key);
+  if (!d) {
+    try { d = await api(`taylor-greek/${encodeURIComponent(w.id)}/${seq}`); } catch (e) { $("#main").innerHTML = `<p class="error">Not found: ${esc(key)}</p>`; return; }
+    TG.parts.set(key, d);
+  }
+  document.title = `${d.part.label} · Taylor's ${w.title} · Platonic Workshop`;
+  $("#toc").innerHTML = tgToc(w, seq);
+  $("#toc").querySelector(".on")?.scrollIntoView({ block: "center" });
+  renderTaylorGreekPart(w, d, chapter);
+  if (chapter !== null) {
+    const el = document.getElementById(`tg-${chapter}`);
+    if (el) { el.querySelector(".tg-greek")?.removeAttribute("hidden"); el.querySelector("[data-tg-greek]")?.setAttribute("aria-expanded", "true"); el.scrollIntoView({ block: "start" }); return; }
+  }
+  window.scrollTo(0, 0);
+}
+
+function tgGreekBlock(w, d, c) {
+  const g = c.greek;
+  const gid = d.greek_text.id;
+  if (!g) return `<p class="meta">${esc(c.match_note || "No Greek is matched to this chapter.")}</p>`;
+  if (g.units) {
+    return g.units.map((u) => `<div class="tg-gunit"><p class="neo-unit-n"><a href="#neo/${esc(gid)}/${u.part}/${esc(u.n)}" title="Read it in the Greek text">${esc(u.label)}</a></p>
+      <div class="neo-tei" lang="grc">${esc(u.text)}</div>
+      ${u.notes.length ? `<details class="meta"><summary>The editor's notes</summary><ol class="neo-notes">${u.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ol></details>` : ""}</div>`).join("");
+  }
+  const pages = `<p class="meta">On the scan's ${g.pages.length === 1 ? "page" : "pages"}: ${g.pages.map((p) => `<a href="#neo/${esc(gid)}/${p.part}/${esc(p.n)}">${esc(p.label)}</a>`).join(", ")}.</p>`;
+  if (!g.placed) return `<p class="meta">This proposition's start could not be found in the OCR with confidence: ${esc(c.match_note || "")}. Its Greek is on these pages.</p>${pages}`;
+  return `<div class="neo-ocr" lang="grc">${esc(g.text || "")}</div>${pages}`;
+}
+
+function renderTaylorGreekPart(w, d, chapter) {
+  const nav = `<p class="neo-nav">${d.prev ? `<a class="btn" href="#neo-en/${esc(w.id)}/${d.prev.seq}">‹ ${esc(d.prev.label)}</a>` : ""}
+    <a class="btn" href="#neo-en/${esc(w.id)}">Contents</a>
+    ${d.next ? `<a class="btn" href="#neo-en/${esc(w.id)}/${d.next.seq}">${esc(d.next.label)} ›</a>` : ""}</p>`;
+  const ev = d.part.evidence || {};
+  let h = `<div class="search guide neo-text neo-read tg-read"><p class="meta"><a href="#neo-en/${esc(w.id)}">${esc(w.author)}, ${esc(w.title)}</a>, in Taylor's English</p>
+    <h2>${esc(d.part.label)}</h2>
+    ${d.part.greek_label ? `<p class="neo-greek" lang="grc">${esc(d.part.greek_label)}</p>` : ""}
+    <p class="meta">${esc(w.edition)}: ${esc(w.text_how)}. The Greek: <a href="#neo/${esc(d.greek_text.id)}">${esc(d.greek_text.edition)}</a>.</p>`;
+  if (ev.listed) {
+    h += `<details class="meta tg-evidence"><summary>Which treatise of the Enneads this is, and how we know</summary>
+      <p>Taylor's heading: <q>${esc(ev.heading)}</q>. His list of Plotinus' books (in his Introduction, after Porphyry): <q>${esc(ev.listed)}</q>.
+      The Greek heading in Volkmann: <q lang="grc">${esc(ev.greek_heading || "")}</q>.${ev.note ? ` ${esc(ev.note[0].toUpperCase() + ev.note.slice(1))}.` : ""}</p></details>`;
+  }
+  h += `<div class="neo-modes"><button type="button" class="chip${TG.all ? " on" : ""}" data-tg-all="1" aria-pressed="${TG.all}" title="Show the Greek under every chapter">All the Greek</button></div>`;
+  h += nav;
+  for (const c of d.chapters) {
+    const open = TG.all || c.seq === chapter;
+    h += `<section class="tg-ch" id="tg-${c.seq}"><h4 class="neo-unit-n">${esc(c.label)} ${tgHow(c)}${c.page ? ` <span class="meta">Taylor p. ${c.page}</span>` : ""}</h4>
+      ${c.paras.map((p) => `<p>${esc(p)}</p>`).join("")}
+      ${c.match_note && c.match_how !== "not placed" ? `<p class="meta tg-note">${esc(c.match_note[0].toUpperCase() + c.match_note.slice(1))}.</p>` : ""}
+      <p><button type="button" class="btn tg-btn" data-tg-greek="${c.seq}" aria-expanded="${open}">Greek</button></p>
+      <div class="tg-greek"${open ? "" : " hidden"}>${tgGreekBlock(w, d, c)}</div>
+      ${c.notes.length ? `<details class="meta"><summary>Taylor's notes (${c.notes.length})</summary><ol class="neo-notes">${c.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ol>
+        ${c.checks.length ? `<p>The Greek he quotes, looked for in the Greek matched: ${c.checks.map((q) => `<span lang="grc">${esc(q.quote.slice(0, 60))}</span> <b>${q.found === "here" ? "found here" : q.found ? "found at " + esc(q.found) : "not found"}</b>`).join("; ")}.</p>` : ""}</details>` : ""}
+    </section>`;
+  }
+  h += nav;
+  $("#main").innerHTML = h + `</div>`;
+}
+
+document.addEventListener("click", (ev) => {
+  const b = ev.target.closest("[data-tg-greek]");
+  if (b) {
+    const box = b.closest(".tg-ch").querySelector(".tg-greek");
+    const open = box.hasAttribute("hidden");
+    box.toggleAttribute("hidden", !open);
+    b.setAttribute("aria-expanded", String(open));
+    return;
+  }
+  const a = ev.target.closest("[data-tg-all]");
+  if (a) {
+    TG.all = !TG.all;
+    prefsSet("tgAll", TG.all ? "1" : "");
+    a.classList.toggle("on", TG.all);
+    a.setAttribute("aria-pressed", String(TG.all));
+    document.querySelectorAll(".tg-ch").forEach((s) => {
+      s.querySelector(".tg-greek").toggleAttribute("hidden", !TG.all);
+      s.querySelector("[data-tg-greek]").setAttribute("aria-expanded", String(TG.all));
+    });
+  }
 });

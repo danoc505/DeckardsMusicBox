@@ -52,6 +52,7 @@ import greek  # noqa: E402
 import lexicon  # noqa: E402
 import nt  # noqa: E402
 import neoplatonists  # noqa: E402
+import taylor_greek  # noqa: E402
 import translations  # noqa: E402
 import commentary_db  # noqa: E402
 import citations  # noqa: E402
@@ -830,6 +831,11 @@ def build(works, db_path=None, progress=False, with_nt=None):
         if progress:
             print(f"  Neoplatonists: {len(neo_stats['texts'])} texts, {neo_stats['units']} units, {neo_stats['words']} words, "
                   f"{neo_stats['corrected_words']} words corrected apart", flush=True)
+        # Milestone 26: Taylor's English of Plotinus, Iamblichus and Proclus' Elements, matched to that Greek.
+        tg_stats = taylor_greek.build(db)
+        taylor_greek.write_report(tg_stats)
+        if progress and tg_stats:
+            print("  Taylor beside the Greek: " + "; ".join(f"{w['title']} {w['matched']}/{w['chapters']} with Greek ({w['how']})" for w in tg_stats["works"]), flush=True)
     # Milestone 15: the Morpheus analyses of the Greek words outside Plato (notes, ancient texts, Taylor),
     # before the dictionaries, so that their lemmas get entries too.
     gloss_stats = gloss.build_forms(db, morpheus_lines, parse_morpheus, lambda: (morpheus_lines(set()), _MORPHEUS)[1])
