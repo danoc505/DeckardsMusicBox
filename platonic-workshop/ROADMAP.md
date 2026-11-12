@@ -250,8 +250,15 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   lovers, as the rational soul between intellect and the many-headed beast; and the two readings joined, daemon to a man and
   intellect to a soul. Taylor draws nothing from these pages either. Plato's places (Phaedo 107d, Apology 31d, Theaetetus
   155d, Republic 588c, Timaeus 42c and 30b) are noted and found in Burnet. A word Cousin prints that is not Greek
-  (ἀγητηρίων) is kept as printed and noted. Next sessions, in this order: the rest of Proclus on the First Alcibiades, from
-  why Alcibiades wonders (II p. 125 on; Taylor's note on the daemon at 103a and his Additional Notes 2-19 to check against),
+  (ἀγητηρίων) is kept as printed and noted. The same session fixed the website build, broken since PR #38 (a function in
+  `tools/build_site.py` named `serve` hid the `serve` module).
+- Session 7 done: Cousin's vol. II pp. 125-137, to "let us take up the more secret accounts of love", proofread (136 more line
+  corrections, 1266 in all) and added to the same part in three sections: why Alcibiades wonders (the many measure care by
+  time, not by perfection); why the vulgar lovers keep the name of lover (one end for all lovers; madness above and below
+  self-control, Phaedrus 244d; the divine gives even its image a trace of itself); and Socrates the only lover (131e; the
+  Iliad's phantom of Aeneas). Where Cousin prints κατὰ ταυτὰ against both his manuscripts' ταύτας and the sense, the modern
+  version follows the manuscripts and the note says so. Next sessions, in this order: the rest of Proclus on the First
+  Alcibiades, from the more secret account of love and Socrates' daemon (II p. 137 on; Taylor's note on the daemon at 103a and his Additional Notes 2-19 to check against),
   and Olympiodorus on it (Creuzer's OCR, proofread first); then On the Mysteries and the Elements, where
   Taylor's English exists; then Damascius and Hermias. Plotinus' other treatises have no Taylor to check against: check
   them against another public-domain translation, or label them so.
