@@ -24,6 +24,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_db  # noqa: E402
+import serve  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "data" / "site"
@@ -83,10 +84,10 @@ def build(out=OUT):
     for p in sorted((ROOT / "texts" / "taylor-1804" / "vol1").glob("*.json")):
         if p.stem in ("general-introduction", "platonic-terms", "olympiodorus-life"):
             files[p.relative_to(ROOT).as_posix()] = p.read_text(encoding="utf-8")
-    # Aristotle milestone A1: Taylor's Introduction and Additional Notes to the Metaphysics, read whole the same way.
-    for p in sorted((ROOT / "texts" / "aristotle" / "metaphysics").glob("taylor-*.json")):
-        if p.stem in ("taylor-introduction", "taylor-additional-notes"):
-            files[p.relative_to(ROOT).as_posix()] = p.read_text(encoding="utf-8")
+    # Aristotle milestones A1-A2: Taylor's Introduction and Additional Notes to the Metaphysics and his Dissertation, read whole the same way.
+    for rel, _ in serve.TAYLOR_TEXTS_AR.values():
+        p = serve.TAYLOR_AR / rel
+        files[p.relative_to(ROOT).as_posix()] = p.read_text(encoding="utf-8")
     files["web/bridge.py"] = (ROOT / "web" / "bridge.py").read_text(encoding="utf-8")
     (out / "web" / "files.json").write_text(json.dumps(files, ensure_ascii=False), encoding="utf-8")
     # A compacted copy keeps each table's rows together, so a page of Plato is read from fewer pieces.

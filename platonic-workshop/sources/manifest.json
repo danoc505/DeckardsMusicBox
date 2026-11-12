@@ -930,6 +930,28 @@
       "status": "verified"
     },
     {
+      "id": "ia-taylor-dissertation-1812",
+      "title": "Thomas Taylor, A Dissertation on the Philosophy of Aristotle, in four books, in which his principal physical and metaphysical dogmas are unfolded (London, 1812), Internet Archive OCR",
+      "kind": "archive",
+      "item": "adissertationon00taylgoog",
+      "repo": "https://archive.org/details/adissertationon00taylgoog",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/adissertationon00taylgoog/adissertationon00taylgoog_djvu.xml",
+          "sha256": "5b5df3a424261d7519917564e8d9cec1ade260551c8f69c9e855d341031b076c",
+          "bytes": 21973813
+        }
+      ],
+      "sha256": "5b5df3a424261d7519917564e8d9cec1ade260551c8f69c9e855d341031b076c",
+      "layer": "commentary",
+      "language": "eng",
+      "citation_scheme": "Taylor's books and chapters as printed; the scan's leaves (images) for the page",
+      "licence": "Public domain (printed in 1812, before 1930)",
+      "provenance": "Internet Archive item adissertationon00taylgoog (Google's scan of the Harvard copy, marked NOT_IN_COPYRIGHT by the Archive): its OCR with the place of every word (_djvu.xml), downloaded on 2026-11-12 and pinned by sha256. The OCR of the pages read (leaves 10-616: the Preface, the Explanation of terms, the four books, the Additional Note) is committed in sources/aristotle/ocr/. Cleaned by rule by tools/aristotle_dissertation.py into texts/aristotle/dissertation/taylor-1812.json; unproofread, every paragraph keeps its raw OCR.",
+      "status": "verified"
+    },
+    {
       "id": "chase-1847",
       "title": "The Nicomachean Ethics of Aristotle, translated by D. P. Chase (1847; Everyman's Library, 1911, introduction by J. A. Smith), Project Gutenberg eBook #8438",
       "kind": "local",
