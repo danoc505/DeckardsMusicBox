@@ -417,5 +417,66 @@ class OrganonInTheLibrary(unittest.TestCase):
             self.assertGreater(tagged / n, 0.85, wid)
 
 
+class Isagoge(unittest.TestCase):
+    """Aristotle milestone A4b: Porphyry's Introduction, the door to the Organon: Owen's English (1853), Busse's Greek (1887)."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.d = json.loads((ROOT / "texts" / "aristotle" / "porphyry" / "owen-1853.json").read_text(encoding="utf-8"))
+        cls.js = (ROOT / "reader" / "aristotle.js").read_text(encoding="utf-8")
+
+    def test_the_sources_are_pinned_and_free(self):
+        m = MANIFEST["ia-owen-organon-1853"]
+        self.assertEqual(m["item"], "organonorlogica04porpgoog")
+        self.assertIn("Public domain", m["licence"])
+        self.assertEqual(sorted(aristotle_ocr.scan_pages("ia-owen-organon-1853")), list(range(264, 289)))
+        self.assertIn("data/tlg2034/tlg006", MANIFEST["first1k-neoplatonists"]["paths"])
+        self.assertNotIn("data/tlg2034/tlg006", MANIFEST["first1k-aristotle"]["paths"])
+        self.assertIn("CC BY-SA", MANIFEST["first1k-neoplatonists"]["licence"])
+
+    def test_seventeen_chapters_in_order(self):
+        heads = [s for s in self.d["segments"] if s["kind"] == "heading"]
+        self.assertEqual(heads[0]["text"], "The Introduction of Porphyry")
+        self.assertEqual([s["chapter"] for s in heads[1:]], list(range(1, 18)))
+        self.assertEqual(heads[2]["text"], "Chapter II: Of the Nature of Genus and Species.")
+        self.assertEqual(heads[5]["text"], "Chapter V: Of Accident.")
+
+    def test_the_text_is_owens_and_the_notes_are_apart(self):
+        segs = [s for s in self.d["segments"] if s["kind"] == "paragraph"]
+        self.assertTrue(segs[0]["text"].startswith("SINCE it is necessary, Chrysaorius, both to the doctrine of Aristotle’s Categories"))
+        # The famous question Porphyry sets aside: the universals.
+        self.assertIn("as to whether they subsist (in the nature of things) or in mere conceptions only", segs[0]["text"])
+        self.assertTrue(segs[-1]["text"].endswith("the setting forth of their agreement.”"))
+        self.assertTrue(all(s["raw"] for s in self.d["segments"]))
+        whole = " ".join(s["text"] for s in segs)
+        for foot in ("At the request of Chrysaorius", "Ammonius remarks that", "Whately observes"):
+            self.assertNotIn(foot, whole)
+            self.assertTrue(any(n["text"].startswith(foot) for n in self.d["notes"] if n["type"] == "footnote"), foot)
+        self.assertNotIn("Or the principle of the generation of every one", whole)
+        self.assertTrue(any("Or the principle of the generation of every one" in n["text"] for n in self.d["notes"] if n["type"] == "sidenote"))
+        self.assertGreaterEqual(self.d["stats"]["notes"], 35)
+        for s in self.d["segments"]:
+            for x in s["notes"]:
+                self.assertLessEqual(x["at"], len(s["text"]))
+
+    def test_the_greek_is_on_the_neoplatonists_shelf(self):
+        import neoplatonists
+        t = next(x for x in neoplatonists.TEXTS if x["id"] == "porphyry-isagoge")
+        self.assertEqual((t["source"], t["unit"], t["year"]), ("first1k-neoplatonists", "page", 1887))
+        if not (neoplatonists.F1K / "tlg2034").exists():
+            self.skipTest("run tools/fetch_sources.py first")
+        units, parts = neoplatonists.read_tei(t)
+        self.assertEqual(len(units), 22)
+        import unicodedata
+        self.assertIn(unicodedata.normalize("NFC", "Χρυσαόριε"), unicodedata.normalize("NFC", units[0]["text"]))
+
+    def test_the_reader_opens_it_before_the_logic(self):
+        self.assertIn('#taylor/porphyry-introduction', self.js)
+        self.assertIn('#neo/porphyry-isagoge', self.js)
+        t = serve.Library.taylor(None, "porphyry-introduction")
+        self.assertEqual(t["translator"], "Octavius Freire Owen")
+        self.assertIn("about", t)
+
+
 if __name__ == "__main__":
     unittest.main()

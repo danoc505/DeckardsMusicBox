@@ -47,7 +47,10 @@ function arSources() {
     Bekker's own text of the Categories, On Interpretation, Topics and Sophistical Refutations (in his Oxford reprint, 1837), which does not print
     the Berlin columns: these are carried over from the English, chapter by chapter (≈). English: the Oxford translation (1928; Edghill, Jenkinson,
     Mure, Pickard-Cambridge) from the Internet Archive's scan, cleaned by rule and not proofread, at the columns and line numbers printed in its
-    margin; where the scan loses a column's mark, it is placed where the line numbers start again (≈).</p>`;
+    margin; where the scan loses a column's mark, it is placed where the line numbers start again (≈).</p>
+    <p class="prov">Porphyry's Introduction: Owen's English (The Organon, vol. II, London: Bohn, 1853, pp. 609–633; public domain) from the Internet
+    Archive's scan, cleaned by rule and not proofread, with his footnotes and the side-notes the scan could read; the Greek is Busse's
+    (Commentaria in Aristotelem Graeca IV.1, Berlin, 1887) in First1KGreek's TEI (CC BY-SA 4.0).</p>`;
 }
 
 // ------------------------------------------------------------------ the Library's shelf
@@ -62,6 +65,10 @@ function arShelf() {
       terms are underlined, and a term's panel shows it in Plato and in Aristotle.</p>
     <p><a href="#aristotle"><b>Start here: Aristotle as the Platonists read him</b></a> <span class="meta">The order they read his works in, the end they lead to, and where he agrees with Plato, each in Taylor's words.</span></p>
     <ul class="studies">${ws.map((w) => `<li><a href="#${esc(w.slug)}"><b>${esc(w.title)}</b></a> <span class="meta">${esc(AR_PLAIN[w.id] || "")}</span></li>`).join("")}</ul>
+    <h4>The door to the logic</h4>
+    <ul class="studies">
+      <li><a href="#taylor/porphyry-introduction"><b>Porphyry's Introduction (Isagoge)</b></a> (Owen's English, 1853) <span class="meta">The five words the Categories takes for granted: genus, species, difference, property, accident. The Platonists read it before any Aristotle. The Greek (Busse, 1887) is <a href="#neo/porphyry-isagoge">on the Neoplatonists' shelf</a>.</span></li>
+    </ul>
     <h4>Taylor on Aristotle</h4>
     <ul class="studies">
       <li><a href="#taylor/aristotle-dissertation"><b>Taylor's Dissertation on the Philosophy of Aristotle</b></a> (1812) <span class="meta">Four books: the division of his works and the end they lead to, his agreement with Plato, and his physical and metaphysical doctrines in his own words, with the Greek commentators on them.</span></li>
@@ -129,6 +136,7 @@ function renderTocAR(w) {
   h += `<h3>Aristotle</h3><ul class="books">${arWorks().map((x) =>
     `<li class="${x.id === w.id ? "here" : ""}"><a href="#${esc(x.slug)}"><span>${esc(x.title)}</span></a></li>`).join("")}</ul>
     <p class="note"><a href="#aristotle">Start here for Aristotle</a> · <a href="#taylor/aristotle-dissertation">Taylor's Dissertation</a></p>
+    ${["ar006", "ar017", "ar001", "ar001p", "ar044", "ar040"].includes(w.id) ? `<p class="note"><a href="#taylor/porphyry-introduction">Porphyry's Introduction</a>, the door to the logic</p>` : ""}
     ${w.id === "ar025" ? `<p class="note"><a href="#taylor/metaphysics-introduction">Taylor's Introduction</a> · <a href="#taylor/metaphysics-additional-notes">his Additional Notes</a></p>` : ""}
     <p class="note"><a href="#library">The Library</a></p>
     <details class="note"><summary>About this text</summary>${arSources()}</details>`;
@@ -158,7 +166,7 @@ function arTermSection(t) {
 // politics, physics, theology, and then Plato. The works of each step, by their TLG numbers (ar + number); a work not yet
 // in the Workshop is listed without a link. Taylor's division (1812, Book I ch. 1) puts the Rhetoric with the logic.
 const AR_ORDER = [
-  { step: "Logic", taylor: "instrumental", note: "The tools of demonstration, read first.",
+  { step: "Logic", taylor: "instrumental", note: "The tools of demonstration, read first, after Porphyry's Introduction.", door: true,
     works: [["ar006", "Categories"], ["ar017", "On Interpretation"], ["ar001", "Prior Analytics"], ["ar001p", "Posterior Analytics"], ["ar044", "Topics"], ["ar040", "Sophistical Refutations"], ["ar038", "Rhetoric"], ["ar034", "Poetics"]] },
   { step: "Ethics", taylor: "practical: moral", note: "\"That we may become virtuous\".",
     works: [["ar010", "Nicomachean Ethics"], ["ar009", "Eudemian Ethics"], ["ar022", "Great Morals (Magna Moralia)"], ["ar045", "On Virtues and Vices"]] },
@@ -172,6 +180,7 @@ const AR_ORDER = [
 
 // Each quotation as Taylor printed it, checked against the scan; "at" is words of the paragraph it is in, to open it there.
 const AR_DISS = "aristotle-dissertation";
+const AR_ISAGOGE = "porphyry-introduction";
 const AR_QUOTES = {
   marinus: { text: `In less than two whole years therefore, Proclus read with Syrianus all the works of Aristotle, viz. his logic, ethics, politics, physics, and theological science. And being sufficiently instructed in these as in certain proteleia, or things preparatory to initiation, and lesser mysteries, Syrianus led him to the mystic discipline of Plato, in an orderly progression, and not according to the Chaldean oracle with a transcendent foot.`,
     src: `Marinus, Life of Proclus, in Taylor's translation (in his Proclus On the Theology of Plato, 1816; Project Gutenberg's text).` },
@@ -215,7 +224,7 @@ function showArStart() {
     ${arQuote("end")}
     <p>So the course runs as Marinus gives it, from logic to theology. The works of each step, in the Workshop where a link is given:</p>
     <ol class="ar-order">${AR_ORDER.map((g) => `<li><b>${esc(g.step)}</b> <span class="meta">(Taylor's ${esc(g.taylor)})${g.note ? " " + esc(g.note) : ""}</span><br>
-      ${g.works.map(([id, title]) => have.has(id) ? `<a href="#${esc(have.get(id).slug)}">${esc(title)}</a>` : `<span class="ar-later" title="Not yet in the Workshop">${esc(title)}</span>`).join(" · ")}</li>`).join("")}
+      ${g.door ? `<a href="#taylor/${AR_ISAGOGE}">Porphyry's Introduction</a> <span class="meta">(Owen, 1853; the Greek is <a href="#neo/porphyry-isagoge">here</a>)</span> → ` : ""}${g.works.map(([id, title]) => have.has(id) ? `<a href="#${esc(have.get(id).slug)}">${esc(title)}</a>` : `<span class="ar-later" title="Not yet in the Workshop">${esc(title)}</span>`).join(" · ")}</li>`).join("")}
       <li><b>Plato</b> <span class="meta">The greater mysteries:</span> <a href="#start">Start here for Plato</a>, the dialogues in the order of Iamblichus.</li></ol>
     <h3 id="ar-way">How he writes</h3>
     ${arQuote("diction")}
