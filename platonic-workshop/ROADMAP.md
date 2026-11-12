@@ -330,11 +330,20 @@ Built by `tools/aristotle.py` (works of corpus `aristotle`, a Bekker column, 980
   asked before reading him) move to A5, with the other Greek commentators: Taylor's Book I chapter 1 already gives their
   answers in English.
 
-### A3: the soul and nature: De Anima, Physics, De Caelo
+### A3: the soul and nature: De Anima, Physics, De Caelo (done)
 
-- Greek from First1KGreek (CC BY-SA, GLAUx-tagged); English: Hicks (De Anima, 1907), Wallace (1882), Taylor (1806-1808);
-  Hardie and Gaye's Physics (1930) and Stocks' De Caelo (1922) where the scans are public domain in the US; Taylor's.
-  De Anima III.5 (the intellect that makes all things) with the commentators' readings.
+- The Greek from First1KGreek (CC BY-SA 4.0): Ross's Physics (Oxford, 1960 printing) and De Anima (1956), Prantl's De Caelo
+  (Teubner, 1881), read by `tools/aristotle_f1k.py`; every word's dictionary form and grammar from GLAUx, aligned chapter by
+  chapter. Bekker's columns: GLAUx's, word by word, for the Physics (167 of 167) and De Caelo (91 of 92); for De Anima, those
+  printed in the margin of the TEI (64 of 68; four misprinted in the TEI are left out, their text under the column before).
+- English from the Internet Archive's scans, cleaned by rule by `tools/aristotle_trans.py`, not proofread, every paragraph
+  keeping its OCR: Hardie and Gaye's Physics (Oxford, 1930; public domain in the US from 2026) and Stocks's De Caelo (Oxford,
+  1922), with their footnotes, where they print Bekker's columns in the margin (148 and 68 read from the scan); Hicks's De Anima
+  (Cambridge, 1907), at the Bekker lines heading each page of his English (70 pages), his Greek apparatus and side-notes left
+  out. Between two columns read from the scan the rest are shared out over the text by its length, cut at a sentence's end (≈).
+- Taylor's own Physics, De Caelo and De Anima (1806-1808) are not on the Internet Archive as complete scans (a 56-leaf fragment
+  of the De Anima only); they wait for a scan. Wallace's De Anima (1882) is left for A8. The commentators on De Anima III 5
+  (the intellect that makes all things) come with their shelf, in A5.
 
 ### A4: the Organon and Porphyry's Isagoge
 
