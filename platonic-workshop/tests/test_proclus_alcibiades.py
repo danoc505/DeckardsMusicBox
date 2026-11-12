@@ -58,6 +58,8 @@ PLATO = [
     ("103a.17.p1", "tlg006", ["155d"], "Theaetetus (155d)", "την ιριν θαυμαντοσ", "την ιριν θαυμαντοσ εκγονον"),
     ("103a.18.p1", "tlg030", ["588c"], "Republic's image of the appetites (588c-e)", "πολυκεφαλω θηριω", "θηριου ποικιλου και πολυκεφαλου"),
     ("103a.18.p2", "tlg031", ["42c"], "Timaeus (42c)", "τον πολυν οχλον, τον εκ τησ γενεσεωσ υστερον προσφυντα", "τον πολυν οχλον και υστερον προσφυντα"),
+    ("103a.21.p3", "tlg012", ["244d"], "Phaedrus' (244d)", "η μεν εστι σωφροσυνησ κρειττων", "μανιαν σωφροσυνησ την εκ θεου"),
+    ("103a.22.p1", "tlg013", ["131e"], "131e", "μονον εραστην εαυτον", "αλκιβιαδη τω κλεινιου εραστησ ουτʼ εστιν αλλʼ η εισ μονοσ"),
     ("103a.19.p2", "tlg031", ["30b"], "Timaeus (30b)", "νου μεν γαρ και σωματοσ η ψυχη", "νουν μεν εν ψυχη, ψυχην δʼ εν σωματι"),
 ]
 
@@ -69,13 +71,13 @@ def load():
 class Proofreading(unittest.TestCase):
     def test_the_pages_in_order(self):
         pages = proofread.parse(TID)
-        self.assertEqual(len(pages), 62)
+        self.assertEqual(len(pages), 68)
         self.assertEqual(pages[0]["label"], "II p. 2")
-        self.assertEqual(pages[-1]["label"], "II p. 125")
+        self.assertEqual(pages[-1]["label"], "II p. 137")
         nums = [int(p["label"].rsplit(" ", 1)[1]) for p in pages]
         # Cousin prints two pages of Greek, then two of his Latin: the Greek runs on from page to page (p. 47 and 48
-        # are Latin, and the first lemma starts p. 49). Proclus on love runs on from p. 78, and on Socrates as a good daemon to p. 125.
-        self.assertEqual(nums, [2] + [n for k in range(5, 46, 4) for n in (k, k + 1)] + [n for k in range(49, 122, 4) for n in (k, k + 1)] + [125])
+        # are Latin, and the first lemma starts p. 49). Proclus on love runs on from p. 78, on Socrates as a good daemon and the only lover to p. 137.
+        self.assertEqual(nums, [2] + [n for k in range(5, 46, 4) for n in (k, k + 1)] + [n for k in range(49, 134, 4) for n in (k, k + 1)] + [137])
         # Two pages are blank leaves in this scan, and are proofread from the other scan of the same volume.
         supplied = {p["label"]: p["supplied"] for p in pages if p.get("supplied")}
         self.assertEqual(sorted(supplied), ["II p. 81", "II p. 94"])
@@ -97,7 +99,8 @@ class Proofreading(unittest.TestCase):
         self.assertIn("τάχα ἂν τῆς τοῦ Πλάτωνος τυγχάνοιμεν διανοίας. Ὦ παῖ Κλεινίου, οἶμαί σε θαυμάζειν", g)
         self.assertIn("περὶ ἔρωτος ὅσα προσήκει τοῖς παροῦσι λόγοις, θεωρήσωμεν. Ὥσπερ τοίνυν ἄλλων θεῶν", g)
         self.assertIn("ἀδύνατα φησὶν ὁ Ἐλεάτης ξένος. Ταῦτα μὲν οὖν περὶ τούτων", g)
-        self.assertTrue(g.endswith("ποτὲ μὲν ἑαυτὸν δαίμονα προσαγορεύων, ποτὲ δὲ θεόν."))
+        self.assertIn("ποτὲ μὲν ἑαυτὸν δαίμονα προσαγορεύων, ποτὲ δὲ θεόν. Ἀλλὰ τούτου μὲν", g)
+        self.assertTrue(g.endswith("τῶν ἀποῤῥητοτέρων ἁψώμεθα περὶ αὐτοῦ λόγων."))
         # The supplied pages join the scan's pages on both sides: ἐπαγ-|γέλλεται is not split, nor p. 93 to p. 94.
         self.assertIn("ὁ δὲ αὐτάρκης ἐστὶ, καὶ δυνάμεως πλήρης", g)
         self.assertIn("ὁμοιούμενος τῷ ἐραστῷ, γίνεται δή που καὶ αὐτὸς ἄστατος", g)
@@ -156,7 +159,7 @@ class ModernEnglish(unittest.TestCase):
     def test_the_prologue_and_the_first_lemma_in_order(self):
         d = load()
         self.assertEqual([t["id"] for t in d["treatises"]], ["Prologue", "103a", "103a-love", "103a-first"])
-        self.assertEqual([c["id"] for c in d["chapters"]], [f"Pr.{n}" for n in range(1, 11)] + [f"103a.{n}" for n in range(1, 20)])
+        self.assertEqual([c["id"] for c in d["chapters"]], [f"Pr.{n}" for n in range(1, 11)] + [f"103a.{n}" for n in range(1, 23)])
         self.assertEqual({c["treatise"] for c in d["chapters"] if c["id"] in ("103a.8", "103a.13")}, {"103a-love"})
         for c in d["treatises"] + d["chapters"]:
             self.assertGreater(len(c["summary"].split()), 15, c["id"])
@@ -252,6 +255,9 @@ class ModernEnglish(unittest.TestCase):
         # A word Cousin prints that is not Greek is said so, and the English does not pretend to read it.
         self.assertIn("ἀγητηρίων", p["103a.16.p2"]["greek"])
         self.assertTrue(any("ἀγητηρίων" in n and "not a reading" in n for n in p["103a.16.p2"]["notes"]))
+        # Where Cousin's text goes against both his manuscripts and the sense, the note says so and why.
+        self.assertIn("κατὰ ταυτὰ", p["103a.21.p3"]["greek"])
+        self.assertTrue(any("κατὰ ταύτας" in n for n in p["103a.21.p3"]["notes"]))
 
     def test_sentences_can_be_marked(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -317,7 +323,7 @@ class Server(unittest.TestCase):
 
     def test_the_shelf_and_the_scan_link_to_it(self):
         t = next(t for t in self.get("neo")["texts"] if t["id"] == TID)
-        self.assertEqual((t["modern"]["text"], t["modern"]["pages"]), (TID, 62))
+        self.assertEqual((t["modern"]["text"], t["modern"]["pages"]), (TID, 68))
         part = self.get(f"neo/{TID}/0")
         u = next(u for u in part["units"] if u["label"] == "II p. 2")
         self.assertEqual(u["modern_section"], {"text": TID, "id": "Pr.1"})

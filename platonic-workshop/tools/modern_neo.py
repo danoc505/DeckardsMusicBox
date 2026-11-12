@@ -85,7 +85,8 @@ TEXTS = {
                  "\"I think\", why he calls Alcibiades by his father's name, and the three sciences of Socrates, love first among them; "
                  "and his account of love (pages 78 to 101): how love turns all things to divine beauty, its ranks from the gods down to "
                  "the souls of men, true love and its counterfeit, and the five marks that part the divine lover from the vulgar one; "
-                 "and why Socrates loved first and stays (pages 101 to 125): the lover as Alcibiades' good daemon, and as his intellect.",
+                 "and why Socrates loved first and stays (pages 101 to 137): the lover as Alcibiades' good daemon, and as his intellect; why "
+                 "Alcibiades wonders, why the vulgar lovers keep the name of lover, and how Socrates shows himself the only lover.",
     },
 }
 LINE = re.compile(r"^@(treatise|ch|p|greek|taylor)\b\s*(.*)$")
