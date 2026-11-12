@@ -809,6 +809,13 @@ ul.shelf li { margin: .4em 0; }
 .tt-notes { margin: -.3em 0 1em 1.2em; font-size: .9em; }
 .tt-note { margin: .25em 0; }
 .page-1804 { font-size: .75em; color: var(--muted, #666); }
+.taylor-text .tt-here { background: var(--accent-soft); border-radius: 3px; }
+.taylor-text h3.tt-heading { margin: 1.6em 0 .5em; }
+/* Aristotle milestone A2: Start here for Aristotle (aristotle.js). */
+.ar-start blockquote { margin: .5em 0 .4em 1em; padding-left: .8em; border-left: 3px solid var(--accent-soft); line-height: 1.6; }
+.ar-start .ar-src { font-size: .85em; color: var(--muted, #666); margin: 0 0 1em 1.8em; }
+.ar-start ol.ar-order > li { margin: .7em 0; }
+.ar-start .ar-later { color: var(--muted, #666); }
 @media (max-width: 860px) { .path-head { flex-direction: column; gap: 2px; } }
 .lib-grid ul.numbered { list-style: none; padding-left: 4px; }
 

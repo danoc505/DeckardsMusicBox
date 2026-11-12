@@ -55,12 +55,19 @@ MODERN_NEO = ("plotinus", "proclus-alcibiades")
 TRANSLATIONS = ROOT / "sources" / "translations"
 # Taylor's prefatory texts the Library shelves (milestone 13), with what each is, in a line.
 # Aristotle milestone A1: Taylor's prefatory texts to the Metaphysics (1801), read whole the same way (tools/aristotle_ocr.py).
-TAYLOR_AR = ROOT / "texts" / "aristotle" / "metaphysics"
+TAYLOR_AR = ROOT / "texts" / "aristotle"
+# Aristotle milestone A2: Taylor's Dissertation on the Philosophy of Aristotle (1812), read whole (tools/aristotle_dissertation.py).
 TAYLOR_TEXTS_AR = {
-    "metaphysics-introduction": "Taylor's Introduction to the Metaphysics of Aristotle (1801): why the Metaphysics is the summit of Aristotle's "
-                                "works, and how the Platonists read it, Aristotle in agreement with Plato wherever he can be.",
-    "metaphysics-additional-notes": "Taylor's Additional Notes to the Metaphysics (1801), \"to illustrate the Platonic doctrine concerning Ideas and "
-                                    "the principle of the universe\", from Syrianus, Proclus and Damascius.",
+    "metaphysics-introduction": ("metaphysics/taylor-introduction.json",
+                                 "Taylor's Introduction to the Metaphysics of Aristotle (1801): why the Metaphysics is the summit of Aristotle's "
+                                 "works, and how the Platonists read it, Aristotle in agreement with Plato wherever he can be."),
+    "metaphysics-additional-notes": ("metaphysics/taylor-additional-notes.json",
+                                     "Taylor's Additional Notes to the Metaphysics (1801), \"to illustrate the Platonic doctrine concerning Ideas and "
+                                     "the principle of the universe\", from Syrianus, Proclus and Damascius."),
+    "aristotle-dissertation": ("dissertation/taylor-1812.json",
+                               "Taylor's Dissertation on the Philosophy of Aristotle (1812), in four books: the division of his works and the order "
+                               "they lead in, how he differs from Plato \"in appearance only, and not in reality\", and his principal physical and metaphysical "
+                               "dogmas in his own words, with the Greek commentators on them."),
 }
 TAYLOR_TEXTS = {
     "general-introduction": "Taylor's General Introduction to the Philosophy and Writings of Plato (1804): Platonism as the later Platonists taught it, "
@@ -1310,8 +1317,9 @@ class Library:
     def taylor(self, text_id):
         """One of Taylor's prefatory texts of 1804 (texts/taylor-1804/vol1/), whole."""
         if text_id in TAYLOR_TEXTS_AR:
-            d = json.loads((TAYLOR_AR / f"taylor-{text_id.split('-', 1)[1]}.json").read_text(encoding="utf-8"))
-            d["about"] = TAYLOR_TEXTS_AR[text_id]
+            rel, about = TAYLOR_TEXTS_AR[text_id]
+            d = json.loads((TAYLOR_AR / rel).read_text(encoding="utf-8"))
+            d["about"] = about
             return d
         if text_id not in TAYLOR_TEXTS:
             return None
