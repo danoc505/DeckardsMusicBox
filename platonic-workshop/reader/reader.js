@@ -407,6 +407,8 @@ function renderApparatus(s, d, numbers) {
   rows.push(renderMineRow(s, d));
   // Aristotle milestone A5: the Greek commentators' pages on this column (aristotle.js).
   if (typeof renderArCommentRow === "function") rows.push(renderArCommentRow(s, d));
+  // Aristotle milestone A7: the citation web between Aristotle and Plato.
+  if (typeof renderArPlatoRow === "function") rows.push(renderArPlatoRow(s, d));
   // Milestone 12: the recorded tensions this section begins a passage of (reconcile.js).
   if (typeof renderTensionRow === "function") rows.push(renderTensionRow(s));
   return rows.join("");

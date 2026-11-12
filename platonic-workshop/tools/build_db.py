@@ -927,6 +927,12 @@ def build(works, db_path=None, progress=False, with_nt=None):
     if want_ar:
         ar_stats = aristotle.build(db, sources)
         aristotle.write_report(ar_stats)
+        # Aristotle milestone A7: the concordance across Aristotle, and the citation web from Aristotle to Plato.
+        import aristotle_plato
+        ap_stats = aristotle_plato.build(db)
+        db.execute("INSERT INTO build VALUES ('ar_plato_stats', ?)", (json.dumps(ap_stats, ensure_ascii=False),))
+        if progress:
+            print(f"  Aristotle and Plato: {ap_stats['concordance']['lemmas']:,} lemmas in the concordance; links to Plato {ap_stats['links']}", flush=True)
         # Aristotle milestone A5: each page of the Greek commentators (stored with the Neoplatonists) linked to its columns.
         if want_neo:
             com_stats = aristotle_commentators.link(db)

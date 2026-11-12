@@ -386,8 +386,12 @@ Built by `tools/aristotle.py` (works of corpus `aristotle`, a Bekker column, 980
   cleaned by rule by `tools/aristotle_owen.py` (the rules that read the Isagoge, at each scan's scale), not proofread. Owen prints no
   Bekker columns: they are carried over from the Oxford's, chapter by chapter, at the same proportion of the chapter (≈). His
   footnotes, and the side-notes the scans could read, are kept as notes.
-- Not done in A4: Taylor's Organon, in his Works of Aristotle (1806-1812): a search of the Internet Archive found no scan of
-  the volume (it lists his Dissertation, 1812, and his Treatises on the Soul, 1808, item b22006874, which A8 can add beside Hicks).
+- Not done in A4: Taylor's Organon, in his Works of Aristotle (1806-1812). A first search of the Internet Archive found no scan;
+  a second, volume by volume, found Google's scan of the Harvard copy of vol. I (1812: the Introduction, the Categories with
+  Simplicius' notes, On Interpretation, the Prior Analytics; item `works00taylgoog`) and of the Oxford copy of the Rhetoric, Poetic
+  and Nicomachean Ethics (1811; `rhetoricpoetica03arisgoog`). Both are added in A8. HathiTrust holds more of the Works in full
+  view (the New York Public Library's 1806 set, Harvard's 1812 set, Georgia's Great and Eudemian Ethics, Politics and Economics)
+  but serves them only to a browser; a volume downloaded by hand can be added the same way.
 
 ### A5: the Greek commentators on Aristotle, on their own shelf (done)
 
@@ -412,17 +416,24 @@ Built by `tools/aristotle.py` (works of corpus `aristotle`, a Bekker column, 980
 - Syrianus on Metaphysics Μ and Ν in the Workshop's own English from Kroll's Greek, checked against Taylor's extracts,
   labelled as the Workshop's translation; shown under Aristotle's text where it answers it.
 
-### A7: Plato and Aristotle together
+### A7: Plato and Aristotle together (done)
 
-- The citation web from Aristotle to Plato (his references to the dialogues, Ross's and Tredennick's notes), so a
-  passage of Plato shows where Aristotle discusses it; the concordance (search) across Aristotle; Reconciliations
-  between Plato and Aristotle as the commentators record them (the Forms, the soul, the eternity of the world, the
-  Good and the unmoved mover), established readings quoted, proposed ones labelled.
+- The concordance across Aristotle (`ar_lemma_count`, `ar_form_count`): the word search and a word study take Aristotle as a
+  corpus of his own, beside Plato and the New Testament, and a word's panel shows the same dictionary form in the other philosopher.
+- The citation web from Aristotle to Plato (`tools/aristotle_plato.py`, `ar_plato`), read by rule: where Aristotle's Greek names a
+  dialogue ("ἐν τῷ Τιμαίῳ", "ἐν δὲ τῷ Φαίδωνι") or Plato, and where a translator's note on the column cites a passage of Plato by
+  title and page, read by the rules of the citation web (milestone 8) and checked against Burnet's sections. A column of Aristotle
+  shows the Plato it names or cites; a section of Plato shows where Aristotle discusses it; the page *Aristotle on Plato* lists them all.
+- *Plato and Aristotle reconciled*: the commentators on the Forms (Asclepius), the soul (Philoponus), the eternity of the world and
+  God as maker (Simplicius), with Simplicius' rule of reading, each quoted in their Greek from the page and checked by test against it
+  and against the column it is linked to; the English is the Workshop's own and labelled so.
 
 ### A8: the rest of Aristotle
 
 - Every other work in First1KGreek or Perseus Greek, GLAUx-tagged, with the Loeb English where Perseus has it
   (Politics, Rhetoric, Poetics, Eudemian Ethics) and Taylor's for the rest, in the Platonists' order.
+- Taylor's Organon, vol. I (1812), and his Nicomachean Ethics (1811), from the scans found (see A4), as translations
+  beside the Greek, read from the OCR by rule as his Metaphysics is.
 
 ## Ideas noted, not yet planned
 

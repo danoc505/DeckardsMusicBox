@@ -405,6 +405,13 @@ it comments on, and each column lists the commentators' pages on it: where the e
 or (≈) where the page repeats runs of words found in that column alone. What was read, and what the files lack, is in
 `reports/commentators.md`.
 
+**Aristotle, milestone A7: Plato and Aristotle together: done.** The concordance takes Aristotle as a corpus of his own
+(*Search Aristotle*: 5,418 dictionary forms), and a word's panel shows it in the other philosopher. *Aristotle on Plato*
+lists every place his Greek names a dialogue or Plato, or a translator's note on the column cites a passage of Plato (186
+places, 18 dialogues), linked both ways: a section of Plato shows where Aristotle discusses it (`tools/aristotle_plato.py`).
+*Plato and Aristotle reconciled* quotes the commentators, in their Greek, on where the two agree (the Forms, the soul, the
+eternity of the world, God as maker), each passage checked against its page; the English is the Workshop's own, labelled so.
+
 ## Running it
 
 Python 3.10 or later, standard library only. Nothing to install. One command does everything:

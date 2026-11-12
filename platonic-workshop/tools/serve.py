@@ -630,12 +630,37 @@ class Library:
         # Aristotle milestone A5: the pages of the Greek commentators on these columns, printed or quoted.
         ar_comments = self.ar_comments(work_id, refs)
         return {
-            "ar_comments": ar_comments,
+            "ar_comments": ar_comments, **self.ar_plato_on_page(work_id, refs, page),
             **self.page_terms(work_id, refs, chunks, seq, self.corpus_of(work_id)),
             "work_id": work_id, "page": page, "sections": secs, "chunks": chunks, "tokens": tokens,
             "notes": notes, "commentary": commentary, "links_out": links_out, "links_in": links_in, "speeches": speeches, "mine": mine,
             "prev": all_pages[i - 1] if i > 0 else None, "next": all_pages[i + 1] if i + 1 < len(all_pages) else None,
         }
+
+    def has_ar_plato(self):
+        return bool(self.one("SELECT name FROM sqlite_master WHERE name = 'ar_plato'"))
+
+    def ar_plato_on_page(self, work_id, refs, page):
+        """Aristotle milestone A7: on a page of Aristotle, the Plato its columns name or cite (ar_plato_out); on a page of
+        Plato, the places in Aristotle that cite these sections, the page, or the dialogue as a whole (ar_plato_in)."""
+        if not self.has_ar_plato():
+            return {}
+        marks = ",".join("?" * len(refs))
+        cols = "a.from_work, a.from_ref, a.to_work, a.to_ref, a.how, a.raw, a.who, a.certainty, a.doubt"
+        out = self.rows(f"SELECT {cols}, w.title AS to_title FROM ar_plato a LEFT JOIN work w ON w.id = a.to_work "
+                        f"WHERE a.from_work = ? AND a.from_ref IN ({marks}) ORDER BY a.rowid", work_id, *refs)
+        inn = self.rows(f"SELECT {cols}, w.title AS from_title, w.slug AS from_slug FROM ar_plato a JOIN work w ON w.id = a.from_work "
+                        f"WHERE a.to_work = ? AND (a.to_ref IN ({marks}) OR a.to_ref = ?) ORDER BY w.rowid, a.rowid", work_id, *refs, str(page))
+        return {"ar_plato_out": out, "ar_plato_in": inn}
+
+    def ar_plato(self):
+        """Every place in Aristotle that names or cites Plato, by dialogue (the page #aristotle-plato)."""
+        if not self.has_ar_plato():
+            return {"links": [], "stats": None}
+        rows = self.rows("SELECT a.*, f.title AS from_title, f.slug AS from_slug, t.title AS to_title, t.slug AS to_slug FROM ar_plato a "
+                         "JOIN work f ON f.id = a.from_work LEFT JOIN work t ON t.id = a.to_work ORDER BY a.to_work, a.rowid")
+        st = self.one("SELECT value FROM build WHERE key = 'ar_plato_stats'")
+        return {"links": rows, "stats": json.loads(st["value"]) if st else None}
 
     def ar_comments(self, work_id, refs):
         """The commentators' pages on these columns of Aristotle (or pages of Porphyry's Introduction, work 'isagoge'),
@@ -1140,10 +1165,18 @@ class Library:
             t["elsewhere"] = [self.search.other_corpus(l, "plato") for l in lemmas]
             t["elsewhere_nt"] = [self.search.elsewhere(l, "nt") for l in lemmas]
             here = [c["n"] for e in t["elsewhere_nt"][:1] for c in e["counts"] if c["work_id"] == t["work_id"]]
+        elif t["corpus"] == "aristotle" and self.has_ar_counts():
+            # Aristotle milestone A7: a word of Aristotle's is counted in Aristotle first, then in Plato.
+            t["elsewhere"] = [self.search.other_corpus(l, "plato") for l in lemmas]
+            t["elsewhere_nt"] = [self.search.other_corpus(l, "nt") for l in lemmas]
+            t["elsewhere_ar"] = [self.search.elsewhere(l, "aristotle") for l in lemmas]
+            here = [c["n"] for e in t["elsewhere_ar"][:1] for c in e["counts"] if c["work_id"] == t["work_id"]]
         else:
             t["elsewhere"] = [self.search.elsewhere(l) for l in lemmas]
             t["elsewhere_nt"] = [self.search.other_corpus(l, "nt") for l in lemmas]
             here = [c["n"] for e in t["elsewhere"][:1] for c in e["counts"] if c["work_id"] == t["work_id"]]
+        if t["corpus"] != "aristotle" and self.has_ar_counts():
+            t["elsewhere_ar"] = [self.search.other_corpus(l, "aristotle") for l in lemmas]
         t["elsewhere_in_work"] = here[0] if here else 0
         # Milestone 10: concepts indexed under this word's lemma (the word, not this place, is indexed).
         lemmas = [g["lemma"] for g in tags if g["lemma"]]
@@ -1156,7 +1189,15 @@ class Library:
         t["form_in_plato"] = self.one("SELECT coalesce(sum(n), 0) n FROM form_count WHERE form = ?", t["form"])["n"]
         if t["corpus"] == "nt":
             t["form_in_nt"] = self.one("SELECT coalesce(sum(n), 0) n FROM nt_form_count WHERE form = ?", t["form"])["n"]
+        if self.has_ar_counts():
+            t["form_in_ar"] = self.one("SELECT coalesce(sum(n), 0) n FROM ar_form_count WHERE form = ?", t["form"])["n"]
         return t
+
+    def has_ar_counts(self):
+        """Aristotle milestone A7: the concordance across Aristotle is built."""
+        if not hasattr(self, "_has_ar_counts"):
+            self._has_ar_counts = bool(self.one("SELECT name FROM sqlite_master WHERE name = 'ar_lemma_count'"))
+        return self._has_ar_counts
 
     # ------------------------------------------------------------ dictionaries and grammar
 
@@ -1520,6 +1561,8 @@ class Handler(BaseHTTPRequestHandler):
                     return self.send_json(t) if t else self.not_found()
                 if parts == ["corpus"]:
                     return self.send_json(lib.corpus())
+                if parts == ["aristotle-plato"]:
+                    return self.send_json(lib.ar_plato())
                 if len(parts) == 2 and parts[0] == "ancient":
                     t = lib.ancient(parts[1], query.get("at") or None)
                     return self.send_json(t) if t else self.not_found()

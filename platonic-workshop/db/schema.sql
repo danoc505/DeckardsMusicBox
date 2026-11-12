@@ -959,3 +959,39 @@ CREATE TABLE taylor_chapter (              -- one of Taylor's chapters (a propos
     words       INTEGER NOT NULL,
     PRIMARY KEY (work_id, seq)
 );
+
+-- ------------------------------------------------------------- Aristotle milestone A7
+-- Plato and Aristotle together (tools/aristotle_plato.py): the concordance across Aristotle, and the citation web
+-- from Aristotle to Plato.
+CREATE TABLE ar_lemma_count (              -- as lemma_count, for Aristotle's Greek
+    lemma       TEXT NOT NULL,
+    plain       TEXT NOT NULL,
+    work_id     TEXT NOT NULL REFERENCES work(id),
+    n           INTEGER NOT NULL,
+    PRIMARY KEY (lemma, work_id)
+);
+CREATE INDEX ar_lemma_count_plain ON ar_lemma_count(plain);
+
+CREATE TABLE ar_form_count (               -- as form_count, for Aristotle's Greek
+    form        TEXT NOT NULL,
+    plain       TEXT NOT NULL,
+    work_id     TEXT NOT NULL REFERENCES work(id),
+    n           INTEGER NOT NULL,
+    PRIMARY KEY (form, work_id)
+);
+CREATE INDEX ar_form_count_plain ON ar_form_count(plain);
+
+CREATE TABLE ar_plato (                    -- a place in Aristotle that names or cites Plato
+    from_work   TEXT NOT NULL,             -- an Aristotle work.id
+    from_ref    TEXT NOT NULL,             -- its Bekker column
+    to_work     TEXT NOT NULL,             -- a dialogue's work.id, or 'plato' (Plato named, no dialogue)
+    to_ref      TEXT NOT NULL,             -- a Stephanus section or page, or '' (the dialogue as a whole)
+    how         TEXT NOT NULL,             -- named (in Aristotle's Greek) | note (a translator's note on the column)
+    raw         TEXT NOT NULL,             -- the words read
+    note_id     INTEGER REFERENCES note(id),
+    who         TEXT,                      -- the note's translator
+    certainty   TEXT NOT NULL,             -- certain | uncertain (tools/citations.py)
+    doubt       TEXT
+);
+CREATE INDEX ar_plato_from ON ar_plato (from_work, from_ref);
+CREATE INDEX ar_plato_to ON ar_plato (to_work, to_ref);

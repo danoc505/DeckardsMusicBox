@@ -35,7 +35,7 @@ function currentNav() {
   const h = location.hash.slice(1);
   if (h === "start") return "start";
   if (h.startsWith("glossary") || h.startsWith("words")) return "glossary";
-  if (h === "aristotle" || h.startsWith("taylor/") || h.startsWith("neo/") || h.startsWith("neo-en/") || h.startsWith("neo-modern/")) return "library";
+  if (h === "aristotle" || h === "aristotle-plato" || h === "ar-reconcile" || h.startsWith("taylor/") || h.startsWith("neo/") || h.startsWith("neo-en/") || h.startsWith("neo-modern/")) return "library";
   if (h.startsWith("library") || h === "corpus" || h.startsWith("corpus?") || h === "commentaries" || h.startsWith("discussed") || h.startsWith("dossiers")) return "library";
   if (h.startsWith("dictionary")) return "dictionary";
   if (h.startsWith("search") || h.startsWith("renderings/")) return "concordance";
@@ -73,6 +73,8 @@ route = function (push) {  // eslint-disable-line no-global-assign
   if (raw === "library") { showLibrary(); return; }
   if (raw === "start") { prefsSet("seenStart", "1"); showStart(); return; }
   if (raw === "aristotle" && typeof showArStart === "function") { showArStart(); return; }
+  if (raw === "aristotle-plato" && typeof showArPlato === "function") { showArPlato(); return; }
+  if (raw === "ar-reconcile" && typeof showArReconcile === "function") { showArReconcile(); return; }
   if (raw === "glossary" || raw.startsWith("glossary/")) { showGlossary(decodeURIComponent(raw.slice(9))); return; }
   if (raw.startsWith("taylor/")) { showTaylorText(decodeURIComponent(raw.slice(7))); return; }
   if (raw.startsWith("neo/") && typeof showNeo === "function") { showNeo(raw.slice(4)); return; }
