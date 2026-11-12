@@ -11,7 +11,7 @@
  "greek_text": "proclus-alcibiades",
  "taylor_work": "taylor-1804-alcibiades-intro",
  "taylor_source": "Thomas Taylor, Introduction and notes to the First Alcibiades (drawn from Proclus), in The Works of Plato, vol. I (London, 1804), from texts/taylor-1804/vol1/alcibiades-1.json",
- "about": "A modern English version of Proclus' commentary on the First Alcibiades, the dialogue the school read first, written for the Workshop. It is translated from the Greek of Cousin's edition (Paris, 1820), proofread first from the page images, and checked against the Introduction and notes to the First Alcibiades in Thomas Taylor's Works of Plato (1804), which Taylor drew from Proclus' commentary. Where the Greek says something Taylor's English does not, the modern version follows the Greek, and a flag shows Taylor's words and the difference. The sections, their short titles and summaries are the Workshop's. So far: Proclus' prologue (Cousin's pages 2 to 46): why knowing ourselves is the start of philosophy, the aim of the dialogue, and how it is divided; and his notes on the wording of the dialogue's opening words (pages 49 to 78): what the preface shows, why Socrates says \"I think\", why he calls Alcibiades by his father's name, and the three sciences of Socrates, love first among them; and his account of love (pages 78 to 101): how love turns all things to divine beauty, its ranks from the gods down to the souls of men, true love and its counterfeit, and the five marks that part the divine lover from the vulgar one; and why Socrates loved first and stays (pages 101 to 137): the lover as Alcibiades' good daemon, and as his intellect; why Alcibiades wonders, why the vulgar lovers keep the name of lover, and how Socrates shows himself the only lover.",
+ "about": "A modern English version of Proclus' commentary on the First Alcibiades, the dialogue the school read first, written for the Workshop. It is translated from the Greek of Cousin's edition (Paris, 1820), proofread first from the page images, and checked against the Introduction and notes to the First Alcibiades in Thomas Taylor's Works of Plato (1804), which Taylor drew from Proclus' commentary. Where the Greek says something Taylor's English does not, the modern version follows the Greek, and a flag shows Taylor's words and the difference. The sections, their short titles and summaries are the Workshop's. So far: Proclus' prologue (Cousin's pages 2 to 46): why knowing ourselves is the start of philosophy, the aim of the dialogue, and how it is divided; and his notes on the wording of the dialogue's opening words (pages 49 to 78): what the preface shows, why Socrates says \"I think\", why he calls Alcibiades by his father's name, and the three sciences of Socrates, love first among them; and his account of love (pages 78 to 101): how love turns all things to divine beauty, its ranks from the gods down to the souls of men, true love and its counterfeit, and the five marks that part the divine lover from the vulgar one; and why Socrates loved first and stays (pages 101 to 137): the lover as Alcibiades' good daemon, and as his intellect; why Alcibiades wonders, why the vulgar lovers keep the name of lover, and how Socrates shows himself the only lover; and the more secret account of love (pages 137 to 145): love between the beloved and the lovers, the triad of faith, truth and love among the gods, and love as the middle that binds; and the lovers who came \"in crowds\" (pages 145 to 162): the providence that stands apart, why Socrates began with silence, what a crowd is, and how Alcibiades was trained among the vulgar lovers.",
  "source": "sources/translations/modern/proclus-alcibiades.txt",
  "proofread": "sources/neoplatonists/proofread/proclus-alcibiades.txt",
  "treatises": [
@@ -73,6 +73,28 @@
     "103a.20",
     "103a.21",
     "103a.22"
+   ]
+  },
+  {
+   "id": "103a-secret",
+   "title": "The more secret account of love: faith, truth and love",
+   "summary": "Proclus goes back to love and gives the more secret account of it. Love is neither among the first of things, since the beloved is beyond it, nor among the last, since whatever loves shares in it: it stands between, second to the beautiful and first of the rest. Among the hidden intelligible gods there are three causes, the good, the wise and the beautiful, and from them come three monads, faith, truth and love, which go forth through every order of gods, each order receiving them in its own way. Love comes down from the intelligibles to the things in the world, turning all things to divine beauty; the Chaldean Oracles say that all things are governed and exist in these three, and bid the theurgists join themselves to the god through them. Where things are divided, love is the middle that binds them and leads the lower up; and the divine lover imitates his god, while the vulgar lover does the opposite and drags souls down into matter.",
+   "chapters": [
+    "103a.23",
+    "103a.24",
+    "103a.25"
+   ]
+  },
+  {
+   "id": "103a-crowd",
+   "title": "\"In crowds\", and not a word: the providence that stands apart",
+   "summary": "Proclus comments on Socrates' next words: \"and that the others came to talk to you in crowds, while I in so many years have not even spoken to you.\" Divine and daemonic providence has two marks: it reaches down to the last things, leaving nothing without its care, and it takes in nothing of what it governs, staying unmixed. Plato gives both to Socrates: wakeful about the beloved, yet untouched by him; present and not present. So it is with the gods, who love what they beget, and whose love is the cause of love in human souls. Socrates begins with silence because the unspeakable comes before speech among the gods, and love first came to be in their silent order. The others came \"in crowds\": a crowd is a multitude without order or bond, the image of a life scattered among the passions. Alcibiades' great praise is that he let them come no nearer than talk, and so, as the Athenian Stranger trains the young in drinking with a sober ruler present, Socrates watched over him as judge until he had mastered them all, and then called him to himself.",
+   "chapters": [
+    "103a.26",
+    "103a.27",
+    "103a.28",
+    "103a.29",
+    "103a.30"
    ]
   }
  ],
@@ -401,6 +423,70 @@
    "title": "Socrates the only lover",
    "summary": "The true lover is the inspired one, as Socrates will say, calling himself Alcibiades' only lover because he cares for the true Alcibiades, the soul; the others fought over an image, as Homer says, and fled when its bloom ended. From the first words Socrates shows himself the only lover: first before the others, alone after them, and different even while they were there, watching over the boy like a daemon or a god. For what stands apart in each kind is alone, even when a multitude comes with it. The young man will see this soon, when he has looked at himself and what is his, and can tell the pattern from the image.",
    "greek_unit": "ia-cousin-proclus-t2:160",
+   "taylor": []
+  },
+  {
+   "id": "103a.23",
+   "treatise": "103a-secret",
+   "title": "Love stands between the beloved and the lovers",
+   "summary": "Love is not among the first things, since what is loved is beyond love, nor among the last, since what loves shares in love. It stands between: second to the beautiful, first of all the rest.",
+   "greek_unit": "ia-cousin-proclus-t2:164",
+   "taylor": []
+  },
+  {
+   "id": "103a.24",
+   "treatise": "103a-secret",
+   "title": "Where love first arose: faith, truth and love",
+   "summary": "Among the hidden intelligible gods are three causes: the good, the wise and the beautiful. From them three monads come to be, faith, truth and love, which first shine out in the unspeakable order of the gods and go forth through every divine order, taking on the character of each. So love comes down from the intelligibles to the world, turning all things to divine beauty, while truth lights them with knowledge and faith seats them in the good; and the gods bid the theurgists join themselves to the god through this triad.",
+   "greek_unit": "ia-cousin-proclus-t2:165",
+   "taylor": []
+  },
+  {
+   "id": "103a.25",
+   "treatise": "103a-secret",
+   "title": "Love as the middle that binds; the two lovers",
+   "summary": "The intelligibles, being one beyond words, need no middle; love appears where things are divided, binding them, turning the second to the first and leading the less perfect up. The divine lover imitates the god who holds him and does the same for the well-born; the vulgar lover does the opposite, dragging souls down into matter and filling the beloved with images.",
+   "greek_unit": "ia-cousin-proclus-t2:169",
+   "taylor": []
+  },
+  {
+   "id": "103a.26",
+   "treatise": "103a-crowd",
+   "title": "The two marks of providence, and Socrates' care",
+   "summary": "The more exact thinkers name two marks of divine and daemonic providence: it reaches all things down to the last, and it takes in nothing of what it governs. Plato gives both to Socrates' care for Alcibiades: wakeful, letting no moment pass, and yet unmixed and untouched; the first to love and the last to leave, yet not even speaking to the boy while the crowd was there.",
+   "greek_unit": "ia-cousin-proclus-t2:172",
+   "taylor": []
+  },
+  {
+   "id": "103a.27",
+   "treatise": "103a-crowd",
+   "title": "So too the gods, and their love for what they beget",
+   "summary": "If this is so with divine men, still more is it so with the gods and the good daemons: present to all and apart from all, filling all and mixed with none. When the myths say Zeus loved Kore, or Aphrodite herself, they mean a love that provides, saves, perfects and holds together, without ties and undefiled. Everything good in souls has its cause in the gods, as Plato puts the patterns of virtues and bodily goods there; so the first cause of love, given by divine gift, must be among the gods too. Higher gods love lower ones by providing for them, lower ones love higher by turning to them.",
+   "greek_unit": "ia-cousin-proclus-t2:176",
+   "taylor": []
+  },
+  {
+   "id": "103a.28",
+   "treatise": "103a-crowd",
+   "title": "Why Socrates began with silence",
+   "summary": "Among the gods the unspeakable comes before what is spoken, and silence before speech; and love first came to be in the silent order of the gods. So Socrates, made like the divine, began his care with silence, as the inspired lover must, and so turned the boy to wonder at his silence. The vulgar lovers, by contrast, came \"in crowds\".",
+   "greek_unit": "ia-cousin-proclus-t2:180",
+   "taylor": []
+  },
+  {
+   "id": "103a.29",
+   "treatise": "103a-crowd",
+   "title": "What a crowd is",
+   "summary": "A crowd is a multitude, but one without bounds, confused and without order: not like a chorus, nor like a people bound to itself, which is why mob rule differs from democracy. To come in crowds is the mark of a scattered life that drags the beloved down to the varied passions, as the Timaeus calls all unreason a crowd. So the others were divided among themselves, and filled the boy with the same vice, doing the opposite of love, which, as Agathon says, empties of estrangement and fills with kinship.",
+   "greek_unit": "ia-cousin-proclus-t2:181",
+   "taylor": []
+  },
+  {
+   "id": "103a.30",
+   "treatise": "103a-crowd",
+   "title": "Alcibiades among the vulgar lovers, and the Athenian Stranger's school",
+   "summary": "The highest praise of Alcibiades' nature is that he let the other lovers come no nearer than talk, finding them a nuisance, never touch or banquets. As we train against pleasures and pains by going among them and mastering them, so for well-born natures the company of vulgar lovers is the greatest training-ground in love. Socrates, like the Athenian Stranger who sets a sober ruler over the young at drink, stood over Alcibiades as judge; and when he saw him master them all, he called him to himself, to show him true love and its end.",
+   "greek_unit": "ia-cousin-proclus-t2:185",
    "taylor": []
   }
  ],
@@ -1983,6 +2069,243 @@
    ],
    "notes": [
     "\"Himself and what is his\": the dialogue's own distinction (128a-131a), between a man himself, his soul, and what is his."
+   ]
+  },
+  {
+   "seg": "103a.23.p1",
+   "chapter": "103a.23",
+   "modern": "This god, then, we must rank neither among the first of the things that are nor among the last. He is not among the first, because what is loved is beyond love; nor would he rightly be ranked among the last, because what loves shares in love. He must, then, be seated in the middle, between what is loved and those who love: second to the beautiful, and first of the rest.",
+   "greek": "Τὸν τοίνυν θεὸν τοῦτον, οὔτε ἐν τοῖς πρώτοις τῶν ὄντων οὔτε ἐν τοῖς ἐσχάτοις τάττειν ἀξιωτέον. Ἐν τοῖς πρώτοις μὲν γὰρ οὐκ ἔστι, διότι τὸ ἐραστὸν ἐπέκεινα τοῦ ἔρωτός ἐστιν· ἐν δὲ τοῖς ἐσχάτοις οὐκ ἂν ἐν δίκῃ τάττοιτο, διότι τὸ ἐρῶν μετέχει τοῦ ἔρωτος. Δεῖ τοίνυν αὐτὸν ἐν μέσῳ τοῦ τε ἐραστοῦ καὶ τῶν ἐρώντων ἱδρῦσθαι, καὶ τοῦ μὲν καλοῦ δεύτερον εἶναι, τῶν δὲ ἄλλων πρῶτον.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:164",
+     "label": "II p. 137"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:165",
+     "label": "II p. 138"
+    }
+   ]
+  },
+  {
+   "seg": "103a.24.p1",
+   "chapter": "103a.24",
+   "modern": "Where, then, did he first come to be, how does he go forth to all things, and with what monads did he leap forth? Among the intelligible and hidden gods there are three hypostases. The first is marked by the good, understanding the good itself, \"where the paternal monad is\", as the oracle says; the second by the wise, where the first understanding is; the third by the beautiful, where the most beautiful of the intelligibles is, as the Timaeus says. And according to these three intelligible causes three monads come to be: in the intelligibles they are present as in their cause, and in one form; but they first shine out in the unspeakable order of the gods, as faith, truth and love. Faith settles all things and seats them in the good; truth shows forth all the knowledge in the things that are; love turns all things back and gathers them to the nature of the beautiful. And this triad goes forth from there to all the divine orders, and on all of them it shines the union with the intelligible.",
+   "greek": "Ποῦ δὴ οὖν ὑπέστη τὴν πρώτην, καὶ πῶς ἐπὶ πάντα πρόεισι, καὶ μετὰ τίνων ἐξέθορε μονάδων; Τριττῶν τοίνυν ἐν τοῖς νοητοῖς καὶ κρυφίοις θεοῖς ὑποστάσεων οὐσῶν, καὶ τῆς μὲν πρώτης τῷ ἀγαθῷ χαρακτηριζομένης, τἀγαθὸν αὐτὸ νοούσης, ὅπου πατρικὴ μονάς ἐστι, τὸ λόγιον φησί· τῆς δὲ κατὰ τὸ σοφὸν, ὅπου καὶ ἡ πρώτη νόησις· τῆς δὲ κατὰ τὸ καλὸν, ὅπου καὶ τὸ τῶν νοητῶν ἐστι κάλλιστον, ὡς ὁ τοῦ Τιμαίου λόγος· καὶ τρεῖς κατὰ ταύτας τὰς νοητὰς αἰτίας ὑφίστανται μονάδες, κατ’ αἰτίαν μὲν ἐν τοῖς νοητοῖς οὖσαι καὶ ἑνοειδῶς· ἐκφαινόμεναι δὲ πρώτως ἐν τῇ ἀφθέγκτῳ τάξει τῶν θεῶν, πίστις καὶ ἀλήθεια καὶ ἔρως, ἡ μὲν ἑδράζουσα τὰ πάντα καὶ ἐνιδρύουσα τῷ ἀγαθῷ, ἡ δὲ ἐκφαίνουσα τὴν ἐν τοῖς οὖσιν ἅπασαν γνῶσιν, ὁ δὲ ἐπιστρέφων πάντα καὶ συνάγων εἰς τὴν τοῦ καλοῦ φύσιν. Καὶ ἡ τριὰς αὕτη πρόεισιν ἐντεῦθεν ἐπὶ πάντας τοὺς θείους διακόσμους, καὶ πᾶσιν ἐπιλάμπει τὴν πρὸς τὸ νοητὸν ἕνωσιν·",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:165",
+     "label": "II p. 138"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:168",
+     "label": "II p. 141"
+    }
+   ],
+   "notes": [
+    "\"The oracle\" is the Chaldean Oracles, which Proclus quotes so throughout (compare 103a.15).",
+    "The Timaeus calls the pattern of the world \"the most beautiful of the things understood\" (30d). Cousin's manuscript A has νοοῦσα for his νοούσης (\"understanding\"), the same sense."
+   ]
+  },
+  {
+   "seg": "103a.24.p2",
+   "chapter": "103a.24",
+   "modern": "But it shows itself in different ways in different orders, weaving its own powers in with the properties of the gods. In one place, as we said, it is ineffably, unknowably and in one form; in another, holding together and binding; in another, perfecting and giving form; in one place intellectually and as a father, in another moving, giving life and making; in one place as a leader and making like, in another freed and undefiled, in another multiplied and divided. So love comes from above, from the intelligibles, down to the things in the world, turning all things to the divine beauty; truth comes, lighting up the wholes with its kinds of knowledge; and faith, seating each of the things that are in the good. \"For all things\", says the oracle, \"are governed and exist in these three\"; and for this reason the gods bid the theurgists join themselves to the god through this triad.",
+   "greek": "ἄλλως δὲ κατ’ ἄλλας ἐκφαίνεται τάξεις, ταῖς ἰδιότησι τῶν θεῶν συμπλέκουσα τὰς ἑαυτῆς δυνάμεις. Οὗ μὲν γὰρ, ὡς εἴπομεν, ἀῤῥήτως ἐστὶ καὶ ἀγνώστως καὶ ἑνιαίως, οὗ δὲ καὶ συνεκτικῶς καὶ συνδετικῶς, οὗ δὲ τελειωτικῶς καὶ μορφωτικῶς· καὶ οὗ μὲν νοερῶς καὶ πατρικῶς, οὗ δὲ κινητικῶς καὶ ζωογονικῶς· καὶ ποιητικῶς· καὶ οὗ μὲν ἡγεμονικῶς καὶ ἀφομοιωτικῶς, οὗ δὲ ἀπολύτως καὶ ἀχράντως, οὗ δὲ πεπληθισμένως καὶ διῃρημένως. Ἄνωθεν οὖν ὁ ἔρως ἀπὸ τῶν νοητῶν μέχρι τῶν ἐγκοσμίων φοιτᾷ, πάντα ἐπιστρέφων ἐπὶ τὸ θεῖον κάλλος· καὶ ἡ ἀλήθεια φωτίζουσα ταῖς γνώσεσι τὰ ὅλα, καὶ ἡ πίστις ἱδρύουσα τῶν ὄντων ἕκαστον ἐν τῷ ἀγαθῷ. Πάντα γὰρ ἐν τρισὶ τοῖς δὲ, φησὶ τὸ λόγιον, κυβερνᾶταί τε καὶ ἔστι, καὶ διὰ τοῦτο καὶ τοῖς θεουργοῖς οἱ θεοὶ παρακελεύονται διὰ τῆς τριάδος ταύτης ἑαυτοὺς τῷ θεῷ συνάπτειν.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:168",
+     "label": "II p. 141"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:169",
+     "label": "II p. 142"
+    }
+   ],
+   "notes": [
+    "\"In these three\": Cousin prints τοῖς δὲ, two words, which give no sense here; read as the one word τοῖσδε, \"these\", they give the oracle's sense, and the modern version reads them so.",
+    "\"Multiplied\": Cousin prints πεπληθισμένως, a misprint for πεπληθυσμένως; it is kept as printed in the Greek."
+   ]
+  },
+  {
+   "seg": "103a.25.p1",
+   "chapter": "103a.25",
+   "modern": "The intelligibles, then, because of their union beyond words, have no need of love's middle place; but where the things that are are divided, there love too has shone forth as a middle. For it binds together what is divided; it gathers both what comes after it and what comes before it; it turns the second towards the first; and it leads up and perfects what is less perfect. In the same way the divine lover, imitating his own god, by whom he is possessed, draws away and leads up those of good nature, perfects the imperfect, and turns those who need to be saved. The other lover does the very opposite: he drags souls down into the depth of matter, turns them away from the divine, carries them towards error and ignorance, and fills the beloved's soul with images of every kind, having given himself up not to the divine fire, but to the heat that is in matter and makes for becoming, and to the darkness of matter.",
+   "greek": "Τὰ μὲν οὖν νοητὰ, διὰ τὴν ἄφραστον ἕνωσιν, οὐ δεῖται τῆς ἐρωτικῆς μεσότητος· ὅπου δὲ ἡ διάκρισις τῶν ὄντων, ἐκεῖ καὶ ὁ ἔρως μέσος ἐξέφηνε· συνδετικὸς γάρ ἐστι τῶν διῃρημένων, καὶ συναγωγὸς τῶν τε μετ’ αὐτὸν, καὶ τῶν πρὸ αὐτοῦ, καὶ ἐπιστρεπτικὸς ἐπὶ τὰ πρῶτα τῶν δευτέρων, καὶ ἀναγωγὸς καὶ τελεσιουργὸς τῶν ἀτελεστέρων. Κατὰ ταὐτὸν δὴ καὶ ὁ θεῖος ἐραστὴς μιμούμενος τὸν ἑαυτοῦ θεὸν ᾧ κάτοχός ἐστιν, ἀποσπᾷ καὶ ἀνάγει τοὺς εὖ πεφυκότας, τελειοῖ τοὺς ἀτελεῖς, ἐπιστρέφει τοὺς σωθῆναι δεομένους· ὁ δὲ ἕτερος πᾶν τοὐναντίον δρᾷ, καθέλκει τὰς ψυχὰς εἰς τὸ βάθος τῆς ὕλης, ἀποστρέφει τοῦ θείου, φέρει πρὸς τὰ τῆς πλάνης καὶ ἀγνοίας, καὶ εἰδώλων παντοδαπῶν ἀναπίμπλησι τὴν τοῦ ἐρωμένου ψυχὴν, οὐ τῷ θείῳ πυρὶ παραδοὺς ἑαυτὸν, ἀλλὰ τῇ ἐνύλῳ καὶ γενεσιουργῷ θέρμῃ, καὶ τῷ σκότει τῆς ὕλης.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:169",
+     "label": "II p. 142"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:172",
+     "label": "II p. 145"
+    }
+   ],
+   "notes": [
+    "\"In the same way\": Cousin prints κατὰ ταὐτὸν; his manuscript B has κατὰ τὰ αὐτά, the same sense. For \"turns\" (ἐπιστρέφει) B has \"makes them succeed\" (ἐπιτυχεῖς ποιεῖ), which Cousin does not follow."
+   ]
+  },
+  {
+   "seg": "103a.26.p1",
+   "chapter": "103a.26",
+   "modern": "\"And that the others came to talk to you in crowds, while I, in so many years, have not even spoken to you.\"",
+   "greek": "Καὶ ὅτι οἱ μὲν ἄλλοι δι’ ὄχλου ἐγένοντό σοι διαλεγόμενοι, ἐγὼ δὲ τοσούτων ἐτῶν οὐδὲ προσεῖπον.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:172",
+     "label": "II p. 145"
+    }
+   ],
+   "notes": [
+    "These are the dialogue's next words (Alcibiades I, 103a), set at the head of Proclus' comment on them."
+   ]
+  },
+  {
+   "seg": "103a.26.p2",
+   "chapter": "103a.26",
+   "modern": "Those who are more exact in these accounts say that these two are, above all, the elements of divine and daemonic providence for what comes after it: that it passes through all things, from above down to the last, leaving not even the smallest without a share in itself; and that it takes in not one thing of what it governs, is not filled with their nature, and is not carried along with them. For neither because it saves all things and orders all things is it mixed with what it provides for, since the divine and the daemonic are not of a nature to suffer the passions of particular souls; nor, because of its separate superiority over all that is second to it, does it leave anything of the worse without order and without adornment. At once it sets all things in their due order through these, and stands apart from what it orders: it is good in form and undefiled together, it orders the wholes and has no ties to what it orders, passing through all things and unmixed with all.",
+   "greek": "Δύο ταῦτα στοιχεῖα διαφερόντως εἶναί φασιν οἱ τῶν λόγων ἀκριβέστεροι, τῆς τε θείας καὶ τῆς δαιμονίας εἰς τὰ δεύτερα προνοίας· τό τε διὰ πάντων αὐτὴν διήκειν ἄνωθεν μέχρι τῶν ἐσχάτων, μηδὲ τὸ σμικρότατον ἄμοιρον ἑαυτῆς ἀπολείπουσαν· καὶ τὸ μηδὲ ἓν τῶν διοικουμένων εἰσδέχεσθαι, μηδὲ ἀναπίμπλασθαι τῆς φύσεως αὐτῶν μηδὲ συμφέρεσθαι πρὸς αὐτά. Οὔτε γὰρ διὰ τὸ πάντα σώζειν, καὶ πάντα κοσμεῖν ἀναμίγνυται τοῖς προνοουμένοις· οὐδὲ γὰρ πάσχειν τὸ θεῖον καὶ τὸ δαιμόνιον πέφυκε τὰ πάθη τῶν μερικῶν ψυχῶν· οὔτε διὰ τὴν χωριστὴν τῶν δευτέρων ἁπάντων ὑπεροχὴν καταλείπει τι τῶν χειρόνων ἄτακτον καὶ ἀκόσμητον· ἀλλ’ ὁμοῦ καὶ πάντα διὰ ταῦτα διατάττει δεόντως, καὶ τῶν ταττομένων ἐξῄρηται, καὶ ἔστιν ἀγαθοειδὴς ἅμα καὶ ἄχραντος, καὶ κοσμητικὴ τῶν ὅλων, καὶ ἄσχετος πρὸς τὰ κοσμούμενα ὑπ’ αὐτῆς, χωροῦσά τε διὰ πάντων, καὶ ἀμιγὴς πρὸς πάντα.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:172",
+     "label": "II p. 145"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:173",
+     "label": "II p. 146"
+    }
+   ],
+   "notes": [
+    "Cousin prints αὐτῶν, \"their nature\", where both manuscripts have αὐτοῦ; the sense is the same."
+   ]
+  },
+  {
+   "seg": "103a.26.p3",
+   "chapter": "103a.26",
+   "modern": "This daemonic and divine providence, then, Plato plainly gives to Socrates' forethought too, which does good to the less perfect. He keeps it wakeful and constant about the beloved, letting no moment pass in its zeal for him, and at the same time free of ties, unmixed, undefiled and untouched by what is about him. That he began first to love, and does not leave the boy when the others have stopped, has shown us well enough Socrates' care for the young man's life and his guarding of it; that he did not even speak to him while he was there and in his company, let that be your proof of a care with no ties to the worse and unmixed with it. For the first relation of man to man is addressing him; so not to join himself to the one he provides for even in this shows him wholly apart from the worse and free of ties to it. At once, then, he is present to him and not present; he loves, and is free of ties; he watches him from every side, and is nowhere ranked with him.",
+   "greek": "Ταύτην δὴ οὖν τὴν δαιμονίαν τε καὶ θείαν πρόνοιαν ὁ Πλάτων ἐναργῶς καὶ τῇ Σωκράτους περιτίθησιν ἀγαθουργῷ τῶν ἀτελεστέρων προμηθείᾳ· ὁμοῦ μὲν ἄγρυπνον αὐτὴν περὶ τὸν ἐρώμενον διαφυλάττων καὶ μόνιμον, καὶ μηδένα καιρὸν παραλείπουσαν τῆς περὶ αὐτὸν σπουδῆς, ὁμοῦ δὲ ἄσχετον καὶ ἀμιγῆ καὶ ἄχραντον καὶ ἀνέπαφον τῶν περὶ αὐτόν. Τὸ οὖν μὲν καὶ πρῶτον τοῦ ἔρωτος ἄρξασθαι, καὶ τὸ τῶν ὅλων πεπαυμένων αὐτοῦ μὴ ἀπαλλάττεσθαι, τὸ κηδεμονικὸν τοῦ Σωκράτους καὶ φρουρητικὸν τῆς τοῦ νεανίσκου ζωῆς ἱκανῶς ἡμῖν παρέστησε· τὸ δέ γε παρόντα καὶ συνεξεταζόμενον αὐτῷ μηδὲ προσειπεῖν, τεκμήριον ἔστω σοι τῆς ἀσχέτου καὶ ἀμιγοῦς πρὸς τὸ χεῖρον ἐπιμελείας· πρώτη γάρ ἐστι σχέσις ἀνθρώπων πρὸς ἀνθρώπους ἡ πρόσρησις. Τὸ τοίνυν μηδὲ κατὰ ταύτην τῷ προνοουμένῳ συνάπτειν ἑαυτὸν, ἐξῃρημένον παντελῶς αὐτὸν ἀποφαίνει καὶ ἄσχετον πρὸς τὸ χεῖρον. Ἅμα δὴ οὖν καὶ πάρεστιν αὐτῷ καὶ οὐ πάρεστι, καὶ ἐρᾷ καὶ ἄσχετός ἐστι· καὶ πανταχόθεν αὐτὸν θεᾶται, καὶ οὐδαμοῦ συντάττεται πρὸς αὐτόν.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:173",
+     "label": "II p. 146"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:176",
+     "label": "II p. 149"
+    }
+   ],
+   "notes": [
+    "\"When the others have stopped\": Cousin prints τῶν ὅλων, \"the wholes\", but the dialogue's words, which Proclus is recalling, are τῶν ἄλλων, \"the others\" (103a); the modern version reads the dialogue's word."
+   ]
+  },
+  {
+   "seg": "103a.27.p1",
+   "chapter": "103a.27",
+   "modern": "If this is how things are with divine men, what must we say of the gods themselves, or of the good daemons? Are they not, while present to all, set apart from all? Though they have filled all things with themselves, are they not unmixed with all, and, passing everywhere, have they not ranked their own life nowhere? And what should we say of the gods who are said to love their own offspring, as the makers of myths make Zeus love Kore or Aphrodite herself? Is it not that such love provides for its beloved, saves them, perfects them and holds them together? Is it not that it is free of ties, unmixed, good in form and undefiled? Or where else would this mark of the lover come from in human souls, if it were not there before in the gods themselves? For whatever is good and saving in souls has its cause marked out from the gods. That is why Plato says that the patterns of all the virtues and of bodily goods, such as health, strength, justice and self-control, are there before them. How much more, then, shall we suppose that the first-working cause of the lover's art is among the gods, since it is \"given by divine gift\", as Socrates himself says in the Phaedrus. Gods, then, love gods: the elder the lesser, but by providing for them; and the lesser the higher, but by turning back to them.",
+   "greek": "Εἰ δὴ ταῦτα τοῦτον ἔχει τὸν τρόπον, καὶ ἐπὶ τῶν θείων ἀνδρῶν, τί χρὴ φάναι καὶ περὶ αὐτῶν τῶν θεῶν, ἢ τῶν ἀγαθῶν δαιμόνων; οὐχ, ὡς πᾶσι παρόντες ἐξῄρηνται πάντων; Καὶ πάντα πεπληρωκότες ἑαυτῶν, ὅμως εἰσὶν ἄμικτοι πρὸς πάντα, καὶ πανταχοῦ διήκοντες, οὐδαμοῦ τὴν ἑαυτῶν κατέταξαν ζωήν; Τί δ’ ἂν εἴποιμεν περὶ τῶν λεγομένων θεῶν ἐρᾷν τῶν οἰκείων γεννημάτων, ὥσπερ οἱ μυθοπλάσαι ποιοῦσιν ἢ τῆς Κόρης ἢ αὐτῆς τῆς Ἀφροδίτης ἐρῶντα τὸν Δία; Οὐχ ὅτι προνοητικός ἐστιν ὁ τοιοῦτος ἔρως, καὶ σωστικὸς τῶν ἐρωμένων καὶ τελειωτικὸς αὐτῶν καὶ συνεκτικός; Οὐχ ὡς ἄσχετος καὶ ἀμιγὴς καὶ ἀγαθοειδὴς καὶ ἄχραντος; Ἢ καὶ πόθεν καὶ ἐν ταῖς ἀνθρωπίναις ψυχαῖς τοῦτο τὸ ἐρωτικὸν ἰδίωμα, μὴ πρότερον ἐν αὐτοῖς προϋπάρχον τοῖς θεοῖς. Πᾶν γὰρ ὅτι περ ἂν ἀγαθὸν καὶ σωτήριον ἐν ταῖς ψυχαῖς ᾖ, τὴν αἰτίαν ἀπὸ τῶν θεῶν ὡρισμένην ἔχει· διὸ καὶ τῶν ἀρετῶν πασῶν καὶ τῶν σωματικῶν ἀγαθῶν ἐκεῖ προϋπάρχειν τὰ παραδείγματά φησιν ὁ Πλάτων, οἷον ὑγιείας, ἰσχύος, δικαιοσύνης, σωφροσύνης. Πόσῳ δὴ μᾶλλον τῆς ἐρωτικῆς ἐν θεοῖς εἶναι τὴν πρωτουργὸν αἰτίαν ὑποθησόμεθα θείᾳ δόσει διδομένης, ὡς αὐτός φησιν ὁ ἐν τῷ Φαίδρῳ Σωκράτης. Καὶ θεοὶ τοίνυν θεῶν ἐρῶσιν· οἱ πρεσβύτεροι τῶν καταδεεστέρων, ἀλλὰ προνοητικῶς· καὶ οἱ καταδεέστεροι τῶν ὑπερτέρων, ἀλλ’ ἐπιστρεπτικῶς.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:176",
+     "label": "II p. 149"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:177",
+     "label": "II p. 150"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:180",
+     "label": "II p. 153"
+    }
+   ],
+   "notes": [
+    "\"Given by divine gift\": the Phaedrus (244a) says the greatest goods come to us through madness, \"given, indeed, by divine gift\" (θείᾳ μέντοι δόσει διδομένης).",
+    "Health and strength are named among the things that are \"themselves\" beside the just, the beautiful and the good in the Phaedo (65d); Proclus does not say which dialogue he has in mind.",
+    "\"Set apart\": Cousin prints ἐξῄρηνται, which manuscript B has in its margin; both manuscripts have ἐξήρτηται in the text, \"depend\"."
+   ]
+  },
+  {
+   "seg": "103a.28.p1",
+   "chapter": "103a.28",
+   "modern": "These, then, are the teachings to be taken first from the words before us. Let us now understand still more greatly the cause of Socrates' silence, and say that among the gods the unspeakable leads the way before what is spoken, the unuttered before what is uttered, and what is kept in silence before what comes about through speech and voices. Because Socrates had made himself wholly like the divine, he begins his providence for the beloved from silence; for this unuttered quality belongs to love itself, which, as we said, first came to be there, in the silent order of the gods. The inspired lover, then, had to hand over his care for the beloved to god-nurtured silence before sharing speech with him. In this way he would show himself like his own god, and he turned the young man to wonder at his silence. Such, then, was Socrates; but what the vulgar lovers are like, he says: \"they came to you in crowds\".",
+   "greek": "Ταῦτα μὲν οὖν ληπτέα τὰ δόγματα τὴν πρώτην ἐκ τῶν προκειμένων ῥημάτων, ἔτι δὲ μειζόνως τὸ αἴτιον νοήσωμεν τῆς τοῦ Σωκράτους σιγῆς· καὶ φῶμεν ὅτι τὸ ἄῤῥητον προηγεῖται τῶν ῥητῶν ἐν τοῖς θεοῖς, καὶ τὸ ἄφθεγκτον τῶν φθεγκτῶν, καὶ τὸ σιγώμενον τῶν διὰ λόγου καὶ φωνῶν γιγνομένων. Διότι δὴ οὖν ἑαυτὸν πρὸς τὸ θεῖον ὁ Σωκράτης τελέως ἀφωμοίωσεν· ἀπὸ τῆς σιγῆς ἄρχεται τῆς περὶ τὸν ἐρώμενον προνοίας, ἐπεὶ καὶ αὐτῷ τῷ ἔρωτι τοῦτο δὴ τὸ ἄφθεγκτόν ἐστιν οἰκεῖον, ἐκεῖ πρῶτον, ὥσπερ εἴπομεν, ἐν τῇ σιγωμένῃ τάξει τῶν θεῶν ἑαυτὸν ὑποστήσαντι. Ἔδει τοίνυν τὸν ἔνθεον ἐραστὴν τῇ θεοθρέμμονι σιγῇ πρὸ τῆς διὰ λόγων κοινωνίας παραδοῦναι τὴν περὶ τὸν ἐρώμενον κηδεμονίαν. Οὕτω γὰρ ἂν καὶ τῷ ἑαυτοῦ θεῷ προσόμοιος ἐφαίνετο, καὶ τὸν νεανίσκον ἐπέστρεφεν εἰς τὸ θαῦμα τῆς ἑαυτοῦ σιγῆς. Ἀλλ’ ὁ μὲν Σωκράτης τοιοῦτος, οἱ δὲ δὴ φορτικοὶ τῶν ἐραστῶν ὁποῖοί τινές εἰσι, δι’ ὄχλου, φησὶν, ἐγένοντό σοι.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:180",
+     "label": "II p. 153"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:181",
+     "label": "II p. 154"
+    }
+   ],
+   "notes": [
+    "\"As we said\": love first shone out in \"the unspeakable order of the gods\", with faith and truth (103a.24).",
+    "\"The inspired lover\": Cousin prints ἔνθεον; his manuscript A has θεὸν, and his Latin translator renders \"the god, the lover\"."
+   ]
+  },
+  {
+   "seg": "103a.29.p1",
+   "chapter": "103a.29",
+   "modern": "What, then, is the crowd? That it is a multitude is plain to all; but a multitude without bounds, a confused multitude, a multitude with no order. It is not like a chorus, nor like a people. A people is a multitude bound together with itself; a crowd is a multitude torn apart. That is why, among constitutions, they say that mob rule differs from democracy: the one is disorderly and out of tune, the other ordered by the laws. It is clear, then, that coming \"in crowds\" is the mark of a life swept along and confused, which drags the beloved down to the material, scattered and many-limbed kind of variety that the passions have. For the Timaeus too called all unreason a crowd, as being without bounds of itself, out of tune and disorderly: \"the great crowd that grew on later, out of fire and earth and air and water\". So, just as \"the others\" showed their division and their torn-apart life, so too coming \"in crowds\" shows the abuse that came from them upon the young man, and that they were drawing him down to a divided and material kind of life. Not only, then, were they divided and at odds with one another in this way; they also filled the young man with the same vice, doing the very opposite of what is the power of love. For love \"empties us of estrangement and fills us with kinship\", as Plato's Agathon says; but these were full of division and discord even among themselves, being \"others\", and they held out this estrangement of theirs to the beloved too; for to everyone what crowds him is foreign by nature and painful. Such, then, is the lover of the many.",
+   "greek": "Τίς οὖν ὁ ὄχλος ἐστίν; Ὅτι μὲν δὴ πλῆθος παντὶ καταφανές· ἀλλὰ πλῆθος ἀόριστον, πλῆθος συγκεχυμένον, πλῆθος ἀσύντακτον. Οὐ γὰρ οἷον ὁ χορὸς, οὐδὲ οἷον ὁ δῆμος· ὁ μὲν γὰρ δῆμος πλῆθός ἐστι πρὸς ἑαυτὸ συνδεόμενον· ὁ δὲ ὄχλος διεσπασμένον πλῆθος. Ὅθεν δὴ καὶ ἐν ταῖς πολιτείαις διαφέρειν λέγουσι τὴν ὀχλοκρατίαν τῆς δημοκρατίας· ἔστι γὰρ ἡ μὲν ἄτακτος καὶ πλημμελὴς, ἡ δὲ ὑπὸ τῶν νόμων τεταγμένη. Δῆλον δὴ οὖν ὅτι τὸ δι’ ὄχλου γένεσθαι τεκμήριόν ἐστι τῆς ἐπισεσυρμένης ζωῆς καὶ συγκεχυμένης, καὶ καθελκούσης τὸν ἐρώμενον ἐπὶ τὸ ἔνυλον καὶ σκεδαστὸν καὶ πολυμελὲς εἶδος τῆς τῶν παθῶν ποικιλίας. Καὶ γὰρ ὁ Τίμαιος ὄχλον ἀπεκάλεσε τὴν ἀλογίαν πᾶσαν, ὡς ἀόριστον ἀφ’ ἑαυτῆς, καὶ πλημμελῆ καὶ ἄτακτον τὸν πολὺν ὄχλον, καὶ ὕστερον προσφύντα ἐκ πυρὸς, καὶ γῆς, καὶ ἀέρος, καὶ ὕδατος. Ὥσπερ οὖν τὸ ἄλλοι τὴν διάστασιν αὐτῶν ἐδήλου, καὶ τὴν διεσπασμένην ζωήν, οὕτω δὴ καὶ τὸ δι’ ὄχλου γένεσθαι τῷ νεανίσκῳ τὴν εἰς αὐτὸν ἀπ’ ἐκείνων ἥκουσαν ἐπήρειαν ἐνδείκνυται· καὶ ὅτι κατῆγον αὐτὸν ἐπί τι μεριστὸν καὶ ἔνυλον εἶδος ζωῆς. Οὐ μόνον ἄρα πρὸς ἀλλήλους οὕτως εἶχον διῃρημένως καὶ διαφώνως, ἀλλὰ καὶ τὸν νεανίσκον ἀνεπίμπλασαν τῆς τοιαύτης κακίας, πᾶν τοὐναντίον δρῶντες, ἢ κατὰ τὴν τοῦ ἔρωτος δύναμιν· ὁ μὲν γὰρ ἀλλοτριότητος κενοῖ, καὶ οἰκειότητος πληροῖ, καθάπερ φησὶν ὁ τοῦ Πλάτωνος Ἀγάθων· οἱ δὲ καὶ καθ’ ἑαυτοὺς διαιρέσεως ἦσαν καὶ ἀναρμοστίας πεπληρωμένοι, διὰ τὸ ἄλλοι, καὶ τῷ ἐρωμένῳ τὴν αὐτῶν προύτεινον ταύτην ἀλλοτριότητα· παντὶ γὰρ τὸ ὀχληρὸν ἀλλότριόν ἐστι φύσει καὶ λυπηρόν. Ὁ μὲν οὖν πολὺς ἐραστὴς τοιοῦτος.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:181",
+     "label": "II p. 154"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:184",
+     "label": "II p. 157"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:185",
+     "label": "II p. 158"
+    }
+   ],
+   "notes": [
+    "The Timaeus' crowd is at 42c-d: the soul must master \"the great crowd that grew on later, out of fire and water and air and earth, turbulent and without reason\". Agathon's words are in the Symposium (197d).",
+    "Page 158 of Cousin's volume is lost in the scan used here, and is supplied from another scan of the same volume.",
+    "Cousin's two manuscripts have ἐπήρειαν, \"abuse\"; his Latin translator read ἀπειρίαν, \"boundlessness\"."
+   ]
+  },
+  {
+   "seg": "103a.30.p1",
+   "chapter": "103a.30",
+   "modern": "The greatest praise of Alcibiades' nature, too, is that he admitted the company of the other lovers only as far as talk, and granted their excitement about him only so much: and that he thought this a nuisance and unpleasant, but gave way all the same, sharing speech with the vulgar lovers, though not touch, nor banquets, nor the other evils that call him to a bad life. Here most of all is shown what was distinctive in Alcibiades' nature, compared with others of the same age. For just as we train ourselves against pleasures and against pains, not by fleeing the passions, nor by staying wholly untried by them, but by coming into the midst of them and mastering their excess and their disorder, so too in matters of love the company of vulgar lovers is the greatest training-ground for those of good nature, towards the whole of virtue. To rise above the nuisance they cause and master their unreason shows a strength of nature that looks down on the flattery of vice and on the life of pleasure. Showing himself such a one, then, Alcibiades was rightly thought by Socrates worthy of his love: at such an age he had shaken off the passion-filled surge of the lovers, and he wondered at Socrates' love.",
+   "greek": "Μέγιστον δὲ καὶ τῆς Ἀλκιβιάδου φύσεως ἐγκώμιον, τὸ μέχρι τοῦ διαλέγεσθαι μόνον προσέσθαι τὴν τῶν ἄλλων ἐραστῶν ὁμιλίαν, καὶ τοσοῦτον μόνον αὐτῶν τῇ περὶ αὐτὸν πτοίᾳ χαρίσασθαι, καὶ τοῦτο ὀχληρὸν ὑπολαμβάνοντα καὶ ἀηδὲς, ἐνδιδόντα δὲ ὅμως καὶ λόγου κοινωνοῦντα τοῖς φορτικοῖς ἐρασταῖς, ἀλλ’ οὐχ ἁφῆς, οὐδὲ συμποσίων, οὐδὲ τῶν ἄλλων κακῶν καὶ τῶν προκαλουμένων αὐτὸν ἐπὶ τὴν κακοζωΐαν· οὗ δὴ καὶ μάλιστα δείκνυται τί τὸ διάφερον ἦν τῆς τοῦ Ἀλκιβιάδου φύσεως πρὸς τοὺς ἄλλους τοὺς τὴν αὐτὴν ἡλικίαν ἔχοντας. Ὥσπερ γὰρ καὶ πρὸς τὰς ἡδονὰς γυμναζόμεθα καὶ πρὸς τὰς ἀλγηδόνας, οὐ φεύγοντες ἀπὸ τῶν παθῶν, οὐδὲ ἀπείρατοι πάντως μένοντες αὐτῶν, ἀλλ’ ἐν μέσοις αὐτοῖς γινόμενοι, καὶ κρατοῦντες τῆς ὑπερβολῆς αὐτῶν καὶ τῆς ἀταξίας· οὕτω δὴ καὶ ἐν τοῖς ἐρωτικοῖς γυμνάσιόν ἐστι μέγιστον ἡ τῶν φορτικῶν ἐραστῶν ὁμιλία τοῖς εὖ πεφυκόσι πρὸς τὴν ὅλην ἀρετήν. Τὸ γὰρ ὑπερέχειν τῆς τούτων ἐνοχλήσεως καὶ κρατῆσαι τῆς ἀλογίας αὐτῶν, φύσεως ἰσχὺν δηλοῖ τῆς κακίας ὑπεροπτικῶς ἔχουσαν κολακείας, καὶ τῆς καθ’ ἡδονὴν ζωῆς. Τοιοῦτος τοίνυν καὶ ὁ Ἀλκιβιάδης φανεὶς εἰκότως ἔδοξεν ἄξιος εἶναι τῷ Σωκράτει τοῦ ἔρωτος, τὸν μὲν ἐμπαθῆ κλύδωνα τῶν ἐραστῶν ἀποσεισάμενος ἐν ἡλικίᾳ τοιαύτῃ, θαυμάζων δὲ τὸν Σωκράτους ἔρωτα.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:185",
+     "label": "II p. 158"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:188",
+     "label": "II p. 161"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:189",
+     "label": "II p. 162"
+    }
+   ],
+   "notes": [
+    "Cousin prints τὸ διάφερον, a misaccent for τὸ διαφέρον, \"what was distinctive\".",
+    "\"Passion-filled surge\": so Cousin's text (ἐμπαθῆ); manuscript B has ἀπαθῆ, \"passionless\"."
+   ]
+  },
+  {
+   "seg": "103a.30.p2",
+   "chapter": "103a.30",
+   "modern": "Just as the Athenian Stranger leads the young to drink, having thought of this as a training against the passions for them, and sets a ruler over them to judge the motions within them, in the same way Socrates set himself as a kind of ruler over the young man, judge and arbiter of the drunkenness of his age, of him and his passions, and of the lovers who lived by them. And when he saw that he had mastered all such things, and in his pride rose above the ignoble, deceitful and festering life of those others, he calls him to his own company, and shows him what is the true art of the lover, what good comes of it, and what is the end of activity in virtue.",
+   "greek": "Καθάπερ δὴ οὖν ὁ Ἀθηναῖος ξένος εἰς μέθην ἄγει τὴν νεότητα, γυμνάσιον τοῦτο πρὸς τὰ πάθη τοῖς νέοις ἐπινοήσας, καὶ ἄρχοντα αὐτοῖς ἐφίστησι, κριτὴν τῶν κινημάτων τῶν ἐν αὐτοῖς, κατὰ τὰ αὐτὰ δὴ καὶ ὁ Σωκράτης οἷον ἄρχοντα ἑαυτὸν ἐπέστησε τῷ νεανίσκῳ, τῆς κατὰ τὴν ἡλικίαν μέθης κριτὴν καὶ δικαστὴν αὐτοῦ τε καὶ τῶν παθῶν, καὶ τῶν κατὰ ταῦτα ζώντων ἐραστῶν. Καὶ ἐπειδὴ κεκρατηκότα αὐτὸν ἐθεάσατο τῶν τοιούτων ἁπάντων, καὶ ὑπερβαλλόμενον τῷ φρονήματι τὴν ἐκείνων ἀγεννῆ καὶ ἀπατηλὴν καὶ ὕπουλον ζωήν· ἀνακαλεῖται μὲν αὐτὸν εἰς τὴν ἑαυτοῦ συνουσίαν, ἐπιδείκνυσι δὲ τίς ἡ ἀληθὴς ἐρωτική, καὶ τί τὸ ἐξ αὐτῆς ὄφελος, καὶ ποῖον τέλος ἐστὶ τῆς κατ’ ἀρετὴν ἐνεργείας.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:189",
+     "label": "II p. 162"
+    }
+   ],
+   "notes": [
+    "The Athenian Stranger is the chief speaker of the Laws; at 640c-d he asks for \"a sober and wise ruler over the drunk\", and he makes the drinking party a test and training of the young against pleasure."
    ]
   }
  ],

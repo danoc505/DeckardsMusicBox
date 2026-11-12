@@ -591,3 +591,108 @@ If we must say something truer than this: straight from his first syllables Socr
 @greek Ἔστι μὲν οὖν καὶ ἐν τῷ παρόντι
 So even now Socrates has been shown by these words to be Alcibiades' only lover; but the young man will see it a little later, when he has looked at himself and what is his. For then he will be able to tell what is the pattern and what the image, what is feigned in love and what is true, and who is the lover falsely so called, decked out in a name not his own, and who belongs to the god whose name he bears. So much for these things. Now, if you like, let us go back to love and take up the more secret accounts of it.
 !note "Himself and what is his": the dialogue's own distinction (128a-131a), between a man himself, his soul, and what is his.
+
+@treatise 103a-secret | The more secret account of love: faith, truth and love
+Proclus goes back to love and gives the more secret account of it. Love is neither among the first of things, since the beloved is beyond it, nor among the last, since whatever loves shares in it: it stands between, second to the beautiful and first of the rest. Among the hidden intelligible gods there are three causes, the good, the wise and the beautiful, and from them come three monads, faith, truth and love, which go forth through every order of gods, each order receiving them in its own way. Love comes down from the intelligibles to the things in the world, turning all things to divine beauty; the Chaldean Oracles say that all things are governed and exist in these three, and bid the theurgists join themselves to the god through them. Where things are divided, love is the middle that binds them and leads the lower up; and the divine lover imitates his god, while the vulgar lover does the opposite and drags souls down into matter.
+
+@ch 103a.23 | Love stands between the beloved and the lovers
+Love is not among the first things, since what is loved is beyond love, nor among the last, since what loves shares in love. It stands between: second to the beautiful, first of all the rest.
+@taylor none
+
+@p
+@greek Τὸν τοίνυν θεὸν τοῦτον
+This god, then, we must rank neither among the first of the things that are nor among the last. He is not among the first, because what is loved is beyond love; nor would he rightly be ranked among the last, because what loves shares in love. He must, then, be seated in the middle, between what is loved and those who love: second to the beautiful, and first of the rest.
+
+@ch 103a.24 | Where love first arose: faith, truth and love
+Among the hidden intelligible gods are three causes: the good, the wise and the beautiful. From them three monads come to be, faith, truth and love, which first shine out in the unspeakable order of the gods and go forth through every divine order, taking on the character of each. So love comes down from the intelligibles to the world, turning all things to divine beauty, while truth lights them with knowledge and faith seats them in the good; and the gods bid the theurgists join themselves to the god through this triad.
+@taylor none
+
+@p
+@greek Ποῦ δὴ οὖν ὑπέστη
+Where, then, did he first come to be, how does he go forth to all things, and with what monads did he leap forth? Among the intelligible and hidden gods there are three hypostases. The first is marked by the good, understanding the good itself, "where the paternal monad is", as the oracle says; the second by the wise, where the first understanding is; the third by the beautiful, where the most beautiful of the intelligibles is, as the Timaeus says. And according to these three intelligible causes three monads come to be: in the intelligibles they are present as in their cause, and in one form; but they first shine out in the unspeakable order of the gods, as faith, truth and love. Faith settles all things and seats them in the good; truth shows forth all the knowledge in the things that are; love turns all things back and gathers them to the nature of the beautiful. And this triad goes forth from there to all the divine orders, and on all of them it shines the union with the intelligible.
+!note "The oracle" is the Chaldean Oracles, which Proclus quotes so throughout (compare 103a.15).
+!note The Timaeus calls the pattern of the world "the most beautiful of the things understood" (30d). Cousin's manuscript A has νοοῦσα for his νοούσης ("understanding"), the same sense.
+
+@p
+@greek ἄλλως δὲ κατ’ ἄλλας
+But it shows itself in different ways in different orders, weaving its own powers in with the properties of the gods. In one place, as we said, it is ineffably, unknowably and in one form; in another, holding together and binding; in another, perfecting and giving form; in one place intellectually and as a father, in another moving, giving life and making; in one place as a leader and making like, in another freed and undefiled, in another multiplied and divided. So love comes from above, from the intelligibles, down to the things in the world, turning all things to the divine beauty; truth comes, lighting up the wholes with its kinds of knowledge; and faith, seating each of the things that are in the good. "For all things", says the oracle, "are governed and exist in these three"; and for this reason the gods bid the theurgists join themselves to the god through this triad.
+!note "In these three": Cousin prints τοῖς δὲ, two words, which give no sense here; read as the one word τοῖσδε, "these", they give the oracle's sense, and the modern version reads them so.
+!note "Multiplied": Cousin prints πεπληθισμένως, a misprint for πεπληθυσμένως; it is kept as printed in the Greek.
+
+@ch 103a.25 | Love as the middle that binds; the two lovers
+The intelligibles, being one beyond words, need no middle; love appears where things are divided, binding them, turning the second to the first and leading the less perfect up. The divine lover imitates the god who holds him and does the same for the well-born; the vulgar lover does the opposite, dragging souls down into matter and filling the beloved with images.
+@taylor none
+
+@p
+@greek Τὰ μὲν οὖν νοητὰ
+The intelligibles, then, because of their union beyond words, have no need of love's middle place; but where the things that are are divided, there love too has shone forth as a middle. For it binds together what is divided; it gathers both what comes after it and what comes before it; it turns the second towards the first; and it leads up and perfects what is less perfect. In the same way the divine lover, imitating his own god, by whom he is possessed, draws away and leads up those of good nature, perfects the imperfect, and turns those who need to be saved. The other lover does the very opposite: he drags souls down into the depth of matter, turns them away from the divine, carries them towards error and ignorance, and fills the beloved's soul with images of every kind, having given himself up not to the divine fire, but to the heat that is in matter and makes for becoming, and to the darkness of matter.
+!note "In the same way": Cousin prints κατὰ ταὐτὸν; his manuscript B has κατὰ τὰ αὐτά, the same sense. For "turns" (ἐπιστρέφει) B has "makes them succeed" (ἐπιτυχεῖς ποιεῖ), which Cousin does not follow.
+
+@treatise 103a-crowd | "In crowds", and not a word: the providence that stands apart
+Proclus comments on Socrates' next words: "and that the others came to talk to you in crowds, while I in so many years have not even spoken to you." Divine and daemonic providence has two marks: it reaches down to the last things, leaving nothing without its care, and it takes in nothing of what it governs, staying unmixed. Plato gives both to Socrates: wakeful about the beloved, yet untouched by him; present and not present. So it is with the gods, who love what they beget, and whose love is the cause of love in human souls. Socrates begins with silence because the unspeakable comes before speech among the gods, and love first came to be in their silent order. The others came "in crowds": a crowd is a multitude without order or bond, the image of a life scattered among the passions. Alcibiades' great praise is that he let them come no nearer than talk, and so, as the Athenian Stranger trains the young in drinking with a sober ruler present, Socrates watched over him as judge until he had mastered them all, and then called him to himself.
+
+@ch 103a.26 | The two marks of providence, and Socrates' care
+The more exact thinkers name two marks of divine and daemonic providence: it reaches all things down to the last, and it takes in nothing of what it governs. Plato gives both to Socrates' care for Alcibiades: wakeful, letting no moment pass, and yet unmixed and untouched; the first to love and the last to leave, yet not even speaking to the boy while the crowd was there.
+@taylor none
+
+@p
+@greek Καὶ ὅτι οἱ μὲν ἄλλοι
+"And that the others came to talk to you in crowds, while I, in so many years, have not even spoken to you."
+!note These are the dialogue's next words (Alcibiades I, 103a), set at the head of Proclus' comment on them.
+
+@p
+@greek Δύο ταῦτα στοιχεῖα
+Those who are more exact in these accounts say that these two are, above all, the elements of divine and daemonic providence for what comes after it: that it passes through all things, from above down to the last, leaving not even the smallest without a share in itself; and that it takes in not one thing of what it governs, is not filled with their nature, and is not carried along with them. For neither because it saves all things and orders all things is it mixed with what it provides for, since the divine and the daemonic are not of a nature to suffer the passions of particular souls; nor, because of its separate superiority over all that is second to it, does it leave anything of the worse without order and without adornment. At once it sets all things in their due order through these, and stands apart from what it orders: it is good in form and undefiled together, it orders the wholes and has no ties to what it orders, passing through all things and unmixed with all.
+!note Cousin prints αὐτῶν, "their nature", where both manuscripts have αὐτοῦ; the sense is the same.
+
+@p
+@greek Ταύτην δὴ οὖν τὴν δαιμονίαν
+This daemonic and divine providence, then, Plato plainly gives to Socrates' forethought too, which does good to the less perfect. He keeps it wakeful and constant about the beloved, letting no moment pass in its zeal for him, and at the same time free of ties, unmixed, undefiled and untouched by what is about him. That he began first to love, and does not leave the boy when the others have stopped, has shown us well enough Socrates' care for the young man's life and his guarding of it; that he did not even speak to him while he was there and in his company, let that be your proof of a care with no ties to the worse and unmixed with it. For the first relation of man to man is addressing him; so not to join himself to the one he provides for even in this shows him wholly apart from the worse and free of ties to it. At once, then, he is present to him and not present; he loves, and is free of ties; he watches him from every side, and is nowhere ranked with him.
+!note "When the others have stopped": Cousin prints τῶν ὅλων, "the wholes", but the dialogue's words, which Proclus is recalling, are τῶν ἄλλων, "the others" (103a); the modern version reads the dialogue's word.
+
+@ch 103a.27 | So too the gods, and their love for what they beget
+If this is so with divine men, still more is it so with the gods and the good daemons: present to all and apart from all, filling all and mixed with none. When the myths say Zeus loved Kore, or Aphrodite herself, they mean a love that provides, saves, perfects and holds together, without ties and undefiled. Everything good in souls has its cause in the gods, as Plato puts the patterns of virtues and bodily goods there; so the first cause of love, given by divine gift, must be among the gods too. Higher gods love lower ones by providing for them, lower ones love higher by turning to them.
+@taylor none
+
+@p
+@greek Εἰ δὴ ταῦτα τοῦτον
+If this is how things are with divine men, what must we say of the gods themselves, or of the good daemons? Are they not, while present to all, set apart from all? Though they have filled all things with themselves, are they not unmixed with all, and, passing everywhere, have they not ranked their own life nowhere? And what should we say of the gods who are said to love their own offspring, as the makers of myths make Zeus love Kore or Aphrodite herself? Is it not that such love provides for its beloved, saves them, perfects them and holds them together? Is it not that it is free of ties, unmixed, good in form and undefiled? Or where else would this mark of the lover come from in human souls, if it were not there before in the gods themselves? For whatever is good and saving in souls has its cause marked out from the gods. That is why Plato says that the patterns of all the virtues and of bodily goods, such as health, strength, justice and self-control, are there before them. How much more, then, shall we suppose that the first-working cause of the lover's art is among the gods, since it is "given by divine gift", as Socrates himself says in the Phaedrus. Gods, then, love gods: the elder the lesser, but by providing for them; and the lesser the higher, but by turning back to them.
+!note "Given by divine gift": the Phaedrus (244a) says the greatest goods come to us through madness, "given, indeed, by divine gift" (θείᾳ μέντοι δόσει διδομένης).
+!note Health and strength are named among the things that are "themselves" beside the just, the beautiful and the good in the Phaedo (65d); Proclus does not say which dialogue he has in mind.
+!note "Set apart": Cousin prints ἐξῄρηνται, which manuscript B has in its margin; both manuscripts have ἐξήρτηται in the text, "depend".
+
+@ch 103a.28 | Why Socrates began with silence
+Among the gods the unspeakable comes before what is spoken, and silence before speech; and love first came to be in the silent order of the gods. So Socrates, made like the divine, began his care with silence, as the inspired lover must, and so turned the boy to wonder at his silence. The vulgar lovers, by contrast, came "in crowds".
+@taylor none
+
+@p
+@greek Ταῦτα μὲν οὖν ληπτέα
+These, then, are the teachings to be taken first from the words before us. Let us now understand still more greatly the cause of Socrates' silence, and say that among the gods the unspeakable leads the way before what is spoken, the unuttered before what is uttered, and what is kept in silence before what comes about through speech and voices. Because Socrates had made himself wholly like the divine, he begins his providence for the beloved from silence; for this unuttered quality belongs to love itself, which, as we said, first came to be there, in the silent order of the gods. The inspired lover, then, had to hand over his care for the beloved to god-nurtured silence before sharing speech with him. In this way he would show himself like his own god, and he turned the young man to wonder at his silence. Such, then, was Socrates; but what the vulgar lovers are like, he says: "they came to you in crowds".
+!note "As we said": love first shone out in "the unspeakable order of the gods", with faith and truth (103a.24).
+!note "The inspired lover": Cousin prints ἔνθεον; his manuscript A has θεὸν, and his Latin translator renders "the god, the lover".
+
+@ch 103a.29 | What a crowd is
+A crowd is a multitude, but one without bounds, confused and without order: not like a chorus, nor like a people bound to itself, which is why mob rule differs from democracy. To come in crowds is the mark of a scattered life that drags the beloved down to the varied passions, as the Timaeus calls all unreason a crowd. So the others were divided among themselves, and filled the boy with the same vice, doing the opposite of love, which, as Agathon says, empties of estrangement and fills with kinship.
+@taylor none
+
+@p
+@greek Τίς οὖν ὁ ὄχλος ἐστίν
+What, then, is the crowd? That it is a multitude is plain to all; but a multitude without bounds, a confused multitude, a multitude with no order. It is not like a chorus, nor like a people. A people is a multitude bound together with itself; a crowd is a multitude torn apart. That is why, among constitutions, they say that mob rule differs from democracy: the one is disorderly and out of tune, the other ordered by the laws. It is clear, then, that coming "in crowds" is the mark of a life swept along and confused, which drags the beloved down to the material, scattered and many-limbed kind of variety that the passions have. For the Timaeus too called all unreason a crowd, as being without bounds of itself, out of tune and disorderly: "the great crowd that grew on later, out of fire and earth and air and water". So, just as "the others" showed their division and their torn-apart life, so too coming "in crowds" shows the abuse that came from them upon the young man, and that they were drawing him down to a divided and material kind of life. Not only, then, were they divided and at odds with one another in this way; they also filled the young man with the same vice, doing the very opposite of what is the power of love. For love "empties us of estrangement and fills us with kinship", as Plato's Agathon says; but these were full of division and discord even among themselves, being "others", and they held out this estrangement of theirs to the beloved too; for to everyone what crowds him is foreign by nature and painful. Such, then, is the lover of the many.
+!note The Timaeus' crowd is at 42c-d: the soul must master "the great crowd that grew on later, out of fire and water and air and earth, turbulent and without reason". Agathon's words are in the Symposium (197d).
+!note Page 158 of Cousin's volume is lost in the scan used here, and is supplied from another scan of the same volume.
+!note Cousin's two manuscripts have ἐπήρειαν, "abuse"; his Latin translator read ἀπειρίαν, "boundlessness".
+
+@ch 103a.30 | Alcibiades among the vulgar lovers, and the Athenian Stranger's school
+The highest praise of Alcibiades' nature is that he let the other lovers come no nearer than talk, finding them a nuisance, never touch or banquets. As we train against pleasures and pains by going among them and mastering them, so for well-born natures the company of vulgar lovers is the greatest training-ground in love. Socrates, like the Athenian Stranger who sets a sober ruler over the young at drink, stood over Alcibiades as judge; and when he saw him master them all, he called him to himself, to show him true love and its end.
+@taylor none
+
+@p
+@greek Μέγιστον δὲ καὶ τῆς
+The greatest praise of Alcibiades' nature, too, is that he admitted the company of the other lovers only as far as talk, and granted their excitement about him only so much: and that he thought this a nuisance and unpleasant, but gave way all the same, sharing speech with the vulgar lovers, though not touch, nor banquets, nor the other evils that call him to a bad life. Here most of all is shown what was distinctive in Alcibiades' nature, compared with others of the same age. For just as we train ourselves against pleasures and against pains, not by fleeing the passions, nor by staying wholly untried by them, but by coming into the midst of them and mastering their excess and their disorder, so too in matters of love the company of vulgar lovers is the greatest training-ground for those of good nature, towards the whole of virtue. To rise above the nuisance they cause and master their unreason shows a strength of nature that looks down on the flattery of vice and on the life of pleasure. Showing himself such a one, then, Alcibiades was rightly thought by Socrates worthy of his love: at such an age he had shaken off the passion-filled surge of the lovers, and he wondered at Socrates' love.
+!note Cousin prints τὸ διάφερον, a misaccent for τὸ διαφέρον, "what was distinctive".
+!note "Passion-filled surge": so Cousin's text (ἐμπαθῆ); manuscript B has ἀπαθῆ, "passionless".
+
+@p
+@greek Καθάπερ δὴ οὖν ὁ Ἀθηναῖος
+Just as the Athenian Stranger leads the young to drink, having thought of this as a training against the passions for them, and sets a ruler over them to judge the motions within them, in the same way Socrates set himself as a kind of ruler over the young man, judge and arbiter of the drunkenness of his age, of him and his passions, and of the lovers who lived by them. And when he saw that he had mastered all such things, and in his pride rose above the ignoble, deceitful and festering life of those others, he calls him to his own company, and shows him what is the true art of the lover, what good comes of it, and what is the end of activity in virtue.
+!note The Athenian Stranger is the chief speaker of the Laws; at 640c-d he asks for "a sober and wise ruler over the drunk", and he makes the drinking party a test and training of the young against pleasure.

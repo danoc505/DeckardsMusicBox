@@ -86,7 +86,11 @@ TEXTS = {
                  "and his account of love (pages 78 to 101): how love turns all things to divine beauty, its ranks from the gods down to "
                  "the souls of men, true love and its counterfeit, and the five marks that part the divine lover from the vulgar one; "
                  "and why Socrates loved first and stays (pages 101 to 137): the lover as Alcibiades' good daemon, and as his intellect; why "
-                 "Alcibiades wonders, why the vulgar lovers keep the name of lover, and how Socrates shows himself the only lover.",
+                 "Alcibiades wonders, why the vulgar lovers keep the name of lover, and how Socrates shows himself the only lover; "
+                 "and the more secret account of love (pages 137 to 145): love between the beloved and the lovers, the triad of faith, "
+                 "truth and love among the gods, and love as the middle that binds; "
+                 "and the lovers who came \"in crowds\" (pages 145 to 162): the providence that stands apart, why Socrates began with "
+                 "silence, what a crowd is, and how Alcibiades was trained among the vulgar lovers.",
     },
 }
 LINE = re.compile(r"^@(treatise|ch|p|greek|taylor)\b\s*(.*)$")
