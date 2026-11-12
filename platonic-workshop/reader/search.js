@@ -10,12 +10,23 @@ const fmt = (n) => Number(n || 0).toLocaleString();
 
 // ------------------------------------------------------------------ the address bar
 
+// Aristotle milestone A7: the three bodies of writing the concordance searches, each by itself.
+function searchWhere(corpus) {
+  const c = corpus || SEARCH.corpus;
+  if (c === "nt") return { name: "the New Testament", all: "the New Testament", of: "the 27 books of the New Testament", button: "Search the New Testament" };
+  if (c === "aristotle") {
+    const n = typeof arWorks === "function" ? arWorks().length : 0;
+    return { name: "Aristotle", all: "all of Aristotle", of: `the ${n} works of Aristotle`, button: "Search Aristotle" };
+  }
+  return { name: "Plato", all: "all of Plato", of: "36 works", button: "Search Plato" };
+}
+
 function searchHash(o) {
   const p = new URLSearchParams();
   p.set("q", o.q);
   p.set("by", o.by || "lemma");
   // Milestone 23: the New Testament is searched by itself, never mixed with Plato.
-  if (o.corpus === "nt") p.set("corpus", "nt");
+  if (o.corpus === "nt" || o.corpus === "aristotle") p.set("corpus", o.corpus);
   if (o.works && o.works.length) p.set("works", o.works.join(","));
   if (o.terms && o.terms.length) p.set("terms", o.terms.join(","));
   if (o.study) p.set("study", String(o.study));
@@ -24,7 +35,7 @@ function searchHash(o) {
 
 function openSearch(q, by, extra = {}) {
   const o = { q: q ?? SEARCH.q, by: by || SEARCH.by, corpus: extra.corpus || SEARCH.corpus, works: extra.works || [], terms: extra.terms || null, study: extra.study || null };
-  if (!o.q) { location.hash = o.corpus === "nt" ? "#search?corpus=nt" : "#search"; return; }
+  if (!o.q) { location.hash = o.corpus === "nt" || o.corpus === "aristotle" ? `#search?corpus=${o.corpus}` : "#search"; return; }
   const h = searchHash(o);
   if (location.hash === h) showSearchFromHash(h.slice(1));
   else location.hash = h;
@@ -40,12 +51,13 @@ async function showSearchFromHash(h) {
   SEARCH.by = BY_LABEL[p.get("by")] ? p.get("by") : "lemma";
   SEARCH.works = (p.get("works") || "").split(",").filter(Boolean);
   // A word study saved over the whole New Testament keeps all its books as its works.
-  SEARCH.corpus = p.get("corpus") === "nt" || (SEARCH.works.length && SEARCH.works.every((w) => isNT(workById(w)))) ? "nt" : "plato";
+  SEARCH.corpus = p.get("corpus") === "nt" || (SEARCH.works.length && SEARCH.works.every((w) => isNT(workById(w)))) ? "nt"
+    : p.get("corpus") === "aristotle" || (SEARCH.works.length && SEARCH.works.every((w) => isAR(workById(w)))) ? "aristotle" : "plato";
   if (SEARCH.corpus === "nt" && SEARCH.works.length === ntCount()) SEARCH.works = [];
   SEARCH.terms = (p.get("terms") || "").split(",").filter(Boolean);
   if (!SEARCH.terms.length) SEARCH.terms = null;
   SEARCH.study = p.get("study") ? +p.get("study") : null;
-  document.title = (SEARCH.q ? SEARCH.q + " · " : "") + (SEARCH.corpus === "nt" ? "Search the New Testament" : "Search Plato") + " · Platonic Workshop";
+  document.title = (SEARCH.q ? SEARCH.q + " · " : "") + searchWhere().button + " · Platonic Workshop";
   await loadStudies();
   if (!SEARCH.q) { SEARCH.result = null; SEARCH.hash = h; renderSearch(); return; }
   if (SEARCH.hash === h && SEARCH.result) { renderSearch(); return; }
@@ -97,17 +109,19 @@ function renderSearch(loading) {
       <datalist id="sq-list"></datalist>
       <span class="by">${Object.entries(BY_LABEL).map(([k, v]) =>
         `<label><input type="radio" name="by" value="${k}" ${SEARCH.by === k ? "checked" : ""}> ${esc(v)}</label>`).join("")}</span>
-      <span class="by corpus" role="group" aria-label="Where to search">${[["plato", "Plato"], ["nt", "New Testament"]].map(([k, v]) =>
+      <span class="by corpus" role="group" aria-label="Where to search">${[["plato", "Plato"], ["aristotle", "Aristotle"], ["nt", "New Testament"]].map(([k, v]) =>
         `<label><input type="radio" name="corpus" value="${k}" ${SEARCH.corpus === k ? "checked" : ""}> ${v}</label>`).join("")}</span>
-      <button class="btn">${SEARCH.corpus === "nt" ? "Search the New Testament" : "Search Plato"}</button>
+      <button class="btn">${searchWhere().button}</button>
     </form>
     <p class="prov">Greek, or Beta Code (<code>lo/gos</code>). <b>Dictionary form</b> finds every form of the word
       (λόγος finds λόγου, λόγοις…); <b>exact form</b> the form as printed, accents included; <b>any accent</b> the letters only.
       End with <code>*</code> to search by beginning (<code>λογ*</code>).</p>`;
-  if (loading) html += `<p class="loading">Searching ${SEARCH.corpus === "nt" ? "the New Testament" : "all of Plato"}…</p>`;
+  if (loading) html += `<p class="loading">Searching ${searchWhere().all}…</p>`;
   else if (r && r.error) html += `<p class="error">${esc(r.error)}</p>`;
   else if (r) html += renderResult(r);
-  else html += SEARCH.corpus === "nt"
+  else html += SEARCH.corpus === "aristotle"
+    ? `<p class="page-note">Type a word to see every place it occurs in the works of Aristotle the Workshop has, with counts per work. Aristotle is searched by himself; the word box of a word in Plato says how often its dictionary form is in Aristotle too.</p>`
+    : SEARCH.corpus === "nt"
     ? `<p class="page-note">Type a word to see every place it occurs in the 27 books of the Greek New Testament, with counts per book. The New Testament is searched by itself: it is another body of writing, four centuries after Plato.</p>`
     : `<p class="page-note">Type a word to see every place it occurs in the 36 works, with counts per dialogue.</p>`;
   html += `</div>`;
@@ -123,7 +137,7 @@ function renderResult(r) {
   let html = "";
   if (study) html += renderStudyHead(study);
   if (!r.chosen.length) {
-    html += `<p class="none-msg">Nothing in ${SEARCH.corpus === "nt" ? "the New Testament" : "Plato"} matches <span lang="grc">${esc(r.word)}</span> (${esc(r.how)}).</p>`;
+    html += `<p class="none-msg">Nothing in ${searchWhere().name} matches <span lang="grc">${esc(r.word)}</span> (${esc(r.how)}).</p>`;
     if (r.by !== "plain") html += `<p><button class="link-btn" data-research="plain">Try any accent</button>${r.by === "lemma" ? ` · <button class="link-btn" data-research="form">Try the exact form</button>` : ""}</p>`;
     return html;
   }
@@ -131,11 +145,12 @@ function renderResult(r) {
   const what = r.chosen.length === 1 ? `<span lang="grc">${esc(r.chosen[0])}</span>` : `${r.chosen.length} ${r.by === "lemma" ? "dictionary forms" : "forms"}`;
   const filtered = SEARCH.works.length ? ` · <b>${fmt(r.total_in_filter)}</b> in ${SEARCH.works.map((w) => esc(workAbbr(w))).join(", ")} <button class="link-btn" data-clear-works>show all works</button>` : "";
   html += `<div class="res-head"><h2>${what} ${label}</h2>
-    <p><b>${fmt(r.total)}</b> times in ${r.counts.length} of ${SEARCH.corpus === "nt" ? "the 27 books of the New Testament" : "36 works"}${filtered}.
+    <p><b>${fmt(r.total)}</b> times in ${r.counts.length} of ${searchWhere().of}${filtered}.
     <span class="meta">By ${esc(BY_LABEL[r.by])}: ${esc(r.how)}.</span></p>
     ${r.by === "lemma" && SEARCH.corpus === "nt" ? `<p class="prov">Dictionary forms (lemmas) are MorphGNT's, given to every word of the SBL Greek New Testament and corrected by its editors over many years.
       They are not always spelt as GLAUx spells Plato's: search Plato for the same word to compare.</p>` : ""}
-    ${r.by === "lemma" && SEARCH.corpus !== "nt" ? `<p class="prov">Dictionary forms (lemmas) are those the GLAUx program chose (about 98.8% right); only the Euthyphro, Apology, Crito and Cleitophon are hand-checked. A word is counted once even when GLAUx splits it (οὐδέ as οὐ + δέ counts for both).</p>` : ""}
+    ${r.by === "lemma" && SEARCH.corpus === "aristotle" ? `<p class="prov">Dictionary forms (lemmas) are those the GLAUx program chose for Aristotle's Greek, by machine and not checked by hand.</p>` : ""}
+    ${r.by === "lemma" && SEARCH.corpus === "plato" ? `<p class="prov">Dictionary forms (lemmas) are those the GLAUx program chose (about 98.8% right); only the Euthyphro, Apology, Crito and Cleitophon are hand-checked. A word is counted once even when GLAUx splits it (οὐδέ as οὐ + δέ counts for both).</p>` : ""}
     ${study ? "" : `<p><button class="btn" id="save-study">Save as a word study</button></p><div id="study-new"></div>`}</div>`;
   if (r.terms.length > 1) {
     const on = new Set(r.chosen);
@@ -218,7 +233,8 @@ async function saveStudy(form) {
       saved = await send("PUT", `mine/study/${form.dataset.id}`, { ...data, base_rev: +form.dataset.base });
     } else {
       // A study of the whole New Testament is saved with all its books as its works, so that it reopens there.
-      const works = SEARCH.corpus === "nt" && !SEARCH.works.length ? ntWorks().map((w) => w.id) : SEARCH.works;
+      const works = SEARCH.corpus === "nt" && !SEARCH.works.length ? ntWorks().map((w) => w.id)
+        : SEARCH.corpus === "aristotle" && !SEARCH.works.length ? arWorks().map((w) => w.id) : SEARCH.works;
       saved = await send("POST", "studies", { ...data, query: SEARCH.q, by: SEARCH.by, works, terms: SEARCH.terms });
     }
     await loadStudies();
@@ -245,11 +261,13 @@ async function studyHistory(id) {
 function renderElsewhere(t) {
   // Milestone 23: a word of the New Testament is counted in the New Testament first; the other corpus follows (nt.js).
   const nt = t.corpus === "nt";
-  const list = nt ? t.elsewhere_nt : t.elsewhere;
-  const formN = nt ? t.form_in_nt : t.form_in_plato;
-  const where = nt ? "the New Testament" : "Plato";
-  const corpus = nt ? "nt" : "plato";
-  const other = typeof renderOtherCorpus === "function" ? renderOtherCorpus(t) : "";
+  // Aristotle milestone A7: a word of Aristotle's is counted in Aristotle first.
+  const ar = t.corpus === "aristotle" && !!t.elsewhere_ar;
+  const list = nt ? t.elsewhere_nt : ar ? t.elsewhere_ar : t.elsewhere;
+  const formN = nt ? t.form_in_nt : ar ? t.form_in_ar : t.form_in_plato;
+  const where = nt ? "the New Testament" : ar ? "Aristotle" : "Plato";
+  const corpus = nt ? "nt" : ar ? "aristotle" : "plato";
+  const other = (typeof renderOtherCorpus === "function" ? renderOtherCorpus(t) : "") + (typeof renderArOtherCorpus === "function" ? renderArOtherCorpus(t, ar) : "");
   if (!list || !list.length) {
     return (formN ? `<div class="box elsewhere"><h3>Elsewhere in ${where}</h3><p>This form occurs ${fmt(formN)}× in ${where}.
       <button class="link-btn" data-search-q="${esc(t.form)}" data-search-by="form" data-search-corpus="${corpus}">Every occurrence</button></p></div>` : "") + other;
@@ -257,7 +275,7 @@ function renderElsewhere(t) {
   return `<div class="box elsewhere"><h3>Elsewhere in ${where} ${nt ? "" : `<span class="badge">machine</span>`}</h3>${list.map((e) => {
     const top = e.counts.slice(0, 6);
     const max = Math.max(...top.map((c) => c.n), 1);
-    return `<p><span class="lemma" lang="grc">${esc(e.lemma)}</span>: <b>${fmt(e.total)}</b>× in ${e.works} of ${nt ? "27 books" : "36 works"}.
+    return `<p><span class="lemma" lang="grc">${esc(e.lemma)}</span>: <b>${fmt(e.total)}</b>× in ${e.works} of ${nt ? "27 books" : ar ? `${typeof arWorks === "function" ? arWorks().length : ""} works` : "36 works"}.
       <button class="link-btn" data-search-q="${esc(e.lemma)}" data-search-by="lemma" data-search-corpus="${corpus}">Every occurrence</button></p>
       <table class="mini-counts">${top.map((c) => `<tr class="${c.work_id === t.work_id ? "here" : ""}"><td>${esc(c.title)}</td><td class="num">${fmt(c.n)}</td>
         <td class="bar"><span style="width:${Math.round(100 * c.n / max)}%"></span></td></tr>`).join("")}</table>`;
@@ -312,7 +330,7 @@ document.addEventListener("change", async (ev) => {
 document.addEventListener("click", async (ev) => {
   const t = ev.target;
   const sq = t.closest("[data-search-q]");
-  if (sq) { ev.preventDefault(); SEARCH.hash = null; openSearch(sq.dataset.searchQ, sq.dataset.searchBy, { corpus: sq.dataset.searchCorpus || (state.work && isNT(state.work) && state.view === "read" ? "nt" : "plato") }); return; }
+  if (sq) { ev.preventDefault(); SEARCH.hash = null; openSearch(sq.dataset.searchQ, sq.dataset.searchBy, { corpus: sq.dataset.searchCorpus || (state.work && state.view === "read" ? (isNT(state.work) ? "nt" : isAR(state.work) ? "aristotle" : "plato") : "plato") }); return; }
   if (t.closest("#search-btn")) { openSearch(SEARCH.q || "", SEARCH.by); return; }
   if (state.view !== "search" && !t.closest("#mine-dialog")) return;
   const kref = t.closest(".kref");

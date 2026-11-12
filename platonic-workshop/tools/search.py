@@ -53,14 +53,15 @@ def normalise(q):
     return q, star
 
 
-CORPORA = ("plato", "nt")
+CORPORA = ("plato", "nt", "aristotle")
 
 
 def tables(corpus):
     """The count tables of a corpus: (lemma counts, form counts)."""
     if corpus not in CORPORA:
         raise Invalid(f"corpus is one of {CORPORA}")
-    return ("lemma_count", "form_count") if corpus == "plato" else ("nt_lemma_count", "nt_form_count")
+    return {"plato": ("lemma_count", "form_count"), "nt": ("nt_lemma_count", "nt_form_count"),
+            "aristotle": ("ar_lemma_count", "ar_form_count")}[corpus]   # Aristotle milestone A7
 
 
 class Search:

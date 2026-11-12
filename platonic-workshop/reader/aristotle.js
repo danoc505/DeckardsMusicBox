@@ -70,6 +70,9 @@ function arShelf() {
     <p class="meta">The Greek with the translations side by side, at Bekker's pages and columns (980a: page 980, left column), as every book on
       Aristotle cites him. Tap any Greek word for its dictionary form, its grammar and its dictionary entries, as in Plato; the Platonists' key
       terms are underlined, and a term's panel shows it in Plato and in Aristotle.</p>
+    <p><a href="#aristotle-plato"><b>Aristotle on Plato</b></a> <span class="meta">Every place he names a dialogue, or a translator's note cites one, linked both ways.</span>
+      · <a href="#ar-reconcile"><b>Plato and Aristotle reconciled</b></a> <span class="meta">The commentators on where the two agree, in their Greek.</span>
+      · <a href="#search?corpus=aristotle"><b>Search Aristotle</b></a> <span class="meta">The concordance across his works.</span></p>
     <p><a href="#aristotle"><b>Start here: Aristotle as the Platonists read him</b></a> <span class="meta">The order they read his works in, the end they lead to, and where he agrees with Plato, each in Taylor's words.</span></p>
     <ul class="studies">${ws.map((w) => `<li><a href="#${esc(w.slug)}"><b>${esc(w.title)}</b></a> <span class="meta">${esc(AR_PLAIN[w.id] || "")}</span></li>`).join("")}</ul>
     <h4>The door to the logic</h4>
@@ -240,6 +243,7 @@ function showArStart() {
     ${arQuote("ideas")}
     ${arQuote("hostility")}
     ${arQuote("names")}
+    <p class="meta">The Greek commentators say the same, in their own words: <a href="#ar-reconcile">Plato and Aristotle reconciled</a>.</p>
     <p class="meta">Where Aristotle argues against the Forms in the Metaphysics, Taylor's notes under his translation answer from Syrianus;
       show <em>Taylor (1801)</em> beside the Greek of <a href="#metaphysics/987a">Book Α</a> or <a href="#metaphysics/1076a">Book Μ</a>.</p>
     <p class="prov">Taylor's Dissertation is read from the Internet Archive's scan of the Harvard copy (public domain), its OCR cleaned by rule
@@ -310,4 +314,165 @@ function renderArCommentRow(s, d) {
     `<a href="#neo/${esc(tid)}/${c.part}/${encodeURIComponent(c.n)}" title="${esc(c.how === "printed" ? `${AR_COMM_HOW.printed}: ${c.what}` : `${AR_COMM_HOW.quoted}: ${c.what}`)}">${esc(c.label)}</a>${c.how === "quoted" ? `<span class="approx">≈</span>` : ""}`).join(", ")}</li>`).join("");
   return `<div class="app-row app-notes ar-comm-row"><div class="app-k">Greek commentators</div><div class="app-v"><ul class="ar-comm">${items}</ul>
     <p class="meta">The pages of the <i>Commentaria in Aristotelem Graeca</i> on this column: given by the editor in the margin, or (≈) found by the words they quote.</p></div></div>`;
+}
+
+// ------------------------------------------------------------------ Plato and Aristotle together (Aristotle milestone A7)
+
+const AR_PLATO_HOW = {
+  named: "Aristotle's own Greek names the dialogue (or Plato) here",
+  note: "A translator's note on this column cites the passage, read by the rules of the citation web and checked against Burnet's sections",
+};
+
+// The word box: this dictionary form in the other philosopher.
+function renderArOtherCorpus(t, isAr) {
+  const list = isAr ? t.elsewhere : t.elsewhere_ar;
+  if (!list || !list.some((e) => e.total)) return "";
+  const n = arWorks().length;
+  return `<div class="box elsewhere other-corpus"><h3>${isAr ? "In Plato" : "In Aristotle"} <span class="badge" title="Another body of writing">another corpus</span></h3>${list.filter((e) => e.total).map((e) => {
+    const top = e.counts.slice(0, 5);
+    return `<p><span class="lemma" lang="grc">${esc(e.lemma)}</span>: <b>${fmt(e.total)}</b>× in ${e.works} ${isAr ? "of the 36 works of Plato" : `of the ${n} works of Aristotle here`}${e.matched && e.matched !== "same spelling" ? ` <span class="meta">(matched by ${esc(e.matched)})</span>` : ""}.
+      <button class="link-btn" data-search-q="${esc(e.lemma)}" data-search-by="lemma" data-search-corpus="${isAr ? "plato" : "aristotle"}">Every occurrence</button></p>
+      <p class="meta">${top.map((c) => `${esc(c.title)} ${fmt(c.n)}`).join(" · ")}</p>`;
+  }).join("")}<p class="prov">Counted from GLAUx's dictionary forms, given by machine to both.</p></div>`;
+}
+
+function arPlatoChip(l) {
+  if (l.to_work === "plato") return `<span class="chip off" title="${esc(AR_PLATO_HOW.named)}">Plato named: <span lang="grc">${esc(l.raw)}</span></span>`;
+  const w = workById(l.to_work);
+  const label = `${w ? w.abbr || w.title : l.to_work}${l.to_ref ? " " + l.to_ref : ""}`;
+  const title = `${AR_PLATO_HOW[l.how]}${l.who ? ` (${l.who})` : ""}: ${l.raw}${l.doubt ? ". " + l.doubt : ""}`;
+  const named = l.how === "named" ? ` <span class="meta" lang="grc">${esc(l.raw)}</span>` : "";
+  return `<a class="chip other" href="${esc(placeHash(l.to_work, l.to_ref || null))}" title="${esc(title)}">${esc(label)}${l.certainty === "uncertain" ? "?" : ""}</a>${named}`;
+}
+
+// Under a column of Aristotle: the Plato it names or cites. Under a section of Plato: where Aristotle discusses it.
+function renderArPlatoRow(s, d) {
+  if (isAR(state.work)) {
+    const here = (d.ar_plato_out || []).filter((l) => l.from_ref === s.ref);
+    if (!here.length) return "";
+    return `<div class="app-row app-links ar-plato-row"><div class="app-k">Plato</div><div class="app-v">${here.map(arPlatoChip).join(" ")}
+      <p class="meta"><a href="#aristotle-plato">Every place Aristotle names or cites Plato</a></p></div></div>`;
+  }
+  const here = (d.ar_plato_in || []).filter((l) => l.to_ref === s.ref || (l.to_ref === String(d.page) && s === d.sections[0]));
+  if (!here.length) return "";
+  return `<div class="app-row app-links ar-plato-row"><div class="app-k">Aristotle</div><div class="app-v">${here.map((l) =>
+    `<a class="chip other" href="${esc(placeHash(l.from_work, l.from_ref))}" title="${esc(`${AR_PLATO_HOW[l.how]}${l.who ? ` (${l.who})` : ""}: ${l.raw}`)}">${esc(l.from_title)} ${esc(l.from_ref)}</a>`).join(" ")}
+    <p class="meta">Where Aristotle discusses this passage: cited in a translator's note on his text. <a href="#aristotle-plato">Every place Aristotle names or cites Plato</a></p></div></div>`;
+}
+
+// The page #aristotle-plato: every place in Aristotle that names or cites Plato, by dialogue.
+async function showArPlato() {
+  state.view = "ar-plato";
+  setView("library-view");
+  document.body.classList.add("guide-view");
+  document.title = "Aristotle on Plato · Platonic Workshop";
+  $("#main").innerHTML = `<p class="loading">Opening…</p>`;
+  let d;
+  try { d = await api("aristotle-plato"); } catch (e) { $("#main").innerHTML = `<p class="error">${esc(e.message)}</p>`; return; }
+  const by = new Map();
+  for (const l of d.links) {
+    const k = l.to_work;
+    if (!by.has(k)) by.set(k, []);
+    by.get(k).push(l);
+  }
+  const keys = [...by.keys()].sort((a, b) => (a === "plato") - (b === "plato") || by.get(b).length - by.get(a).length);
+  const title = (k) => k === "plato" ? "Plato named, no dialogue" : (by.get(k)[0].to_title || k);
+  $("#toc").innerHTML = `<p><a href="#library">‹ Library</a></p><h3>Aristotle on Plato</h3><ul class="books">${keys.map((k, i) =>
+    `<li><a href="#arp-${i}" data-scroll="arp-${i}"><span>${esc(title(k))}</span><span>${by.get(k).length}</span></a></li>`).join("")}</ul>
+    <p class="note"><a href="#aristotle">Start here for Aristotle</a></p>`;
+  const st = d.stats;
+  $("#main").innerHTML = `<div class="search guide ar-plato"><h2>Aristotle on Plato</h2>
+    <p class="lead">Every place in the works of Aristotle the Workshop has where his Greek names a dialogue or Plato himself, or a translator's note on the
+      column cites a passage of Plato. Each links both ways: the column of Aristotle shows the Plato, and the passage of Plato shows the Aristotle.</p>
+    <p class="meta">Read by rule, nothing guessed. <b>Named</b>: Aristotle's Greek names the dialogue (ἐν τῷ Τιμαίῳ, ἐν δὲ τῷ Φαίδωνι, ὁ ἐν τῷ Μένωνι λόγος), linked to the dialogue
+      as a whole. <b>Note</b>: a translator's note (Tredennick, Ross, Rackham, Taylor, the Oxford translators, Owen) cites the dialogue by title and page,
+      read as the citation web reads Plato's own notes and checked against Burnet's sections; a doubtful reading is marked ?.
+      ${st ? `${d.links.length} places, ${st.dialogues} dialogues, ${st.sections_cited} passages of Plato.` : ""}</p>
+    ${keys.map((k, i) => `<section id="arp-${i}"><h3>${k === "plato" ? esc(title(k)) : `<a href="#${esc(by.get(k)[0].to_slug || "")}">${esc(title(k))}</a>`} <span class="meta">${by.get(k).length}</span></h3>
+      <ul class="ar-plato-list">${by.get(k).map((l) => `<li><a href="${esc(placeHash(l.from_work, l.from_ref))}">${esc(l.from_title)} ${esc(l.from_ref)}</a>
+        ${l.to_ref ? `→ <a href="${esc(placeHash(l.to_work, l.to_ref))}">${esc(l.to_ref)}</a>` : ""}
+        <span class="meta">${l.how === "named" ? `named in the Greek: <span lang="grc">${esc(l.raw)}</span>` : `${esc(l.who || "a note")}: “${esc(l.raw)}”`}${l.certainty === "uncertain" ? ` (${esc(l.doubt || "uncertain")})` : ""}</span></li>`).join("")}</ul></section>`).join("")}
+  </div>`;
+  window.scrollTo(0, 0);
+}
+
+// ------------------------------------------------------------------ Reconciliations (Aristotle milestone A7)
+
+// Where the Greek commentators say that Aristotle and Plato agree, in their own Greek, quoted from the page as the Workshop has it
+// (tests/test_aristotle.py checks every quotation against the page, and every column against the links of milestone A5).
+// src: [text, page, part]; on: the column of Aristotle the page is linked to (A5), or the lemma the editor prints; the English is the
+// Workshop's own, labelled so.
+const AR_RECON = [
+  { topic: "The rule: agreement in the sense, not the wording", id: "rule",
+    items: [
+      { who: "Simplicius", src: ["simplicius-categories", "7", 0], on: null, where: "the prologue to his commentary on the Categories, on what the reader of Aristotle needs",
+        grc: `δεῖ δὲ οἶμαι καὶ τῶν πρὸς Πλάτωνα λεγομένων αὐτῷ μὴ πρὸς τὴν λέξιν ἀποβλέποντα μόνον διαφωνίαν τῶν φιλοσόφων καταψηφίζεσθαι, ἀλλ᾿ εἰς τὸν νοῦν ἀφορῶντα τὴν ἐν τοῖς πλείστοις συμφωνίαν αὐτῶν ἀνιχνεύειν.`,
+        en: `And I think that, with what he says against Plato too, one must not look only to the wording and condemn the philosophers for disagreeing, but look to the sense and track down their agreement in most things.` },
+    ] },
+  { topic: "The Forms", id: "forms",
+    items: [
+      { who: "Asclepius", src: ["asclepius-metaphysics", "75", 3], on: ["ar025", "990b"], where: "on the third man, Metaphysics Α 9",
+        grc: `ἀπολογούμεθα τοίνυν ἡμεῖς ὑπὲρ τοῦ Πλάτωνος τοῦτον τὸν τρόπον, φάσκοντες ὅτι ἡ ὁμοιότης ἐν τοῖς στοιχείοις θεωρεῖται, τουτέστιν ἐν τοῖς καθ’ ἕκαστα αἰσθητοῖς. ἡ γὰρ ἰδέα οὐκ ἔστιν ὁμοία τῷ αἰσθητῷ, εἴ γε τὸ μὲν αἰσθητόν ἐστι, τὸ δὲ λόγος ἐξῃρημένος τοῦ αἰσθητοῦ.`,
+        en: `We therefore defend Plato in this way, saying that likeness is seen in the elements, that is, in the particular things of sense. For the Form is not like the thing of sense, since the one is sensible and the other a reason-principle exempt from the sensible.` },
+      { who: "Asclepius", src: ["asclepius-metaphysics", "88", 4], on: ["ar025", "991a"], lemma: ["asclepius-metaphysics", "87", "p. 991a20"], where: "on the Forms as \"paradigms\" and \"poetic metaphors\", Metaphysics Α 9 (the lemma 991a20, printed on p. 87)",
+        grc: `φαμὲν οὗν πρὸς τοῦτο ὅτι ὁ δημιουργὸς ἀποβλέπων πρὸς τὰς ἰδέας, καὶ ἡ φύσις οὕτως παράγει ἃ παράγει· … τὸ δὲ κεχρῆσθαι μεταφοραῖς καὶ κλεῖν αὐτὰ παραδείγματα οὐδέν ἐστιν ἄτοπον, ἐπειδὴ πρὸς αὐτὰ ἀποβλέπων ὁ δημιουργὸς οὕτως παράγει· ὥστε ἐκεῖ μὲν παραδείγματα, ἐνταῦθα δὲ εἰκόνες.`,
+        en: `To this we say that it is by looking to the Forms that the Demiurge, and so nature, brings forth what it brings forth … And there is nothing out of place in using metaphors and calling them paradigms, since it is by looking to them that the Demiurge brings forth; so that there they are paradigms, and here images.` },
+      { who: "Asclepius", src: ["asclepius-metaphysics", "183", 10], on: ["ar025", "999a"], where: "on the separate principle, Metaphysics Β",
+        grc: `καὶ δεῖ σημειώσασθαι ὅτι φησὶ ῾δεῖ τὴν ἀρχὴν τὴν παρακτικὴν κεχωρίσθαι τῶν πραγμάτων, ὧν ἐστιν ἀρχή᾿· ὥστε οἶδε καὶ αὐτὸς τὰς ἰδέας καὶ τοὺς λόγους τοὺς δημιουργικοὺς τῶν πραγμάτων ἐξῃρημένους καὶ χωριστοὺς ὄντας.`,
+        en: `And one should note that he says "the principle that brings things forth must be separate from the things of which it is the principle"; so he too knows the Forms, and the demiurgic reason-principles of things, as exempt and separate.` },
+    ] },
+  { topic: "The soul", id: "soul",
+    items: [
+      { who: "Philoponus", src: ["philoponus-de-anima", "581", 30], on: ["ar002", "432b"], where: "on what moves the living thing in place, On the Soul III 9-10 (the third book is printed under Philoponus' name)",
+        grc: `ἰστέον δὲ ὅτι οὐ διαφωνεῖ Πλάτων Ἀριστοτέλει. ὁ μὲν γὰρ Πλάτων τὸ ποιητικὸν αἴτιον εἶπεν, ὁ δὲ Ἀριστοτέλης τὸ τελικόν, εἰπὼν τὴν ὄρεξιν.`,
+        en: `One should know that Plato does not disagree with Aristotle. For Plato named the efficient cause, and Aristotle the final, in naming desire.` },
+    ] },
+  { topic: "The eternity of the world", id: "eternity",
+    items: [
+      { who: "Simplicius", src: ["simplicius-de-caelo", "296", 14], on: ["ar005", "279b"], where: "on those who make the world generated but indestructible, On the Heavens I 10 (\"among them the theologians and Plato, as Alexander says\")",
+        grc: `ἰστέον δέ, ὅτι ὁ μὲν Ἀριστοτέλης κατὰ παλαιὰν συνήθειαν πρὸς τὸ φαινόμενον ἐνίσταται πολλάκις, ὅταν τοῦτο προχειρότερον ἐκληφθὲν μὴ συμφωνῇ τῇ ἀληθείᾳ· ποιεῖ δὲ τοῦτο βοηθῶν τοῖς ἐπιπολαιότερον τῶν παλαιῶν λόγων ἀκροωμένοις … οὐχ οὕτως οὖν γενητὸν ὡς ἀπὸ χρόνου τινὸς γενόμενον·`,
+        en: `One should know that Aristotle, by an old custom, often objects to what a saying appears to mean, when that, taken too readily, does not agree with the truth; and he does this to help those who hear the ancients' words too superficially … [Plato calls the world] generated, then, not as having come to be from some point in time.` },
+    ] },
+  { topic: "God as maker, and the unmoved mover", id: "mover",
+    items: [
+      { who: "Simplicius", src: ["simplicius-physics", "1363", 59], on: ["ar031", "267b"], lemma: ["simplicius-physics", "1357", "p. 267b17"], where: "at the end of the Physics (the lemma 267b17 to the end, printed on p. 1357)",
+        grc: `γέγραπται δὲ βιβλίον ὅλον Ἀμμωνίῳ τῷ ἐμῷ καθηγεμόνι, πολλὰς πίστεις παρεχόμενον τοῦ καὶ ποικτικὸν αἴτιον ἡγεῖσθαι τὸν θεὸν τοῦ παντὸς κόσμου τὸν Ἀριστοτέλη … εἰ δέ τις ζητεῖ, τί δήποτε ὁ Ἀριστοτέλης οὐχ οὕτως φανερῶς ποιητικὸν αἴτιον τὸν θεὸν εἶπεν ὡς τελικόν, τὸν περὶ τοῦ γενητοῦ ῥηθέντα πρότερον καὶ νῦν ἐρῶ λόγον.`,
+        en: `A whole book was written by Ammonius, my teacher, offering many proofs that Aristotle holds God to be the efficient cause [the file prints ποικτικὸν, for ποιητικὸν] of the whole world as well … And if anyone asks why Aristotle did not call God the efficient cause as plainly as the final, I shall give now the account given before about the generated.` },
+    ] },
+];
+
+function showArReconcile() {
+  state.view = "ar-reconcile";
+  setView("library-view");
+  document.body.classList.add("guide-view");
+  document.title = "Plato and Aristotle reconciled · Platonic Workshop";
+  const ar = arWorks();
+  const colLink = (on) => {
+    if (!on) return "";
+    const w = ar.find((x) => x.id === on[0]);
+    return w ? ` <a class="chip other" href="${esc(placeHash(w.id, on[1]))}">${esc(w.title)} ${esc(on[1])}</a>` : "";
+  };
+  $("#toc").innerHTML = `<p><a href="#library">‹ Library</a></p><h3>Plato and Aristotle reconciled</h3><ul class="books">${AR_RECON.map((g) =>
+    `<li><a href="#arr-${g.id}" data-scroll="arr-${g.id}"><span>${esc(g.topic)}</span><span>${g.items.length}</span></a></li>`).join("")}
+    <li><a href="#arr-taylor" data-scroll="arr-taylor"><span>Taylor</span></a></li></ul>
+    <p class="note"><a href="#aristotle-plato">Aristotle on Plato</a></p>`;
+  $("#main").innerHTML = `<div class="search guide ar-reconcile"><h2>Plato and Aristotle reconciled</h2>
+    <p class="lead">The Platonist commentators read Aristotle as agreeing with Plato in the sense where he seems to oppose him in the words.
+      Here they say so, in their own Greek, on the topics where the two seem furthest apart: the Forms, the soul, the eternity of the world,
+      and God as maker. Each passage is quoted from the page of the Berlin edition as the Workshop has it, with the column of Aristotle it is on.</p>
+    <p class="mod-label"><b>The English is the Workshop's own translation</b>, made for this page from the Greek quoted; it is not a published translation.</p>
+    ${AR_RECON.map((g) => `<section id="arr-${g.id}"><h3>${esc(g.topic)}</h3>${g.items.map((it) => {
+      const [tid, n, part] = it.src;
+      return `<div class="ar-recon"><p><b>${esc(it.who)}</b>, <a href="#neo/${esc(tid)}/${part}/${encodeURIComponent(n)}">p. ${esc(n)}</a>,
+        <span class="meta">${esc(it.where)}</span>${colLink(it.on)}</p>
+        <blockquote lang="grc">${esc(it.grc)}</blockquote>
+        <blockquote class="workshop-en">${esc(it.en)}</blockquote></div>`;
+    }).join("")}</section>`).join("")}
+    <section id="arr-taylor"><h3>Taylor</h3><p>Thomas Taylor sets out the same reading in his Dissertation on the Philosophy of Aristotle (1812):
+      that Aristotle "differs from his divine master in appearance only, and not in reality". His passages on the Forms are on
+      <a href="#aristotle">Start here for Aristotle</a>.</p></section>
+    <p class="prov">The Greek from First1KGreek's text of the <i>Commentaria in Aristotelem Graeca</i> (CC BY-SA 4.0), as printed there
+      (an editor's † or a misprint is kept and noted). A column given here is one the page is linked to by milestone A5, or the lemma the editor prints.</p>
+  </div>`;
+  window.scrollTo(0, 0);
 }

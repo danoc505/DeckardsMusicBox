@@ -8,6 +8,7 @@ data/workshop.sqlite built with Aristotle (python3 tools/build_db.py). Each is s
 """
 import json
 import re
+import unicodedata
 import sqlite3
 import sys
 import unittest
@@ -636,5 +637,94 @@ class CommentatorsInTheLibrary(unittest.TestCase):
         self.assertIn("renderArCommentRow", (ROOT / "reader" / "reader.js").read_text(encoding="utf-8"))
 
 
+@unittest.skipUnless(has_aristotle(), "build the library with Aristotle first (python3 tools/build_db.py)")
+class PlatoAndAristotle(unittest.TestCase):
+    """Aristotle milestone A7: the concordance across Aristotle, and the citation web from Aristotle to Plato."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.lib = serve.Library(build_db.DB_PATH)
+        if not cls.lib.has_ar_plato():
+            raise unittest.SkipTest("built before A7")
+
+    def test_the_concordance_searches_aristotle_by_himself(self):
+        r = self.lib.search.search("οὐσία", corpus="aristotle")
+        self.assertGreater(r["total"], 850)          # 897 as built: every form of the word, counted
+        self.assertTrue(all(c["work_id"].startswith("ar") for c in r["counts"]))
+        self.assertTrue(all(h["work_id"].startswith("ar") for h in r["hits"]))
+        self.assertGreater(next(c["n"] for c in r["counts"] if c["work_id"] == "ar025"), 500)
+        plato = self.lib.search.search("οὐσία", corpus="plato")
+        self.assertTrue(all(not c["work_id"].startswith("ar") for c in plato["counts"]))
+
+    def test_aristotle_names_the_timaeus_and_the_meno(self):
+        named = {(r["from_work"], r["from_ref"], r["to_work"]) for r in self.lib.rows("SELECT * FROM ar_plato WHERE how = 'named'")}
+        self.assertIn(("ar031", "209b", "tlg031"), named)     # Physics IV 2: the receptacle "in the Timaeus"
+        self.assertIn(("ar001p", "71a", "tlg024"), named)     # Posterior Analytics I 1: "the puzzle in the Meno"
+        self.assertIn(("ar025", "991b", "tlg004"), named)     # Metaphysics A 9: "in the Phaedo"
+
+    def test_a_note_citing_plato_links_both_ways(self):
+        out = self.lib.page("ar025", 990)["ar_plato_out"]
+        self.assertIn(("tlg030", "596a"), {(l["to_work"], l["to_ref"]) for l in out})
+        inn = self.lib.page("tlg030", 596)["ar_plato_in"]
+        self.assertIn(("ar025", "990b"), {(l["from_work"], l["from_ref"]) for l in inn})
+
+    def test_no_bare_page_is_read_as_plato(self):
+        n = self.lib.one("SELECT count(*) n FROM ar_plato WHERE how = 'note' AND raw GLOB '[0-9]*'")["n"]
+        self.assertEqual(n, 0)
+
+    def test_the_reader_shows_it(self):
+        js = (ROOT / "reader" / "aristotle.js").read_text(encoding="utf-8")
+        for f in ("function renderArPlatoRow", "function showArPlato", "function renderArOtherCorpus"):
+            self.assertIn(f, js)
+        self.assertIn('"aristotle", "Aristotle"', (ROOT / "reader" / "search.js").read_text(encoding="utf-8"))
+
+
 if __name__ == "__main__":
     unittest.main()
+
+
+class Reconciliations(unittest.TestCase):
+    """Aristotle milestone A7: the commentators on where Plato and Aristotle agree, quoted from their pages."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.js = (ROOT / "reader" / "aristotle.js").read_text(encoding="utf-8")
+        cls.lib = serve.Library(build_db.DB_PATH)
+        if not cls.lib.has_ar_plato():
+            raise unittest.SkipTest("built before A7")
+        cls.items = re.findall(r'src: \["([^"]+)", "(\d+)", (\d+)\], on: (null|\["(ar\w+)", "(\w+)"\]),(?: lemma: \["([^"]+)", "(\d+)", "([^"]+)"\],)? where: "(?:[^"\\]|\\.)*",\s*grc: `([^`]+)`,\s*en: `([^`]+)`', cls.js)
+
+    def unit(self, tid, n):
+        r = self.lib.rows("SELECT seq, part_seq, text FROM neo_unit WHERE text_id = ? AND n = ?", tid, n)
+        self.assertEqual(len(r), 1, f"{tid} p. {n}")
+        return r[0]
+
+    def test_every_topic_is_there(self):
+        self.assertEqual(len(self.items), 7)
+        for topic in ("The Forms", "The soul", "The eternity of the world", "the unmoved mover", "the sense, not the wording"):
+            self.assertIn(topic, self.js)
+        self.assertIn("The English is the Workshop's own translation", self.js)
+
+    def test_every_quotation_is_on_its_page(self):
+        flat = lambda s: " ".join(unicodedata.normalize("NFC", s).split())
+        for tid, n, part, _on, _w, _c, _lt, _ln, _lw, grc, _en in self.items:
+            u = self.unit(tid, n)
+            self.assertEqual(u["part_seq"], int(part), f"{tid} p. {n}: part")
+            for piece in grc.split(" … "):
+                self.assertIn(flat(piece), flat(u["text"]), f"{tid} p. {n}")
+
+    def test_every_column_is_linked_or_printed(self):
+        for tid, n, _part, on, work, col, ltid, ln, lword, _g, _e in self.items:
+            if on == "null":
+                continue
+            if lword:
+                self.assertIn(lword, self.unit(ltid, ln)["text"])
+                self.assertTrue(lword.startswith("p. " + col))
+            else:
+                seq = self.unit(tid, n)["seq"]
+                self.assertIn(col, {r["col"] for r in self.lib.rows("SELECT col FROM ar_comment WHERE text_id = ? AND unit_seq = ?", tid, seq)})
+            self.assertTrue(self.lib.rows("SELECT 1 FROM work WHERE id = ? AND corpus = 'aristotle'", work))
+
+    def test_the_route_and_the_links(self):
+        self.assertIn('raw === "ar-reconcile"', (ROOT / "reader" / "shell.js").read_text(encoding="utf-8"))
+        self.assertIn('href="#ar-reconcile"', self.js)
