@@ -165,6 +165,9 @@ def clean(corrector):
                 break
         foot = body[foot_at:] if foot_at is not None else []
         foot_y = foot[0]["y0"] if foot else 10 ** 6
+        # Below the text there are no side-notes: a short line of a footnote the scan set apart goes back to its note.
+        foot = [dict(r, text=sorted(r["side"] + r["text"], key=lambda w: w[1]), side=[])
+                for r in rows if r["y0"] >= foot_y and (r["text"] or r["side"])]
         page_marks = []
         side_buf = None
         prev, prev_cut = None, False
@@ -237,7 +240,7 @@ def clean(corrector):
         blocks = []
         for r in foot:
             ws = r["text"]
-            ind = 20 < ws[0][1] - left < 170
+            ind = 40 < ws[0][1] - left < 170
             if ind or not blocks:
                 blocks.append({"lines": [words(ws)], "indented": ind})
             else:
