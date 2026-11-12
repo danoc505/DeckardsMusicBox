@@ -352,10 +352,20 @@ Built by `tools/aristotle.py` (works of corpus `aristotle`, a Bekker column, 980
   of the De Anima only); they wait for a scan. Wallace's De Anima (1882) is left for A8. The commentators on De Anima III 5
   (the intellect that makes all things) come with their shelf, in A5.
 
-### A4: the Organon and Porphyry's Isagoge
+### A4: the Organon (done) and Porphyry's Isagoge
 
-- Categories, On Interpretation, the Analytics, Topics; Porphyry's Introduction (the door to the Neoplatonic course),
-  Greek and Taylor's English (1812), Owen (1853) and Edghill (1928).
+- The six treatises (Categories, On Interpretation, Prior and Posterior Analytics, Topics, Sophistical Refutations), Greek from
+  First1KGreek (CC BY-SA 4.0), every word tagged from GLAUx: Ross's Analytics (Oxford, 1964), with Bekker's columns in its
+  margin, split into the two works; Bekker's own text of the other four, in his Oxford reprint (1837), which is paged anew and
+  does not print the Berlin columns. For these the columns are carried over from the English, chapter by chapter, at the same
+  proportion of the chapter (≈), and the reader says so on the work's first page.
+- English: the Oxford translation, The Works of Aristotle vol. I (1928; Edghill, Jenkinson, Mure, Pickard-Cambridge; public
+  domain in the US since 2024), from the Internet Archive's scan, cleaned by rule by `tools/aristotle_organon.py`, not
+  proofread. Its margin prints Bekker's line numbers and columns, and the chapters on the other side: a column is placed where
+  its mark is read; where the mark is lost, where the line numbers start again, or at the page the running head names (≈).
+  Translators' footnotes are kept; textual notes are left out.
+- Still to come in A4: Porphyry's Introduction (Busse's Greek, CAG IV.1, 1887, in First1KGreek; Owen's English, 1853) as the
+  door to the Organon; Owen's Organon (1853) as a second English; Taylor's (1812) if a scan is found.
 
 ### A5: the Greek commentators on Aristotle, on their own shelf
 

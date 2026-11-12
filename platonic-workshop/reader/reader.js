@@ -243,7 +243,7 @@ function transKind(ed) {
   if (ed.id.endsWith(".taylor1804") || ed.id.endsWith(".taylor1801")) return "taylor";
   if (ed.id.endsWith(".ross1908")) return "ross";
   if (ed.id.endsWith(".chase1847")) return "chase";
-  if (ed.id.endsWith(".hardie1930") || ed.id.endsWith(".stocks1922")) return "oxford";
+  if (ed.id.endsWith(".hardie1930") || ed.id.endsWith(".stocks1922") || ed.id.endsWith(".oxford1928")) return "oxford";
   if (ed.id.endsWith(".hicks1907")) return "hicks";
   return ed.id;
 }

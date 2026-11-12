@@ -42,6 +42,16 @@ TRANSLATIONS = {
                "R. D. Hicks, Aristotle De Anima, with translation, introduction and notes (Cambridge: University Press, 1907)",
                "hicks-1907", (91, 258), "hicks", None)],
 }
+# The Organon (milestone A4): the Oxford translation, cleaned by tools/aristotle_organon.py into oxford-1928.json.
+_OX = "The Works of Aristotle translated into English, vol. I (Oxford: Clarendon Press, 1928)"
+for _wid, _tr, _label, _title in (("ar006", "E. M. Edghill", "Edghill (1928)", "Categoriae"),
+                                   ("ar017", "E. M. Edghill", "Edghill (1928)", "De Interpretatione"),
+                                   ("ar001", "A. J. Jenkinson", "Jenkinson (1928)", "Analytica Priora"),
+                                   ("ar001p", "G. R. G. Mure", "Mure (1928)", "Analytica Posteriora"),
+                                   ("ar044", "W. A. Pickard-Cambridge", "Pickard-Cambridge (1928)", "Topica"),
+                                   ("ar040", "W. A. Pickard-Cambridge", "Pickard-Cambridge (1928)", "De Sophisticis Elenchis")):
+    TRANSLATIONS[_wid] = [("ia-oxford-organon-1928", "oxford1928", _label, _tr, f"{_tr}, {_title}, {_OX}", "oxford-1928",
+                           None, "organon", None)]
 
 
 def greek_share(t):
@@ -155,6 +165,8 @@ def clean(work_id, order):
     w = aristotle_f1k.WORK_BY_ID[work_id]
     vocab = aristotle_ocr.english_vocab()
     for src, suffix, label, tr, printed, fname, leaves, kind, head in TRANSLATIONS.get(work_id, []):
+        if kind == "organon":
+            continue                 # cleaned by tools/aristotle_organon.py
         if kind == "oxford":
             paras, notes, stats = aristotle_ocr.clean_ross(vocab, src, order, head, leaves)
         else:
@@ -178,7 +190,8 @@ def sentence_cut(text, at):
 
 def place(paras, order):
     """[(para index, start, end, column, method)]: each printed column starts a piece; the columns the scan misses
-    between two it has are shared out over the text between them by length, cut at a sentence's end."""
+    between two it has are shared out over the text between them by length, cut at a sentence's end. A mark may carry
+    its own method ([offset, column, 'computed']) when it was itself placed by rule."""
     idx = {c: i for i, c in enumerate(order)}
     starts, pos = [], 0
     for p in paras:
@@ -187,17 +200,19 @@ def place(paras, order):
     total = pos
     marks = []
     for k, p in enumerate(paras):
-        for off, c in p["marks"]:
+        for m in p["marks"]:
+            off, c = m[0], m[1]
+            how = m[2] if len(m) > 2 else "printed"      # a column placed where its line numbers start again: computed
             if c in idx and (not marks or idx[c] > marks[-1][1]):
-                marks.append((starts[k] + off, idx[c]))
+                marks.append((starts[k] + off, idx[c], how))
     if not marks:
         return []
     cuts = {}       # stream position -> (column index, method)
     if marks[0][0] > 0:
         cuts[0] = (marks[0][1], translations.COMPUTED)
-    for (p0, c0), nxt in zip(marks, marks[1:] + [(total, len(order))]):
-        cuts[p0] = (c0, "printed")
-        p1, c1 = nxt
+    for (p0, c0, how), nxt in zip(marks, marks[1:] + [(total, len(order), None)]):
+        cuts[p0] = (c0, how)
+        p1, c1, _ = nxt
         n = c1 - c0
         for t in range(1, n):
             at = p0 + (p1 - p0) * t // n
@@ -236,9 +251,15 @@ def build_for(db, work):
         wid = work["id"]
         ed = f"{wid}.{suffix}"
         pieces = place(d["paragraphs"], order)
-        n_printed = sum(1 for x in pieces if x[4] == "printed")
+        first_piece = {}
+        for x in pieces:
+            first_piece.setdefault(x[3], x[4])
+        n_printed = sum(1 for m in first_piece.values() if m == "printed")     # columns begun where the scan prints them
         how = ("Hicks heads each page of his English with the Bekker lines it translates; the column at the top of each page is "
                "read from the scan as a fixed point" if kind == "hicks" else
+               "Bekker's line numbers and columns are printed in the margin; each column read from the scan is a fixed point, and "
+               "where the line numbers start again (35 ... 5) with no column read, or the running head names a later page, the "
+               "column is placed there (≈)" if kind == "organon" else
                "Bekker's pages and columns are printed in the margin; each one read from the scan is a fixed point")
         translations.add_edition(db, ed, wid, src, label, tr, printed, str(path.relative_to(ROOT)), "OCR cleaned by rule",
                                  f"{how} ({n_printed} of {len(order)} columns). Between two fixed points the columns the scan misses are shared "
@@ -269,9 +290,12 @@ def main():
     if "--extract" in sys.argv:
         for ts in TRANSLATIONS.values():
             for src, *_, leaves, kind, head in ts:
-                aristotle_ocr.write_extract(src, range(leaves[0], leaves[1] + 1))
+                if leaves:
+                    aristotle_ocr.write_extract(src, range(leaves[0], leaves[1] + 1))
         return
     for w in aristotle_f1k.WORKS:
+        if not any(t[7] != "organon" for t in TRANSLATIONS.get(w["id"], [])):
+            continue
         _, cols = aristotle_f1k.glaux_words(w)
         if not cols:
             paras, _ = aristotle_f1k.read_tei(w)
