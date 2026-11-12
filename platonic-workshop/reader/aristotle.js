@@ -15,6 +15,9 @@ const AR_ABOUT = `Aristotle studied in Plato's Academy for twenty years. The lat
 
 const AR_PLAIN = {
   ar025: "First philosophy: being as being, substance, actuality, and the unmoved mover, the intellect that thinks itself (Book Λ). Books Α, Μ and Ν argue against Plato's Forms and numbers; Taylor answers from Syrianus.",
+  ar031: "Nature, the four causes, chance, motion, the infinite, place, the void and time; the eternal motion of the heavens, and the first mover, without parts or magnitude (Book VIII).",
+  ar005: "The heavens: the fifth body that moves in a circle, ungenerated and eternal; the earth at the centre; the four elements and their weight and lightness.",
+  ar002: "The soul as the first actuality of a natural body that has life: nutrition, sensation, imagination, and the intellect that makes all things, separable, impassive and unmixed (Book III, 5).",
   ar010: "The good for man, the virtues of character and of intellect, friendship, pleasure, and the life of contemplation as the most divine (Book X).",
 };
 
@@ -23,7 +26,12 @@ function arSources() {
     encodes them (CC BY-SA 4.0), with Bekker's pages and columns. Every word's dictionary form and grammar: the GLAUx corpus (Keersmaekers, 2021;
     CC BY-SA 4.0), tagged by machine. English: the Loeb translations of the same Perseus files (Tredennick, 1933–35; Rackham, 1926), at Bekker's
     columns; W. D. Ross's Oxford translation (1908) and Thomas Taylor's (1801) from the Internet Archive's scans, cleaned by rule and not proofread,
-    Ross where he prints Bekker's columns and the rest placed by the Workshop's alignment (≈); D. P. Chase's Ethics (1847) from Project Gutenberg (≈).</p>`;
+    Ross where he prints Bekker's columns and the rest placed by the Workshop's alignment (≈); D. P. Chase's Ethics (1847) from Project Gutenberg (≈).</p>
+    <p class="prov">The Physics, On the Heavens and On the Soul: the Greek of First1KGreek (Ross's Physics, Oxford, 1960 printing, and On the Soul, 1956; Prantl's
+    On the Heavens, 1881; CC BY-SA 4.0), Bekker's columns from GLAUx or from the margin of the TEI. English from the Internet Archive's scans,
+    cleaned by rule and not proofread: Hardie and Gaye's Physics (Oxford, 1930) and Stocks's On the Heavens (Oxford, 1922), where they print
+    Bekker's columns in the margin; Hicks's On the Soul (Cambridge, 1907), at the Bekker lines that head each page; between two printed
+    columns the rest shared out by length (≈). Taylor's own versions of these three (1806–1808) have not been found as complete scans.</p>`;
 }
 
 // ------------------------------------------------------------------ the Library's shelf

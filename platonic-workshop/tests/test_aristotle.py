@@ -31,7 +31,7 @@ def has_aristotle():
         return False
     db = sqlite3.connect(f"file:{build_db.DB_PATH}?mode=ro", uri=True)
     try:
-        return db.execute("SELECT count(*) FROM work WHERE corpus = 'aristotle' AND imported = 1").fetchone()[0] == len(aristotle.WORKS)
+        return db.execute("SELECT count(*) FROM work WHERE corpus = 'aristotle' AND imported = 1").fetchone()[0] >= len(aristotle.WORKS)
     except sqlite3.OperationalError:
         return False
     finally:
@@ -240,6 +240,91 @@ class Dissertation(unittest.TestCase):
         t = serve.Library.taylor(None, "aristotle-dissertation")
         self.assertEqual(t["title"], "A Dissertation on the Philosophy of Aristotle")
         self.assertIn("about", t)
+
+
+class NaturalWorks(unittest.TestCase):
+    """Milestone A3: the Physics, On the Heavens and On the Soul, from First1KGreek, with English from scans."""
+
+    @classmethod
+    def setUpClass(cls):
+        base = ROOT / "texts" / "aristotle"
+        cls.texts = {k: json.loads((base / f).read_text(encoding="utf-8")) for k, f in
+                     (("physics", "physics/hardie-gaye-1930.json"), ("caelo", "on-the-heavens/stocks-1922.json"),
+                      ("anima", "on-the-soul/hicks-1907.json"))}
+
+    def test_the_sources_are_pinned_and_free(self):
+        for sid in ("first1k-aristotle", "ia-hardie-gaye-physics-1930", "ia-stocks-de-caelo-1922", "ia-hicks-de-anima-1907"):
+            self.assertIn(sid, MANIFEST)
+            self.assertTrue(MANIFEST[sid].get("licence") or MANIFEST[sid].get("license"), sid)
+        for sid in ("ia-hardie-gaye-physics-1930", "ia-stocks-de-caelo-1922", "ia-hicks-de-anima-1907"):
+            self.assertTrue(MANIFEST[sid].get("sha256"), sid)
+
+    def test_each_translation_opens_where_the_work_opens(self):
+        self.assertTrue(self.texts["physics"]["paragraphs"][0]["text"].startswith("WHEN the ob"))
+        self.assertEqual(self.texts["physics"]["paragraphs"][0]["marks"][0], [0, "184a"])
+        self.assertTrue(self.texts["caelo"]["paragraphs"][0]["text"].startswith("THE science which has to do with nature"))
+        self.assertTrue(self.texts["anima"]["paragraphs"][0]["text"].startswith("Cognition is in our eyes a thing of beauty"))
+
+    def test_most_columns_are_read_from_the_scans(self):
+        self.assertGreater(self.texts["physics"]["stats"]["marks_read"], 140)
+        self.assertGreater(self.texts["caelo"]["stats"]["marks_read"], 60)
+        self.assertGreater(self.texts["anima"]["stats"]["heads_read"], 60)
+
+    def test_hicks_leaves_out_his_greek_apparatus_and_side_notes(self):
+        text = " ".join(p["text"] for p in self.texts["anima"]["paragraphs"])
+        for word in ("||", " codd", "Torst.", "Biehl", "coni."):
+            self.assertNotIn(word, text)
+        self.assertIn("It has hearing in order that information may be conveyed to it", text)
+        self.assertGreater(len(text.split()), 28000)
+
+    def test_the_place_of_a_piece_is_printed_or_computed(self):
+        import aristotle_trans
+        order = ["1a", "1b", "2a", "2b", "3a"]
+        paras = [{"text": "One. Two. Three. Four. Five. Six.", "marks": [[0, "1a"]]},
+                 {"text": "Seven. Eight. Nine.", "marks": [[7, "3a"]]}]
+        pieces = aristotle_trans.place(paras, order)
+        cols = [c for _, _, _, c, _ in pieces]
+        self.assertEqual(sorted(set(cols), key=cols.index), ["1a", "1b", "2a", "2b", "3a"])
+        self.assertEqual(cols, sorted(cols, key=order.index))
+        self.assertEqual(pieces[0][4], "printed")
+        self.assertEqual(pieces[-1][4], "printed")
+        self.assertEqual(pieces[1][4], "computed")
+
+
+@unittest.skipUnless(has_aristotle(), "build the library with Aristotle first (python3 tools/build_db.py)")
+class NaturalWorksInTheLibrary(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.lib = serve.Library(build_db.DB_PATH)
+
+    def test_each_work_opens_at_its_first_column_with_its_english(self):
+        for wid, first, n, ed in (("ar031", "184a", 167, "ar031.hardie1930"), ("ar005", "268a", 91, "ar005.stocks1922"),
+                                  ("ar002", "402a", 64, "ar002.hicks1907")):
+            w = self.lib.work(wid)
+            self.assertEqual(w["corpus"], "aristotle")
+            self.assertEqual(w["sections"][0], first)
+            self.assertGreaterEqual(len(w["sections"]), n)
+            self.assertIn(ed, [e["id"] for e in w["editions"] if e["lang"] == "eng"])
+            chunks = self.lib.db.execute("SELECT count(DISTINCT section_ref) FROM chunk WHERE edition_id = ?", (ed,)).fetchone()[0]
+            self.assertEqual(chunks, len(w["sections"]), wid)
+
+    def test_the_greek_is_tagged(self):
+        for wid in ("ar031", "ar005", "ar002"):
+            n, tagged = self.lib.db.execute(
+                "SELECT count(*), count(g.token_id) FROM token t JOIN edition e ON e.id = t.edition_id "
+                "LEFT JOIN tag g ON g.token_id = t.id AND g.part = 0 WHERE e.work_id = ? AND e.lang = 'grc'", (wid,)).fetchone()
+            self.assertGreater(n, 10000, wid)
+            self.assertGreater(tagged / n, 0.9, wid)
+
+    def test_famous_passages_are_at_their_columns(self):
+        db = self.lib.db
+        def refs(ed, words):
+            return {r[0] for r in db.execute("SELECT section_ref FROM chunk WHERE edition_id = ? AND text LIKE ?", (ed, f"%{words}%"))}
+        # Phys. II 1, 192b21: nature a source of being moved and of being at rest.
+        self.assertTrue(refs("ar031.hardie1930", "source or cause of being moved") & {"192b", "193a"})
+        # De An. III 5, 430a: the intellect that makes all things.
+        self.assertTrue(refs("ar002.hicks1907", "separable, impassive") & {"430a", "429b", "430b"} or
+                        refs("ar002.hicks1907", "impassive and unmixed") & {"430a", "429b"})
 
 
 if __name__ == "__main__":
