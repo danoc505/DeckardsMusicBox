@@ -207,7 +207,7 @@ function buildQueue(fromRef, carried) {
   for (const c of chunks) {
     const last = units[units.length - 1];
     let who = c.speaker;
-    if (ed.source_id !== "perseus-english-plato") {
+    if (!isLoebSource(ed.source_id)) {
       // A translation prints its label on a speech's first paragraph only.
       who = (c.label && speakerFromLabel(c.label, names)) || lastSpeaker;
     }

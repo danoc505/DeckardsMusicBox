@@ -275,6 +275,71 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   Harder than milestone 23: the good tagged digital texts cannot be reused, so the words are tagged by Morpheus and GLAUx-style
   matching, and marked as machine-tagged.
 
+## Aristotle, read as the Platonists read him (planned November 2026, asked for by Daniel)
+
+Daniel's aim: Aristotle in the Workshop with everything Plato has (the Greek, several translations side by side, notes,
+key terms, listening, your own work), and read through the Platonic lens, as the late Platonists read him: his works as the
+way up to Plato's, the two in harmony where they can be, the unmoved mover as Intellect, and Syrianus' replies where he
+argues against the Forms. Public-domain texts and translations only. Taylor translated all of Aristotle (1806-1812) and
+wrote a Dissertation on his philosophy (1812) from the Greek commentators; his volumes are the backbone of the English.
+The same rules as for Plato: every claim quotes its source; nothing guessed; OCR shown as received, labelled.
+Built by `tools/aristotle.py` (works of corpus `aristotle`, a Bekker column, 980a, for a Stephanus section) and
+`tools/aristotle_ocr.py` (the scanned translations); in the reader, `reader/aristotle.js`.
+
+### A1: the Metaphysics and the Nicomachean Ethics (done)
+
+- Ross's Greek (1924) and Bywater's (1894) from Perseus, every word tagged by GLAUx (as Plato), the tap-a-word box,
+  Middle Liddell and LSJ; Bekker's pages and columns for navigation; books and chapters in the contents column.
+- Side by side: the Loeb English (Tredennick, Rackham) with its notes; for the Metaphysics, Ross's Oxford translation
+  (1908, Bekker's columns read from his margin as fixed points) and Taylor's (1801, placed by alignment, ≈) with his
+  notes from Alexander and Syrianus under the text; for the Ethics, Chase (1847, Gutenberg, ≈).
+- Taylor's Introduction to the Metaphysics and his Additional Notes on the Ideas, read whole (`#taylor/metaphysics-introduction`).
+- Key terms underlined in the Greek (kept in `ar_term_hit`, apart from Plato's counts); a term's panel shows Aristotle
+  after Plato. Your translations and notes, and Listen, work as on a dialogue.
+
+### A2: Taylor's Dissertation on the Philosophy of Aristotle (1812), and the Neoplatonic order of reading
+
+- The Dissertation read whole with contents, OCR cleaned by rule (as A1). The ancient prolegomena to Aristotle
+  (Ammonius, Simplicius, Olympiodorus, Elias, in the Berlin *Commentaria in Aristotelem Graeca*, public-domain scans):
+  the ten questions asked before reading him, the order of his works, the aim of each; quoted, with the Workshop's
+  English where none is public domain, labelled.
+- A *Start here* for Aristotle: the order the Platonists read him in, and where he agrees with Plato in their view,
+  each point quoted.
+
+### A3: the soul and nature: De Anima, Physics, De Caelo
+
+- Greek from First1KGreek (CC BY-SA, GLAUx-tagged); English: Hicks (De Anima, 1907), Wallace (1882), Taylor (1806-1808);
+  Hardie and Gaye's Physics (1930) and Stocks' De Caelo (1922) where the scans are public domain in the US; Taylor's.
+  De Anima III.5 (the intellect that makes all things) with the commentators' readings.
+
+### A4: the Organon and Porphyry's Isagoge
+
+- Categories, On Interpretation, the Analytics, Topics; Porphyry's Introduction (the door to the Neoplatonic course),
+  Greek and Taylor's English (1812), Owen (1853) and Edghill (1928).
+
+### A5: the Greek commentators on Aristotle, on their own shelf
+
+- From the *Commentaria in Aristotelem Graeca* (Berlin, 1882-1909, public domain): Syrianus on the Metaphysics (Kroll, 1902,
+  on the Archive), Simplicius on the Categories and the De Caelo, Ammonius, Philoponus, Asclepius; OCR shown as received,
+  page by page with a link to the scan, as the Neoplatonists of milestone 25. Each comment linked to the Bekker column it is on.
+
+### A6: Syrianus' replies on the Forms, in English
+
+- Syrianus on Metaphysics Μ and Ν in the Workshop's own English from Kroll's Greek, checked against Taylor's extracts,
+  labelled as the Workshop's translation; shown under Aristotle's text where it answers it.
+
+### A7: Plato and Aristotle together
+
+- The citation web from Aristotle to Plato (his references to the dialogues, Ross's and Tredennick's notes), so a
+  passage of Plato shows where Aristotle discusses it; the concordance (search) across Aristotle; Reconciliations
+  between Plato and Aristotle as the commentators record them (the Forms, the soul, the eternity of the world, the
+  Good and the unmoved mover), established readings quoted, proposed ones labelled.
+
+### A8: the rest of Aristotle
+
+- Every other work in First1KGreek or Perseus Greek, GLAUx-tagged, with the Loeb English where Perseus has it
+  (Politics, Rhetoric, Poetics, Eudemian Ethics) and Taylor's for the rest, in the Platonists' order.
+
 ## Ideas noted, not yet planned
 
 - **Audio of the Greek.** A restored-pronunciation reading would have to come from a recording whose licence allows

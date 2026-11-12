@@ -43,7 +43,7 @@ CREATE TABLE work (
     first_token INTEGER,                   -- token ids of the work's Greek run from first_token to last_token
     last_token  INTEGER,
     n_tokens    INTEGER,
-    corpus      TEXT NOT NULL DEFAULT 'plato' -- plato | nt (milestone 23: the Greek New Testament, tools/nt.py)
+    corpus      TEXT NOT NULL DEFAULT 'plato' -- plato | nt (milestone 23: the Greek New Testament, tools/nt.py) | aristotle (tools/aristotle.py)
 );
 
 -- Every Stephanus section of an imported work, in reading order.
@@ -163,7 +163,7 @@ CREATE TABLE gloss_form (
 CREATE TABLE division (
     id          INTEGER PRIMARY KEY,
     work_id     TEXT NOT NULL REFERENCES work(id),
-    kind        TEXT NOT NULL,             -- page | speech | part | skopos | chapter | sidenote
+    kind        TEXT NOT NULL,             -- page | speech | part | skopos | chapter | sidenote | book | letter | ar-chapter (Aristotle's chapters)
     label       TEXT NOT NULL,
     start_ref   TEXT NOT NULL,
     end_ref     TEXT NOT NULL,
@@ -808,6 +808,21 @@ CREATE TABLE nt_term_hit (
 );
 CREATE INDEX nt_term_hit_section ON nt_term_hit(work_id, section_ref);
 CREATE INDEX nt_term_hit_work ON nt_term_hit(term_id, work_id);
+
+-- ------------------------------------------------------------- Aristotle, milestone A1
+-- Aristotle (tools/aristotle.py): works of corpus 'aristotle', in section, edition, chunk, token and tag
+-- like Plato's, a Bekker column (980a) for a Stephanus section. Its key-term marks are kept here, apart
+-- from Plato's term_hit, so that every count of Plato stays Plato's.
+CREATE TABLE ar_term_hit (
+    term_id     TEXT NOT NULL REFERENCES term(id),
+    token_id    INTEGER NOT NULL REFERENCES token(id),
+    work_id     TEXT NOT NULL,
+    section_ref TEXT NOT NULL,
+    form        TEXT NOT NULL,
+    PRIMARY KEY (term_id, token_id)
+);
+CREATE INDEX ar_term_hit_section ON ar_term_hit(work_id, section_ref);
+CREATE INDEX ar_term_hit_work ON ar_term_hit(term_id, work_id);
 
 -- ------------------------------------------------------------- milestone 25
 -- The rest of the Neoplatonists in Greek (tools/neoplatonists.py), read whole with their
