@@ -257,8 +257,19 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   time, not by perfection); why the vulgar lovers keep the name of lover (one end for all lovers; madness above and below
   self-control, Phaedrus 244d; the divine gives even its image a trace of itself); and Socrates the only lover (131e; the
   Iliad's phantom of Aeneas). Where Cousin prints κατὰ ταυτὰ against both his manuscripts' ταύτας and the sense, the modern
-  version follows the manuscripts and the note says so. Next sessions, in this order: the rest of Proclus on the First
-  Alcibiades, from the more secret account of love and Socrates' daemon (II p. 137 on; Taylor's note on the daemon at 103a and his Additional Notes 2-19 to check against),
+  version follows the manuscripts and the note says so.
+- Session 8 done: Cousin's vol. II pp. 137-145, the more secret account of love, proofread (72 pages, 1330 line corrections
+  in all) and translated as a new part in three sections: love between the beloved and the lovers; the triad of faith,
+  truth and love among the hidden intelligible gods (Timaeus 30d; the Chaldean Oracles, named without a fragment number);
+  and love as the middle that binds, with the divine and the vulgar lover. Taylor draws nothing from these pages. Cousin's
+  τοῖς δὲ (read as τοῖσδε) and πεπληθισμένως are kept as printed and noted. 
+- Session 9 done: Cousin's vol. II pp. 145-162, on the words "the others came to talk to you in crowds, while I have not
+  even spoken to you", proofread (81 pages, 1480 line corrections in all; p. 158, lost in the scan, supplied from the
+  other scan) and translated as a new part in five sections: the two marks of providence, reaching all and mixed with
+  none; the gods' love for what they beget (Phaedrus 244a, Phaedo 65d); why Socrates began with silence; what a crowd is
+  (Timaeus 42c-d, Symposium 197d); and Alcibiades trained among the vulgar lovers, as the Athenian Stranger trains the
+  young at drink (Laws 640c-d). Taylor draws nothing from these pages. Next sessions, in this order: the rest of
+  Proclus on the First Alcibiades, from the lemma "the cause of this was not human, but a daemonic opposition" and Socrates' daemon (II p. 162 on; Taylor's note on the daemon at 103a and his Additional Notes 2-19 to check against),
   and Olympiodorus on it (Creuzer's OCR, proofread first); then On the Mysteries and the Elements, where
   Taylor's English exists; then Damascius and Hermias. Plotinus' other treatises have no Taylor to check against: check
   them against another public-domain translation, or label them so.
