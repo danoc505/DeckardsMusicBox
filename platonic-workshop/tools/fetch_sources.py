@@ -55,7 +55,7 @@ def git(*args, cwd):
 def fetch(src):
     dest = RAW / src["id"]
     stamp = dest / ".fetched.json"
-    if stamp.exists() and json.loads(stamp.read_text())["commit"] == src["commit"]:
+    if stamp.exists() and json.loads(stamp.read_text())["commit"] == src["commit"] and json.loads(stamp.read_text()).get("paths") == src["paths"]:
         print(f"[skip] {src['id']} already at {src['commit'][:10]}")
         return
     dest.mkdir(parents=True, exist_ok=True)

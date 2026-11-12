@@ -176,9 +176,13 @@ def bekker_order(work="tlg025"):
     return out
 
 
-def clean_ross(vocab):
-    pages = scan_pages("ia-ross-metaphysics-1908")
-    order = bekker_order()
+def clean_ross(vocab, src="ia-ross-metaphysics-1908", order=None, head=r"BOOK|METAPHYSICA|^\W*\d", leaves=None):
+    """An Oxford translation (Ross's Metaphysics, 1908; and the others of the series, Aristotle milestone A3), with
+    Bekker's pages and columns in the margin. order: the Bekker columns of the Greek, in order; leaves: (first, last)."""
+    pages = scan_pages(src)
+    if leaves:
+        pages = {lf: v for lf, v in pages.items() if leaves[0] <= lf <= leaves[1]}
+    order = order or bekker_order()
     nxt = 0                      # index in order of the next column Ross's margin should name
     paras, notes = [], []
     cur = None                   # {'lines', 'raw', 'marks': [(line index, ref)], 'leaf', 'book'}
@@ -197,17 +201,28 @@ def clean_ross(vocab):
             continue
         stats["leaves"] += 1
         left, right, height = page_layout(lines)
+        scale = height / 50 if src != "ia-ross-metaphysics-1908" else 1     # the scan's resolution against Ross's
         lines = merge_margin_lines(lines, left, right)
         body, foot = [], []
         # The running head: the first line, when it names the book or the work, or is a number.
-        start = 1 if lines and lines[0][0] < 260 and re.search(r"BOOK|METAPHYSICA|^\W*\d", " ".join(w[0] for w in lines[0][2])) else 0
+        start = 1 if lines and lines[0][0] < 260 * scale and re.search(head, " ".join(w[0] for w in lines[0][2])) else 0
         pitch = _median([b[0] - a[0] for a, b in zip(lines[start:], lines[start + 1:])], 63)
         in_foot = False
+        if src != "ia-ross-metaphysics-1908":
+            # The notes may fill most of the page: the text's leading is measured from its first lines, and the notes
+            # begin after a gap, in a closer leading.
+            top = [b[0] - a[0] for a, b in zip(lines[start:start + 7], lines[start + 1:start + 8]) if b[0] - a[0] > 0.5 * height]
+            pitch = _median(top, pitch)
         for i in range(start, len(lines)):
             y0, y1, ws = lines[i]
             gap = y0 - lines[i - 1][0] if i > start else 0
             rest = [b - a for a, b, _ in lines[i:]]
-            if not in_foot and i > start + 3 and gap > 1.35 * pitch and i > len(lines) * 0.5 and _median(rest) < 0.88 * height \
+            if src != "ia-ross-metaphysics-1908":
+                after = [b[0] - a[0] for a, b in zip(lines[i:i + 8], lines[i + 1:i + 9])]
+                if not in_foot and i > start + 1 and gap > 1.3 * pitch and (len(after) < 2 or _median(after) < 0.85 * pitch) \
+                        and not re.match(r"^\W*(C\w?A\w?P|BOOK)", " ".join(w[0] for w in ws)):
+                    in_foot = True
+            elif not in_foot and i > start + 3 and gap > 1.35 * pitch and i > len(lines) * 0.5 and _median(rest) < 0.88 * height \
                     and not re.match(r"^\W*(C\w?A\w?P|BOOK)", " ".join(w[0] for w in ws)):
                 in_foot = True
             (foot if in_foot else body).append(lines[i])
@@ -216,14 +231,14 @@ def clean_ross(vocab):
             t = " ".join(w[0] for w in text).strip()
             if not t:
                 continue
-            centred = text[0][1] > left + 120 and text[-1][2] < right - 120
+            centred = text[0][1] > left + 120 * scale and text[-1][2] < right - 120 * scale
             if centred and (re.match(r"^\W*(BOOK|CHAP|CH\b)", t) or len(t) < 30):
                 close()
                 stats["headings"] += 1
                 if re.match(r"^\W*BOOK", t):
                     book += 1
                 continue
-            indent = text[0][1] > left + 25
+            indent = text[0][1] > left + 25 * scale
             if cur is None or indent:
                 close()
                 cur = {"lines": [], "raw": [], "marks": [], "leaf": lf, "book": book}
@@ -232,6 +247,8 @@ def clean_ross(vocab):
                 if not m or nxt >= len(order):
                     continue
                 page = int(m.group(1))
+                if not int(order[nxt][:-1]) <= page <= int(order[nxt][:-1]) + 3 and len(m.group(1)) == 4:
+                    page = int(m.group(1)[:3])     # '1848' read for 184ᵃ: the column's letter read as a digit
                 # The column the margin names is the next one in Bekker's order, if its page agrees.
                 # (Some marks are not read by the OCR, so a page up to three ahead is taken too.)
                 if not int(order[nxt][:-1]) <= page <= int(order[nxt][:-1]) + 3:

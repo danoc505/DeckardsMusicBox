@@ -868,7 +868,7 @@
     },
     {
       "id": "glaux-aristotle",
-      "title": "GLAUx corpus, Aristotle files (Metaphysics, Nicomachean Ethics): lemma, morphology and syntax for every word",
+      "title": "GLAUx corpus, Aristotle files (Metaphysics, Nicomachean Ethics, On the Soul, On the Heavens, Physics): lemma, morphology and syntax for every word",
       "kind": "git",
       "repo": "https://github.com/alekkeersmaekers/glaux.git",
       "commit": "b077d8f6ff429a5c7245954bc16bb7d1d7948823",
@@ -876,13 +876,35 @@
         "README.md",
         "metadata.txt",
         "xml/0086-025.xml",
-        "xml/0086-010.xml"
+        "xml/0086-010.xml",
+        "xml/0086-002.xml",
+        "xml/0086-005.xml",
+        "xml/0086-031.xml"
       ],
       "layer": "lemma",
       "language": "grc",
-      "citation_scheme": "Each word carries div_book and div_section, the Bekker page and column (980a) of the Perseus text",
-      "licence": "CC BY-SA 4.0 for these files (per metadata.txt: source Perseus)",
+      "citation_scheme": "Each word carries its book and chapter, and for most works the Bekker page and column (div_section or div_bekker_page, 980a)",
+      "licence": "CC BY-SA 4.0 for these files (per metadata.txt: source Perseus or First1KGreek)",
       "provenance": "Keersmaekers, The GLAUx corpus (2021): the Perseus text of Aristotle, tagged by the same statistical taggers as Plato's (analysis='auto'). Shown as machine-tagged data, never as established fact.",
+      "status": "verified"
+    },
+    {
+      "id": "first1k-aristotle",
+      "title": "Aristotle in First1KGreek's TEI: On the Soul (Ross's text, with Bekker's pages and columns in the margin), On the Heavens (Prantl, 1881), Physics (Ross)",
+      "kind": "git",
+      "repo": "https://github.com/OpenGreekAndLatin/First1KGreek.git",
+      "commit": "ed91552c52530c8f5a3ddf2dd767e899372a804c",
+      "paths": [
+        "data/tlg0086/__cts__.xml",
+        "data/tlg0086/tlg002",
+        "data/tlg0086/tlg005",
+        "data/tlg0086/tlg031"
+      ],
+      "layer": "text",
+      "language": "grc",
+      "citation_scheme": "Book and chapter (<div subtype>); Bekker's pages and columns as printed in the margin (<note type='marginal'>184a</note>) where the file has them, otherwise from GLAUx's Bekker column of each word",
+      "licence": "CC BY-SA 4.0 (each file's <licence>)",
+      "provenance": "Open Greek and Latin, First Thousand Years of Greek: TEI files made from printed editions, the edition named in each file's header; the same commit as first1k-neoplatonists. Read by tools/aristotle_f1k.py (Aristotle milestone A3) for the works Perseus does not have.",
       "status": "verified"
     },
     {
@@ -949,6 +971,72 @@
       "citation_scheme": "Taylor's books and chapters as printed; the scan's leaves (images) for the page",
       "licence": "Public domain (printed in 1812, before 1930)",
       "provenance": "Internet Archive item adissertationon00taylgoog (Google's scan of the Harvard copy, marked NOT_IN_COPYRIGHT by the Archive): its OCR with the place of every word (_djvu.xml), downloaded on 2026-11-12 and pinned by sha256. The OCR of the pages read (leaves 10-616: the Preface, the Explanation of terms, the four books, the Additional Note) is committed in sources/aristotle/ocr/. Cleaned by rule by tools/aristotle_dissertation.py into texts/aristotle/dissertation/taylor-1812.json; unproofread, every paragraph keeps its raw OCR.",
+      "status": "verified"
+    },
+    {
+      "id": "ia-hicks-de-anima-1907",
+      "title": "R. D. Hicks, Aristotle De Anima, with translation, introduction and notes (Cambridge, 1907), Internet Archive OCR",
+      "kind": "archive",
+      "item": "aristotledeanima011344mbp",
+      "repo": "https://archive.org/details/aristotledeanima011344mbp",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/aristotledeanima011344mbp/aristotledeanima011344mbp_djvu.xml",
+          "sha256": "c836ad0512950d6cd8622ac6522ae9955b52cf195c9b8fbd47df0d3725b22731",
+          "bytes": 35181610
+        }
+      ],
+      "sha256": "c836ad0512950d6cd8622ac6522ae9955b52cf195c9b8fbd47df0d3725b22731",
+      "layer": "translation",
+      "language": "eng",
+      "citation_scheme": "Bekker's pages and columns as the translator prints them (margin or running head); the scan's leaves for the page",
+      "licence": "Public domain (printed in 1907, before 1930; Hicks died in 1929)",
+      "provenance": "Internet Archive item aristotledeanima011344mbp (Digital Library of India): its OCR with the place of every word, pinned by sha256. The OCR of the English pages is committed in sources/aristotle/ocr/; cleaned by rule by tools/aristotle_f1k.py, unproofread.",
+      "status": "verified"
+    },
+    {
+      "id": "ia-stocks-de-caelo-1922",
+      "title": "J. L. Stocks, De Caelo, The Works of Aristotle translated into English (Oxford: Clarendon Press, 1922), Internet Archive OCR",
+      "kind": "archive",
+      "item": "decaeloleofric00arisuoft",
+      "repo": "https://archive.org/details/decaeloleofric00arisuoft",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/decaeloleofric00arisuoft/decaeloleofric00arisuoft_djvu.xml",
+          "sha256": "de7cf377f78a51990e8629674fbe282e431983c907bcca7820f1265ed14de249",
+          "bytes": 7820411
+        }
+      ],
+      "sha256": "de7cf377f78a51990e8629674fbe282e431983c907bcca7820f1265ed14de249",
+      "layer": "translation",
+      "language": "eng",
+      "citation_scheme": "Bekker's pages and columns as the translator prints them (margin or running head); the scan's leaves for the page",
+      "licence": "Public domain (printed in 1922, before 1930; Stocks died in 1937)",
+      "provenance": "Internet Archive item decaeloleofric00arisuoft (University of Toronto, marked NOT_IN_COPYRIGHT): its OCR with the place of every word, pinned by sha256. The OCR of the pages read is committed in sources/aristotle/ocr/; cleaned by rule, unproofread.",
+      "status": "verified"
+    },
+    {
+      "id": "ia-hardie-gaye-physics-1930",
+      "title": "R. P. Hardie and R. K. Gaye, Physica, The Works of Aristotle translated into English, vol. II (Oxford: Clarendon Press, 1930), Internet Archive OCR",
+      "kind": "archive",
+      "item": "physica0000rpha",
+      "repo": "https://archive.org/details/physica0000rpha",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/physica0000rpha/physica0000rpha_djvu.xml",
+          "sha256": "a0dd60cdaa94feda113c01b272585df6fccda9510b6add21c55c8aaf354842b0",
+          "bytes": 15772409
+        }
+      ],
+      "sha256": "a0dd60cdaa94feda113c01b272585df6fccda9510b6add21c55c8aaf354842b0",
+      "layer": "translation",
+      "language": "eng",
+      "citation_scheme": "Bekker's pages and columns as the translator prints them (margin or running head); the scan's leaves for the page",
+      "licence": "Public domain in the United States (published in 1930, in the public domain since 1 January 2026); Gaye died in 1909 and Hardie in 1946",
+      "provenance": "Internet Archive item physica0000rpha: its OCR with the place of every word, pinned by sha256. The OCR of the Physics (the first part of the volume) is committed in sources/aristotle/ocr/; cleaned by rule, unproofread.",
       "status": "verified"
     },
     {

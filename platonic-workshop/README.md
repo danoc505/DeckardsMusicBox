@@ -383,6 +383,12 @@ each passage checked against the scan. Taylor's Dissertation on the Philosophy o
 `tools/aristotle_dissertation.py` (Taylor's quotations from Aristotle and the commentators kept as quotations, the footnotes under
 the paragraphs they belong to).
 
+**Aristotle, milestone A3: the Physics, On the Heavens and On the Soul: done.** The three works of nature and the soul, Greek
+from First1KGreek (Ross's Physics and De Anima, Prantl's De Caelo; CC BY-SA 4.0) at Bekker's columns, every word tagged from
+GLAUx, with English beside it from the Internet Archive's scans, cleaned by rule and not proofread: Hardie and Gaye's Physics
+(1930), Stocks's On the Heavens (1922) and Hicks's On the Soul (1907). Each column the translator prints (or, for Hicks, heads a
+page with) is a fixed point; the columns between are placed by length and marked ≈ (`tools/aristotle_trans.py`).
+
 ## Running it
 
 Python 3.10 or later, standard library only. Nothing to install. One command does everything:

@@ -144,7 +144,8 @@ def available():
 
 def lemmas():
     """Every GLAUx lemma of the Aristotle files (so that the dictionaries are linked for them too)."""
-    out = set()
+    import aristotle_f1k
+    out = set(aristotle_f1k.lemmas())
     for w in WORKS:
         p = RAW / GLAUX_SRC / "xml" / f"0086-{w['tlg'][3:]}.xml"
         for m in re.finditer(r' lemma="([^"]*)"', p.read_text(encoding="utf-8")):
@@ -397,15 +398,36 @@ def build(db, sources):
         s["term_words"] = mark_terms(db, w["id"])
         s["plain"] = w["plain"]
         stats["works"].append(s)
+    # Aristotle milestone A3 onward: the works Perseus does not have, from First1KGreek, with the scanned translations.
+    import aristotle_f1k
+    import aristotle_trans
+    if aristotle_f1k.available():
+        for w in aristotle_f1k.WORKS:
+            build_f1k_work(db, w, sources, stats)
     db.execute("""UPDATE work SET first_token = r.lo, last_token = r.hi, n_tokens = r.n FROM
                   (SELECT e.work_id, min(t.id) lo, max(t.id) hi, count(*) n FROM token t JOIN edition e ON e.id = t.edition_id
-                   WHERE e.lang = 'grc' AND e.source_id = ? GROUP BY e.work_id) r WHERE r.work_id = work.id""", (GREEK_SRC,))
+                   WHERE e.lang = 'grc' AND e.source_id IN (?, ?) GROUP BY e.work_id) r WHERE r.work_id = work.id""",
+               (GREEK_SRC, aristotle_f1k.F1K_SRC))
     db.execute("INSERT INTO build VALUES ('aristotle_stats', ?)", (json.dumps(stats, ensure_ascii=False, default=str),))
     return stats
 
 
+def build_f1k_work(db, w, sources, stats):
+    """One work from First1KGreek (aristotle_f1k) with its scanned translations (aristotle_trans)."""
+    import aristotle_f1k
+    import aristotle_trans
+    db.execute("INSERT INTO work (id, urn, title, imported, abbr, slug, corpus) VALUES (?,?,?,?,?,?,?)",
+               (w["id"], f"{AR_URN}.{w['tlg']}", w["title"], 1, w["abbr"], w["slug"], "aristotle"))
+    s = aristotle_f1k.build_greek(db, w, sources)
+    s["translations"] = aristotle_trans.build_for(db, w)
+    s["term_words"] = mark_terms(db, w["id"])
+    s["plain"] = w["plain"]
+    stats["works"].append(s)
+    return s
+
+
 def write_report(stats):
-    lines = ["# Aristotle: the Metaphysics and the Nicomachean Ethics (Aristotle milestone A1)", "",
+    lines = ["# Aristotle (Aristotle milestones A1 and A3)", "",
              "Written by `tools/build_db.py` (through `tools/aristotle.py`) each time the library is built.", "",
              "| Work | Bekker columns | Greek words | tagged by GLAUx | with Morpheus | Loeb notes | key-term words |",
              "|---|---:|---:|---:|---:|---:|---:|"]
@@ -414,8 +436,12 @@ def write_report(stats):
                      f"{s['with_morpheus']:,} | {s['notes']} | {s['term_words']:,} |")
     lines += ["", "## The translations beside the Greek", ""]
     for s in stats["works"]:
-        lines.append(f"- **{s['title']}**: the Loeb English from Perseus, at Bekker's columns as Perseus marks them "
-                     f"({s['english_sections']} of {s['sections']} columns; none missing: {not s['english_sections_missing']}).")
+        if s.get("english_sections"):
+            lines.append(f"- **{s['title']}**: the Loeb English from Perseus, at Bekker's columns as Perseus marks them "
+                         f"({s['english_sections']} of {s['sections']} columns; none missing: {not s['english_sections_missing']}).")
+        else:
+            lines.append(f"- **{s['title']}**: the Greek from First1KGreek, its {s['sections']} Bekker columns from {s['columns_from']}"
+                         + (f" (left out, out of Bekker's order: {', '.join(s['marks_left_out'])})" if s['marks_left_out'] else "") + ".")
         for t in s["translations"]:
             extra = ""
             if "printed_columns" in t:
