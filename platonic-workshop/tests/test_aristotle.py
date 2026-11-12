@@ -541,5 +541,100 @@ class OwenOrganon(unittest.TestCase):
         self.assertIn('".owen1853"', js)
 
 
+COMMENTATORS = ROOT / "data" / "raw" / "first1k-commentators" / "data"
+
+
+@unittest.skipUnless(COMMENTATORS.exists(), "fetch the commentators first (python3 tools/fetch_sources.py first1k-commentators)")
+class Commentators(unittest.TestCase):
+    """Aristotle milestone A5: the Greek commentators (CAG) from First1KGreek, read by the Berlin pages."""
+
+    @classmethod
+    def setUpClass(cls):
+        import aristotle_commentators
+        cls.ac = aristotle_commentators
+        cls.t = {t["id"]: t for t in aristotle_commentators.TEXTS}
+
+    def test_the_source_is_pinned_and_licensed(self):
+        m = MANIFEST["first1k-commentators"]
+        self.assertEqual(m["commit"], MANIFEST["first1k-neoplatonists"]["commit"])
+        self.assertIn("CC BY-SA 4.0", m["licence"])
+        for t in self.ac.TEXTS:
+            self.assertTrue(any(t["file"].startswith(p[len("data/"):] + "/") for p in m["paths"]), t["id"])
+            self.assertTrue((COMMENTATORS / t["file"]).exists(), t["id"])
+
+    def test_they_are_on_their_own_shelf_after_the_neoplatonists(self):
+        import neoplatonists
+        shelves = [t.get("shelf", "neo") for t in neoplatonists.TEXTS]
+        self.assertEqual(shelves, sorted(shelves, key=lambda x: x != "neo"))
+        self.assertEqual(shelves.count("commentators"), len(self.ac.TEXTS))
+        self.assertEqual(len({t["id"] for t in neoplatonists.TEXTS}), len(neoplatonists.TEXTS))
+
+    def test_a_commentary_is_read_by_the_berlin_pages(self):
+        units, parts = self.ac.read(self.t["syrianus-metaphysics"])
+        self.assertEqual(units[0]["label"], "p. 1")
+        self.assertEqual(len(units), 195)
+        self.assertEqual([p["label"] for p in parts][:1], ["Book Β, pp. 1–20"])
+        self.assertTrue(any(p["label"].startswith("Books Μ and Ν") for p in parts))
+        # Syrianus' famous defence of the Forms in Book M: the Greek is there, page by page.
+        self.assertTrue(any("ἰδέ" in u["text"] for u in units if u["page"] > 80))
+
+    def test_a_misprinted_page_number_is_read_between_its_neighbours(self):
+        self.assertEqual(self.ac.page_numbers(["322", "393", "324"]), [(322, None), (323, "the file prints 393"), (324, None)])
+        units, _ = self.ac.read(self.t["alexander-metaphysics"])
+        self.assertEqual([u["page"] for u in units if 321 <= u["page"] <= 325], [321, 322, 323, 324, 325])
+
+    def test_the_bekker_references_in_the_margin_are_read(self):
+        t = self.t["alexander-metaphysics"]
+        self.assertEqual(self.ac.printed_refs(t, {"margin": ["3", "p. 980a21"], "divs": []}), [("980a", "p. 980a21")])
+        self.assertEqual(self.ac.printed_refs(t, {"margin": ["p. 130 b 28"], "divs": []}), [("130b", "p. 130 b 28")])
+        isag = self.t["ammonius-isagoge"]
+        self.assertEqual(self.ac.printed_refs(isag, {"margin": ["p. 5, 17"], "divs": []}), [("1.5", "p. 5, 17")])
+
+    def test_the_indices_are_left_out(self):
+        units, _ = self.ac.read(self.t["ammonius-categories"])
+        self.assertGreater(self.t["ammonius-categories"]["_stats"]["pages_left_out"], 30)
+        self.assertLess(max(u["page"] for u in units), 110)
+
+
+@unittest.skipUnless(has_aristotle(), "build the library with Aristotle first (python3 tools/build_db.py)")
+class CommentatorsInTheLibrary(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.lib = serve.Library(build_db.DB_PATH)
+        if not cls.lib.one("SELECT name FROM sqlite_master WHERE name = 'ar_comment'"):
+            raise unittest.SkipTest("built without the commentators")
+
+    def test_the_shelf_lists_them_apart(self):
+        texts = self.lib.neo()["texts"]
+        com = [t for t in texts if t["shelf"] == "commentators"]
+        self.assertGreaterEqual(len(com), 30)
+        self.assertEqual(next(t for t in com if t["id"] == "simplicius-physics")["on_work"], "ar031")
+        self.assertTrue(all(t["shelf"] == "neo" for t in texts if t["id"].startswith(("plotinus", "proclus"))))
+
+    def test_alexander_on_metaphysics_alpha_is_linked_to_its_first_column(self):
+        d = self.lib.page("ar025", 980)
+        here = [c for c in d["ar_comments"] if c["col"] == "980a" and c["text_id"] == "alexander-metaphysics"]
+        self.assertTrue(here)
+        self.assertIn("printed", {c["how"] for c in here})
+        self.assertIn("p. 2", {c["label"] for c in here})
+
+    def test_every_commentary_on_a_work_here_is_linked(self):
+        for t in self.lib.neo()["texts"]:
+            if t["shelf"] == "commentators" and t["on_work"] and not t["id"].startswith("alexander-de-anima") and t["id"] != "alexander-mantissa":
+                n = self.lib.one("SELECT count(DISTINCT unit_seq) n FROM ar_comment WHERE text_id = ?", t["id"])["n"]
+                self.assertGreater(n, t["n_units"] // 5, t["id"])
+
+    def test_a_page_names_the_columns_it_comments_on(self):
+        d = self.lib.neo_part("syrianus-metaphysics", 5)
+        self.assertTrue(any(u.get("ar_cols") for u in d["units"]))
+        self.assertTrue(all(c["work_id"] == "ar025" for u in d["units"] for c in u.get("ar_cols", [])))
+
+    def test_the_reader_shows_them(self):
+        js = (ROOT / "reader" / "aristotle.js").read_text(encoding="utf-8")
+        for f in ("function renderArCommentRow", "function arCommentatorsShelf", "function arColsOfUnit"):
+            self.assertIn(f, js)
+        self.assertIn("renderArCommentRow", (ROOT / "reader" / "reader.js").read_text(encoding="utf-8"))
+
+
 if __name__ == "__main__":
     unittest.main()

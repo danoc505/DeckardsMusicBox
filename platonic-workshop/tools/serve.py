@@ -627,12 +627,26 @@ class Library:
         mine = self.mine.rows_for_sections(work_id, refs)
         all_pages = [r["page"] for r in self.rows("SELECT DISTINCT page FROM section WHERE work_id = ? ORDER BY page", work_id)]
         i = all_pages.index(page)
+        # Aristotle milestone A5: the pages of the Greek commentators on these columns, printed or quoted.
+        ar_comments = self.ar_comments(work_id, refs)
         return {
+            "ar_comments": ar_comments,
             **self.page_terms(work_id, refs, chunks, seq, self.corpus_of(work_id)),
             "work_id": work_id, "page": page, "sections": secs, "chunks": chunks, "tokens": tokens,
             "notes": notes, "commentary": commentary, "links_out": links_out, "links_in": links_in, "speeches": speeches, "mine": mine,
             "prev": all_pages[i - 1] if i > 0 else None, "next": all_pages[i + 1] if i + 1 < len(all_pages) else None,
         }
+
+    def ar_comments(self, work_id, refs):
+        """The commentators' pages on these columns of Aristotle (or pages of Porphyry's Introduction, work 'isagoge'),
+        in the shelf's order: [{col, text_id, author, title, part, n, label, how, what}]."""
+        if not self.one("SELECT name FROM sqlite_master WHERE name = 'ar_comment'"):
+            return []
+        marks = ",".join("?" * len(refs))
+        return self.rows(
+            f"SELECT a.col, a.text_id, t.author, t.title, u.part_seq AS part, u.n, u.label, a.how, a.what FROM ar_comment a "
+            f"JOIN neo_text t ON t.id = a.text_id JOIN neo_unit u ON u.text_id = a.text_id AND u.seq = a.unit_seq "
+            f"WHERE a.work_id = ? AND a.col IN ({marks}) ORDER BY t.seq, u.seq", work_id, *refs)
 
     # ------------------------------------------------------------ key terms (milestone 17)
 
@@ -915,6 +929,15 @@ class Library:
                 item = (u["repo"] or "").rsplit("/", 1)[-1]
                 u["scan"] = f"https://archive.org/details/{item}/page/n{u['leaf'] - 1}/mode/1up" if item and u["leaf"] else None
             u.pop("repo", None)
+        # Aristotle milestone A5: the columns of Aristotle a commentator's page comments on, printed or quoted.
+        if t.get("on_work") and self.one("SELECT name FROM sqlite_master WHERE name = 'ar_comment'"):
+            at = {u["seq"]: u for u in units}
+            for u in units:
+                u["ar_cols"] = []
+            for r in self.rows("SELECT unit_seq, work_id, col, how, what FROM ar_comment WHERE text_id = ? AND unit_seq BETWEEN ? AND ? ORDER BY unit_seq, how, col",
+                               text_id, p["first_unit"], p["last_unit"]):
+                if r["unit_seq"] in at:
+                    at[r["unit_seq"]]["ar_cols"].append({k: r[k] for k in ("work_id", "col", "how", "what")})
         corr = self.rows("SELECT unit_n, ocr, read, why, by, applied FROM neo_correction WHERE text_id = ? ORDER BY rowid", text_id)
         n_parts = t["n_parts"]
         # Milestone 26: Taylor's English of a unit, where he translated it (the propositions of the Elements on the page where they start).

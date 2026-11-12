@@ -169,6 +169,10 @@ NOT_HERE = [
     ("Proclus, Commentary on the Timaeus, and the Theology of Plato", "already in the library in Taylor's English (milestones 7 and 10); "
      "their Greek (Diehl, 1903-1906; Portus, 1618) is left for a later milestone"),
 ]
+# Aristotle milestone A5: the Greek commentators on Aristotle, on their own shelf, stored and read with these
+# (tools/aristotle_commentators.py; shelf = 'commentators').
+import aristotle_commentators  # noqa: E402
+TEXTS = TEXTS + aristotle_commentators.TEXTS
 
 
 # ---------------------------------------------------------------- the TEI texts
@@ -584,14 +588,18 @@ def read_all(only=None):
     for t in TEXTS:
         if only and t["id"] not in only:
             continue
-        units, parts = read_tei(t) if t["kind"] == "tei" else read_ocr(t)
+        if t.get("reader") == "cag":
+            units, parts = aristotle_commentators.read(t)
+        else:
+            units, parts = read_tei(t) if t["kind"] == "tei" else read_ocr(t)
         out.append((t, units, parts))
     return out
 
 
 def available():
     """True when the sources are downloaded (tools/fetch_sources.py)."""
-    return (F1K / "tlg2000").exists() and all((OCR_COPY / f"{s}.json.gz").exists() for s in scan_ranges())
+    return ((F1K / "tlg2000").exists() and all((OCR_COPY / f"{s}.json.gz").exists() for s in scan_ranges())
+            and aristotle_commentators.available())
 
 
 def words(text):
@@ -631,10 +639,11 @@ def build(db):
         latin = sum(1 for u in units if u.get("lang") == "lat")
         how = Counter(u.get("page_how") for u in units if t["kind"] == "ocr")
         db.execute("INSERT INTO neo_text (id, seq, grp, author, title, greek, cite, kind, source_ids, edition, editor, year, licence, about, unit_name, "
-                   "n_parts, n_units, words, latin_units, proof_status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                   "n_parts, n_units, words, latin_units, proof_status, shelf, on_work) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                    (t["id"], seq, t["group"], t["author"], t["title"], t["greek"], t["cite"], t["kind"], json.dumps(src_ids), t["edition"], t["editor"], t["year"],
                     licence, t["about"], "page" if t["kind"] == "ocr" else t.get("unit") or "section", len(parts), len(units), n_words, latin,
-                    "corrected source text (First1KGreek)" if t["kind"] == "tei" else "unproofread OCR, shown as received"))
+                    "corrected source text (First1KGreek)" if t["kind"] == "tei" else "unproofread OCR, shown as received",
+                    t.get("shelf", "neo"), t.get("on")))
         db.executemany("INSERT INTO neo_unit (text_id, seq, part_seq, n, label, page, page_how, lang, source_id, leaf, text, corrected, raw, hidden, notes, margin, words) "
                        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", rows)
         index = {id(u): i for i, u in enumerate(units)}
@@ -645,6 +654,8 @@ def build(db):
         for c in mine:
             db.execute("INSERT INTO neo_correction (text_id, unit_n, ocr, read, why, by, applied) VALUES (?,?,?,?,?,?,?)",
                        (t["id"], c.get("unit"), c["ocr"], c["read"], c["why"], c.get("by", "the Workshop"), per_corr[(c["ocr"], c["read"])]))
+        if t.get("shelf", "neo") != "neo":
+            continue   # the Greek commentators on Aristotle: their report is tools/aristotle_commentators.py's
         stats["texts"].append({"id": t["id"], "author": t["author"], "title": t["title"], "kind": t["kind"], "edition": t["edition"],
                                "parts": len(parts), "units": len(units), "words": n_words, "latin": latin, "corrections": len(mine), "corrected": n_corr,
                                "pages_read": how.get("read", 0), "pages_counted": how.get("counted", 0), "pages_unnumbered": how.get(None, 0),

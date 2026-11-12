@@ -397,6 +397,14 @@ Owen's English of 1853 is a second translation of all six treatises, at the Oxfo
 `tools/aristotle_owen.py`). Porphyry's Introduction (Isagoge), which the Platonists read before any Aristotle, opens the logic: Owen's English (1853), read
 whole with his notes (`tools/aristotle_porphyry.py`), and Busse's Greek (1887) on the Neoplatonists' shelf.
 
+**Aristotle, milestone A5: the Greek commentators: done.** Thirty-four commentaries of the Berlin *Commentaria in Aristotelem
+Graeca* (1882-1909), from Alexander of Aphrodisias to Simplicius, Philoponus, Syrianus, Asclepius, Olympiodorus, Elias and David,
+with Alexander's own On the Soul and its Mantissa, in First1KGreek's corrected Greek (CC BY-SA 4.0), on their own shelf under
+Aristotle and read by the pages of the Berlin edition (`tools/aristotle_commentators.py`). Each page links to the columns of Aristotle
+it comments on, and each column lists the commentators' pages on it: where the editor prints the Bekker reference in the margin,
+or (≈) where the page repeats runs of words found in that column alone. What was read, and what the files lack, is in
+`reports/commentators.md`.
+
 ## Running it
 
 Python 3.10 or later, standard library only. Nothing to install. One command does everything:
