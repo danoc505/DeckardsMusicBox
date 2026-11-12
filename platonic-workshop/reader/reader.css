@@ -808,6 +808,8 @@ ul.shelf li { margin: .4em 0; }
 .taylor-text pre.tt-table { white-space: pre-wrap; font-size: .85em; }
 .tt-notes { margin: -.3em 0 1em 1.2em; font-size: .9em; }
 .tt-note { margin: .25em 0; }
+.tt-note.tt-side { font-style: italic; }
+.tt-note.tt-side b { font-style: normal; font-weight: normal; font-variant: small-caps; }
 .page-1804 { font-size: .75em; color: var(--muted, #666); }
 .taylor-text .tt-here { background: var(--accent-soft); border-radius: 3px; }
 .taylor-text h3.tt-heading { margin: 1.6em 0 .5em; }

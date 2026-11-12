@@ -1,0 +1,1923 @@
+{
+"schema": "platonic-workshop/text-v1",
+"id": "owen1853.isagoge",
+"title": "Porphyry's Introduction (Isagoge)",
+"author": "Porphyry",
+"translator": "Octavius Freire Owen",
+"edition": "The Organon, or Logical Treatises, of Aristotle, with the Introduction of Porphyry, literally translated, with notes, by Octavius Freire Owen, vol. II (London: Henry G. Bohn, 1853), pp. 609-633",
+"source": {
+"manifest_id": "ia-owen-organon-1853",
+"name": "the Internet Archive's scan",
+"url": "https://archive.org/details/organonorlogica04porpgoog",
+"file": "sources/aristotle/ocr/ia-owen-organon-1853.json.gz"
+},
+"page_label": "Scan images",
+"proof_status": "OCR cleaned by rule, not proofread",
+"reading_note": "Owen's footnotes are given below the paragraph they are marked in; his side-notes, a summary of the argument printed in the margin, are given there too, marked \"margin\". Greek in his notes is read by the scan and often garbled.",
+"parts": [
+{
+"part": "isagoge",
+"label": "The Introduction of Porphyry",
+"leaves": [
+264,
+288
+]
+}
+],
+"stats": {
+"leaves": 25,
+"paragraphs": 27,
+"notes": 44,
+"side_notes": 21,
+"side_notes_unread": 42,
+"notes_continued": 2,
+"marks_matched": 29,
+"chapters": 17
+},
+"segments": [
+{
+"id": "owen1853.isagoge.p00001",
+"kind": "heading",
+"part": "isagoge",
+"page_1804": "264",
+"paragraph": 1,
+"book": null,
+"chapter": 0,
+"text": "The Introduction of Porphyry",
+"raw": "INTRODUCTION OF PORPHYRY.!",
+"notes": [],
+"heading": "The Introduction of Porphyry"
+},
+{
+"id": "owen1853.isagoge.p00002",
+"kind": "heading",
+"part": "isagoge",
+"page_1804": "264",
+"paragraph": 2,
+"book": null,
+"chapter": 1,
+"text": "Chapter I: Object of the writer, tn the present Introduction.",
+"raw": "Cuap. I.— Object of the writer, tn the present Introduction.",
+"notes": [],
+"heading": "Chapter I: Object of the writer, tn the present Introduction."
+},
+{
+"id": "owen1853.isagoge.p00003",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "264",
+"paragraph": 3,
+"book": null,
+"chapter": 1,
+"text": "SINCE it is necessary, Chrysaorius, both to the doctrine of Aristotle’s Categories, to know what genus, difference, species, property, and accident are, and also to the assignments of definitions, in short, since the investigation of these is useful for those things which belong to division and demonstration, I will endeavour by a summary briefly to discuss to you, as in the form of introduction, what on this subject has been delivered by the ancients, abstaining, indeed, from more profound questions, yet directing attention in a fitting manner, to such as are more simple. For instance, I shall omit to speak about genera and species, as to whether they subsist (in the nature of things) or in mere conceptions only ; whether also if subsistent, they are bodies or incorporeal, and whether they are separate from, or in, sensibles, and subsist about these, for such a treatise is most profound, and requires another more extensive investigation. Nevertheless, how the ancients, and especially the Peripatetics, discussed these and the other proposed subjects, in a more logical manner, I will now endeavour to point out to you.",
+"raw": "SINCE it is necessary, Chrysaorius, both to the\ndoctrine of Aristotle’s Categories, to know what\ngenus, difference, species, property, and accident\nare, and also to the assignments of definitions, in\nshort, since the investigation of these is useful for\nthose things which belong to division and demon-\nstration,? I will endeavour by a summary briefly to\ndiscuss to you, as in the form of introduction, what on this sub-\nject has been delivered by the ancients, abstaining, indeed, from\nmore profound questions, yet directing attention in a fitting\nmanner, to such as are more simple. For instance, I shall\nomit to speak about genera and species, as to whether they\nsubsist (in the nature of things) or in mere conceptions only ;\nwhether also if subsistent, they are bodies or incorporeal,\nand whether they are separate from, or in, sensibles,! and\nsubsist about these,?* for such a treatise is most\nprofound, and requires another more extensive\ninvestigation.? Nevertheless, how the ancients,\nand especially the Peripatetics, discussed these\nand the other proposed subjects, in a more logical\nmanner, I will now endeavour to point out to you.",
+"notes": [
+{
+"note": "owen1853.isagoge.n0001",
+"at": 312
+},
+{
+"note": "owen1853.isagoge.n0003",
+"at": 838
+},
+{
+"note": "owen1853.isagoge.n0004",
+"at": 863
+},
+{
+"note": "owen1853.isagoge.n0005",
+"at": 952
+},
+{
+"note": "owen1853.isagoge.n0002",
+"at": 1134
+}
+]
+},
+{
+"id": "owen1853.isagoge.p00004",
+"kind": "heading",
+"part": "isagoge",
+"page_1804": "265",
+"paragraph": 4,
+"book": null,
+"chapter": 2,
+"text": "Chapter II: Of the Nature of Genus and Species.",
+"raw": "Cuap. II.—Of the Nature of Genus and Species.",
+"notes": [],
+"heading": "Chapter II: Of the Nature of Genus and Species."
+},
+{
+"id": "owen1853.isagoge.p00005",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "265",
+"paragraph": 5,
+"book": null,
+"chapter": 2,
+"text": "NEITHER genus nor species appear to be simply Genominated, for that is called genus which is collection of certain things, subsisting in a certain respect relatively to one thing, and to each other, atcording to which signification the genus of the ‘Heraclide is denominated from the habitude from cne, I mean Hercules, and from the multitude of those who have alliance to each other from him, denominated according to separation from other genera. Again, after another manner also, the principle of the generation of every one is called genus, whether from the generator or from the place in which a person is generated, for thus we say that Orestes had his genus from Tantalus, Hyllus from Hercules, and again, that Pindar was by genus a Theban, but Plato an Athenian, for country is a certain principle of each man’s generation, in the same manner as a father. Still, this signification appears to be most ready, for they are called Heraclide who derive their origin from the genus of Hercules, and Cecropide who are from Cecrops; also their next of kin. The first genus, moreover, is so called, which is the principle of each man’s generation, but afterwards the number of those who are from one principle, e. g. from Hercules, which defining and separating from others, we call the whole collected multitude the genus of the Heraclide.",
+"raw": "NEITHER genus nor species appear to be simply\nGenominated, for that is called genus which is\ncollection of certain things, subsisting in a certain\nrespect relatively to one thing, and to each other,\natcording to which signification the genus of the\n‘Heraclide is denominated from the habitude from\ncne, I mean Hercules, and from the multitude\nof those who have alliance to each other from\nhim, denominated according to separation from\nother genera.* Again, after another manner also,\nthe principle of the generation of every one is\ncalled genus, whether from the generator or from\nthe place in which a person is generated, for thus\nwe say that Orestes had his genus from Tantalus, Hyllus from\nHercules, and again, that Pindar was by genus a Theban, but\nPlato an Athenian, for country is a certain principle of each\nman’s generation, in the same manner as a father. Still, this\nsignification appears to be most ready,! for they are called\nHeraclide who derive their origin from the genus of Hercules,\nand Cecropide who are from Cecrops; also their next of kin.\nThe first genus, moreover, is so called, which is the princi-\nple of each man’s generation, but afterwards the number of\nthose who are from one principle, e. g. from Hercules, which\ndefining and separating from others, we call the whole col-\nlected multitude the genus of the Heraclide.",
+"notes": [
+{
+"note": "owen1853.isagoge.n0045",
+"at": 297
+},
+{
+"note": "owen1853.isagoge.n0008",
+"at": 448
+},
+{
+"note": "owen1853.isagoge.n0046",
+"at": 530
+},
+{
+"note": "owen1853.isagoge.n0006",
+"at": 1340
+},
+{
+"note": "owen1853.isagoge.n0007",
+"at": 1340
+}
+]
+},
+{
+"id": "owen1853.isagoge.p00006",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "266",
+"paragraph": 6,
+"book": null,
+"chapter": 2,
+"text": "Again, in another way that is denominated genus to which the species is subject, called perhaps from the similitude of these; for such a genus is a certain principle of things under it, and seems also to comprehend all the multitude under itself. As then, genus is predicated triply, the third, which also they explain by description, when they say that genus is that which is predicated of many things differing in species, in answer to what a thing is, e. g. animal. For of predicates some are predicated of one thing alone, as individuals, for instance, but others are predicated of many, as genera, species, differences, properties, and accidents, predicated in common, but not peculiarly to any one. Now genus is such as “ animal,” species as “ man,” difference as “rational,” property as “ risible,” accident as ‘‘ white,” “ black,” “to sit.” From such things then, as are predicated of one thing only, genera differ in that they are predicated of many, but on the other hand, from those which are predicated of many and from species, (they differ) because those species are predicated of many things, yet not of those which differ in species, but in number only, for man being a species, is predicated of Socrates and Plato, who do not differ from each other in species, but in number, while animal being a genus is predicated of man, and ox, and horse, which differ also in species from each other, and not in number only. From property, moreover, genus differs because property is predicated of one species alone of which it is the property, and of the individuals under the species, as “‘risible” of man alone, and of men particularly, for genus is not predicated of one species, but of many things, which are also different in species. Besides, genus differs from difference and from accidents in common, because though differences to what a thing is, but (what kind of a thing) it is. For when some persons ask what that is of which these are predicated, we reply, that it is genus ; but we do not assign in answer differences and accidents, since they are not predicated of a subject, as to what a thing is, but rather as to what hind of a thing it is. For in reply to the question, what kind of a thing man is, we say, that he is rational, and in answer to what kind of a thing a crow is, we say that it is black, yet rational is difference, but black is accident. When however is the genus of man, so that from genus being predicated of many, it is diverse from individuals which are predicated of one thing only, but from being predicated of things different in species, it 1s distinguished from such as are predicated: as species or as properties. Moreover, because it is predicated in reply to what a thing is, it is distinguished from differences and from accidents commonly, which are severally predicated of what they are predicated, not in reply to what a thing is, but what kind of a thing it is, or in what manner it subsists: the description therefore of the conception of genus, which has been enunciated, contains nothing superfluous, nothing deficient.",
+"raw": "Again, in another way that is denominated\ngenus to which the species is subject, called per-\nhaps from the similitude of these; for such a ge-\nnus is a certain principle of things under it, and\nseems also to comprehend all the multitude under\nitself. As then, genus is predicated triply, the\nthird, which also they explain by description,\nwhen they say that genus is that which is predicated of many\nthings differing in species, in answer to what a thing is, e. g.\nanimal.' For of predicates some are predicated\nof one thing alone, as individuals, for instance,\nbut others are predicated of many, as genera,\nspecies, differences, properties, and accidents, pre-\ndicated in common, but not peculiarly to any one.\nNow genus is such as “ animal,” species as “ man,”\ndifference as “rational,” property as “ risible,” ac-\ncident as ‘‘ white,” “ black,” “to sit.” From such\nthings then, as are predicated of one thing only, ge-\nnera differ in that they are predicated of many, but\non the other hand, from those which are predicated\nof many and from species, (they differ) because\nthose species are predicated of many things, yet not\nof those which differ in species, but in number only, for man\nbeing a species, is predicated of Socrates and Plato, who do\nnot differ from each other in species, but in number, while\nanimal being a genus is predicated of man, and ox, and horse,\nwhich differ also in species from each other, and\nnot in number only. From property, moreover,\ngenus differs because property is predicated of\none species alone of which it is the property, and of the indivi-\nduals under the species, as “‘risible” of man alone, and of men\nparticularly, for genus is not predicated of one species, but of\nmany things, which are also different in species.\nBesides, genus differs from difference and from\naccidents in common, because though differences\nto what a thing is, but (what kind of a thing) it is.\nFor when some persons ask what that is of which\nthese are predicated, we reply, that it is genus ;\nbut we do not assign in answer differences and\naccidents, since they are not predicated of a sub-\nject, as to what a thing is, but rather as to what\nhind of a thing it is. For in reply to the question, what kind\nof a thing man is, we say, that he is rational, and in answer\nto what kind of a thing a crow is, we say that it is black, yet\nrational is difference, but black is accident. When however\nis the genus of man, so that from genus being predicated of\nmany, it is diverse from individuals which are predicated of\none thing only, but from being predicated of things different\nin species, it 1s distinguished from such as are predicated: as\nspecies or as properties. Moreover, because it is predicated in\nreply to what a thing is, it is distinguished from differences\nand from accidents commonly, which are severally predicated\nof what they are predicated, not in reply to what a thing is,\nbut what kind of a thing it is, or in what manner it subsists:\nthe description therefore of the conception of genus, which\nhas been enunciated, contains nothing superfluous, nothing\ndeficient.!",
+"notes": [
+{
+"note": "owen1853.isagoge.n0047",
+"at": 41
+},
+{
+"note": "owen1853.isagoge.n0009",
+"at": 468
+},
+{
+"note": "owen1853.isagoge.n0048",
+"at": 506
+},
+{
+"note": "owen1853.isagoge.n0049",
+"at": 858
+},
+{
+"note": "owen1853.isagoge.n0050",
+"at": 1062
+},
+{
+"note": "owen1853.isagoge.n0051",
+"at": 1410
+},
+{
+"note": "owen1853.isagoge.n0052",
+"at": 1746
+},
+{
+"note": "owen1853.isagoge.n0053",
+"at": 1896
+},
+{
+"note": "owen1853.isagoge.n0010",
+"at": 3080
+}
+]
+},
+{
+"id": "owen1853.isagoge.p00007",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "268",
+"paragraph": 7,
+"book": null,
+"chapter": 2,
+"text": "Species indeed is predicated of every form, according to which it is said, “form is first worthy of imperial sway ;”? still that is called species also, which is under the genus stated, according to which we are accustomed to call man a species of animal, animal being genus, but white a species of colour, and triangle of figure. Nevertheless, if when we assign the genus, we make mention of species, saying that which is predicated of many things differing in species, in reply to what a thing is, and call species that which is under the assigned genus, we ought to know that, since genus is the genus of something, and species the species of something, each of each, we must necessarily use both in the definitions of both. They assign, therefore, species thus: species is what is arranged under genus, and of which genus is predicated in reply to what .a thing is: moreover, thus species is what is predicated of many things differing in planation, however, belongs to the most special, other (descriptions) will pertain to such as are not the most special. Now, what we have stated will be evident in this way: in each category there are certain things most generic, and again, others most special, and between the most generic and the most special, others which are alike called both genera and species, but the most generic is that above which there cannot be another superior genus, and the most special that below which there cannot be another inferior species. Between the most generic and the most special,” there are others which are alike both genera and Species, referred, nevertheless, to different things, but what is stated may become clear in one category. Substance indeed, is itself genus, under this is body, under body animated body, under which is animal, under animal rational animal, under which is man, under man Socrates, Plato, and men particularly. Still, of these, substance is the most generic, and that which alone is genus; but man is most specific, and that which alone is species; yet body is a species of substance, but a genus of animated body, also animated body is a species of body, but a genus of animal; again, animal is a species of animated body, but a genus of rational animal, and rational animal is a species of animal, but a genus man is a species of rational animal, but is no genus of particular men, but is species only, and every thing prior to individuals being proximately predicated of them, will be species only, and no longer genus also. As then, substance being in the highest place, is most generic, from there being no genus prior to it, so also man being a species, after which there is no other species, nor any thing capable of division into species, but individuals, (for Socrates, Plato, Alcibiades, and this white thing, I call individual,) will be species alone, and the last species, and as we say the most specific. Yet the media will be the species of such as are before them, but the genera of things after them, so that these have two conditions, one a to things prior to them, according to which they 476 said to be their species, the other to things after genera. ‘The extremes on the other hand, have one condition, for the most generic has indeed a condition as to the things under it, since it is genus of all, but has no longer one as to those before it, being supreme, and the first principle, and, as we have said, that above which there cannot be another higher genus. Also, the most specific has one condition, as to the things prior to it, of which it is the species, yet it has not a different one, as to things posterior to it, but is called the species of individuals, so termed as comprehending them, and again, the species of things prior to it, as comprehended by them, wherefore the most generic genus is thus defined to be that which being ‘genus is not species, and again, above which there cannot be another higher genus ; but the most specific species, that, which being species is not genus, and which being species we can no longer divide into species ; moreover, which is predicated of many things differing in number, in reply to what a thing is.",
+"raw": "Species indeed is predicated of every form, ac-\ncording to which it is said, “form is first worthy\nof imperial sway ;”? still that is called species also,\nwhich is under the genus stated, according to\nwhich we are accustomed to call man a species of\nanimal, animal being genus, but white a species\nof colour, and triangle of figure. Nevertheless, if when we\nassign the genus, we make mention of species, saying that\nwhich is predicated of many things differing in species, in\nreply to what a thing is, and call species that which is under\nthe assigned genus, we ought to know that, since genus is the\ngenus of something, and species the species of something, each\nof each, we must necessarily use both in the definitions of\nboth. They assign, therefore, species thus: species is what\nis arranged under genus, and of which genus is predicated in\nreply to what .a thing is: moreover, thus species\nis what is predicated of many things differing in\nplanation, however, belongs to the most special,\nother (descriptions) will pertain to such as are not the most\nspecial. Now, what we have stated will be evident in this\nway: in each category there are certain things most generic,\nand again, others most special, and between the most generic\nand the most special, others which are alike called both\ngenera and species, but the most generic is that above which\nthere cannot be another superior genus, and the most special\nthat below which there cannot be another inferior species.\nBetween the most generic and the most special,”\nthere are others which are alike both genera and\nSpecies, referred, nevertheless, to different things,\nbut what is stated may become clear in one cate-\ngory. Substance indeed, is itself genus, under\nthis is body, under body animated body, under\nwhich is animal, under animal rational animal,\nunder which is man, under man Socrates, Plato,\nand men particularly. Still, of these, substance is the most\ngeneric, and that which alone is genus; but man is most spe-\ncific, and that which alone is species; yet body is a species\nof substance, but a genus of animated body, also animated\nbody is a species of body, but a genus of animal; again,\nanimal is a species of animated body, but a genus of rational\nanimal, and rational animal is a species of animal, but a genus\nman is a species of rational animal, but is no\ngenus of particular men, but is species only, and\nevery thing prior to individuals being proximately predicated\nof them, will be species only, and no longer genus also. As\nthen, substance being in the highest place, is most generic,\nfrom there being no genus prior to it, so also man being a\nspecies, after which there is no other species, nor any thing\ncapable of division into species, but individuals, (for Socrates,\nPlato, Alcibiades, and this white thing, I call individual,) will\nbe species alone, and the last species, and as we say the most\nspecific. Yet the media will be the species of\nsuch as are before them, but the genera of things\nafter them, so that these have two conditions, one\na8 to things prior to them, according to which they\n476 said to be their species, the other to things after\ngenera. ‘The extremes on the other hand, have\none condition, for the most generic has indeed a\ncondition as to the things under it, since it is\ngenus of all, but has no longer one as to those before it, be-\ning supreme, and the first principle, and, as we have said, that\nabove which there cannot be another higher genus. Also, the\nmost specific has one condition, as to the things prior to it, of\nwhich it is the species, yet it has not a different one, as to\nthings posterior to it, but is called the species of individuals,\nso termed as comprehending them, and again, the species of\nthings prior to it, as comprehended by them, wherefore the\nmost generic genus is thus defined to be that which\nbeing ‘genus is not species, and again, above which\nthere cannot be another higher genus ; but the most\nspecific species, that, which being species is not\ngenus, and which being species we can no longer\ndivide into species ; moreover, which is predicated\nof many things differing in number, in reply to\nwhat a thing is.!",
+"notes": [
+{
+"note": "owen1853.isagoge.n0054",
+"at": 2279
+},
+{
+"note": "owen1853.isagoge.n0011",
+"at": 3025
+},
+{
+"note": "owen1853.isagoge.n0012",
+"at": 4145
+}
+]
+},
+{
+"id": "owen1853.isagoge.p00008",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "270",
+"paragraph": 8,
+"book": null,
+"chapter": 2,
+"text": "Now, the media of the extremes they call subaltern species and genera, and admit each of them to be species and genus, when referred indeed to different things, for those which are prior to the most specific, ascending up to the most called subaltern genera and species. Thus, Agamemnon is Atrides, Pelopides, Tantalides, and lastly, (the son) of Jupiter, yet in genealogies they refer generally to one origin, for instance, to Jupiter ; but this is not the case in genera and species, since being is not the common genus of all things, nor, as Aristotle says, are all things of the same genus with respect to one summum genus. Still, let the first ten genera be arranged, as in the Categories, as ten first principles, and even if a person should call all things beings, yet he will call them, so he says, equivocally, but not synonymously, for if being were the one common genus of all things, all things would be synonymously styled beings, but the first principles being ten, the community is in name only, yet not in the definition BeMera. On the other hand, the most specific they place in a certain number, yet not in an infiNite one, but individuals which are after the most gsnecific are infinite; wherefore, when we have come down to the most specific from the most generic, Plato exhorts us to rest, but to descend through those things which are in the middle, dividing by specific differences ; he tells us however to leave infinites alone, as there cannot be science of these. In descending then, to the most specific, it is neCessary to proceed by division through multitude, but in ascending to the most generic, we must Collect multitude into one, for species is collective Of the many into one nature, and genus yet more 80 ; but particulars and singulars, on the contrary, always divide the one into multitude, for by the Participation of species, many men become one man; but in particulars and singujars, the one, is common, becomes many; for the singular is always divisive, but what is common is collective and reductive to one.",
+"raw": "Now, the media of the extremes they call sub-\naltern species and genera, and admit each of\nthem to be species and genus, when referred in-\ndeed to different things, for those which are prior\nto the most specific, ascending up to the most\ncalled subaltern genera and species. Thus, Agamemnon is\nAtrides, Pelopides, Tantalides, and lastly, (the son) of Jupiter,\nyet in genealogies they refer generally to one origin, for in-\nstance, to Jupiter ; but this is not the case in genera and spe-\ncies, since being is not the common genus of all things, nor, as\nAristotle says, are all things of the same genus with respect\nto one summum genus. Still, let the first ten genera be ar-\nranged, as in the Categories, as ten first principles, and even\nif a person should call all things beings, yet he will call them,\nso he says, equivocally, but not synonymously, for if being\nwere the one common genus of all things, all things would be\nsynonymously styled beings, but the first principles being\nten, the community is in name only, yet not in the definition\nBeMera. On the other hand, the most specific\nthey place in a certain number, yet not in an infi-\nNite one, but individuals which are after the most\ngsnecific are infinite; wherefore, when we have\ncome down to the most specific from the most\ngeneric, Plato exhorts us to rest,’ but to descend\nthrough those things which are in the middle, di-\nviding by specific differences ; he tells us however\nto leave infinites alone, as there cannot be science of these.\nIn descending then, to the most specific, it is ne-\nCessary to proceed by division through multitude,\nbut in ascending to the most generic, we must\nCollect multitude into one, for species is collective\nOf the many into one nature, and genus yet more\n80 ; but particulars and singulars, on the contrary,\nalways divide the one into multitude, for by the\nParticipation of species, many men become one\nman; but in particulars and singujars, the one,\nis common, becomes many; for the singular is\nalways divisive, but what is common is collective and reduc-\ntive to one.",
+"notes": [
+{
+"note": "owen1853.isagoge.n0055",
+"at": 1036
+},
+{
+"note": "owen1853.isagoge.n0013",
+"at": 1310
+},
+{
+"note": "owen1853.isagoge.n0056",
+"at": 1541
+}
+]
+},
+{
+"id": "owen1853.isagoge.p00009",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "271",
+"paragraph": 9,
+"book": null,
+"chapter": 2,
+"text": "Genus then, and species, being each of them explained as to what it is, since also genus is one, Ut species many, (for there is always a division of genus into many species,) genus indeed is alWays predicated of species, and all superior of inferior, but species is nejther predicated of its proximate genus, nor of those superior, since it does not reciprocate. For it is necessary that either equals should be predicated of equals, as neighing of a horse, or that the greater should be predicated of the less, as animal of man, but the less no longer of the greater, for you can no longer say that animal is man, as you can say that man is animal. Of those things however whereof species is predicated, that genus of the species will also be necessarily predicated, also that genus of the genus up to the most generic; for if it is true to say that Socrates is a man, but man an animal, and animal substance, it is also true to say that Socrates is animal and substance. At least, since the superior are always predicated of the inferior, species indeed will always be predicated of the individual, but the genus both of the species and of the individual, but the most generic both of the genus or the genera, (if the media and subaltern be many,) and of the species, and of the individual. For the most generic is predicated of all the genera, species, and individuals under it, but the genus which is prior to the most specific (species), is predicated of all the most specific species and individuals; but what is species alone of all the individuals (of it), but the individual of one particular alone. Now, an individual is called Socrates, this white thing, this man who approaches the son: of Sophroniscus, if Socrates alone is his son, and such things are called individuals, because each consists of properties of which. the combination can never be the same in any other, for the properties of Socrates can never be the same in any other particular person the properties of man indeed, (1 mean of him as common,) may be the same in many, or rather in all particular men, so far as they are men. Wherefore the individual is comprehended in the species, but the species by the genus, for genus is a certain whole, but the individual is a part, and species ch. 5,note thing else, but a whole not of another, but in other things, for the whole is in its parts. Concerning genus then, and species, we have shown what is the most generic, and the most specific, also what the same things are genera and species, what also are ee sa in bow many ways genus and species are taken.",
+"raw": "Genus then, and species, being each of them\nexplained as to what it is, since also genus is one,\nUt species many, (for there is always a division\nof genus into many species,) genus indeed is al-\nWays predicated of species, and all superior of in-\nferior, but species is nejther predicated of its\nproximate genus, nor of those superior, since it\ndoes not reciprocate. For it is necessary that either equals\nshould be predicated of equals, as neighing of a horse, or that\nthe greater should be predicated of the less, as animal of man,\nbut the less no longer of the greater, for you can no longer\nsay that animal is man, as you can say that man is animal.\nOf those things however whereof species is predicated, that\ngenus of the species will also be necessarily predicated, also that\ngenus of the genus up to the most generic; for if it is true to\nsay that Socrates is a man, but man an animal, and animal\nsubstance, it is also true to say that Socrates is animal and\nsubstance. At least, since the superior are always predicated\nof the inferior, species indeed will always be predicated of the\nindividual, but the genus both of the species and of the indi-\nvidual, but the most generic both of the genus or the genera,\n(if the media and subaltern be many,) and of the species, and\nof the individual. For the most generic is predicated of all\nthe genera, species, and individuals under it, but the genus\nwhich is prior to the most specific (species), is predicated of\nall the most specific species and individuals; but what is spe-\ncies alone of all the individuals (of it), but the individual of\none particular alone.! Now, an individual is called Socrates,\nthis white thing, this man who approaches the son: of Sophro-\nniscus, if Socrates alone is his son, and such things are called\nindividuals, because each consists of properties of which. the\ncombination can never be the same in any other, for the pro-\nperties of Socrates can never be the same in any other par-\nticular person the properties of man indeed, (1 mean of him\nas common,) may be the same in many, or rather in all par-\nticular men, so far as they are men. Wherefore\nthe individual is comprehended in the species, but\nthe species by the genus, for genus is a certain\nwhole, but the individual is a part, and species\nch. 5,note thing else, but a whole not of another, but in other\nthings, for the whole is in its parts.! Concerning genus then,\nand species, we have shown what is the most generic, and the\nmost specific, also what the same things are genera and spe-\ncies, what also are ee sa in bow many ways genus\nand species are taken.",
+"notes": [
+{
+"note": "owen1853.isagoge.n0015",
+"at": 1608
+},
+{
+"note": "owen1853.isagoge.n0057",
+"at": 2116
+},
+{
+"note": "owen1853.isagoge.n0017",
+"at": 2368
+},
+{
+"note": "owen1853.isagoge.n0014",
+"at": 2583
+},
+{
+"note": "owen1853.isagoge.n0016",
+"at": 2583
+}
+]
+},
+{
+"id": "owen1853.isagoge.p00010",
+"kind": "heading",
+"part": "isagoge",
+"page_1804": "273",
+"paragraph": 10,
+"book": null,
+"chapter": 3,
+"text": "Chapter III: Of Difference.",
+"raw": "Cnap. Π].--- Οὗ Difference.’",
+"notes": [],
+"heading": "Chapter III: Of Difference."
+},
+{
+"id": "owen1853.isagoge.p00011",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "273",
+"paragraph": 11,
+"book": null,
+"chapter": 3,
+"text": "DIFFERENCE may be predicated commonly, pro-perly, and most properly: for one thing is said to differ from another in common from its differing in some respect in diversity of nature, either from itself, or from something else ; for Socrates differs from Plato in diversity of nature, and himself from himself when a boy, and when become a man, also when he does any thing, or ceases to do it, and it is always perceived in the different ways in which a thing is somehow effected. Again, one thing is said to differ properly from another, when one differs from another by an inseparable accident; but an inseparable accident is such as blueness, or crookedness, or 8 scar become scirrhous from a wound. Moreover, one is most: properly said to differ from another, when it varies by specific difference, as man differs from horse by specific differ-SO i. 6. by the quality of rational. Universally then every difference acceding to a thing renders it different, but differences common and proper render it different in quality, and the most proper Tender it another thing. Hence, those which render it another thing are called specific, but those, which make it different in quality, are simply (called) differences, for the difference of rational being added to animal, makes it another thing, (and makes a species of animal, ) but difference of being moved makes it different in quality only from what is at rest, so that the one renders it another thing, but the other only of another quality.",
+"raw": "DIFFERENCE may be predicated commonly, pro-\n-perly, and most properly: for one thing is said to\ndiffer from another in common from its differing\nin some respect in diversity of nature, either from\nitself, or from something else ; for Socrates differs\nfrom Plato in diversity of nature, and himself\nfrom himself when a boy, and when become a man, also when\nhe does any thing, or ceases to do it, and it is always perceived\nin the different ways in which a thing is somehow effected.\nAgain, one thing is said to differ properly from another, when\none differs from another by an inseparable accident; but an\ninseparable accident is such as blueness, or crookedness, or 8\nscar become scirrhous from a wound. Moreover, one is most:\nproperly said to differ from another, when it varies by spe-\ncific difference, as man differs from horse by specific differ-\nSO i. 6. by the quality of rational. Universally\nthen every difference acceding to a thing renders it\ndifferent, but differences common and proper ren-\nder it different in quality, and the most proper\nTender it another thing. Hence, those which ren-\nder it another thing are called specific, but those,\nwhich make it different in quality, are simply\n(called) differences, for the difference of rational\nbeing added to animal, makes it another thing,\n(and makes a species of animal, ) but difference of being moved\nmakes it different in quality only from what is at rest, so that\nthe one renders it another thing, but the other only of another\nquality.!",
+"notes": [
+{
+"note": "owen1853.isagoge.n0018",
+"at": 1494
+},
+{
+"note": "owen1853.isagoge.n0019",
+"at": 1494
+}
+]
+},
+{
+"id": "owen1853.isagoge.p00012",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "274",
+"paragraph": 12,
+"book": null,
+"chapter": 3,
+"text": "According then, to the differences which produce another thing do the divisions of genera into. es berg species arise, and the definitions arising from genus and such differences are assigned. On the other hand, as to those which only make a thing different in. quality, diversities alone consist, and the changes of subsisttence of a thing; beginning then, again, from the first, we must say that of differences some are separable, others inseparable, thus to be moved, and to be at rest, to be ill, and to be well, and such as resemble these, are separable, but to have a crooked, or a flat nose, to be rational, or irrational, are inseparable differences. Again, of the inseparable, some exist per se, others by accident, and not per se. Wherefore, such as are present per se, are assumed in the definition of substance, and effect a different thing, but what are accidental are neither taken in the definition of substance, nor render a thing another, but of another quality. Those too, which are per se, do not admit of the more and less, but the accidental, even if they be inseparable, admit of intention and remission, for neither is genus more and less predicated of that of which it is the genus, nor the differences of genus according to which it is divided. For these are such as complete the definition of each thing, but the essence of each is one and the same, and neither admits of intention, nor remission; to have crooked or a flat nose, or to be in some way coloured, admits both of intension and remission. Since then, there are three species of difference considered, some indeed separable, but others inseparable, again, of the inseparable, some are per se, but others accidental, moreover of differences per se, some are those according to which we divide genera into species, but others according to which the things divided become specific :—thus of all such differences per se of animal as these, animated and sensitive, rational and irrational, mortal and immortal, the of animated and sensitive is constitutive of the essence of animal, for animal is an animated substance, en-sense, but the difference of mortal and immortal, and that of rational and irrational, are the divisive differences of animal, for through these we divide genera into species: yet these very differences which divide the genera are constitutive and completive of species. For animal is divided by the difference of rational and irrational, and again, by the difference of mortal and immortal ; but the differences of rational and mortal are constitutive of man, but those of rational and immortal of God, those again, of mortal and irrational, of irrational animals. Thus also, since the differences of animate and inanimate, sensitive and void of sense, divide the highest substance, animate and sensitive added to substance, complete animal, but animate and deprived of sense, form plant; since then, the same differences taken in one way become constitutive, but in another divisive, they are all called specific.",
+"raw": "According then, to the differences which pro-\nduce another thing do the divisions of genera into. es berg\nspecies arise, and the definitions arising from\ngenus and such differences are assigned. On the\nother hand, as to those which only make a thing different in.\nquality, diversities alone consist, and the changes of subsist-\ntence of a thing; beginning then, again, from the\nfirst, we must say that of differences some are\nseparable, others inseparable, thus to be moved,\nand to be at rest, to be ill, and to be well, and\nsuch as resemble these, are separable, but to have\na crooked, or a flat nose, to be rational, or irra-\ntional, are inseparable differences.* Again, of the\ninseparable, some exist per se, others by accident,\nand not per se. Wherefore, such as are present\nper se, are assumed in the definition of substance,\nand effect a different thing, but what are acci-\ndental are neither taken in the definition of sub-\nstance, nor render a thing another, but of another\nquality. Those too, which are per se, do not\nadmit of the more and less, but the accidental,\neven if they be inseparable, admit of intention and remission,\nfor neither is genus more and less predicated of that of which\nit is the genus, nor the differences of genus according to\nwhich it is divided. For these are such as complete the de-\nfinition of each thing, but the essence of each is one and the\nsame, and neither admits of intention, nor remission; to have\ncrooked or a flat nose, or to be in some way\ncoloured, admits both of intension and remission. Since then,\nthere are three species of difference considered,\nsome indeed separable, but others inseparable,\nagain, of the inseparable, some are per se, but\nothers accidental, moreover of differences per se,\nsome are those according to which we divide\ngenera into species, but others according to which\nthe things divided become specific :—thus of all\nsuch differences per se of animal as these, animated and\nsensitive, rational and irrational, mortal and immortal, the\nof animated and sensitive is constitutive of the\nessence of animal, for animal is an animated substance, en-\nsense, but the difference of mortal and immortal,\nand that of rational and irrational, are the divisive differences\nof animal, for through these we divide genera into species:\nyet these very differences which divide the genera are con-\nstitutive and completive of species. For animal is divided by\nthe difference of rational and irrational, and again, by the dif-\nference of mortal and immortal ; but the differences of rational\nand mortal are constitutive of man, but those of rational and\nimmortal of God, those again, of mortal and irrational, of\nirrational animals.! Thus also, since the differences of animate\nand inanimate, sensitive and void of sense, divide the highest\nsubstance, animate and sensitive added to sub-\nstance, complete animal, but animate and deprived\nof sense, form plant; since then, the same differ-\nences taken in one way become constitutive, but\nin another divisive, they are all called specific.",
+"notes": [
+{
+"note": "owen1853.isagoge.n0058",
+"at": 373
+},
+{
+"note": "owen1853.isagoge.n0059",
+"at": 771
+},
+{
+"note": "owen1853.isagoge.n0020",
+"at": 2670
+},
+{
+"note": "owen1853.isagoge.n0060",
+"at": 2824
+}
+]
+},
+{
+"id": "owen1853.isagoge.p00013",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "276",
+"paragraph": 13,
+"book": null,
+"chapter": 3,
+"text": "These indeed are especially useful for divisions of genera, and for definitions, yet not with regard to those which are inseparable accidentally, nor still more with such as are separable. And indeed defining these, they say that difference is that by which species exceeds genus, e. g. man exceeds animal in being rational and mortal, for animal is neither any-one of these, (since whence would species have differences?) nor has it all the opposite differences, (since otherwise the same thing would at the same time have opposites, ) but (as they allege) it contains all the differences which are under it in cgpacity, but not one of them in energy, and so neither is any thing produced from non-entities, nor will opposites at the same time subsist about the same thing.",
+"raw": "These indeed are especially useful for divisions\nof genera, and for definitions, yet not with regard to\nthose which are inseparable accidentally, nor still\nmore with such as are separable.! And indeed\ndefining these, they say that difference is that by\nwhich species exceeds genus, e. g. man exceeds animal in be-\ning rational and mortal, for animal is neither any-one of these,\n(since whence would species have differences?) nor has it all\nthe opposite differences, (since otherwise the same thing would\nat the same time have opposites, ) but (as they allege) it con-\ntains all the differences which are under it in cgpacity, but\nnot one of them in energy, and so neither is any thing pro-\nduced from non-entities, nor will opposites at the same time\nsubsist about the same thing.",
+"notes": [
+{
+"note": "owen1853.isagoge.n0021",
+"at": 188
+}
+]
+},
+{
+"id": "owen1853.isagoge.p00014",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "276",
+"paragraph": 14,
+"book": null,
+"chapter": 3,
+"text": "Again, they define it (difference ) also thus : difference is that which is predicated of many things differing in species in answer to the question, of what kind a thing is, for rational and mortal being predicated of man, are spoken in reply to what kind of thing man is, and not as to the question what is he. For when we are asked what is man, we properly answer, an animal, but when men inquire what kind of animal, we say properly, that he is rational and mortal. For since things consist of matter and form, or have a constitution analogous to matter and form, as a statue is composed of brass, matter, but of figure, form, so also man, both common and specific, consists of matter analogous to genus, and of form analogous to difference, but the whole of this, animal, rational, mortal, is ™an, in the same manner as the statue there. They also describe it thus, difference is what is naturally adapted to separate things which are under the same genus, as rational and irrational separate man 224 horse, which are under the same genus, animal. Again, they give it in this way: difference is that by which each singular thing differs, for man and horse do not differ as to genus, for both we and horses are amimals, but the addition of rational separates us again, both we and the gods are rational. but the addition of mortal separates us from them. They however who more nicely discuss what pertion. Cf.ch.12 tains to difference, say that it is not any casual thing dividing those under the same genus, but such as contributes to the essence, and to the definition of the essence of a thing; and which is part of the thing. For to be naturally adapted to sail is not the difference, though it is the property of man, since we may say that of animals, some are naturally adapted to sail, but others not, separating man from other animals; yet a natural ability to sail does not complete the essence, neither is a part of it, but only an aptitude of it, because it is not such a difference as those which are called specific differences. Wherefore specific differences will be such as produce another species, and which are assumed in explaining the very nature of a thing: and concerning difference this is sufficient.",
+"raw": "Again, they define it (difference ) also thus :\ndifference is that which is predicated of many\nthings differing in species in answer to the ques-\ntion, of what kind a thing is,? for rational and\nmortal being predicated of man, are spoken in reply to what\nkind of thing man is, and not as to the question what is he.\nFor when we are asked what is man, we properly answer, an\nanimal, but when men inquire what kind of animal, we say\nproperly, that he is rational and mortal. For since things\nconsist of matter and form, or have a constitution analogous to\nmatter and form, as a statue is composed of brass, matter, but\nof figure, form, so also man, both common and specific, con-\nsists of matter analogous to genus, and of form analogous to\ndifference,* but the whole of this, animal, rational, mortal, is\n™an, in the same manner as the statue there. They\nalso describe it thus, difference is what is na-\nturally adapted to separate things which are un-\nder the same genus, as rational and irrational separate man\n224 horse, which are under the same genus, ani-\nmal. Again, they give it in this way: difference\nis that by which each singular thing differs, for\nman and horse do not differ as to genus, for both we and\nhorses are amimals, but the addition of rational separates us\nagain, both we and the gods! are rational. but\nthe addition of mortal separates us from them.\nThey however who more nicely discuss what per-\ntion. Cf.ch.12 tains to difference, say that it is not any casual\nthing dividing those under the same genus, but\nsuch as contributes to the essence, and to the definition of the\nessence of a thing; and which is part of the thing. For to be\nnaturally adapted to sail is not the difference, though it is\nthe property of man, since we may say that of animals, some\nare naturally adapted to sail, but others not, separating man\nfrom other animals; yet a natural ability to sail does not\ncomplete the essence, neither is a part of it, but only an apti-\ntude of it, because it is not such a difference as those which\nare called specific differences. Wherefore specific differences\nwill be such as produce another species, and which are as-\nsumed in explaining the very nature of a thing: and concern-\ning difference this is sufficient.",
+"notes": [
+{
+"note": "owen1853.isagoge.n0022",
+"at": 176
+},
+{
+"note": "owen1853.isagoge.n0023",
+"at": 745
+},
+{
+"note": "owen1853.isagoge.n0024",
+"at": 1293
+}
+]
+},
+{
+"id": "owen1853.isagoge.p00015",
+"kind": "heading",
+"part": "isagoge",
+"page_1804": "277",
+"paragraph": 15,
+"book": null,
+"chapter": 4,
+"text": "Chapter IV: Of Property.",
+"raw": "(βαρ. IV.—Of Property.",
+"notes": [],
+"heading": "Chapter IV: Of Property."
+},
+{
+"id": "owen1853.isagoge.p00016",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "277",
+"paragraph": 16,
+"book": null,
+"chapter": 4,
+"text": "PROPERTY they divide in four ways: for it is that which happens to some one species alone, μον τς ον, though not to every (individual of that species), as to a man to heal, or to geometrize: that also which happens to a whole species, though not to that alone, as to man to be a biped: that again, which happens to a species alone, and to every (individual of it), and at a certain time, as to every man to become grey in old age: in the fourth place, it is that in which it concurs (to happen) to one species alone, and to every (individual of it), and always, as risibility to a man; for though he does-not always laugh, yet he is said to be risible, not from his always laughing, but from being naturally laugh, and this is always iftherent in him, in the same way as neighing in a horse. They say also that these properties, because they reciprocate, since if any thing be a. horse it is capable of neighing, and if any thing be capable of neighing it is a horse. -\"",
+"raw": "PROPERTY they divide in four ways: for it is\nthat which happens to some one species alone,\nμον τς ον, though not to every (individual of that species),\nas to a man to heal, or to geometrize: that also\nwhich happens to a whole species, though not to\nthat alone, as to man to be a biped: that again,\nwhich happens to a species alone, and to every\n(individual of it), and at a certain time, as to every man to be-\ncome grey in old age: in the fourth place, it is that in which\nit concurs (to happen) to one species alone, and to every (in-\ndividual of it), and always, as risibility to a man; for though\nhe does-not always laugh, yet he is said to be risible, not from\nhis always laughing, but from being naturally\nlaugh, and this is always iftherent in him, in the same way as\nneighing in a horse. They say also that these\nproperties, because they reciprocate, since if any thing be a.\nhorse it is capable of neighing, and if any thing be capable of\nneighing it is a horse.! -\"",
+"notes": [
+{
+"note": "owen1853.isagoge.n0025",
+"at": 967
+}
+]
+},
+{
+"id": "owen1853.isagoge.p00017",
+"kind": "heading",
+"part": "isagoge",
+"page_1804": "278",
+"paragraph": 17,
+"book": null,
+"chapter": 5,
+"text": "Chapter V: Of Accident.",
+"raw": "Cuar. V.—Of Accident.",
+"notes": [],
+"heading": "Chapter V: Of Accident."
+},
+{
+"id": "owen1853.isagoge.p00018",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "278",
+"paragraph": 18,
+"book": null,
+"chapter": 5,
+"text": "AccIDENT is that which is present and absent without the destruction of its subject. It receives a two-fold division, for one kind of it is separable, but the other inseparable, 6. g. to sleep is a separable accident, but to be black happens inseparably toa crow and‘an Ethiopian ; we may possibly indeed conceive a white crow, and an Ethiopian casting his colour, without destruction of the subject.",
+"raw": "AccIDENT is that which is present and absent\nwithout the destruction of its subject. It receives\na two-fold division, for one kind of it is separable,\nbut the other inseparable, 6. g. to sleep is a separ-\nable accident, but to be black happens inseparably\ntoa crow and‘an Ethiopian ; we may possibly indeed conceive\na white crow, and an Ethiopian casting his colour, without\ndestruction of the subject.?",
+"notes": [
+{
+"note": "owen1853.isagoge.n0026",
+"at": 400
+}
+]
+},
+{
+"id": "owen1853.isagoge.p00019",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "278",
+"paragraph": 19,
+"book": null,
+"chapter": 5,
+"text": "They also define it thus ; accident is that which may be present and not present to the same thing ; also that which is neither genus, nor difference, nor species, nor property, yet is always inherent in a subject.",
+"raw": "They also define it thus ; accident is that which\nmay be present and not present to the same thing ;\nalso that which is neither genus, nor difference, nor species,\nnor property, yet is always inherent in a subject.",
+"notes": []
+},
+{
+"id": "owen1853.isagoge.p00020",
+"kind": "heading",
+"part": "isagoge",
+"page_1804": "279",
+"paragraph": 20,
+"book": null,
+"chapter": 6,
+"text": "Chapter VI: Of Things common and peculiar to the Five Predicables.",
+"raw": "Crap. VI.—Of Things common and peculiar to the Five Predicables.",
+"notes": [],
+"heading": "Chapter VI: Of Things common and peculiar to the Five Predicables."
+},
+{
+"id": "owen1853.isagoge.p00021",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "279",
+"paragraph": 21,
+"book": null,
+"chapter": 6,
+"text": "Havine discussed all that were proposed, I mean, genus, species, difference, property, accident, we must declare what things are common, and what peculiar to them. Now it is common to them all (0 be predicated, as we have said, of many things, but genus (is predicated) of the species and individuals under it, and difference in like manner ; but species, of the individuals under it; and property, both of the species, of which it is the property, and of.the individuals species; again, accident (is predicated) both of individuals. For animal is predicated of horse and ox, being species, also of this particular horse and ox, individuals, but irrational is predicated of horse and ox, and of particulars. Species however, as man, is predicated of particulars alone, but property both of the species, of which it is the property, and of the individuals under that species ; as risibility both of man, and of particular men, but blackness of the species of crows, and of particulars, being an inseparable accident; and to be moved, of man and horse, being a separable accident. Notwithstanding, it is pre-eminently (predicated) of individuals, but secondarily of those things which comprehend individuals.",
+"raw": "Havine discussed all that were proposed, I mean,\ngenus, species, difference, property, accident, we\nmust declare what things are common, and what\npeculiar to them. Now it is common to them all\n(0 be predicated, as we have said, of many things,\nbut genus (is predicated) of the species and indi-\nviduals under it, and difference in like manner ;\nbut species, of the individuals under it; and property, both of\nthe species, of which it is the property, and of.the individuals\nspecies; again, accident (is predicated) both of\nindividuals. For animal is predicated of horse\nand ox, being species, also of this particular horse and ox,\nindividuals, but irrational is predicated of horse\nand ox, and of particulars. Species however, as man, is pre-\ndicated of particulars alone, but property both of the species,\nof which it is the property, and of the individuals under that\nspecies ; as risibility both of man, and of particular men, but\nblackness of the species of crows, and of particulars, being\nan inseparable accident; and to be moved, of man and horse,\nbeing a separable accident. Notwithstanding, it is pre-emi-\nnently (predicated) of individuals, but secondarily of those\nthings which comprehend! individuals.",
+"notes": [
+{
+"note": "owen1853.isagoge.n0061",
+"at": 471
+},
+{
+"note": "owen1853.isagoge.n0027",
+"at": 1193
+}
+]
+},
+{
+"id": "owen1853.isagoge.p00022",
+"kind": "heading",
+"part": "isagoge",
+"page_1804": "279",
+"paragraph": 22,
+"book": null,
+"chapter": 7,
+"text": "Chapter VII: Of the Community and Distinction of Genus and Difference.",
+"raw": "Cuap. VII.—Of the Community and Distinction of Genus and\nDifference.",
+"notes": [],
+"heading": "Chapter VII: Of the Community and Distinction of Genus and Difference."
+},
+{
+"id": "owen1853.isagoge.p00023",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "279",
+"paragraph": 23,
+"book": null,
+"chapter": 7,
+"text": "It is common to genus and difference to be comprehensive of species, for difference also compreends species, though not all such as the genera ; for rational, though it does not comprehend irrational, as animal does, yet it comprehends man and divinity, which are species. Whatever things also are predicated of genus as genus, are predicated of the species under it, and whatever are predicated of difference as’ difference, will be also of the species formed from it. For animal being a genus, substance is predicated of it as of a genus, also animated, and sensible, but these are predicated ὃς. of all the species under animal, as far as to individuals. <As moreover, rational is difference, the use of reason is predicated of it, as of difference, yet the use of reason will not be predicated of rational only, but also of the species under rational. This too is common, that when genus or difference is subverted, the things under them are also subverted, for as when animal is not, horse is not, nor man, thus also, when rational is not, there will be no animal which uses reason. Now, it is the property of genus to be predicated of more things than difference, species, property, and accident are, for. animal (is predicated) of man and horse, bird and snake, but quadruped of animals alone, which have four feet ; again, man of individuals alone, and capacity of neighing of horse alone, and of particulars. Likewise, accident of fewer things: yet we must assume the differences by which the genus is divided, not those which complete, but which divide the essence of genus.",
+"raw": "It is common to genus and difference to be com-\nprehensive of species, for difference also compre-\nends species, though not all such as the genera ;\nfor rational, though it does not comprehend irra-\ntional, as animal does, yet it comprehends man\nand divinity, which are species. Whatever things also are\npredicated of genus as genus, are predicated of the spe-\ncies under it, and whatever are predicated of difference as’\ndifference, will be also of the species formed from it. For\nanimal being a genus, substance is predicated of it as of a\ngenus, also animated, and sensible, but these are predicated ὃς.\nof all the species under animal, as far as to individuals. <As\nmoreover, rational is difference, the use of reason is predicated\nof it, as of difference, yet the use of reason will not be predi-\ncated of rational only, but also of the species under rational.\nThis too is common, that when genus or differ-\nence is subverted, the things under them are also\nsubverted, for as when animal is not, horse is not,\nnor man, thus also, when rational is not, there\nwill be no animal which uses reason. Now, it is\nthe property of genus to be predicated of more\nthings than difference, species, property, and accident are, for.\nanimal (is predicated) of man and horse, bird and snake, but\nquadruped of animals alone, which have four feet ; again, man\nof individuals alone, and capacity of neighing of horse alone,\nand of particulars. Likewise, accident of fewer things: yet\nwe must assume the differences by which the genus is di-\nvided, not those which complete, but which divide the essence\nof genus.",
+"notes": [
+{
+"note": "owen1853.isagoge.n0062",
+"at": 144
+},
+{
+"note": "owen1853.isagoge.n0028",
+"at": 1584
+}
+]
+},
+{
+"id": "owen1853.isagoge.p00024",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "280",
+"paragraph": 24,
+"book": null,
+"chapter": 7,
+"text": "Moreover, genus comprehends difference in capacity, for of animal one kind is rational, but another irrational, but differences do not comprehend genera. Besides, genera are prior to the differences under them, wherefore they subvert them, but are not co-subverted with them.",
+"raw": "Moreover, genus comprehends difference in ca-\npacity,! for of animal one kind is rational, but\nanother irrational, but differences do not com-\nprehend genera. Besides, genera are prior to\nthe differences under them, wherefore they sub-\nvert them, but are not co-subverted with them.",
+"notes": [
+{
+"note": "owen1853.isagoge.n0029",
+"at": 53
+}
+]
+},
+{
+"id": "owen1853.isagoge.p00025",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "280",
+"paragraph": 25,
+"book": null,
+"chapter": 7,
+"text": "For animal being subverted, rational and irrational are co-subverted, but differences no longer co-subvert genus, for even if all of them should be subverted, yet we may form a conception of animated, sensible substance, which is animal. 4 but difference in reference to what kind of a thing it is, as was observed before ; besides there is one genus according to every species; e. g. of man, animal (is the genus), but there are many differences, as rational, mortal, capable of intellect and science, by which he differs from other animals. Genus also is similar to matter, but difference to form: however since there are other things common and peculiar to genus and difference, these will suffice.",
+"raw": "For animal being subverted, rational and irrational are co-\nsubverted, but differences no longer co-subvert genus, for\neven if all of them should be subverted, yet we may form a\nconception of animated, sensible substance, which is animal. 4\nbut difference in reference to what kind of a thing it is, as was\nobserved before ; besides there is one genus according to every\nspecies; e. g. of man, animal (is the genus), but there are\nmany differences, as rational, mortal, capable of intellect and\nscience, by which he differs from other animals. Genus also\nis similar to matter, but difference to form:! however since\nthere are other things common and peculiar to genus and dif-\nference, these will suffice.",
+"notes": [
+{
+"note": "owen1853.isagoge.n0030",
+"at": 599
+}
+]
+},
+{
+"id": "owen1853.isagoge.p00026",
+"kind": "heading",
+"part": "isagoge",
+"page_1804": "281",
+"paragraph": 26,
+"book": null,
+"chapter": 8,
+"text": "Chapter VIII: Of Community and Difference of Genus and Species",
+"raw": "βαρ, VIIL—Of Community and Difference of Genus and Species?",
+"notes": [],
+"heading": "Chapter VIII: Of Community and Difference of Genus and Species"
+},
+{
+"id": "owen1853.isagoge.p00027",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "281",
+"paragraph": 27,
+"book": null,
+"chapter": 8,
+"text": "GENUs and species possess in common, (as we have said,) the being predicated of many things, DUt Species must be taken as species only, and not as genus, if the same thing be both species Moreover, it is common to them both to be prior to what they are predicated of, and to be each a certain whole ; but they differ, because genus indeed comprehends species, but species are comprehended by, and do not comprehend genera, for genus is predicated of more than species. Besides, it is necessary that genera should be presupposed, and when formed by specific differences, that they should consummate species, whence also genera are by nature prior. They also co-subvert, but are not co-subverted, for species existing, genus also entirely exists, but genus existing there is not altogether species ; genera too, are indeed univocally predicated of species® under them, but not species of genera. Moreover, genera exceed, from comprehending the species which are under then, but species exceed genera by their proper differences; besides, neither can species become most generic, moet specific.",
+"raw": "GENUs and species possess in common, (as we\nhave said,) the being predicated of many things,\nDUt Species must be taken as species only, and\nnot as genus, if the same thing be both species\nMoreover, it is common to them both to be prior\nto what they are predicated of, and to be each a certain whole ;\nbut they differ, because genus indeed comprehends species, but\nspecies are comprehended by, and do not comprehend genera, for\ngenus is predicated of more than species. Besides, it is neces-\nsary that genera should be presupposed, and when formed by\nspecific differences, that they should consummate species,\nwhence also genera are by nature prior. They also co-sub-\nvert, but are not co-subverted, for species existing, genus also\nentirely exists, but genus existing there is not altogether spe-\ncies ; genera too, are indeed univocally predicated of species®\nunder them, but not species of genera. Moreover, genera ex-\nceed, from comprehending the species which are under then,\nbut species exceed genera by their proper differences; be-\nsides, neither can species become most generic,\nmoet specific.",
+"notes": [
+{
+"note": "owen1853.isagoge.n0031",
+"at": 1091
+},
+{
+"note": "owen1853.isagoge.n0032",
+"at": 1091
+}
+]
+},
+{
+"id": "owen1853.isagoge.p00028",
+"kind": "heading",
+"part": "isagoge",
+"page_1804": "282",
+"paragraph": 28,
+"book": null,
+"chapter": 9,
+"text": "Chapter IX: Of Community and Difference of Genus",
+"raw": "παρ. IX.—Of Community and Difference of Genus",
+"notes": [],
+"heading": "Chapter IX: Of Community and Difference of Genus"
+},
+{
+"id": "owen1853.isagoge.p00029",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "282",
+"paragraph": 29,
+"book": null,
+"chapter": 9,
+"text": "BotH to genus and to property it is common to follow species, for if any thing be man, it is animal, and if any thing be man, it is risible. Likewise to genus, to be equally predicated of species, and to property, (to be equally predicated) of the individuals which participate it ; thus man and ox are equally animal, and Anytus and Melitus risible It is also common that genus should be univocally predicated of its proper species, and the things of which it is the property; still the cause genus is prior, but property posterior, for : first necessarily exist, afterwards be divided by and properties. Also genus indeed is predicat species, but property of one certain species of wh property. Besides property is reciprocally predic of which it is the property, but genus is not recip dicated of any thing, for neither if any thing is a it a man, nor 18 thing be animal is it risible, but is man it is risible, and vice versa. Moreover, inherent in the whole species, of which it is the it alone, and always, but genus in the whole sp of which it is the genus, and always, yet not in it: more, properties being subverted do not co-subvert genera being subverted, co-subvert species, to wh ties belong ; wherefore, also those things of whic properties, being subverted, the properties themsel co-subverted.",
+"raw": "BotH to genus and to property it is common to\nfollow species, for if any thing be man, it is ani-\nmal, and if any thing be man, it is risible. Like-\nwise to genus, to be equally predicated of species,\nand to property, (to be equally predicated) of the\nindividuals which participate it ; thus man and ox\nare equally animal, and Anytus and Melitus risi-\nble! It is also common that genus should be\nunivocally predicated of its proper species, and\nthe things of which it is the property; still the\ncause genus is prior, but property posterior, for :\nfirst necessarily exist, afterwards be divided by\nand properties. Also genus indeed is predicat\nspecies, but property of one certain species of wh\nproperty. Besides property is reciprocally predic\nof which it is the property,? but genus is not recip\ndicated of any thing, for neither if any thing is a\nit a man, nor 18 thing be animal is it risible, but\nis man it is risible, and vice versa. Moreover,\ninherent in the whole species, of which it is the\nit alone, and always,? but genus in the whole sp\nof which it is the genus, and always, yet not in it:\nmore, properties being subverted do not co-subvert\ngenera being subverted, co-subvert species, to wh\nties belong ; wherefore, also those things of whic\nproperties, being subverted, the properties themsel\nco-subverted.",
+"notes": [
+{
+"note": "owen1853.isagoge.n0033",
+"at": 351
+}
+]
+},
+{
+"id": "owen1853.isagoge.p00030",
+"kind": "heading",
+"part": "isagoge",
+"page_1804": "283",
+"paragraph": 30,
+"book": null,
+"chapter": 10,
+"text": "Chapter X: Of Community and Difference of Genus and Accident.",
+"raw": "παρ. X.—Of Community and Difference of Genus and Accident.'",
+"notes": [],
+"heading": "Chapter X: Of Community and Difference of Genus and Accident."
+},
+{
+"id": "owen1853.isagoge.p00031",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "283",
+"paragraph": 31,
+"book": null,
+"chapter": 10,
+"text": "It is common to genus and accident to be predicated, as ‘we have said, of many things, whether they (the accidents) be separable or inseparable, for to be moved is predicated of many things, and blackness of crows, and of Ethiopians, and of certain inanimate things. Genus however differs from accident, pants of genus participate it equally, but those of accident do not equally ; for the participation of accidents accepts intension and remission, but not that of genera. Besides, accidents primarily subsist about individuals, but genera and species are by nature prior to individual substances. Moreover, genera are predicated of the things under them, in respect to what a thing is, but accidents in respect to what kind of a thing it is, or how each thing subsists; for being asked, what kind of man an Ethiopian is, you say that he is black ; or how Socrates is, you reply that he is sick or well.",
+"raw": "It is common to genus and accident to be predi-\ncated, as ‘we have said, of many things, whether\nthey (the accidents) be separable or inseparable,\nfor to be moved is predicated of many things, and\nblackness of crows, and of Ethiopians, and of cer-\ntain inanimate things. Genus however differs from accident,\npants of genus participate it equally, but those of accident do\nnot equally ; for the participation of accidents accepts inten-\nsion and remission, but not that of genera. Besides, accidents\nprimarily subsist about individuals, but genera and species are\nby nature prior to individual substances. Moreover, genera\nare predicated of the things under them, in respect to what a\nthing is, but accidents in respect to what kind of a thing it is,\nor how each thing subsists; for being asked, what kind of\nman an Ethiopian is, you say that he is black ; or how Socrates\nis, you reply that he is sick or well.",
+"notes": []
+},
+{
+"id": "owen1853.isagoge.p00032",
+"kind": "heading",
+"part": "isagoge",
+"page_1804": "283",
+"paragraph": 32,
+"book": null,
+"chapter": 11,
+"text": "Chapter XI: Of Community and Difference of ἜΝ and Difference.",
+"raw": "Cuap. XL—Of Community and Difference of ἜΝ and\nDifference.",
+"notes": [],
+"heading": "Chapter XI: Of Community and Difference of ἜΝ and Difference."
+},
+{
+"id": "owen1853.isagoge.p00033",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "283",
+"paragraph": 33,
+"book": null,
+"chapter": 11,
+"text": "We have shown then, wherein genus differs from edivabler re. the other four, but each of the other four happens also to differ from the rest, so that as there are five, and each one of the four differs from the rest, the five being four times (taken), all the differences would appear to be twenty. Nevertheless, such is not the case, but always those successive being enumerated, and two being deficient by one difference, from having been already assumed, and the three by two differences, the four by three, the five by four; all the differences are ten, namely, four, three, two, one. For in what genus differs from difference, species, property, and accident, we have shown, wherefore, there are four differences; also we explained in what respect difference differs from genus, when we declared in what genus differs from it. What remains then, viz. in what respect it differs from species, property, and accident, shall be told, and three (differences) arise. Again, we declared how species differs from difference, when we showed how difference differs from species ; also we showed how species differs from genus, when we explained how genus differs from species ; what remains then, viz. in what species differs from property and from accident, shall be told: these, then, are two differences. ‘But in what respect property differs from accident, shall be ‘discovered, for how it differs from species, difference, and genus, was explained before in the difference of those from these. Wherefore, as four differences of genus with respect to the rest, are assumed, but three of difference, two of species, and one of property with regard to accident, there will be ten (differences altogether), of which, four we have already demonstrated, viz. those of genus, with respect to the rest.",
+"raw": "We have shown then, wherein genus differs from\nedivabler re. the other four, but each of the other four happens\nalso to differ from the rest, so that as there are\nfive, and each one of the four differs from the\nrest, the five being four times (taken), all the differences\nwould appear to be twenty. Nevertheless, such is not the\ncase, but always those successive being enumerated, and two\nbeing deficient by one difference, from having been already\nassumed, and the three by two differences, the four by three,\nthe five by four; all the differences are ten, namely, four,\nthree, two, one. For in what genus differs from difference,\nspecies, property, and accident, we have shown, wherefore,\nthere are four differences; also we explained in what respect\ndifference differs from genus, when we declared in what genus\ndiffers from it. What remains then, viz. in what respect it\ndiffers from species, property, and accident, shall be told, and\nthree (differences) arise. Again, we declared how species dif-\nfers from difference, when we showed how difference differs\nfrom species ; also we showed how species differs from genus,\nwhen we explained how genus differs from species ; what re-\nmains then, viz. in what species differs from property and\nfrom accident, shall be told: these, then, are two differences.\n‘But in what respect property differs from accident, shall be\n‘discovered, for how it differs from species, difference, and\ngenus, was explained before in the difference of those from\nthese. Wherefore, as four differences of genus\nwith respect to the rest, are assumed, but three\nof difference, two of species, and one of property\nwith regard to accident, there will be ten (differ-\nences altogether), of which, four we have already demon-\nstrated, viz. those of genus, with respect to the rest.",
+"notes": [
+{
+"note": "owen1853.isagoge.n0063",
+"at": 1487
+},
+{
+"note": "owen1853.isagoge.n0034",
+"at": 1795
+}
+]
+},
+{
+"id": "owen1853.isagoge.p00034",
+"kind": "heading",
+"part": "isagoge",
+"page_1804": "284",
+"paragraph": 34,
+"book": null,
+"chapter": 12,
+"text": "Chapter XII: The same subject continued.",
+"raw": "Crap. Xi. —The same subject continued.",
+"notes": [],
+"heading": "Chapter XII: The same subject continued."
+},
+{
+"id": "owen1853.isagoge.p00035",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "284",
+"paragraph": 35,
+"book": null,
+"chapter": 12,
+"text": "1 is common then to difference and species to be. species and equally participated, for particular men partake equally of man, and of the difference of rational. It is also common always to be present to their participants, for Socrates is always rational, and always man, but it is the property of difference indeed to be predicated in respect to what kind a thing is of, but of species in respect to what a thing is, for though man should be assumed as a certain kind of thing, yet he will not be simply so, but in as far as differences according to genus constitute bim. Besides, difference is often seen in many species, as quadruped in many animals, different in species, but species is in the individuals alone, which are under the species. Moreover, difference is prior to the species which subsists according to it, for rational being subverted, co-subverts man, but man being subverted, does not co-subvert rational, since there is still divinity. Further, difference is joined with another difference, but species is not joined with species, so as to produce some other species ; for indeed a,certain horse is joined with a certain ass, for the production of a mule, but horse simply joined with ass will not produce a mule.",
+"raw": "1 is common then to difference and species to be. species and\nequally participated, for particular men partake\nequally of man, and of the difference of rational.\nIt is also common always to be present to their\nparticipants, for Socrates is always rational, and\nalways man, but it is the property of difference indeed to be\npredicated in respect to what kind a thing is of, but of species\nin respect to what a thing is, for though man should be as-\nsumed as a certain kind of thing, yet he will not be simply so,\nbut in as far as differences according to genus constitute bim.!\nBesides, difference is often seen in many species, as quadruped\nin many animals, different in species, but species is in the in-\ndividuals alone, which are under the species. Moreover, dif-\nference is prior to the species which subsists according to it,\nfor rational being subverted, co-subverts man, but man being\nsubverted, does not co-subvert rational, since there is still di-\nvinity. Further, difference is joined with another difference,\nbut species is not joined with species, so as to produce some\nother species ; for indeed a,certain horse is joined with a cer-\ntain ass, for the production of a mule, but horse simply joined\nwith ass will not produce a mule.",
+"notes": [
+{
+"note": "owen1853.isagoge.n0035",
+"at": 573
+}
+]
+},
+{
+"id": "owen1853.isagoge.p00036",
+"kind": "heading",
+"part": "isagoge",
+"page_1804": "285",
+"paragraph": 36,
+"book": null,
+"chapter": 13,
+"text": "Chapter XIII: Of Community and Difference of Property and Difference.",
+"raw": "παρ. XIIL—Of Community and Difference of Property and\nDifference.’",
+"notes": [],
+"heading": "Chapter XIII: Of Community and Difference of Property and Difference."
+},
+{
+"id": "owen1853.isagoge.p00037",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "285",
+"paragraph": 37,
+"book": null,
+"chapter": 13,
+"text": "DIFFERENCE also and property have it in common to be equally shared by their participants, for ational are equally rational, and risible (equally) risible (animals). Also it is common to both to be always present, and to every one, for though a biped should be mutilated, yet (the term biped) is always predicated with reference to what is naturally adapted, since also risible has the “always” from natural adaptation, but not from always laughing. Νοῦν, it is the property of difference, that it is frequently predicated of many species, as rational of divinity and man, but property (is predicated) of one species, of which it is the property. Difference moreover follows those things of which it is the difference, yet does not also reciprocate, but properties are reciprocally predicated of those of which they are the properties, in consequence of reciprocating.",
+"raw": "DIFFERENCE also and property have it in common\nto be equally shared by their participants, for\national are equally rational, and risible (equally)\nrisible (animals). Also it is common to both to\nbe always present, and to every one, for though\na biped should be mutilated, yet (the term biped) is always\npredicated with reference to what is naturally adapted, since\nalso risible has the “always” from natural adaptation, but\nnot from always laughing. Νοῦν, it is the property of differ-\nence, that it is frequently predicated of many species, as ra-\ntional of divinity and man, but property (is predicated) of\none species, of which it is the property. Difference moreover\nfollows those things of which it is the difference, yet does not\nalso reciprocate, but properties are reciprocally predicated of\nthose of which they are the properties, in consequence of re-\nciprocating.",
+"notes": []
+},
+{
+"id": "owen1853.isagoge.p00038",
+"kind": "heading",
+"part": "isagoge",
+"page_1804": "285",
+"paragraph": 38,
+"book": null,
+"chapter": 14,
+"text": "Chapter XIV: Of Community and Difference of Accident and Difference.",
+"raw": "(βαρ, XIV.—Of Community and Difference of Accident and\nDifference.",
+"notes": [],
+"heading": "Chapter XIV: Of Community and Difference of Accident and Difference."
+},
+{
+"id": "owen1853.isagoge.p00039",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "285",
+"paragraph": 39,
+"book": null,
+"chapter": 14,
+"text": "[0 difference and accident it is common to be predicated of many things, but it is common (to the former) with inseparable accidents to be present always and with every one, for biped is always present to man, and likewise blackness to all crows. Still they differ in that difference indeed comprehends but is not comprehended by species ; for rational comprehends divinity and man, but accidents after a certain manner comprehend from their being in many things, yet in a certain manner are comprehended from the subjects not being the recipients of one accident, but of many. Besides, difference indeed does not admit of intension and remission, but accidents accept the more and less; moreover contrary differences cannot be mingled, but contrary accidents may sometimes be mingled. So many then are the points common and peculiar to difference and the others.",
+"raw": "[0 difference and accident it is common to be\npredicated of many things, but it is common (to\nthe former) with inseparable accidents to be pre-\nsent always and with every one, for biped is al-\nways present to man, and likewise blackness to\nall crows. Still they differ in that difference in-\ndeed comprehends but is not comprehended by\nspecies ; for rational comprehends divinity and man, but acci-\ndents after a certain manner comprehend from their being in\nmany things, yet in a certain manner are comprehended from\nthe subjects not being the recipients of one accident, but of\nmany. Besides, difference indeed does not admit of intension\nand remission, but accidents accept the more and less; more-\nover contrary differences cannot be mingled, but contrary ac-\ncidents may sometimes be mingled. So many then are the\npoints common and peculiar to difference and the others.",
+"notes": [
+{
+"note": "owen1853.isagoge.n0036",
+"at": 863
+},
+{
+"note": "owen1853.isagoge.n0037",
+"at": 863
+}
+]
+},
+{
+"id": "owen1853.isagoge.p00040",
+"kind": "heading",
+"part": "isagoge",
+"page_1804": "286",
+"paragraph": 40,
+"book": null,
+"chapter": 15,
+"text": "Chapter XV: Of Community and Difference of Species and Property.",
+"raw": "Cuap. XV.—Of Community and Difference of Species and\nProperty.",
+"notes": [],
+"heading": "Chapter XV: Of Community and Difference of Species and Property."
+},
+{
+"id": "owen1853.isagoge.p00041",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "286",
+"paragraph": 41,
+"book": null,
+"chapter": 15,
+"text": "In what respect species differs from genus and difference, was explained in our enunciation of the way in which genus, and also difference, differ-from the rest; it now remains that we should point out how it (species) differs from property and accident. It is common then to species and property, to be reciprocally predicated of each other, since if any thing be man, it is risible, also if it be risible, it is man, still we have frequently declared that risible must be assumed according to natural adaptation to risibility. It is also common (to them) to be equally present, for species are sent to their participants, and properties to the things of which they are properties, but species differs from property, in that species indeed may be the genus of other things, but property cannot possibly be the property of other things. Again, species subsists prior to property, but property accedes to species, for man must exist, in order that risible may: besides, species is always present in energy with its subject, but property sometimes also in capacity, for Socrates is a man always in energy, but he does not always laugh, though he is always naturally adapted to be risible. Once more, things of which the definitions are different, are themselves also different, but it is (the definition) of species to be under genus, and .to be predicated of many things, also differing in number, in respect to what a thing is, and things of this kind, but of property it is to be present to a thing alone, and to every individual and always.",
+"raw": "In what respect species differs from genus and difference,\nwas explained in our enunciation of the way in which genus,\nand also difference, differ-from the rest; it now remains that\nwe should point out how it (species) differs from property and\naccident. It is common then to species and pro-\nperty, to be reciprocally predicated of each other,\nsince if any thing be man, it is risible, also if it\nbe risible, it is man, still we have frequently de-\nclared that risible must be assumed according to\nnatural adaptation to risibility. It is also common\n(to them) to be equally present, for species are\nsent to their participants, and properties to the things of\nwhich they are properties, but species differs from property,\nin that species indeed may be the genus of other things, but\nproperty cannot possibly be the property of other things.\nAgain, species subsists prior to property, but property accedes\nto species, for man must exist, in order that risible may: be-\nsides, species is always present in energy with its subject, but\nproperty sometimes also in capacity, for Socrates is a man\nalways in energy, but he does not always laugh, though he is\nalways naturally adapted to be risible.! Once more, things of\nwhich the definitions are different, are themselves also differ-\nent, but it is (the definition) of species to be under genus, and\n.to be predicated of many things, also differing in number, in\nrespect to what a thing is, and things of this kind, but of pro-\nperty it is to be present to a thing alone, and to every indi-\nvidual and always.!",
+"notes": [
+{
+"note": "owen1853.isagoge.n0064",
+"at": 244
+},
+{
+"note": "owen1853.isagoge.n0038",
+"at": 1186
+},
+{
+"note": "owen1853.isagoge.n0039",
+"at": 1542
+}
+]
+},
+{
+"id": "owen1853.isagoge.p00042",
+"kind": "heading",
+"part": "isagoge",
+"page_1804": "287",
+"paragraph": 42,
+"book": null,
+"chapter": 16,
+"text": "Chapter XVI: Of Community and Difference of Species and Accident.",
+"raw": "Cuap. XVI.—Of Community and Difference of Species and Accident.",
+"notes": [],
+"heading": "Chapter XVI: Of Community and Difference of Species and Accident."
+},
+{
+"id": "owen1853.isagoge.p00043",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "287",
+"paragraph": 43,
+"book": null,
+"chapter": 16,
+"text": "To species and accident it is common to be predicated of many, but other points of community are rare, from the circumstance of accident, and that to which it is accidental, differing very much from each other. Now, the properties of each are these: of species, to be predicated of those of Which it is the species, in respect to what a thing is, but of accident, in reference to what kind a thing is of, or how it subsists? Likewise, that each substance partakes of one species, but of many accidents, both separable and inseparable: moreover, species are conceived prior to accidents, even if they be inseparable, (for there must be subject, in order that something should happen to it,) but accidents are naturally adapted to be of posterior origin, and possess a nature adjunctive to substance. Again, of species the participation is equal, but of accident, even if it be inseparable, it is not equal; for an Ethiopian may have a colour intense, or remitted, according to, blackness, with reference to an(other) Ethiopian.",
+"raw": "To species and accident it is common to be predi-\ncated of many, but other points of community are\nrare, from the circumstance of accident, and that\nto which it is accidental, differing very much from\neach other. Now, the properties of each are\nthese: of species, to be predicated of those of\nWhich it is the species, in respect to what a thing\nis, but of accident, in reference to what kind a\nthing is of, or how it subsists? Likewise, that\neach substance partakes of one species, but of many accidents,\nboth separable and inseparable: moreover, species are con-\nceived prior to accidents, even if they be inseparable, (for\nthere must be subject, in order that something should happen\nto it,) but accidents are naturally adapted to be of posterior\norigin, and possess a nature adjunctive to substance. Again,\nof species the participation is equal, but of accident, even if\nit be inseparable, it is not equal; for an Ethiopian may have\na colour intense, or remitted, according to, blackness, with\nreference to an(other) Ethiopian.’",
+"notes": [
+{
+"note": "owen1853.isagoge.n0040",
+"at": 1026
+}
+]
+},
+{
+"id": "owen1853.isagoge.p00044",
+"kind": "heading",
+"part": "isagoge",
+"page_1804": "287",
+"paragraph": 44,
+"book": null,
+"chapter": 17,
+"text": "Chapter XVII: Of Community and Difference of Property and. Accident.",
+"raw": "Cuap. XVII—Of Community and Difference of Property and.\nAccident.",
+"notes": [],
+"heading": "Chapter XVII: Of Community and Difference of Property and. Accident."
+},
+{
+"id": "owen1853.isagoge.p00045",
+"kind": "paragraph",
+"part": "isagoge",
+"page_1804": "287",
+"paragraph": 45,
+"book": null,
+"chapter": 17,
+"text": "IT remains to speak of property and accident, for how property differs from species, difference, and genus, has been stated. It is common then to property and inseparable accident not to subsist without those things in which they are beheld, for as man does not subsist without risible, so neither can Ethiopian subsist without blackness, and as property is present to every, and always, so also is inseparable accident. Nevertheless, they differ, in that property is present to one species alone, as the being risible to man, but inseparable accident, as black, is present not only toan Ethiopian, but also to a crow, to a coal, to ebony, and to certain other things. Moreover, property is regiprocally predicated of that of which it is the property, and is equally (present), but inseparable accident is not reciprocally predicated, besides, the participation of properties is equal, but of accidents one (subject partakes) more, but another less. There are indeed other points of community, and peculiarity of the above-mentioned (predicables), but these are sufficient for their distinction, and the setting forth of their agreement.”",
+"raw": "IT remains to speak of property and accident, for\nhow property differs from species, difference, and\ngenus, has been stated. It is common then to\nproperty and inseparable accident not to subsist\nwithout those things in which they are beheld,\nfor as man does not subsist without risible,! so\nneither can Ethiopian subsist without blackness, and as pro-\nperty is present to every, and always, so also is inseparable\naccident. Nevertheless, they differ, in that property is pre-\nsent to one species alone, as the being risible to man, but in-\nseparable accident, as black, is present not only toan Ethiopian,\nbut also to a crow, to a coal, to ebony, and to certain other\nthings. Moreover, property is regiprocally predicated of that\nof which it is the property, and is equally (present), but in-\nseparable accident is not reciprocally predicated, besides, the\nparticipation of properties is equal, but of accidents one (sub-\nject partakes) more, but another less. There are indeed other\npoints of community, and peculiarity of the above-mentioned\n(predicables), but these are sufficient for their distinction, and\nthe setting forth of their agreement.”",
+"notes": [
+{
+"note": "owen1853.isagoge.n0065",
+"at": 49
+},
+{
+"note": "owen1853.isagoge.n0043",
+"at": 286
+},
+{
+"note": "owen1853.isagoge.n0041",
+"at": 1138
+},
+{
+"note": "owen1853.isagoge.n0042",
+"at": 1138
+},
+{
+"note": "owen1853.isagoge.n0044",
+"at": 1138
+}
+]
+}
+],
+"notes": [
+{
+"id": "owen1853.isagoge.n0001",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "At the request of Chrysaorius, his pupil, who had recently met with the Categories of Aristotle, Porphyry wrote this introduction, in order to his comprehension of that treatise: nearly the whole of it is composed from the writings, and often almost in the very words of Plato. As philosophers reduced all things under ten common natures, as grammarians also, with respect to eight words, so Porphyry has comprehended every significant word, except such as are significant of individuals, under five terms. The five heads of predicables therefore, taken from this Isagoge, which was written in the third century, are an addition to the Aristotelian Logic, in part of which, (the Topics,) the doctrine laid down differs from that enunciated here, in several points, as Porphyry’s view also differs from that of Aldrich. Upon the subject generally, the reader may compare Albertus Magnus de Predicab. Aquinas. Occam Logica. Abelard de Gen. et Spec. ed Cousin. Trendelenb. Elem. Crakanthorpe’s, Whately’s, Hill’s, and Wallis’ Logics, also Boethius de Divisione.",
+"raw": "At the request of Chrysaorius, his pupil, who had recently met with the Categories of Aristotle, Porphyry wrote this introduction, in order to his comprehension of that treatise: nearly the whole of it is composed from the writings, and often almost in the very words of Plato. As philosophers reduced all things under ten common natures, as gram- marians also, with respect to eight words, so Porphyry has comprehended every significant word, except such as are significant of individuals, under five terms. The five heads of predicables therefore, taken from this Isagoge, which was written in the third century, are an addition to the Aristotelian Logic, in part of which, (the Topics,) the doctrine laid down differs from that enunciated here, in several points, as Porphyry’s view also differs from that of Aldrich. Upon the subject generally, the reader may compare Albertus Magnus de Predicab. Aquinas. Occam Logica. Abelard de Gen. et Spec. ed Cousin. Trendelenb. Elem. Crakanthorpe’s, Whately’s, Hill’s, and Wallis’ Logics, also Boethius de Divisione.",
+"leaf": 264,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00003",
+"at": 312
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0002",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Dialectic, according to Plato, consists of four parts, division, definition, demonstration, and analysis ; hence a treatise adapted to the formation of these, will be evidently useful to the dialectic of Plato. The difference between the dialectic of Plato and that of Aristotle, is noticed in the subsequent notes upon the Organon, and the reader will find the subject ably discussed in the introduction to Mansel’s Logic; here we need only observe that Aristotle in the Topics, looks to opinion (in his treatment of dialectic), while Plato disregards it, and the former delivers many arguments about one problem, but the latter, the same method about many problems. Cf. Proclus. MSS. commentary on the Parmenides, Philip., Schol. p. 143, ch. 4; Waitz, vol. \" p. 437.",
+"raw": "3 Dialectic, according to Plato, consists of four parts, division, defini- tion, demonstration, and analysis ; hence a treatise adapted to the forma- tion of these, will be evidently useful to the dialectic of Plato. The differ- ence between the dialectic of Plato and that of Aristotle, is noticed in the subsequent notes upon the Organon, and the reader will find the subject ably discussed in the introduction to Mansel’s Logic; here we need only observe that Aristotle in the Topics, looks to opinion (in his treatment of dialectic), while Plato disregards it, and the former delivers many argu- ments about one problem, but the latter, the same method about many problems. Cf. Proclus. MSS. commentary on the Parmenides, Philip., Schol. p. 143, ch. 4; Waitz, vol. \" p. 437.",
+"leaf": 264,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00003",
+"at": 1134
+}
+],
+"anchor": "the page it is printed on"
+},
+{
+"id": "owen1853.isagoge.n0003",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "On the metaphysical part of this question, the opinions of philosophers are as vague as (I may add) they are unprofitable, hence the term “ὁ universals,” is the best to be employed, as least liable to commit the logician to any metaphysical hypothesis; since the realist may interpret it of “ substances,’ the nominalist of “names,” the conceptualist of “notions.’”’ Cf. Occam, Log. p. 1, Albertus Magnus, Abelard. The agreement between the first and last, proves that there is no real difference between nominalism and conceptualism, since they were both. Vide also Tee Appendix A, where the authorities upon each side will be found",
+"raw": "' On the metaphysical part of this question, the opinions of philoso- phers are as vague as (I may add) they are unprofitable, hence the term “ὁ universals,” is the best to be employed, as least liable to commit the logician to any metaphysical hypothesis; since the realist may interpret it of “ substances,’ the nominalist of “names,” the conceptualist of “notions.’”’ Cf. Occam, Log. p. 1, Albertus Magnus, Abelard. The agree- ment between the first and last, proves that there is no real difference be- tween nominalism and conceptualism, since they were both. Vide also Tee Appendix A, where the authorities upon each side will be found",
+"leaf": 265,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00003",
+"at": 838
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0004",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Genus and species, in short all forms, have a triple subsistence, for they are either prior to the many, or in the many, or posterior to the many. Taylor. Philoponus, in his extracts from Ammonius, illustrates this as follows: Let seal-ring be conceived, having the image of Achilles a it, from which seal let there be many impressions taken in pieces of wax, afterwards let a man perceiving the pieces of wax to have ali the impression of one seal, retain such impression in his mind: then the seal in the ring is said to be prior to the many; the impression in the wax to be ἐπ the many, and the image remaining in the conception of the specthe many, and of posterior origin. This he applies to genus",
+"raw": "3 Genus and species, in short all forms, have a triple subsistence, for they are either prior to the many, or in the many, or posterior to the many. Taylor. Philoponus, in his extracts from Ammonius, illustrates this as follows: Let seal-ring be conceived, having the image of Achilles a it, from which seal let there be many impressions taken in pieces of wax, afterwards let a man perceiving the pieces of wax to have ali the impression of one seal, retain such impression in his mind: then the seal in the ring is said to be prior to the many; the impression in the wax to be ἐπ the many, and the image remaining in the conception of the spec- the many, and of posterior origin. This he applies to genus",
+"leaf": 265,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00003",
+"at": 863
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0005",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Viz. metaphysics; it is, in fact, psychological. Cf. Leibnitz Meditat. de Cognit. Ver. opera. ed Erdmann. and Mansel’s Prolegomena Logica.",
+"raw": "3 Viz. metaphysics; it is, in fact, psychological. Cf. Leibnitz Meditat. de Cognit. Ver. opera. ed Erdmann. and Mansel’s Prolegomena Logica.",
+"leaf": 265,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00003",
+"at": 952
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0006",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "With this chapter compare ch. 5, of the Categories, and Top. i. 5 and 8, whence the discrepancies between the account of the predicables given by Arist. and this by Porphyry will appear, upon which see Mansel’s comment. Log. App. A, p. 9. Cf. also Albertus Mag. de Predicab. Trac.",
+"raw": "4 With this chapter compare ch. 5, of the Categories, and Top. i. 5 and 8, whence the discrepancies between the account of the predicables given by Arist. and this by Porphyry will appear, upon which see Mansel’s comment. Log. App. A, p. 9. Cf. also Albertus Mag. de Predicab. Trac.",
+"leaf": 265,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00005",
+"at": 1340
+}
+],
+"anchor": "the page it is printed on"
+},
+{
+"id": "owen1853.isagoge.n0007",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "11, cap. ], Metap. iv. 28,",
+"raw": "11, cap. ], Metap. iv. 28,",
+"leaf": 265,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00005",
+"at": 1340
+}
+],
+"anchor": "the page it is printed on"
+},
+{
+"id": "owen1853.isagoge.n0008",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Ammonius remarks that, ‘‘ It is worth while to doubt why Porphyry says that the first signification of genus appears to be the one easily adopted, and not the second signification, which is the habitude of one thing to one; since this nature first knows, for she first produces one thing from one, and thus many from many.’’ But as Taylor observes, the second signification of genus, which is second with reference to us, is first to nature ; for from Hercules, one man is first produced, and thus afterwards the multitude of the Heraclide. Universally, whatever is first to nature is second to us, and vice versd, 6. g. she begins with form and matter, then flesh and bone; we begin from man, so that things prior to nature are posterior to our knowledge, wherefore the first signification is clearer than the second.",
+"raw": "? Ammonius remarks that, ‘‘ It is worth while to doubt why Porphyry says that the first signification of genus appears to be the one easily adopted, and not the second signification, which is the habitude of one thing to one; since this nature first knows, for she first produces one thing from one, and thus many from many.’’ But as Taylor observes, the second signification of genus, which is second with reference to us, is first to nature ; for from Hercules, one man is first produced, and thus after- wards the multitude of the Heraclide. Universally, whatever is first to nature is second to us, and vice versd, 6. g. she begins with form and matter, then flesh and bone; we begin from man, so that things prior to nature are posterior to our knowledge, wherefore the first signification is clearer than the second.",
+"leaf": 266,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00005",
+"at": 448
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0009",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Genus speciebus materia est. Nam sicut gs, accept forma, transit in statuam, ita genus accepta differentid transit in speciem. Boethius de Divisione. Cf. Metap. iv. 28, and Cic. Top. cap. 7. predicated de specie differentibus; upon his consideration of property, vide note to ch. 4, Isagog. -",
+"raw": "Genus speciebus materia est. Nam sicut gs, accept forma, transit in statuam, ita genus accepta differentid transit in speciem. Boethius de Divisione. Cf. Metap. iv. 28, and Cic. Top. cap. 7. predicated de specie differentibus; upon his consideration of property, vide note to ch. 4, Isagog. -",
+"leaf": 267,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00006",
+"at": 468
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0010",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Atheneeus attributes this verse to Euripides. Vide Ath. lib. xiii.",
+"raw": "3 Atheneeus attributes this verse to Euripides. Vide Ath. lib. xiii.",
+"leaf": 268,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00006",
+"at": 3080
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0011",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "An infima species can be maintained by none consistently but a Realist. Vide Mansel, p. 21",
+"raw": "An infima species can be maintained by none consistently but a Realist. Vide Mansel, p. 21",
+"leaf": 269,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00007",
+"at": 3025
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0012",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "For the exemplification of the above, see the ‘“ Arbor Porphyriana,”’ (sometimes called by the Greek logicians, the “ladder,” Ainat,) giver at page 7, ch. 5, of the Categories, with the note.",
+"raw": "1 For the exemplification of the above, see the ‘“ Arbor Porphyriana,”’ (sometimes called by the Greek logicians, the “ladder,” Ainat,) giver at page 7, ch. 5, of the Categories, with the note.",
+"leaf": 270,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00007",
+"at": 4145
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0013",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "See notes to pp. 6 and 8, Categor. An infima species implies a notion so complex as to be incapable of further accessions, the Realist maintains it to be the whole essence of the individuals of which it is predicated. Cf. Boethius; also Wallis, lib. i. 13, et seq.; Whately, b. ii. ch. Ὁ, sect. 3 and 5.",
+"raw": "See notes to pp. 6 and 8, Categor. An infima species implies a no- tion so complex as to be incapable of further accessions, the Realist maintains it to be the whole essence of the individuals of which it is pre- dicated. Cf. Boethius; also Wallis, lib. i. 13, et seq.; Whately, b. ii. ch. Ὁ, sect. 3 and 5.",
+"leaf": 271,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00008",
+"at": 1310
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0014",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Cf. Mansel, pp. 18 and 21, note; Whately, p. 52, 138; Outline of Laws of Thought, p. 44; Stewart, Philo. of Human Mind, part i. ch. 4.",
+"raw": "2 Cf. Mansel, pp. 18 and 21, note; Whately, p. 52, 138; Outline of Laws of Thought, p. 44; Stewart, Philo. of Human Mind, part i. ch. 4.",
+"leaf": 271,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00009",
+"at": 2583
+}
+],
+"anchor": "the page it is printed on"
+},
+{
+"id": "owen1853.isagoge.n0015",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Properly speaking, there cannot be more than one highest genus, which is a cognate term to every substance and quality supposed to exist ; yet a subaltern genus may be relatively considered as a highest genus. Species, when resolved into its component parts, is found to be combined of genus and difference, and in different points of view, may be referred to different genera, also many species have no appropriate name, but are expressed by the combination of their constituent parts, genus and difference, 6. g. “ rectilinear-figure,’’ ‘‘ water-fowl ;’”’ indeed, some are denoted by the difference alone, as “‘ repeater’? (a watch which strikes the hour). Cf. ch. 3, Cat. note; Crakanthorpe, Log. lib. ii. Any singular term (denoting one individual) implies, (vide Whately, b. ii. ch. 5, 5,) not only the whole of what is understood by the species it belongs to, but also more, namely, whatever distinguishes that single object from others of the same species, as London implies all that is denoted by the term “ city,’’ and also all that distinguishes that individual city. Cf. Wallis, ch. 2.",
+"raw": "1 Properly speaking, there cannot be more than one highest genus, which is a cognate term to every substance and quality supposed to exist ; yet a subaltern genus may be relatively considered as a highest genus. Species, when resolved into its component parts, is found to be combined of genus and difference, and in different points of view, may be referred to different genera, also many species have no appropriate name, but are expressed by the combination of their constituent parts, genus and differ- ence, 6. g. “ rectilinear-figure,’’ ‘‘ water-fowl ;’”’ indeed, some are denoted by the difference alone, as “‘ repeater’? (a watch which strikes the hour). Cf. ch. 3, Cat. note; Crakanthorpe, Log. lib. ii. Any singular term (de- noting one individual) implies, (vide Whately, b. ii. ch. 5, 5,) not only the whole of what is understood by the species it belongs to, but also more, namely, whatever distinguishes that single object from others of the same species, as London implies all that is denoted by the term “ city,’’ and also all that distinguishes that individual city. Cf. Wallis, ch. 2.",
+"leaf": 272,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00009",
+"at": 1608
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0016",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Hence, in describing an individual, we do not employ properties (which belong to a whole species), but generally, inseparable accidents, i. e. such as can be predicated of their subject at all times.",
+"raw": "2 Hence, in describing an individual, we do not employ properties (which belong to a whole species), but generally, inseparable accidents, i. e. such as can be predicated of their subject at all times.",
+"leaf": 272,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00009",
+"at": 2583
+}
+],
+"anchor": "the page it is printed on"
+},
+{
+"id": "owen1853.isagoge.n0017",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Genus is a whole in predication, containing under it various subjective species; species is a whole in-defmstian, containing genus and differentia, as parts of the essence; the former may be called “ Totum Universale,”’ the latter ““ Totum Essentiale,”’ (cf. Crakanthorpe, Logica, lib. ii. ch. 5): sometimes the distinction is expressed by the terms, “‘whole of extension,” and “ whole of comprehension.”’ Port Royal Log., part i. ch. 6, Species contain genus by implication, genus contains species by comprehension, so also in this latter sense, does species contain “ individuals,” yet it is a less full and complete term than that of “ individual.” Vide Whately, Log. ii. ch. 5, sec. 3; Wallis, lib. i. 4; Abelard de Gen. et Spec.; Hill’s Log. vol. i.",
+"raw": "' Genus is a whole in predication, containing under it various sub- jective species; species is a whole in-defmstian, containing genus and dif- ferentia, as parts of the essence; the former may be called “ Totum Universale,”’ the latter ““ Totum Essentiale,”’ (cf. Crakanthorpe, Logica, lib. ii. ch. 5): sometimes the distinction is expressed by the terms, “‘whole of extension,” and “ whole of comprehension.”’ Port Royal Log., part i. ch. 6, Species contain genus by implication, genus contains spe- cies by comprehension, so also in this latter sense, does species contain “ individuals,” yet it is a less full and complete term than that of “ indi- vidual.” Vide Whately, Log. ii. ch. 5, sec. 3; Wallis, lib. i. 4; Abelard de Gen. et Spec.; Hill’s Log. vol. i.",
+"leaf": 273,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00009",
+"at": 2368
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0018",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Vide notes to ch. 5, Categories, and chapters 7, 12, 13, 14, Isag.",
+"raw": "5 Vide notes to ch. 5, Categories, and chapters 7, 12, 13, 14, Isag.",
+"leaf": 273,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00011",
+"at": 1494
+}
+],
+"anchor": "the page it is printed on"
+},
+{
+"id": "owen1853.isagoge.n0019",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "According to Porphyry, difference is always predicated ‘‘ de specie differentibus,’’ and he recognises only a relative difference between two given species; thus ‘rational ’’ is not the difference of man per se, but of man as distinguished from brutes. Specific difference (διαφορὰ εἰδοwoioc) is opposed by him to accidental difference, (διαφορὰ κατὰ συμβεβηκός,) and marks the difference proper, which distinguishes species from species, (whether subaltern or infima,) as contrasted with accidental, which only distinguishes between individuals. We must distinguish, however, between the accidents of a class, and those of an individual. Vide Mansel’s Logic, and upon this chapter generally, cf. Whately, b. ii. 5, sec. 4; Wallis, i. 4; Aldrich.",
+"raw": "1 According to Porphyry, difference is always predicated ‘‘ de specie differentibus,’’ and he recognises only a relative difference between two given species; thus ‘rational ’’ is not the difference of man per se, but of man as distinguished from brutes. Specific difference (διαφορὰ εἰδο- woioc) is opposed by him to accidental difference, (διαφορὰ κατὰ συμ- βεβηκός,) and marks the difference proper, which distinguishes species from species, (whether subaltern or infima,) as contrasted with accidental, which only distinguishes between individuals. We must distinguish, how- ever, between the accidents of a class, and those of an individual. Vide Mansel’s Logic, and upon this chapter generally, cf. Whately, b. ii. 5, sec. 4; Wallis, i. 4; Aldrich.",
+"leaf": 274,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00011",
+"at": 1494
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0020",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Porphyry’s definition of man, “animal rationale mortale,’’ was adopted by Abelard, Albertus Magnus, and Petrus Hispanus, though sometimes with the saving clause, that it must be understood with reference to the Stoical notions of the gods. Aquinas first removed the genus animal rationale from the Arbor Porphy., and limited rationality to man, distinguishing angels as intellectuales. Cf. Summa, p. 1; Qu. lviii. 3; Opusc. xlviii. Tract 1. In the Aristotelian definition of man, ζῷον πέζον δίπουν, the last would be regarded by him as a difference. Upon the constitutive element of generic and specific diff., see note to Cat. ch. 5; also Hill de Preedicab.",
+"raw": "Porphyry’s definition of man, “animal rationale mortale,’’ was adopted by Abelard, Albertus Magnus, and Petrus Hispanus, though sometimes with the saving clause, that it must be understood with refer- ence to the Stoical notions of the gods. Aquinas first removed the genus animal rationale from the Arbor Porphy., and limited rationality to man, distinguishing angels as intellectuales. Cf. Summa, p. 1; Qu. lviii. 3; Opusc. xlviii. Tract 1. In the Aristotelian definition of man, ζῷον πέζον δίπουν, the last would be regarded by him as a difference. Upon the constitutive element of generic and specific diff., see note to Cat. ch. 5; also Hill de Preedicab.",
+"leaf": 275,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00012",
+"at": 2670
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0021",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Boethius agrees with Porphyry, that accidents, properly so called, are useless in definition, (vide Opera, p. 3,) accidental definition is, in fact, merely a description. Cf. Albert. ]. ὁ. Occam, pt.i.ch. 27. The only proper definition is by genus and differentiee, hence all definable notions will be species. The definition here given of difference, as to its being the excess of species over genus, is clear, from a reference to what was stated in the last note of the preceding chapter.",
+"raw": "1 Boethius agrees with Porphyry, that accidents, properly so called, are useless in definition, (vide Opera, p. 3,) accidental definition is, in fact, merely a description. Cf. Albert. ]. ὁ. Occam, pt.i.ch. 27. The only proper definition is by genus and differentiee, hence all definable notions will be species. The definition here given of difference, as to its being the excess of species over genus, is clear, from a reference to what was stated in the last note of the preceding chapter.",
+"leaf": 276,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00013",
+"at": 188
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0022",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "“ Ratione ejus, quale quid est predicatur.” Buhle; so Aldrich. There is no warranty, as we have observed, by Porphyry, for distinction between “ quale quid”’ and “\" quale.”",
+"raw": "3 “ Ratione ejus, quale quid est predicatur.” Buhle; so Aldrich. There is no warranty, as we have observed, by Porphyry, for distinction between “ quale quid”’ and “\" quale.”",
+"leaf": 276,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00014",
+"at": 176
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0023",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Taylor reverses this:—the reader will find what follows profitably illustrated by Whately, in his supplement to ch. 1, Logic, and Mansel’s Appen. A and B.",
+"raw": "3 Taylor reverses this:—the reader will find what follows profitably illustrated by Whately, in his supplement to ch. 1, Logic, and Mansel’s Appen. A and B.",
+"leaf": 276,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00014",
+"at": 745
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0024",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "«Rationales enim sumus’ et nos et Dii,’’ vetus interpres Latinus. Commonly the word ἄγγελοι was substituted here, probably, as Casaubon conjectures, from the emendation of some Christian: Ammonius and Boethius (Comment. v.) attest that Porphyry wrote Qeoi. “᾿",
+"raw": "1 «Rationales enim sumus’ et nos et Dii,’’ vetus interpres Latinus. Commonly the word ἄγγελοι was substituted here, probably, as Casaubon conjectures, from the emendation of some Christian: Ammonius and Boethius (Comment. v.) attest that Porphyry wrote Qeoi. “᾿",
+"leaf": 277,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00014",
+"at": 1293
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0025",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "For examples of the above kinds of property, see Hill’s Log., page 65: the fourth kind of property corresponds strictly with the ἴδιον of Porphyry, who with Aristotle does not distinguish property from accident, as flowing necessarily from the essence, but as co-extensive and simply convertible with its subject. Compare here Boethius, and for the other distinction, see Albert de Preedicab. Tract. vi. c. 1; also Mansel, Appendix A. An act (as that of speaking or laughing) cannot correctly be esteemed a property ; moreover, as Whately remarks, ‘‘ when logicians speak of property and accident, as expressing something united to the essence, this must be understood as having reference, not to the nature of things as they are in themselves, but to our conceptions of them.” Property is sometimes termed “ essential,”’ but with this distinction .with regard to difference; to which last predicable also, the same term is applied, viz. that Diffetence is called ‘‘ Essentiale constituens ;’’ Property, “‘ Essentiale consequens.’’ A generic property, upon the principles of Aristotle and Porphyry, can only be regarded as a property, with respect to the highest species of which it is predicable, as to all subordinate species it must be considered an accident, e. g. “mobile,” a property.of “corpus,” is an accident to “‘ animal,”’ and to “ homo,” as not convertible with them.",
+"raw": "1 For examples of the above kinds of property, see Hill’s Log., page 65: the fourth kind of property corresponds strictly with the ἴδιον of Porphyry, who with Aristotle does not distinguish property from acci- dent, as flowing necessarily from the essence, but as co-extensive and simply convertible with its subject. Compare here Boethius, and for the other distinction, see Albert de Preedicab. Tract. vi. c. 1; also Mansel, Appendix A. An act (as that of speaking or laughing) cannot correctly be esteemed a property ; moreover, as Whately remarks, ‘‘ when logicians speak of property and accident, as expressing something united to the essence, this must be understood as having reference, not to the nature of things as they are in themselves, but to our conceptions of them.” Property is sometimes termed “ essential,”’ but with this distinction .with regard to difference; to which last predicable also, the same term is ap- plied, viz. that Diffetence is called ‘‘ Essentiale constituens ;’’ Property, “‘ Essentiale consequens.’’ A generic property, upon the principles of Aristotle and Porphyry, can only be regarded as a property, with respect to the highest species of which it is predicable, as to all subordinate species it must be considered an accident, e. g. “mobile,” a property.of “corpus,” is an accident to “‘ animal,”’ and to “ homo,” as not convertible with them.",
+"leaf": 278,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00016",
+"at": 967
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0026",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Upon the distinction of separable and inseparable accidents, see Mansel’s Log., p. 28, note; Whately, ii. 5, 5, and Wallis, i. 5.",
+"raw": "3 Upon the distinction of separable and inseparable accidents, see Mansel’s Log., p. 28, note; Whately, ii. 5, 5, and Wallis, i. 5.",
+"leaf": 278,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00018",
+"at": 400
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0027",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Upon Porphyry’s peculiar method of predication, in some instances, we have already remarked. Mansel gives the method of expressing the definitions of the three last predicables as to predication. Cf. also Whately, b. i. sec. 3 and 2, ch. 5, sec. 2 and 3; Aquinas, Opusc.; Abelard, de Gen. et Spec.; Albert de Preedicab.",
+"raw": "' Upon Porphyry’s peculiar method of predication, in some instances, we have already remarked. Mansel gives the method of expressing the definitions of the three last predicables as to predication. Cf. also Whately, b. i. sec. 3 and 2, ch. 5, sec. 2 and 3; Aquinas, Opusc.; Abelard, de Gen. et Spec.; Albert de Preedicab.",
+"leaf": 279,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00021",
+"at": 1193
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0028",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Compare notes on Cat.5. This and the subsequent chapters may be elucidated by what has been said before, and by reference to the common Logics.",
+"raw": "2 Compare notes on Cat.5. This and the subsequent chapters may be elucidated by what has been said before, and by reference to the common Logics.",
+"leaf": 279,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00023",
+"at": 1584
+}
+],
+"anchor": "the page it is printed on"
+},
+{
+"id": "owen1853.isagoge.n0029",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Avyapec—potentid. For the meaning of this expression, see Metap. lib. viii. (ix.), Leipsic ed., and de Anima ii. 1, ed. Trendelenb. While the whole comprehension, however, of a notion, may remain the same, the genus and difference may change places, according as it is compared with this or that other relation. Mansel, App. A, p. 8.",
+"raw": "' Avyapec—potentid. For the meaning of this expression, see Metap. lib. viii. (ix.), Leipsic ed., and de Anima ii. 1, ed. Trendelenb. While the whole comprehension, however, of a notion, may remain the same, the genus and difference may change places, according as it is compared with this or that other relation. Mansel, App. A, p. 8.",
+"leaf": 280,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00024",
+"at": 53
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0030",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "'\"YAg—popoy. Upon the union of the former term with οὐσία, and its signification, see note 2, ch. 5, Categ.; also de Anima, lib. ii. 1, sec. 2; the latter word pertains to the colour, figure, and magnitude of superficies. Metap. lib. vii. (viii-), Leipsic ed. The simile employed above, is closely characteristic of the analogy instituted by Aristotle in his Physics, b. i. ch. 8, also b. iv. Vide also Simplicius Comment. Plato",
+"raw": "'\"YAg—popoy. Upon the union of the former term with οὐσία, and its signification, see note 2, ch. 5, Categ.; also de Anima, lib. ii. 1, sec. 2; the latter word pertains to the colour, figure, and magnitude of super- ficies. Metap. lib. vii. (viii-), Leipsic ed. The simile employed above, is closely characteristic of the analogy instituted by Aristotle in his Physics, b. i. ch. 8, also b. iv. Vide also Simplicius Comment. Plato",
+"leaf": 281,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00025",
+"at": 599
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0031",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Cf. Arist. Metap. iv. 25, also the notes at ch. 2, Isag., and Cat. 3",
+"raw": "3 Cf. Arist. Metap. iv. 25, also the notes at ch. 2, Isag., and Cat. 3",
+"leaf": 281,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00027",
+"at": 1091
+}
+],
+"anchor": "the page it is printed on"
+},
+{
+"id": "owen1853.isagoge.n0032",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Genera quidem de speciebus univoce predicantur.” Vetus interp. Latin. Taylor renders the expression “‘synonymously.”? Cf. Aldrich, Wallis, and Hill’s Logics, and Cat. ch. 1, where see note; also Rhet, iii. 2; Top. viii. 13.",
+"raw": "5 Genera quidem de speciebus univoce predicantur.” Vetus interp. Latin. Taylor renders the expression “‘synonymously.”? Cf. Aldrich, Wallis, and Hill’s Logics, and Cat. ch. 1, where see note; also Rhet, iii. 2; Top. viii. 13.",
+"leaf": 281,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00027",
+"at": 1091
+}
+],
+"anchor": "the page it is printed on"
+},
+{
+"id": "owen1853.isagoge.n0033",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "The property of a subaltern genus is predicated of a comprehended in that genus; that of a lowest species is pr the individuals which partake of the nature of that species ‘‘ Shape is the generic property of body, Growth is the generic property of living body, Voluntary motion is the generic property of anims 8 Risibility, the specific property of man.’” Vide νει 3 Vide Whately’s Log. ii. 5, 4, and cf. Top. ii. 3. can: ,, of Upon the nature of the ἴδιον of Porphyry, see note to. ymouslype? 282",
+"raw": "' The property of a subaltern genus is predicated of a comprehended in that genus; that of a lowest species is pr the individuals which partake of the nature of that species ‘‘ Shape is the generic property of body, Growth is the generic property of living body, Voluntary motion is the generic property of anims 8 Risibility, the specific property of man.’” Vide νει 3 Vide Whately’s Log. ii. 5, 4, and cf. Top. ii. 3. can: ,, of Upon the nature of the ἴδιον of Porphyry, see note to. ymously- pe? 282",
+"leaf": 282,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00029",
+"at": 351
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0034",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Cf. Metap. lib. iv. (v.) 80, ed. Leipsic; also note 2 at ch, 3, Isag., and Whately’s Supplement to ch. 1, Logic.",
+"raw": "' Cf. Metap. lib. iv. (v.) 80, ed. Leipsic; also note 2 at ch, 3, Isag., and Whately’s Supplement to ch. 1, Logic.",
+"leaf": 283,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00033",
+"at": 1795
+}
+],
+"anchor": "the page it is printed on"
+},
+{
+"id": "owen1853.isagoge.n0035",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Vide Aldrich, pp. 22, et seqq., Mansel’s ed.; also notes at ch. 3, and Cat. 3 and 5; and: cf. Metap. lib. ix. (x.), Leipsic ; Abelard de Gen. et Spec. ; Aquinas Opusc, xlviii. ὁ. 2.",
+"raw": "' Vide Aldrich, pp. 22, et seqq., Mansel’s ed.; also notes at ch. 3, and Cat. 3 and 5; and: cf. Metap. lib. ix. (x.), Leipsic ; Abelard de Gen. et Spec. ; Aquinas Opusc, xlviii. ὁ. 2.",
+"leaf": 284,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00035",
+"at": 573
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0036",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Whately observes, ‘It is often hard to distinguish certain properties from differentia, but whatever you consider as the most essential to the nature of a species, with respect to the matter you are engaged in, you must call the differentia, as rationality to man, and whatever you consider as rather an accompaniment (or result) of that difference, you must call the property, as the use of speech seems to be a result of rationality. He adds also, that the difference is not always one quality, but is frequently compounded of several together, no one of which would alone suffice.” Vide also Huyshe’s Log., pp. 33, 34.",
+"raw": "1 Whately observes, ‘It is often hard to distinguish certain properties from differentia, but whatever you consider as the most essential to the nature of a species, with respect to the matter you are engaged in, you must call the differentia, as rationality to man, and whatever you consider as rather an accompaniment (or result) of that difference, you must call the property, as the use of speech seems to be a result of rationality. He adds also, that the difference is not always one quality, but is frequently compounded of several together, no one of which would alone suffice.” Vide also Huyshe’s Log., pp. 33, 34.",
+"leaf": 285,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00039",
+"at": 863
+}
+],
+"anchor": "the page it is printed on"
+},
+{
+"id": "owen1853.isagoge.n0037",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Cf. notes at ch. 3; Whately, ii. 5,3; Wallis, lib. i. ch. 5 and 6; Metap. lib. v. (vi.) 2. ΝΣ",
+"raw": "2 Cf. notes at ch. 3; Whately, ii. 5,3; Wallis, lib. i. ch. 5 and 6; Metap. lib. v. (vi.) 2. ΝΣ",
+"leaf": 285,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00039",
+"at": 863
+}
+],
+"anchor": "the page it is printed on"
+},
+{
+"id": "owen1853.isagoge.n0038",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Upon the distinction between ἐνεργεία and δυνάμις, vide note ch. 13. On Interpretation, p. 75. Cf. also Ethics Nic. b. i. ch. 2; Metap. books ii. vii. viii. ; also Physics, lib. i.",
+"raw": "1 Upon the distinction between ἐνεργεία and δυνάμις, vide note ch. 13. On Interpretation, p. 75. Cf. also Ethics Nic. b. i. ch. 2; Metap. books ii. vii. viii. ; also Physics, lib. i.",
+"leaf": 286,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00041",
+"at": 1186
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0039",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "The points mentioned here, will be elucidated by a reference to notes at chapters 2, 4, and tothe Logics of Whately, Mansel, Huyshe, and Wallis.",
+"raw": "1 The points mentioned here, will be elucidated by a reference to notes at chapters 2, 4, and tothe Logics of Whately, Mansel, Huyshe, and Wallis.",
+"leaf": 287,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00041",
+"at": 1542
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0040",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Buhle retains the distinction here, between quid and quale quid, upon which, seé notes on ch. 2 and 3. The reading is that of Julius Pacius, whom all later editors have followed: the Latin interpretation Aaa it, “‘accidentis vero in eo, quod quale quiddam, vel quomodo se",
+"raw": "2 Buhle retains the distinction here, between quid and quale quid, upon which, seé notes on ch. 2 and 3. The reading is that of Julius Pacius, whom all later editors have followed: the Latin interpretation Aaa it, “‘accidentis vero in eo, quod quale quiddam, vel quomodo se",
+"leaf": 287,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00043",
+"at": 1026
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0041",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Cf, Metap. lib. v. (vi.) and vi. (vii.), Leipsic ed.",
+"raw": "5 Cf, Metap. lib. v. (vi.) and vi. (vii.), Leipsic ed.",
+"leaf": 287,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00045",
+"at": 1138
+}
+],
+"anchor": "the page it is printed on"
+},
+{
+"id": "owen1853.isagoge.n0042",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Accidents may be distinguished from properties by the very definitions given of them. The latter belong necessarily, and therefore. universally, to an essence, whereas the former are those qualities which do not of necessity belong to any essence, but are mere contingencies. Huyshe. Vide also note ch. 4, and cf. Albert de Predicab. Tract. vi. eap. 1.",
+"raw": "4 Accidents may be distinguished from properties by the very defini- tions given of them. The latter belong necessarily, and therefore. uni- versally, to an essence, whereas the former are those qualities which do not of necessity belong to any essence, but are mere contingencies. Huyshe. Vide also note ch. 4, and cf. Albert de Predicab. Tract. vi. eap. 1.",
+"leaf": 287,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00045",
+"at": 1138
+}
+],
+"anchor": "the page it is printed on"
+},
+{
+"id": "owen1853.isagoge.n0043",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "Risibility is considered to be so dependent upon rationality, as that the latter could not exist without the former, and if this were not so, the term risible would not be a property of man, but only an inseparable accident. Cf. Whately and Mansel.",
+"raw": "! Risibility is considered to be so dependent upon rationality, as that the latter could not exist without the former, and if this were not so, the term risible would not be a property of man, but only an inseparable ac- cident. Cf. Whately and Mansel.",
+"leaf": 288,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00045",
+"at": 286
+}
+],
+"anchor": "the note mark in the text, in order on the page"
+},
+{
+"id": "owen1853.isagoge.n0044",
+"type": "footnote",
+"printed_number": null,
+"signed": null,
+"text": "As a digest of the preceding chapters, (from ch. 6, inclusive,) I subjoin the following extract from Wallis: ‘“‘ Que omnia (predicabilia sc.) (utpote Voces communes seu universales) in hoc conveniunt, quod de pluribus preedicari seu dici possint Particularibus, Singularibus, seu Individuis. Cum hoc tamen discrimine; Genus naturam innuit magis generalem ; Species magis specialem ; (pluribus individuis communem.) Differentia, est ques specierum sub eodem genere oppositarum, alteram ab altera distinguit; suamque (cui convenit) speciem constituit, ejusque essentiam (πὰ cum genere) complet. Proprium, eandem essentiam necessario consequitur. Accidens (commune) ita subjecto suo adesse potest, ut etiam’ possit abesse, nullam (cum essentid) necessariam habens connexionem.” Vide Wallis, lib. i. cap. 5.",
+"raw": "3 As a digest of the preceding chapters, (from ch. 6, inclusive,) I sub- join the following extract from Wallis: ‘“‘ Que omnia (predicabilia sc.) (utpote Voces communes seu universales) in hoc conveniunt, quod de pluribus preedicari seu dici possint Particularibus, Singularibus, seu Indi- viduis. Cum hoc tamen discrimine; Genus naturam innuit magis gene- ralem ; Species magis specialem ; (pluribus individuis communem.) Dif- ferentia, est ques specierum sub eodem genere oppositarum, alteram ab altera distinguit; suamque (cui convenit) speciem constituit, ejusque essentiam (πὰ cum genere) complet. Proprium, eandem essentiam ne- cessario consequitur. Accidens (commune) ita subjecto suo adesse potest, ut etiam’ possit abesse, nullam (cum essentid) necessariam habens con- nexionem.” Vide Wallis, lib. i. cap. 5.",
+"leaf": 288,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00045",
+"at": 1138
+}
+],
+"anchor": "the page it is printed on"
+},
+{
+"id": "owen1853.isagoge.n0045",
+"type": "sidenote",
+"printed_number": null,
+"signed": null,
+"text": "subsistent ina certain manner with reference to one and to each other. Cf. An. Post. i. 18.",
+"raw": "subsistent ina certain manner with reference to one and to each other. Cf. An. Post. i. 18.",
+"leaf": 266,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00005",
+"at": 297
+}
+],
+"anchor": "the line of the text it is printed beside"
+},
+{
+"id": "owen1853.isagoge.n0046",
+"type": "sidenote",
+"printed_number": null,
+"signed": null,
+"text": "2. Or the principle of the generation of every one.",
+"raw": "2. Or the prin- ciple of the generation of every one.",
+"leaf": 266,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00005",
+"at": 530
+}
+],
+"anchor": "the line of the text it is printed beside"
+},
+{
+"id": "owen1853.isagoge.n0047",
+"type": "sidenote",
+"printed_number": null,
+"signed": null,
+"text": "3. Or that to which species is subject—this last denomination regarded by philosophers. Vide Aldrich; ManMetap. iv. 25.",
+"raw": "3. Or that to which species is subject—this last denomina- tion regarded by philoso- phers. Vide Aldrich; Man- Metap. iv. 25.",
+"leaf": 266,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00006",
+"at": 41
+}
+],
+"anchor": "the line of the text it is printed beside"
+},
+{
+"id": "owen1853.isagoge.n0048",
+"type": "sidenote",
+"printed_number": null,
+"signed": null,
+"text": "4. Individuals predicated of one thing alone but those properly are predicables which are predicated ofmany. Examples. Cf. Whately, Hill, and Wallis’s Logic.",
+"raw": "4. Individuals predicated of one thing alone but those pro- perly are predi- cables which are predicated ofmany. Ex- amples. Cf. Whately, Hill, and Wallis’s Logic.",
+"leaf": 267,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00006",
+"at": 506
+}
+],
+"anchor": "the line of the text it is printed beside"
+},
+{
+"id": "owen1853.isagoge.n0049",
+"type": "sidenote",
+"printed_number": null,
+"signed": null,
+"text": "5. Distinction of genera from individuals. Cf. ch. 6; An. Priori. 81; An. Pie ii, 5 and 3.",
+"raw": "5. Distinction of genera from individuals. Cf. ch. 6; An. Priori. 81; An. Pie ii, 5 and 3.",
+"leaf": 267,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00006",
+"at": 858
+}
+],
+"anchor": "the line of the text it is printed beside"
+},
+{
+"id": "owen1853.isagoge.n0050",
+"type": "sidenote",
+"printed_number": null,
+"signed": null,
+"text": "6. From species. Cf. ch. 8.",
+"raw": "6. From spe- cies. Cf. ch. 8.",
+"leaf": 267,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00006",
+"at": 1062
+}
+],
+"anchor": "the line of the text it is printed beside"
+},
+{
+"id": "owen1853.isagoge.n0051",
+"type": "sidenote",
+"printed_number": null,
+"signed": null,
+"text": "7. From property. Cf. ch. 9.",
+"raw": "7. From pro- perty. Cf. ch. 9.",
+"leaf": 267,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00006",
+"at": 1410
+}
+],
+"anchor": "the line of the text it is printed beside"
+},
+{
+"id": "owen1853.isagoge.n0052",
+"type": "sidenote",
+"printed_number": null,
+"signed": null,
+"text": "8. From difference. Cf. ch. 7. And accident. Cf. ch. 10.",
+"raw": "8. From differ- ence. Cf. ch. 7. And accident. Cf. ch. 10.",
+"leaf": 267,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00006",
+"at": 1746
+}
+],
+"anchor": "the line of the text it is printed beside"
+},
+{
+"id": "owen1853.isagoge.n0053",
+"type": "sidenote",
+"printed_number": null,
+"signed": null,
+"text": "9. Genus predicated ‘in quid,” differ ence and accident “in quale’",
+"raw": "9. Genus predi- cated ‘in quid,” differ ence and acci- dent “in quale’",
+"leaf": 267,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00006",
+"at": 1896
+}
+],
+"anchor": "the line of the text it is printed beside"
+},
+{
+"id": "owen1853.isagoge.n0054",
+"type": "sidenote",
+"printed_number": null,
+"signed": null,
+"text": "of man, and longer the",
+"raw": "of man, and longer the",
+"leaf": 269,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00007",
+"at": 2279
+}
+],
+"anchor": "the line of the text it is printed beside"
+},
+{
+"id": "owen1853.isagoge.n0055",
+"type": "sidenote",
+"printed_number": null,
+"signed": null,
+"text": "16. Summa ge here ἈΓῸ τε: cies a limited number: individuals infinite. her see tis. eb. Cf. An. Pr. i. 31; Post. ἢ. ae",
+"raw": "16. Summa ge here ἈΓῸ τε: cies a limited number: indi- viduals infi- nite. her see tis. eb. Cf. An. Pr. i. 31; Post. ἢ. ae",
+"leaf": 271,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00008",
+"at": 1036
+}
+],
+"anchor": "the line of the text it is printed beside"
+},
+{
+"id": "owen1853.isagoge.n0056",
+"type": "sidenote",
+"printed_number": null,
+"signed": null,
+"text": "17. In descending from summa genera, we pass through media genera, specificdiferences; inas- ᾿Ἀλ ει μὰν rn te, crac, and what",
+"raw": "17. In descend- ing from sum- ma genera, we pass through media genera, specificdifer- ences; inas- ᾿Ἀλ ει μὰν rn te, crac, and what",
+"leaf": 271,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00008",
+"at": 1541
+}
+],
+"anchor": "the line of the text it is printed beside"
+},
+{
+"id": "owen1853.isagoge.n0057",
+"type": "sidenote",
+"printed_number": null,
+"signed": null,
+"text": "aa eros individuala part species a whole and a",
+"raw": "aa eros individuala part species a whole and a",
+"leaf": 272,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00009",
+"at": 2116
+}
+],
+"anchor": "the line of the text it is printed beside"
+},
+{
+"id": "owen1853.isagoge.n0058",
+"type": "sidenote",
+"printed_number": null,
+"signed": null,
+"text": "4. Differences divided into separable and inseparable; these last subdivided into those “per se,” and those per accidens.” Vide Whately and Mansel.",
+"raw": "4. Differences divided into separable and inseparable; these last sub- divided into those “per se,” and those per accidens.” Vide Whately and Mansel.",
+"leaf": 274,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00012",
+"at": 373
+}
+],
+"anchor": "the line of the text it is printed beside"
+},
+{
+"id": "owen1853.isagoge.n0059",
+"type": "sidenote",
+"printed_number": null,
+"signed": null,
+"text": "5. Differences 6 per se as. sumed for definition, and do not admit the more and less those per accidens contra.",
+"raw": "5. Differences 6 per se as. sumed for de- finition, and do not admit the more and less those per ac- cidens con- tra.",
+"leaf": 274,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00012",
+"at": 771
+}
+],
+"anchor": "the line of the text it is printed beside"
+},
+{
+"id": "owen1853.isagoge.n0060",
+"type": "sidenote",
+"printed_number": null,
+"signed": null,
+"text": "7. The same differences in onewaycon-",
+"raw": "7. The same differences in onewaycon-",
+"leaf": 275,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00012",
+"at": 2824
+}
+],
+"anchor": "the line of the text it is printed beside"
+},
+{
+"id": "owen1853.isagoge.n0061",
+"type": "sidenote",
+"printed_number": null,
+"signed": null,
+"text": "under that species, and which are",
+"raw": "under that species, and which are",
+"leaf": 279,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00021",
+"at": 471
+}
+],
+"anchor": "the line of the text it is printed beside"
+},
+{
+"id": "owen1853.isagoge.n0062",
+"type": "sidenote",
+"printed_number": null,
+"signed": null,
+"text": "but not to an “4551 extent.",
+"raw": "but not to an “4551 extent.",
+"leaf": 280,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00023",
+"at": 144
+}
+],
+"anchor": "the line of the text it is printed beside"
+},
+{
+"id": "owen1853.isagoge.n0063",
+"type": "sidenote",
+"printed_number": null,
+"signed": null,
+"text": "2. Four of genus three of of species, and eof Property.",
+"raw": "2. Four of ge- nus three of of species, and eof Property.",
+"leaf": 284,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00033",
+"at": 1487
+}
+],
+"anchor": "the line of the text it is printed beside"
+},
+{
+"id": "owen1853.isagoge.n0064",
+"type": "sidenote",
+"printed_number": null,
+"signed": null,
+"text": "4, grecies and property reciParity Bien” other, but the other: further “*tinctions. equally pre-",
+"raw": "4, grecies and property reci- Parity Bien” other, but the other: further “*tinctions. equally pre-",
+"leaf": 286,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00041",
+"at": 244
+}
+],
+"anchor": "the line of the text it is printed beside"
+},
+{
+"id": "owen1853.isagoge.n0065",
+"type": "sidenote",
+"printed_number": null,
+"signed": null,
+"text": "1. Property and cident cannot",
+"raw": "1. Property and cident cannot",
+"leaf": 287,
+"anchors": [
+{
+"in": "owen1853.isagoge.p00045",
+"at": 49
+}
+],
+"anchor": "the line of the text it is printed beside"
+}
+]
+}

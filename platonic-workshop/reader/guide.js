@@ -287,14 +287,14 @@ async function showTaylorText(id) {
   let h = `<div class="search guide taylor-text"><h2>${esc(t.title)}</h2>
     <p class="lead">${esc(t.about)}</p>
     <p class="meta">${esc(t.author)}${t.translator ? `, translated by ${esc(t.translator)}` : ""}. ${esc(t.edition)}. Text from <a href="${esc(t.source.url)}" target="_blank" rel="noopener">${esc(t.source.name || "theosophylib.com")}</a>${t.proof_status ? ` (${esc(t.proof_status)})` : ""}.
-      Taylor prints Greek without accents; where he quotes Greek he gives his English beside it or just before. Untranslated Greek in the notes is marked.</p>`;
+      ${t.reading_note ? esc(t.reading_note) : "Taylor prints Greek without accents; where he quotes Greek he gives his English beside it or just before. Untranslated Greek in the notes is marked."}</p>`;
   for (const s of segs) {
     const tag = s.kind === "quotation" ? "blockquote" : s.kind === "table" ? "pre" : s.kind === "heading" ? "h3" : "p";
     const body = s.kind === "table" ? esc(s.text) : withNoteMarks(s, notes);
     h += `<${tag} class="tt-${esc(s.kind)}" id="tp-${esc(s.id)}">${s.page_1804 && pages.some((p) => p.id === s.id) ? `<span class="page-1804" title="${t.page_label ? "Image of the scan" : "Page of the 1804 edition"}">${t.page_label ? "image" : "p."} ${esc(s.page_1804)}</span> ` : ""}${body}</${tag}>`;
     const ns = (s.notes || []).map((x) => notes.get(x.note)).filter(Boolean);
     if (ns.length) {
-      h += `<div class="tt-notes">${ns.map((n) => `<p class="tt-note" id="tn-${esc(n.id)}"><b>${esc(n.printed_number || "")}</b> ${esc(n.text)}
+      h += `<div class="tt-notes">${ns.map((n) => `<p class="tt-note${n.type === "sidenote" ? " tt-side" : ""}" id="tn-${esc(n.id)}"><b>${n.type === "sidenote" ? "margin" : esc(n.printed_number || "")}</b> ${esc(n.text)}
         ${greekOnly(n.text) ? `<span class="gq-tag" title="This note is in Greek. Taylor often gives his English of it in the paragraph above; an English version of every Greek note is planned (milestone 15)">Greek only</span>` : ""}</p>`).join("")}</div>`;
     }
   }
@@ -314,7 +314,8 @@ function withNoteMarks(s, notes) {
   let text = s.text;
   const parts = [];
   for (const m of marks) {
-    parts.unshift(`<sup class="tt-ref"><a href="#tn-${esc(m.note)}" data-scroll="tn-${esc(m.note)}">${esc(notes.get(m.note).printed_number || "*")}</a></sup>` + esc(text.slice(m.at)));
+    const n = notes.get(m.note);
+    parts.unshift(`<sup class="tt-ref"><a href="#tn-${esc(m.note)}" data-scroll="tn-${esc(m.note)}" title="${n.type === "sidenote" ? "Owen's side-note in the margin" : "A note"}">${n.type === "sidenote" ? "m" : esc(n.printed_number || "*")}</a></sup>` + esc(text.slice(m.at)));
     text = text.slice(0, m.at);
   }
   return esc(text) + parts.join("");

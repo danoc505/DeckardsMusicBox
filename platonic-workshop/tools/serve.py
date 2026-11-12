@@ -68,6 +68,10 @@ TAYLOR_TEXTS_AR = {
                                "Taylor's Dissertation on the Philosophy of Aristotle (1812), in four books: the division of his works and the order "
                                "they lead in, how he differs from Plato \"in appearance only, and not in reality\", and his principal physical and metaphysical "
                                "dogmas in his own words, with the Greek commentators on them."),
+    "porphyry-introduction": ("porphyry/owen-1853.json",
+                              "Porphyry's Introduction (Isagoge), which the Platonists read first of all, before the Categories: the five words "
+                              "the Categories takes for granted, genus, species, difference, property and accident. In Octavius Freire Owen's "
+                              "English (1853), with his notes; the Greek (Busse, 1887) is on the Neoplatonists' shelf."),
 }
 TAYLOR_TEXTS = {
     "general-introduction": "Taylor's General Introduction to the Philosophy and Writings of Plato (1804): Platonism as the later Platonists taught it, "

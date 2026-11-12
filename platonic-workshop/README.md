@@ -393,6 +393,8 @@ page with) is a fixed point; the columns between are placed by length and marked
 Sophistical Refutations, in Greek (First1KGreek: Ross's Analytics; Bekker's text of the rest) with every word tagged from GLAUx, and
 the Oxford English of 1928 beside it, read from the scan's margin at Bekker's columns (`tools/aristotle_organon.py`). Where the
 Greek does not print the Berlin columns they are carried over from the English, chapter by chapter, and marked so (≈).
+Porphyry's Introduction (Isagoge), which the Platonists read before any Aristotle, opens the logic: Owen's English (1853), read
+whole with his notes (`tools/aristotle_porphyry.py`), and Busse's Greek (1887) on the Neoplatonists' shelf.
 
 ## Running it
 
