@@ -236,7 +236,7 @@ function speakerLabel(c) {
 // ------------------------------------------------------------------ translations (milestone 6)
 
 // Which English translations are shown, by kind, remembered in the browser.
-const TRANS_DEFAULT = { loeb: true, taylor: true, jowett: false, ross: true, chase: true, oxford: true, hicks: true };
+const TRANS_DEFAULT = { loeb: true, taylor: true, jowett: false, ross: true, chase: true, oxford: true, hicks: true, owen: true };
 function transKind(ed) {
   if (isLoebSource(ed.source_id)) return "loeb";
   if (ed.id.endsWith(".jowett")) return "jowett";
@@ -245,6 +245,7 @@ function transKind(ed) {
   if (ed.id.endsWith(".chase1847")) return "chase";
   if (ed.id.endsWith(".hardie1930") || ed.id.endsWith(".stocks1922") || ed.id.endsWith(".oxford1928")) return "oxford";
   if (ed.id.endsWith(".hicks1907")) return "hicks";
+  if (ed.id.endsWith(".owen1853")) return "owen";
   return ed.id;
 }
 function transPrefs() {
@@ -253,7 +254,7 @@ function transPrefs() {
   return { ...TRANS_DEFAULT, ...p };
 }
 function englishEditions() {
-  const order = { loeb: 0, ross: 1, chase: 1, oxford: 1, hicks: 1, taylor: 2, jowett: 3 };
+  const order = { loeb: 0, ross: 1, chase: 1, oxford: 1, hicks: 1, taylor: 2, owen: 2, jowett: 3 };
   return state.work.editions.filter((e) => e.lang === "eng").sort((a, b) => (order[transKind(a)] ?? 9) - (order[transKind(b)] ?? 9));
 }
 function shownEditions() {

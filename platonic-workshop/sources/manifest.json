@@ -1074,6 +1074,28 @@
       "status": "verified"
     },
     {
+      "id": "ia-owen-organon-1853-v1",
+      "title": "Octavius Freire Owen, The Organon, or Logical Treatises, of Aristotle, with the Introduction of Porphyry, vol. I (London: Henry G. Bohn, 1853), Internet Archive OCR",
+      "kind": "archive",
+      "item": "organonorlogicalt01aris",
+      "repo": "https://archive.org/details/organonorlogicalt01aris",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/organonorlogicalt01aris/organonorlogicalt01aris_djvu.xml",
+          "sha256": "e1302df24b2585514dd760bd7dbc0952efdfc80b265b4253708e9afacc57320d",
+          "bytes": 12810684
+        }
+      ],
+      "sha256": "e1302df24b2585514dd760bd7dbc0952efdfc80b265b4253708e9afacc57320d",
+      "layer": "translation",
+      "language": "eng",
+      "citation_scheme": "Owen's books and chapters as printed; Bekker's columns carried over from the Oxford translation (≈); the scan's leaves for the page",
+      "licence": "Public domain (published in 1853, before 1930)",
+      "provenance": "Internet Archive item organonorlogicalt01aris (the University of Toronto's copy, Robarts Library, scanned 2014): its OCR with the place of every word (_djvu.xml), downloaded on 2026-11-12 and pinned by sha256. The OCR of the pages read (leaves 13-368: the Categories, On Interpretation, the Prior and Posterior Analytics) is committed in sources/aristotle/ocr/. Cleaned by rule by tools/aristotle_owen.py into texts/aristotle/<work>/owen-1853.json; unproofread, every paragraph keeps its raw OCR.",
+      "status": "verified"
+    },
+    {
       "id": "ia-owen-organon-1853",
       "title": "Octavius Freire Owen, The Organon, or Logical Treatises, of Aristotle, with the Introduction of Porphyry, vol. II (London: Henry G. Bohn, 1853), Internet Archive OCR",
       "kind": "archive",
@@ -1090,9 +1112,9 @@
       "sha256": "6b3b600f319f6910830817c5df24fcea1c3fac7a442b7628d8d0f138088350a3",
       "layer": "translation",
       "language": "eng",
-      "citation_scheme": "Porphyry's chapters as Owen prints them (I-XVII); the scan's leaves for the page",
+      "citation_scheme": "Owen's books and chapters as printed; Bekker's columns carried over from the Oxford translation (≈); the scan's leaves for the page",
       "licence": "Public domain (published in 1853, before 1930)",
-      "provenance": "Internet Archive item organonorlogica04porpgoog (Google's scan of the second volume of Owen's Organon in Bohn's Classical Library, marked NOT_IN_COPYRIGHT by the Archive): its OCR with the place of every word (_djvu.xml), downloaded on 2026-11-12 and pinned by sha256. The OCR of Porphyry's Introduction (leaves 264-288, printed pages 609-633) is committed in sources/aristotle/ocr/. Cleaned by rule by tools/aristotle_porphyry.py into texts/aristotle/porphyry/owen-1853.json; unproofread, every paragraph keeps its raw OCR.",
+      "provenance": "Internet Archive item organonorlogica04porpgoog (Google's scan of the second volume of Owen's Organon in Bohn's Classical Library, marked NOT_IN_COPYRIGHT by the Archive): its OCR with the place of every word (_djvu.xml), downloaded on 2026-11-12 and pinned by sha256. The OCR of the pages read (leaves 12-288: the Topics, the Sophistical Elenchi, and Porphyry's Introduction at leaves 264-288, printed pages 609-633) is committed in sources/aristotle/ocr/. Cleaned by rule by tools/aristotle_owen.py (texts/aristotle/<work>/owen-1853.json) and tools/aristotle_porphyry.py (texts/aristotle/porphyry/owen-1853.json); unproofread, every paragraph keeps its raw OCR.",
       "status": "verified"
     },
     {

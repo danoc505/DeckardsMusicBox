@@ -370,7 +370,13 @@ Built by `tools/aristotle.py` (works of corpus `aristotle`, a Bekker column, 980
   footnotes matched to their marks where the scan reads them, and his side-notes (a summary of the argument in the margin) where
   the scan could read them; the rest are left out and counted. Linked from the Aristotle shelf, Start here (before the Logic
   step) and the six logical works.
-- Still to come in A4: Owen's Organon (1853) as a second English; Taylor's (1812) if a scan is found.
+- Owen's Organon as a second English (A4c, done): Octavius Freire Owen, Bohn's Classical Library (1853), vol. I (Categories, On
+  Interpretation, both Analytics; the Toronto copy) and vol. II (Topics, Sophistical Elenchi), from the Internet Archive's scans,
+  cleaned by rule by `tools/aristotle_owen.py` (the rules that read the Isagoge, at each scan's scale), not proofread. Owen prints no
+  Bekker columns: they are carried over from the Oxford's, chapter by chapter, at the same proportion of the chapter (≈). His
+  footnotes, and the side-notes the scans could read, are kept as notes.
+- Not done in A4: Taylor's Organon, in his Works of Aristotle (1806-1812): a search of the Internet Archive found no scan of
+  the volume (it lists his Dissertation, 1812, and his Treatises on the Soul, 1808, item b22006874, which A8 can add beside Hicks).
 
 ### A5: the Greek commentators on Aristotle, on their own shelf
 

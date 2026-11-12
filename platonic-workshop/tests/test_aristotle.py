@@ -406,6 +406,9 @@ class OrganonInTheLibrary(unittest.TestCase):
             w = self.lib.work(wid)
             self.assertEqual(w["sections"][0], first, wid)
             self.assertIn(f"{wid}.oxford1928", [e["id"] for e in w["editions"]])
+            self.assertIn(f"{wid}.owen1853", [e["id"] for e in w["editions"]])
+            n = self.lib.db.execute("SELECT count(DISTINCT section_ref) FROM chunk WHERE edition_id = ?", (f"{wid}.owen1853",)).fetchone()[0]
+            self.assertEqual(n, len(w["sections"]), wid)
             n = self.lib.db.execute("SELECT count(DISTINCT section_ref) FROM chunk WHERE edition_id = ?", (f"{wid}.oxford1928",)).fetchone()[0]
             self.assertEqual(n, len(w["sections"]), wid)
 
@@ -429,7 +432,7 @@ class Isagoge(unittest.TestCase):
         m = MANIFEST["ia-owen-organon-1853"]
         self.assertEqual(m["item"], "organonorlogica04porpgoog")
         self.assertIn("Public domain", m["licence"])
-        self.assertEqual(sorted(aristotle_ocr.scan_pages("ia-owen-organon-1853")), list(range(264, 289)))
+        self.assertTrue(set(range(264, 289)) <= set(aristotle_ocr.scan_pages("ia-owen-organon-1853")))
         self.assertIn("data/tlg2034/tlg006", MANIFEST["first1k-neoplatonists"]["paths"])
         self.assertNotIn("data/tlg2034/tlg006", MANIFEST["first1k-aristotle"]["paths"])
         self.assertIn("CC BY-SA", MANIFEST["first1k-neoplatonists"]["licence"])
@@ -476,6 +479,66 @@ class Isagoge(unittest.TestCase):
         t = serve.Library.taylor(None, "porphyry-introduction")
         self.assertEqual(t["translator"], "Octavius Freire Owen")
         self.assertIn("about", t)
+
+
+class OwenOrganon(unittest.TestCase):
+    """Aristotle milestone A4c: Owen's Organon (1853), a second English, at the Oxford's columns carried over (≈)."""
+    SLUGS = {"ar006": "categories", "ar017": "on-interpretation", "ar001": "prior-analytics", "ar001p": "posterior-analytics",
+             "ar044": "topics", "ar040": "sophistical-refutations"}
+
+    @classmethod
+    def setUpClass(cls):
+        cls.d = {w: json.loads((ROOT / "texts" / "aristotle" / s / "owen-1853.json").read_text(encoding="utf-8")) for w, s in cls.SLUGS.items()}
+
+    def test_both_volumes_are_pinned_and_public_domain(self):
+        self.assertEqual(MANIFEST["ia-owen-organon-1853-v1"]["item"], "organonorlogicalt01aris")
+        for sid in ("ia-owen-organon-1853-v1", "ia-owen-organon-1853"):
+            self.assertIn("Public domain", MANIFEST[sid]["licence"])
+        self.assertIn(13, aristotle_ocr.scan_pages("ia-owen-organon-1853-v1"))
+        self.assertIn(12, aristotle_ocr.scan_pages("ia-owen-organon-1853"))
+
+    def test_each_treatise_opens_with_its_first_words(self):
+        first = {"ar017": "We must first determine what a noun", "ar001": "It is first requisite to say what is the subject",
+                 "ar044": "THE purpose of this treatise is to discover", "ar040": "CONCERNING sophistical elenchi"}
+        for w, words in first.items():
+            self.assertTrue(any(p["text"].startswith(words) or (" " + words) in p["text"][:200] for p in self.d[w]["paragraphs"][:2]), w)
+
+    def test_every_column_is_carried_over(self):
+        import aristotle_organon
+        import aristotle_trans
+        for w, d in self.d.items():
+            c0, c1 = aristotle_organon.TREATISES[w][4:6]
+            order = aristotle_organon.columns(c0, c1)
+            cols = {c for p in d["paragraphs"] for _, c, how in p["marks"]}
+            self.assertEqual(cols, set(order), w)
+            self.assertTrue(all(how == "computed" for p in d["paragraphs"] for _, _, how in p["marks"]), w)
+            pieces = aristotle_trans.place(d["paragraphs"], order)
+            self.assertEqual([c for c in order if c in {x[3] for x in pieces}], order, w)
+
+    def test_known_passages_fall_near_their_columns(self):
+        import aristotle_organon
+        import aristotle_trans
+        for w, words, near in (("ar006", "Of things incomplex enunciated", "1b"), ("ar017", "are symbols of the passions", "16a"),
+                               ("ar001p", "pre-existent knowledge", "71a"), ("ar044", "purpose of this treatise", "100a"),
+                               ("ar040", "sophistical elenchi, and such", "164a")):
+            d = self.d[w]["paragraphs"]
+            c0, c1 = aristotle_organon.TREATISES[w][4:6]
+            order = aristotle_organon.columns(c0, c1)
+            col = next(c for k, a, b, c, _ in aristotle_trans.place(d, order) if words in d[k]["text"][a:b])
+            self.assertLessEqual(abs(order.index(col) - order.index(near)), 1, (w, col, near))
+
+    def test_notes_are_kept_apart(self):
+        for w, d in self.d.items():
+            self.assertGreater(len(d["notes"]), 50, w)
+            self.assertTrue(all(0 <= n["para"] < len(d["paragraphs"]) for n in d["notes"]), w)
+        self.assertTrue(any(n["text"].startswith("In the margin: ") for n in self.d["ar044"]["notes"]))
+
+    def test_it_is_a_translation_of_each_logical_work(self):
+        import aristotle_trans
+        for w in self.SLUGS:
+            self.assertIn("owen1853", [t[1] for t in aristotle_trans.TRANSLATIONS[w]])
+        js = (ROOT / "reader" / "reader.js").read_text(encoding="utf-8")
+        self.assertIn('".owen1853"', js)
 
 
 if __name__ == "__main__":
