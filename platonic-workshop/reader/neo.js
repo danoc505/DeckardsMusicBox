@@ -20,9 +20,12 @@ const neoTexts = () => (NEO.data && NEO.data.texts) || [];
 const neoText = (id) => neoTexts().find((t) => t.id === id);
 const neoOn = () => neoTexts().length > 0;
 
-function neoGroups() {
+// Aristotle milestone A5: the Greek commentators on Aristotle are stored and read with these, on their own shelf (aristotle.js).
+const neoShelfTexts = (shelf) => neoTexts().filter((t) => (t.shelf || "neo") === (shelf || "neo"));
+
+function neoGroups(shelf) {
   const out = [];
-  for (const t of neoTexts()) {
+  for (const t of neoShelfTexts(shelf)) {
     let last = out[out.length - 1];
     if (!last || last.label !== t.grp) out.push(last = { label: t.grp, texts: [] });
     last.texts.push(t);
@@ -66,7 +69,7 @@ function neoShelf() {
     <p class="meta">The rest of the Platonists' own writings, read whole: Plotinus, and the commentaries of the later school on the dialogues.
       Each is in a named public-domain Greek edition, with its licence quoted. Some are corrected digital texts; the others are the scans' OCR,
       shown as received and not proofread: the Workshop's corrections are kept apart, and each page links to its image.
-      ${s ? `${s.words.toLocaleString()} Greek words in ${neoTexts().length} texts.` : ""}</p>
+      ${s ? `${neoShelfTexts().reduce((a, t) => a + t.words, 0).toLocaleString()} Greek words in ${neoShelfTexts().length} texts.` : ""}</p>
     <div class="lib-grid">${neoGroups().map((g) => `<section><h4>${esc(g.label)}</h4><ul>${g.texts.map((t) =>
       `<li><a href="#neo/${esc(t.id)}"><b>${esc(t.title)}</b></a> <span class="meta">${esc(t.editor)}, ${esc(String(t.year))}</span> ${neoKind(t)}${neoModernLink(t)}</li>`).join("")}</ul></section>`).join("")}</div>
     ${neoNotHere()}</section>`;
@@ -90,7 +93,7 @@ async function showNeo(raw) {
   const unit = t.kind === "ocr" ? "pages" : t.unit_name === "page" ? "pages of the edition" : "sections";
   let h = `<div class="search guide neo-text"><p class="meta">${esc(t.author)}</p><h2>${esc(t.title)}</h2>
     <p class="neo-greek" lang="grc">${esc(t.greek)}</p>
-    <p class="lead">${esc(t.about)}</p>
+    <p class="lead">${esc(t.about)}</p>${typeof arCommentsOn === "function" ? arCommentsOn(t) : ""}
     <p class="meta">${neoKind(t)} ${esc(t.edition)}. ${t.n_units.toLocaleString()} ${unit}, ${t.words.toLocaleString()} Greek words${t.latin_units ? `; ${t.latin_units} pages in Latin (the editor's preface, translation or notes), folded when read` : ""}.
       Cited as ${esc(t.cite)}.</p>
     ${t.modern ? `<p class="mod-label"><b>In modern English, the Workshop's own:</b> <a href="#neo-modern/${esc(t.modern.text)}">${t.modern.treatises.map((x) => esc(x.title)).join(", ")}</a>.
@@ -177,7 +180,8 @@ function renderNeoPart(t, d) {
         h += `<section class="neo-page" id="neo-${esc(u.n)}">${head}${neoTaylorLinks(u)}<div class="neo-ocr" lang="grc">${body}</div></section>`;
       }
     } else {
-      h += `<section class="neo-unit" id="neo-${esc(u.n)}"><h4 class="neo-unit-n">${esc(u.label)}</h4>${neoTaylorLinks(u)}
+      const read = u.page_how ? ` <span class="meta" title="The page number in the file does not fit between the pages on either side of it, and is read as the page between them">(${esc(u.page_how)})</span>` : "";
+      h += `<section class="neo-unit" id="neo-${esc(u.n)}"><h4 class="neo-unit-n">${esc(u.label)}${read}</h4>${neoTaylorLinks(u)}${typeof arColsOfUnit === "function" ? arColsOfUnit(u) : ""}
         ${u.margin.length ? `<p class="neo-margin meta" title="In the margin of the edition">${u.margin.map(esc).join(" · ")}</p>` : ""}
         <div class="neo-tei" lang="grc">${body}</div>
         ${u.notes.length ? `<ol class="neo-notes meta">${u.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ol>` : ""}</section>`;

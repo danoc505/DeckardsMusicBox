@@ -60,6 +60,7 @@ import structure  # noqa: E402
 import concepts  # noqa: E402
 import terms  # noqa: E402
 import gloss  # noqa: E402
+import aristotle_commentators  # noqa: E402
 import find  # noqa: E402
 import reconcile  # noqa: E402
 import dossiers  # noqa: E402
@@ -926,6 +927,14 @@ def build(works, db_path=None, progress=False, with_nt=None):
     if want_ar:
         ar_stats = aristotle.build(db, sources)
         aristotle.write_report(ar_stats)
+        # Aristotle milestone A5: each page of the Greek commentators (stored with the Neoplatonists) linked to its columns.
+        if want_neo:
+            com_stats = aristotle_commentators.link(db)
+            db.execute("INSERT INTO build VALUES ('commentator_stats', ?)", (json.dumps(com_stats, ensure_ascii=False),))
+            aristotle_commentators.write_report(db, com_stats)
+            if progress:
+                print(f"  the commentators: {com_stats['pages_linked']:,} pages linked to Aristotle, {com_stats['printed']:,} printed, "
+                      f"{com_stats['quoted']:,} quoted", flush=True)
         if progress:
             for s in ar_stats["works"]:
                 print(f"  Aristotle, {s['title']}: {s['sections']} Bekker columns, {s['tokens']} words, {s['tagged']} tagged, {s['notes']} notes; "

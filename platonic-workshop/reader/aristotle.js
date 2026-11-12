@@ -53,7 +53,11 @@ function arSources() {
     Bekker columns: they are carried over from the Oxford translation, chapter by chapter (≈).</p>
     <p class="prov">Porphyry's Introduction: Owen's English (The Organon, vol. II, London: Bohn, 1853, pp. 609–633; public domain) from the Internet
     Archive's scan, cleaned by rule and not proofread, with his footnotes and the side-notes the scan could read; the Greek is Busse's
-    (Commentaria in Aristotelem Graeca IV.1, Berlin, 1887) in First1KGreek's TEI (CC BY-SA 4.0).</p>`;
+    (Commentaria in Aristotelem Graeca IV.1, Berlin, 1887) in First1KGreek's TEI (CC BY-SA 4.0).</p>
+    <p class="prov">The Greek commentators: the Commentaria in Aristotelem Graeca (Berlin: Reimer, 1882–1909) and Alexander's On the Soul with its
+    Mantissa (Supplementum Aristotelicum II.1, 1887), in First1KGreek's TEI (CC BY-SA 4.0), read by the Berlin pages. A page is linked to a column of
+    Aristotle where the editor prints its Bekker reference in the margin, or where the page repeats at least two runs of five words that stand in that
+    column only (≈).</p>`;
 }
 
 // ------------------------------------------------------------------ the Library's shelf
@@ -72,6 +76,7 @@ function arShelf() {
     <ul class="studies">
       <li><a href="#taylor/porphyry-introduction"><b>Porphyry's Introduction (Isagoge)</b></a> (Owen's English, 1853) <span class="meta">The five words the Categories takes for granted: genus, species, difference, property, accident. The Platonists read it before any Aristotle. The Greek (Busse, 1887) is <a href="#neo/porphyry-isagoge">on the Neoplatonists' shelf</a>.</span></li>
     </ul>
+    ${arCommentatorsShelf()}
     <h4>Taylor on Aristotle</h4>
     <ul class="studies">
       <li><a href="#taylor/aristotle-dissertation"><b>Taylor's Dissertation on the Philosophy of Aristotle</b></a> (1812) <span class="meta">Four books: the division of his works and the end they lead to, his agreement with Plato, and his physical and metaphysical doctrines in his own words, with the Greek commentators on them.</span></li>
@@ -241,4 +246,68 @@ function showArStart() {
       and not proofread; the passages above were checked by eye against the scan. Marinus from Project Gutenberg's text of Taylor's 1816 volume.</p>
   </div>`;
   window.scrollTo(0, 0);
+}
+
+// ------------------------------------------------------------------ the Greek commentators (Aristotle milestone A5)
+
+// The commentaries are stored and read with the Neoplatonists (neo.js, #neo/<id>), on their own shelf. Each page is
+// linked to the columns of Aristotle it comments on: printed (the editor gives the Bekker reference in the margin) or
+// quoted (the page repeats runs of words found in that column only, ≈).
+const AR_COMM_HOW = {
+  printed: "The editor of the Berlin edition prints this column's reference in the margin, beside the lemma",
+  quoted: "The page repeats at least two runs of five words found in this column of Aristotle's Greek and in no other column of the work: a lemma or a quotation (≈)",
+};
+
+function arCommentatorsShelf() {
+  if (typeof neoShelfTexts !== "function") return "";
+  const ts = neoShelfTexts("commentators");
+  if (!ts.length) return "";
+  const words = ts.reduce((a, t) => a + t.words, 0);
+  return `<h4 id="lib-ar-comm">The Greek commentators</h4>
+    <p class="meta">The Berlin Academy's <i>Commentaria in Aristotelem Graeca</i> (1882–1909), in First1KGreek's corrected Greek (CC BY-SA 4.0):
+      the school's lectures on Aristotle, from Alexander of Aphrodisias to Olympiodorus and his pupils, read by the pages of the Berlin edition as every book
+      cites them. ${ts.length} texts, ${words.toLocaleString()} Greek words. Each page links to the columns of Aristotle it comments on, and each column
+      of Aristotle lists the commentators' pages on it.</p>
+    <div class="lib-grid">${neoGroups("commentators").map((g) => `<section><h4>${esc(g.label)}</h4><ul>${g.texts.map((t) =>
+      `<li><a href="#neo/${esc(t.id)}"><b>${esc(t.author)}</b>, ${esc(t.title)}</a> <span class="meta">${esc(t.editor)}, ${esc(String(t.year))}</span></li>`).join("")}</ul></section>`).join("")}</div>`;
+}
+
+// A link to a column of Aristotle (or a page of Porphyry's Introduction).
+function arColLink(work, col, how, what) {
+  const approx = how === "quoted" ? ` <span class="approx" title="${esc(AR_COMM_HOW.quoted)}">≈</span>` : "";
+  const title = how === "printed" ? `${AR_COMM_HOW.printed}: ${what}` : `${AR_COMM_HOW.quoted}: ${what}`;
+  if (work === "isagoge") return `<a href="#neo/porphyry-isagoge/0/${esc(col)}" title="${esc(title)}">Isag. p. ${esc(col.split(".")[1] || col)}</a>${approx}`;
+  const w = workById(work);
+  return `<a href="${esc(placeHash(work, col))}" title="${esc(title)}">${esc(w ? w.abbr || w.title : work)} ${esc(col)}</a>${approx}`;
+}
+
+// On a commentator's page: the columns it comments on.
+function arColsOfUnit(u) {
+  if (!u.ar_cols || !u.ar_cols.length) return "";
+  return `<p class="tg-back meta">On ${u.ar_cols.map((c) => arColLink(c.work_id, c.col, c.how, c.what)).join(", ")}</p>`;
+}
+
+// At the head of a commentary: the work it comments on, and how its pages are linked.
+function arCommentsOn(t) {
+  if ((t.shelf || "neo") !== "commentators") return "";
+  const w = t.on_work && t.on_work !== "isagoge" ? workById(t.on_work) : null;
+  const on = t.on_work === "isagoge" ? `<a href="#neo/porphyry-isagoge">Porphyry's Introduction</a> (Busse's Greek; Owen's English <a href="#taylor/porphyry-introduction">here</a>)`
+    : w ? `<a href="#${esc(w.slug)}">${esc(w.title)}</a>` : "";
+  return `<p class="meta">${on ? `On ${on}: each page names the ${t.on_work === "isagoge" ? "pages" : "Bekker columns"} it comments on, printed in the editor's margin, or found by the
+    words it quotes (≈). ` : /^Introductions/.test(t.grp) ? "An introduction to philosophy and to Aristotle as a whole, read before the Categories. " : "The Workshop does not have the work commented on yet. "}<a href="#library">The Library</a>.</p>`;
+}
+
+// Under a column of Aristotle: the commentators' pages on it.
+function renderArCommentRow(s, d) {
+  const here = (d.ar_comments || []).filter((c) => c.col === s.ref);
+  if (!here.length) return "";
+  const by = new Map();
+  for (const c of here) {
+    if (!by.has(c.text_id)) by.set(c.text_id, { author: c.author, title: c.title, pages: [] });
+    by.get(c.text_id).pages.push(c);
+  }
+  const items = [...by].map(([tid, g]) => `<li><b>${esc(g.author)}</b>, ${esc(g.title)}: ${g.pages.map((c) =>
+    `<a href="#neo/${esc(tid)}/${c.part}/${encodeURIComponent(c.n)}" title="${esc(c.how === "printed" ? `${AR_COMM_HOW.printed}: ${c.what}` : `${AR_COMM_HOW.quoted}: ${c.what}`)}">${esc(c.label)}</a>${c.how === "quoted" ? `<span class="approx">≈</span>` : ""}`).join(", ")}</li>`).join("");
+  return `<div class="app-row app-notes ar-comm-row"><div class="app-k">Greek commentators</div><div class="app-v"><ul class="ar-comm">${items}</ul>
+    <p class="meta">The pages of the <i>Commentaria in Aristotelem Graeca</i> on this column: given by the editor in the margin, or (≈) found by the words they quote.</p></div></div>`;
 }

@@ -405,6 +405,8 @@ function renderApparatus(s, d, numbers) {
   rows.push(renderLinksOut(s, d));
   rows.push(renderLinksIn(s, d));
   rows.push(renderMineRow(s, d));
+  // Aristotle milestone A5: the Greek commentators' pages on this column (aristotle.js).
+  if (typeof renderArCommentRow === "function") rows.push(renderArCommentRow(s, d));
   // Milestone 12: the recorded tensions this section begins a passage of (reconcile.js).
   if (typeof renderTensionRow === "function") rows.push(renderTensionRow(s));
   return rows.join("");

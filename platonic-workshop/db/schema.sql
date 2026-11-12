@@ -849,7 +849,9 @@ CREATE TABLE neo_text (
     n_units     INTEGER NOT NULL,
     words       INTEGER NOT NULL,
     latin_units INTEGER NOT NULL,          -- scanned pages mostly in Latin (folded away)
-    proof_status TEXT NOT NULL
+    proof_status TEXT NOT NULL,
+    shelf       TEXT NOT NULL DEFAULT 'neo', -- neo | commentators (Aristotle milestone A5: the Greek commentators on Aristotle)
+    on_work     TEXT                       -- a commentary: the work commented on (work.id, or 'isagoge'), where the Workshop has it
 );
 
 CREATE TABLE neo_part (                    -- the contents: a treatise, an essay, a book, or ten pages of a scan
@@ -883,6 +885,19 @@ CREATE TABLE neo_unit (                    -- a citable unit (TEI) or a scanned 
     words       INTEGER NOT NULL,
     PRIMARY KEY (text_id, seq)
 );
+
+-- Aristotle milestone A5: each page of a commentary linked to the columns of Aristotle it comments on
+-- (tools/aristotle_commentators.py link()).
+CREATE TABLE ar_comment (
+    work_id     TEXT NOT NULL,             -- work.id, or 'isagoge' (Porphyry's Introduction, by Busse's pages)
+    col         TEXT NOT NULL,             -- Bekker's page and column, '980a' (the Introduction: neo_unit.n of its page, '1.5')
+    text_id     TEXT NOT NULL REFERENCES neo_text(id),
+    unit_seq    INTEGER NOT NULL,          -- neo_unit.seq: the page of the commentary
+    how         TEXT NOT NULL,             -- printed (the editor's margin) | quoted (runs of its words, ≈)
+    what        TEXT NOT NULL,             -- the reference as printed, or how many runs of words
+    PRIMARY KEY (work_id, col, text_id, unit_seq)
+);
+CREATE INDEX ar_comment_unit ON ar_comment (text_id, unit_seq);
 
 CREATE TABLE neo_correction (              -- sources/neoplatonists/corrections.json
     text_id     TEXT NOT NULL REFERENCES neo_text(id),

@@ -378,11 +378,23 @@ Built by `tools/aristotle.py` (works of corpus `aristotle`, a Bekker column, 980
 - Not done in A4: Taylor's Organon, in his Works of Aristotle (1806-1812): a search of the Internet Archive found no scan of
   the volume (it lists his Dissertation, 1812, and his Treatises on the Soul, 1808, item b22006874, which A8 can add beside Hicks).
 
-### A5: the Greek commentators on Aristotle, on their own shelf
+### A5: the Greek commentators on Aristotle, on their own shelf (done)
 
-- From the *Commentaria in Aristotelem Graeca* (Berlin, 1882-1909, public domain): Syrianus on the Metaphysics (Kroll, 1902,
-  on the Archive), Simplicius on the Categories and the De Caelo, Ammonius, Philoponus, Asclepius; OCR shown as received,
-  page by page with a link to the scan, as the Neoplatonists of milestone 25. Each comment linked to the Bekker column it is on.
+- Thirty-four texts of the *Commentaria in Aristotelem Graeca* (Berlin, 1882-1909) and its Supplementum, in First1KGreek's corrected
+  TEI (CC BY-SA 4.0) rather than the scans' OCR, since First1KGreek has them: the introductions to philosophy and to Aristotle
+  (Ammonius, Olympiodorus, Elias and David, with the commentaries on Porphyry's Introduction); the Categories (Porphyry, Ammonius,
+  Philoponus, Olympiodorus, Elias, Simplicius); On Interpretation (Ammonius); the Analytics (Alexander, Ammonius, Philoponus); the Topics
+  (Alexander); the Sophistical Refutations (pseudo-Alexander); the Physics (Simplicius, Philoponus); On the Heavens (Simplicius);
+  Generation and Corruption, the Meteorology, Sense, Generation of Animals (Alexander, Philoponus, Olympiodorus, Michael); On the Soul
+  (pseudo-Simplicius, Philoponus, and Alexander's own treatise and Mantissa, with On the Intellect, for De Anima III 5); the
+  Metaphysics (Alexander, Syrianus, Asclepius). Read by `tools/aristotle_commentators.py`, page by page of the Berlin edition, with the
+  editor's apparatus and marginal notes; stored and shown with the Neoplatonists of milestone 25, on their own shelf under Aristotle.
+- Each page linked to the Bekker columns it comments on: printed, where the editor gives the reference in the margin; quoted (≈),
+  where the page repeats at least two runs of five words found in one column of the work only. The commentaries on Porphyry are
+  linked to Busse's pages of the Introduction in the same way. Each column of Aristotle lists the pages on it.
+- Not here: the CAG volumes First1KGreek does not have (Themistius, Dexippus, Michael of Ephesus on the Ethics, Eustratius,
+  Stephanus, Philoponus Against Proclus); First1KGreek's Simplicius on the Physics lacks pp. 552-800 (the end of Book IV, with the
+  Corollaries on place and time). Both are listed in `reports/commentators.md`, for a later milestone from the scans.
 
 ### A6: Syrianus' replies on the Forms, in English
 
