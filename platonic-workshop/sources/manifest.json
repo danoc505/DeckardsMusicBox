@@ -1023,6 +1023,50 @@
       "status": "verified"
     },
     {
+      "id": "ia-taylor-organon-1812",
+      "title": "Thomas Taylor, The Works of Aristotle, translated from the Greek, vol. I, part 1: The Organon, or Logical Treatises (the Introduction of Porphyry, the Categories, On Interpretation, the Prior Analytics), with copious elucidations from the best of his Greek commentators (London, 1812), Internet Archive OCR of the Harvard copy",
+      "kind": "archive",
+      "item": "works00taylgoog",
+      "repo": "https://archive.org/details/works00taylgoog",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/works00taylgoog/works00taylgoog_djvu.xml",
+          "sha256": "26d18a26c26e7edfd5579088b22ef21c3a7c755ffa23375594781da44cd324d5",
+          "bytes": 12305988
+        }
+      ],
+      "sha256": "26d18a26c26e7edfd5579088b22ef21c3a7c755ffa23375594781da44cd324d5",
+      "layer": "translation",
+      "language": "eng",
+      "citation_scheme": "Taylor's book and chapter as printed; no Bekker numbers (Bekker's edition is of 1831): Bekker's columns carried over from the Oxford translation chapter by chapter (≈), as for Owen's",
+      "licence": "Public domain (printed in 1812, before 1930)",
+      "provenance": "Internet Archive item works00taylgoog (Google's scan; public domain): its OCR with the place of every word (_djvu.xml), downloaded on 2026-11-12 and pinned by sha256. The OCR of the pages read (leaves 59-409: his Introductions, the Categories, On Interpretation, the Prior Analytics) is committed in sources/aristotle/ocr/. Cleaned by rule (tools/aristotle_taylor.py, with the rules that read his Metaphysics); unproofread, every paragraph keeps its raw OCR.",
+      "status": "verified"
+    },
+    {
+      "id": "ia-taylor-ethics-1811",
+      "title": "Thomas Taylor, The Rhetoric, Poetic, and Nicomachean Ethics of Aristotle, translated from the Greek (London, 1811), Internet Archive OCR of the Oxford copy",
+      "kind": "archive",
+      "item": "rhetoricpoetica03arisgoog",
+      "repo": "https://archive.org/details/rhetoricpoetica03arisgoog",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/rhetoricpoetica03arisgoog/rhetoricpoetica03arisgoog_djvu.xml",
+          "sha256": "109e0af9d8fbb3701073b13ca3da5c90bc9be35724394e3a9af1dd798bb8baf1",
+          "bytes": 17592831
+        }
+      ],
+      "sha256": "109e0af9d8fbb3701073b13ca3da5c90bc9be35724394e3a9af1dd798bb8baf1",
+      "layer": "translation",
+      "language": "eng",
+      "citation_scheme": "Taylor's book and chapter as printed; no Bekker numbers: placed by tools/align.py against the Loeb English, with the books as fixed points (≈)",
+      "licence": "Public domain (printed in 1811, before 1930)",
+      "provenance": "Internet Archive item rhetoricpoetica03arisgoog (Google's scan; public domain): its OCR with the place of every word (_djvu.xml), downloaded on 2026-11-12 and pinned by sha256. The OCR of the pages read (leaves 321-638: the Nicomachean Ethics) is committed in sources/aristotle/ocr/. Cleaned by rule (tools/aristotle_taylor.py, with the rules that read his Metaphysics); unproofread, every paragraph keeps its raw OCR.",
+      "status": "verified"
+    },
+    {
       "id": "ia-taylor-dissertation-1812",
       "title": "Thomas Taylor, A Dissertation on the Philosophy of Aristotle, in four books, in which his principal physical and metaphysical dogmas are unfolded (London, 1812), Internet Archive OCR",
       "kind": "archive",

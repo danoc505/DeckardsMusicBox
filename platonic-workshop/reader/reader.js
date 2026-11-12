@@ -240,7 +240,7 @@ const TRANS_DEFAULT = { loeb: true, taylor: true, jowett: false, ross: true, cha
 function transKind(ed) {
   if (isLoebSource(ed.source_id)) return "loeb";
   if (ed.id.endsWith(".jowett")) return "jowett";
-  if (ed.id.endsWith(".taylor1804") || ed.id.endsWith(".taylor1801")) return "taylor";
+  if (/\.taylor18(04|01|11|12)$/.test(ed.id)) return "taylor";
   if (ed.id.endsWith(".ross1908")) return "ross";
   if (ed.id.endsWith(".chase1847")) return "chase";
   if (ed.id.endsWith(".hardie1930") || ed.id.endsWith(".stocks1922") || ed.id.endsWith(".oxford1928")) return "oxford";

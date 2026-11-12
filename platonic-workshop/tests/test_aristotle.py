@@ -728,3 +728,79 @@ class Reconciliations(unittest.TestCase):
     def test_the_route_and_the_links(self):
         self.assertIn('raw === "ar-reconcile"', (ROOT / "reader" / "shell.js").read_text(encoding="utf-8"))
         self.assertIn('href="#ar-reconcile"', self.js)
+
+
+class TaylorWorks(unittest.TestCase):
+    """Aristotle milestone A8: Taylor's own Organon (1812) and Nicomachean Ethics (1811), from Google's scans."""
+    FILES = {"ar006": "categories/taylor-1812", "ar017": "on-interpretation/taylor-1812", "ar001": "prior-analytics/taylor-1812",
+             "ar010": "nicomachean-ethics/taylor-1811"}
+
+    @classmethod
+    def setUpClass(cls):
+        cls.d = {w: json.loads((ROOT / "texts" / "aristotle" / f"{f}.json").read_text(encoding="utf-8")) for w, f in cls.FILES.items()}
+
+    def test_both_volumes_are_pinned_and_public_domain(self):
+        self.assertEqual(MANIFEST["ia-taylor-organon-1812"]["item"], "works00taylgoog")
+        self.assertEqual(MANIFEST["ia-taylor-ethics-1811"]["item"], "rhetoricpoetica03arisgoog")
+        for sid in ("ia-taylor-organon-1812", "ia-taylor-ethics-1811"):
+            self.assertIn("Public domain", MANIFEST[sid]["licence"])
+        self.assertIn(73, aristotle_ocr.scan_pages("ia-taylor-organon-1812"))
+        self.assertIn(323, aristotle_ocr.scan_pages("ia-taylor-ethics-1811"))
+
+    def test_each_treatise_opens_with_its_first_words(self):
+        first = {"ar006": "are said to be homonymous", "ar017": "it is necessary to determine what noun and verb are",
+                 "ar001": "requisite to say what the subject is", "ar010": "appear to aspire after a certain good"}
+        for w, words in first.items():
+            self.assertIn(words, " ".join(p["text"] for p in self.d[w]["paragraphs"][:1]), w)
+
+    def test_books_and_chapters_as_printed(self):
+        ch = lambda w, b: len({p["chapter"] for p in self.d[w]["paragraphs"] if p["book"] == b})
+        self.assertGreaterEqual(ch("ar006", 1), 14)                 # of 15 (the scan does not show chapter IV's heading)
+        self.assertEqual(ch("ar017", 1), 14)
+        self.assertGreaterEqual(ch("ar001", 1), 42)
+        self.assertGreaterEqual(ch("ar001", 2), 20)
+        self.assertEqual({p["book"] for p in self.d["ar010"]["paragraphs"]}, set(range(1, 11)))
+        self.assertEqual(ch("ar010", 2), 9)
+
+    def test_his_notes_are_kept_apart(self):
+        for w, d in self.d.items():
+            self.assertTrue(all(0 <= n["para"] < len(d["paragraphs"]) for n in d["notes"]), w)
+        cat = self.d["ar006"]
+        self.assertTrue(any("Simplicius" in n["text"] for n in cat["notes"]))
+        self.assertFalse(any("Simplicius" in p["text"] for p in cat["paragraphs"]))
+        self.assertGreater(sum(len(n["text"].split()) for n in cat["notes"]), sum(len(p["text"].split()) for p in cat["paragraphs"]))
+        self.assertTrue(any("doctrine of ideas" in n["text"] for n in self.d["ar010"]["notes"]))   # on EN I 6, from the Platonists
+
+    def test_the_organon_carries_every_column(self):
+        import aristotle_organon
+        import aristotle_trans
+        for w in ("ar006", "ar017", "ar001"):
+            d = self.d[w]["paragraphs"]
+            c0, c1 = aristotle_organon.TREATISES[w][4:6]
+            order = aristotle_organon.columns(c0, c1)
+            self.assertEqual({c for p in d for _, c, _ in p["marks"]}, set(order), w)
+            self.assertIn("taylor1812", [t[1] for t in aristotle_trans.TRANSLATIONS[w]])
+        d = self.d["ar017"]["paragraphs"]
+        order = aristotle_organon.columns(*aristotle_organon.TREATISES["ar017"][4:6])
+        col = next(c for k, a, b, c, _ in aristotle_trans.place(d, order) if "what noun and verb are" in d[k]["text"][a:b])
+        self.assertEqual(col, "16a")
+
+    def test_the_ethics_is_placed_against_the_loeb(self):
+        import aristotle
+        self.assertIn("ar010", aristotle.TAYLOR_LOEB)
+        self.assertIn("ar025", aristotle.TAYLOR_LOEB)
+        self.assertIn(".taylor18(04|01|11|12)", (ROOT / "reader" / "reader.js").read_text(encoding="utf-8"))
+
+
+class TaylorWorksInTheLibrary(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.lib = serve.Library(build_db.DB_PATH)
+        if not cls.lib.rows("SELECT 1 FROM edition WHERE id = 'ar010.taylor1811'"):
+            raise unittest.SkipTest("built before A8")
+
+    def test_every_work_shows_taylor(self):
+        for ed, least in (("ar006.taylor1812", 25), ("ar017.taylor1812", 12), ("ar001.taylor1812", 80), ("ar010.taylor1811", 150)):
+            n = self.lib.one("SELECT count(DISTINCT section_ref) AS n FROM chunk WHERE edition_id = ?", ed)["n"]
+            self.assertGreaterEqual(n, least, ed)
+        self.assertTrue(self.lib.rows("SELECT 1 FROM note WHERE edition_id = 'ar006.taylor1812' AND commentator LIKE 'Taylor (1812), from Simplicius%'"))

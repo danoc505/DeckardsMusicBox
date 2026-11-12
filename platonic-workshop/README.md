@@ -412,6 +412,13 @@ places, 18 dialogues), linked both ways: a section of Plato shows where Aristotl
 *Plato and Aristotle reconciled* quotes the commentators, in their Greek, on where the two agree (the Forms, the soul, the
 eternity of the world, God as maker), each passage checked against its page; the English is the Workshop's own, labelled so.
 
+**Aristotle, milestone A8 (in progress): Taylor's own translations.** Thomas Taylor's Categories, On Interpretation and
+Prior Analytics (Works of Aristotle, vol. I, 1812) and his Nicomachean Ethics (1811) are shown beside the Greek as *Taylor
+(1812)* and *Taylor (1811)*, read from Google's scans in the Internet Archive by the rules that read his Metaphysics
+(`tools/aristotle_taylor.py`), with his notes from Simplicius, Ammonius and the other commentators under the text. They print
+no Bekker numbers, so the Organon is placed at the Oxford's columns carried over chapter by chapter, and the Ethics against
+the Loeb English (≈). OCR cleaned by rule, not proofread.
+
 ## Running it
 
 Python 3.10 or later, standard library only. Nothing to install. One command does everything:
