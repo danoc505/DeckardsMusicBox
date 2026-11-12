@@ -268,8 +268,14 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   other scan) and translated as a new part in five sections: the two marks of providence, reaching all and mixed with
   none; the gods' love for what they beget (Phaedrus 244a, Phaedo 65d); why Socrates began with silence; what a crowd is
   (Timaeus 42c-d, Symposium 197d); and Alcibiades trained among the vulgar lovers, as the Athenian Stranger trains the
-  young at drink (Laws 640c-d). Taylor draws nothing from these pages. Next sessions, in this order: the rest of
-  Proclus on the First Alcibiades, from the lemma "the cause of this was not human, but a daemonic opposition" and Socrates' daemon (II p. 162 on; Taylor's note on the daemon at 103a and his Additional Notes 2-19 to check against),
+  young at drink (Laws 640c-d). Taylor draws nothing from these pages.
+- Session 10 done: Cousin's vol. II pp. 162-182, on the words "the cause of this was not human, but a daemonic
+  opposition", proofread (91 pages, 1647 line corrections in all) and translated as a new part in five sections: why
+  Socrates names his daemon; why only the silence is laid to it; love as a great daemon (Symposium 212b, 202d,
+  202e-203a; the Chaldean Oracles and the Orphic verses, cited from Hermann's Orphica); the three ranks of love answering
+  to the three kinds of intellect; and why Socrates begins with love and ends with the daemon. Taylor draws nothing from
+  these pages. Next sessions, in this order: the rest of Proclus on the First Alcibiades, from daemons in general and
+  Socrates' daemon (II p. 185 on; Taylor's note on the daemon at 103a and his Additional Notes 2-19 to check against),
   and Olympiodorus on it (Creuzer's OCR, proofread first); then On the Mysteries and the Elements, where
   Taylor's English exists; then Damascius and Hermias. Plotinus' other treatises have no Taylor to check against: check
   them against another public-domain translation, or label them so.

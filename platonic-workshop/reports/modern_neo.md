@@ -350,11 +350,11 @@ Written by `tools/modern_neo.py` from `sources/translations/modern/*.txt`. The W
 ## Proclus on the First Alcibiades in modern English
 
 - Made from: It is translated from the Greek of Cousin's edition (Paris, 1820), proofread first from the page images, and checked against the Introduction and notes to the First Alcibiades in Thomas Taylor's Works of Plato (1804), which Taylor drew from Proclus' commentary.
-- Treatises: Prologue Proclus' introduction to the dialogue, 103a On the opening words: what the preface shows, 103a-love On love: its orders, and the two kinds of lover, 103a-first Why Socrates loved first, and stays: the lover as a good daemon, 103a-secret The more secret account of love: faith, truth and love, 103a-crowd "In crowds", and not a word: the providence that stands apart.
-- Sections: 40, each with a short title and a summary. The Greek: 81 pages proofread from the page images (`sources/neoplatonists/proofread/proclus-alcibiades.txt`), written into `sources/neoplatonists/corrections.json` as 1480 line corrections by `tools/proofread.py`.
-- Paragraphs: 98, each with its Greek.
-- Words: 13,347 modern, 10,999 Greek, 2,687 in Taylor's English of the same pages (his Introduction).
-- Sentences (each can be marked in the reader): 378.
+- Treatises: Prologue Proclus' introduction to the dialogue, 103a On the opening words: what the preface shows, 103a-love On love: its orders, and the two kinds of lover, 103a-first Why Socrates loved first, and stays: the lover as a good daemon, 103a-secret The more secret account of love: faith, truth and love, 103a-crowd "In crowds", and not a word: the providence that stands apart, 103a-daemon "Not human, but a daemonic opposition": Socrates' daemon and love.
+- Sections: 45, each with a short title and a summary. The Greek: 91 pages proofread from the page images (`sources/neoplatonists/proofread/proclus-alcibiades.txt`), written into `sources/neoplatonists/corrections.json` as 1647 line corrections by `tools/proofread.py`.
+- Paragraphs: 108, each with its Greek.
+- Words: 14,925 modern, 12,355 Greek, 2,687 in Taylor's English of the same pages (his Introduction).
+- Sentences (each can be marked in the reader): 428.
 - Flags (where Taylor and the Greek differ, or the Greek is hard): 28.
 - Problems found: 0.
 

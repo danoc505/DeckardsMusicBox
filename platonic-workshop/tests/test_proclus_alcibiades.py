@@ -65,6 +65,9 @@ PLATO = [
     ("103a.27.p1", "tlg004", ["65d"], "Phaedo (65d)", "υγιειασ, ισχυοσ", "υγιειασ, ισχυοσ"),
     ("103a.29.p1", "tlg031", ["42c", "42d"], "42c-d", "υστερον προσφυντα εκ πυροσ", "υστερον προσφυντα εκ πυροσ"),
     ("103a.29.p1", "tlg011", ["197d"], "Symposium (197d)", "αλλοτριοτητοσ κενοι, και οικειοτητοσ πληροι", "αλλοτριοτητοσ μεν κενοι, οικειοτητοσ δε πληροι"),
+    ("103a.31.p3", "tlg011", ["212b"], "212b", "αμεινω γαρ, φησιν, ερωτοσ συνεργον", "συνεργον αμεινω ερωτοσ ουκ αν τισ ραδιωσ λαβοι"),
+    ("103a.33.p1", "tlg011", ["202e", "203a"], "202e-203a", "δια μεσων των δαιμονων", "πασα εστιν η ομιλια και η διαλεκτοσ θεοισ προσ ανθρωπουσ"),
+    ("103a.33.p2", "tlg011", ["202d"], "202d", "ερωσ δαιμων εστι μεγασ", "δαιμων μεγασ, ω σωκρατεσ"),
     ("103a.30.p2", "tlg034", ["640c", "640d"], "640c-d", "αρχοντα αυτοισ εφιστησι", "νηφοντα τε και σοφον αρχοντα μεθυοντων"),
     ("103a.22.p1", "tlg013", ["131e"], "131e", "μονον εραστην εαυτον", "αλκιβιαδη τω κλεινιου εραστησ ουτʼ εστιν αλλʼ η εισ μονοσ"),
     ("103a.19.p2", "tlg031", ["30b"], "Timaeus (30b)", "νου μεν γαρ και σωματοσ η ψυχη", "νουν μεν εν ψυχη, ψυχην δʼ εν σωματι"),
@@ -78,13 +81,13 @@ def load():
 class Proofreading(unittest.TestCase):
     def test_the_pages_in_order(self):
         pages = proofread.parse(TID)
-        self.assertEqual(len(pages), 81)
+        self.assertEqual(len(pages), 91)
         self.assertEqual(pages[0]["label"], "II p. 2")
-        self.assertEqual(pages[-1]["label"], "II p. 162")
+        self.assertEqual(pages[-1]["label"], "II p. 182")
         nums = [int(p["label"].rsplit(" ", 1)[1]) for p in pages]
         # Cousin prints two pages of Greek, then two of his Latin: the Greek runs on from page to page (p. 47 and 48
-        # are Latin, and the first lemma starts p. 49). Proclus on love runs on from p. 78, on Socrates as a good daemon and the only lover to p. 137, the more secret account of love to p. 145, and the crowd and Socrates' silence to p. 162.
-        self.assertEqual(nums, [2] + [n for k in range(5, 46, 4) for n in (k, k + 1)] + [n for k in range(49, 162, 4) for n in (k, k + 1)])
+        # are Latin, and the first lemma starts p. 49). Proclus on love runs on from p. 78, on Socrates as a good daemon and the only lover to p. 137, the more secret account of love to p. 145, the crowd and Socrates' silence to p. 162, and the daemonic opposition to p. 182.
+        self.assertEqual(nums, [2] + [n for k in range(5, 46, 4) for n in (k, k + 1)] + [n for k in range(49, 182, 4) for n in (k, k + 1)])
         # Three pages are blank leaves in this scan, and are proofread from the other scan of the same volume.
         supplied = {p["label"]: p["supplied"] for p in pages if p.get("supplied")}
         self.assertEqual(sorted(supplied), ["II p. 158", "II p. 81", "II p. 94"])
@@ -107,7 +110,8 @@ class Proofreading(unittest.TestCase):
         self.assertIn("περὶ ἔρωτος ὅσα προσήκει τοῖς παροῦσι λόγοις, θεωρήσωμεν. Ὥσπερ τοίνυν ἄλλων θεῶν", g)
         self.assertIn("ἀδύνατα φησὶν ὁ Ἐλεάτης ξένος. Ταῦτα μὲν οὖν περὶ τούτων", g)
         self.assertIn("ποτὲ μὲν ἑαυτὸν δαίμονα προσαγορεύων, ποτὲ δὲ θεόν. Ἀλλὰ τούτου μὲν", g)
-        self.assertTrue(g.endswith("καὶ ποῖον τέλος ἐστὶ τῆς κατ’ ἀρετὴν ἐνεργείας."))
+        self.assertIn("καὶ ποῖον τέλος ἐστὶ τῆς κατ’ ἀρετὴν ἐνεργείας. Τούτου δὲ τὸ αἴτιον γέγονεν οὐκ ἀνθρώπινον", g)
+        self.assertTrue(g.endswith("περὶ τὴν ἐρωτικὴν σπουδῇ."), g[-80:])
         # The supplied pages join the scan's pages on both sides: ἐπαγ-|γέλλεται is not split, nor p. 93 to p. 94.
         self.assertIn("ὁ δὲ αὐτάρκης ἐστὶ, καὶ δυνάμεως πλήρης", g)
         self.assertIn("ὁμοιούμενος τῷ ἐραστῷ, γίνεται δή που καὶ αὐτὸς ἄστατος", g)
@@ -165,8 +169,8 @@ class ModernEnglish(unittest.TestCase):
 
     def test_the_prologue_and_the_first_lemma_in_order(self):
         d = load()
-        self.assertEqual([t["id"] for t in d["treatises"]], ["Prologue", "103a", "103a-love", "103a-first", "103a-secret", "103a-crowd"])
-        self.assertEqual([c["id"] for c in d["chapters"]], [f"Pr.{n}" for n in range(1, 11)] + [f"103a.{n}" for n in range(1, 31)])
+        self.assertEqual([t["id"] for t in d["treatises"]], ["Prologue", "103a", "103a-love", "103a-first", "103a-secret", "103a-crowd", "103a-daemon"])
+        self.assertEqual([c["id"] for c in d["chapters"]], [f"Pr.{n}" for n in range(1, 11)] + [f"103a.{n}" for n in range(1, 36)])
         self.assertEqual({c["treatise"] for c in d["chapters"] if c["id"] in ("103a.8", "103a.13")}, {"103a-love"})
         for c in d["treatises"] + d["chapters"]:
             self.assertGreater(len(c["summary"].split()), 15, c["id"])
@@ -298,6 +302,20 @@ class ModernEnglish(unittest.TestCase):
         self.assertIn("Ὁ μὲν οὖν πολὺς ἐραστὴς τοιοῦτος.", p["103a.29.p1"]["greek"])
         self.assertIn("silence", p["103a.28.p1"]["modern"])
 
+    def test_the_daemonic_opposition_follows_the_greek(self):
+        d = load()
+        p = {x["seg"]: x for x in d["paragraphs"]}
+        self.assertEqual({c["treatise"] for c in d["chapters"] if c["id"].startswith(("103a.31", "103a.35"))}, {"103a-daemon"})
+        # The lemma is its own paragraph, and the note gives Plato's own form of the word Cousin prints.
+        self.assertEqual(p["103a.31.p1"]["greek"], "Τούτου δὲ τὸ αἴτιον γέγονεν οὐκ ἀνθρώπινον, ἀλλά τι δαιμόνιον ἐναντίωμα· οὗ σὺ τὴν δύναμιν καὶ ὕστερον πεύσῃ.")
+        self.assertTrue(any("ἀνθρώπειον" in n for n in p["103a.31.p1"]["notes"]))
+        # Love is a great daemon, with three ranks; the Orphic verses are cited where Cousin cites them.
+        self.assertIn("δαίμων ἐστὶ μέγας", p["103a.33.p2"]["greek"])
+        self.assertIn("great daemon", p["103a.33.p2"]["modern"])
+        self.assertTrue(p["103a.34.p2"]["greek"].endswith("εἷς δαίμων γένετο μέγας ἀρχὸς ἁπάντων."))
+        self.assertTrue(any("Hermann" in n for n in p["103a.34.p2"]["notes"]))
+        self.assertTrue(p["103a.35.p1"]["greek"].endswith("περὶ τὴν ἐρωτικὴν σπουδῇ."))
+
     def test_sentences_can_be_marked(self):
         with tempfile.TemporaryDirectory() as tmp:
             lib = sqlite3.connect(":memory:")
@@ -362,7 +380,7 @@ class Server(unittest.TestCase):
 
     def test_the_shelf_and_the_scan_link_to_it(self):
         t = next(t for t in self.get("neo")["texts"] if t["id"] == TID)
-        self.assertEqual((t["modern"]["text"], t["modern"]["pages"]), (TID, 81))
+        self.assertEqual((t["modern"]["text"], t["modern"]["pages"]), (TID, 91))
         part = self.get(f"neo/{TID}/0")
         u = next(u for u in part["units"] if u["label"] == "II p. 2")
         self.assertEqual(u["modern_section"], {"text": TID, "id": "Pr.1"})

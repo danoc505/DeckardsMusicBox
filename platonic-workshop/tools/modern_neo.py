@@ -90,7 +90,9 @@ TEXTS = {
                  "and the more secret account of love (pages 137 to 145): love between the beloved and the lovers, the triad of faith, "
                  "truth and love among the gods, and love as the middle that binds; "
                  "and the lovers who came \"in crowds\" (pages 145 to 162): the providence that stands apart, why Socrates began with "
-                 "silence, what a crowd is, and how Alcibiades was trained among the vulgar lovers.",
+                 "silence, what a crowd is, and how Alcibiades was trained among the vulgar lovers; "
+                 "and \"not human, but a daemonic opposition\" (pages 162 to 182): why Socrates lays his silence to his daemon, and how "
+                 "love is itself a great daemon, in three ranks, in gods, daemons and souls.",
     },
 }
 LINE = re.compile(r"^@(treatise|ch|p|greek|taylor)\b\s*(.*)$")
