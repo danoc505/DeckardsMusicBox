@@ -107,7 +107,8 @@ def build(out=OUT):
     print(f"wrote {out.relative_to(ROOT)}: {n} pieces of the library, {mb:.0f} MB in all")
 
 
-def serve(port=8801):
+def serve_site(port=8801):
+    """Serve the built website (named so as not to hide the serve module, which build() reads)."""
     import functools
     import http.server
     handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=str(OUT))
@@ -122,7 +123,7 @@ def main():
     args = ap.parse_args()
     build(args.out)
     if args.serve:
-        serve()
+        serve_site()
 
 
 if __name__ == "__main__":

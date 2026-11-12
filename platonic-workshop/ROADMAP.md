@@ -242,8 +242,16 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   marks of the two lovers from Socrates' first words, and why he still calls the others lovers. Taylor draws nothing from
   these pages (his Introduction and notes skip from the preface to Alcibiades' pride, 104c), so there are no flags; Plato's
   places (Symposium 202d-e and 183e, Phaedrus 265c, Statesman 273d-e, Sophist 254a-b, the dialogue's own 103a and 131c-e) are
-  noted and found in Burnet. Next sessions, in this order: the rest of Proclus on the First Alcibiades, from why Socrates
-  began first and stays (II p. 101 on; Taylor's note on the daemon at 103a and his Additional Notes 2-19 to check against),
+  noted and found in Burnet.
+- Session 6 done: why Socrates loved first and stays (Cousin's vol. II pp. 101-125, 12 pages, down to "now a daemon, now a
+  god"), proofread in the same way (227 more line corrections, 1130 in all), and put into modern English as a new part in six
+  sections: first, with and after the others, as the One is; an image from the mysteries (with the Chaldean Oracles' verse);
+  Socrates in the place of Alcibiades' good daemon; wonder, the start of philosophy; Alcibiades between Socrates and the vulgar
+  lovers, as the rational soul between intellect and the many-headed beast; and the two readings joined, daemon to a man and
+  intellect to a soul. Taylor draws nothing from these pages either. Plato's places (Phaedo 107d, Apology 31d, Theaetetus
+  155d, Republic 588c, Timaeus 42c and 30b) are noted and found in Burnet. A word Cousin prints that is not Greek
+  (ἀγητηρίων) is kept as printed and noted. Next sessions, in this order: the rest of Proclus on the First Alcibiades, from
+  why Alcibiades wonders (II p. 125 on; Taylor's note on the daemon at 103a and his Additional Notes 2-19 to check against),
   and Olympiodorus on it (Creuzer's OCR, proofread first); then On the Mysteries and the Elements, where
   Taylor's English exists; then Damascius and Hermias. Plotinus' other treatises have no Taylor to check against: check
   them against another public-domain translation, or label them so.
