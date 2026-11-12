@@ -46,8 +46,8 @@ PLATO_RE = re.compile(r"\bπλατων(?:οσ|ι|α)?\b")
 
 def counts(db):
     """ar_lemma_count and ar_form_count, as build_db.build_search makes Plato's."""
-    db.create_function("plain", 1, lambda s: greek.strip_accents(re.sub(r"\d", "", s or "")).rstrip(greek.APOSTROPHES), deterministic=True)
-    db.execute("""INSERT INTO ar_lemma_count SELECT g.lemma, plain(g.lemma), e.work_id, count(DISTINCT g.token_id)
+    db.create_function("ar_plain", 1, lambda s: greek.strip_accents(re.sub(r"\d", "", s or "")).rstrip(greek.APOSTROPHES), deterministic=True)
+    db.execute("""INSERT INTO ar_lemma_count SELECT g.lemma, ar_plain(g.lemma), e.work_id, count(DISTINCT g.token_id)
                   FROM tag g JOIN token t ON t.id = g.token_id JOIN edition e ON e.id = t.edition_id JOIN work w ON w.id = e.work_id
                   WHERE g.lemma != '' AND w.corpus = 'aristotle' GROUP BY g.lemma, e.work_id""")
     db.execute("""INSERT INTO ar_form_count SELECT t.form, t.plain, e.work_id, count(*)
