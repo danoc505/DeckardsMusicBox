@@ -27,6 +27,15 @@ def load_bridge():
     return mod
 
 
+class TheBuildReadsTheServeModule(unittest.TestCase):
+    def test_serve_is_the_module_not_a_function(self):
+        # build() reads Taylor's Aristotle texts from the serve module; a local function named serve hid it once,
+        # and the website's build failed on GitHub (AttributeError: 'function' object has no attribute ...).
+        import types
+        self.assertIsInstance(build_site.serve, types.ModuleType)
+        self.assertTrue(build_site.serve.TAYLOR_TEXTS_AR)
+
+
 class Pieces(unittest.TestCase):
     def test_pieces_put_back_together_are_the_database(self):
         with tempfile.TemporaryDirectory() as tmp:

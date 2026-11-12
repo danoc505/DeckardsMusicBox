@@ -11,7 +11,7 @@
  "greek_text": "proclus-alcibiades",
  "taylor_work": "taylor-1804-alcibiades-intro",
  "taylor_source": "Thomas Taylor, Introduction and notes to the First Alcibiades (drawn from Proclus), in The Works of Plato, vol. I (London, 1804), from texts/taylor-1804/vol1/alcibiades-1.json",
- "about": "A modern English version of Proclus' commentary on the First Alcibiades, the dialogue the school read first, written for the Workshop. It is translated from the Greek of Cousin's edition (Paris, 1820), proofread first from the page images, and checked against the Introduction and notes to the First Alcibiades in Thomas Taylor's Works of Plato (1804), which Taylor drew from Proclus' commentary. Where the Greek says something Taylor's English does not, the modern version follows the Greek, and a flag shows Taylor's words and the difference. The sections, their short titles and summaries are the Workshop's. So far: Proclus' prologue (Cousin's pages 2 to 46): why knowing ourselves is the start of philosophy, the aim of the dialogue, and how it is divided; and his notes on the wording of the dialogue's opening words (pages 49 to 78): what the preface shows, why Socrates says \"I think\", why he calls Alcibiades by his father's name, and the three sciences of Socrates, love first among them; and his account of love (pages 78 to 101): how love turns all things to divine beauty, its ranks from the gods down to the souls of men, true love and its counterfeit, and the five marks that part the divine lover from the vulgar one.",
+ "about": "A modern English version of Proclus' commentary on the First Alcibiades, the dialogue the school read first, written for the Workshop. It is translated from the Greek of Cousin's edition (Paris, 1820), proofread first from the page images, and checked against the Introduction and notes to the First Alcibiades in Thomas Taylor's Works of Plato (1804), which Taylor drew from Proclus' commentary. Where the Greek says something Taylor's English does not, the modern version follows the Greek, and a flag shows Taylor's words and the difference. The sections, their short titles and summaries are the Workshop's. So far: Proclus' prologue (Cousin's pages 2 to 46): why knowing ourselves is the start of philosophy, the aim of the dialogue, and how it is divided; and his notes on the wording of the dialogue's opening words (pages 49 to 78): what the preface shows, why Socrates says \"I think\", why he calls Alcibiades by his father's name, and the three sciences of Socrates, love first among them; and his account of love (pages 78 to 101): how love turns all things to divine beauty, its ranks from the gods down to the souls of men, true love and its counterfeit, and the five marks that part the divine lover from the vulgar one; and why Socrates loved first and stays (pages 101 to 125): the lover as Alcibiades' good daemon, and as his intellect.",
  "source": "sources/translations/modern/proclus-alcibiades.txt",
  "proofread": "sources/neoplatonists/proofread/proclus-alcibiades.txt",
  "treatises": [
@@ -57,6 +57,19 @@
     "103a.11",
     "103a.12",
     "103a.13"
+   ]
+  },
+  {
+   "id": "103a-first",
+   "title": "Why Socrates loved first, and stays: the lover as a good daemon",
+   "summary": "Proclus turns to Socrates' own words, that he was the first of the lovers and alone stays when the rest have stopped. As the One is at work before, with and after all things, the divine lover cares for the beloved before the vulgar lovers, alongside them, and after they have gone, and speaks only when the crowd has scattered. Proclus compares the scene to the mysteries, where earthly daemons appear and distract before the god shows himself, and sets Socrates in the place of Alcibiades' good daemon: watching from childhood, silent, speaking only when the soul is ready. Read another way, Socrates is to Alcibiades what intellect is to the soul, and the vulgar lovers what the many-headed beast is; the two readings join, since the same being is a daemon to a man and intellect to a soul.",
+   "chapters": [
+    "103a.14",
+    "103a.15",
+    "103a.16",
+    "103a.17",
+    "103a.18",
+    "103a.19"
    ]
   }
  ],
@@ -313,6 +326,54 @@
    "title": "Why Socrates still calls the others lovers",
    "summary": "Much else parts the two kinds of lover. Socrates still lets the many be called lovers because it is not yet settled what a man truly is, and where Alcibiades himself is to be placed; once that is settled, Socrates will be seen as his only lover, and the others as lovers of what is Alcibiades', not of Alcibiades, wearing an image of love about an image of beauty. Each order of love goes with its own beauty, and the eyes of the many cannot bear to look at the truth, as the Eleatic Stranger says.",
    "greek_unit": "ia-cousin-proclus-t2:125",
+   "taylor": []
+  },
+  {
+   "id": "103a.14",
+   "treatise": "103a-first",
+   "title": "First, with, and after the others, as the One is",
+   "summary": "Socrates begins before the other lovers, keeps on with them, and stays when they stop. So the more perfect embraces the work of its images, and is present to anything before the lower; so the One is at work before all things, with them and after them. The divine lover alone is called \"first\", while the many lovers are given the rank of the divided multitude; he waits until they have tired, and comes when the beloved is calm and fit to share his company.",
+   "greek_unit": "ia-cousin-proclus-t2:128",
+   "taylor": []
+  },
+  {
+   "id": "103a.15",
+   "treatise": "103a-first",
+   "title": "An image from the mysteries",
+   "summary": "Everywhere what is less perfect slips in ahead of the more perfect and draws unready souls away. In philosophy, the life of the sophist pulls the less perfect from the sight of what is to appearance; in the holiest rites, earthly daemons rush in before the god appears, so the gods bid us not look at them until the rites have armed us, as the Oracles say. So the vulgar lovers, like earthly daemons, draw the young man away from his ascent; when they are gone, the inspired lover appears, as the god does when the rites have cleansed away the daemons that drag souls down.",
+   "greek_unit": "ia-cousin-proclus-t2:132",
+   "taylor": []
+  },
+  {
+   "id": "103a.16",
+   "treatise": "103a-first",
+   "title": "Socrates in the place of a good daemon",
+   "summary": "Socrates holds towards Alcibiades the place of a good daemon. The daemon watches over us from youth, begins its care before our parents, stays with us through life as the pilot of the whole of it, and after death leads us to our judges, as the Phaedo says; so Socrates comes before all Alcibiades' friends, stays alongside the many lovers, and when they stop, calls him to justice. As the daemon is with us unseen and speaks only to those most ready, so Socrates follows the boy in silence and speaks when he sees his life loosened from matter and free of the crowd.",
+   "greek_unit": "ia-cousin-proclus-t2:136",
+   "taylor": []
+  },
+  {
+   "id": "103a.17",
+   "treatise": "103a-first",
+   "title": "Wonder, the start of philosophy",
+   "summary": "Socrates comes at the moment when the beloved is most awake to receive him, and says so: \"You wonder what it is with me, and how I stay when the other lovers have fled.\" Wonder is the start of philosophy, as the Theaetetus says, which is why Iris is called the daughter of Thaumas; so release from the vulgar lovers and the flutter towards philosophy run together, for souls cleansed of the evils of becoming are made ready for the divine goods.",
+   "greek_unit": "ia-cousin-proclus-t2:140",
+   "taylor": []
+  },
+  {
+   "id": "103a.18",
+   "treatise": "103a-first",
+   "title": "Alcibiades between Socrates and the vulgar lovers",
+   "summary": "Socrates, as an inspired lover led up to intelligible beauty, stands to Alcibiades as intellect to the soul; the vulgar lovers, carried along by sense and imagination, are like the soul's many-headed beast. Alcibiades is the rational soul in between, torn from below by the passions as the Titans tore, held up from above by intellect as by Athena, the saviour. And as intellect is always at work in us but shows itself only when the soul has put off the crowd that grew on it from becoming, so Socrates is always present but speaks only when the lovers have gone.",
+   "greek_unit": "ia-cousin-proclus-t2:141",
+   "taylor": []
+  },
+  {
+   "id": "103a.19",
+   "treatise": "103a-first",
+   "title": "Two ways of seeing it: daemon and intellect",
+   "summary": "The lover of such sights may go by either analogy: Socrates as the good daemon, the vulgar lovers as earthly daemons of matter, the young man as one being initiated who flees the daemons that drag him down; or Socrates as intellect. The two join: Alcibiades is both a soul and a soul using a body. As soul he has Socrates for his intellect, as soul using a body for his good daemon. The Symposium sets the daemonic between gods and men; the Timaeus sets soul between intellect and body. Since the dialogue asks what man is, Socrates will not speak of intellect but remind the young man of his daemon, calling himself now a daemon, now a god.",
+   "greek_unit": "ia-cousin-proclus-t2:148",
    "taylor": []
   }
  ],
@@ -1551,6 +1612,208 @@
    "notes": [
     "The dialogue settles it at 131c-e: whoever loved Alcibiades' body loved something of his, not Alcibiades; there has been no lover of Alcibiades but one, Socrates.",
     "The Sophist (254a-b): \"the eyes of the soul of the many cannot bear to look towards the divine\". Proclus' text, as Cousin prints it, has \"the truth\" where Plato has \"the divine\"; Cousin notes this."
+   ]
+  },
+  {
+   "seg": "103a.14.p1",
+   "chapter": "103a.14",
+   "modern": "So much for this. That Socrates begins before the others, carries his care for the young man along with theirs, and does not leave when the others have stopped, shows, I think, through such a life, that the higher patterns and the more perfect everywhere take in the activities of their images in every way, and that the lower things are present to nothing to which the more perfect have not given themselves long before. It shows too that in every order of the things that are, the One has taken in all the rest, and is at work before them, with them and after them.",
+   "greek": "Ταῦτα μὲν οὖν περὶ τούτων· εἰ δὲ καὶ ἄρχεται πρὸ τῶν ἄλλων ὁ Σωκράτης, καὶ συνεκτείνει τοῖς ἄλλοις τὴν ἑαυτοῦ περὶ τὸν νεανίσκον πρόνοιαν, καὶ πεπαυμένων τῶν ἄλλων αὐτὸς οὐκ ἀπαλλάττεται, δηλοῖ μὲν διὰ τῆς τοιαύτης, ὡς οἶμαι, ζωῆς, καὶ ὅτι τὰ παραδειγματικώτερα πανταχοῦ καὶ τελειότερα πάντῃ περιλαμβάνει τὰς τῶν εἰκόνων ἐνεργείας, καὶ ὡς οὐδενὶ τὰ καταδεέστερα πάρεστιν, ᾧ μὴ πολλῷ πρότερον καὶ τὰ τελειότερα μεταδίδωσιν ἑαυτῶν· δηλοῖ δὲ καὶ ὅτι κατὰ πᾶσαν τάξιν τῶν ὄντων, τὸ ἓν τὰ ἄλλα περιείληφε, καὶ πρὸ αὐτῶν ἐνεργοῦν, καὶ μετ’ αὐτῶν, καὶ ἐπ’ αὐτοῖς.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:128",
+     "label": "II p. 101"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:129",
+     "label": "II p. 102"
+    }
+   ]
+  },
+  {
+   "seg": "103a.14.p2",
+   "chapter": "103a.14",
+   "modern": "So the text plainly gave the inspired friend the eminence proper to the One, calling him alone and first to care for the less perfect, and gave the many lovers the rank of the multitude that is divided in every way. And as there the One is at work before the others, with the others and after the others, if it is right to say so, so the divine lover attends to the beloved before the vulgar lovers, and while they are with him does not stand back from caring for him. It is then above all that he takes thought, lest the boy give himself up unawares to the image of love that lives in matter and belongs to the crowd. And when they have tired, because of the toilsome disposition of matter that creeps into them, he is there himself for the beloved, who has come into calm, has scattered the vulgar crowd and cut away all fellowship with the kind of life that drags down into matter. For then he is fit to share in the inspired friend, and in a common activity of one mind with him; while those others are there, he is full of unfitness.",
+   "greek": "Ἄντικρυς οὖν τὴν μὲν τῷ ἑνὶ προσήκουσαν ὑπεροχὴν ἀπένειμεν ὁ λόγος τῷ ἐνθέῳ φίλῳ, καὶ μόνον αὐτὸν καὶ πρῶτον εἰς τὴν πρόνοιαν τῶν ἀτελεστέρων ἀποκαλῶν· τὴν δὲ τοῦ πλήθους τοῦ πάντῃ μεριστοῦ τάξιν τοῖς πολλοῖς ἐρασταῖς ἀποδέδωκε· καὶ ὥσπερ ἐκεῖ καὶ πρὸ τῶν ἄλλων ἐνεργεῖ, καὶ μετὰ τῶν ἄλλων, καὶ ἐπὶ τοῖς ἄλλοις, εἰ θέμις εἰπεῖν, οὕτω δὴ καὶ ὁ θεῖος ἐραστὴς καὶ πρὸ τῶν φορτικῶν τὸν ἐρώμενον περιεργάζεται, καὶ μετ’ αὐτῶν οὐκ ἀφίσταται τῆς περὶ αὐτὸν προνοίας· ὅτε δὴ καὶ διαφερόντως τὴν φροντίδα καταβάλλεται, μὴ λάθῃ τῷ ἐνύλῳ καὶ πανδήμῳ τοῦ ἔρωτος εἰδώλῳ παραδοὺς ἑαυτόν· καὶ ἐκείνων ἀποκαμόντων διὰ τὴν τῆς ὕλης ἐπίπονον εἰς αὐτοὺς εἰσδυομένην διάθεσιν, πάρεστιν αὐτὸς ἐν γαλήνῃ τῷ ἐρωμένῳ γεγονότι, καὶ τὸ πλῆθος ἀποσκεδάσαντι τὸ φορτικὸν, καὶ πάσας ἐκτεμόντι τὰς πρὸς τὸ καταγωγὸν καὶ ἔνυλον τῆς ζωῆς εἶδος κοινωνίας. Τότε γὰρ δὴ καὶ ἐπιτήδειός ἐστι πρὸς τὴν τοῦ ἐνθέου φίλου μετουσίαν, καὶ τὴν κοινὴν πρὸς αὐτὸν καὶ ὁμονοητικὴν ἐνέργειαν· ἐκείνων δὲ παρόντων, ἀνεπιτηδειότητος ἀναπέπλησται.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:129",
+     "label": "II p. 102"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:132",
+     "label": "II p. 105"
+    }
+   ]
+  },
+  {
+   "seg": "103a.15.p1",
+   "chapter": "103a.15",
+   "modern": "And if I must say what I think, this too seems to me to give a wonderful image of what is done in the mystery rites. For everywhere the less perfect slips in ahead of the more perfect, draws round to itself the souls that are not yet set right, and pulls them away from what is better. So, just as in the intellective sights of philosophy the life of the sophist is a hindrance, and keeping company with it drags the less perfect away from the contemplation of the things that are to the appearance that goes with what comes to be and passes away, so too, in the ascent to divine love, the crowd of vulgar lovers stands in the way: it slips in under the guise of the true lover, and drags the young man's soul down from the Olympian goods above to what is earthly and dark.",
+   "greek": "Καὶ εἴ με δεῖ τοὐμὸν λέγειν, εἰκόνα μοι δοκεῖ καὶ ταῦτα θαυμαστὴν φέρειν, τῶν ἐν ταῖς τελεταῖς δρωμένων. Πανταχοῦ γὰρ τὸ τελειότερον ὑποδύεταί τι τῶν ἀτελεστέρων, καὶ περισπᾷ τὰς μήπω κατωρθωμένας ψυχὰς εἰς ἑαυτὸ, καὶ τῶν βελτιόνων ἀφίστησιν. Ὥσπερ οὖν ἐν τοῖς τῆς φιλοσοφίας νοεροῖς θεάμασιν ἐμπόδιόν ἐστιν ἡ σοφιστικὴ ζωὴ, καὶ ἡ πρὸς ἐκείνην σύνταξις ἀφέλκουσα τοὺς ἀτελεστέρους ἀπὸ τῆς τῶν ὄντων θεωρίας εἰς τὴν σύστοιχον τοῖς γιγνομένοις καὶ φθειρομένοις φαντασίαν, οὕτω δὴ καὶ ἐν τῇ πρὸς τὸν θεῖον ἔρωτα ἀναγωγῇ τὸ τῶν φορτικῶν ἐραστῶν πλῆθος ἐμποδὼν γίγνεται, τὸν ἀληθινὸν ἐραστὴν ὑποδυόμενον, καὶ τὴν τοῦ νέου ψυχὴν ἄνωθεν ἀπὸ τῶν ὀλυμπίων ἀγαθῶν εἰς τὰ γήϊνα καθέλκον καὶ σκοτεινά.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:132",
+     "label": "II p. 105"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:133",
+     "label": "II p. 106"
+    }
+   ]
+  },
+  {
+   "seg": "103a.15.p2",
+   "chapter": "103a.15",
+   "modern": "In the same way, in the holiest of the rites, before the god's presence, onrushes and apparitions of certain earthly daemons appear, throwing those being initiated into confusion, tearing them away from the undefiled goods and calling them forth into matter. That is why the gods bid us not look at those daemons before we have been fenced about by the powers that come from the rites: \"For you must not look on them before your body is initiated.\" And for this reason the Oracles add that they always charm souls and lead them away from the rites. Like the earthly daemons, then, are the vulgar lovers, who flow round the young man and lead him away from the ascent to the divine, and make him unfit for the company of the inspired friend. So, as there the divine shows itself after the cleansing away of every such daemonic thing that leads souls down into matter, so too the inspired lover appears after the flight of the many lovers bound to becoming, and gives the beloved a share in his company.",
+   "greek": "Κατὰ τὰ αὐτὰ δὴ καὶ ἐν ταῖς ἁγιωτάταις τῶν τελετῶν, πρὸ τῆς τοῦ θεοῦ παρουσίας, δαιμόνων χθονίων τινῶν ἐμβολαὶ προφαίνονται καὶ ὄψεις, ἐκταράττουσαι τοὺς τελουμένους, καὶ ἀποσπῶσαι τῶν ἀχράντων ἀγαθῶν, καὶ εἰς τὴν ὕλην προκαλούμεναι. Διὸ καὶ οἱ θεοὶ παρακελεύονται μὴ πρότερον εἰς ἐκείνους βλέπειν, πρὶν ταῖς ἀπὸ τῶν τελετῶν φραχθῶμεν δυνάμεσιν. Οὐ γὰρ χρὴ κείνους σε βλέπειν, πρὶν σῶμα τελεσθῇς. Καὶ διὰ τοῦτο τὰ λόγια προστίθησιν, ὅτι τὰς ψυχὰς θέλγοντες ἀεὶ τῶν τελετῶν ἀπάγουσιν. Ἀνάλογον τοίνυν τοῖς χθονίοις δαίμοσιν, οἱ φορτικοὶ τῶν ἐραστῶν, οἳ περιῤῥέοντες τὸν νέον, ἀπάγουσιν αὐτὸν ἀπὸ τῆς πρὸς τὸ θεῖον ἀναγωγῆς, καὶ ἀνεπιτήδειον αὐτὸν ἀποτελοῦσι πρὸς τὴν τοῦ ἐνθέου φίλου συνουσίαν. Ὥσπερ οὖν ἐκεῖ τὸ θεῖον ἐκφαίνεται μετὰ τὴν ἀποκάθαρσιν τοῦ τοιούτου παντὸς δαιμονίου τοῦ κατάγοντος ἐπὶ τὴν ὕλην τὰς ψυχὰς, οὕτω δὴ καὶ ὁ ἔνθεος ἐραστὴς μετὰ τὴν τῶν πολλῶν καὶ γενεσιουργῶν ἐραστῶν φυγὴν ἀναφαίνεται, καὶ μεταδίδωσι τῷ ἐρωμένῳ τῆς ἑαυτοῦ συνουσίας.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:133",
+     "label": "II p. 106"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:136",
+     "label": "II p. 109"
+    }
+   ],
+   "notes": [
+    "The verse is from the Chaldean Oracles, which Proclus calls \"the Oracles\" (τὰ λόγια); it is translated as he quotes it.",
+    "\"Fenced about by the powers that come from the rites\": the Greek (φραχθῶμεν) is \"be fenced, armed\"."
+   ]
+  },
+  {
+   "seg": "103a.16.p1",
+   "chapter": "103a.16",
+   "modern": "So it seems to me that Socrates simply holds the place of a good daemon towards Alcibiades: like it, he watches him from youth, guards him, oversees all his activities, and looks on his words and deeds. And as the daemon begins its care for us even before our parents, stands over us with our parents as the pilot, so to speak, of our whole life, and after our release from here takes thought for our journey to our judges (\"for\", he says, \"it leads each one, the daemon whose lot he was while living\"), in the same way Socrates is ahead of all the young man's kin and friends in caring for him, adds his own concern alongside many lovers, and when the others have stopped, he himself visits and keeps company with him, and calls his beloved back to justice as a whole and to the goods that truly belong to the soul.",
+   "greek": "Ἀτεχνῶς οὖν μοι δοκεῖ Δαίμονος ἀγαθοῦ χώραν ὁ Σωκράτης ἐπέχειν πρὸς τὸν Ἀλκιβιάδην, καὶ κατοπτεύειν αὐτὸν ἐκ νεότητος ὥσπερ ἐκεῖνος, καὶ φρουρεῖν, καὶ τὰς ἐνεργείας αὐτοῦ πάσας ἐπισκοπεῖν, καὶ τοὺς λόγους καὶ τὰς πράξεις ἐφορᾶν· καὶ ὥσπερ ὁ δαίμων καὶ πρὸ τῶν πατέρων ἄρχεται τῆς πρὸς ἡμᾶς προνοίας, καὶ μετὰ τῶν πατέρων ἐφέστηκεν ἡμῖν, οἷον κυβερνήτης ἡμῶν τῆς ὅλης ζωῆς, καὶ μετὰ τὴν ἐντεῦθεν ἀπαλλαγὴν προμηθεῖται τῆς πρὸς τοὺς δικαστὰς ἡμῶν πορείας· (Ἄγει γάρ, φησιν, ἕκαστον ὥσπερ ζῶντα εἰλήχει·) κατὰ τὸν αὐτὸν τρόπον καὶ ὁ Σωκράτης καὶ τοὺς ἄλλους ἅπαντας οἰκείους καὶ φίλους τοῦ νεανίσκου φθάνει τῇ περὶ αὐτὸν προνοίᾳ, καὶ μετὰ πολλῶν ἐραστῶν προστίθησι τὴν ἀφ’ ἑαυτοῦ κηδεμονίαν, καὶ πεπαυμένων τῶν ἄλλων αὐτὸς ἐπιφοιτᾷ καὶ σύνεστι, καὶ ἀνακαλεῖται τὸν ἐρώμενον ἐπὶ τὴν ὅλην δικαιοσύνην καὶ τὰ ὄντως ἀγαθὰ τῆς ψυχῆς.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:136",
+     "label": "II p. 109"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:137",
+     "label": "II p. 110"
+    }
+   ],
+   "notes": [
+    "The Phaedo (107d): after death \"the daemon of each, whose lot he was while he lived, tries to lead him\" to the place of judgement. Proclus quotes it shortly, in his own words."
+   ]
+  },
+  {
+   "seg": "103a.16.p2",
+   "chapter": "103a.16",
+   "modern": "Further, as the good daemon is with us for the most part unseen, laying down its care for us without our foreseeing it, present in silence, and setting our lives right in ways that cannot be spoken, so Socrates follows his beloved in silence: he takes thought for him, but does not yet give him a share in his company. And as the daemon shows itself to those who have reached the highest fitness, utters something to them and shares words with them (which, I think, is how Socrates himself, enjoying the presence of the daemonic sign, seemed to hear a kind of voice), so too the divine lover gives the beloved a share in his conversation, and calls him out to the company of dialogue, at the time when above all he has seen the life in him loosened from the bonds of matter, rid of the great crowd of lovers, and master of earth-born and earthly pursuits. For these are the signs of its sympathy with the beautiful.",
+   "greek": "Ἔτι δὲ, ὥσπερ ὁ δαίμων ὁ ἀγαθὸς τὰ πολλὰ σύνεστιν ἡμῖν ἀφανῶς, ἐξ ἀπροόπτου τὴν ἑαυτοῦ πρόνοιαν εἰς ἡμᾶς καταβαλλόμενος, καὶ σιγῇ παρὼν καὶ ἀποῤῥήτως ἀνορθῶν τοὺς βίους ἡμῶν, οὕτω δὴ καὶ ὁ Σωκράτης σιωπῶν παρέπεται τοῖς παιδικοῖς, καὶ προνοεῖ μὲν αὐτῶν, οὐδέπω δὲ τῆς ἑαυτοῦ συνουσίας αὐτοῖς μεταδίδωσι. Καὶ ὥσπερ ἐκεῖνος τοῖς τὴν ἄκραν ἐπιτηδειότητα λαβοῦσιν ἑαυτὸν ἐκφαίνει, καὶ φθέγγεταί τι πρὸς αὐτοὺς, καὶ κοινωνεῖ λόγων, ᾗπερ, οἶμαι, καὶ αὐτὸς ὁ Σωκράτης, τῆς τοῦ Δαιμονίου παρουσίας ἀπολαύων, καὶ φωνῆς ἐδόκει τινὸς ἐπήκοος γίνεσθαι, οὕτω δὴ καὶ ὁ θεῖος ἐραστὴς τότε τῆς ἑαυτοῦ διαλέξεως τῷ ἐρωμένῳ μεταδίδωσι καὶ πρὸς τὴν διαλόγων αὐτὸν ἐκκαλεῖται συνουσίαν, ὅτε μάλιστα τὴν ἐν αὐτῷ ζωὴν ἐθεάσατο χαλάσασαν μὲν ἀπὸ τῶν ἀγητηρίων τῆς ὕλης, ἀποσκευασαμένην δὲ τὸν πολὺν ὄχλον τῶν ἐραστῶν, κρατήσασαν δὲ τῶν γηγενῶν καὶ χθονίων ἐπιτηδευμάτων. Ταῦτα γὰρ δὴ τῆς ἐν αὐτῷ πρὸς τὸ καλὸν ἐστὶ συμπαθείας τεκμήρια.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:137",
+     "label": "II p. 110"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:140",
+     "label": "II p. 113"
+    }
+   ],
+   "notes": [
+    "\"The bonds of matter\": Cousin prints ἀγητηρίων, which is not a Greek word that we know; his Latin has only \"drawn away from matter\". \"Bonds\" is the sense the verb (χαλάω, \"loosen\") asks for, not a reading of the word.",
+    "Socrates' voice: the Apology (31d), \"a kind of voice comes to me\"."
+   ]
+  },
+  {
+   "seg": "103a.17.p1",
+   "chapter": "103a.17",
+   "modern": "So Socrates comes at this moment, when he saw the beloved most awake to receive his company; and surely he shows this himself, for \"you wonder\", he says, \"what my case is, and how I stay when the other lovers have fled\". This wondering is the beginning of philosophy, as he says himself in the Theaetetus; and for this reason, in the ancient story, Iris is called the daughter of Thaumas, Wonder. If, then, he comes to the young man just when the young man wonders at the philosopher's life and seeks the causes of what goes on in it, the young man would have the start of his impulse towards philosophy. And release from the vulgar lovers and the flutter of excitement about philosophy somehow run together: for souls purified of the evils that pour round them from becoming make themselves ready to share in the divine goods.",
+   "greek": "Πρόσεισιν οὖν ὁ Σωκράτης ἐν τούτῳ τῷ καιρῷ, καθ’ ὃν διαφερόντως εἰς ὑποδοχὴν τῆς ἑαυτοῦ συνουσίας ἑώρα τὸν ἐρώμενον ἐγηγερμένον· καὶ τοῦτο δή που καὶ αὐτὸς δηλοῖ· θαυμάζεις γὰρ, φησιν, ὅ,τι ποτέ ἐστι τοὐμὸν πρᾶγμα, καὶ ὅπως ὑπομένω τῶν ἄλλων ἐραστῶν πεφευγότων. Τὸ δὲ θαυμάζειν τοῦτο φιλοσοφίας ἐστὶν ἀρχὴ, καθάπερ αὐτὸς ἐν Θεαιτήτῳ λέγει· καὶ διὰ τοῦτο τὴν Ἶριν Θαύμαντος εἰρῆσθαι θυγατέρα, κατὰ τὴν παλαιὰν φήμην. Εἰ τοίνυν τηνικαῦτα τῷ νεανίσκῳ πρόσεισιν, ἡνίκα ἐκεῖνος θαυμάζει τὴν τοῦ φιλοσόφου ζωὴν, καὶ τὰς αἰτίας ἐπιζητεῖ τῶν κατ’ αὐτὴν πραγμάτων, ἀρχὴν ἂν ἔχοι τῆς εἰς φιλοσοφίαν ὁρμῆς· καὶ συντρέχει πως ἀλλήλοις ἥτε τῶν φορτικῶν ἀπαλλαγὴ, καὶ ἡ περὶ φιλοσοφίαν πτοία· καθαρθεῖσαι γὰρ αἱ ψυχαὶ τῶν περικεχυμένων αὐτὰς ἐκ τῆς γενέσεως κακῶν, ἑαυτὰς ἑτοίμους ἀποτελοῦσι πρὸς τὴν μετουσίαν τῶν θείων ἀγαθῶν.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:140",
+     "label": "II p. 113"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:141",
+     "label": "II p. 114"
+    }
+   ],
+   "notes": [
+    "The Theaetetus (155d): \"this feeling, wondering, is very much a philosopher's; there is no other beginning of philosophy than this, and whoever said Iris was the child of Thaumas did not get the genealogy wrong.\"",
+    "\"What my case is, and how I stay\": Proclus gives the sense of 103a-b in his own words."
+   ]
+  },
+  {
+   "seg": "103a.18.p1",
+   "chapter": "103a.18",
+   "modern": "Consider too, by this analogy, what rank Alcibiades has towards his lovers, and how this also helps the study before us. Socrates, as an inspired lover led up to intelligible beauty itself, set himself in the place answering to the intellect of the soul (for what else is joined to the intelligible but intellect, and all that has an intellective life?); while the motley, vulgar tribe of lovers, swept along with sense and imagination and given over to the many-headed beast of the soul, copies the life that answers to it, the life by which it marks its own life too (for every soul is that part by which it lives, and has defined itself by it). Alcibiades is somehow between them: torn from below by the lovers ruled by passion, and dragged down to the worse lot; helped from above by Socrates, who is one, saved by him, and watched over, lest he suffer something at the hands of the lovers flowing round him. We must, then, by the analogy of the extremes, place Alcibiades too in the rational soul. On it the passions and the irrational powers still hang, plotting, as it were, against the rational life and trying to tear it in pieces like Titans; above it is set intellect, holding it up, as Athena does, from its leaning and its slide into matter. For it is Athena's to keep life undivided, for which Pallas Athena was called the saviour; and it is the Titans' to divide it, and call it forth into becoming.",
+   "greek": "Σκόπει δὴ καὶ κατὰ τὴν ἀναλογίαν ταύτην, οἵαν μὲν ἔχει τάξιν ὁ Ἀλκιβιάδης πρὸς τοὺς ἐραστὰς, ὅπως δὲ εἰς τὴν τῶν προκειμένων θεωρίαν καὶ ταῦτα συντελεῖ. Σωκράτης μὲν γὰρ, ἅτε ἔνθεος ὢν ἐραστὴς καὶ πρὸς αὐτὸ τὸ νοητὸν κάλλος ἀναγόμενος, τῷ νῷ τῆς ψυχῆς ἀνάλογον ἵδρυσεν ἑαυτόν· (Τί γὰρ ἄλλο ἐστὶ τὸ τῷ νοητῷ συναπτόμενον ἢ νοῦς, καὶ πᾶν τὸ νοερὰν ἔχον ζωήν) τὸ δὲ ποικίλον καὶ πάνδημον τῶν ἐραστῶν φῦλον αἰσθήσει καὶ φαντασίᾳ συμφερόμενον, καὶ τῷ πολυκεφάλῳ θηρίῳ τῆς ψυχῆς ἐκδεδομένον, τὴν ἀνάλογον ἀποτυποῦται ζωὴν, καθ’ ἣν καὶ χαρακτηρίζει τὴν ἑαυτοῦ ζωήν· (πᾶσα γὰρ ψυχὴ τοῦτό ἐστι τὸ μόριον ὃ ζῇ, καὶ κατὰ τοῦτο ἀφώρισεν ἑαυτήν) μεταξὺ δέ πως ἐστὶ τούτων ὁ Ἀλκιβιάδης σπαραττόμενος κάτωθεν ὑπὸ τῶν ἐμπαθῶν ἐραστῶν, καὶ κατασπώμενος ἐπὶ τὴν χείρονα μοῖραν· ἄνωθεν δὲ ὑπὸ τοῦ Σωκράτους ἑνὸς ὄντος βοηθούμενος, καὶ σωζόμενος ὑπ’ αὐτοῦ, καὶ προνοούμενος μή τι πάθῃ πρὸς τῶν περιῤῥεόντων αὐτὸν ἐραστῶν. Ἀνάγκη τοίνυν, κατὰ τὴν τῶν ἄκρων ἀναλογίαν, καὶ τὸν Ἀλκιβιάδην ἐν ψυχῇ λογικῇ τάττειν, ἧς ἐξήρτηται μὲν ἔτι τὰ πάθη καὶ αἱ ἄλογοι δυνάμεις, οἷον ἐπιβουλεύουσαι τῇ λογικῇ ζωῇ καὶ τιτανικῶς αὐτὴν ἐπιχειροῦσαι σπαράττειν· ὑπερίδρυται δὲ ὁ νοῦς Ἀθηναϊκῶς ἀνέχων αὐτὴν ἀπὸ τῆς ῥοπῆς, καὶ τῆς εἰς τὸ ἔνυλον φορᾶς. Ἀθηναικὸν γὰρ τὸ σώζειν ἀμέριστον τὴν ζωὴν, ἐξ οὗπερ σώτειρ’ ἐπεκλήθη Παλλὰς Ἀθήνη· τιτανικὸν δὲ τὸ μερίζειν αὐτὴν, καὶ προκαλεῖσθαι περὶ τὴν γένεσιν.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:141",
+     "label": "II p. 114"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:144",
+     "label": "II p. 117"
+    }
+   ],
+   "notes": [
+    "The many-headed beast is the Republic's image of the appetites (588c-e).",
+    "Tearing like Titans recalls the story, told by the Orphics and read by the Neoplatonists, of the Titans who tore the child Dionysus to pieces; Proclus does not tell it here."
+   ]
+  },
+  {
+   "seg": "103a.18.p2",
+   "chapter": "103a.18",
+   "modern": "So, just as intellect does not always show itself to souls, but only when they put off the great crowd that grew on them later from becoming, as Timaeus says, so Socrates gives the young man a share in his company when he has become free of the many lovers who also later ranged themselves round him, and has leisure for philosophy and what can lead to it. And as intellect is always at work about us and always gives the light of thought, both before we sink into unreason, and while we live with the passions, and when the passions in us have been put to sleep, yet we are not always aware of it, but only when we are clean of the great surge of becoming and bring our life to anchor in a kind of calm (for then intellect shows itself to us and, as it were, speaks to us; then the one who was silent before, and present in quiet, gives us a share in its voice): so too the divine lover is present to the beloved before the many lovers, with them and after them, but silent, taming him, and only watching over him; and when they have stopped, he gives the beloved a share in speech, offers him a common life, shows him who he is, and that his love is provident, like the good, and leads upward, not like that of those many lovers, divided, needy, in matter and a thing of images.",
+   "greek": "Ὥσπερ τοίνυν ὁ νοῦς οὐκ ἀεὶ ταῖς ψυχαῖς ἑαυτὸν δείκνυσιν, ἀλλ’ ὅταν ἀποσκευάζωνται τὸν πολὺν ὄχλον, τὸν ἐκ τῆς γενέσεως ὕστερον προσφύντα, καθάπερ φησὶν ὁ Τίμαιος· οὕτω δὴ καὶ ὁ Σωκράτης τότε μεταδίδωσι τῷ νεανίσκῳ τῆς ἑαυτοῦ συνουσίας, ὅτε τῶν πολλῶν ἐραστῶν καὶ ὕστερον αὐτὸν περιστοιχισαμένων ἐλεύθερος γενόμενος, σχολὴν ἄγει φιλοσοφίας πέρι, καὶ τῶν εἰς ταύτην ἄγειν δυναμένων. Καὶ καθάπερ ὁ νοῦς ἀεὶ μὲν ἐνεργεῖ περὶ ἡμᾶς καὶ δίδωσιν ἀεὶ τὸ τῆς νοήσεως φῶς, καὶ πρὶν εἰς ἀλογίαν ῥέψωμεν, καὶ ὅτε συζῶμεν τοῖς πάθεσι, καὶ κοιμισθέντων ἡμῖν ἤδη τῶν παθῶν· οὐκ ἀεὶ δὲ αὐτοῦ συναισθανόμεθα, ἀλλ’ ὅταν τοῦ πολλοῦ κλύδωνος τοῦ γενεσιουργοῦ καθαροὶ γινώμεθα, καὶ ἐν γαλήνῃ τινὶ τὴν ἑαυτῶν ὁρμίσωμεν ζωήν· (τότε γὰρ ἡμῖν ὁ νοῦς ἐκφαίνεται καὶ οἷον φθέγγεται πρὸς ἡμᾶς, τότε καὶ μεταδίδωσι τῆς ἑαυτοῦ φωνῆς ὁ πρότερον σιγῶν, καὶ ἡσυχῇ παρών·) οὕτω δὴ καὶ ὁ θεῖος ἐραστὴς, καὶ πρὸ τῶν πολλῶν ἐραστῶν τῷ ἐρωμένῳ πάρεστι, καὶ μετ’ αὐτῶν, καὶ ἐπ’ αὐτοῖς· ἀλλὰ σιωπῶν, καὶ ἡμερῶν, καὶ προνοῶν μόνον· ἐκείνων δὲ πεπαυμένων, καὶ λόγου τῷ ἐρωμένῳ μεταδίδωσι, καὶ συνουσίαν κοινὴν αὐτῷ προτείνει, καὶ δείκνυσιν ἑαυτὸν ὅστις ἐστὶν, καὶ ὅτι ὁ ἔρως αὐτῷ προνοητικός ἐστι, καὶ ἀγαθοειδὴς, καὶ ἀναγωγὸς, ἀλλ’ οὐχ ὡς ὁ τῶν πολλῶν ἐκείνων μεριστὸς ἐραστῶν, καὶ ἐνδεὴς, ἔνυλος, καὶ εἰδωλικός.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:144",
+     "label": "II p. 117"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:145",
+     "label": "II p. 118"
+    }
+   ],
+   "notes": [
+    "The Timaeus (42c): the soul overcomes \"the great crowd that later grew on it, from fire and water and air and earth\"."
+   ]
+  },
+  {
+   "seg": "103a.19.p1",
+   "chapter": "103a.19",
+   "modern": "So the one who loves the sight of such things can travel by this analogy; and he can go by the one we spoke of before, likening Socrates to a good daemon, the vulgar lovers to earthly daemons of matter, and the young man to one being initiated, who runs from the tribe of daemons that drag down, brings himself to the good daemon, and hands it the whole steering of his life.",
+   "greek": "Ἔστι μὲν οὖν καὶ διὰ ταύτης ὁδεύειν τῆς ἀναλογίας τὸν φιλοθεάμονα τῶν τοιούτων θεωρημάτων· ἔστι δ’ αὖ καὶ δι’ ἧς ἔμπροσθεν εἴπομεν, δαίμονι μὲν ἀγαθῷ τὸν Σωκράτην προσεικάζοντα, τοῖς δὲ χθονίοις δαίμοσι καὶ ὑλαίοις τοὺς πανδήμους ἐραστάς· τῷ δὲ τελουμένῳ τὸν νεανίσκον· ἀποδιδράσκοντα μὲν τὸ καταγωγὸν ἔθνος τῶν δαιμόνων, προσάγοντα δὲ ἑαυτὸν τῷ ἀγαθῷ δαίμονι, κἀκείνῳ παραδιδόντα τὴν ὅλην διακυβέρνησιν τῆς ἑαυτοῦ ζωῆς.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:148",
+     "label": "II p. 121"
+    }
+   ]
+  },
+  {
+   "seg": "103a.19.p2",
+   "chapter": "103a.19",
+   "modern": "And if we must join both approaches, think of Alcibiades as twofold: as a soul simply, and as a soul using a body. These are not the same, just as the pilot and the man by himself are not the same, nor the charioteer and the person underneath the role; and in general what is not shared in differs from what is shared in, what is by itself from what is seen together with another, and what stands apart from what has been given a place beside something else. Since, then, Alcibiades is thought of in two ways, as a soul and as a soul using a body, in so far as he is a soul Socrates keeps towards him the place of intellect; in so far as he is a soul using a body, the place of the good daemon. And the same being is a daemon in relation to a man, and intellect in relation to a soul. For when we think of the daemonic middle, we see it between gods and men; when of intellect, we fasten soul to its highest point, and the body to soul. You have the one division in the Symposium, where he says somewhere that the daemonic is a middle between gods and men; and the other in the Timaeus, for soul stands in the middle between intellect and body. The same being, then, is daemon and intellect: intellect of the soul, daemon of the human soul. That is why here, since the inquiry is about the nature of man, there will be no mention of intellect, but Socrates will remind the young man of the providence of the daemon, calling himself sometimes a daemon, sometimes a god.",
+   "greek": "Εἰ δὲ δεῖ καὶ συνάπτειν τὰς ἐπιβολὰς ἀμφοτέρας, διττόν μοι νόει τὸν Ἀλκιβιάδην, καὶ ὡς ψυχὴν ἁπλῶς, καὶ ὡς ψυχὴν σώματι χρωμένην· οὐ γάρ ἐστι ταυτὸν τούτων ἑκάτερον, ὥσπερ οὐδὲ ὁ κυβερνήτης καὶ ὁ ἄνθρωπος καθ’ αὑτὸν, οὐδὲ ὁ ἡνίοχος καὶ τὸ ὑποκείμενον, καὶ ὅλως τὸ ἀμέθεκτον ἕτερόν ἐστι τοῦ μεθεκτοῦ, καὶ τὸ καθ’ αὑτὸ τοῦ μετ’ ἄλλου συνθεωρουμένου, καὶ τὸ ἐξῃρημένον τοῦ πρὸς ἕτερόν τινα σύνταξιν λαχόντος. Ἐπειδὴ τοίνυν ὁ Ἀλκιβιάδης νοεῖται διχῶς, καὶ ὡς ψυχὴ, καὶ ὡς ψυχὴ σώματι χρωμένη, καθ’ ὅσον μέν ἐστι ψυχὴ, τὴν τοῦ νοῦ σώζει πρὸς αὐτὸν ἀναλογίαν ὁ Σωκράτης· καθ’ ὅσον δὲ σώματι χρωμένη ψυχὴ, τὴν τοῦ ἀγαθοῦ δαίμονος· καὶ ἔστιν ὁ αὐτὸς δαίμων μὲν ὡς πρὸς ἄνθρωπον· νοῦς δὲ ὡς πρὸς ψυχήν· ἐπεὶ καὶ ὅταν μὲν τὴν δαιμονίαν μεσότητα νοῶμεν, θεῶν αὐτὴν καὶ ἀνθρώπων μεταξὺ θεωροῦμεν· ὅταν δὲ νοῦν, ἐν τῷ ἀκροτάτῳ μὲν ψυχὴν ἐξάπτομεν αὐτοῦ, καὶ τὸ σῶμα τῆς ψυχῆς. Καὶ ἔχεις τὴν μὲν ἑτέραν διαίρεσιν ἐν Συμποσίῳ· τὸ γὰρ δαιμόνιον ἐκεῖ που φησὶ μέσον εἶναι θεῶν καὶ ἀνθρώπων· τὴν δ’ ἑτέραν ἐν Τιμαίῳ· νοῦ μὲν γὰρ καὶ σώματος ἡ ψυχὴ κατὰ τὸ μέσον ὑφέστηκε· δαίμων οὖν ὁ αὐτὸς καὶ νοῦς, ὡς μὲν ψυχῆς νοῦς, ὡς δὲ ἀνθρωπίνης ψυχῆς δαίμων. Διὸ καὶ ἐνταῦθα περὶ ἀνθρώπου φύσεως τῆς ζητήσεως οὔσης, νοῦ μὲν οὐδεμία μνήμη γενήσεται, τῆς δὲ τοῦ δαίμονος προνοίας ὑπομνήσει τὸν νεανίσκον ὁ Σωκράτης, ποτὲ μὲν ἑαυτὸν δαίμονα προσαγορεύων, ποτὲ δὲ θεόν.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:148",
+     "label": "II p. 121"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:149",
+     "label": "II p. 122"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:152",
+     "label": "II p. 125"
+    }
+   ],
+   "notes": [
+    "\"In so far as he is a soul using a body\": Cousin prints these words, though, as he notes, both his manuscripts and his Latin translator leave out \"and as a soul using a body\" just before; he refers to his annotations.",
+    "The Symposium (202e): \"everything daemonic is between god and mortal\". The Timaeus (30b): the maker put \"intellect in soul, and soul in body\"; soul is in the middle."
    ]
   }
  ],
