@@ -350,11 +350,11 @@ Written by `tools/modern_neo.py` from `sources/translations/modern/*.txt`. The W
 ## Proclus on the First Alcibiades in modern English
 
 - Made from: It is translated from the Greek of Cousin's edition (Paris, 1820), proofread first from the page images, and checked against the Introduction and notes to the First Alcibiades in Thomas Taylor's Works of Plato (1804), which Taylor drew from Proclus' commentary.
-- Treatises: Prologue Proclus' introduction to the dialogue, 103a On the opening words: what the preface shows.
-- Sections: 17, each with a short title and a summary. The Greek: 39 pages proofread from the page images (`sources/neoplatonists/proofread/proclus-alcibiades.txt`), written into `sources/neoplatonists/corrections.json` as 746 line corrections by `tools/proofread.py`.
-- Paragraphs: 49, each with its Greek.
-- Words: 6,535 modern, 5,354 Greek, 2,687 in Taylor's English of the same pages (his Introduction).
-- Sentences (each can be marked in the reader): 197.
+- Treatises: Prologue Proclus' introduction to the dialogue, 103a On the opening words: what the preface shows, 103a-love On love: its orders, and the two kinds of lover.
+- Sections: 23, each with a short title and a summary. The Greek: 50 pages proofread from the page images (`sources/neoplatonists/proofread/proclus-alcibiades.txt`), written into `sources/neoplatonists/corrections.json` as 903 line corrections by `tools/proofread.py`.
+- Paragraphs: 66, each with its Greek.
+- Words: 8,258 modern, 6,776 Greek, 2,687 in Taylor's English of the same pages (his Introduction).
+- Sentences (each can be marked in the reader): 243.
 - Flags (where Taylor and the Greek differ, or the Greek is hard): 28.
 - Problems found: 0.
 

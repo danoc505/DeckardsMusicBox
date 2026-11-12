@@ -48,8 +48,10 @@ def parse(text_id):
         if line.startswith("#"):
             continue
         if line.startswith("@page "):
-            unit, _, label = line[6:].partition("|")
-            pages.append({"unit": unit.strip(), "label": label.strip(), "lines": [], "line": n})
+            unit, _, rest = line[6:].partition("|")
+            label, _, supplied = rest.partition("|")
+            pages.append({"unit": unit.strip(), "label": label.strip(), "lines": [], "line": n,
+                          "supplied": supplied.strip().removeprefix("supplied from").strip() or None})
             continue
         if not line.strip():
             continue
@@ -118,6 +120,16 @@ def groups(ocr, page):
 def page_corrections(text_id, unit, page):
     """The corrections for one page: (corrections, the corrected text)."""
     lines = unit["text"].split("\n") if unit["text"] else []
+    if page.get("supplied"):
+        # The scan's leaf is blank: the page, proofread from another scan of the same edition, is supplied whole.
+        if any(ln.strip() for ln in lines):
+            raise ValueError(f"{unit['n']}: a page is supplied for it, but the scan has text there")
+        c = {"text": text_id, "unit": unit["n"], "ocr": "", "read": "\n".join(page["lines"]),
+             "why": f"Supplied (Cousin's {page['label']}): the scan's leaf for this page is blank; the page is proofread from "
+                    f"another scan of the same edition, {page['supplied']} (sources/neoplatonists/proofread/{text_id}.txt).",
+             "by": BY, "proofread": True}
+        got, _ = neoplatonists.apply_corrections(unit["text"], [c])
+        return [c], got
     gs = groups(lines, page["lines"])
 
     def make(gs):

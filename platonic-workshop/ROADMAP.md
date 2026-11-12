@@ -231,10 +231,20 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   all), and put into modern English in seven sections: what the preface shows, the three kinds of turning, why Socrates says
   "I think", the young man's pride, "son of Cleinias", the father's name and love, and Socrates' three sciences, love first.
   Checked against Taylor's first Additional Note (on the preface, 103a) and paragraph 7 of his Introduction (13 flags); the
-  Taylor box now names each paragraph or note it quotes (`taylor_notes_alcibiades` in `tools/modern_neo.py`). Next sessions,
-  in this order: the rest of Proclus on the First Alcibiades, from his account of love (Cousin II p. 78 on; Taylor's note on
-  the daemon at 103a and his Additional Notes 2-19 to check against), and Olympiodorus on it (Creuzer's OCR, proofread
-  first); then On the Mysteries and the Elements, where
+  Taylor box now names each paragraph or note it quotes (`taylor_notes_alcibiades` in `tools/modern_neo.py`).
+- Session 5 done: Proclus' account of love (Cousin's vol. II pp. 78-101, 12 pages of Greek, down to the end of the account,
+  "as the Eleatic Stranger says"), proofread in the same way (157 more line corrections). Two of its pages, pp. 81 and 94, are
+  blank leaves in the scan; they are proofread from the Internet Archive's other scan of the same volume
+  (`procliphilosophi00proc`), written `@page <leaf> | <page> | supplied from <url>` in the master copy, and `tools/proofread.py`
+  writes them as corrections that fill the empty page, saying where they come from. Put into modern English as a new part,
+  "On love: its orders, and the two kinds of lover", in six sections: love turns all things to divine beauty (the Symposium's
+  "great daemon"), its ranks from the gods down, the souls who choose the life of love, true love and its counterfeit, five
+  marks of the two lovers from Socrates' first words, and why he still calls the others lovers. Taylor draws nothing from
+  these pages (his Introduction and notes skip from the preface to Alcibiades' pride, 104c), so there are no flags; Plato's
+  places (Symposium 202d-e and 183e, Phaedrus 265c, Statesman 273d-e, Sophist 254a-b, the dialogue's own 103a and 131c-e) are
+  noted and found in Burnet. Next sessions, in this order: the rest of Proclus on the First Alcibiades, from why Socrates
+  began first and stays (II p. 101 on; Taylor's note on the daemon at 103a and his Additional Notes 2-19 to check against),
+  and Olympiodorus on it (Creuzer's OCR, proofread first); then On the Mysteries and the Elements, where
   Taylor's English exists; then Damascius and Hermias. Plotinus' other treatises have no Taylor to check against: check
   them against another public-domain translation, or label them so.
 

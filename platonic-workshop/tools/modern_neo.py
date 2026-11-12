@@ -82,7 +82,9 @@ TEXTS = {
                  "and the difference. The sections, their short titles and summaries are the Workshop's. So far: Proclus' prologue "
                  "(Cousin's pages 2 to 46): why knowing ourselves is the start of philosophy, the aim of the dialogue, and how it is divided; "
                  "and his notes on the wording of the dialogue's opening words (pages 49 to 78): what the preface shows, why Socrates says "
-                 "\"I think\", why he calls Alcibiades by his father's name, and the three sciences of Socrates, love first among them.",
+                 "\"I think\", why he calls Alcibiades by his father's name, and the three sciences of Socrates, love first among them; "
+                 "and his account of love (pages 78 to 101): how love turns all things to divine beauty, its ranks from the gods down to "
+                 "the souls of men, true love and its counterfeit, and the five marks that part the divine lover from the vulgar one.",
     },
 }
 LINE = re.compile(r"^@(treatise|ch|p|greek|taylor)\b\s*(.*)$")

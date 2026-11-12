@@ -6912,6 +6912,1419 @@
    "why": "Proofread from the page image (Cousin's II p. 78): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
    "by": "the Workshop, proofread from the page image",
    "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:105",
+   "ocr": "Ὥσπερ, τοίνυν ἄλλων ϑεῶν ἰδιότητες ἀλ-",
+   "read": "Ὥσπερ τοίνυν ἄλλων θεῶν ἰδιότητες ἄλ-",
+   "why": "Proofread from the page image (Cousin's II p. 78): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:105",
+   "ocr": "λαι πεφήγασιν, ai μὲν δημιουργικαὴὶ τῶν ὅλων,",
+   "read": "λαι πεφήνασιν, αἱ μὲν δημιουργικαὶ τῶν ὅλων,",
+   "why": "Proofread from the page image (Cousin's II p. 78): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:105",
+   "ocr": "καὶ τοῦ εἴδους ὑποςατικαὶ τῶν ὄντων καὶ τῆς",
+   "read": "καὶ τοῦ εἴδους ὑποστατικαὶ τῶν ὄντων καὶ τῆς",
+   "why": "Proofread from the page image (Cousin's II p. 78): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:108",
+   "ocr": "",
+   "read": "ἐν αὐτοῖς διακοσμήσεως· αἱ δὲ, τῆς ζωῆς\nχορηγοὶ καὶ γεννητικαὶ τῶν ποικίλων τῆς ζωῆς\nγενῶν· αἱ δὲ, φρουρητικαὶ, τὴν ἄτρεπτον τά-\nξιν τῶν πραγμάτων καὶ τὴν ἄλυτον συνοχὴν\nἀχράντως διαφυλάττουσαι· αἱ δὲ, ἄλλης τινὸς\nδυνάμεως ἐξηγούμεναι, καὶ σώζουσαι τὰ πάν-\nτα διὰ τῆς ἑαυτῶν μεταδόσεως· οὕτω δὴ καὶ\nἡ ἐρωτικὴ πᾶσα τάξις ἐπιστροφῆς ἐστιν αἰτία\nκαὶ οὖσιν ἅπασι πρὸς τὸ θεῖον κάλλος, ἀνά-\nγουσα μὲν τὰ δεύτερα πάντα πρὸς ἐκεῖνο,\nκαὶ συνάπτουσα αὐτῷ καὶ ἐνιδρύουσα, πλη-\nροῦσα δὲ ἀπ’ ἐκείνου τὰ μεθ’ ἑαυτήν, καὶ ἐπι-\nλάμπουσα τὰς προϊούσας ἐκεῖθεν τοῦ θείου\nφωτὸς μεταδόσεις. Καὶ διὰ τοῦτο δή που καὶ ὁ\nἐν τῷ Συμποσίῳ λόγος δαίμονα μέγαν ἐκά-\nλει τὸν ἔρωτα, τὴν τῆς μεσότητος ταύτης δύ-\nναμιν ἐν ἑαυτῷ πρώτως ἐπιδεικνύμενον. Παν-\nτὸς γὰρ τοῦ ἐπιστρεφομένου, καὶ τοῦ τῆς\nἐπιστροφῆς αἰτίου καὶ ὀρεκτοῦ τοῖς δευτέ-\nροις, ὑπάρχοντος μέσου, ἡ τοίνυν ἐρωτικὴ",
+   "why": "Supplied (Cousin's II p. 81): the scan's leaf for this page is blank; the page is proofread from another scan of the same edition, https://archive.org/details/procliphilosophi00proc/page/n496 (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:109",
+   "ocr": "Θεβλημένη. συνάγει πάντα πρὸς αὐτὴν, wj",
+   "read": "βεβλημένη, συνάγει πάντα πρὸς αὐτὴν, καὶ",
+   "why": "Proofread from the page image (Cousin's II p. 82): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:109",
+   "ocr": "ἀνακαλεῖται πρὸς τὴν μέϑεξιν αὐτῆς\" καὶ μέ-",
+   "read": "ἀνακαλεῖται πρὸς τὴν μέθεξιν αὐτῆς· καὶ μέ-",
+   "why": "Proofread from the page image (Cousin's II p. 82): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:109",
+   "ocr": "σην ἐποιήσατο πρόδδον, τοῦτε ἐραςοῦ καὶ τῶν",
+   "read": "σην ἐποιήσατο πρόοδον, τοῦ τε ἐραστοῦ καὶ τῶν",
+   "why": "Proofread from the page image (Cousin's II p. 82): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:109",
+   "ocr": "dv ἔρωτος ἀναγομένων\" καὶ dia τοῦτο τῆς",
+   "read": "δι’ ἔρωτος ἀναγομένων· καὶ διὰ τοῦτο τῆς",
+   "why": "Proofread from the page image (Cousin's II p. 82): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:109",
+   "ocr": "δειγμα προεςήσατο (Ὁ, ταύτην ἐν τοῖς ϑεοῖς",
+   "read": "δειγμα προεστήσατο (*), ταύτην ἐν τοῖς θεοῖς",
+   "why": "Proofread from the page image (Cousin's II p. 82): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:109",
+   "ocr": "ἔχουσα τὴν μεσότητα, ἣν οἱ ϑαΐμονες τῶν τε",
+   "read": "ἔχουσα τὴν μεσότητα, ἣν οἱ δαίμονες τῶν τε",
+   "why": "Proofread from the page image (Cousin's II p. 82): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:109",
+   "ocr": "ϑείων μεταξὺ καὶ τῶν ϑνητῶών ἐκληρώσαντο,",
+   "read": "θείων μεταξὺ καὶ τῶν θνητῶν ἐκληρώσαντο\nπραγμάτων.",
+   "why": "Proofread from the page image (Cousin's II p. 82): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:109",
+   "ocr": "τῆς ἐρωτικῆς σειρᾶς ἐν τοῖς Θεοῖς ὑφιςαμένης.,",
+   "read": "τῆς ἐρωτικῆς σειρᾶς ἐν τοῖς θεοῖς ὑφισταμένης,",
+   "why": "Proofread from the page image (Cousin's II p. 82): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:109",
+   "ocr": "τὴν μὲν ἑνοειδῇ χαὶ κρύφιον αὐτῆς ἐκρότητα",
+   "read": "τὴν μὲν ἑνοειδῆ καὶ κρύφιον αὐτῆς ἀκρότητα\nνοήσωμεν (**) ἐν αὐτοῖς τοῖς πρωτίστοις δια-",
+   "why": "Proofread from the page image (Cousin's II p. 82): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:109",
+   "ocr": "κοσμοις τῶν ϑεῶν ἀῤῥήτως ἱδρυμένην, καὶ τῷ",
+   "read": "κόσμοις τῶν θεῶν ἀῤῥήτως ἱδρυμένην, καὶ τῷ",
+   "why": "Proofread from the page image (Cousin's II p. 82): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:109",
+   "ocr": "σγρωτίςῳ καὶ νοητῷ κάλλει!\" συνηνωμένην, χω-",
+   "read": "πρωτίστῳ καὶ νοητῷ κάλλει συνηνωμένην, χω-",
+   "why": "Proofread from the page image (Cousin's II p. 82): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:109",
+   "ocr": "ριςῶς ἀφ ὅλων τῶν ὄντων\" τὴν δὲ μέσην σρο-",
+   "read": "ριστῶς ἀφ’ ὅλων τῶν ὄντων· τὴν δὲ μέσην πρό-",
+   "why": "Proofread from the page image (Cousin's II p. 82): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:109",
+   "ocr": "odov αὐτῆς, ἐν τοῖς πρὸ τοῦ κόσμου ϑεοῖῆς σρο-",
+   "read": "οδον αὐτῆς, ἐν τοῖς πρὸ τοῦ κόσμου θεοῖς προ-",
+   "why": "Proofread from the page image (Cousin's II p. 82): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:109",
+   "ocr": "λάμπουσαν τελέως ϑεωρησωμεν A 7\" γνοέρως",
+   "read": "λάμπουσαν τελέως θεωρήσωμεν (***)· νοερῶς",
+   "why": "Proofread from the page image (Cousin's II p. 82): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:112",
+   "ocr": "di εἶδος ἐν C) δευτέρᾳ τάξει λαχοῦσαν, πρὸς",
+   "read": "δὲ εἶδος ἐν (*) δευτέρᾳ τάξει λαχοῦσαν, πρὸς",
+   "why": "Proofread from the page image (Cousin's II p. 85): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:112",
+   "ocr": "δὲ τῷ τέλει Ü' τῆς ὅλης διακοσμήσεως,",
+   "read": "δὲ τῷ τέλει (**) τῆς ὅλης διακοσμήσεως,",
+   "why": "Proofread from the page image (Cousin's II p. 85): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:112",
+   "ocr": "μένην' τὴν δὲ αὖ τρίτην ὑποόξασιν ταύτης",
+   "read": "μένην· τὴν δὲ αὖ τρίτην ὑπόβασιν ταύτης",
+   "why": "Proofread from the page image (Cousin's II p. 85): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:112",
+   "ocr": "περὶ τὸν κόσμον πολυειδῶς μεριζομένην , χαὶ",
+   "read": "περὶ τὸν κόσμον πολυειδῶς μεριζομένην, καὶ",
+   "why": "Proofread from the page image (Cousin's II p. 85): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:112",
+   "ocr": "στολλὰᾶς τάξεις x04 δυνάμεις «p εαυτῆς 7rpo-",
+   "read": "πολλὰς τάξεις καὶ δυνάμεις ἀφ’ ἑαυτῆς προ-\nβάλλουσαν, καὶ τοῖς διαφόροις μέρεσι τοῦ παν-",
+   "why": "Proofread from the page image (Cousin's II p. 85): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:112",
+   "ocr": "ἑνιαίαν χα πρωτουργὸν τοῦ ἔρωτος ἀρχὴν. καὶ",
+   "read": "ἑνιαίαν καὶ πρωτουργὸν τοῦ ἔρωτος ἀρχὴν, καὶ",
+   "why": "Proofread from the page image (Cousin's II p. 85): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:112",
+   "ocr": "τῆς ἀφ᾽ ἑαυτῆς ὑπόςασιν, τὸ παντοδαασὸν",
+   "read": "της ἀφ’ ἑαυτῆς ὑπόστασιν, τὸ παντοδαπὸν",
+   "why": "Proofread from the page image (Cousin's II p. 85): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:112",
+   "ocr": "τῶν ἐ parar σιλῆϑος νι rer ὅθεν δὴ πλη-",
+   "read": "τῶν ἐρώτων πλῆθος ἀναφαίνεται· ὅθεν δὴ πλη-",
+   "why": "Proofread from the page image (Cousin's II p. 85): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:112",
+   "ocr": "poteri μὲν οἱ τῶν ἀγγέλων χοροὶ τῆς τοῦ",
+   "read": "ροῦνται μὲν οἱ τῶν ἀγγέλων χοροὶ τῆς τοῦ",
+   "why": "Proofread from the page image (Cousin's II p. 85): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:112",
+   "ocr": "ἔρωτος μετουσία αἱ d? τῶν δαιμόνων ἀγέλαι",
+   "read": "ἔρωτος μετουσίας· αἱ δὲ τῶν δαιμόνων ἀγέλαι",
+   "why": "Proofread from the page image (Cousin's II p. 85): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:112",
+   "ocr": "διὰ τὴν τοῦ ϑεοῦ τούτου πλήρωσιν συν-",
+   "read": "διὰ τὴν τοῦ θεοῦ τούτου πλήρωσιν συν-",
+   "why": "Proofread from the page image (Cousin's II p. 85): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:112",
+   "ocr": "ἐπονται ΟὟ τοῖς ϑεοῖς ἐπὶ τὸ νοητὸν κάλ-",
+   "read": "έπονται (***) τοῖς θεοῖς ἐπὶ τὸ νοητὸν κάλ-",
+   "why": "Proofread from the page image (Cousin's II p. 85): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:112",
+   "ocr": "Aoc ἀναγομένοις\" αἱ δὲ τῶν ἡρώων sparmyíai",
+   "read": "λος ἀναγομένοις· αἱ δὲ τῶν ἡρώων στρατηγίαι",
+   "why": "Proofread from the page image (Cousin's II p. 85): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:112",
+   "ocr": "συμξακχευουσὶ τοῖς δαίμοσι καὶ τοῖς; ἀγγέ-",
+   "read": "συμβακχεύουσι τοῖς δαίμοσι καὶ τοῖς ἀγγέ-",
+   "why": "Proofread from the page image (Cousin's II p. 85): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:112",
+   "ocr": "λοις περὶ τὴν μέϑεξιν τοῦ καλοῦ\" πάντα δ᾽,",
+   "read": "λοις περὶ τὴν μέθεξιν τοῦ καλοῦ· πάντα δ’,",
+   "why": "Proofread from the page image (Cousin's II p. 85): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:112",
+   "ocr": "ὡς εἰπεῖν, ἐγείρεται χαὶ ἀναζωπυρεῖται καὶ",
+   "read": "ὡς εἰπεῖν, ἐγείρεται καὶ ἀναζωπυρεῖται καὶ",
+   "why": "Proofread from the page image (Cousin's II p. 85): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:112",
+   "ocr": "ϑάλπεται C777) περὶ τὴν ἀποῤῥοὴν τὸ κάλλες.",
+   "read": "θάλπεται (****) περὶ τὴν ἀποῤῥοὴν τοῦ κάλλους.",
+   "why": "Proofread from the page image (Cousin's II p. 85): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:113",
+   "ocr": "Ka) d καὶ drop ψυχαὶ διὸν ὉῈ",
+   "read": "Καὶ δὴ καὶ ἀνθρώπων ψυχαὶ μεταλαγ-",
+   "why": "Proofread from the page image (Cousin's II p. 86): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:113",
+   "ocr": "τὴν \"p^r τὸν ϑεὸν οἰκειότητα, κινοῦνται",
+   "read": "τὴν πρὸς τὸν θεὸν οἰκειότητα, κινοῦνται",
+   "why": "Proofread from the page image (Cousin's II p. 86): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:113",
+   "ocr": "περὶ τὸ καλὸν, καὶ κατίασιν εἰς τὸν τῆς pe",
+   "read": "περὶ τὸ καλὸν, καὶ κατίασιν εἰς τὸν τῆς γενέ-",
+   "why": "Proofread from the page image (Cousin's II p. 86): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:113",
+   "ocr": "σεως τόπον, ἐπ᾽ εὐεργεσίᾳ μὲν τῶν ἀἐτελεςέρων",
+   "read": "σεως τόπον, ἐπ’ εὐεργεσίᾳ μὲν τῶν ἀτελεστέρων",
+   "why": "Proofread from the page image (Cousin's II p. 86): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:113",
+   "ocr": "xin, sicat δὲ τῶν σωτηρίας δεομένων.",
+   "read": "ψυχῶν, προνοίᾳ δὲ τῶν σωτηρίας δεομένων.",
+   "why": "Proofread from the page image (Cousin's II p. 86): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:113",
+   "ocr": "Θεοὶ μὲν γερ καὶ οἱ τῶν ϑεῶν ὁπαδοὶ, μένον-",
+   "read": "Θεοὶ μὲν γὰρ καὶ οἱ τῶν θεῶν ὀπαδοὶ, μένον-",
+   "why": "Proofread from the page image (Cousin's II p. 86): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:113",
+   "ocr": "Tic ἐν τοῖς ἑαυτῶν ἤϑεσιν, εὐεργετοῦσ, τὰ",
+   "read": "τες ἐν τοῖς ἑαυτῶν ἤθεσιν, εὐεργετοῦσι τὰ",
+   "why": "Proofread from the page image (Cousin's II p. 86): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:113",
+   "ocr": "δεύτερα πάντα καὶ πρὸς ἑαυτοὺς ἐπιςρέφουσι\"",
+   "read": "δεύτερα πάντα καὶ πρὸς ἑαυτοὺς ἐπιστρέφουσι·",
+   "why": "Proofread from the page image (Cousin's II p. 86): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:113",
+   "ocr": "ἐφαπτόμεναι, τὴν ἀγαϑοειδὴ πρόνοιαν ἀποτυ-͵",
+   "read": "ἐφαπτόμεναι, τὴν ἀγαθοειδῆ πρόνοιαν ἀποτυ-",
+   "why": "Proofread from the page image (Cousin's II p. 86): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:113",
+   "ocr": "ποῦνται τῶν ϑεῶν. Ὥσπερ οὖν ἄλλαι ψυχαὶ",
+   "read": "ποῦνται τῶν θεῶν. Ὥσπερ οὖν ἄλλαι ψυχαὶ",
+   "why": "Proofread from the page image (Cousin's II p. 86): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:113",
+   "ocr": "χατ᾽ ἄλλον ἱςάμεναι ϑεὸν, ἐχράντως é7riQoi—",
+   "read": "κατ’ ἄλλον ἱστάμεναι θεὸν, ἀχράντως ἐπιφοι-",
+   "why": "Proofread from the page image (Cousin's II p. 86): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:113",
+   "ocr": "τῶσι τῷ ϑνητῳ τόπῳ «44 ταῖς ἐν τούτῳ ςρεφο-",
+   "read": "τῶσι τῷ θνητῷ τόπῳ καὶ ταῖς ἐν τούτῳ στρεφο-\nμέναις ψυχαῖς, καὶ αἱ μὲν, διὰ μαντικῆς ὠφε-",
+   "why": "Proofread from the page image (Cousin's II p. 86): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:113",
+   "ocr": "λοῦσι τὰς ἀτελέςέρας, αἱ δὲ διὰ τελεφικῆς.",
+   "read": "λοῦσι τὰς ἀτελεστέρας, αἱ δὲ διὰ τελεστικῆς,",
+   "why": "Proofread from the page image (Cousin's II p. 86): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:113",
+   "ocr": "ἄλλαι δὲ διὰ τῆς ϑείας ἰατρικῆς\" οὕτω δὴ καὶ",
+   "read": "ἄλλαι δὲ διὰ τῆς θείας ἰατρικῆς· οὕτω δὴ καὶ",
+   "why": "Proofread from the page image (Cousin's II p. 86): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:113",
+   "ocr": "αἱ τὸν Mem βίον ἑλόμεναι ψυχαὶ κινοῦνται",
+   "read": "αἱ τὸν ἐρωτικὸν βίον ἑλόμεναι ψυχαὶ κινοῦνται",
+   "why": "Proofread from the page image (Cousin's II p. 86): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:113",
+   "ocr": "μὲν ὑπὸ ToU ϑεοῦ τοῦ (ἢ) τῶν καλὼν zraid o",
+   "read": "μὲν ὑπὸ τοῦ θεοῦ τοῦ (*) τῶν καλῶν παίδων",
+   "why": "Proofread from the page image (Cousin's II p. 86): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:113",
+   "ocr": "ἐφόρου πρὸς τὴν ἐπιμέλειαν τῶν εὖ πεφυχό-",
+   "read": "ἐφόρου πρὸς τὴν ἐπιμέλειαν τῶν εὖ πεφυκό-",
+   "why": "Proofread from the page image (Cousin's II p. 86): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:113",
+   "ocr": "των, ἀπὸ δὲ τοῦ φαινὸμένου χάλλους ἀνάγον-",
+   "read": "των, ἀπὸ δὲ τοῦ φαινομένου κάλλους ἀνάγον-",
+   "why": "Proofread from the page image (Cousin's II p. 86): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:116",
+   "ocr": "ἀνάγουσι τὰ παιδικὰ, καὶ ἐπιςρέφουσιν ἑαυ-",
+   "read": "ται πρὸς τὸ θεῖον κάλλος, καὶ μεθ’ ἑαυτῶν\nἀνάγουσι τὰ παιδικὰ, καὶ ἐπιστρέφουσιν ἑαυ-",
+   "why": "Proofread from the page image (Cousin's II p. 89): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:116",
+   "ocr": "τοὺς τε καὶ τοὺς ἐρωμένους ἐπ᾽ αὐτὸ TO κα-",
+   "read": "τούς τε καὶ τοὺς ἐρωμένους ἐπ’ αὐτὸ τὸ κα-",
+   "why": "Proofread from the page image (Cousin's II p. 89): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:116",
+   "ocr": "λον.\" ^",
+   "read": "λόν.",
+   "why": "Proofread from the page image (Cousin's II p. 89): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:116",
+   "ocr": "Ὃ δὴ καὶ ὁ ϑεῖος ἔρως ἐκεῖ (Ὁ πρώτως",
+   "read": "Ὃ δὴ καὶ ὁ θεῖος ἔρως ἐκεῖ (*) πρώτως",
+   "why": "Proofread from the page image (Cousin's II p. 89): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:116",
+   "ocr": "ἀπεργάζεται, καὶ ἑαυτὸν ἑνίζων τῷ ἐραςῷ C),",
+   "read": "ἀπεργάζεται, καὶ ἑαυτὸν ἐνίζων τῷ ἐραστῷ (**),",
+   "why": "Proofread from the page image (Cousin's II p. 89): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:116",
+   "ocr": "καὶ τὰ μετέχοντα τῆς dor αὐτοῦ προϊούσης",
+   "read": "καὶ τὰ μετέχοντα τῆς ἀπ’ αὐτοῦ προϊούσης",
+   "why": "Proofread from the page image (Cousin's II p. 89): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:116",
+   "ocr": "δυνάμεως ἀνατείνων ἐπ᾽ ἐκεῖνο, καὶ. πᾶσιν eva",
+   "read": "δυνάμεως ἀνατείνων ἐπ’ ἐκεῖνο, καὶ πᾶσιν ἕνα",
+   "why": "Proofread from the page image (Cousin's II p. 89): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:116",
+   "ocr": "πρὸς τε ἄλληλα, καὶ (^) πρὸς αὐτὸ τὸ x&-",
+   "read": "πρός τε ἄλληλα, καὶ (***) πρὸς αὐτὸ τὸ κα-",
+   "why": "Proofread from the page image (Cousin's II p. 89): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:116",
+   "ocr": "ὀχήματι χρώμεναι τῷ φαινομένῳ κάλλει, πΈρ!-",
+   "read": "ὀχήματι χρώμεναι τῷ φαινομένῳ κάλλει, περι-",
+   "why": "Proofread from the page image (Cousin's II p. 89): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:116",
+   "ocr": "ἄγονται πρὸς τὸ νοητὸν κάλλος, καὶ τέλος",
+   "read": "άγονται πρὸς τὸ νοητὸν κάλλος, καὶ τέλος",
+   "why": "Proofread from the page image (Cousin's II p. 89): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:116",
+   "ocr": "ἐχεῖνο περίξςανται τῆς ἑαυτῶν ἐνεργείας. καὶ",
+   "read": "ἐκεῖνο περίστανται τῆς ἑαυτῶν ἐνεργείας. καὶ",
+   "why": "Proofread from the page image (Cousin's II p. 89): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:116",
+   "ocr": "φῶς dyzA aca ταῖς ὠτελεςέραις ψυχαῖς, εἶν--",
+   "read": "φῶς ἀνάψασαι ταῖς ἀτελεστέραις ψυχαῖς, ἀν-",
+   "why": "Proofread from the page image (Cousin's II p. 89): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:116",
+   "ocr": "ἄγουσι καὶ πάσας ἐπὶ τὸ ϑεῖον, καὶ συγχο-",
+   "read": "άγουσι καὶ πάσας ἐπὶ τὸ θεῖον, καὶ συγχο-",
+   "why": "Proofread from the page image (Cousin's II p. 89): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:116",
+   "ocr": "Asc πηγήν αἱ δὲ τῆς ἐκεῖθεν δόσεως (****)",
+   "read": "λους πηγήν· αἱ δὲ τῆς ἐκεῖθεν δόσεως (****)",
+   "why": "Proofread from the page image (Cousin's II p. 89): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:116",
+   "ocr": "ἀποπεσοῦσαι διὰ μοχθηρὰν τροφὴν, φύσιν dé-",
+   "read": "ἀποπεσοῦσαι διὰ μοχθηρὰν τροφὴν, φύσιν δὲ",
+   "why": "Proofread from the page image (Cousin's II p. 89): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:117",
+   "ocr": "καλῶν προσπίπτουσαι διὰ τὴν τῶν ἀληϑινῶν",
+   "read": "καλῶν προσπίπτουσαι διὰ τὴν τῶν ἀληθινῶν",
+   "why": "Proofread from the page image (Cousin's II p. 90): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:117",
+   "ocr": "ἄγνοιαν, φιλοφρονοῦνται μὲν τὰ ἔνυλα xa) με-",
+   "read": "ἄγνοιαν, φιλοφρονοῦνται μὲν τὰ ἔνυλα καὶ με-",
+   "why": "Proofread from the page image (Cousin's II p. 90): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:117",
+   "ocr": "pica κάλλη, Xa) ταῦτα ἐκπλήττονται, τὸ ἑαυ-",
+   "read": "ριστὰ κάλλη, καὶ ταῦτα ἐκπλήττονται, τὸ ἑαυ-",
+   "why": "Proofread from the page image (Cousin's II p. 90): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:117",
+   "ocr": "τῶν ἀγνοοῦσαι παϑὸος ὃ πεπονϑασιν' ἀφίςαν--",
+   "read": "τῶν ἀγνοοῦσαι πάθος ὃ πεπόνθασιν· ἀφίσταν-",
+   "why": "Proofread from the page image (Cousin's II p. 90): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:117",
+   "ocr": "ται δὲ τοῦ ϑείου παντός, καὶ tic τὸ ἄϑεον",
+   "read": "ται δὲ τοῦ θείου παντὸς, καὶ εἰς τὸ ἄθεον",
+   "why": "Proofread from the page image (Cousin's II p. 90): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:117",
+   "ocr": "ὑποφέρονται xal σχοτεινον τῆς ὕλης\" καὶ do-",
+   "read": "ὑποφέρονται καὶ σκοτεινὸν τῆς ὕλης· καὶ δο-",
+   "why": "Proofread from the page image (Cousin's II p. 90): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:117",
+   "ocr": "χοῦσι μὲν εἰς ἕνωσιν τὴν πρὸς τὸ καλὸν σπεύ-",
+   "read": "κοῦσι μὲν εἰς ἕνωσιν τὴν πρὸς τὸ καλὸν σπεύ-",
+   "why": "Proofread from the page image (Cousin's II p. 90): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:117",
+   "ocr": "dur , ὥσπερ αἱ τελέως ἐρωτικαὶ ψυχαί, λαν-",
+   "read": "δειν, ὥσπερ αἱ τελέως ἐρωτικαὶ ψυχαί, λαν-",
+   "why": "Proofread from the page image (Cousin's II p. 90): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:117",
+   "ocr": "βάνουσι δὲ ἑαυτάς, ἀντὶ μὲν τῆς ἑνώσεως",
+   "read": "θάνουσι δὲ ἑαυτὰς, ἀντὶ μὲν τῆς ἑνώσεως",
+   "why": "Proofread from the page image (Cousin's II p. 90): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:117",
+   "ocr": "ἐπὶ τὸν σχεδασμον φερόμεναι τῆς ζωῆς xal",
+   "read": "ἐπὶ τὸν σκεδασμὸν φερόμεναι τῆς ζωῆς καὶ",
+   "why": "Proofread from the page image (Cousin's II p. 90): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:117",
+   "ocr": "ϑοῦς xal ὄντως ὄντος καλοῦ πρὸς τὸ αἶσχος",
+   "read": "θοῦς καὶ ὄντως ὄντος καλοῦ πρὸς τὸ αἶσχος",
+   "why": "Proofread from the page image (Cousin's II p. 90): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:117",
+   "ocr": "αὐτὸ καὶ τὴν ὑλικὴν ἀμορφίαν συζευνγνύμεναι.",
+   "read": "αὐτὸ καὶ τὴν ὑλικὴν ἀμορφίαν συζευγνύμεναι.",
+   "why": "Proofread from the page image (Cousin's II p. 90): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:117",
+   "ocr": "Ποῦ γὰρ ἢ τὰ ἔνυλα δὲ ἀλλήλων χωρῆσαι",
+   "read": "Ποῦ γὰρ ἢ τὰ ἔνυλα δι’ ἀλλήλων χωρῆσαι",
+   "why": "Proofread from the page image (Cousin's II p. 90): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:117",
+   "ocr": "δυνατὸν, ἢ τὸ φαινόμενον χάλλος χαϑα-",
+   "read": "δυνατὸν, ἢ τὸ φαινόμενον κάλλος καθα-",
+   "why": "Proofread from the page image (Cousin's II p. 90): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:117",
+   "ocr": "ρὸν () ἐςι καὶ εἰλιχρινὲς,. ὕλῃ συμμιγὲς ὃν",
+   "read": "ρόν (*) ἐστι καὶ εἰλικρινὲς, ὕλῃ συμμιγὲς ὂν",
+   "why": "Proofread from the page image (Cousin's II p. 90): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:117",
+   "ocr": "χαὶ τῆς ὑποκειμένης ἐμορφίας ἐνασεπλησ-",
+   "read": "καὶ τῆς ὑποκειμένης ἀμορφίας ἀναπεπλησ-",
+   "why": "Proofread from the page image (Cousin's II p. 90): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:117",
+   "ocr": "μένον:",
+   "read": "μένον;",
+   "why": "Proofread from the page image (Cousin's II p. 90): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:117",
+   "ocr": "Επειδὴ τοίνυν ἐπ᾽ ἐἰλλήλων διεςησάμεϑα",
+   "read": "Ἐπειδὴ τοίνυν ἀπ’ ἀλλήλων διεστησάμεθα",
+   "why": "Proofread from the page image (Cousin's II p. 90): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:120",
+   "ocr": "χούσας xg] τὰς παρατρεπούσας τὴν ἐχεῖϑεν",
+   "read": "καὶ τὰς ψυχὰς τάς τε γνησίως αὐτοῦ μετε-\nχούσας καὶ τὰς παρατρεπούσας τὴν ἐκεῖθεν",
+   "why": "Proofread from the page image (Cousin's II p. 93): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:120",
+   "ocr": "deci Cra] ydp νοῦ ὠπέῤδοια πανουργίαν ποιεῖ,",
+   "read": "δόσιν· (καὶ γὰρ νοῦ ἀπόῤῥοια πανουργίαν ποιεῖ,",
+   "why": "Proofread from the page image (Cousin's II p. 93): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:120",
+   "ocr": "φησὶν à Πλωτῖνος, καὶ σοφίας μέϑεξις ἡμαρτη-",
+   "read": "φησὶν ὁ Πλωτῖνος, καὶ σοφίας μέθεξις ἡμαρτη-",
+   "why": "Proofread from the page image (Cousin's II p. 93): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:120",
+   "ocr": "μένη τὴν ἐνταῦϑα σοφιςικὴν ὑφίςησιν, Ges καὶ",
+   "read": "μένη τὴν ἐνταῦθα σοφιστικὴν ὑφίστησιν, ὥστε καὶ",
+   "why": "Proofread from the page image (Cousin's II p. 93): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:120",
+   "ocr": "ἡ τοῦ ἔρωτος ἔλλαμνις, τῆς ὑποδοχῆς μοχ-",
+   "read": "ἡ τοῦ ἔρωτος ἔλλαμψις, τῆς ὑποδοχῆς μοχ-",
+   "why": "Proofread from the page image (Cousin's II p. 93): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:120",
+   "ocr": "ϑηρᾶς τυχοῦσα, τὴν τυραννικὴν καὶ ὠκόλαςον",
+   "read": "θηρᾶς τυχοῦσα, τὴν τυραννικὴν καὶ ἀκόλαστον",
+   "why": "Proofread from the page image (Cousin's II p. 93): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:120",
+   "ocr": "ἐπτοτελεῖ ζωήν.) ἐπειδὴ d\" οὖν ταῦτα διεςη-",
+   "read": "ἀποτελεῖ ζωήν.) ἐπειδὴ δ’ οὖν ταῦτα διεστη-",
+   "why": "Proofread from the page image (Cousin's II p. 93): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:120",
+   "ocr": "σάμεϑα,, φέρε καὶ δ αὐτῶν χωροῦντες τῶν",
+   "read": "σάμεθα, φέρε καὶ δι’ αὐτῶν χωροῦντες τῶν",
+   "why": "Proofread from the page image (Cousin's II p. 93): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:120",
+   "ocr": "ἐραςῶν πρὸς ἀλλήλους διαφορότητας r ἃς ὃ",
+   "read": "ἐραστῶν πρὸς ἀλλήλους διαφορότητας, ἃς ὁ",
+   "why": "Proofread from the page image (Cousin's II p. 93): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:120",
+   "ocr": "Σωκράτης ἡμῖν ὑπογράφει δι’ αὐτῶν τῶν πρω-",
+   "read": "Σωκράτης ἡμῖν ὑπογράφει δι’ αὐτῶν τῶν πρώ-",
+   "why": "Proofread from the page image (Cousin's II p. 93): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:120",
+   "ocr": "τῶν λέξεων\" χαὶ ϑεωρήσωμεν τίς μὲν ὁ ϑεῖος,",
+   "read": "των λέξεων· καὶ θεωρήσωμεν τίς μὲν ὁ θεῖος,",
+   "why": "Proofread from the page image (Cousin's II p. 93): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:120",
+   "ocr": "καὶ οἷα παρέχει τῷ ἐρωμένῳ, τίς δὲ δ΄ πάνδη-",
+   "read": "καὶ οἷα παρέχει τῷ ἐρωμένῳ, τίς δὲ ὁ πάνδη-",
+   "why": "Proofread from the page image (Cousin's II p. 93): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:120",
+   "ocr": "μος καὶ ὁ τῷ πλήϑει τῆς ψυχῆς ἐφεπόμενος.",
+   "read": "μος καὶ ὁ τῷ πλήθει τῆς ψυχῆς ἐφεπόμενος.",
+   "why": "Proofread from the page image (Cousin's II p. 93): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:120",
+   "ocr": "O μὲν τοίνυν d'une dne xa) φορτικὸς ἐρα-",
+   "read": "Ὁ μὲν τοίνυν δημώδης καὶ φορτικὸς ἐρα-",
+   "why": "Proofread from the page image (Cousin's II p. 93): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:120",
+   "ocr": "enc, ϑαυμαζει. τὸν ἐρώμενον καὶ ἐπιδιωκει,",
+   "read": "στὴς, θαυμάζει τὸν ἐρώμενον καὶ ἐπιδιώκει,",
+   "why": "Proofread from the page image (Cousin's II p. 93): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:120",
+   "ocr": "xal ἐπτόηται περὶ αὐτόν\" ὁ δὲ ἀληϑινὸς ipa-",
+   "read": "καὶ ἐπτόηται περὶ αὐτόν· ὁ δὲ ἀληθινὸς ἐρα-",
+   "why": "Proofread from the page image (Cousin's II p. 93): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:120",
+   "ocr": "eic, ϑαῦμα παρέχο; τῷ ἐρωμένῳ, xa) εἰς ἔκ-",
+   "read": "στὴς, θαῦμα παρέχει τῷ ἐρωμένῳ, καὶ εἰς ἔκ-",
+   "why": "Proofread from the page image (Cousin's II p. 93): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:120",
+   "ocr": "σιληξιν αὐτὸν ἀνακινεῖ παντοδαπῶς τῆς ἐν",
+   "read": "πληξιν αὐτὸν ἀνακινεῖ παντοδαπῶς τῆς ἐν",
+   "why": "Proofread from the page image (Cousin's II p. 93): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:120",
+   "ocr": "αὐτῷ ζωῆς: καὶ τοῦτο εἰκότως. Ὁ μὲν γὰρ xti-",
+   "read": "αὐτῷ ζωῆς· καὶ τοῦτο εἰκότως. Ὁ μὲν γὰρ χεί-",
+   "why": "Proofread from the page image (Cousin's II p. 93): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:120",
+   "ocr": "pov ὁμολογεῖ τῶν παϊδικῶν ὑπάρχειν, καὶ",
+   "read": "ρων ὁμολογεῖ τῶν παιδικῶν ὑπάρχειν, καὶ",
+   "why": "Proofread from the page image (Cousin's II p. 93): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:120",
+   "ocr": "δεέσϑαι φησὶν αὐτῶν (Ὁ) ὃ δὲ αὐτάρκης cel,",
+   "read": "δεῖσθαι φησὶν αὐτῶν (*)· ὁ δὲ αὐτάρκης ἐστὶ,",
+   "why": "Proofread from the page image (Cousin's II p. 93): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:121",
+   "ocr": "",
+   "read": "καὶ δυνάμεως πλήρης, καὶ μετάδοσιν ἐπαγ-\nγέλλεται τῶν οἰκείων ἀγαθῶν εἰς τὰς τῶν\nἐρωμένων ψυχάς.\nΔεύτερον τοίνυν, ὁ μὲν ἔνθεος ἐραστὴς ἐκ\nσπαργάνων τὸν ἐρώμενον ἐπισκοπεῖ καὶ μετὰ\nτὴν λῆξιν τῆς ὥρας πρόσεισιν αὐτῷ, τῶν σω-\nματικῶν παυσαμένων θορύβων· οὐ γάρ ἐστι τοῦ\nσώματος ἐραστὴς, ἀλλὰ τῆς ψυχῆς· τοῦ δὲ\nσώματος παυσαμένου τῆς ἄνθης, τὸ τῆς ψυ-\nχῆς ἀναλάμπει κάλλος. Ὁ δέ γε πάνδημος,\nὥσπερ ὀπώρας ὀρέγεται τῆς ἀκμῆς τοῦ ἐρω-\nμένου· καὶ οὔτε πρότερον, οὔθ’ ὕστερον αὐτὸν\nπεριεργάζεται· ἀλλ’ ἅμα τῇ ὥρᾳ παυσαμένῃ,\nκαὶ τῶν παιδικῶν ἀπαλλάττεται, καὶ πέ-\nπονθε τὸ εἰκὸς ταῖς οἰκείαις ἀρχαῖς. Τοῦ σώ-\nματος γὰρ ὢν ἐραστὴς, τῇ τοῦ φαινομένου κάλ-\nλους ἀκμῇ παραμετρεῖ τὸν ἔρωτα.\nΤὸ τρίτον τοίνυν, ὁ μὲν μόνιμος ἐστὶ καὶ\nἀεὶ ὁ αὐτὸς, ἅτε δὴ μονίμῳ πράγματι συν-\nτακείς· ὁ δὲ, εὐμετάβολος· καὶ παρὼν μὲν\nφορτικός· ὀξύῤῥοπος δὲ καὶ ῥᾳδίως ἀπολεί-\nπων τὰ παιδικὰ (*). Διὰ γὰρ τὴν περὶ τὸ\nἔνυλον φιλίαν ὁμοιούμενος τῷ ἐραστῷ, (**)",
+   "why": "Supplied (Cousin's II p. 94): the scan's leaf for this page is blank; the page is proofread from another scan of the same edition, https://archive.org/details/procliphilosophi00proc/page/n509 (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:124",
+   "ocr": "γίνεται. δὴ που καὶ αὐτὸς guae » χαὶ ῥᾳδίως",
+   "read": "γίνεται δή που καὶ αὐτὸς ἄστατος, καὶ ῥᾳδίως",
+   "why": "Proofread from the page image (Cousin's II p. 97): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:124",
+   "ocr": "μεταξάλλων τὴν πρὸς τὰ παιδικὰ συνήϑειαγ.",
+   "read": "μεταβάλλων τὴν πρὸς τὰ παιδικὰ συνήθειαν.",
+   "why": "Proofread from the page image (Cousin's II p. 97): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:124",
+   "ocr": "Térapror φοιχϑῖον τῆς τῶν dvd páy λεχεσθω",
+   "read": "Τέταρτον στοιχεῖον τῆς τῶν ἀνδρῶν λεγέσθω",
+   "why": "Proofread from the page image (Cousin's II p. 97): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:124",
+   "ocr": "διαφορᾷς: ὅτι ὁ μὲν καὶ ἐπταῤωνὶ τῷ τῶν ἀρωμε-",
+   "read": "διαφορᾶς· ὅτι ὁ μὲν καὶ παρὼν τῷ ἐρωμέ-",
+   "why": "Proofread from the page image (Cousin's II p. 97): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:124",
+   "ocr": "γῷῳ πεχώρισαι. τρόπον. τινῶ αὐτοῦ, (ἢ) “μήτε",
+   "read": "νῳ κεχώρισται τρόπον τινὰ αὐτοῦ, (*) μήτε",
+   "why": "Proofread from the page image (Cousin's II p. 97): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:124",
+   "ocr": "47 τόμενος. αὐτοῦ, μήτε “βεσομυλόδις [d",
+   "read": "ἁπτόμενος αὐτοῦ, μήτε προσομιλῶν, μηθ’",
+   "why": "Proofread from the page image (Cousin's II p. 97): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:124",
+   "ocr": "ὅλως C^ ᾿»δυαλεγόμενος, ὅ οταν. μὴ καιρὸς ü τῆς",
+   "read": "ὅλως (**) διαλεγόμενος, ὅταν μὴ καιρὸς ᾖ τῆς",
+   "why": "Proofread from the page image (Cousin's II p. 97): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:124",
+   "ocr": "ψυχικῆς ὠφελείας: ὁ δὲ “ταῖς αἰσθήσεσιν αὐτῷ",
+   "read": "ψυχικῆς ὠφελείας· ὁ δὲ ταῖς αἰσθήσεσιν αὐτῷ",
+   "why": "Proofread from the page image (Cousin's II p. 97): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:124",
+   "ocr": "φιλεῖ συνώπτεσϑαι, καὶ dY ὄχλου γίνεται,",
+   "read": "φιλεῖ συνάπτεσθαι, καὶ δι’ ὄχλου γίνεται,",
+   "why": "Proofread from the page image (Cousin's II p. 97): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:124",
+   "ocr": "ποικιλλόμενος καὶ πιαντοδαπές ἀφορμὰς τῶν",
+   "read": "ποικιλλόμενος καὶ παντοδαπὰς ἀφορμὰς τῶν",
+   "why": "Proofread from the page image (Cousin's II p. 97): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:124",
+   "ocr": "σερὺς αὐτὸν λόγων ἐπέινοξγ ες oue καρ eS",
+   "read": "πρὸς αὐτὸν λόγων ἐπινοῶν.",
+   "why": "Proofread from the page image (Cousin's II p. 97): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:124",
+   "ocr": "Πέμισττον d7r αὐτῶν τῶν ῥιμάτων λάξοις",
+   "read": "Πέμπτον ἀπ’ αὐτῶν τῶν ῥημάτων λάβοις",
+   "why": "Proofread from the page image (Cousin's II p. 97): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:124",
+   "ocr": "dv, τὸ τὸν μὲν Doy ipait ia λέγεσϑαι καὶ",
+   "read": "ἂν, τὸ τὸν μὲν θεῖον ἐραστὴν ἕνα λέγεσθαι καὶ",
+   "why": "Proofread from the page image (Cousin's II p. 97): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:124",
+   "ocr": "πρῶτον καὶ μόνον, ἅτε οἰκεῖον ὄντα τῷ ἐνὶ xa)",
+   "read": "πρῶτον καὶ μόνον, ἅτε οἰκεῖον ὄντα τῷ ἑνὶ καὶ",
+   "why": "Proofread from the page image (Cousin's II p. 97): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:124",
+   "ocr": "τῷ ἀγαϑῷ, καὶ πρὸς. τὸ ἁπλοῦν καὶ joi",
+   "read": "τῷ ἀγαθῷ, καὶ πρὸς τὸ ἁπλοῦν καὶ ἑνοειδὲς",
+   "why": "Proofread from the page image (Cousin's II p. 97): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:124",
+   "ocr": "παράδειγμα τῶν καλῶν ἀνατεινόμενον: τὸν",
+   "read": "παράδειγμα τῶν καλῶν ἀνατεινόμενον· τὸν",
+   "why": "Proofread from the page image (Cousin's II p. 97): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:124",
+   "ocr": "δὲ Φρβνίμρνα πολὺν, Xa) εἰκὴ συματεφόρημεν",
+   "read": "δὲ φορτικὸν, πολὺν, καὶ εἰκῇ συμπεφορημέ-",
+   "why": "Proofread from the page image (Cousin's II p. 97): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:124",
+   "ocr": "γον (ἢ): Τὸ γὰρ ἄλλους μὲν προσειπεὶῆν τοὺς",
+   "read": "νον (***). Τὸ γὰρ ἄλλους μὲν προσειπεῖν τοὺς",
+   "why": "Proofread from the page image (Cousin's II p. 97): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:124",
+   "ocr": "τῶν εἰδώλων ἐραςὰς : πλότον δὲ καὶ μόνον τὸν",
+   "read": "τῶν εἰδώλων ἐραστὰς, πρῶτον δὲ καὶ μόνον τὸν",
+   "why": "Proofread from the page image (Cousin's II p. 97): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:124",
+   "ocr": "ἔγϑεον φίλον , ἐκείνων μὲν τὴν ἀόριςον xai Magie",
+   "read": "ἔνθεον φίλον, ἐκείνων μὲν τὴν ἀόριστον καὶ μερι-",
+   "why": "Proofread from the page image (Cousin's II p. 97): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:124",
+   "ocr": "eu» καὶ πάντῃ διεσχεδασμένην ἀπελέγχει",
+   "read": "στὴν καὶ πάντῃ διεσκεδασμένην ἀπελέγχει",
+   "why": "Proofread from the page image (Cousin's II p. 97): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:125",
+   "ocr": "oiv: τούτου di τὴν Ücovroemri καὶ πόῤῥω τοῦ",
+   "read": "ζωήν· τούτου δὲ τὴν θεοπρεπῆ καὶ πόῤῥω τοῦ",
+   "why": "Proofread from the page image (Cousin's II p. 98): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:125",
+   "ocr": "ἐνύλον πλήϑους οὖσαν, καὶ πάντων τῶν γένε-",
+   "read": "ἐνύλου πλήθους οὖσαν, καὶ πάντων τῶν γενε-",
+   "why": "Proofread from the page image (Cousin's II p. 98): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:125",
+   "ocr": "σιουργῶν σταθῶν ἐξηρημένην ἀρετὴν ἀποσεμνύνει.",
+   "read": "σιουργῶν παθῶν ἐξῃρημένην ἀρετὴν ἀποσεμνύνει.",
+   "why": "Proofread from the page image (Cousin's II p. 98): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:125",
+   "ocr": "Πολλᾷ δ᾽ ἄν καὶ ἄλλα: τις ἔχοι λέχειν ἐκ",
+   "read": "Πολλὰ δ’ ἂν καὶ ἄλλα τις ἔχοι λέγειν ἐκ",
+   "why": "Proofread from the page image (Cousin's II p. 98): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:125",
+   "ocr": "τούτων ἀνακινούμενος TÀ χωρίζοντα᾽ τοὺς ἐρα-",
+   "read": "τούτων ἀνακινούμενος τὰ χωρίζοντα τοὺς ἐρα-",
+   "why": "Proofread from the page image (Cousin's II p. 98): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:125",
+   "ocr": "τῶν τούτους ἀπ᾽ ἀλλήλων. ᾿Εραφὰς y&p οὐκ",
+   "read": "στὰς τούτους ἀπ’ ἀλλήλων. Ἐραστὰς γὰρ οὐκ",
+   "why": "Proofread from the page image (Cousin's II p. 98): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:125",
+   "ocr": "ἀποδοκιμάζει καὶ τοὺς πολλαὺς ὃ Σωχράτης",
+   "read": "ἀποδοκιμάζει καὶ τοὺς πολλοὺς ὁ Σωκράτης",
+   "why": "Proofread from the page image (Cousin's II p. 98): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:125",
+   "ocr": "ἔτι καλεῖν, διότι μή πω δηιακέκβιται τίς ὁ",
+   "read": "ἔτι καλεῖν, διότι μή πω διακέκριται τίς ὁ",
+   "why": "Proofread from the page image (Cousin's II p. 98): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:125",
+   "ocr": "ὠληϑινός iei ἄνθρωπος; καὶ ποῦ τὸν ᾿Αλκιξιαί-",
+   "read": "ἀληθινός ἐστιν ἄνθρωπος, καὶ ποῦ τὸν Ἀλκιβιά-",
+   "why": "Proofread from the page image (Cousin's II p. 98): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:125",
+   "ocr": "δὴν αὐτὸν ὑποθετέον, Τότε γὰρ ᾿ἂν δεόντως",
+   "read": "δην αὐτὸν ὑποθετέον. Τότε γὰρ ἂν δεόντως",
+   "why": "Proofread from the page image (Cousin's II p. 98): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:125",
+   "ocr": "ὀφθείη μόνος ἐραςὴς ᾿Αλκιξ,ώδου Ξωκρα-",
+   "read": "ὀφθείη μόνος ἐραστὴς Ἀλκιβιάδου Σωκρά-",
+   "why": "Proofread from the page image (Cousin's II p. 98): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:125",
+   "ocr": "Tuc C) οἱ δὲ ἄλλοι; τῶν C ᾿Αλκιξιάδου",
+   "read": "της (*)· οἱ δὲ ἄλλοι, τῶν (**) Ἀλκιβιάδου",
+   "why": "Proofread from the page image (Cousin's II p. 98): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:125",
+   "ocr": "μὲν ἐρῶντες, καὶ ἅτε εἰδωλικὸν ἔρωτα vripipé-",
+   "read": "μὲν ἐρῶντες, καὶ ἅτε εἰδωλικὸν ἔρωτα περιφέ-",
+   "why": "Proofread from the page image (Cousin's II p. 98): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:125",
+   "ocr": "povric , περὶ τὰ εἴδωλα ςρεφόμενοι καὶ τῶν",
+   "read": "ροντες, περὶ τὰ εἴδωλα στρεφόμενοι καὶ τῶν",
+   "why": "Proofread from the page image (Cousin's II p. 98): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:125",
+   "ocr": "ψυχῶν ἠμεληκότες, καὶ τὸν ὄντως ᾿Αλκιξιάϑην",
+   "read": "ψυχῶν ἠμεληκότες, καὶ τὸν ὄντως Ἀλκιβιάδην",
+   "why": "Proofread from the page image (Cousin's II p. 98): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:125",
+   "ocr": "ἀγνοοῦντες σιαντάπασι C5 Tore τοίνυν",
+   "read": "ἀγνοοῦντες παντάπασι (***). Τότε τοίνυν",
+   "why": "Proofread from the page image (Cousin's II p. 98): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:125",
+   "ocr": "διελέγξει, καὶ ὅτι τῆς ἐληϑινῆς ποῦ ἔρωτος",
+   "read": "διελέγξει, καὶ ὅτι τῆς ἀληθινῆς τοῦ ἔρωτος",
+   "why": "Proofread from the page image (Cousin's II p. 98): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:125",
+   "ocr": "ἐστιπνοίας διημαρτηκότες, τὸ εἴδωλον σπροξε-",
+   "read": "ἐπιπνοίας διημαρτηκότες, τὸ εἴδωλον προβέ-",
+   "why": "Proofread from the page image (Cousin's II p. 98): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:125",
+   "ocr": "ὄληνται τοῦ ἔρωτος, wa] κατὰ τοῦτο τῷ εἰ-",
+   "read": "βληνται τοῦ ἔρωτος, καὶ κατὰ τοῦτο τῷ εἰ-",
+   "why": "Proofread from the page image (Cousin's II p. 98): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:125",
+   "ocr": "δώλῳ τοῦ κάλλους συμπελέκονται; Πᾶσα y4p",
+   "read": "δώλῳ τοῦ κάλλους συμπλέκονται. Πᾶσα γὰρ",
+   "why": "Proofread from the page image (Cousin's II p. 98): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:125",
+   "ocr": "ἐρωτικὴ τάξις συςοίχῳ TI) κάλλει. gurtéTax-",
+   "read": "ἐρωτικὴ τάξις συστοίχῳ τινὶ κάλλει συντέτακ-",
+   "why": "Proofread from the page image (Cousin's II p. 98): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:125",
+   "ocr": "ται\" καὶ ὥσπερ ὃ So. ἔρως ἐπὶ τὸ ϑεῦον κάλ-",
+   "read": "ται· καὶ ὥσπερ ὁ θεῖος ἔρως ἐπὶ τὸ θεῖον κάλ-",
+   "why": "Proofread from the page image (Cousin's II p. 98): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:128",
+   "ocr": "Aoc ἀνάγεται; οὕτω δὴ χαὶ ὁ εἰδωλιχὸς του",
+   "read": "λος ἀνάγεται, οὕτω δὴ καὶ ὁ εἰδωλικὸς τοῦ\nτοιούτου κάλλους ἀντιλαμβάνεσθαι σπεύδει.",
+   "why": "Proofread from the page image (Cousin's II p. 101): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:128",
+   "ocr": "Toüro Ü) γὰρ δὴ καὶ ὁρᾷν δύναται μόνον'",
+   "read": "Τοῦτο (*) γὰρ δὴ καὶ ὁρᾶν δύναται μόνον·",
+   "why": "Proofread from the page image (Cousin's II p. 101): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:128",
+   "ocr": "poc δὲ τὸ ϑεῖον ἐσκοτωμένῳ παντάπασιν",
+   "read": "πρὸς δὲ τὸ θεῖον ἐσκοτωμένῳ παντάπασιν",
+   "why": "Proofread from the page image (Cousin's II p. 101): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:128",
+   "ocr": "ἔοικεν. Τὰ ydp TOY πολλὼν τῆς ψυχῆς ομ-",
+   "read": "ἔοικεν. Τὰ γὰρ τῶν πολλῶν τῆς ψυχῆς ὄμ-",
+   "why": "Proofread from the page image (Cousin's II p. 101): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:128",
+   "ocr": "ματα καρτερεῖν, πρὸς TO ἐληϑες aQo-",
+   "read": "ματα καρτερεῖν, πρὸς τὸ (**) ἀληθὲς ἀφο-",
+   "why": "Proofread from the page image (Cousin's II p. 101): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
+  },
+  {
+   "text": "proclus-alcibiades",
+   "unit": "ia-cousin-proclus-t2:128",
+   "ocr": "porra, ἀδυνατα φησὶν ὁ Ἐλεάτης ξένος.",
+   "read": "ρῶντα, ἀδύνατα φησὶν ὁ Ἐλεάτης ξένος.",
+   "why": "Proofread from the page image (Cousin's II p. 101): the OCR misreads this line; the page reads so (sources/neoplatonists/proofread/proclus-alcibiades.txt).",
+   "by": "the Workshop, proofread from the page image",
+   "proofread": true
   }
  ]
 }

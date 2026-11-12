@@ -344,14 +344,15 @@ in Taylor's chapter; the fixed renderings of `sources/translations/modern/terms-
 shows and [`reports/modern_neo.md`](reports/modern_neo.md). `reader/neo.js`, `tests/test_modern_neo.py`,
 `tests/modern_neo_browser.js`.
 
-Proclus on the First Alcibiades (the dialogue read first) is in modern English too, so far his prologue and his notes on the
-wording of the dialogue's first words (103a), at
+Proclus on the First Alcibiades (the dialogue read first) is in modern English too, so far his prologue, his notes on the
+wording of the dialogue's first words (103a), and his account of love that follows them, at
 `#neo-modern/proclus-alcibiades`, made from Greek proofread first: Cousin's 23 pages of the prologue were proofread line by line
 from the page images into a master copy, `sources/neoplatonists/proofread/proclus-alcibiades.txt` (and the 16 pages of the
-notes on the first words after them), and `tools/proofread.py`
+notes on the first words after them, and the 12 pages on love; two pages the scan lost are proofread from another scan of the
+same volume and marked so), and `tools/proofread.py`
 writes each line the OCR misreads (or drops) as a correction in `sources/neoplatonists/corrections.json`, for that page only,
 checking that every page then reads as proofread. The OCR is still shown as received; *With corrections* reads the proofread
-page, and each page links to its section in modern English. The seventeen sections are checked against Taylor's Introduction to the
+page, and each page links to its section in modern English. The twenty-three sections are checked against Taylor's Introduction to the
 dialogue and his notes, which are drawn from Proclus (*Taylor's words*, *Side by side*, each paragraph or note named); each paragraph's Greek names its pages and their
 scans. `tests/test_proclus_alcibiades.py`, `tests/proclus_alcibiades_browser.js`. Next, in later sessions: the rest of Proclus
 and Olympiodorus on the First Alcibiades, proofread first in the same way, then Iamblichus and the others.

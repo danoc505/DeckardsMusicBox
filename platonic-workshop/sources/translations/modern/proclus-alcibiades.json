@@ -11,7 +11,7 @@
  "greek_text": "proclus-alcibiades",
  "taylor_work": "taylor-1804-alcibiades-intro",
  "taylor_source": "Thomas Taylor, Introduction and notes to the First Alcibiades (drawn from Proclus), in The Works of Plato, vol. I (London, 1804), from texts/taylor-1804/vol1/alcibiades-1.json",
- "about": "A modern English version of Proclus' commentary on the First Alcibiades, the dialogue the school read first, written for the Workshop. It is translated from the Greek of Cousin's edition (Paris, 1820), proofread first from the page images, and checked against the Introduction and notes to the First Alcibiades in Thomas Taylor's Works of Plato (1804), which Taylor drew from Proclus' commentary. Where the Greek says something Taylor's English does not, the modern version follows the Greek, and a flag shows Taylor's words and the difference. The sections, their short titles and summaries are the Workshop's. So far: Proclus' prologue (Cousin's pages 2 to 46): why knowing ourselves is the start of philosophy, the aim of the dialogue, and how it is divided; and his notes on the wording of the dialogue's opening words (pages 49 to 78): what the preface shows, why Socrates says \"I think\", why he calls Alcibiades by his father's name, and the three sciences of Socrates, love first among them.",
+ "about": "A modern English version of Proclus' commentary on the First Alcibiades, the dialogue the school read first, written for the Workshop. It is translated from the Greek of Cousin's edition (Paris, 1820), proofread first from the page images, and checked against the Introduction and notes to the First Alcibiades in Thomas Taylor's Works of Plato (1804), which Taylor drew from Proclus' commentary. Where the Greek says something Taylor's English does not, the modern version follows the Greek, and a flag shows Taylor's words and the difference. The sections, their short titles and summaries are the Workshop's. So far: Proclus' prologue (Cousin's pages 2 to 46): why knowing ourselves is the start of philosophy, the aim of the dialogue, and how it is divided; and his notes on the wording of the dialogue's opening words (pages 49 to 78): what the preface shows, why Socrates says \"I think\", why he calls Alcibiades by his father's name, and the three sciences of Socrates, love first among them; and his account of love (pages 78 to 101): how love turns all things to divine beauty, its ranks from the gods down to the souls of men, true love and its counterfeit, and the five marks that part the divine lover from the vulgar one.",
  "source": "sources/translations/modern/proclus-alcibiades.txt",
  "proofread": "sources/neoplatonists/proofread/proclus-alcibiades.txt",
  "treatises": [
@@ -44,6 +44,19 @@
     "103a.5",
     "103a.6",
     "103a.7"
+   ]
+  },
+  {
+   "id": "103a-love",
+   "title": "On love: its orders, and the two kinds of lover",
+   "summary": "Having said that the opening words show Socrates as a lover, Proclus turns from the wording to the matter: what love is. As other gods have their own powers, the whole order of love turns all things to divine beauty; it is the middle between beauty and those it leads up, which is why the Symposium calls Love a great daemon. Its ranks run from the hidden summit among the first gods down through the gods before the world to the many loves in the world: angels, daemons, heroes and the souls of men. Souls that choose the life of love come down to care for the well-born and lead them up with themselves; souls that fall from love's gift through bad upbringing chase the images of beauty and sink into matter. Then, from Socrates' own first words, Proclus draws five marks that part the divine lover from the vulgar one, and says why Socrates still calls the others lovers.",
+   "chapters": [
+    "103a.8",
+    "103a.9",
+    "103a.10",
+    "103a.11",
+    "103a.12",
+    "103a.13"
    ]
   }
  ],
@@ -253,6 +266,54 @@
      "text": "Again, the amatory form of life is particularly indicated by Socrates in this dialogue. For the beginning is made from hence; and he proceeds perfecting the young man till he renders him a lover of his providential care, which is the leading good of the amatory art. And in short, through all the divisions of the dialogue, he always preserves that which is adapted to an amatory life. As there are three sciences, then, which Socrates appears to have testified that he possessed, viz. the dialectic, the maieutic, (i.e. obstetric,) and the amatory, we shall find the form of the dialectic and the peculiarity of the maieutic science in this dialogue, but the effects of the amatory science predominate in it. For, when Socrates is calling forth the conceptions of Alcibiades, he still acts conformably to the amatory character; and when he employs the dialectic science, he does not depart from the peculiarity of amatory arguments. Just as in the Theætetus he is maieutic, is principally characterized according to this, and proceeds as far as to a purification of the same opinions of Theætetus: but, having effected this, he dismisses him, as being now able of himself to know the truth, which is the business of the maieutic science, as he himself asserts in that dialogue. Thus also he first indicates the amatory science in this dialogue, with which both the dialectic and maieutic are mingled. For every where Socrates introduces discourses adapted to the subject persons. And as every kind of good pre-subsists in a divine nature, which is variously possessed by different beings according to the natural aptitude of each, in like manner Socrates, who comprehends all sciences in himself, employs a different science at different times, according to the aptitude of the recipients; elevating one through the amatory science; exciting another to the reminiscence of the eternal reasons of the soul through the maieutic science; and conducting another according to the dialectic method to the speculation of beings. Some too he conjoins to the beautiful itself, others to the first wisdom, and others to the good itself. For through the amatory science we are led to the beautiful; through the maieutic, by calling forth our latent reasons, we become wise in things of which we were ignorant; and through the dialectic science we ascend as far as to the good."
     }
    ]
+  },
+  {
+   "id": "103a.8",
+   "treatise": "103a-love",
+   "title": "Love turns all things to divine beauty",
+   "summary": "As each kind of god has its own power, making, giving life, guarding or saving, so the whole order of love is the cause that turns all things to divine beauty, leading the lower up to it and filling them from it. It stands in the middle, between beauty and those it leads up, which is why the Symposium calls Love a great daemon: love holds among the gods the middle place that daemons hold between the divine and the mortal.",
+   "greek_unit": "ia-cousin-proclus-t2:105",
+   "taylor": []
+  },
+  {
+   "id": "103a.9",
+   "treatise": "103a-love",
+   "title": "The ranks of love, from the gods down",
+   "summary": "Love's summit, one and hidden, is set among the very first gods, united with the first, intelligible beauty. Its middle rank shines out among the gods before the world; its third comes down into the world, divided many ways. From there the many kinds of love appear: the choirs of angels are filled with it, the herds of daemons follow the gods up to intelligible beauty, the troops of heroes join in the revel, and all things are warmed by the outflow of beauty.",
+   "greek_unit": "ia-cousin-proclus-t2:109",
+   "taylor": []
+  },
+  {
+   "id": "103a.10",
+   "treatise": "103a-love",
+   "title": "Souls who choose the life of love",
+   "summary": "Human souls too share this breath of love: they come down into the world of becoming to do good to less perfect souls. As gods do good while staying where they are, souls that come down copy their providence. Some help by prophecy, some by the rites, some by divine medicine; souls that choose the life of love are moved by the god who watches over beautiful boys to care for the well-born, and from visible beauty they lead themselves and their beloved up to beauty itself.",
+   "greek_unit": "ia-cousin-proclus-t2:113",
+   "taylor": []
+  },
+  {
+   "id": "103a.11",
+   "treatise": "103a-love",
+   "title": "True love and its counterfeit",
+   "summary": "Souls possessed by love use visible beauty as a clean vehicle to be carried round to intelligible beauty, and light the way for others. Souls that fall from love's gift through bad upbringing, but are lovers by nature, take the images of beauty for beauty: they admire bodies, fall away from the divine into the darkness of matter, and, thinking they hasten to union, are carried off into scattering and the sea of unlikeness. Visible beauty, mixed with matter, can never be pure.",
+   "greek_unit": "ia-cousin-proclus-t2:116",
+   "taylor": []
+  },
+  {
+   "id": "103a.12",
+   "treatise": "103a-love",
+   "title": "Five marks of the two lovers, from Socrates' first words",
+   "summary": "Love's gift taken in badly makes the tyrannical, unbridled life, as Plotinus says an outflow of intellect makes cunning. Socrates' first words then show five marks of the true lover against the vulgar one: he gives wonder instead of feeling it; he watches the beloved from infancy and comes when the bloom is gone; he stays the same; he keeps apart until the time is right; and he is the one first and only lover, where the others are many.",
+   "greek_unit": "ia-cousin-proclus-t2:117",
+   "taylor": []
+  },
+  {
+   "id": "103a.13",
+   "treatise": "103a-love",
+   "title": "Why Socrates still calls the others lovers",
+   "summary": "Much else parts the two kinds of lover. Socrates still lets the many be called lovers because it is not yet settled what a man truly is, and where Alcibiades himself is to be placed; once that is settled, Socrates will be seen as his only lover, and the others as lovers of what is Alcibiades', not of Alcibiades, wearing an image of love about an image of beauty. Each order of love goes with its own beauty, and the eyes of the many cannot bear to look at the truth, as the Eleatic Stranger says.",
+   "greek_unit": "ia-cousin-proclus-t2:125",
+   "taylor": []
   }
  ],
  "paragraphs": [
@@ -1205,6 +1266,291 @@
      "n": "ia-cousin-proclus-t2:105",
      "label": "II p. 78"
     }
+   ]
+  },
+  {
+   "seg": "103a.8.p1",
+   "chapter": "103a.8",
+   "modern": "Different gods, then, have shown different special characters. Some make the wholes, and give being to form among the things that are and to the order in them; some supply life and beget its many kinds; some guard, keeping undefiled the unchanging order of things and their unbroken holding together; others lead some other power, and save all things by giving of themselves. In the same way the whole order of love, the order of every lover, is the cause of turning for all the things that are, towards divine beauty. It leads all that comes second up to that beauty, joins them to it and settles them in it; and it fills what comes after it from there, and lights them with the gifts of divine light that go forth from there.",
+   "greek": "Ὥσπερ τοίνυν ἄλλων θεῶν ἰδιότητες ἄλλαι πεφήνασιν, αἱ μὲν δημιουργικαὶ τῶν ὅλων, καὶ τοῦ εἴδους ὑποστατικαὶ τῶν ὄντων καὶ τῆς ἐν αὐτοῖς διακοσμήσεως· αἱ δὲ, τῆς ζωῆς χορηγοὶ καὶ γεννητικαὶ τῶν ποικίλων τῆς ζωῆς γενῶν· αἱ δὲ, φρουρητικαὶ, τὴν ἄτρεπτον τάξιν τῶν πραγμάτων καὶ τὴν ἄλυτον συνοχὴν ἀχράντως διαφυλάττουσαι· αἱ δὲ, ἄλλης τινὸς δυνάμεως ἐξηγούμεναι, καὶ σώζουσαι τὰ πάντα διὰ τῆς ἑαυτῶν μεταδόσεως· οὕτω δὴ καὶ ἡ ἐρωτικὴ πᾶσα τάξις ἐπιστροφῆς ἐστιν αἰτία καὶ οὖσιν ἅπασι πρὸς τὸ θεῖον κάλλος, ἀνάγουσα μὲν τὰ δεύτερα πάντα πρὸς ἐκεῖνο, καὶ συνάπτουσα αὐτῷ καὶ ἐνιδρύουσα, πληροῦσα δὲ ἀπ’ ἐκείνου τὰ μεθ’ ἑαυτήν, καὶ ἐπιλάμπουσα τὰς προϊούσας ἐκεῖθεν τοῦ θείου φωτὸς μεταδόσεις.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:105",
+     "label": "II p. 78"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:108",
+     "label": "II p. 81"
+    }
+   ]
+  },
+  {
+   "seg": "103a.8.p2",
+   "chapter": "103a.8",
+   "modern": "This, surely, is why the speech in the Symposium called Love a great daemon: Love shows first in himself the power of this middle place. For between everything that turns and the cause of its turning, which the lower things long for, there is a middle. So the whole chain of love, from which every lover comes, set out in front of the cause of beauty, gathers all things to it and calls them back to share in it; it made its own going forth a middle one, between what is lovable and those led up through love; and so it set out in itself, beforehand, the pattern of the whole order of daemons, holding among the gods that middle place which the daemons were given between divine and mortal things.",
+   "greek": "Καὶ διὰ τοῦτο δή που καὶ ὁ ἐν τῷ Συμποσίῳ λόγος δαίμονα μέγαν ἐκάλει τὸν ἔρωτα, τὴν τῆς μεσότητος ταύτης δύναμιν ἐν ἑαυτῷ πρώτως ἐπιδεικνύμενον. Παντὸς γὰρ τοῦ ἐπιστρεφομένου, καὶ τοῦ τῆς ἐπιστροφῆς αἰτίου καὶ ὀρεκτοῦ τοῖς δευτέροις, ὑπάρχοντος μέσου, ἡ τοίνυν ἐρωτικὴ πᾶσα σειρὰ, τῆς τοῦ κάλλους αἰτίας προβεβλημένη, συνάγει πάντα πρὸς αὐτὴν, καὶ ἀνακαλεῖται πρὸς τὴν μέθεξιν αὐτῆς· καὶ μέσην ἐποιήσατο πρόοδον, τοῦ τε ἐραστοῦ καὶ τῶν δι’ ἔρωτος ἀναγομένων· καὶ διὰ τοῦτο τῆς ὅλης τῶν δαιμόνων τάξεως ἐν ἑαυτῇ τὸ παράδειγμα προεστήσατο, ταύτην ἐν τοῖς θεοῖς ἔχουσα τὴν μεσότητα, ἣν οἱ δαίμονες τῶν τε θείων μεταξὺ καὶ τῶν θνητῶν ἐκληρώσαντο πραγμάτων.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:108",
+     "label": "II p. 81"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:109",
+     "label": "II p. 82"
+    }
+   ],
+   "notes": [
+    "The Symposium (202d-e): Diotima calls Love \"a great daemon, Socrates, for everything daemonic is between god and mortal\".",
+    "\"What is lovable\": the Greek as printed is ἐραστοῦ, which can come from ἐραστής, \"lover\", or from ἐραστός, \"lovable\"; a middle between beauty and those led up to it asks for \"lovable\", and the modern version reads it so."
+   ]
+  },
+  {
+   "seg": "103a.9.p1",
+   "chapter": "103a.9",
+   "modern": "Since the whole chain of love, the source of every lover, comes to be among the gods with this special character, let us think of its summit, one in form and hidden, as set, beyond words, in the very first orders of the gods, united with the first and intelligible beauty, separate from all the things that are. Let us see its middle going forth as shining out fully beforehand among the gods before the world: showing itself first in the manner of intellect, taking a leading form in the second rank, and at the end of that whole order set free above all things in the world. And let us look at its third step down, divided in many forms about the world, putting forth from itself many orders and powers, and dealing them out to the different parts of the universe.",
+   "greek": "Κατὰ δὴ τὴν ἰδιότητα ταύτην ἁπάσης τῆς ἐρωτικῆς σειρᾶς ἐν τοῖς θεοῖς ὑφισταμένης, τὴν μὲν ἑνοειδῆ καὶ κρύφιον αὐτῆς ἀκρότητα νοήσωμεν ἐν αὐτοῖς τοῖς πρωτίστοις διακόσμοις τῶν θεῶν ἀῤῥήτως ἱδρυμένην, καὶ τῷ πρωτίστῳ καὶ νοητῷ κάλλει συνηνωμένην, χωριστῶς ἀφ’ ὅλων τῶν ὄντων· τὴν δὲ μέσην πρόοδον αὐτῆς, ἐν τοῖς πρὸ τοῦ κόσμου θεοῖς προλάμπουσαν τελέως θεωρήσωμεν· νοερῶς μὲν τὴν πρώτην ἐκφαίνουσαν ἑαυτὴν, ἡγεμονικὸν δὲ εἶδος ἐν δευτέρᾳ τάξει λαχοῦσαν, πρὸς δὲ τῷ τέλει τῆς ὅλης διακοσμήσεως, ἀπολύτως τῶν ἐγκοσμίων πάντων ὑπεριδρυμένην· τὴν δὲ αὖ τρίτην ὑπόβασιν ταύτης περὶ τὸν κόσμον πολυειδῶς μεριζομένην, καὶ πολλὰς τάξεις καὶ δυνάμεις ἀφ’ ἑαυτῆς προβάλλουσαν, καὶ τοῖς διαφόροις μέρεσι τοῦ παντὸς διανέμουσαν κατίδωμεν.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:109",
+     "label": "II p. 82"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:112",
+     "label": "II p. 85"
+    }
+   ],
+   "notes": [
+    "\"The gods before the world\" and \"set free\" render Proclus' terms for the orders of gods above the visible cosmos (πρὸ τοῦ κόσμου) and for the \"unattached\" gods (ἀπολύτως) at their end, which he sets out in his Platonic Theology. The modern version keeps them plain."
+   ]
+  },
+  {
+   "seg": "103a.9.p2",
+   "chapter": "103a.9",
+   "modern": "For after the single first-working principle of love, and its being that triples and perfects itself from itself, the whole many-sided host of loves appears. From there the choirs of angels are filled with a share of love; the herds of daemons, filled by this god, follow the gods as they are led up to intelligible beauty; the troops of heroes revel like Bacchants with the daemons and the angels in sharing the beautiful; and all things, one may say, are woken, rekindled and warmed by the outflow of beauty.",
+   "greek": "Μετὰ γὰρ τὴν ἑνιαίαν καὶ πρωτουργὸν τοῦ ἔρωτος ἀρχὴν, καὶ τὴν τριπλασιαζομένην καὶ τελειουμένην ταύτης ἀφ’ ἑαυτῆς ὑπόστασιν, τὸ παντοδαπὸν τῶν ἐρώτων πλῆθος ἀναφαίνεται· ὅθεν δὴ πληροῦνται μὲν οἱ τῶν ἀγγέλων χοροὶ τῆς τοῦ ἔρωτος μετουσίας· αἱ δὲ τῶν δαιμόνων ἀγέλαι διὰ τὴν τοῦ θεοῦ τούτου πλήρωσιν συνέπονται τοῖς θεοῖς ἐπὶ τὸ νοητὸν κάλλος ἀναγομένοις· αἱ δὲ τῶν ἡρώων στρατηγίαι συμβακχεύουσι τοῖς δαίμοσι καὶ τοῖς ἀγγέλοις περὶ τὴν μέθεξιν τοῦ καλοῦ· πάντα δ’, ὡς εἰπεῖν, ἐγείρεται καὶ ἀναζωπυρεῖται καὶ θάλπεται περὶ τὴν ἀποῤῥοὴν τοῦ κάλλους.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:112",
+     "label": "II p. 85"
+    }
+   ]
+  },
+  {
+   "seg": "103a.10.p1",
+   "chapter": "103a.10",
+   "modern": "And indeed the souls of men too have a share in such inspiration. Through their kinship with the god they are moved about the beautiful, and they come down into the place of becoming to do good to less perfect souls, in providence for those who need saving. For gods, and the gods' followers, stay in their own abodes and do good to all that is second to them, and turn it to themselves; but the souls of men, coming down and touching becoming, copy the good-like providence of the gods.",
+   "greek": "Καὶ δὴ καὶ ἀνθρώπων ψυχαὶ μεταλαγχάνουσι τῆς τοιαύτης ἐπιπνοίας, καὶ διὰ τὴν πρὸς τὸν θεὸν οἰκειότητα, κινοῦνται περὶ τὸ καλὸν, καὶ κατίασιν εἰς τὸν τῆς γενέσεως τόπον, ἐπ’ εὐεργεσίᾳ μὲν τῶν ἀτελεστέρων ψυχῶν, προνοίᾳ δὲ τῶν σωτηρίας δεομένων. Θεοὶ μὲν γὰρ καὶ οἱ τῶν θεῶν ὀπαδοὶ, μένοντες ἐν τοῖς ἑαυτῶν ἤθεσιν, εὐεργετοῦσι τὰ δεύτερα πάντα καὶ πρὸς ἑαυτοὺς ἐπιστρέφουσι· ψυχαὶ δὲ ἀνθρώπων κατιοῦσαι καὶ γενέσεως ἐφαπτόμεναι, τὴν ἀγαθοειδῆ πρόνοιαν ἀποτυποῦνται τῶν θεῶν.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:113",
+     "label": "II p. 86"
+    }
+   ]
+  },
+  {
+   "seg": "103a.10.p2",
+   "chapter": "103a.10",
+   "modern": "So, just as different souls, ranked under different gods, visit the mortal place undefiled, and the souls turning about in it, and some help the less perfect by prophecy, others by the rites that perfect, others by divine medicine: so too the souls that have chosen the life of a lover are moved by the god who watches over beautiful boys to take care of those of good nature; they are led up from visible beauty to divine beauty, they lead their beloved up with them, and they turn both themselves and those they love towards the beautiful itself.",
+   "greek": "Ὥσπερ οὖν ἄλλαι ψυχαὶ κατ’ ἄλλον ἱστάμεναι θεὸν, ἀχράντως ἐπιφοιτῶσι τῷ θνητῷ τόπῳ καὶ ταῖς ἐν τούτῳ στρεφομέναις ψυχαῖς, καὶ αἱ μὲν, διὰ μαντικῆς ὠφελοῦσι τὰς ἀτελεστέρας, αἱ δὲ διὰ τελεστικῆς, ἄλλαι δὲ διὰ τῆς θείας ἰατρικῆς· οὕτω δὴ καὶ αἱ τὸν ἐρωτικὸν βίον ἑλόμεναι ψυχαὶ κινοῦνται μὲν ὑπὸ τοῦ θεοῦ τοῦ τῶν καλῶν παίδων ἐφόρου πρὸς τὴν ἐπιμέλειαν τῶν εὖ πεφυκότων, ἀπὸ δὲ τοῦ φαινομένου κάλλους ἀνάγονται πρὸς τὸ θεῖον κάλλος, καὶ μεθ’ ἑαυτῶν ἀνάγουσι τὰ παιδικὰ, καὶ ἐπιστρέφουσιν ἑαυτούς τε καὶ τοὺς ἐρωμένους ἐπ’ αὐτὸ τὸ καλόν.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:113",
+     "label": "II p. 86"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:116",
+     "label": "II p. 89"
+    }
+   ],
+   "notes": [
+    "\"The god who watches over beautiful boys\" is Plato's phrase for Love in the Phaedrus (265c), \"Love, overseer of beautiful boys\". Souls ranked under different gods recall the Phaedrus too, where each soul follows its own god (252c-253c)."
+   ]
+  },
+  {
+   "seg": "103a.10.p3",
+   "chapter": "103a.10",
+   "modern": "This is just what divine love does first, up there: it unites itself with what is lovable, it stretches up towards it whatever shares in the power that goes forth from it, and it makes in them all one bond and one friendship that cannot be undone, with one another and with the beautiful itself.",
+   "greek": "Ὃ δὴ καὶ ὁ θεῖος ἔρως ἐκεῖ πρώτως ἀπεργάζεται, καὶ ἑαυτὸν ἐνίζων τῷ ἐραστῷ, καὶ τὰ μετέχοντα τῆς ἀπ’ αὐτοῦ προϊούσης δυνάμεως ἀνατείνων ἐπ’ ἐκεῖνο, καὶ πᾶσιν ἕνα δεσμὸν καὶ μίαν φιλίαν ἀδιάλυτον ἐμποιῶν, πρός τε ἄλληλα, καὶ πρὸς αὐτὸ τὸ καλόν.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:116",
+     "label": "II p. 89"
+    }
+   ],
+   "notes": [
+    "\"With what is lovable\": Cousin prints τῷ ἐραστῷ, from ἐραστός, \"lovable\"; one of his manuscripts (A) has τῷ ἐραστῇ, \"with the lover\"."
+   ]
+  },
+  {
+   "seg": "103a.11.p1",
+   "chapter": "103a.11",
+   "modern": "Souls possessed by love, then, and sharing the inspiration from there, use visible beauty as an undefiled vehicle and are carried round to intelligible beauty, and they set that up as the end of their activity. Kindling a light for the less perfect souls, they lead them all up too to the divine, and dance with them round the one source of all beauty.",
+   "greek": "Αἱ μὲν οὖν κάτοχοι τῷ ἔρωτι ψυχαὶ καὶ μετέχουσαι τῆς ἐκεῖθεν ἐπιπνοίας, ἀχράντῳ ὀχήματι χρώμεναι τῷ φαινομένῳ κάλλει, περιάγονται πρὸς τὸ νοητὸν κάλλος, καὶ τέλος ἐκεῖνο περίστανται τῆς ἑαυτῶν ἐνεργείας. καὶ φῶς ἀνάψασαι ταῖς ἀτελεστέραις ψυχαῖς, ἀνάγουσι καὶ πάσας ἐπὶ τὸ θεῖον, καὶ συγχορεύουσιν αὐταῖς περὶ τὴν μίαν τοῦ παντὸς κάλλους πηγήν·",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:116",
+     "label": "II p. 89"
+    }
+   ]
+  },
+  {
+   "seg": "103a.11.p2",
+   "chapter": "103a.11",
+   "modern": "But the souls that have fallen from the gift that comes from there, through bad upbringing, though they were given a lover's nature, fall upon the images of beautiful things through ignorance of the true ones. They make much of the beauties that are in matter and divided, and are struck with wonder at them, not knowing what has happened to them. They stand away from all that is divine, and are borne down into the godless darkness of matter. They seem to hasten to union with the beautiful, as wholly loving souls do, but they deceive themselves: instead of union they are carried off into the scattering of life and the sea of unlikeness, and instead of what is truly and really beautiful they are yoked to ugliness itself and the shapelessness of matter. For how could things in matter pass through one another? Or how is visible beauty pure and unmixed, when it is mingled with matter and filled with the shapelessness that lies beneath it?",
+   "greek": "αἱ δὲ τῆς ἐκεῖθεν δόσεως ἀποπεσοῦσαι διὰ μοχθηρὰν τροφὴν, φύσιν δὲ ἐρωτικὴν λαχοῦσαι, καὶ τοῖς εἰδώλοις τῶν καλῶν προσπίπτουσαι διὰ τὴν τῶν ἀληθινῶν ἄγνοιαν, φιλοφρονοῦνται μὲν τὰ ἔνυλα καὶ μεριστὰ κάλλη, καὶ ταῦτα ἐκπλήττονται, τὸ ἑαυτῶν ἀγνοοῦσαι πάθος ὃ πεπόνθασιν· ἀφίστανται δὲ τοῦ θείου παντὸς, καὶ εἰς τὸ ἄθεον ὑποφέρονται καὶ σκοτεινὸν τῆς ὕλης· καὶ δοκοῦσι μὲν εἰς ἕνωσιν τὴν πρὸς τὸ καλὸν σπεύδειν, ὥσπερ αἱ τελέως ἐρωτικαὶ ψυχαί, λανθάνουσι δὲ ἑαυτὰς, ἀντὶ μὲν τῆς ἑνώσεως ἐπὶ τὸν σκεδασμὸν φερόμεναι τῆς ζωῆς καὶ τὸν τῆς ἀνομοιότητος πόντον, ἀντὶ δὲ τοῦ ἀληθοῦς καὶ ὄντως ὄντος καλοῦ πρὸς τὸ αἶσχος αὐτὸ καὶ τὴν ὑλικὴν ἀμορφίαν συζευγνύμεναι. Ποῦ γὰρ ἢ τὰ ἔνυλα δι’ ἀλλήλων χωρῆσαι δυνατὸν, ἢ τὸ φαινόμενον κάλλος καθαρόν ἐστι καὶ εἰλικρινὲς, ὕλῃ συμμιγὲς ὂν καὶ τῆς ὑποκειμένης ἀμορφίας ἀναπεπλησμένον;",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:116",
+     "label": "II p. 89"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:117",
+     "label": "II p. 90"
+    }
+   ],
+   "notes": [
+    "\"The sea of unlikeness\" is from the Statesman (273d-e), where the world, left to itself, is in danger of sinking \"into the boundless sea of unlikeness\".",
+    "\"Pass through one another\": bodies cannot be wholly in one another, so lovers of bodies can never be united; Proclus asks it as a question and does not explain it."
+   ]
+  },
+  {
+   "seg": "103a.12.p1",
+   "chapter": "103a.12",
+   "modern": "So we have told apart the many forms of the orders of love, and the souls that share in it truly from those that turn aside the gift that comes from there. (For \"an outflow of intellect makes cunning\", says Plotinus, and a share of wisdom gone wrong makes the sophistry here below; so too love's light, when it finds a bad receiver, produces the tyrannical, unbridled life.) Since, then, we have told these apart, let us go through Plato's very words and look at the differences between the lovers, which Socrates sketches for us by his first words; let us consider who is the divine lover and what he gives the beloved, and who the common lover is, who follows the multitude in the soul.",
+   "greek": "Ἐπειδὴ τοίνυν ἀπ’ ἀλλήλων διεστησάμεθα τάς τε τάξεις τοῦ ἔρωτος τὰς πολυειδεῖς, καὶ τὰς ψυχὰς τάς τε γνησίως αὐτοῦ μετεχούσας καὶ τὰς παρατρεπούσας τὴν ἐκεῖθεν δόσιν· (καὶ γὰρ νοῦ ἀπόῤῥοια πανουργίαν ποιεῖ, φησὶν ὁ Πλωτῖνος, καὶ σοφίας μέθεξις ἡμαρτημένη τὴν ἐνταῦθα σοφιστικὴν ὑφίστησιν, ὥστε καὶ ἡ τοῦ ἔρωτος ἔλλαμψις, τῆς ὑποδοχῆς μοχθηρᾶς τυχοῦσα, τὴν τυραννικὴν καὶ ἀκόλαστον ἀποτελεῖ ζωήν.) ἐπειδὴ δ’ οὖν ταῦτα διεστησάμεθα, φέρε καὶ δι’ αὐτῶν χωροῦντες τῶν Πλατωνικῶν ῥημάτων, κατίδωμεν τὰς τῶν ἐραστῶν πρὸς ἀλλήλους διαφορότητας, ἃς ὁ Σωκράτης ἡμῖν ὑπογράφει δι’ αὐτῶν τῶν πρώτων λέξεων· καὶ θεωρήσωμεν τίς μὲν ὁ θεῖος, καὶ οἷα παρέχει τῷ ἐρωμένῳ, τίς δὲ ὁ πάνδημος καὶ ὁ τῷ πλήθει τῆς ψυχῆς ἐφεπόμενος.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:117",
+     "label": "II p. 90"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:120",
+     "label": "II p. 93"
+    }
+   ],
+   "notes": [
+    "Plotinus' saying is given as Proclus quotes it; the modern version does not name the place in the Enneads."
+   ]
+  },
+  {
+   "seg": "103a.12.p2",
+   "chapter": "103a.12",
+   "modern": "The common and vulgar lover wonders at the beloved, pursues him, and is all aflutter about him; the true lover gives the beloved cause for wonder, and stirs him in every way to amazement at the life within him. And this is fitting. For the worse lover owns that he is the beloved's subject, and says he needs him; the other is sufficient in himself, full of power, and promises to give his own goods to the souls of those he loves.",
+   "greek": "Ὁ μὲν τοίνυν δημώδης καὶ φορτικὸς ἐραστὴς, θαυμάζει τὸν ἐρώμενον καὶ ἐπιδιώκει, καὶ ἐπτόηται περὶ αὐτόν· ὁ δὲ ἀληθινὸς ἐραστὴς, θαῦμα παρέχει τῷ ἐρωμένῳ, καὶ εἰς ἔκπληξιν αὐτὸν ἀνακινεῖ παντοδαπῶς τῆς ἐν αὐτῷ ζωῆς· καὶ τοῦτο εἰκότως. Ὁ μὲν γὰρ χείρων ὁμολογεῖ τῶν παιδικῶν ὑπάρχειν, καὶ δεῖσθαι φησὶν αὐτῶν· ὁ δὲ αὐτάρκης ἐστὶ, καὶ δυνάμεως πλήρης, καὶ μετάδοσιν ἐπαγγέλλεται τῶν οἰκείων ἀγαθῶν εἰς τὰς τῶν ἐρωμένων ψυχάς.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:120",
+     "label": "II p. 93"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:121",
+     "label": "II p. 94"
+    }
+   ],
+   "notes": [
+    "Socrates' first words are \"Son of Cleinias, I think you wonder\" (103a): it is the beloved who wonders."
+   ]
+  },
+  {
+   "seg": "103a.12.p3",
+   "chapter": "103a.12",
+   "modern": "Second, the inspired lover watches over the beloved from his swaddling clothes, and comes to him when his bloom has ended, when the bodily tumults have ceased; for he is not a lover of the body, but of the soul, and when the body's flower is over, the beauty of the soul shines out. But the common lover reaches for the beloved's prime as for ripe fruit, and takes no trouble over him before or after: as soon as the bloom ends he leaves the boy, as befits his own principles. Being a lover of the body, he measures his love by the prime of visible beauty.",
+   "greek": "Δεύτερον τοίνυν, ὁ μὲν ἔνθεος ἐραστὴς ἐκ σπαργάνων τὸν ἐρώμενον ἐπισκοπεῖ καὶ μετὰ τὴν λῆξιν τῆς ὥρας πρόσεισιν αὐτῷ, τῶν σωματικῶν παυσαμένων θορύβων· οὐ γάρ ἐστι τοῦ σώματος ἐραστὴς, ἀλλὰ τῆς ψυχῆς· τοῦ δὲ σώματος παυσαμένου τῆς ἄνθης, τὸ τῆς ψυχῆς ἀναλάμπει κάλλος. Ὁ δέ γε πάνδημος, ὥσπερ ὀπώρας ὀρέγεται τῆς ἀκμῆς τοῦ ἐρωμένου· καὶ οὔτε πρότερον, οὔθ’ ὕστερον αὐτὸν περιεργάζεται· ἀλλ’ ἅμα τῇ ὥρᾳ παυσαμένῃ, καὶ τῶν παιδικῶν ἀπαλλάττεται, καὶ πέπονθε τὸ εἰκὸς ταῖς οἰκείαις ἀρχαῖς. Τοῦ σώματος γὰρ ὢν ἐραστὴς, τῇ τοῦ φαινομένου κάλλους ἀκμῇ παραμετρεῖ τὸν ἔρωτα.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:121",
+     "label": "II p. 94"
+    }
+   ],
+   "notes": [
+    "So the dialogue itself (131c-d): the lover of Alcibiades' body goes away when it stops flowering; the lover of his soul stays, \"as the body's bloom ends\"."
+   ]
+  },
+  {
+   "seg": "103a.12.p4",
+   "chapter": "103a.12",
+   "modern": "Third, the one is steadfast and always the same, since he is bound to something steadfast; the other changes easily, and while there is vulgar, but quick to tip and ready to leave the boy. For his friendship for what is in matter makes him like what he loves, and so he too, surely, becomes unstable, and readily changes his intimacy with the boy.",
+   "greek": "Τὸ τρίτον τοίνυν, ὁ μὲν μόνιμος ἐστὶ καὶ ἀεὶ ὁ αὐτὸς, ἅτε δὴ μονίμῳ πράγματι συντακείς· ὁ δὲ, εὐμετάβολος· καὶ παρὼν μὲν φορτικός· ὀξύῤῥοπος δὲ καὶ ῥᾳδίως ἀπολείπων τὰ παιδικὰ. Διὰ γὰρ τὴν περὶ τὸ ἔνυλον φιλίαν ὁμοιούμενος τῷ ἐραστῷ, γίνεται δή που καὶ αὐτὸς ἄστατος, καὶ ῥᾳδίως μεταβάλλων τὴν πρὸς τὰ παιδικὰ συνήθειαν.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:121",
+     "label": "II p. 94"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:124",
+     "label": "II p. 97"
+    }
+   ],
+   "notes": [
+    "Pausanias' speech in the Symposium (183e): the vulgar lover \"is not steadfast, since he loves nothing steadfast; as soon as the bloom of the body he loved ends, he flies away\".",
+    "\"Like what he loves\": Cousin prints τῷ ἐραστῷ, \"what is lovable\" to him, that is the body; one of his manuscripts (A) has τῷ ἐραστῇ, which would make the beloved \"like his lover\"."
+   ]
+  },
+  {
+   "seg": "103a.12.p5",
+   "chapter": "103a.12",
+   "modern": "Let the fourth mark of the difference between the men be this: the one, even when present with the beloved, is in a way apart from him, neither touching him nor talking with him, nor speaking to him at all, until the time for helping his soul has come; the other loves to be joined to him through the senses, and becomes a nuisance, ever changing, and inventing every kind of pretext to talk to him.",
+   "greek": "Τέταρτον στοιχεῖον τῆς τῶν ἀνδρῶν λεγέσθω διαφορᾶς· ὅτι ὁ μὲν καὶ παρὼν τῷ ἐρωμένῳ κεχώρισται τρόπον τινὰ αὐτοῦ, μήτε ἁπτόμενος αὐτοῦ, μήτε προσομιλῶν, μηθ’ ὅλως διαλεγόμενος, ὅταν μὴ καιρὸς ᾖ τῆς ψυχικῆς ὠφελείας· ὁ δὲ ταῖς αἰσθήσεσιν αὐτῷ φιλεῖ συνάπτεσθαι, καὶ δι’ ὄχλου γίνεται, ποικιλλόμενος καὶ παντοδαπὰς ἀφορμὰς τῶν πρὸς αὐτὸν λόγων ἐπινοῶν.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:124",
+     "label": "II p. 97"
+    }
+   ],
+   "notes": [
+    "Socrates says at 103a that the other lovers \"were a nuisance to you, talking with you\", while he \"did not even speak to you\" in all these years.",
+    "\"In a way apart from him\": Cousin prints κεχώρισται, \"is apart\"; his manuscripts read κεχάρισται, \"does him a kindness\", and he refers to his annotations."
+   ]
+  },
+  {
+   "seg": "103a.12.p6",
+   "chapter": "103a.12",
+   "modern": "A fifth you could take from the very words: the divine lover is called one, first and only, as being akin to the one and the good, and as stretching up to the simple, one-formed pattern of beautiful things; the vulgar lover is many, and heaped together at random. For in calling the lovers of images \"others\", but the inspired friend \"first and only\", Socrates shows up their life as unbounded, divided and scattered every way, and honours his virtue as godlike, far from the multitude in matter, and set above all the passions of becoming.",
+   "greek": "Πέμπτον ἀπ’ αὐτῶν τῶν ῥημάτων λάβοις ἂν, τὸ τὸν μὲν θεῖον ἐραστὴν ἕνα λέγεσθαι καὶ πρῶτον καὶ μόνον, ἅτε οἰκεῖον ὄντα τῷ ἑνὶ καὶ τῷ ἀγαθῷ, καὶ πρὸς τὸ ἁπλοῦν καὶ ἑνοειδὲς παράδειγμα τῶν καλῶν ἀνατεινόμενον· τὸν δὲ φορτικὸν, πολὺν, καὶ εἰκῇ συμπεφορημένον. Τὸ γὰρ ἄλλους μὲν προσειπεῖν τοὺς τῶν εἰδώλων ἐραστὰς, πρῶτον δὲ καὶ μόνον τὸν ἔνθεον φίλον, ἐκείνων μὲν τὴν ἀόριστον καὶ μεριστὴν καὶ πάντῃ διεσκεδασμένην ἀπελέγχει ζωήν· τούτου δὲ τὴν θεοπρεπῆ καὶ πόῤῥω τοῦ ἐνύλου πλήθους οὖσαν, καὶ πάντων τῶν γενεσιουργῶν παθῶν ἐξῃρημένην ἀρετὴν ἀποσεμνύνει.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:124",
+     "label": "II p. 97"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:125",
+     "label": "II p. 98"
+    }
+   ],
+   "notes": [
+    "At 103a Socrates calls himself \"the first of your lovers\", who \"alone\" does not leave, \"the others having stopped\"."
+   ]
+  },
+  {
+   "seg": "103a.13.p1",
+   "chapter": "103a.13",
+   "modern": "One could say much else, stirred by these words, about what separates these lovers from one another.",
+   "greek": "Πολλὰ δ’ ἂν καὶ ἄλλα τις ἔχοι λέγειν ἐκ τούτων ἀνακινούμενος τὰ χωρίζοντα τοὺς ἐραστὰς τούτους ἀπ’ ἀλλήλων.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:125",
+     "label": "II p. 98"
+    }
+   ]
+  },
+  {
+   "seg": "103a.13.p2",
+   "chapter": "103a.13",
+   "modern": "Socrates does not yet refuse to call the many lovers too, because it has not yet been settled what the true man is, and where Alcibiades himself is to be placed. For then Socrates would rightly be seen as the only lover of Alcibiades, and the others as loving what is Alcibiades', and, carrying about an image of love, turning about the images, neglecting his soul, and wholly ignorant of the real Alcibiades. Then, too, he will expose their pretence about love, and show that, having missed the true inspiration of love, they hold up the image of love before them, and so are entwined with the image of beauty. For every lover's order is ranked with a beauty that answers to it; and as divine love is led up to divine beauty, so the love of images hastens to lay hold of such a beauty. This is all it can see; towards the divine it is like one wholly blinded. For the eyes of the soul of the many, the Eleatic Stranger says, cannot bear to look towards the truth.",
+   "greek": "Ἐραστὰς γὰρ οὐκ ἀποδοκιμάζει καὶ τοὺς πολλοὺς ὁ Σωκράτης ἔτι καλεῖν, διότι μή πω διακέκριται τίς ὁ ἀληθινός ἐστιν ἄνθρωπος, καὶ ποῦ τὸν Ἀλκιβιάδην αὐτὸν ὑποθετέον. Τότε γὰρ ἂν δεόντως ὀφθείη μόνος ἐραστὴς Ἀλκιβιάδου Σωκράτης· οἱ δὲ ἄλλοι, τῶν Ἀλκιβιάδου μὲν ἐρῶντες, καὶ ἅτε εἰδωλικὸν ἔρωτα περιφέροντες, περὶ τὰ εἴδωλα στρεφόμενοι καὶ τῶν ψυχῶν ἠμεληκότες, καὶ τὸν ὄντως Ἀλκιβιάδην ἀγνοοῦντες παντάπασι. Τότε τοίνυν καὶ τὴν ὑπόκρισιν αὐτῶν τὴν περὶ τὸν ἔρωτα διελέγξει, καὶ ὅτι τῆς ἀληθινῆς τοῦ ἔρωτος ἐπιπνοίας διημαρτηκότες, τὸ εἴδωλον προβέβληνται τοῦ ἔρωτος, καὶ κατὰ τοῦτο τῷ εἰδώλῳ τοῦ κάλλους συμπλέκονται. Πᾶσα γὰρ ἐρωτικὴ τάξις συστοίχῳ τινὶ κάλλει συντέτακται· καὶ ὥσπερ ὁ θεῖος ἔρως ἐπὶ τὸ θεῖον κάλλος ἀνάγεται, οὕτω δὴ καὶ ὁ εἰδωλικὸς τοῦ τοιούτου κάλλους ἀντιλαμβάνεσθαι σπεύδει. Τοῦτο γὰρ δὴ καὶ ὁρᾶν δύναται μόνον· πρὸς δὲ τὸ θεῖον ἐσκοτωμένῳ παντάπασιν ἔοικεν. Τὰ γὰρ τῶν πολλῶν τῆς ψυχῆς ὄμματα καρτερεῖν, πρὸς τὸ ἀληθὲς ἀφορῶντα, ἀδύνατα φησὶν ὁ Ἐλεάτης ξένος.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:125",
+     "label": "II p. 98"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:128",
+     "label": "II p. 101"
+    }
+   ],
+   "notes": [
+    "The dialogue settles it at 131c-e: whoever loved Alcibiades' body loved something of his, not Alcibiades; there has been no lover of Alcibiades but one, Socrates.",
+    "The Sophist (254a-b): \"the eyes of the soul of the many cannot bear to look towards the divine\". Proclus' text, as Cousin prints it, has \"the truth\" where Plato has \"the divine\"; Cousin notes this."
    ]
   }
  ],

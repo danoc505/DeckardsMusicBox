@@ -46,6 +46,13 @@ PLATO = [
      "αισχρω δε και κακω και τοισ εναντιοισ φθινει τε και διολλυται"),
     ("103a.3.p2", "tlg031", ["29b"], "29b-c", "ων υπαρχουσιν εξηγηται", "ωνπερ εισιν εξηγηται"),
     ("103a.2.p1", "tlg013", ["133c"], "Alcibiades I 133c", "το θειον απαν", "παν το θειον"),
+    ("103a.8.p2", "tlg011", ["202d"], "Symposium (202d-e)", "δαιμονα μεγαν", "δαιμων μεγασ"),
+    ("103a.10.p2", "tlg012", ["265c"], "Phaedrus (265c)", "των καλων παιδων εφορου", "καλων παιδων εφορον"),
+    ("103a.11.p2", "tlg008", ["273d", "273e"], "Statesman (273d-e)", "τησ ανομοιοτητοσ ποντον", "τησ ανομοιοτητοσ απειρον οντα ποντον"),
+    ("103a.12.p3", "tlg013", ["131c"], "131c-d", "τησ ωρασ", "επειδη ληγει ανθουν"),
+    ("103a.12.p4", "tlg011", ["183e"], "Symposium (183e)", "μονιμω πραγματι", "ουδε μονιμου ερων πραγματοσ"),
+    ("103a.13.p2", "tlg013", ["131e"], "131c-e", "μονοσ εραστησ αλκιβιαδου", "αλλʼ η εισ μονοσ"),
+    ("103a.13.p2", "tlg007", ["254a", "254b"], "Sophist (254a-b)", "ομματα καρτερειν", "ομματα καρτερειν προσ το θειον αφορωντα αδυνατα"),
 ]
 
 
@@ -56,13 +63,18 @@ def load():
 class Proofreading(unittest.TestCase):
     def test_the_pages_in_order(self):
         pages = proofread.parse(TID)
-        self.assertEqual(len(pages), 39)
+        self.assertEqual(len(pages), 50)
         self.assertEqual(pages[0]["label"], "II p. 2")
-        self.assertEqual(pages[-1]["label"], "II p. 78")
+        self.assertEqual(pages[-1]["label"], "II p. 101")
         nums = [int(p["label"].rsplit(" ", 1)[1]) for p in pages]
         # Cousin prints two pages of Greek, then two of his Latin: the Greek runs on from page to page (p. 47 and 48
-        # are Latin, and the first lemma starts p. 49).
-        self.assertEqual(nums, [2] + [n for k in range(5, 46, 4) for n in (k, k + 1)] + [n for k in range(49, 78, 4) for n in (k, k + 1)])
+        # are Latin, and the first lemma starts p. 49). Proclus on love runs on from p. 78 to p. 101.
+        self.assertEqual(nums, [2] + [n for k in range(5, 46, 4) for n in (k, k + 1)] + [n for k in range(49, 98, 4) for n in (k, k + 1)] + [101])
+        # Two pages are blank leaves in this scan, and are proofread from the other scan of the same volume.
+        supplied = {p["label"]: p["supplied"] for p in pages if p.get("supplied")}
+        self.assertEqual(sorted(supplied), ["II p. 81", "II p. 94"])
+        for url in supplied.values():
+            self.assertTrue(url.startswith("https://archive.org/details/procliphilosophi00proc/page/n"), url)
         self.assertEqual(len({p["unit"] for p in pages}), len(pages))
 
     def test_the_rules_of_the_transcription(self):
@@ -77,7 +89,11 @@ class Proofreading(unittest.TestCase):
         g = proofread.joined(TID)
         self.assertTrue(g.startswith("ΠΡΟΚΛΟΥ ΔΙΑΔΟΧΟΥ ΕΙΣ ΤΟΝ ΠΛΑΤΩΝΟΣ ΠΡΩΤΟΝ ΑΛΚΙΒΙΑΔΗΝ. Τῶν Πλατωνικῶν διαλόγων"))
         self.assertIn("τάχα ἂν τῆς τοῦ Πλάτωνος τυγχάνοιμεν διανοίας. Ὦ παῖ Κλεινίου, οἶμαί σε θαυμάζειν", g)
-        self.assertTrue(g.endswith("περὶ ἔρωτος ὅσα προσήκει τοῖς παροῦσι λόγοις, θεωρήσωμεν."))
+        self.assertIn("περὶ ἔρωτος ὅσα προσήκει τοῖς παροῦσι λόγοις, θεωρήσωμεν. Ὥσπερ τοίνυν ἄλλων θεῶν", g)
+        self.assertTrue(g.endswith("ἀδύνατα φησὶν ὁ Ἐλεάτης ξένος."))
+        # The supplied pages join the scan's pages on both sides: ἐπαγ-|γέλλεται is not split, nor p. 93 to p. 94.
+        self.assertIn("ὁ δὲ αὐτάρκης ἐστὶ, καὶ δυνάμεως πλήρης", g)
+        self.assertIn("ὁμοιούμενος τῷ ἐραστῷ, γίνεται δή που καὶ αὐτὸς ἄστατος", g)
         # Words broken across two pages are joined: πρω-|τίστης (pp. 2 and 5), τελειό-|τητα (pp. 6 and 9).
         for w in ("πρωτίστης", "τελειότητα τὴν αὐτὴν", "πρόγραμμα, μὴ χωρεῖν", "διαρθρώσεως, ἀλλὰ",
                   "ἐλλειπόντων εἰς", "μεταστήσεσθαι", "ἀπέληξε τοῦ ἔρωτος", "εἴδωλα τυγχάνοντα", "προσρήσεως· τῆς δὲ", "χαρακτηρίζεται"):
@@ -92,7 +108,8 @@ class Proofreading(unittest.TestCase):
         for c in mine:
             self.assertEqual(c["text"], TID)
             self.assertIn(c["unit"], units, "a proofread correction holds for its page only")
-            self.assertIn("Proofread from the page image", c["why"])
+            self.assertTrue("Proofread from the page image" in c["why"] or
+                            (c["why"].startswith("Supplied") and c["ocr"] == "" and "procliphilosophi00proc" in c["why"]), c["why"])
             self.assertNotEqual(c["ocr"], c["read"])
         # The common misreadings of the whole text stay as they were.
         self.assertTrue(any(c["text"] == TID and c["ocr"] == "χαὶ" and not c.get("unit") for c in d["corrections"]))
@@ -131,8 +148,9 @@ class ModernEnglish(unittest.TestCase):
 
     def test_the_prologue_and_the_first_lemma_in_order(self):
         d = load()
-        self.assertEqual([t["id"] for t in d["treatises"]], ["Prologue", "103a"])
-        self.assertEqual([c["id"] for c in d["chapters"]], [f"Pr.{n}" for n in range(1, 11)] + [f"103a.{n}" for n in range(1, 8)])
+        self.assertEqual([t["id"] for t in d["treatises"]], ["Prologue", "103a", "103a-love"])
+        self.assertEqual([c["id"] for c in d["chapters"]], [f"Pr.{n}" for n in range(1, 11)] + [f"103a.{n}" for n in range(1, 14)])
+        self.assertEqual({c["treatise"] for c in d["chapters"] if c["id"] in ("103a.8", "103a.13")}, {"103a-love"})
         for c in d["treatises"] + d["chapters"]:
             self.assertGreater(len(c["summary"].split()), 15, c["id"])
         # The paragraphs hold all the proofread Greek, in order, after the title.
@@ -196,6 +214,25 @@ class ModernEnglish(unittest.TestCase):
         # The three sciences, love first, as in Taylor's paragraph 7.
         self.assertIn("dialectic, midwifery and the science of love", p["103a.7.p2"]["modern"])
         self.assertIn("ἐρωτικῆς", p["103a.7.p2"]["greek"])
+
+    def test_the_account_of_love_follows_the_greek(self):
+        d = load()
+        p = {x["seg"]: x for x in d["paragraphs"]}
+        # Taylor draws nothing from these pages: no Taylor paragraphs named, and so no flags.
+        for c in d["chapters"][17:]:
+            self.assertEqual(c["taylor"], [], c["id"])
+        self.assertFalse([f for x in p.values() if x["chapter"] in {c["id"] for c in d["chapters"][17:]} for f in x.get("flags", [])])
+        # Love, the great daemon, is the middle between beauty and those it leads up.
+        self.assertIn("δαίμονα μέγαν", p["103a.8.p2"]["greek"])
+        self.assertIn("great daemon", p["103a.8.p2"]["modern"])
+        # A page supplied from the other scan is named in the paragraph's pages like any other.
+        self.assertIn("II p. 94", [x["label"] for x in p["103a.12.p2"]["pages"]])
+        # The five marks of the two lovers, each a paragraph of its own.
+        for seg, start in (("103a.12.p3", "Δεύτερον τοίνυν"), ("103a.12.p4", "Τὸ τρίτον τοίνυν"),
+                           ("103a.12.p5", "Τέταρτον στοιχεῖον"), ("103a.12.p6", "Πέμπτον")):
+            self.assertTrue(p[seg]["greek"].startswith(start), seg)
+        # Where Cousin prints a reading the manuscripts do not have, the note says so.
+        self.assertTrue(any("κεχάρισται" in n for n in p["103a.12.p5"]["notes"]))
 
     def test_sentences_can_be_marked(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -261,7 +298,7 @@ class Server(unittest.TestCase):
 
     def test_the_shelf_and_the_scan_link_to_it(self):
         t = next(t for t in self.get("neo")["texts"] if t["id"] == TID)
-        self.assertEqual((t["modern"]["text"], t["modern"]["pages"]), (TID, 39))
+        self.assertEqual((t["modern"]["text"], t["modern"]["pages"]), (TID, 50))
         part = self.get(f"neo/{TID}/0")
         u = next(u for u in part["units"] if u["label"] == "II p. 2")
         self.assertEqual(u["modern_section"], {"text": TID, "id": "Pr.1"})
