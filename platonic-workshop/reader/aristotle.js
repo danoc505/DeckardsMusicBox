@@ -48,6 +48,9 @@ function arSources() {
     the Berlin columns: these are carried over from the English, chapter by chapter (≈). English: the Oxford translation (1928; Edghill, Jenkinson,
     Mure, Pickard-Cambridge) from the Internet Archive's scan, cleaned by rule and not proofread, at the columns and line numbers printed in its
     margin; where the scan loses a column's mark, it is placed where the line numbers start again (≈).</p>
+    <p class="prov">A second English of the Organon: Octavius Freire Owen's (Bohn's Classical Library, 1853, two volumes; public domain), from
+    the Internet Archive's scans, cleaned by rule and not proofread, with his footnotes and the side-notes the scans could read. Owen prints no
+    Bekker columns: they are carried over from the Oxford translation, chapter by chapter (≈).</p>
     <p class="prov">Porphyry's Introduction: Owen's English (The Organon, vol. II, London: Bohn, 1853, pp. 609–633; public domain) from the Internet
     Archive's scan, cleaned by rule and not proofread, with his footnotes and the side-notes the scan could read; the Greek is Busse's
     (Commentaria in Aristotelem Graeca IV.1, Berlin, 1887) in First1KGreek's TEI (CC BY-SA 4.0).</p>`;

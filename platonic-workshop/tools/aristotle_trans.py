@@ -52,6 +52,11 @@ for _wid, _tr, _label, _title in (("ar006", "E. M. Edghill", "Edghill (1928)", "
                                    ("ar040", "W. A. Pickard-Cambridge", "Pickard-Cambridge (1928)", "De Sophisticis Elenchis")):
     TRANSLATIONS[_wid] = [("ia-oxford-organon-1928", "oxford1928", _label, _tr, f"{_tr}, {_title}, {_OX}", "oxford-1928",
                            None, "organon", None)]
+# Milestone A4c: Owen's Organon (1853), cleaned by tools/aristotle_owen.py into owen-1853.json, placed by the Oxford's columns.
+for _wid, _vol in (("ar006", "I"), ("ar017", "I"), ("ar001", "I"), ("ar001p", "I"), ("ar044", "II"), ("ar040", "II")):
+    TRANSLATIONS[_wid].append(("ia-owen-organon-1853-v1" if _vol == "I" else "ia-owen-organon-1853", "owen1853", "Owen (1853)",
+                               "Octavius Freire Owen", "Octavius Freire Owen, The Organon, or Logical Treatises, of Aristotle, with the "
+                               f"Introduction of Porphyry, vol. {_vol} (London: Henry G. Bohn, 1853)", "owen-1853", None, "owen", None))
 
 
 def greek_share(t):
@@ -165,8 +170,8 @@ def clean(work_id, order):
     w = aristotle_f1k.WORK_BY_ID[work_id]
     vocab = aristotle_ocr.english_vocab()
     for src, suffix, label, tr, printed, fname, leaves, kind, head in TRANSLATIONS.get(work_id, []):
-        if kind == "organon":
-            continue                 # cleaned by tools/aristotle_organon.py
+        if kind in ("organon", "owen"):
+            continue                 # cleaned by tools/aristotle_organon.py and tools/aristotle_owen.py
         if kind == "oxford":
             paras, notes, stats = aristotle_ocr.clean_ross(vocab, src, order, head, leaves)
         else:
@@ -255,15 +260,20 @@ def build_for(db, work):
         for x in pieces:
             first_piece.setdefault(x[3], x[4])
         n_printed = sum(1 for m in first_piece.values() if m == "printed")     # columns begun where the scan prints them
-        how = ("Hicks heads each page of his English with the Bekker lines it translates; the column at the top of each page is "
+        how = ("Owen prints no Bekker columns: they are carried over from the Oxford translation (1928), chapter by chapter, "
+               "each at the same proportion of the chapter as in the Oxford" if kind == "owen" else
+               "Hicks heads each page of his English with the Bekker lines it translates; the column at the top of each page is "
                "read from the scan as a fixed point" if kind == "hicks" else
                "Bekker's line numbers and columns are printed in the margin; each column read from the scan is a fixed point, and "
                "where the line numbers start again (35 ... 5) with no column read, or the running head names a later page, the "
                "column is placed there (≈)" if kind == "organon" else
                "Bekker's pages and columns are printed in the margin; each one read from the scan is a fixed point")
+        note = (f"{how}: every column is so placed (≈). Owen's footnotes, and the side-notes in his margin that the scan could "
+                "read, are kept as notes; the text is not proofread." if kind == "owen" else
+                f"{how} ({n_printed} of {len(order)} columns). Between two fixed points the columns the scan misses are shared "
+                "out over the text by its length, cut at the end of a sentence (≈).")
         translations.add_edition(db, ed, wid, src, label, tr, printed, str(path.relative_to(ROOT)), "OCR cleaned by rule",
-                                 f"{how} ({n_printed} of {len(order)} columns). Between two fixed points the columns the scan misses are shared "
-                                 "out over the text by its length, cut at the end of a sentence (≈).", "printed")
+                                 note, "computed" if kind == "owen" else "printed")
         chunk_of = {}
         for seq, (k, a, b, col, method) in enumerate(pieces):
             p = d["paragraphs"][k]
@@ -294,7 +304,7 @@ def main():
                     aristotle_ocr.write_extract(src, range(leaves[0], leaves[1] + 1))
         return
     for w in aristotle_f1k.WORKS:
-        if not any(t[7] != "organon" for t in TRANSLATIONS.get(w["id"], [])):
+        if not any(t[7] not in ("organon", "owen") for t in TRANSLATIONS.get(w["id"], [])):
             continue
         _, cols = aristotle_f1k.glaux_words(w)
         if not cols:
