@@ -164,7 +164,7 @@ def main():
             sources = [s for s in sources if s["status"] != "planned"]
         if not (args.archive or args.all):
             sources = [s for s in sources if s["kind"] != "archive"]
-    # Sources sharing one repo and commit (Perseus Greek and English) share one checkout.
+    # Sources sharing one repo, commit and paths (Perseus Greek and English) share one checkout.
     done = {}
     for src in sources:
         if src["kind"] == "http":
@@ -173,7 +173,7 @@ def main():
         if src["kind"] == "archive":
             fetch_archive(src)
             continue
-        key = (src["repo"], src["commit"])
+        key = (src["repo"], src["commit"], tuple(src["paths"]))
         if key in done:
             link = RAW / src["id"]
             if not link.exists():

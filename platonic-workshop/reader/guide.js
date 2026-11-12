@@ -277,15 +277,15 @@ async function showTaylorText(id) {
   for (const s of segs) if (s.page_1804 && !pages.some((p) => p.page === s.page_1804)) pages.push({ page: s.page_1804, id: s.id });
   $("#toc").innerHTML = `<p><a href="#library">‹ Library</a></p><h3>${esc(t.title)}</h3>
     <p class="meta">${segs.length} paragraphs${t.notes.length ? `, ${t.notes.length} notes` : ""}.</p>
-    ${pages.length ? `<p class="meta">Pages of 1804:</p><p class="letters">${pages.map((p) => `<a href="#tp-${esc(p.id)}" data-scroll="tp-${esc(p.id)}">${esc(p.page)}</a>`).join(" ")}</p>` : ""}`;
+    ${pages.length ? `<p class="meta">${esc(t.page_label || "Pages of 1804")}:</p><p class="letters">${pages.map((p) => `<a href="#tp-${esc(p.id)}" data-scroll="tp-${esc(p.id)}">${esc(p.page)}</a>`).join(" ")}</p>` : ""}`;
   let h = `<div class="search guide taylor-text"><h2>${esc(t.title)}</h2>
     <p class="lead">${esc(t.about)}</p>
-    <p class="meta">${esc(t.author)}${t.translator ? `, translated by ${esc(t.translator)}` : ""}. ${esc(t.edition)}. Text from <a href="${esc(t.source.url)}" target="_blank" rel="noopener">theosophylib.com</a>.
+    <p class="meta">${esc(t.author)}${t.translator ? `, translated by ${esc(t.translator)}` : ""}. ${esc(t.edition)}. Text from <a href="${esc(t.source.url)}" target="_blank" rel="noopener">${esc(t.source.name || "theosophylib.com")}</a>${t.proof_status ? ` (${esc(t.proof_status)})` : ""}.
       Taylor prints Greek without accents; where he quotes Greek he gives his English beside it or just before. Untranslated Greek in the notes is marked.</p>`;
   for (const s of segs) {
     const tag = s.kind === "quotation" ? "blockquote" : s.kind === "table" ? "pre" : "p";
     const body = s.kind === "table" ? esc(s.text) : withNoteMarks(s, notes);
-    h += `<${tag} class="tt-${esc(s.kind)}" id="tp-${esc(s.id)}">${s.page_1804 && pages.some((p) => p.id === s.id) ? `<span class="page-1804" title="Page of the 1804 edition">p. ${esc(s.page_1804)}</span> ` : ""}${body}</${tag}>`;
+    h += `<${tag} class="tt-${esc(s.kind)}" id="tp-${esc(s.id)}">${s.page_1804 && pages.some((p) => p.id === s.id) ? `<span class="page-1804" title="${t.page_label ? "Image of the scan" : "Page of the 1804 edition"}">${t.page_label ? "image" : "p."} ${esc(s.page_1804)}</span> ` : ""}${body}</${tag}>`;
     const ns = (s.notes || []).map((x) => notes.get(x.note)).filter(Boolean);
     if (ns.length) {
       h += `<div class="tt-notes">${ns.map((n) => `<p class="tt-note" id="tn-${esc(n.id)}"><b>${esc(n.printed_number || "")}</b> ${esc(n.text)}

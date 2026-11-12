@@ -165,7 +165,15 @@ def header_info(root):
 class Walker:
     """Reads a Perseus TEI body in reading order into chunks (one paragraph's
     text inside one Stephanus section) and notes (with the chunk and character
-    offset where their marker stands)."""
+    offset where their marker stands).
+
+    The milestones that open a section, and the divisions kept as parts, are
+    class attributes, so that Aristotle's Bekker columns can be read the same
+    way (tools/aristotle.py)."""
+
+    SECTION_UNIT = "section"
+    SECTION_RESP = None
+    PART_SUBTYPES = ("book", "letter")
 
     def __init__(self, root):
         self.chunks = []      # dicts: section, para, speaker, label, parts
@@ -205,7 +213,7 @@ class Walker:
         tag = el.tag.replace(TEI, "")
         if tag == "milestone":
             n = (el.get("n") or "").strip()
-            if el.get("unit") == "section" and STEPH.match(n):
+            if el.get("unit") == self.SECTION_UNIT and STEPH.match(n) and (self.SECTION_RESP is None or el.get("resp") == self.SECTION_RESP):
                 if self.parts and self.parts[-1][2] is None:
                     self.parts[-1][2] = n
                 if self.parts:
@@ -226,7 +234,7 @@ class Walker:
             return
         if tag in ("head", "bibl"):
             return
-        if tag == "div" and el.get("type") == "textpart" and el.get("subtype") in ("book", "letter"):
+        if tag == "div" and el.get("type") == "textpart" and el.get("subtype") in self.PART_SUBTYPES:
             self.parts.append([el.get("subtype"), el.get("n"), None, None])
         prev_speaker = self.speaker
         if tag == "p":
@@ -350,9 +358,10 @@ def _title_for(work_id):
 # ---------------------------------------------------------------- GLAUx and Morpheus
 
 
-def glaux_words_by_section(work_num):
-    """GLAUx words of one work, real words only, grouped by Stephanus section."""
-    path = RAW / "glaux-plato" / "xml" / f"0059-{work_num}.xml"
+def glaux_words_by_section(work_num, path=None, section_attr="div_stephanus_section"):
+    """GLAUx words of one work, real words only, grouped by Stephanus section
+    (or Bekker column, for Aristotle)."""
+    path = path or RAW / "glaux-plato" / "xml" / f"0059-{work_num}.xml"
     by_sec = defaultdict(list)
     analysis = None
     for event, el in ET.iterparse(path, events=("start", "end")):
@@ -361,7 +370,8 @@ def glaux_words_by_section(work_num):
         elif event == "end" and el.tag == "word":
             a = el.attrib
             if not a.get("artificial") and greek.is_greek(a.get("form", "")):
-                by_sec[a.get("div_stephanus_section")].append({**a, "analysis": analysis})
+                key = next((a.get(k) for k in section_attr if a.get(k)), None) if isinstance(section_attr, tuple) else a.get(section_attr)
+                by_sec[key].append({**a, "analysis": analysis})
             el.clear()
     return by_sec
 
@@ -463,12 +473,26 @@ def speaker_names(g, e):
     return {gname: c.most_common(1)[0][0] for gname, c in pairs.items()}
 
 
-def build_work(db, work_id, sources):
-    num = work_id.replace("tlg", "")
-    wdir = PERSEUS_DIR / work_id
+# How one author's Perseus files are read. Plato's is the default; tools/aristotle.py
+# passes its own (Bekker columns for Stephanus sections, its own source ids).
+PLATO_CFG = {
+    "perseus_dir": PERSEUS_DIR, "urn": PLATO_URN, "tlg_dir": "data/tlg0059",
+    "greek_source": "perseus-greek-plato", "english_source": "perseus-english-plato",
+    "glaux_source": "glaux-plato", "glaux_file": lambda num: RAW / "glaux-plato" / "xml" / f"0059-{num}.xml",
+    "glaux_section": "div_stephanus_section", "walker": None, "note_resp": "Loeb",
+    "page_label": "Stephanus page {}", "page_basis": "Stephanus milestones in the Perseus TEI",
+    "perseus_id": lambda work_id: work_id, "parts": None,
+}
+
+
+def build_work(db, work_id, sources, cfg=None):
+    cfg = cfg or PLATO_CFG
+    pid = cfg["perseus_id"](work_id)
+    num = pid.replace("tlg", "")
+    wdir = cfg["perseus_dir"] / pid
     cts = (wdir / "__cts__.xml").read_text(encoding="utf-8")
     title = re.search(r"<ti:title[^>]*>([^<]+)", cts).group(1).strip()
-    work_urn = f"{PLATO_URN}.{work_id}"
+    work_urn = f"{cfg['urn']}.{pid}"
     db.execute("UPDATE work SET imported = 1 WHERE id = ?", (work_id,))
     stats = {"work": work_id, "title": title}
 
@@ -476,8 +500,9 @@ def build_work(db, work_id, sources):
     eng_file = sorted(wdir.glob("*-eng*.xml"))[0]
     g_root = ET.parse(grc_file).getroot()
     e_root = ET.parse(eng_file).getroot()
-    g = Walker(g_root)
-    e = Walker(e_root)
+    W = cfg["walker"] or Walker
+    g = W(g_root)
+    e = W(e_root)
     speakers = speaker_names(g, e)
     stats["speaker_names"] = speakers
 
@@ -491,15 +516,15 @@ def build_work(db, work_id, sources):
     gh, eh = header_info(g_root), header_info(e_root)
     g_ed, e_ed = f"{work_id}.{grc_file.stem.split('.')[-1]}", f"{work_id}.{eng_file.stem.split('.')[-1]}"
     db.execute("INSERT INTO edition (id, work_id, source_id, lang, role, label, responsible, printed, file, proof_status) VALUES (?,?,?,?,?,?,?,?,?,?)", (
-        g_ed, work_id, "perseus-greek-plato", "grc", "text",
+        g_ed, work_id, cfg["greek_source"], "grc", "text",
         f"{gh['editor'].split()[-1]} ({gh['place']}, {gh['date']})", gh["editor"],
         f"{gh['editor']}, {gh['title']}, vol. {gh['volume']} ({gh['place']}, {gh['date']})",
-        f"data/tlg0059/{work_id}/{grc_file.name}", "clean source text"))
+        f"{cfg['tlg_dir']}/{pid}/{grc_file.name}", "clean source text"))
     db.execute("INSERT INTO edition (id, work_id, source_id, lang, role, label, responsible, printed, file, proof_status) VALUES (?,?,?,?,?,?,?,?,?,?)", (
-        e_ed, work_id, "perseus-english-plato", "eng", "translation",
+        e_ed, work_id, cfg["english_source"], "eng", "translation",
         f"{eh['editor'].split()[-1]} (Loeb, {eh['date']})", eh["editor"],
         f"{eh['editor']}, {eh['title']}, vol. {eh['volume']} ({eh['place']}, {eh['date']})",
-        f"data/tlg0059/{work_id}/{eng_file.name}", "clean source text"))
+        f"{cfg['tlg_dir']}/{pid}/{eng_file.name}", "clean source text"))
 
     # Text layer: chunks.
     def insert_chunks(walker, edition_id):
@@ -519,7 +544,7 @@ def build_work(db, work_id, sources):
     stats["english_sections_missing"] = sorted(known - set(e.order), key=steph_key)
 
     # Tokens, section by section, with GLAUx tags and Morpheus keys.
-    glaux = glaux_words_by_section(num)
+    glaux = glaux_words_by_section(num, cfg["glaux_file"](num), cfg["glaux_section"])
     tokens_by_sec = defaultdict(list)  # ref -> [(chunk_id, start, end, form)]
     for cid, c in zip(g_chunk_ids, g.chunks):
         for m in greek.WORD.finditer(c["text"]):
@@ -551,7 +576,7 @@ def build_work(db, work_id, sources):
                 for part, j in enumerate(js):
                     w = theirs[j]
                     db.execute("INSERT INTO tag VALUES (?,?,?,?,?,?,?,?,?,?)", (
-                        cur.lastrowid, "glaux-plato", part, greek.nfc(w.get("lemma", "")), w.get("postag"),
+                        cur.lastrowid, cfg["glaux_source"], part, greek.nfc(w.get("lemma", "")), w.get("postag"),
                         w.get("relation"), w.get("analysis"), w.get("id"), greek.nfc(w.get("form", "")), method))
                 n_tag += 1
                 n_pos += method == "same-position"
@@ -568,8 +593,8 @@ def build_work(db, work_id, sources):
         pages[steph_key(ref)[0]].append(ref)
     for page, refs in pages.items():
         db.execute("INSERT INTO division (work_id, kind, label, start_ref, end_ref, source_id, basis) VALUES (?,?,?,?,?,?,?)",
-                   (work_id, "page", f"Stephanus page {page}", refs[0], refs[-1], "perseus-greek-plato",
-                    "Stephanus milestones in the Perseus TEI"))
+                   (work_id, "page", cfg["page_label"].format(page), refs[0], refs[-1], cfg["greek_source"],
+                    cfg["page_basis"]))
     speeches = []
     for c in g.chunks:
         sp = speakers.get(c["speaker"], c["speaker"])
@@ -579,13 +604,16 @@ def build_work(db, work_id, sources):
             speeches.append([sp, c["section"], c["section"]])
     for sp, a, b in speeches:
         db.execute("INSERT INTO division (work_id, kind, label, start_ref, end_ref, source_id, basis) VALUES (?,?,?,?,?,?,?)",
-                   (work_id, "speech", sp or "(no speaker)", a, b, "perseus-greek-plato",
+                   (work_id, "speech", sp or "(no speaker)", a, b, cfg["greek_source"],
                     "consecutive <said who> in the Perseus TEI with the same speaker"))
     stats["speeches"] = len(speeches)
-    for subtype, n, a, b in g.parts:
-        if a and b:
+    for subtype, n, a, b in (cfg["parts"](g) if cfg["parts"] else g.parts):
+        if cfg["parts"]:
             db.execute("INSERT INTO division (work_id, kind, label, start_ref, end_ref, source_id, basis) VALUES (?,?,?,?,?,?,?)",
-                       (work_id, subtype, f"{'Book' if subtype == 'book' else 'Letter'} {n}", a, b, "perseus-greek-plato",
+                       (work_id, subtype, n, a, b, cfg["greek_source"], f"<div subtype> in the Perseus TEI"))
+        elif a and b:
+            db.execute("INSERT INTO division (work_id, kind, label, start_ref, end_ref, source_id, basis) VALUES (?,?,?,?,?,?,?)",
+                       (work_id, subtype, f"{'Book' if subtype == 'book' else 'Letter'} {n}", a, b, cfg["greek_source"],
                         f"<div subtype=\"{subtype}\"> in the Perseus TEI"))
     stats["parts"] = len(g.parts)
 
@@ -594,17 +622,18 @@ def build_work(db, work_id, sources):
     commentator = f"{eh['editor'].split()[-1]} (Loeb, {eh['date']})"
     for nt in e.notes:
         el = nt["el"]
-        if el.get("resp") != "Loeb":
+        if cfg["note_resp"] and el.get("resp") != cfg["note_resp"]:
             continue
         cur = db.execute(
             "INSERT INTO note (source_id, commentator, work_id, start_ref, end_ref, edition_id, chunk_id, offset, body, body_html, printed_at, anchor_method, proof_status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
-            ("perseus-english-plato", commentator, work_id, nt["section"], nt["section"], e_ed, e_chunk_ids[nt["chunk"]],
+            (cfg["english_source"], commentator, work_id, nt["section"], nt["section"], e_ed, e_chunk_ids[nt["chunk"]],
              nt["offset"], note_plain(el), note_html(el), f"Loeb vol. {eh['volume']}, {eh['date']}",
              "containing section", "clean source text"))
         n_notes += 1
-        for to_work, to_ref, raw in note_links(el, nt["section"], work_id, (steph_key(g.order[0])[0], steph_key(g.order[-1])[0])):
+        for to_work, to_ref, raw in (note_links(el, nt["section"], work_id, (steph_key(g.order[0])[0], steph_key(g.order[-1])[0]))
+                                     if cfg is PLATO_CFG else ()):
             db.execute("INSERT INTO link (from_work, from_ref, to_work, to_ref, kind, note_id, source_id, raw, method) VALUES (?,?,?,?,?,?,?,?,?)",
-                       (work_id, nt["section"], to_work, to_ref, "cf", cur.lastrowid, "perseus-english-plato", raw, "pattern"))
+                       (work_id, nt["section"], to_work, to_ref, "cf", cur.lastrowid, cfg["english_source"], raw, "pattern"))
             n_links += 1
     stats.update({"notes": n_notes, "links": n_links})
     return stats
@@ -766,6 +795,9 @@ def build(works, db_path=None, progress=False, with_nt=None):
     want_nt = (set(works) == set(ALL_WORKS) if with_nt is None else with_nt) and (nt.RAW / "61-Mt-morphgnt.txt").exists()
     # Milestone 25: the rest of the Neoplatonists, with all of Plato, when their sources are downloaded.
     want_neo = set(works) == set(ALL_WORKS) and neoplatonists.available()
+    # Aristotle milestone A1: with all of Plato, when its sources are downloaded (imported here: it builds on this module).
+    import aristotle
+    want_ar = set(works) == set(ALL_WORKS) and aristotle.available()
     require(["perseus-greek-plato", "glaux-plato", "morpheus-analyses", "lsj", "middle-liddell",
              "lsj-abbreviations", "smyth-grammar", "agdt-guidelines"], sources)
     DATA.mkdir(exist_ok=True)
@@ -849,6 +881,8 @@ def build(works, db_path=None, progress=False, with_nt=None):
         nt_lemmas, nt_forms = nt.lemmas()
         keys = {k for f in nt_forms for k in greek.lookup_keys(f)}
         nt_extra = nt_lemmas | {greek.from_betacode(lemma) for rest in morpheus_lines(keys).values() for lemma, _, _ in parse_morpheus(rest)}
+    if want_ar:
+        nt_extra |= aristotle.lemmas()
     lookup_stats = build_dictionaries(db, nt_extra)  # before the concept index, which reads LSJ's entries
     lookup_stats.update(build_grammar(db))
     # Milestone 10: the concept index across the dialogues (after build_search and the dictionaries: it reads lemma_count and LSJ).
@@ -888,6 +922,14 @@ def build(works, db_path=None, progress=False, with_nt=None):
         print("  reconciliation: " + ", ".join(f"{k} {v}" for k, v in rec_stats.items() if not isinstance(v, list))
               + f"; not found: {len(rec_stats['not found'])}, not checked: {len(rec_stats['not checked'])}", flush=True)
         print("  search index: " + ", ".join(f"{k} {v}" for k, v in find_stats.items()), flush=True)
+    # Aristotle milestone A1: the Metaphysics and the Nicomachean Ethics, after everything that counts Plato's words.
+    if want_ar:
+        ar_stats = aristotle.build(db, sources)
+        aristotle.write_report(ar_stats)
+        if progress:
+            for s in ar_stats["works"]:
+                print(f"  Aristotle, {s['title']}: {s['sections']} Bekker columns, {s['tokens']} words, {s['tagged']} tagged, {s['notes']} notes; "
+                      + ", ".join(f"{t['edition']} {t['chunks']} pieces" for t in s["translations"]), flush=True)
     # Milestone 23: the Greek New Testament, last.
     if want_nt:
         nt_stats = nt.build(db, morpheus_lines, parse_morpheus)

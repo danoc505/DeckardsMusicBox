@@ -93,7 +93,7 @@ function renderTextPicker(filter = "") {
     const ed = typeof listenEdition === "function" ? listenEdition() : null;
     page = `<section class="tp-page"><h3>On the page of ${esc(theTitle(state.work))}</h3>
       <div class="tp-chips">
-        <label class="tp-chip"><input type="checkbox" data-tp-layer="grc" ${layerOn("grc") ? "checked" : ""}> Greek <small>${isNT(state.work) ? "SBLGNT" : "Burnet"}</small></label>
+        <label class="tp-chip"><input type="checkbox" data-tp-layer="grc" ${layerOn("grc") ? "checked" : ""}> Greek <small>${isNT(state.work) ? "SBLGNT" : isAR(state.work) ? (state.work.id === "ar010" ? "Bywater" : "Ross") : "Burnet"}</small></label>
         ${eds.map((e) => `<label class="tp-chip"><input type="checkbox" data-trans="${esc(transKind(e))}" ${p[transKind(e)] ? "checked" : ""} ${layerOn("eng") ? "" : "disabled"}> ${esc(e.label)}${e.responsible ? ` <small>${esc(e.responsible)}</small>` : ""}</label>`).join("")}
       </div>
       ${eds.length > 1 && typeof listenKind === "function" ? `<label class="tp-listen">Read aloud <select data-listen-ed aria-label="Translation read aloud">${eds.map((e) => `<option value="${esc(transKind(e))}" ${ed && ed.id === e.id ? "selected" : ""}>${esc(e.label)}</option>`).join("")}</select></label>` : ""}
@@ -107,6 +107,7 @@ function renderTextPicker(filter = "") {
       <div class="tp-tools"><input type="search" id="tp-filter" placeholder="Find a dialogue" value="${esc(filter)}" aria-label="Find a dialogue" autocomplete="off" spellcheck="false">${typeof orderPicker === "function" ? orderPicker("tp-order") : ""}</div>
       ${list}
     </section>
+    ${typeof arPicker === "function" ? arPicker(filter) : ""}
     ${typeof ntPicker === "function" ? ntPicker(filter) : ""}
     <p class="meta">Each dialogue opens where you last were in it. <a href="#library">The Library</a> has the guides to Plato and the commentaries too.</p>`;
   if (keep) { const f = $("#tp-filter"); f.focus(); f.setSelectionRange(f.value.length, f.value.length); }

@@ -825,6 +825,125 @@
       "licence": "Public domain (the Internet Archive marks the scan with the Creative Commons Public Domain Mark 1.0: http://creativecommons.org/publicdomain/mark/1.0/)",
       "provenance": "Internet Archive item bub_gb_vSktvALnbHIC: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-kopp-1826/. The OCR of the pages the Workshop reads is committed in sources/neoplatonists/ocr/ (tools/neoplatonists.py --extract), checked against this download. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
       "status": "verified"
+    },
+    {
+      "id": "perseus-greek-aristotle",
+      "title": "Aristotle, Greek text, Perseus TEI (Ross's Metaphysics, 1924; Bywater's Nicomachean Ethics, 1894)",
+      "kind": "git",
+      "repo": "https://github.com/PerseusDL/canonical-greekLit.git",
+      "commit": "282e6f5a3ec12e6ca67e44cd4fa3487526e3b421",
+      "paths": [
+        "data/tlg0086/tlg025",
+        "data/tlg0086/tlg010"
+      ],
+      "include": [
+        "*-grc*.xml"
+      ],
+      "layer": "text",
+      "language": "grc",
+      "citation_scheme": "Bekker page and column (980a), from <milestone unit='page' resp='Bekker'>; book and chapter from the TEI divisions",
+      "licence": "CC BY-SA 4.0 (Perseus encoding); the editions (Ross 1924, Bywater 1894) were printed before 1930 and are public domain in the US",
+      "provenance": "The same pinned Perseus commit as Plato's. The editor of each text is read from its TEI header (<editor>). Read by tools/aristotle.py (Aristotle milestone A1).",
+      "status": "verified"
+    },
+    {
+      "id": "perseus-english-aristotle",
+      "title": "Aristotle, English translations in the Loeb edition, Perseus TEI (Tredennick's Metaphysics, 1933-35; Rackham's Nicomachean Ethics, 1926)",
+      "kind": "git",
+      "repo": "https://github.com/PerseusDL/canonical-greekLit.git",
+      "commit": "282e6f5a3ec12e6ca67e44cd4fa3487526e3b421",
+      "paths": [
+        "data/tlg0086/tlg025",
+        "data/tlg0086/tlg010"
+      ],
+      "include": [
+        "*-eng*.xml"
+      ],
+      "layer": "translation",
+      "language": "eng",
+      "citation_scheme": "The same Bekker milestones as the Greek",
+      "licence": "CC BY-SA 4.0 (Perseus encoding). Rackham's Nicomachean Ethics (1926) is public domain in the US; Tredennick's Metaphysics (1933-35) is used on the same footing as the Loeb Plato translations of 1930-35 already in the Workshop (Shorey's Republic), as Perseus distributes it.",
+      "provenance": "Translator read from each file's TEI header. Tredennick's and Rackham's footnotes are kept as notes (resp='Tredennick', resp='Rackham'). Read by tools/aristotle.py.",
+      "status": "verified"
+    },
+    {
+      "id": "glaux-aristotle",
+      "title": "GLAUx corpus, Aristotle files (Metaphysics, Nicomachean Ethics): lemma, morphology and syntax for every word",
+      "kind": "git",
+      "repo": "https://github.com/alekkeersmaekers/glaux.git",
+      "commit": "b077d8f6ff429a5c7245954bc16bb7d1d7948823",
+      "paths": [
+        "README.md",
+        "metadata.txt",
+        "xml/0086-025.xml",
+        "xml/0086-010.xml"
+      ],
+      "layer": "lemma",
+      "language": "grc",
+      "citation_scheme": "Each word carries div_book and div_section, the Bekker page and column (980a) of the Perseus text",
+      "licence": "CC BY-SA 4.0 for these files (per metadata.txt: source Perseus)",
+      "provenance": "Keersmaekers, The GLAUx corpus (2021): the Perseus text of Aristotle, tagged by the same statistical taggers as Plato's (analysis='auto'). Shown as machine-tagged data, never as established fact.",
+      "status": "verified"
+    },
+    {
+      "id": "ia-ross-metaphysics-1908",
+      "title": "W. D. Ross, Metaphysica, The Works of Aristotle translated into English under the editorship of J. A. Smith and W. D. Ross, vol. VIII (Oxford: Clarendon Press, 1908), Internet Archive OCR",
+      "kind": "archive",
+      "item": "worksofaristotle0008unse",
+      "repo": "https://archive.org/details/worksofaristotle0008unse",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/worksofaristotle0008unse/worksofaristotle0008unse_djvu.xml",
+          "sha256": "d6d1759e264abc98252ed948d8b2291a0fad39e0f6a939f8ad803d094a979095",
+          "bytes": 10582580
+        }
+      ],
+      "sha256": "d6d1759e264abc98252ed948d8b2291a0fad39e0f6a939f8ad803d094a979095",
+      "layer": "translation",
+      "language": "eng",
+      "citation_scheme": "Bekker page and column printed in the margin at the line where each begins; book and chapter as printed",
+      "licence": "Public domain (printed in 1908, before 1930)",
+      "provenance": "Internet Archive item worksofaristotle0008unse: its OCR with the place of every word (_djvu.xml), downloaded on 2026-11-12 and pinned by sha256. The OCR of the pages read (leaves 21-324) is committed in sources/aristotle/ocr/ (tools/aristotle_ocr.py --extract). Cleaned by rule into texts/aristotle/metaphysics/ross-1908.json; unproofread, every paragraph keeps its raw OCR.",
+      "status": "verified"
+    },
+    {
+      "id": "ia-taylor-metaphysics-1801",
+      "title": "Thomas Taylor, The Metaphysics of Aristotle, translated from the Greek; with copious notes, in which the Pythagoric and Platonic dogmas respecting numbers and ideas are unfolded from antient sources (London, 1801), Internet Archive OCR",
+      "kind": "archive",
+      "item": "metaphysicsofari00aris",
+      "repo": "https://archive.org/details/metaphysicsofari00aris",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/metaphysicsofari00aris/metaphysicsofari00aris_djvu.xml",
+          "sha256": "1c371a2a052c02258fa926a8e7571cd5ee32b7e248146224c2e83a8e230039f8",
+          "bytes": 19686740
+        }
+      ],
+      "sha256": "1c371a2a052c02258fa926a8e7571cd5ee32b7e248146224c2e83a8e230039f8",
+      "layer": "translation",
+      "language": "eng",
+      "citation_scheme": "Taylor's book and chapter as printed; no Bekker numbers (Bekker's edition is of 1831), so placed by tools/align.py against the Loeb English, with the chapters as fixed points where they agree",
+      "licence": "Public domain (printed in 1801, before 1930)",
+      "provenance": "Internet Archive item metaphysicsofari00aris (marked NOT_IN_COPYRIGHT by the Archive): its OCR with the place of every word (_djvu.xml), downloaded on 2026-11-12 and pinned by sha256. The OCR of the pages read (leaves 9-499: the Introduction, the fourteen books, the Additional Notes) is committed in sources/aristotle/ocr/. Cleaned by rule (the long s, the ct ligature, as tools/taylor_ocr.py does for the 1804 Plato) into texts/aristotle/metaphysics/taylor-1801.json; unproofread, every paragraph keeps its raw OCR.",
+      "status": "verified"
+    },
+    {
+      "id": "chase-1847",
+      "title": "The Nicomachean Ethics of Aristotle, translated by D. P. Chase (1847; Everyman's Library, 1911, introduction by J. A. Smith), Project Gutenberg eBook #8438",
+      "kind": "local",
+      "path": "sources/aristotle/chase-1847",
+      "urls": [
+        "https://www.gutenberg.org/ebooks/8438",
+        "https://www.gutenberg.org/cache/epub/8438/pg8438.txt"
+      ],
+      "layer": "translation",
+      "language": "eng",
+      "citation_scheme": "book and chapter as printed (Chase's chapters); no Bekker numbers",
+      "licence": "Public domain in the US (Project Gutenberg: \"for the use of anyone anywhere in the United States ... at no cost and with almost no restrictions\")",
+      "provenance": "Project Gutenberg's plain text, downloaded on 2026-11-12 and kept unchanged (fetched.json records the URL, time and sha256). Placed at Bekker's columns by tools/align.py against Rackham's Loeb English, the start of each book a fixed point. Read by tools/aristotle.py (Aristotle milestone A1).",
+      "status": "local"
     }
   ]
 }

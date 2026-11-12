@@ -54,6 +54,14 @@ MODERN_NEO = ("plotinus", "proclus-alcibiades")
 # Milestone 15: English for the Greek texts, the Workshop's own or a printed one paired with it.
 TRANSLATIONS = ROOT / "sources" / "translations"
 # Taylor's prefatory texts the Library shelves (milestone 13), with what each is, in a line.
+# Aristotle milestone A1: Taylor's prefatory texts to the Metaphysics (1801), read whole the same way (tools/aristotle_ocr.py).
+TAYLOR_AR = ROOT / "texts" / "aristotle" / "metaphysics"
+TAYLOR_TEXTS_AR = {
+    "metaphysics-introduction": "Taylor's Introduction to the Metaphysics of Aristotle (1801): why the Metaphysics is the summit of Aristotle's "
+                                "works, and how the Platonists read it, Aristotle in agreement with Plato wherever he can be.",
+    "metaphysics-additional-notes": "Taylor's Additional Notes to the Metaphysics (1801), \"to illustrate the Platonic doctrine concerning Ideas and "
+                                    "the principle of the universe\", from Syrianus, Proclus and Damascius.",
+}
 TAYLOR_TEXTS = {
     "general-introduction": "Taylor's General Introduction to the Philosophy and Writings of Plato (1804): Platonism as the later Platonists taught it, "
                             "the One, the gods, intellect, soul and nature, and how the dialogues are to be read.",
@@ -151,6 +159,8 @@ class Library:
         w["speeches"] = self.rows("SELECT label, start_ref, end_ref, basis FROM division WHERE work_id = ? AND kind = 'speech' ORDER BY id", work_id)
         w["parts"] = self.rows("SELECT label, start_ref, end_ref, basis, source_id FROM division WHERE work_id = ? AND kind IN ('part', 'skopos') ORDER BY id", work_id)
         w["books"] = self.rows("SELECT kind, label, start_ref, end_ref, basis FROM division WHERE work_id = ? AND kind IN ('book', 'letter') ORDER BY id", work_id)
+        # Aristotle milestone A1: his chapters (book and chapter, as every edition numbers them).
+        w["ar_chapters"] = self.rows("SELECT label, start_ref, end_ref, basis FROM division WHERE work_id = ? AND kind = 'ar-chapter' ORDER BY id", work_id)
         w["commentaries"] = self.commentaries(work_id)
         # Milestone 9: the printed divisions of the whole, and the myths and images in it, for "where you are in the whole".
         w["chapters"] = self.rows("SELECT label, start_ref, end_ref, author, precision, detail FROM division WHERE work_id = ? AND kind = 'chapter' ORDER BY seq", work_id)
@@ -616,7 +626,7 @@ class Library:
     # ------------------------------------------------------------ key terms (milestone 17)
 
     def corpus_of(self, work_id):
-        """'plato', or 'nt' for a book of the New Testament (milestone 23)."""
+        """'plato', 'nt' for a book of the New Testament (milestone 23), or 'aristotle' (Aristotle milestone A1)."""
         r = self.one("SELECT corpus FROM work WHERE id = ?", work_id)
         return r["corpus"] if r else "plato"
 
@@ -626,7 +636,7 @@ class Library:
         the fixed phrases, marked wherever they are printed. In the New Testament (milestone 23) the
         marks are its own (nt_term_hit), and the fixed phrases are not marked: "the Good" there is
         not Plato's."""
-        hit = "nt_term_hit" if corpus == "nt" else "term_hit"
+        hit = {"nt": "nt_term_hit", "aristotle": "ar_term_hit"}.get(corpus, "term_hit")
         marks = ",".join("?" * len(refs))
         term_tokens = {}
         for r in self.rows(f"SELECT h.token_id, h.term_id FROM {hit} h JOIN term t ON t.id = h.term_id "
@@ -719,7 +729,24 @@ class Library:
         t["shares_word"] = self.rows(f"SELECT DISTINCT t.id, t.label, l.lemma FROM term_lemma l JOIN term t ON t.id = l.term_id "
                                      f"WHERE l.lemma IN ({','.join('?' * len(lem)) or 'NULL'}) AND t.id != ? ORDER BY t.seq", *lem, term_id)
         t["nt"] = self.term_nt(term_id)
+        t["aristotle"] = self.term_aristotle(term_id)
         return t
+
+    def term_aristotle(self, term_id):
+        """Aristotle milestone A1: where the term's words are marked in Aristotle, by work and Bekker column,
+        by GLAUx's lemmas and the term's own rule, as in Plato."""
+        occ, words = {}, 0
+        for r in self.rows("SELECT h.work_id, h.section_ref, count(*) AS n FROM ar_term_hit h JOIN section s ON s.work_id = h.work_id AND s.ref = h.section_ref "
+                           "WHERE h.term_id = ? GROUP BY h.work_id, h.section_ref ORDER BY h.work_id DESC, s.seq", term_id):
+            occ.setdefault(r["work_id"], []).append([r["section_ref"], r["n"]])
+            words += r["n"]
+        works = {r["id"]: r for r in self.rows("SELECT id, title, slug FROM work WHERE corpus = 'aristotle'")}
+        return {"words": words, "occurrences": occ,
+                "works": [{"work_id": w, "title": works[w]["title"], "slug": works[w]["slug"], "n": sum(n for _, n in refs)} for w, refs in occ.items()],
+                "forms_marked": self.rows("SELECT form, count(*) AS n FROM ar_term_hit WHERE term_id = ? GROUP BY form ORDER BY n DESC LIMIT 8", term_id),
+                "about": "Aristotle studied with Plato for twenty years; the later Platonists read his works as the first steps to Plato's "
+                         "(Ammonius, Simplicius) and held the two in harmony where they could. A word is marked in Aristotle by GLAUx's dictionary "
+                         "form and the term's own rule, as in Plato; he may use it in his own sense."}
 
     def term_nt(self, term_id):
         """Milestone 23: where the term's words are marked in the Greek New Testament, a different
@@ -1071,7 +1098,7 @@ class Library:
         t["sources"] = {s["id"]: s for s in self.rows(
             "SELECT id, title, licence, provenance, commit_sha FROM source WHERE id IN "
             "('glaux-plato', 'morpheus-analyses', 'perseus-greek-plato', 'lsj', 'middle-liddell', 'lsj-abbreviations', 'smyth-grammar', 'agdt-guidelines', "
-            "'morphgnt-sblgnt', 'asv-1901')")}
+            "'morphgnt-sblgnt', 'asv-1901', 'glaux-aristotle', 'perseus-greek-aristotle')")}
         lemmas = list(dict.fromkeys(g["lemma"] for g in tags if g["lemma"]))
         # Milestone 5: this word elsewhere in Plato, per work, for each tagged lemma.
         # Milestone 23: and in the New Testament, a different corpus; a New Testament word is counted in its own corpus first.
@@ -1089,7 +1116,7 @@ class Library:
         t["concepts"] = self.rows(f"SELECT DISTINCT c.id, c.label, c.layer, ct.lemma, ct.broad FROM concept_term ct JOIN concept c ON c.id = ct.concept_id "
                                   f"WHERE ct.lemma IN ({','.join('?' * len(lemmas)) or 'NULL'}) ORDER BY c.seq", *lemmas)
         # Milestone 17: the key terms this word is marked as, and the terms its lemma belongs to.
-        t["terms"] = self.rows(f"SELECT DISTINCT t.id, t.label, t.key, l.rule, EXISTS (SELECT 1 FROM {'nt_term_hit' if t['corpus'] == 'nt' else 'term_hit'} h WHERE h.term_id = t.id AND h.token_id = ?) AS marked "
+        t["terms"] = self.rows(f"SELECT DISTINCT t.id, t.label, t.key, l.rule, EXISTS (SELECT 1 FROM {({'nt': 'nt_term_hit', 'aristotle': 'ar_term_hit'}).get(t['corpus'], 'term_hit')} h WHERE h.term_id = t.id AND h.token_id = ?) AS marked "
                                f"FROM term_lemma l JOIN term t ON t.id = l.term_id WHERE l.lemma IN ({','.join('?' * len(lemmas)) or 'NULL'}) ORDER BY t.seq",
                                token_id, *lemmas)
         t["form_in_plato"] = self.one("SELECT coalesce(sum(n), 0) n FROM form_count WHERE form = ?", t["form"])["n"]
@@ -1282,6 +1309,10 @@ class Library:
 
     def taylor(self, text_id):
         """One of Taylor's prefatory texts of 1804 (texts/taylor-1804/vol1/), whole."""
+        if text_id in TAYLOR_TEXTS_AR:
+            d = json.loads((TAYLOR_AR / f"taylor-{text_id.split('-', 1)[1]}.json").read_text(encoding="utf-8"))
+            d["about"] = TAYLOR_TEXTS_AR[text_id]
+            return d
         if text_id not in TAYLOR_TEXTS:
             return None
         d = json.loads((TAYLOR_VOL1 / f"{text_id}.json").read_text(encoding="utf-8"))

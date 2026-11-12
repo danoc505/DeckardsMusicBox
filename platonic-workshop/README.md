@@ -358,6 +358,22 @@ and Olympiodorus on the First Alcibiades, proofread first in the same way, then 
 
 ![Plotinus I.2.3 in modern English, with Taylor's words beside](docs/reader-m27-modern-neo.png)
 
+**Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
+(`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,
+left column, as every book on Aristotle cites him; type `1072b` in the box). The Greek is Ross's Metaphysics (1924) and Bywater's
+Ethics (1894) from Perseus, every word tagged by GLAUx as Plato's are, with the tap-a-word box, Middle Liddell and LSJ. Beside it,
+side by side: the Loeb English (Tredennick, Rackham) with its notes; for the Metaphysics, W. D. Ross's Oxford translation (1908),
+placed at the 184 Bekker columns read from his margin, and Thomas Taylor's (1801), placed by alignment (≈) with the books and
+chapters as fixed points, with his 566 notes from Alexander, Syrianus and the other Greek commentators under the text; for the
+Ethics, Chase (1847, Gutenberg, ≈). Taylor's Introduction to the Metaphysics and his Additional Notes on the Ideas read whole
+(`#taylor/metaphysics-introduction`). The Platonists' key terms are underlined in the Greek, and a term's panel shows Aristotle
+after Plato; Aristotle's marks are kept apart (`ar_term_hit`) so that every count of Plato stays Plato's. The scans are read by
+`tools/aristotle_ocr.py` (their OCR, with each word's place on the page, committed in `sources/aristotle/ocr/`; margins and footnotes
+told by their place and type size; Taylor's long s read as in milestone 6) and built by `tools/aristotle.py`;
+[`reports/aristotle.md`](reports/aristotle.md), `reader/aristotle.js`, `tests/test_aristotle.py`. The plan for the rest of
+Aristotle (A2 to A8: Taylor's Dissertation and the Platonists' order of reading, the De Anima and Physics, the Organon and
+Porphyry, the Greek commentators, Syrianus on the Forms in English, Plato and Aristotle together) is in the ROADMAP.
+
 ## Running it
 
 Python 3.10 or later, standard library only. Nothing to install. One command does everything:

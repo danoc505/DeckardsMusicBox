@@ -86,7 +86,8 @@ class Placer:
         self.work_id = work_id
         self.order = [r[0] for r in db.execute("SELECT ref FROM section WHERE work_id = ? ORDER BY seq", (work_id,))]
         self.seq = {r: i for i, r in enumerate(self.order)}
-        ref_ed = db.execute("SELECT id FROM edition WHERE work_id = ? AND source_id = 'perseus-english-plato'", (work_id,)).fetchone()[0]
+        ref_ed = db.execute("SELECT id FROM edition WHERE work_id = ? AND source_id IN ('perseus-english-plato', 'perseus-english-aristotle')",
+                            (work_id,)).fetchone()[0]
         self.ref_pieces = [(t, r) for t, r in db.execute(
             "SELECT text, section_ref FROM chunk WHERE edition_id = ? ORDER BY seq", (ref_ed,))]
         # Where each section begins in the reference stream (as align.Stream counts).

@@ -11,11 +11,14 @@ const DEFAULT_WORK = "tlg031";
 const state = { work: null, works: [], page: null, data: null, selected: null, target: null, token: null, dict: null, lexica: [], view: "read", pendingWord: null };
 const $ = (sel, el = document) => el.querySelector(sel);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const STEPH = /^(\d{1,3})([a-e])?$/;
+const STEPH = /^(\d{1,4})([a-e])?$/;  // four digits for Bekker pages (Aristotle, 980-1462)
 // Milestone 23: the New Testament is cited by chapter and verse ('3:16', or '3.16' as typed); a chapter is its page.
 const VERSE = /^(\d{1,3})[:.](\d{1,3})$/;
 const isNT = (w) => !!w && w.corpus === "nt";
-const isPlato = (w) => !!w && w.corpus !== "nt";
+const isAR = (w) => !!w && w.corpus === "aristotle";
+const isPlato = (w) => !!w && w.corpus !== "nt" && w.corpus !== "aristotle";
+// The Loeb English of Plato and of Aristotle (Perseus), which carries its own notes and speakers.
+const isLoebSource = (id) => id === "perseus-english-plato" || id === "perseus-english-aristotle";
 // 'the Timaeus', but 'Matthew': the books of the New Testament take no article.
 const theTitle = (w) => (isNT(w) ? "" : "the ") + ((w && w.title) || "");
 
@@ -101,12 +104,13 @@ async function openWork(workId) {
   const grc = state.work.editions.find((e) => e.lang === "grc");
   $("#work-sub").textContent = isNT(state.work)
     ? `The Greek New Testament · ${grc.label} with MorphGNT · ${state.work.counts.tokens.toLocaleString()} words`
+    : isAR(state.work) ? `Aristotle · ${grc.printed} · ${state.work.counts.tokens.toLocaleString()} words · ${state.work.counts.notes} notes`
     : `${grc.printed} · ${state.work.counts.tokens.toLocaleString()} words · ${state.work.counts.notes} notes · ${state.work.counts.links_out} links`;
   const sel = $("#work-select");
   if (sel) sel.value = workId;
   // Milestone 23: the books of the New Testament have no page "as a whole".
   const wb = $("#whole-btn");
-  if (wb) wb.style.display = isNT(state.work) ? "none" : "";
+  if (wb) wb.style.display = isNT(state.work) || isAR(state.work) ? "none" : "";
   document.title = `${state.work.title} · Platonic Workshop`;
   return true;
 }
@@ -232,11 +236,13 @@ function speakerLabel(c) {
 // ------------------------------------------------------------------ translations (milestone 6)
 
 // Which English translations are shown, by kind, remembered in the browser.
-const TRANS_DEFAULT = { loeb: true, taylor: true, jowett: false };
+const TRANS_DEFAULT = { loeb: true, taylor: true, jowett: false, ross: true, chase: true };
 function transKind(ed) {
-  if (ed.source_id === "perseus-english-plato") return "loeb";
+  if (isLoebSource(ed.source_id)) return "loeb";
   if (ed.id.endsWith(".jowett")) return "jowett";
-  if (ed.id.endsWith(".taylor1804")) return "taylor";
+  if (ed.id.endsWith(".taylor1804") || ed.id.endsWith(".taylor1801")) return "taylor";
+  if (ed.id.endsWith(".ross1908")) return "ross";
+  if (ed.id.endsWith(".chase1847")) return "chase";
   return ed.id;
 }
 function transPrefs() {
@@ -245,7 +251,7 @@ function transPrefs() {
   return { ...TRANS_DEFAULT, ...p };
 }
 function englishEditions() {
-  const order = { loeb: 0, taylor: 1, jowett: 2 };
+  const order = { loeb: 0, ross: 1, chase: 1, taylor: 2, jowett: 3 };
   return state.work.editions.filter((e) => e.lang === "eng").sort((a, b) => (order[transKind(a)] ?? 9) - (order[transKind(b)] ?? 9));
 }
 function shownEditions() {
@@ -256,6 +262,8 @@ function shownEditions() {
 function pct(x) { return (100 * x).toFixed(0) + "%"; }
 // What the reader is told about a translation's placement.
 function placementNote(ed) {
+  // Aristotle milestone A1: each translation says how it is placed at Bekker's columns (tools/aristotle.py).
+  if (isAR(state.work)) return ed.align_method === "printed" && !ed.translator_note ? "At Bekker's columns as Perseus marks them." : (ed.translator_note || "");
   const chk = state.work.alignment_check;
   const rows = (chk && chk.rows) || [];
   const tot = (rs, k) => { const n = rs.reduce((a, r) => a + r.units, 0); return n ? rs.reduce((a, r) => a + r[k] * r.units, 0) / n : null; };
@@ -335,6 +343,8 @@ function renderPage() {
   let html = nt
     ? `<div class="page-head"><h1>${d.page}</h1><span>${esc(w.title)}, <span class="term" title="The chapters and verses every Bible uses (chapters from the 13th century, verses from 1551)">chapter</span> ${d.page}, verses ${esc(d.sections[0].ref.split(":")[1])}–${esc(d.sections[d.sections.length - 1].ref.split(":")[1])}</span></div>
       ${d.page === 1 ? ntHead(w) : ""}`
+    : isAR(w) ? `<div class="page-head"><h1>${d.page}</h1><span><span class="term" title="Bekker numbers: the page and column of Bekker's Berlin edition of Aristotle (1831), used by every book on Aristotle">Bekker page</span> ${d.page}, columns ${esc(d.sections.map((s) => s.ref).join(", "))} · ${esc(arWhere(w, d.sections[0].ref))}</span></div>
+      ${d.prev ? "" : arHead(w)}`
     : `<div class="page-head"><h1>${d.page}</h1><span><span class="term" title="Stephanus numbers: the page and part of the page in the edition of Plato printed in 1578, used by every book on Plato">Stephanus page</span> ${d.page}, sections ${esc(d.sections[0].ref)}–${esc(d.sections[d.sections.length - 1].ref)}</span></div>`;
   html += renderTransBar();
   html += renderCommBar();
@@ -354,13 +364,13 @@ function renderPage() {
     const eng = eds.map((e) => {
       const before = i === 0 ? d.chunks.filter((c) => c.continued && c.edition_id === e.id).map((c) => renderTransChunk(c, d, numbers, true)).join("") : "";
       const here = d.chunks.filter((c) => !c.continued && c.edition_id === e.id && c.section_ref === s.ref);
-      const body = e.source_id === "perseus-english-plato"
+      const body = isLoebSource(e.source_id)
         ? here.map((c) => `<p${para(c, e.id)} data-c="${c.id}">${speakerLabel(c)}${renderChunkEnglish(c, d.shownNotes, numbers)}</p>`).join("")
         : here.map((c) => renderTransChunk(c, { ...d, notes: d.shownNotes }, numbers, false)).join("");
       return `<div class="eng" lang="en" data-ed="${esc(e.id)}" data-label="${esc(e.label)}">${before}${body}</div>`;
     }).join("");
     html += `<section class="sec" id="s-${s.ref}" data-ref="${s.ref}">
-      <button class="ref" data-copy="${esc(s.urn)}" title="${nt ? `${esc(w.title)} ${s.ref}: chapter ${s.ref.replace(":", ", verse ")}` : `Section ${s.ref}: a Stephanus number, the page and part of the page in the 1578 edition`}. Tap to copy its full address (${esc(s.urn)})">${s.ref}</button>
+      <button class="ref" data-copy="${esc(s.urn)}" title="${nt ? `${esc(w.title)} ${s.ref}: chapter ${s.ref.replace(":", ", verse ")}` : isAR(w) ? `Bekker ${s.ref}: page ${s.ref.slice(0, -1)}, ${s.ref.endsWith("a") ? "left" : "right"} column of Bekker's Berlin edition (1831)` : `Section ${s.ref}: a Stephanus number, the page and part of the page in the 1578 edition`}. Tap to copy its full address (${esc(s.urn)})">${s.ref}</button>
       <div class="grc" lang="grc">${grc}</div>
       ${eng}
       <div class="app">${renderApparatus(s, d, numbers)}</div>
@@ -409,6 +419,11 @@ function renderToc() {
       return `<li class="${here ? "here" : ""}"><a href="${esc(placeHash(WORK, b.start_ref))}" title="${esc(b.basis)}"><span>${esc(b.label)}</span><span>${esc(b.start_ref)}–${esc(b.end_ref)}</span></a></li>`;
     }).join("")}</ul>`;
   }
+  if (isAR(w)) {
+    html += `<h3 title="Bekker's pages: the pages of his Berlin edition of Aristotle (1831), which every book on Aristotle uses">Bekker pages</h3><div class="pages">${pages.map((p) => `<a href="${placeHash(WORK, String(p))}" class="${p === state.page ? "here" : ""}">${p}</a>`).join("")}</div>`;
+    $("#toc").innerHTML = html + renderTocAR(w);
+    return;
+  }
   html += isNT(w) ? `<h3 title="The chapters every Bible uses">Chapters</h3><div class="pages">` : `<h3 title="Stephanus pages: the pages of the 1578 edition of Plato, which every book on Plato uses">Pages</h3><div class="pages">${pages.map((p) => `<a href="${placeHash(WORK, String(p))}" class="${p === state.page ? "here" : ""}">${p}</a>`).join("")}</div>`;
   // Speeches: collapse the opening exchanges into one line per long speech.
   const seq = new Map(w.sections.map((r, i) => [r, i]));
@@ -452,7 +467,7 @@ async function inspect(id, pane = "word") {
   let t;
   try { t = await api(`token/${id}`); } catch (e) { box.innerHTML = `<p class="error">${esc(e.message)}</p>`; return; }
   if (state.selected !== id) return;
-  const g = t.sources["glaux-plato"], mo = t.sources["morpheus-analyses"];
+  const g = t.sources[t.corpus === "aristotle" ? "glaux-aristotle" : "glaux-plato"], mo = t.sources["morpheus-analyses"];
   let html = `<button class="insp-close" aria-label="Close" title="Close (Esc)">×</button>
     <div class="insp-form" lang="grc">${esc(t.form)}</div>
     <div class="insp-addr" title="This word's address in the Perseus catalogue of texts (a CTS address)">${esc(t.address)}</div>`;
@@ -488,7 +503,7 @@ async function inspect(id, pane = "word") {
     html += `<div class="box alts"><h3 title="Scholars: every possible parse">Every possible grammar of this spelling</h3><p class="prov">The Morpheus program has no entry for this spelling.</p></div>`;
   }
   html += `<details class="prov"><summary>Sources for this word</summary>${
-    [t.corpus === "nt" ? "morphgnt-sblgnt" : "glaux-plato", "morpheus-analyses", "middle-liddell", "lsj", "lsj-abbreviations", "smyth-grammar", t.corpus === "nt" ? null : "agdt-guidelines"].filter(Boolean).map((k) => t.sources[k]).filter(Boolean).map((s) =>
+    [t.corpus === "nt" ? "morphgnt-sblgnt" : t.corpus === "aristotle" ? "glaux-aristotle" : "glaux-plato", t.corpus === "aristotle" ? "perseus-greek-aristotle" : null, "morpheus-analyses", "middle-liddell", "lsj", "lsj-abbreviations", "smyth-grammar", t.corpus === "nt" ? null : "agdt-guidelines"].filter(Boolean).map((k) => t.sources[k]).filter(Boolean).map((s) =>
       `<p><strong>${esc(s.title)}</strong><br>${esc(s.provenance)}<br>Licence: ${esc(s.licence)} · ${/^[0-9a-f]{64}$/.test(s.commit_sha) ? "sha256" : "commit"} <code>${esc(s.commit_sha.slice(0, 10))}</code></p>`).join("")
   }</details>`;
   box.innerHTML = html;
@@ -780,12 +795,12 @@ function route(push) {
 function renderWorkSelect() {
   const groups = new Map();
   for (const w of state.works.filter((x) => x.imported)) {
-    const k = isNT(w) ? "nt" : w.tetralogy || 0;
+    const k = isNT(w) ? "nt" : isAR(w) ? "aristotle" : w.tetralogy || 0;
     if (!groups.has(k)) groups.set(k, []);
     groups.get(k).push(w);
   }
   const sel = $("#work-select");
-  sel.innerHTML = [...groups].map(([k, ws]) => `<optgroup label="${k === "nt" ? "The Greek New Testament" : k ? "Tetralogy " + k : "Other"}">${ws.map((w) =>
+  sel.innerHTML = [...groups].map(([k, ws]) => `<optgroup label="${k === "nt" ? "The Greek New Testament" : k === "aristotle" ? "Aristotle" : k ? "Tetralogy " + k : "Other"}">${ws.map((w) =>
     `<option value="${w.id}">${esc(w.title)}</option>`).join("")}</optgroup>`).join("");
   sel.value = WORK;
   sel.addEventListener("change", () => { go({ work: workById(sel.value), ref: null, page: null }); sel.blur(); });
