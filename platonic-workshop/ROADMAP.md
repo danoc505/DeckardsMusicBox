@@ -432,8 +432,12 @@ Built by `tools/aristotle.py` (works of corpus `aristotle`, a Bekker column, 980
 
 - Every other work in First1KGreek or Perseus Greek, GLAUx-tagged, with the Loeb English where Perseus has it
   (Politics, Rhetoric, Poetics, Eudemian Ethics) and Taylor's for the rest, in the Platonists' order.
-- Taylor's Organon, vol. I (1812), and his Nicomachean Ethics (1811), from the scans found (see A4), as translations
-  beside the Greek, read from the OCR by rule as his Metaphysics is.
+- Taylor's Organon, vol. I (1812: the Categories, On Interpretation, the Prior Analytics), and his Nicomachean Ethics
+  (1811), from Google's scans (see A4), as translations beside the Greek (done): read by `tools/aristotle_taylor.py` with the
+  rules of his Metaphysics, the page brought to that scan's scale, his notes from the commentators kept apart; the Organon at the
+  Oxford's columns carried over chapter by chapter, as Owen's, and the Ethics placed against the Loeb English, as his Metaphysics.
+  Not yet read from the same volumes: his translation of Porphyry's Introduction and his Introductions to each treatise
+  (vol. I), the Rhetoric and the Poetic (1811), which wait for their Greek in the rest of A8.
 
 ## Ideas noted, not yet planned
 

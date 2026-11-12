@@ -57,6 +57,11 @@ for _wid, _vol in (("ar006", "I"), ("ar017", "I"), ("ar001", "I"), ("ar001p", "I
     TRANSLATIONS[_wid].append(("ia-owen-organon-1853-v1" if _vol == "I" else "ia-owen-organon-1853", "owen1853", "Owen (1853)",
                                "Octavius Freire Owen", "Octavius Freire Owen, The Organon, or Logical Treatises, of Aristotle, with the "
                                f"Introduction of Porphyry, vol. {_vol} (London: Henry G. Bohn, 1853)", "owen-1853", None, "owen", None))
+# Milestone A8: Taylor's own Organon (1812), cleaned by tools/aristotle_taylor.py into taylor-1812.json, placed as Owen's is.
+for _wid in ("ar006", "ar017", "ar001"):
+    TRANSLATIONS[_wid].append(("ia-taylor-organon-1812", "taylor1812", "Taylor (1812)", "Thomas Taylor",
+                               "Thomas Taylor, The Works of Aristotle, translated from the Greek, with copious elucidations from the best of "
+                               "his Greek commentators, vol. I (London, 1812)", "taylor-1812", None, "taylor", None))
 
 
 def greek_share(t):
@@ -170,8 +175,8 @@ def clean(work_id, order):
     w = aristotle_f1k.WORK_BY_ID[work_id]
     vocab = aristotle_ocr.english_vocab()
     for src, suffix, label, tr, printed, fname, leaves, kind, head in TRANSLATIONS.get(work_id, []):
-        if kind in ("organon", "owen"):
-            continue                 # cleaned by tools/aristotle_organon.py and tools/aristotle_owen.py
+        if kind in ("organon", "owen", "taylor"):
+            continue                 # cleaned by tools/aristotle_organon.py, tools/aristotle_owen.py and tools/aristotle_taylor.py
         if kind == "oxford":
             paras, notes, stats = aristotle_ocr.clean_ross(vocab, src, order, head, leaves)
         else:
@@ -246,6 +251,7 @@ def place(paras, order):
 
 def build_for(db, work):
     """The translations of one work into the library (after its Greek): [figures]."""
+    from aristotle import taylor_commentator
     order = [r[0] for r in db.execute("SELECT ref FROM section WHERE work_id = ? ORDER BY seq", (work["id"],))]
     out = []
     for src, suffix, label, tr, printed, fname, leaves, kind, head in TRANSLATIONS.get(work["id"], []):
@@ -260,8 +266,8 @@ def build_for(db, work):
         for x in pieces:
             first_piece.setdefault(x[3], x[4])
         n_printed = sum(1 for m in first_piece.values() if m == "printed")     # columns begun where the scan prints them
-        how = ("Owen prints no Bekker columns: they are carried over from the Oxford translation (1928), chapter by chapter, "
-               "each at the same proportion of the chapter as in the Oxford" if kind == "owen" else
+        how = (f"{tr.split()[-1]} prints no Bekker columns: they are carried over from the Oxford translation (1928), chapter by chapter, "
+               "each at the same proportion of the chapter as in the Oxford" if kind in ("owen", "taylor") else
                "Hicks heads each page of his English with the Bekker lines it translates; the column at the top of each page is "
                "read from the scan as a fixed point" if kind == "hicks" else
                "Bekker's line numbers and columns are printed in the margin; each column read from the scan is a fixed point, and "
@@ -270,10 +276,12 @@ def build_for(db, work):
                "Bekker's pages and columns are printed in the margin; each one read from the scan is a fixed point")
         note = (f"{how}: every column is so placed (≈). Owen's footnotes, and the side-notes in his margin that the scan could "
                 "read, are kept as notes; the text is not proofread." if kind == "owen" else
+                f"{how}: every column is so placed (≈). Taylor's notes, from Simplicius, Ammonius, Philoponus and the other Greek "
+                "commentators, are kept as notes; the text is not proofread." if kind == "taylor" else
                 f"{how} ({n_printed} of {len(order)} columns). Between two fixed points the columns the scan misses are shared "
                 "out over the text by its length, cut at the end of a sentence (≈).")
         translations.add_edition(db, ed, wid, src, label, tr, printed, str(path.relative_to(ROOT)), "OCR cleaned by rule",
-                                 note, "computed" if kind == "owen" else "printed")
+                                 note, "computed" if kind in ("owen", "taylor") else "printed")
         chunk_of = {}
         for seq, (k, a, b, col, method) in enumerate(pieces):
             p = d["paragraphs"][k]
@@ -286,7 +294,8 @@ def build_for(db, work):
             if not target:
                 continue
             col, cid = target[-1]
-            translations.add_note(db, src, label, wid, col, ed, cid, None, n["text"], f"scan image {n['leaf']}",
+            translations.add_note(db, src, taylor_commentator(n["text"], label) if kind == "taylor" else label, wid, col, ed, cid,
+                                  None, n["text"], f"scan image {n['leaf']}",
                                   "the page it is printed on", "OCR cleaned by rule")
             n_notes += 1
         out.append({"edition": ed, "paragraphs": len(d["paragraphs"]), "chunks": len(pieces), "printed_columns": n_printed,
@@ -304,7 +313,7 @@ def main():
                     aristotle_ocr.write_extract(src, range(leaves[0], leaves[1] + 1))
         return
     for w in aristotle_f1k.WORKS:
-        if not any(t[7] not in ("organon", "owen") for t in TRANSLATIONS.get(w["id"], [])):
+        if not any(t[7] not in ("organon", "owen", "taylor") for t in TRANSLATIONS.get(w["id"], [])):
             continue
         _, cols = aristotle_f1k.glaux_words(w)
         if not cols:

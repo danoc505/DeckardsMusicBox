@@ -233,21 +233,38 @@ def build_ross(db, work, placer):
             "words": sum(len(p["text"].split()) for p in d["paragraphs"]), "method": "printed and computed"}
 
 
-def taylor_commentator(text):
-    """Taylor's notes on the Metaphysics draw on Alexander and Syrianus by name; the note is his."""
-    named = [n for n in ("Syrianus", "Alexander", "Asclepius", "Proclus", "Simplicius", "Plotinus", "Damascius", "Iamblichus")
+def taylor_commentator(text, label="Taylor (1801)"):
+    """Taylor's notes draw on Alexander, Syrianus and the other commentators by name; the note is his."""
+    named = [n for n in ("Syrianus", "Alexander", "Asclepius", "Proclus", "Simplicius", "Plotinus", "Damascius", "Iamblichus",
+                         "Ammonius", "Philoponus", "Eustratius", "Aspasius")
              if re.search(n, text)]
-    return "Taylor (1801)" + (f", from {', '.join(named[:2])}" if named else "")
+    return label + (f", from {', '.join(named[:2])}" if named else "")
+
+
+# Taylor's translations placed against the Loeb English: (file, source, edition suffix, label, title).
+TAYLOR_LOEB = {
+    "ar025": ("taylor-1801", "ia-taylor-metaphysics-1801", "taylor1801", "Taylor (1801)",
+              "Thomas Taylor, The Metaphysics of Aristotle, translated from the Greek; with copious notes, in which the Pythagoric "
+              "and Platonic dogmas respecting numbers and ideas are unfolded from antient sources (London, 1801)",
+              "His notes, from Alexander, Syrianus and the other Greek commentators, are under the text."),
+    "ar010": ("taylor-1811", "ia-taylor-ethics-1811", "taylor1811", "Taylor (1811)",
+              "Thomas Taylor, The Rhetoric, Poetic, and Nicomachean Ethics of Aristotle, translated from the Greek (London, 1811)",
+              "His notes are under the text."),
+}
 
 
 def build_taylor(db, work, placer):
-    path = TEXTS / work["slug"] / "taylor-1801.json"
+    if work["id"] not in TAYLOR_LOEB:
+        return None
+    name, src, suffix, label, title, notes_said = TAYLOR_LOEB[work["id"]]
+    path = TEXTS / work["slug"] / f"{name}.json"
     if not path.exists():
         return None
     d = json.loads(path.read_text(encoding="utf-8"))
     wid = work["id"]
-    ed = f"{wid}.taylor1801"
-    idx = [i for i, p in enumerate(d["paragraphs"]) if p["part"] == "translation"]
+    ed = f"{wid}.{suffix}"
+    year = label[-5:-1]
+    idx = [i for i, p in enumerate(d["paragraphs"]) if p.get("part", "translation") == "translation"]
     paras = [d["paragraphs"][i] for i in idx]
     starts_of = english_chapter_starts(work, placer)
     perseus_chapters = Counter(b for b, c in starts_of)
@@ -266,14 +283,12 @@ def build_taylor(db, work, placer):
         if taylor_chapters[b] == perseus_chapters.get(b):
             agree.append(b)
     pieces, info = placer.computed(paras, sorted(fixed))
-    translations.add_edition(db, ed, wid, "ia-taylor-metaphysics-1801", "Taylor (1801)", "Thomas Taylor",
-                             "Thomas Taylor, The Metaphysics of Aristotle, translated from the Greek; with copious notes, in which the Pythagoric "
-                             "and Platonic dogmas respecting numbers and ideas are unfolded from antient sources (London, 1801)",
+    translations.add_edition(db, ed, wid, src, label, "Thomas Taylor", title,
                              str(path.relative_to(ROOT)), "OCR cleaned by rule",
-                             "No Bekker numbers in 1801 (Bekker's edition is of 1831): every paragraph is placed by tools/align.py against the "
+                             f"No Bekker numbers in {year} (Bekker's edition is of 1831): every paragraph is placed by tools/align.py against the "
                              f"Loeb English (≈), with {len(fixed)} fixed points: the first chapter of each book, and every chapter of the books whose "
-                             f"chapters Taylor numbers as the Perseus text does ({', '.join(book_label(work, b) for b in agree)}). "
-                             "His notes, from Alexander, Syrianus and the other Greek commentators, are under the text.", translations.COMPUTED)
+                             f"chapters Taylor numbers as the Perseus text does ({', '.join(book_label(work, b) for b in agree) or 'none'}). "
+                             + notes_said, translations.COMPUTED)
     seq = 0
     chunk_of = {}
     for k, a, b, s0, e in pieces:
@@ -281,7 +296,6 @@ def build_taylor(db, work, placer):
         text = p["text"][a:b].strip()
         if not text:
             continue
-        label = f"{ROMAN[p['book'] - 1]}.{p['chapter']}" if a == 0 and p["book"] else None
         cid = translations.add_chunk(db, ed, wid, seq, k, s0, e, translations.COMPUTED, None, "Thomas Taylor",
                                      p["raw"] if a == 0 else None, f"scan image {p['leaf']}", text)
         seq += 1
@@ -292,7 +306,7 @@ def build_taylor(db, work, placer):
         if not target:
             continue
         a, b, ref, cid = target[-1]
-        translations.add_note(db, "ia-taylor-metaphysics-1801", taylor_commentator(n["text"]), wid, ref, ed, cid, b - a, n["text"],
+        translations.add_note(db, src, taylor_commentator(n["text"], label), wid, ref, ed, cid, b - a, n["text"],
                               f"scan image {n['leaf']}", f"alignment ({n['anchor']})", "OCR cleaned by rule")
         n_notes += 1
     return {"edition": ed, "paragraphs": len(paras), "chunks": seq, "notes": n_notes, "fixed_points": len(fixed),

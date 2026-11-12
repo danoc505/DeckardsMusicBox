@@ -325,8 +325,16 @@ def taylor_vocab():
     return v
 
 
-def clean_taylor(corrector):
-    pages = scan_pages("ia-taylor-metaphysics-1801")
+TAYLOR_HEAD = r"METAPH|INTRODUC|ADDITIONAL|NOTES|Book|BOOK"
+
+
+def clean_taylor(corrector, src="ia-taylor-metaphysics-1801", part_of=None, counted=("translation",), head=TAYLOR_HEAD, pages=None, head_top=420, text_height=None,
+                 heading=None, foot_mark=None):
+    """Taylor's pages read by rule: the running head and the catchword dropped, the footnotes (smaller type, after a gap)
+    set apart and matched to the marks in the text in order. part_of(leaf) gives (part, label); the books and chapters are
+    counted in the parts named in counted, afresh in each (his Works of Aristotle bind several treatises in one volume)."""
+    pages = pages if pages is not None else scan_pages(src)
+    part_of = part_of or taylor_part
     paras, notes = [], []
     cur = None
     book = chapter = 0
@@ -340,17 +348,22 @@ def clean_taylor(corrector):
         cur = None
 
     last_note = None
+    last_part = None
     for lf in sorted(pages):
-        part, label = taylor_part(lf)
+        part, label = part_of(lf)
         lines = sorted(pages[lf], key=lambda l: l[0])
         if not part or not lines:
             continue
+        if part != last_part:
+            close()
+            book = chapter = 0
+            last_part = part
         stats["leaves"] += 1
         left, right, height = page_layout(lines)
         # Running head and page number: the first line, when it is near the top.
-        if lines and lines[0][0] < 420 and (re.search(r"METAPH|INTRODUC|ADDITIONAL|NOTES|Book|BOOK", " ".join(w[0] for w in lines[0][2]).replace(" ", ""))
+        if lines and lines[0][0] < head_top and (re.search(head, " ".join(w[0] for w in lines[0][2]).replace(" ", ""))
                                             or len(lines[0][2]) <= 2):
-            if not re.match(r"^\W*BOOK\s", " ".join(w[0] for w in lines[0][2])) or lines[0][0] < 330:
+            if not re.match(r"^\W*BOOK\s", " ".join(w[0] for w in lines[0][2])) or lines[0][0] < head_top - 90:
                 lines = lines[1:]
         # Catchword and signature at the foot: short lines, alone at the bottom.
         while lines and len(lines[-1][2]) <= 3 and (lines[-1][2][0][1] > right - 400 or lines[-1][2][-1][2] < right - 300
@@ -364,6 +377,10 @@ def clean_taylor(corrector):
         top = full[:7] or lines[:7]
         height = _median([l[1] - l[0] for l in top], height)
         pitch = _median([b[0] - a[0] for a, b in zip(top, top[1:]) if b[0] - a[0] < 3 * (a[1] - a[0])], 65)
+        if text_height:
+            # The text's height and spacing for the whole volume, where a page of notes under a few lines of text would
+            # otherwise give the notes' own.
+            height, pitch = text_height, 65
         body, foot = [], []
         in_foot = False
         for i, (y0, y1, ws) in enumerate(lines):
@@ -371,7 +388,7 @@ def clean_taylor(corrector):
                 gap = y0 - lines[i - 1][0]
                 rest = [b - a for a, b, _ in lines[i:]]
                 centred = ws[0][1] > left + 150 and ws[-1][2] < right - 150
-                marked = re.match(r"^\s*([*†‡§‖¶+■f]|\|\||t|-\]-|X)\s+[A-Z\"“'(]", " ".join(w[0] for w in ws))
+                marked = re.match(foot_mark or r"^\s*([*†‡§‖¶+■f]|\|\||t|-\]-|X)\s+[A-Z\"“'(]", " ".join(w[0] for w in ws))
                 if not centred and ((gap > 1.15 * pitch and _median(rest) < 0.88 * height and _median(rest[:3]) < 0.9 * height) or (gap > 1.1 * pitch and marked)):
                     in_foot = True
             (foot if in_foot else body).append((y0, y1, ws))
@@ -381,14 +398,27 @@ def clean_taylor(corrector):
         for y0, y1, ws in body:
             t = " ".join(w[0] for w in ws).strip()
             centred = ws[0][1] > left + 150 and ws[-1][2] < right - 150
-            if centred and len(t) < 40:
+            if centred and len(t) < 40 and heading is not None:
+                # The headings read by the volume's own rule (heading(text, book, chapter) -> ('book' | 'chapter', number)
+                # or None); another centred line (a verse, a syllogism set out) is text.
+                h = heading(t, book, chapter) if part in counted else None
+                if h or re.match(r"^\W*(THE|NICOMACH|CATEGOR|PRIOR|ON|INTERPRET|O\s?F|ARIST)\W*$|^[\W\d]*$", t.upper().replace(" ", "")):
+                    close()
+                    if h and h[0] == "book":
+                        book, chapter = h[1], 0
+                        stats["books"] += 1
+                    elif h:
+                        chapter = h[1]
+                    prev_line = None
+                    continue
+            elif centred and len(t) < 40:
                 close()
                 s = re.sub(r"\s+", "", t).upper()
-                if part == "translation" and re.match(r"^\W*BOOK", s):
+                if part in counted and re.match(r"^\W*BOOK", s):
                     book += 1
                     chapter = 0
                     stats["books"] += 1
-                elif part == "translation" and re.match(r"^\W*C\W*H\W*A\W*P", s):
+                elif part in counted and re.match(r"^\W*C\W*H\W*A\W*P", s):
                     chapter += 1
                 prev_line = None
                 continue
@@ -460,8 +490,8 @@ def clean_taylor(corrector):
     stats["paragraphs"] = len(out)
     stats["chapters"] = {}
     for p in out:
-        if p["part"] == "translation":
-            stats["chapters"].setdefault(str(p["book"]), set()).add(p["chapter"])
+        if p["part"] in counted:
+            stats["chapters"].setdefault(str(p["book"]) if len(counted) == 1 else f"{p['part']}:{p['book']}", set()).add(p["chapter"])
     stats["chapters"] = {b: len(c) for b, c in stats["chapters"].items()}
     return out, out_notes, stats
 
