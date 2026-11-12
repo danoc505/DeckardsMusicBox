@@ -72,7 +72,8 @@ class Rules(unittest.TestCase):
         ids = {t["id"] for t in neo.TEXTS}
         for c in d["corrections"]:
             self.assertIn(c["text"], ids)
-            self.assertTrue(c["ocr"] and c["read"] and c["why"].strip(), c)
+            # A page the scan lost (a blank leaf) is supplied whole from another scan: its OCR is empty, and it says so.
+            self.assertTrue((c["ocr"] or c["why"].startswith("Supplied")) and c["read"] and c["why"].strip(), c)
             self.assertNotEqual(c["ocr"], c["read"])
             self.assertEqual([t for t in neo.TEXTS if t["id"] == c["text"]][0]["kind"], "ocr", "corrections are for the OCR")
 

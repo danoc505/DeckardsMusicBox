@@ -344,3 +344,115 @@ So, through love, the perfection, in the work before us, of those with this natu
 @p
 @greek Ταῦτα μὲν οὖν τῆς περὶ τὴν λέξιν
 Let this be enough examination of what concerns the study of the wording. From here we turn to look into the matters themselves, and shall consider as much about love as suits the present discussion.
+
+@treatise 103a-love | On love: its orders, and the two kinds of lover
+Having said that the opening words show Socrates as a lover, Proclus turns from the wording to the matter: what love is. As other gods have their own powers, the whole order of love turns all things to divine beauty; it is the middle between beauty and those it leads up, which is why the Symposium calls Love a great daemon. Its ranks run from the hidden summit among the first gods down through the gods before the world to the many loves in the world: angels, daemons, heroes and the souls of men. Souls that choose the life of love come down to care for the well-born and lead them up with themselves; souls that fall from love's gift through bad upbringing chase the images of beauty and sink into matter. Then, from Socrates' own first words, Proclus draws five marks that part the divine lover from the vulgar one, and says why Socrates still calls the others lovers.
+
+@ch 103a.8 | Love turns all things to divine beauty
+As each kind of god has its own power, making, giving life, guarding or saving, so the whole order of love is the cause that turns all things to divine beauty, leading the lower up to it and filling them from it. It stands in the middle, between beauty and those it leads up, which is why the Symposium calls Love a great daemon: love holds among the gods the middle place that daemons hold between the divine and the mortal.
+@taylor none
+
+@p
+@greek Ὥσπερ τοίνυν ἄλλων θεῶν
+Different gods, then, have shown different special characters. Some make the wholes, and give being to form among the things that are and to the order in them; some supply life and beget its many kinds; some guard, keeping undefiled the unchanging order of things and their unbroken holding together; others lead some other power, and save all things by giving of themselves. In the same way the whole order of love, the order of every lover, is the cause of turning for all the things that are, towards divine beauty. It leads all that comes second up to that beauty, joins them to it and settles them in it; and it fills what comes after it from there, and lights them with the gifts of divine light that go forth from there.
+
+@p
+@greek Καὶ διὰ τοῦτο δή που
+This, surely, is why the speech in the Symposium called Love a great daemon: Love shows first in himself the power of this middle place. For between everything that turns and the cause of its turning, which the lower things long for, there is a middle. So the whole chain of love, from which every lover comes, set out in front of the cause of beauty, gathers all things to it and calls them back to share in it; it made its own going forth a middle one, between what is lovable and those led up through love; and so it set out in itself, beforehand, the pattern of the whole order of daemons, holding among the gods that middle place which the daemons were given between divine and mortal things.
+!note The Symposium (202d-e): Diotima calls Love "a great daemon, Socrates, for everything daemonic is between god and mortal".
+!note "What is lovable": the Greek as printed is ἐραστοῦ, which can come from ἐραστής, "lover", or from ἐραστός, "lovable"; a middle between beauty and those led up to it asks for "lovable", and the modern version reads it so.
+
+@ch 103a.9 | The ranks of love, from the gods down
+Love's summit, one and hidden, is set among the very first gods, united with the first, intelligible beauty. Its middle rank shines out among the gods before the world; its third comes down into the world, divided many ways. From there the many kinds of love appear: the choirs of angels are filled with it, the herds of daemons follow the gods up to intelligible beauty, the troops of heroes join in the revel, and all things are warmed by the outflow of beauty.
+@taylor none
+
+@p
+@greek Κατὰ δὴ τὴν ἰδιότητα
+Since the whole chain of love, the source of every lover, comes to be among the gods with this special character, let us think of its summit, one in form and hidden, as set, beyond words, in the very first orders of the gods, united with the first and intelligible beauty, separate from all the things that are. Let us see its middle going forth as shining out fully beforehand among the gods before the world: showing itself first in the manner of intellect, taking a leading form in the second rank, and at the end of that whole order set free above all things in the world. And let us look at its third step down, divided in many forms about the world, putting forth from itself many orders and powers, and dealing them out to the different parts of the universe.
+!note "The gods before the world" and "set free" render Proclus' terms for the orders of gods above the visible cosmos (πρὸ τοῦ κόσμου) and for the "unattached" gods (ἀπολύτως) at their end, which he sets out in his Platonic Theology. The modern version keeps them plain.
+
+@p
+@greek Μετὰ γὰρ τὴν ἑνιαίαν
+For after the single first-working principle of love, and its being that triples and perfects itself from itself, the whole many-sided host of loves appears. From there the choirs of angels are filled with a share of love; the herds of daemons, filled by this god, follow the gods as they are led up to intelligible beauty; the troops of heroes revel like Bacchants with the daemons and the angels in sharing the beautiful; and all things, one may say, are woken, rekindled and warmed by the outflow of beauty.
+
+@ch 103a.10 | Souls who choose the life of love
+Human souls too share this breath of love: they come down into the world of becoming to do good to less perfect souls. As gods do good while staying where they are, souls that come down copy their providence. Some help by prophecy, some by the rites, some by divine medicine; souls that choose the life of love are moved by the god who watches over beautiful boys to care for the well-born, and from visible beauty they lead themselves and their beloved up to beauty itself.
+@taylor none
+
+@p
+@greek Καὶ δὴ καὶ ἀνθρώπων ψυχαὶ
+And indeed the souls of men too have a share in such inspiration. Through their kinship with the god they are moved about the beautiful, and they come down into the place of becoming to do good to less perfect souls, in providence for those who need saving. For gods, and the gods' followers, stay in their own abodes and do good to all that is second to them, and turn it to themselves; but the souls of men, coming down and touching becoming, copy the good-like providence of the gods.
+
+@p
+@greek Ὥσπερ οὖν ἄλλαι ψυχαὶ
+So, just as different souls, ranked under different gods, visit the mortal place undefiled, and the souls turning about in it, and some help the less perfect by prophecy, others by the rites that perfect, others by divine medicine: so too the souls that have chosen the life of a lover are moved by the god who watches over beautiful boys to take care of those of good nature; they are led up from visible beauty to divine beauty, they lead their beloved up with them, and they turn both themselves and those they love towards the beautiful itself.
+!note "The god who watches over beautiful boys" is Plato's phrase for Love in the Phaedrus (265c), "Love, overseer of beautiful boys". Souls ranked under different gods recall the Phaedrus too, where each soul follows its own god (252c-253c).
+
+@p
+@greek Ὃ δὴ καὶ ὁ θεῖος ἔρως
+This is just what divine love does first, up there: it unites itself with what is lovable, it stretches up towards it whatever shares in the power that goes forth from it, and it makes in them all one bond and one friendship that cannot be undone, with one another and with the beautiful itself.
+!note "With what is lovable": Cousin prints τῷ ἐραστῷ, from ἐραστός, "lovable"; one of his manuscripts (A) has τῷ ἐραστῇ, "with the lover".
+
+@ch 103a.11 | True love and its counterfeit
+Souls possessed by love use visible beauty as a clean vehicle to be carried round to intelligible beauty, and light the way for others. Souls that fall from love's gift through bad upbringing, but are lovers by nature, take the images of beauty for beauty: they admire bodies, fall away from the divine into the darkness of matter, and, thinking they hasten to union, are carried off into scattering and the sea of unlikeness. Visible beauty, mixed with matter, can never be pure.
+@taylor none
+
+@p
+@greek Αἱ μὲν οὖν κάτοχοι τῷ ἔρωτι
+Souls possessed by love, then, and sharing the inspiration from there, use visible beauty as an undefiled vehicle and are carried round to intelligible beauty, and they set that up as the end of their activity. Kindling a light for the less perfect souls, they lead them all up too to the divine, and dance with them round the one source of all beauty.
+
+@p
+@greek αἱ δὲ τῆς ἐκεῖθεν δόσεως
+But the souls that have fallen from the gift that comes from there, through bad upbringing, though they were given a lover's nature, fall upon the images of beautiful things through ignorance of the true ones. They make much of the beauties that are in matter and divided, and are struck with wonder at them, not knowing what has happened to them. They stand away from all that is divine, and are borne down into the godless darkness of matter. They seem to hasten to union with the beautiful, as wholly loving souls do, but they deceive themselves: instead of union they are carried off into the scattering of life and the sea of unlikeness, and instead of what is truly and really beautiful they are yoked to ugliness itself and the shapelessness of matter. For how could things in matter pass through one another? Or how is visible beauty pure and unmixed, when it is mingled with matter and filled with the shapelessness that lies beneath it?
+!note "The sea of unlikeness" is from the Statesman (273d-e), where the world, left to itself, is in danger of sinking "into the boundless sea of unlikeness".
+!note "Pass through one another": bodies cannot be wholly in one another, so lovers of bodies can never be united; Proclus asks it as a question and does not explain it.
+
+@ch 103a.12 | Five marks of the two lovers, from Socrates' first words
+Love's gift taken in badly makes the tyrannical, unbridled life, as Plotinus says an outflow of intellect makes cunning. Socrates' first words then show five marks of the true lover against the vulgar one: he gives wonder instead of feeling it; he watches the beloved from infancy and comes when the bloom is gone; he stays the same; he keeps apart until the time is right; and he is the one first and only lover, where the others are many.
+@taylor none
+
+@p
+@greek Ἐπειδὴ τοίνυν ἀπ’ ἀλλήλων
+So we have told apart the many forms of the orders of love, and the souls that share in it truly from those that turn aside the gift that comes from there. (For "an outflow of intellect makes cunning", says Plotinus, and a share of wisdom gone wrong makes the sophistry here below; so too love's light, when it finds a bad receiver, produces the tyrannical, unbridled life.) Since, then, we have told these apart, let us go through Plato's very words and look at the differences between the lovers, which Socrates sketches for us by his first words; let us consider who is the divine lover and what he gives the beloved, and who the common lover is, who follows the multitude in the soul.
+!note Plotinus' saying is given as Proclus quotes it; the modern version does not name the place in the Enneads.
+
+@p
+@greek Ὁ μὲν τοίνυν δημώδης
+The common and vulgar lover wonders at the beloved, pursues him, and is all aflutter about him; the true lover gives the beloved cause for wonder, and stirs him in every way to amazement at the life within him. And this is fitting. For the worse lover owns that he is the beloved's subject, and says he needs him; the other is sufficient in himself, full of power, and promises to give his own goods to the souls of those he loves.
+!note Socrates' first words are "Son of Cleinias, I think you wonder" (103a): it is the beloved who wonders.
+
+@p
+@greek Δεύτερον τοίνυν
+Second, the inspired lover watches over the beloved from his swaddling clothes, and comes to him when his bloom has ended, when the bodily tumults have ceased; for he is not a lover of the body, but of the soul, and when the body's flower is over, the beauty of the soul shines out. But the common lover reaches for the beloved's prime as for ripe fruit, and takes no trouble over him before or after: as soon as the bloom ends he leaves the boy, as befits his own principles. Being a lover of the body, he measures his love by the prime of visible beauty.
+!note So the dialogue itself (131c-d): the lover of Alcibiades' body goes away when it stops flowering; the lover of his soul stays, "as the body's bloom ends".
+
+@p
+@greek Τὸ τρίτον τοίνυν
+Third, the one is steadfast and always the same, since he is bound to something steadfast; the other changes easily, and while there is vulgar, but quick to tip and ready to leave the boy. For his friendship for what is in matter makes him like what he loves, and so he too, surely, becomes unstable, and readily changes his intimacy with the boy.
+!note Pausanias' speech in the Symposium (183e): the vulgar lover "is not steadfast, since he loves nothing steadfast; as soon as the bloom of the body he loved ends, he flies away".
+!note "Like what he loves": Cousin prints τῷ ἐραστῷ, "what is lovable" to him, that is the body; one of his manuscripts (A) has τῷ ἐραστῇ, which would make the beloved "like his lover".
+
+@p
+@greek Τέταρτον στοιχεῖον
+Let the fourth mark of the difference between the men be this: the one, even when present with the beloved, is in a way apart from him, neither touching him nor talking with him, nor speaking to him at all, until the time for helping his soul has come; the other loves to be joined to him through the senses, and becomes a nuisance, ever changing, and inventing every kind of pretext to talk to him.
+!note Socrates says at 103a that the other lovers "were a nuisance to you, talking with you", while he "did not even speak to you" in all these years.
+!note "In a way apart from him": Cousin prints κεχώρισται, "is apart"; his manuscripts read κεχάρισται, "does him a kindness", and he refers to his annotations.
+
+@p
+@greek Πέμπτον ἀπ’ αὐτῶν
+A fifth you could take from the very words: the divine lover is called one, first and only, as being akin to the one and the good, and as stretching up to the simple, one-formed pattern of beautiful things; the vulgar lover is many, and heaped together at random. For in calling the lovers of images "others", but the inspired friend "first and only", Socrates shows up their life as unbounded, divided and scattered every way, and honours his virtue as godlike, far from the multitude in matter, and set above all the passions of becoming.
+!note At 103a Socrates calls himself "the first of your lovers", who "alone" does not leave, "the others having stopped".
+
+@ch 103a.13 | Why Socrates still calls the others lovers
+Much else parts the two kinds of lover. Socrates still lets the many be called lovers because it is not yet settled what a man truly is, and where Alcibiades himself is to be placed; once that is settled, Socrates will be seen as his only lover, and the others as lovers of what is Alcibiades', not of Alcibiades, wearing an image of love about an image of beauty. Each order of love goes with its own beauty, and the eyes of the many cannot bear to look at the truth, as the Eleatic Stranger says.
+@taylor none
+
+@p
+@greek Πολλὰ δ’ ἂν καὶ ἄλλα
+One could say much else, stirred by these words, about what separates these lovers from one another.
+
+@p
+@greek Ἐραστὰς γὰρ οὐκ ἀποδοκιμάζει
+Socrates does not yet refuse to call the many lovers too, because it has not yet been settled what the true man is, and where Alcibiades himself is to be placed. For then Socrates would rightly be seen as the only lover of Alcibiades, and the others as loving what is Alcibiades', and, carrying about an image of love, turning about the images, neglecting his soul, and wholly ignorant of the real Alcibiades. Then, too, he will expose their pretence about love, and show that, having missed the true inspiration of love, they hold up the image of love before them, and so are entwined with the image of beauty. For every lover's order is ranked with a beauty that answers to it; and as divine love is led up to divine beauty, so the love of images hastens to lay hold of such a beauty. This is all it can see; towards the divine it is like one wholly blinded. For the eyes of the soul of the many, the Eleatic Stranger says, cannot bear to look towards the truth.
+!note The dialogue settles it at 131c-e: whoever loved Alcibiades' body loved something of his, not Alcibiades; there has been no lover of Alcibiades but one, Socrates.
+!note The Sophist (254a-b): "the eyes of the soul of the many cannot bear to look towards the divine". Proclus' text, as Cousin prints it, has "the truth" where Plato has "the divine"; Cousin notes this.

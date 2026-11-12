@@ -559,6 +559,12 @@ def apply_corrections(text, corrs):
     """The text with the corrections that apply to it, word by word: (corrected text, [(ocr, read, n)])."""
     used = []
     for c in corrs:
+        if not c["ocr"]:
+            # A page the scan lost (a blank leaf), supplied whole: it applies only to a unit with no text.
+            if not (text or "").strip():
+                text = greek.nfc(c["read"])
+                used.append((c["ocr"], c["read"], 1))
+            continue
         pat = re.compile(r"(?<![\wͰ-Ͽἀ-῿])" + re.escape(greek.nfc(c["ocr"])) + r"(?![\wͰ-Ͽἀ-῿])")
         text, k = pat.subn(greek.nfc(c["read"]), text)
         if k:
