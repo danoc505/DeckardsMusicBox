@@ -197,5 +197,50 @@ class Library(unittest.TestCase):
         self.assertEqual(w["sections"][0], "1094a")
 
 
+class Dissertation(unittest.TestCase):
+    """Aristotle milestone A2: Taylor's Dissertation (1812) and Start here for Aristotle."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.d = json.loads((ROOT / "texts" / "aristotle" / "dissertation" / "taylor-1812.json").read_text(encoding="utf-8"))
+        cls.js = (ROOT / "reader" / "aristotle.js").read_text(encoding="utf-8")
+
+    def test_the_source_is_pinned_and_public_domain(self):
+        self.assertIn("Public domain", MANIFEST["ia-taylor-dissertation-1812"]["licence"])
+        self.assertGreater(len(aristotle_ocr.scan_pages("ia-taylor-dissertation-1812")), 600)
+
+    def test_four_books_with_their_chapters(self):
+        self.assertEqual(self.d["stats"]["chapters"], {"1": 18, "2": 14, "3": 6, "4": 12})
+        heads = [s["text"] for s in self.d["segments"] if s["kind"] == "heading"]
+        self.assertEqual(heads[0], "Book I, chapter 1")
+        self.assertGreater(len(self.d["notes"]), 150)
+        self.assertGreater(sum(s["kind"] == "quotation" for s in self.d["segments"]), 150)
+        self.assertTrue(all(s["raw"] for s in self.d["segments"]))
+
+    def test_every_quotation_on_start_here_is_in_the_dissertation(self):
+        import difflib
+        quotes = re.findall(r'(\w+): \{ at: "([^"]+)", text: `([^`]+)`', self.js)
+        self.assertGreaterEqual(len(quotes), 7)
+        words = lambda t: re.findall(r"[a-z]+", t.lower())
+        for key, at, text in quotes:
+            seg = next((s for s in self.d["segments"] if " ".join(at.lower().split()) in " ".join(s["text"].lower().split())), None)
+            self.assertIsNotNone(seg, f"{key}: no paragraph with {at!r}")
+            q = words(text.replace("…", " "))
+            ocr = words(seg["text"])
+            m = difflib.SequenceMatcher(None, ocr, q, autojunk=False)
+            matched = sum(b.size for b in m.get_matching_blocks())
+            self.assertGreater(matched / len(q), 0.85, f"{key}: the quotation and the scan's text differ")
+
+    def test_marinus_is_quoted_from_taylors_translation(self):
+        m = re.search(r"marinus: \{ text: `([^`]+)`", self.js).group(1)
+        src = " ".join((ROOT / "sources" / "taylor-gutenberg" / "pg77393.txt").read_text(encoding="utf-8").replace("_", "").split())
+        self.assertIn(" ".join(m.split()), src)
+
+    def test_the_library_serves_it(self):
+        t = serve.Library.taylor(None, "aristotle-dissertation")
+        self.assertEqual(t["title"], "A Dissertation on the Philosophy of Aristotle")
+        self.assertIn("about", t)
+
+
 if __name__ == "__main__":
     unittest.main()

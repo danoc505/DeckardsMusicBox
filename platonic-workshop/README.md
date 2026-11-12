@@ -375,6 +375,14 @@ told by their place and type size; Taylor's long s read as in milestone 6) and b
 Aristotle (A2 to A8: Taylor's Dissertation and the Platonists' order of reading, the De Anima and Physics, the Organon and
 Porphyry, the Greek commentators, Syrianus on the Forms in English, Plato and Aristotle together) is in the ROADMAP.
 
+**Aristotle, milestone A2: Taylor's Dissertation and the Platonists' order of reading: done.** *Start here* for Aristotle
+(`#aristotle`) gives, in Taylor's words, why the Platonists read Aristotle before Plato (Marinus on Proclus), the order of his works
+from logic to theology and the end they lead to, how he writes, and where he agrees with Plato "in names only, and not in things",
+each passage checked against the scan. Taylor's Dissertation on the Philosophy of Aristotle (1812) reads whole
+(`#taylor/aristotle-dissertation`), its fifty chapters in the contents column, cleaned from the Archive's scan by
+`tools/aristotle_dissertation.py` (Taylor's quotations from Aristotle and the commentators kept as quotations, the footnotes under
+the paragraphs they belong to).
+
 ## Running it
 
 Python 3.10 or later, standard library only. Nothing to install. One command does everything:

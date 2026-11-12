@@ -307,14 +307,20 @@ Built by `tools/aristotle.py` (works of corpus `aristotle`, a Bekker column, 980
 - Key terms underlined in the Greek (kept in `ar_term_hit`, apart from Plato's counts); a term's panel shows Aristotle
   after Plato. Your translations and notes, and Listen, work as on a dialogue.
 
-### A2: Taylor's Dissertation on the Philosophy of Aristotle (1812), and the Neoplatonic order of reading
+### A2: Taylor's Dissertation on the Philosophy of Aristotle (1812), and the Platonists' order of reading (done)
 
-- The Dissertation read whole with contents, OCR cleaned by rule (as A1). The ancient prolegomena to Aristotle
-  (Ammonius, Simplicius, Olympiodorus, Elias, in the Berlin *Commentaria in Aristotelem Graeca*, public-domain scans):
-  the ten questions asked before reading him, the order of his works, the aim of each; quoted, with the Workshop's
-  English where none is public domain, labelled.
-- A *Start here* for Aristotle: the order the Platonists read him in, and where he agrees with Plato in their view,
-  each point quoted.
+- The Dissertation read whole (`#taylor/aristotle-dissertation`), its four books and fifty chapters in the contents column:
+  from the Internet Archive's scan of the Harvard copy (public domain), OCR cleaned by rule by `tools/aristotle_dissertation.py`
+  (the passages Taylor quotes from Aristotle and the commentators kept as quotations, told from his own text and from the
+  footnotes by the leading of the type); unproofread, every paragraph keeps its OCR. Also his Preface, his Explanation of
+  Certain Terms used by Aristotle and his Greek Commentators, and the Additional Note on Parmenides from Simplicius.
+- *Start here* for Aristotle (`#aristotle`): why the Platonists read him first (Marinus on Proclus reading "all the works of
+  Aristotle ... as in certain proteleia ... and lesser mysteries", in Taylor's translation), the order of reading (logic,
+  ethics, politics, physics, theology, then Plato; each work linked once it is in the Workshop), how he writes, and where he
+  agrees with Plato, all in Taylor's words, each passage checked by eye against the scan and tested against its OCR.
+- The Greek prolegomena to Aristotle (Ammonius, Simplicius, Philoponus, Olympiodorus, Elias, David on the ten questions
+  asked before reading him) move to A5, with the other Greek commentators: Taylor's Book I chapter 1 already gives their
+  answers in English.
 
 ### A3: the soul and nature: De Anima, Physics, De Caelo
 

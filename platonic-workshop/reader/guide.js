@@ -258,6 +258,9 @@ document.addEventListener("click", (ev) => {
 // ------------------------------------------------------------------ Taylor's prefatory texts, read whole
 
 async function showTaylorText(id) {
+  // Aristotle milestone A2: "<id>@<words>" opens the text at the first paragraph with those words (a quotation's place).
+  let at = "";
+  if (id.includes("@")) [id, at] = [id.slice(0, id.indexOf("@")), id.slice(id.indexOf("@") + 1)];
   state.view = "taylor";
   setView("library-view");
   document.body.classList.add("guide-view");
@@ -275,15 +278,18 @@ async function showTaylorText(id) {
   // A contents list by the 1804 pages, every tenth paragraph or so, for a long text.
   const pages = [];
   for (const s of segs) if (s.page_1804 && !pages.some((p) => p.page === s.page_1804)) pages.push({ page: s.page_1804, id: s.id });
+  // A text with headings (Taylor's Dissertation, 1812) lists them; the others list their pages.
+  const heads = segs.filter((s) => s.kind === "heading");
   $("#toc").innerHTML = `<p><a href="#library">‹ Library</a></p><h3>${esc(t.title)}</h3>
     <p class="meta">${segs.length} paragraphs${t.notes.length ? `, ${t.notes.length} notes` : ""}.</p>
-    ${pages.length ? `<p class="meta">${esc(t.page_label || "Pages of 1804")}:</p><p class="letters">${pages.map((p) => `<a href="#tp-${esc(p.id)}" data-scroll="tp-${esc(p.id)}">${esc(p.page)}</a>`).join(" ")}</p>` : ""}`;
+    ${heads.length ? `<ul class="books">${heads.map((s) => `<li><a href="#tp-${esc(s.id)}" data-scroll="tp-${esc(s.id)}"><span>${esc(s.text)}</span><span>${esc(s.page_1804 || "")}</span></a></li>`).join("")}</ul>`
+      : pages.length ? `<p class="meta">${esc(t.page_label || "Pages of 1804")}:</p><p class="letters">${pages.map((p) => `<a href="#tp-${esc(p.id)}" data-scroll="tp-${esc(p.id)}">${esc(p.page)}</a>`).join(" ")}</p>` : ""}`;
   let h = `<div class="search guide taylor-text"><h2>${esc(t.title)}</h2>
     <p class="lead">${esc(t.about)}</p>
     <p class="meta">${esc(t.author)}${t.translator ? `, translated by ${esc(t.translator)}` : ""}. ${esc(t.edition)}. Text from <a href="${esc(t.source.url)}" target="_blank" rel="noopener">${esc(t.source.name || "theosophylib.com")}</a>${t.proof_status ? ` (${esc(t.proof_status)})` : ""}.
       Taylor prints Greek without accents; where he quotes Greek he gives his English beside it or just before. Untranslated Greek in the notes is marked.</p>`;
   for (const s of segs) {
-    const tag = s.kind === "quotation" ? "blockquote" : s.kind === "table" ? "pre" : "p";
+    const tag = s.kind === "quotation" ? "blockquote" : s.kind === "table" ? "pre" : s.kind === "heading" ? "h3" : "p";
     const body = s.kind === "table" ? esc(s.text) : withNoteMarks(s, notes);
     h += `<${tag} class="tt-${esc(s.kind)}" id="tp-${esc(s.id)}">${s.page_1804 && pages.some((p) => p.id === s.id) ? `<span class="page-1804" title="${t.page_label ? "Image of the scan" : "Page of the 1804 edition"}">${t.page_label ? "image" : "p."} ${esc(s.page_1804)}</span> ` : ""}${body}</${tag}>`;
     const ns = (s.notes || []).map((x) => notes.get(x.note)).filter(Boolean);
@@ -294,6 +300,12 @@ async function showTaylorText(id) {
   }
   $("#main").innerHTML = h + `</div>`;
   window.scrollTo(0, 0);
+  if (at) {
+    const words = (x) => x.toLowerCase().replace(/\s+/g, " ");
+    const s = segs.find((x) => words(x.text).includes(words(at)));
+    const el = s && document.getElementById("tp-" + s.id);
+    if (el) { el.scrollIntoView({ block: "start" }); el.classList.add("tt-here"); }
+  }
 }
 
 // The note numbers placed in a paragraph, as superscripts.
