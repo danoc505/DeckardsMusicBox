@@ -29,7 +29,34 @@ BEKKER = re.compile(r"^(\d{2,4})\s?([ab])$")
 ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV"]
 
 # The works, in the Platonists' order within each step (logic, ethics, physics, theology).
+# columns "english": the Greek prints no Bekker columns (Bekker's own text, in the Oxford reprint of 1837, paged anew);
+# they are carried over from the Oxford translation's margin (tools/aristotle_organon.py), chapter by chapter (≈).
+# select: of a file holding both Analytics, the one (<div subtype="book">) this work is; its <div subtype="part"> are the books.
+LOGIC_EDITOR = "Immanuel Bekker"
 WORKS = [
+    {"id": "ar006", "tlg": "tlg006", "file": "grc1", "title": "Categories", "abbr": "Cat.", "slug": "categories",
+     "greek_title": "Κατηγορίαι", "editor": LOGIC_EDITOR, "label": "Bekker (Oxford, 1837)", "columns": "english",
+     "plain": "The ten kinds of thing that can be said: substance, quantity, quality, relation, place, time, position, state, "
+              "action, affection; the primary substance, the individual man or horse, and the secondary, his species and genus."},
+    {"id": "ar017", "tlg": "tlg017", "file": "grc1", "title": "On Interpretation", "abbr": "Int.", "slug": "on-interpretation",
+     "greek_title": "Περὶ ἑρμηνείας", "editor": LOGIC_EDITOR, "label": "Bekker (Oxford, 1837)", "columns": "english",
+     "plain": "Words as symbols of thoughts, and thoughts as likenesses of things; the noun, the verb and the sentence; "
+              "affirmation and denial, and whether there will be a sea-fight tomorrow (chapter 9)."},
+    {"id": "ar001", "tlg": "tlg001", "file": "grc2", "title": "Prior Analytics", "abbr": "APr.", "slug": "prior-analytics",
+     "greek_title": "Ἀναλυτικὰ πρότερα", "editor": "W. D. Ross", "label": "Ross (Oxford, 1964)", "select": "1", "glaux_book": "priora", "bekker": ("24a", "70b"),
+     "plain": "The syllogism: from two premisses something other than them follows of necessity; its three figures, "
+              "necessary and possible premisses, and how syllogisms are found and reduced."},
+    {"id": "ar001p", "tlg": "tlg001", "file": "grc2", "title": "Posterior Analytics", "abbr": "APo.", "slug": "posterior-analytics",
+     "greek_title": "Ἀναλυτικὰ ὕστερα", "editor": "W. D. Ross", "label": "Ross (Oxford, 1964)", "select": "2", "glaux_book": "posteriora", "bekker": ("71a", "100b"),
+     "plain": "Demonstration: knowledge through causes from first principles that are true, primary and immediate; "
+              "definition; and in the last chapter how the first principles are known by intellect (νοῦς)."},
+    {"id": "ar044", "tlg": "tlg044", "file": "grc1", "title": "Topics", "abbr": "Top.", "slug": "topics",
+     "greek_title": "Τοπικά", "editor": LOGIC_EDITOR, "label": "Bekker (Oxford, 1837)", "columns": "english",
+     "plain": "Dialectic: reasoning from reputable opinions; the four predicables (definition, property, genus, accident) "
+              "and the places from which arguments about each are drawn."},
+    {"id": "ar040", "tlg": "tlg040", "file": "grc1", "title": "Sophistical Refutations", "abbr": "SE", "slug": "sophistical-refutations",
+     "greek_title": "Περὶ σοφιστικῶν ἐλέγχων", "editor": LOGIC_EDITOR, "label": "Bekker (Oxford, 1837)", "columns": "english",
+     "plain": "The fallacies of the sophists, those that depend on language and those that do not, and how each is solved."},
     {"id": "ar031", "tlg": "tlg031", "file": "grc1", "title": "Physics", "abbr": "Phys.", "slug": "physics",
      "greek_title": "Φυσικὴ ἀκρόασις", "editor": "W. D. Ross", "label": "Ross (Oxford)",
      "plain": "Nature, its principles and causes; motion, the infinite, place, the void and time; and in Book VIII the first "
@@ -57,7 +84,7 @@ def read_tei(work):
     root = ET.parse(tei_file(work)).getroot()
     body = root.find(f".//{TEI}body")
     paras = []
-    state = {"book": None, "chapter": None, "cur": None}
+    state = {"book": None, "chapter": None, "cur": None, "in": "select" not in work}
 
     def out(s):
         if s and state["cur"] is not None:
@@ -66,7 +93,10 @@ def read_tei(work):
     def walk(el):
         tag = el.tag.replace(TEI, "")
         if tag == "div" and el.get("type") == "textpart":
-            if el.get("subtype") == "book":
+            if el.get("subtype") == "book" and "select" in work:
+                state["in"] = el.get("n") == work["select"]
+                state["book"] = None
+            elif el.get("subtype") in ("book", "part"):
                 state["book"] = int(el.get("n"))
             elif el.get("subtype") == "chapter":
                 state["chapter"] = int(el.get("n"))
@@ -80,7 +110,8 @@ def read_tei(work):
             return
         if tag == "p":
             state["cur"] = {"book": state["book"], "chapter": state["chapter"], "parts": [], "marks": []}
-            paras.append(state["cur"])
+            if state["in"]:
+                paras.append(state["cur"])
         if tag == "del":
             out("[")
         if tag == "add":
@@ -134,9 +165,18 @@ def glaux_words(work):
             col = a.get("div_bekker_page") or a.get("div_section")
             if col and BEKKER.match(col) and (not cols or cols[-1] != col):
                 cols.append(col)
-            if not a.get("artificial") and greek.is_greek(a.get("form", "")):
+            if work.get("glaux_book") and a.get("div_book") != work["glaux_book"]:
+                pass
+            elif not a.get("artificial") and greek.is_greek(a.get("form", "")):
                 ch = [int(x) for x in re.findall(r"\d+", a.get("div_chapter", "0"))]
-                key = (int(a["div_book"]) if a.get("div_book") else ch[0], ch[-1]) if len(ch) >= 1 else (0, 0)
+                if a.get("div_book", "").isdigit():
+                    key = (int(a["div_book"]), ch[-1])
+                elif len(ch) >= 2:
+                    key = (ch[-2], ch[-1])      # the Analytics: 'priora.1.3' is book I, chapter 3
+                elif ch:
+                    key = (0, ch[0])
+                else:
+                    key = (0, 0)
                 by_ch[key].append({**a, "analysis": analysis})
             el.clear()
     return by_ch, cols
@@ -193,11 +233,15 @@ def marks_from_glaux(paras, glaux):
     return out
 
 
-def sections_of(paras, glaux_cols, glaux=None):
+def sections_of(paras, glaux_cols, glaux=None, carried=None, bekker=None):
     """Cut the paragraphs at the Bekker columns: [(para index, start, end, column)]. The columns are GLAUx's, word by
     word, where GLAUx has them; otherwise those printed in the margin of the TEI. Either way, only the longest run in
     Bekker's order is kept, so that a misprinted or misread column (another edition's page, 440b for 404b) is left out."""
-    if glaux_cols and glaux is not None:
+    if carried is not None:
+        cand = carried
+        basis = ("Bekker's columns carried over from the margin of the Oxford translation (1928), chapter by chapter, at the same "
+                 "proportion of the chapter (≈): this Greek, Bekker's text in his Oxford reprint (1837), does not print them")
+    elif glaux_cols and glaux is not None:
         cand = marks_from_glaux(paras, glaux)
         basis = "GLAUx's Bekker column of each word"
     else:
@@ -209,11 +253,16 @@ def sections_of(paras, glaux_cols, glaux=None):
                 hundreds = int(col[:-1]) // 100
                 cand.append((k, off, col))
         basis = "Bekker's pages and columns printed in the margin of the First1KGreek TEI"
+    if bekker:          # a file holding two works: the other's columns are left out
+        lo, hi = col_key(bekker[0]), col_key(bekker[1])
+        cand = [x for x in cand if lo <= col_key(x[2]) <= hi]
     kept = increasing(cand, lambda x: col_key(x[2]))
     keep_set = set(id(x) for x in kept)
     dropped = [x[2] for x in cand if id(x) not in keep_set]
     pieces = []
     cur = kept[0][2] if kept else "1a"
+    if bekker and kept and kept[0][2] != bekker[0] and (kept[0][0], kept[0][1]) != (0, 0):
+        cur = bekker[0]         # the text before the first column printed is in the work's first column
     marks_by_para = defaultdict(list)
     for k, off, col in kept:
         marks_by_para[k].append((off, col))
@@ -237,7 +286,11 @@ def build_greek(db, work, sources):
     wid = work["id"]
     paras, head = read_tei(work)
     glaux, glaux_cols = glaux_words(work)
-    pieces, cols, dropped, basis = sections_of(paras, glaux_cols, glaux)
+    carried = None
+    if work.get("columns") == "english":
+        import aristotle_organon
+        carried = aristotle_organon.carried_marks(work, paras)
+    pieces, cols, dropped, basis = sections_of(paras, glaux_cols, glaux, carried, work.get("bekker"))
     order = []
     for _, _, _, col in pieces:
         if not order or order[-1] != col:

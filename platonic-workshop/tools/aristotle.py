@@ -417,7 +417,8 @@ def build_f1k_work(db, w, sources, stats):
     import aristotle_f1k
     import aristotle_trans
     db.execute("INSERT INTO work (id, urn, title, imported, abbr, slug, corpus) VALUES (?,?,?,?,?,?,?)",
-               (w["id"], f"{AR_URN}.{w['tlg']}", w["title"], 1, w["abbr"], w["slug"], "aristotle"))
+               (w["id"], f"{AR_URN}.{w['tlg']}" + (f":{w['select']}" if w["id"].endswith("p") else ""),   # both Analytics are tlg001
+                w["title"], 1, w["abbr"], w["slug"], "aristotle"))
     s = aristotle_f1k.build_greek(db, w, sources)
     s["translations"] = aristotle_trans.build_for(db, w)
     s["term_words"] = mark_terms(db, w["id"])

@@ -389,6 +389,14 @@ GLAUx, with English beside it from the Internet Archive's scans, cleaned by rule
 (1930), Stocks's On the Heavens (1922) and Hicks's On the Soul (1907). Each column the translator prints (or, for Hicks, heads a
 page with) is a fixed point; the columns between are placed by length and marked ≈ (`tools/aristotle_trans.py`).
 
+**Aristotle, milestone A4: the Organon: done.** The Categories, On Interpretation, Prior and Posterior Analytics, Topics and
+Sophistical Refutations, in Greek (First1KGreek: Ross's Analytics; Bekker's text of the rest) with every word tagged from GLAUx, and
+the Oxford English of 1928 beside it, read from the scan's margin at Bekker's columns (`tools/aristotle_organon.py`). Where the
+Greek does not print the Berlin columns they are carried over from the English, chapter by chapter, and marked so (≈).
+Owen's English of 1853 is a second translation of all six treatises, at the Oxford's columns carried over chapter by chapter (≈,
+`tools/aristotle_owen.py`). Porphyry's Introduction (Isagoge), which the Platonists read before any Aristotle, opens the logic: Owen's English (1853), read
+whole with his notes (`tools/aristotle_porphyry.py`), and Busse's Greek (1887) on the Neoplatonists' shelf.
+
 ## Running it
 
 Python 3.10 or later, standard library only. Nothing to install. One command does everything:

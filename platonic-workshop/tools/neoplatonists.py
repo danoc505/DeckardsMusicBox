@@ -91,6 +91,11 @@ TEXTS = [
      "edition": "Plotini Enneades, ed. Richard Volkmann, 2 vols (Leipzig: Teubner, 1883-1884)", "editor": "Richard Volkmann", "year": 1883,
      "unit": "chapter", "about": "The 54 treatises of Plotinus (3rd century), arranged by his pupil Porphyry in six groups of nine; the founding text of Neoplatonism. "
      "Cited by Ennead, treatise and chapter: I.6.9 is the ninth chapter of the sixth treatise of the first Ennead (On Beauty)."},
+    {"id": "porphyry-isagoge", "group": "Porphyry", "author": "Porphyry", "title": "Introduction (Isagoge)", "greek": "Εἰσαγωγή",
+     "cite": "Isag.", "kind": "tei", "source": "first1k-neoplatonists", "file": "tlg2034/tlg006/tlg2034.tlg006.opp-grc1.xml", "unit": "page",
+     "edition": "Porphyrii Isagoge et in Aristotelis Categorias commentarium, ed. Adolf Busse, Commentaria in Aristotelem Graeca IV.1 (Berlin: Reimer, 1887)", "editor": "Adolf Busse", "year": 1887,
+     "about": "Plotinus' pupil and editor on the five words the Categories takes for granted: genus, species, difference, property and accident. "
+     "The school read it first of all, as the door to Aristotle's logic; the Aristotle shelf has Owen's English (1853). Cited by Busse's page."},
     {"id": "proclus-alcibiades", "group": "Proclus", "author": "Proclus", "title": "Commentary on the First Alcibiades", "greek": "Εἰς τὸν Πλάτωνος πρῶτον Ἀλκιβιάδην",
      "cite": "in Alc.", "head": r"\(\s*([0-9oO]{1,3})\s*[.,]?\s*[)}J]", "kind": "ocr", "ranges": [("ia-cousin-proclus-t2", 28, 365), ("ia-cousin-proclus-t3", 7, 235)],
      "edition": "Procli philosophi Platonici opera, ed. Victor Cousin, vols II-III (Paris, 1820-1821)", "editor": "Victor Cousin", "year": 1820,

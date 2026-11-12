@@ -363,10 +363,31 @@ Built by `tools/aristotle.py` (works of corpus `aristotle`, a Bekker column, 980
   of the De Anima only); they wait for a scan. Wallace's De Anima (1882) is left for A8. The commentators on De Anima III 5
   (the intellect that makes all things) come with their shelf, in A5.
 
-### A4: the Organon and Porphyry's Isagoge
+### A4: the Organon (done) and Porphyry's Isagoge (done)
 
-- Categories, On Interpretation, the Analytics, Topics; Porphyry's Introduction (the door to the Neoplatonic course),
-  Greek and Taylor's English (1812), Owen (1853) and Edghill (1928).
+- The six treatises (Categories, On Interpretation, Prior and Posterior Analytics, Topics, Sophistical Refutations), Greek from
+  First1KGreek (CC BY-SA 4.0), every word tagged from GLAUx: Ross's Analytics (Oxford, 1964), with Bekker's columns in its
+  margin, split into the two works; Bekker's own text of the other four, in his Oxford reprint (1837), which is paged anew and
+  does not print the Berlin columns. For these the columns are carried over from the English, chapter by chapter, at the same
+  proportion of the chapter (≈), and the reader says so on the work's first page.
+- English: the Oxford translation, The Works of Aristotle vol. I (1928; Edghill, Jenkinson, Mure, Pickard-Cambridge; public
+  domain in the US since 2024), from the Internet Archive's scan, cleaned by rule by `tools/aristotle_organon.py`, not
+  proofread. Its margin prints Bekker's line numbers and columns, and the chapters on the other side: a column is placed where
+  its mark is read; where the mark is lost, where the line numbers start again, or at the page the running head names (≈).
+  Translators' footnotes are kept; textual notes are left out.
+- Porphyry's Introduction, the door to the Organon (A4b, done): Busse's Greek (CAG IV.1, Berlin, 1887) from First1KGreek on the
+  Neoplatonists' shelf, by Busse's pages; Owen's English (The Organon, vol. II, Bohn, 1853, pp. 609-633) read whole at
+  `#taylor/porphyry-introduction`, cleaned by rule by `tools/aristotle_porphyry.py`, not proofread: its 17 chapters, Owen's
+  footnotes matched to their marks where the scan reads them, and his side-notes (a summary of the argument in the margin) where
+  the scan could read them; the rest are left out and counted. Linked from the Aristotle shelf, Start here (before the Logic
+  step) and the six logical works.
+- Owen's Organon as a second English (A4c, done): Octavius Freire Owen, Bohn's Classical Library (1853), vol. I (Categories, On
+  Interpretation, both Analytics; the Toronto copy) and vol. II (Topics, Sophistical Elenchi), from the Internet Archive's scans,
+  cleaned by rule by `tools/aristotle_owen.py` (the rules that read the Isagoge, at each scan's scale), not proofread. Owen prints no
+  Bekker columns: they are carried over from the Oxford's, chapter by chapter, at the same proportion of the chapter (≈). His
+  footnotes, and the side-notes the scans could read, are kept as notes.
+- Not done in A4: Taylor's Organon, in his Works of Aristotle (1806-1812): a search of the Internet Archive found no scan of
+  the volume (it lists his Dissertation, 1812, and his Treatises on the Soul, 1808, item b22006874, which A8 can add beside Hicks).
 
 ### A5: the Greek commentators on Aristotle, on their own shelf
 

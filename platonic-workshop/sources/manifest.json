@@ -220,14 +220,16 @@
     },
     {
       "id": "first1k-neoplatonists",
-      "title": "The Neoplatonists in First1KGreek's TEI: Plotinus, Enneads (Volkmann, 1883-1884); Proclus, Commentary on the Republic (Kroll, 1899-1901); Iamblichus, On the Pythagorean Life (Nauck, 1884), Protrepticus (Pistelli, 1888), On General Mathematical Science (Festa, 1891), On Nicomachus' Introduction to Arithmetic (Pistelli, 1894), On the Mysteries (Parthey, 1857)",
+      "title": "The Neoplatonists in First1KGreek's TEI: Plotinus, Enneads (Volkmann, 1883-1884); Porphyry, Introduction (Busse, 1887); Proclus, Commentary on the Republic (Kroll, 1899-1901); Iamblichus, On the Pythagorean Life (Nauck, 1884), Protrepticus (Pistelli, 1888), On General Mathematical Science (Festa, 1891), On Nicomachus' Introduction to Arithmetic (Pistelli, 1894), On the Mysteries (Parthey, 1857)",
       "kind": "git",
       "repo": "https://github.com/OpenGreekAndLatin/First1KGreek.git",
       "commit": "ed91552c52530c8f5a3ddf2dd767e899372a804c",
       "paths": [
         "data/tlg2000",
         "data/tlg4036",
-        "data/tlg2023"
+        "data/tlg2023",
+        "data/tlg2034/__cts__.xml",
+        "data/tlg2034/tlg006"
       ],
       "layer": "neoplatonist",
       "language": "grc",
@@ -868,7 +870,7 @@
     },
     {
       "id": "glaux-aristotle",
-      "title": "GLAUx corpus, Aristotle files (Metaphysics, Nicomachean Ethics, On the Soul, On the Heavens, Physics): lemma, morphology and syntax for every word",
+      "title": "GLAUx corpus, Aristotle files (Metaphysics, Nicomachean Ethics, On the Soul, On the Heavens, Physics, and the Organon): lemma, morphology and syntax for every word",
       "kind": "git",
       "repo": "https://github.com/alekkeersmaekers/glaux.git",
       "commit": "b077d8f6ff429a5c7245954bc16bb7d1d7948823",
@@ -879,7 +881,12 @@
         "xml/0086-010.xml",
         "xml/0086-002.xml",
         "xml/0086-005.xml",
-        "xml/0086-031.xml"
+        "xml/0086-031.xml",
+        "xml/0086-006.xml",
+        "xml/0086-017.xml",
+        "xml/0086-001.xml",
+        "xml/0086-044.xml",
+        "xml/0086-040.xml"
       ],
       "layer": "lemma",
       "language": "grc",
@@ -890,15 +897,20 @@
     },
     {
       "id": "first1k-aristotle",
-      "title": "Aristotle in First1KGreek's TEI: On the Soul (Ross's text, with Bekker's pages and columns in the margin), On the Heavens (Prantl, 1881), Physics (Ross)",
+      "title": "Aristotle in First1KGreek's TEI: the Organon (Bekker's text of 1837; Ross's Analytics, with Bekker's pages and columns in the margin), On the Soul (Ross), On the Heavens (Prantl, 1881), Physics (Ross); and Porphyry's Introduction (Busse, 1887)",
       "kind": "git",
       "repo": "https://github.com/OpenGreekAndLatin/First1KGreek.git",
       "commit": "ed91552c52530c8f5a3ddf2dd767e899372a804c",
       "paths": [
         "data/tlg0086/__cts__.xml",
+        "data/tlg0086/tlg001",
         "data/tlg0086/tlg002",
         "data/tlg0086/tlg005",
-        "data/tlg0086/tlg031"
+        "data/tlg0086/tlg006",
+        "data/tlg0086/tlg017",
+        "data/tlg0086/tlg031",
+        "data/tlg0086/tlg040",
+        "data/tlg0086/tlg044"
       ],
       "layer": "text",
       "language": "grc",
@@ -1037,6 +1049,72 @@
       "citation_scheme": "Bekker's pages and columns as the translator prints them (margin or running head); the scan's leaves for the page",
       "licence": "Public domain in the United States (published in 1930, in the public domain since 1 January 2026); Gaye died in 1909 and Hardie in 1946",
       "provenance": "Internet Archive item physica0000rpha: its OCR with the place of every word, pinned by sha256. The OCR of the Physics (the first part of the volume) is committed in sources/aristotle/ocr/; cleaned by rule, unproofread.",
+      "status": "verified"
+    },
+    {
+      "id": "ia-oxford-organon-1928",
+      "title": "E. M. Edghill, A. J. Jenkinson, G. R. G. Mure and W. A. Pickard-Cambridge, Categoriae, De Interpretatione, Analytica Priora, Analytica Posteriora, Topica, De Sophisticis Elenchis, The Works of Aristotle translated into English, vol. I (Oxford: Clarendon Press, 1928), Internet Archive OCR",
+      "kind": "archive",
+      "item": "worksofaristotle0001emed",
+      "repo": "https://archive.org/details/worksofaristotle0001emed",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/worksofaristotle0001emed/worksofaristotle0001emed_djvu.xml",
+          "sha256": "f4b970f90b70478c9780c56cdfba0e055fcba691b913c2e752d948e570a7df78",
+          "bytes": 20331269
+        }
+      ],
+      "sha256": "f4b970f90b70478c9780c56cdfba0e055fcba691b913c2e752d948e570a7df78",
+      "layer": "translation",
+      "language": "eng",
+      "citation_scheme": "Bekker's pages and columns and the chapters as the translators print them in the margin; the scan's leaves for the page",
+      "licence": "Public domain in the United States (published in 1928, in the public domain since 1 January 2024)",
+      "provenance": "Internet Archive item worksofaristotle0001emed: its OCR with the place of every word, pinned by sha256. The OCR of the six treatises is committed in sources/aristotle/ocr/; cleaned by rule, unproofread.",
+      "status": "verified"
+    },
+    {
+      "id": "ia-owen-organon-1853-v1",
+      "title": "Octavius Freire Owen, The Organon, or Logical Treatises, of Aristotle, with the Introduction of Porphyry, vol. I (London: Henry G. Bohn, 1853), Internet Archive OCR",
+      "kind": "archive",
+      "item": "organonorlogicalt01aris",
+      "repo": "https://archive.org/details/organonorlogicalt01aris",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/organonorlogicalt01aris/organonorlogicalt01aris_djvu.xml",
+          "sha256": "e1302df24b2585514dd760bd7dbc0952efdfc80b265b4253708e9afacc57320d",
+          "bytes": 12810684
+        }
+      ],
+      "sha256": "e1302df24b2585514dd760bd7dbc0952efdfc80b265b4253708e9afacc57320d",
+      "layer": "translation",
+      "language": "eng",
+      "citation_scheme": "Owen's books and chapters as printed; Bekker's columns carried over from the Oxford translation (≈); the scan's leaves for the page",
+      "licence": "Public domain (published in 1853, before 1930)",
+      "provenance": "Internet Archive item organonorlogicalt01aris (the University of Toronto's copy, Robarts Library, scanned 2014): its OCR with the place of every word (_djvu.xml), downloaded on 2026-11-12 and pinned by sha256. The OCR of the pages read (leaves 13-368: the Categories, On Interpretation, the Prior and Posterior Analytics) is committed in sources/aristotle/ocr/. Cleaned by rule by tools/aristotle_owen.py into texts/aristotle/<work>/owen-1853.json; unproofread, every paragraph keeps its raw OCR.",
+      "status": "verified"
+    },
+    {
+      "id": "ia-owen-organon-1853",
+      "title": "Octavius Freire Owen, The Organon, or Logical Treatises, of Aristotle, with the Introduction of Porphyry, vol. II (London: Henry G. Bohn, 1853), Internet Archive OCR",
+      "kind": "archive",
+      "item": "organonorlogica04porpgoog",
+      "repo": "https://archive.org/details/organonorlogica04porpgoog",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/organonorlogica04porpgoog/organonorlogica04porpgoog_djvu.xml",
+          "sha256": "6b3b600f319f6910830817c5df24fcea1c3fac7a442b7628d8d0f138088350a3",
+          "bytes": 12493300
+        }
+      ],
+      "sha256": "6b3b600f319f6910830817c5df24fcea1c3fac7a442b7628d8d0f138088350a3",
+      "layer": "translation",
+      "language": "eng",
+      "citation_scheme": "Owen's books and chapters as printed; Bekker's columns carried over from the Oxford translation (≈); the scan's leaves for the page",
+      "licence": "Public domain (published in 1853, before 1930)",
+      "provenance": "Internet Archive item organonorlogica04porpgoog (Google's scan of the second volume of Owen's Organon in Bohn's Classical Library, marked NOT_IN_COPYRIGHT by the Archive): its OCR with the place of every word (_djvu.xml), downloaded on 2026-11-12 and pinned by sha256. The OCR of the pages read (leaves 12-288: the Topics, the Sophistical Elenchi, and Porphyry's Introduction at leaves 264-288, printed pages 609-633) is committed in sources/aristotle/ocr/. Cleaned by rule by tools/aristotle_owen.py (texts/aristotle/<work>/owen-1853.json) and tools/aristotle_porphyry.py (texts/aristotle/porphyry/owen-1853.json); unproofread, every paragraph keeps its raw OCR.",
       "status": "verified"
     },
     {

@@ -6,7 +6,12 @@
 // Loaded after reader.js, search.js, terms.js and nt.js; shares their globals.
 "use strict";
 
-const arWorks = () => state.works.filter((w) => w.imported && isAR(w));
+// The works in the Platonists' order of reading (AR_ORDER, below): logic, ethics, politics, physics, theology.
+const arRank = (id) => { const i = AR_ORDER.flatMap((g) => g.works.map(([wid]) => wid)).indexOf(id); return i < 0 ? 99 : i; };
+const arWorks = () => state.works.filter((w) => w.imported && isAR(w)).sort((a, b) => arRank(a.id) - arRank(b.id));
+// Works whose Greek (Bekker's own text, in his Oxford reprint of 1837) does not print the Berlin columns: carried over from
+// the Oxford translation's margin, chapter by chapter (tools/aristotle_organon.py).
+const AR_CARRIED = new Set(["ar006", "ar017", "ar044", "ar040"]);
 
 const AR_ABOUT = `Aristotle studied in Plato's Academy for twenty years. The later Platonists put his works first in their
   course of reading, as the way up to Plato's, and Thomas Taylor translated all of them (1806–1812) with notes from the Greek
@@ -14,6 +19,12 @@ const AR_ABOUT = `Aristotle studied in Plato's Academy for twenty years. The lat
   opposition was to lead the reader into all the mysteries of this doctrine" (Taylor, Introduction to the Metaphysics, 1801).`;
 
 const AR_PLAIN = {
+  ar006: "The ten kinds of thing that can be said: substance, quantity, quality, relation, place, time, position, state, action, affection; the primary substance, the individual man or horse, and the secondary, his species and genus.",
+  ar017: "Words as symbols of thoughts, and thoughts as likenesses of things; the noun, the verb and the sentence; affirmation and denial, and whether there will be a sea-fight tomorrow (chapter 9).",
+  ar001: "The syllogism: from two premisses something other than them follows of necessity; its three figures, necessary and possible premisses, and how syllogisms are found and reduced.",
+  ar001p: "Demonstration: knowledge through causes from first principles that are true, primary and immediate; definition; and in the last chapter how the first principles are known by intellect (νοῦς).",
+  ar044: "Dialectic: reasoning from reputable opinions; the four predicables (definition, property, genus, accident) and the places from which arguments about each are drawn.",
+  ar040: "The fallacies of the sophists, those that depend on language and those that do not, and how each is solved.",
   ar025: "First philosophy: being as being, substance, actuality, and the unmoved mover, the intellect that thinks itself (Book Λ). Books Α, Μ and Ν argue against Plato's Forms and numbers; Taylor answers from Syrianus.",
   ar031: "Nature, the four causes, chance, motion, the infinite, place, the void and time; the eternal motion of the heavens, and the first mover, without parts or magnitude (Book VIII).",
   ar005: "The heavens: the fifth body that moves in a circle, ungenerated and eternal; the earth at the centre; the four elements and their weight and lightness.",
@@ -31,7 +42,18 @@ function arSources() {
     On the Heavens, 1881; CC BY-SA 4.0), Bekker's columns from GLAUx or from the margin of the TEI. English from the Internet Archive's scans,
     cleaned by rule and not proofread: Hardie and Gaye's Physics (Oxford, 1930) and Stocks's On the Heavens (Oxford, 1922), where they print
     Bekker's columns in the margin; Hicks's On the Soul (Cambridge, 1907), at the Bekker lines that head each page; between two printed
-    columns the rest shared out by length (≈). Taylor's own versions of these three (1806–1808) have not been found as complete scans.</p>`;
+    columns the rest shared out by length (≈). Taylor's own versions of these three (1806–1808) have not been found as complete scans.</p>
+    <p class="prov">The Organon: the Greek of First1KGreek (CC BY-SA 4.0), Ross's Analytics (Oxford, 1964), with Bekker's columns in the margin, and
+    Bekker's own text of the Categories, On Interpretation, Topics and Sophistical Refutations (in his Oxford reprint, 1837), which does not print
+    the Berlin columns: these are carried over from the English, chapter by chapter (≈). English: the Oxford translation (1928; Edghill, Jenkinson,
+    Mure, Pickard-Cambridge) from the Internet Archive's scan, cleaned by rule and not proofread, at the columns and line numbers printed in its
+    margin; where the scan loses a column's mark, it is placed where the line numbers start again (≈).</p>
+    <p class="prov">A second English of the Organon: Octavius Freire Owen's (Bohn's Classical Library, 1853, two volumes; public domain), from
+    the Internet Archive's scans, cleaned by rule and not proofread, with his footnotes and the side-notes the scans could read. Owen prints no
+    Bekker columns: they are carried over from the Oxford translation, chapter by chapter (≈).</p>
+    <p class="prov">Porphyry's Introduction: Owen's English (The Organon, vol. II, London: Bohn, 1853, pp. 609–633; public domain) from the Internet
+    Archive's scan, cleaned by rule and not proofread, with his footnotes and the side-notes the scan could read; the Greek is Busse's
+    (Commentaria in Aristotelem Graeca IV.1, Berlin, 1887) in First1KGreek's TEI (CC BY-SA 4.0).</p>`;
 }
 
 // ------------------------------------------------------------------ the Library's shelf
@@ -46,6 +68,10 @@ function arShelf() {
       terms are underlined, and a term's panel shows it in Plato and in Aristotle.</p>
     <p><a href="#aristotle"><b>Start here: Aristotle as the Platonists read him</b></a> <span class="meta">The order they read his works in, the end they lead to, and where he agrees with Plato, each in Taylor's words.</span></p>
     <ul class="studies">${ws.map((w) => `<li><a href="#${esc(w.slug)}"><b>${esc(w.title)}</b></a> <span class="meta">${esc(AR_PLAIN[w.id] || "")}</span></li>`).join("")}</ul>
+    <h4>The door to the logic</h4>
+    <ul class="studies">
+      <li><a href="#taylor/porphyry-introduction"><b>Porphyry's Introduction (Isagoge)</b></a> (Owen's English, 1853) <span class="meta">The five words the Categories takes for granted: genus, species, difference, property, accident. The Platonists read it before any Aristotle. The Greek (Busse, 1887) is <a href="#neo/porphyry-isagoge">on the Neoplatonists' shelf</a>.</span></li>
+    </ul>
     <h4>Taylor on Aristotle</h4>
     <ul class="studies">
       <li><a href="#taylor/aristotle-dissertation"><b>Taylor's Dissertation on the Philosophy of Aristotle</b></a> (1812) <span class="meta">Four books: the division of his works and the end they lead to, his agreement with Plato, and his physical and metaphysical doctrines in his own words, with the Greek commentators on them.</span></li>
@@ -77,6 +103,8 @@ function arPicker(filter) {
 // At the head of a work's first page: what it is, and how to read it.
 function arHead(w) {
   return `<div class="nt-head page-note"><p><b>${esc(w.title)}.</b> ${esc(AR_PLAIN[w.id] || "")}</p>
+    ${AR_CARRIED.has(w.id) ? `<p class="meta">This Greek (Bekker's text, in his Oxford reprint of 1837) does not print the Berlin columns: they are
+      carried over from the margin of the Oxford translation (1928), chapter by chapter, and may be a few lines out (≈).</p>` : ""}
     <p class="meta">Bekker's numbers: 980a is page 980 of Bekker's Berlin edition (1831), left column; every book on Aristotle cites him so.
       Tap a Greek word for its dictionary form and grammar (from GLAUx, by machine) and its dictionary entries. Underlined words are the
       Platonists' key terms: tap one to see where Plato uses it too. Choose the translations beside the Greek with <em>Reading</em>; Taylor's
@@ -98,7 +126,7 @@ function renderTocAR(w) {
   const inside = (c) => cur.some((i) => i >= seq.get(c.start_ref) && i <= seq.get(c.end_ref));
   const byBook = new Map();
   for (const c of w.ar_chapters || []) {
-    const b = c.label.split(", chapter")[0];
+    const b = c.label.includes(", chapter") ? c.label.split(", chapter")[0] : w.title;   // a work in one book: its chapters together
     if (!byBook.has(b)) byBook.set(b, []);
     byBook.get(b).push(c);
   }
@@ -106,11 +134,12 @@ function renderTocAR(w) {
   for (const [b, cs] of byBook) {
     const open = cs.some(inside);
     h += `<details class="ar-book"${open ? " open" : ""}><summary>${esc(b)}</summary><ul class="books">${cs.map((c) =>
-      `<li class="${inside(c) ? "here" : ""}"><a href="${esc(placeHash(WORK, c.start_ref))}" title="${esc(c.basis)}"><span>ch. ${esc(c.label.split("chapter ")[1])}</span><span>${esc(c.start_ref)}–${esc(c.end_ref)}</span></a></li>`).join("")}</ul></details>`;
+      `<li class="${inside(c) ? "here" : ""}"><a href="${esc(placeHash(WORK, c.start_ref))}" title="${esc(c.basis)}"><span>ch. ${esc((c.label.match(/chapter (\S+)$/i) || ["", ""])[1])}</span><span>${esc(c.start_ref)}–${esc(c.end_ref)}</span></a></li>`).join("")}</ul></details>`;
   }
   h += `<h3>Aristotle</h3><ul class="books">${arWorks().map((x) =>
     `<li class="${x.id === w.id ? "here" : ""}"><a href="#${esc(x.slug)}"><span>${esc(x.title)}</span></a></li>`).join("")}</ul>
     <p class="note"><a href="#aristotle">Start here for Aristotle</a> · <a href="#taylor/aristotle-dissertation">Taylor's Dissertation</a></p>
+    ${["ar006", "ar017", "ar001", "ar001p", "ar044", "ar040"].includes(w.id) ? `<p class="note"><a href="#taylor/porphyry-introduction">Porphyry's Introduction</a>, the door to the logic</p>` : ""}
     ${w.id === "ar025" ? `<p class="note"><a href="#taylor/metaphysics-introduction">Taylor's Introduction</a> · <a href="#taylor/metaphysics-additional-notes">his Additional Notes</a></p>` : ""}
     <p class="note"><a href="#library">The Library</a></p>
     <details class="note"><summary>About this text</summary>${arSources()}</details>`;
@@ -140,8 +169,8 @@ function arTermSection(t) {
 // politics, physics, theology, and then Plato. The works of each step, by their TLG numbers (ar + number); a work not yet
 // in the Workshop is listed without a link. Taylor's division (1812, Book I ch. 1) puts the Rhetoric with the logic.
 const AR_ORDER = [
-  { step: "Logic", taylor: "instrumental", note: "The tools of demonstration, read first.",
-    works: [["ar006", "Categories"], ["ar017", "On Interpretation"], ["ar001", "Prior Analytics"], [null, "Posterior Analytics"], ["ar044", "Topics"], ["ar040", "Sophistical Refutations"], ["ar038", "Rhetoric"], ["ar034", "Poetics"]] },
+  { step: "Logic", taylor: "instrumental", note: "The tools of demonstration, read first, after Porphyry's Introduction.", door: true,
+    works: [["ar006", "Categories"], ["ar017", "On Interpretation"], ["ar001", "Prior Analytics"], ["ar001p", "Posterior Analytics"], ["ar044", "Topics"], ["ar040", "Sophistical Refutations"], ["ar038", "Rhetoric"], ["ar034", "Poetics"]] },
   { step: "Ethics", taylor: "practical: moral", note: "\"That we may become virtuous\".",
     works: [["ar010", "Nicomachean Ethics"], ["ar009", "Eudemian Ethics"], ["ar022", "Great Morals (Magna Moralia)"], ["ar045", "On Virtues and Vices"]] },
   { step: "Politics", taylor: "practical: economical and political", note: "",
@@ -154,6 +183,7 @@ const AR_ORDER = [
 
 // Each quotation as Taylor printed it, checked against the scan; "at" is words of the paragraph it is in, to open it there.
 const AR_DISS = "aristotle-dissertation";
+const AR_ISAGOGE = "porphyry-introduction";
 const AR_QUOTES = {
   marinus: { text: `In less than two whole years therefore, Proclus read with Syrianus all the works of Aristotle, viz. his logic, ethics, politics, physics, and theological science. And being sufficiently instructed in these as in certain proteleia, or things preparatory to initiation, and lesser mysteries, Syrianus led him to the mystic discipline of Plato, in an orderly progression, and not according to the Chaldean oracle with a transcendent foot.`,
     src: `Marinus, Life of Proclus, in Taylor's translation (in his Proclus On the Theology of Plato, 1816; Project Gutenberg's text).` },
@@ -197,7 +227,7 @@ function showArStart() {
     ${arQuote("end")}
     <p>So the course runs as Marinus gives it, from logic to theology. The works of each step, in the Workshop where a link is given:</p>
     <ol class="ar-order">${AR_ORDER.map((g) => `<li><b>${esc(g.step)}</b> <span class="meta">(Taylor's ${esc(g.taylor)})${g.note ? " " + esc(g.note) : ""}</span><br>
-      ${g.works.map(([id, title]) => have.has(id) ? `<a href="#${esc(have.get(id).slug)}">${esc(title)}</a>` : `<span class="ar-later" title="Not yet in the Workshop">${esc(title)}</span>`).join(" · ")}</li>`).join("")}
+      ${g.door ? `<a href="#taylor/${AR_ISAGOGE}">Porphyry's Introduction</a> <span class="meta">(Owen, 1853; the Greek is <a href="#neo/porphyry-isagoge">here</a>)</span> → ` : ""}${g.works.map(([id, title]) => have.has(id) ? `<a href="#${esc(have.get(id).slug)}">${esc(title)}</a>` : `<span class="ar-later" title="Not yet in the Workshop">${esc(title)}</span>`).join(" · ")}</li>`).join("")}
       <li><b>Plato</b> <span class="meta">The greater mysteries:</span> <a href="#start">Start here for Plato</a>, the dialogues in the order of Iamblichus.</li></ol>
     <h3 id="ar-way">How he writes</h3>
     ${arQuote("diction")}
