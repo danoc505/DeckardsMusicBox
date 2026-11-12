@@ -30,6 +30,7 @@ SHA-256) and the time.
 """
 import argparse
 import hashlib
+import http.client
 import json
 import subprocess
 import sys
@@ -95,7 +96,7 @@ def fetch_http(src, attempts=6):
                     if marker and marker in data:
                         data = data[: data.index(marker) + len(marker)]
                         break
-        except OSError as e:  # cut-off transfers raise here; the checksum below decides
+        except (OSError, http.client.HTTPException) as e:  # cut-off transfers (IncompleteRead) raise here; the checksum below decides
             print(f"  attempt {attempt}: {e}")
         digest = hashlib.sha256(data).hexdigest()
         if digest == src["sha256"]:
