@@ -1,0 +1,950 @@
+{
+ "schema": "platonic-workshop/modern-enneads-v1",
+ "text": "enneads",
+ "kind": "enneads",
+ "title": "The Enneads in modern English",
+ "author": "Plotinus",
+ "by": "Workshop modern version",
+ "machine_assisted": true,
+ "label": "The Workshop's modern English, machine-assisted: drafted with an AI model (Claude) from the Greek and not yet checked by a scholar. The Greek of each paragraph, and MacKenna's English of each chapter, are one tap away.",
+ "made_from": "greek",
+ "greek_text": "plotinus-enneads",
+ "taylor_work": null,
+ "older": {
+  "translator": "Stephen MacKenna",
+  "label": "MacKenna",
+  "volumes": [
+   {
+    "file": "texts/plotinus/mackenna-1917.json",
+    "year": 1917
+   }
+  ],
+  "how": "the Internet Archive's OCR of the printed volumes, read by rule (tools/mackenna.py), not proofread"
+ },
+ "about": "A modern English version of Plotinus' Enneads, written for the Workshop, a few treatises at a time, in the order Porphyry gave them when he edited his teacher's writings in six sets of nine. It is translated from the Greek of Volkmann's edition (Leipzig, 1883-1884), as First1KGreek gives it, chapter by chapter, and checked against Stephen MacKenna's translation (London, 1917-1930), which was made from the same Greek. Where the Greek says something MacKenna's English does not, the modern version follows the Greek, and a flag shows MacKenna's words and the difference. Plato's and Aristotle's words that Plotinus uses are noted with their place. The chapters are Volkmann's (Ficino's); the short titles and summaries are the Workshop's. The fifteen treatises Thomas Taylor translated (1817) are read in modern English beside his English, from the contents below.",
+ "source": "sources/translations/modern/enneads.txt",
+ "contents": [
+  {
+   "id": "I.1",
+   "title": "What is the living being, and what is the human being?",
+   "status": "here",
+   "first": "I.1.1"
+  },
+  {
+   "id": "I.2",
+   "title": "On the virtues",
+   "status": "taylor"
+  },
+  {
+   "id": "I.3",
+   "title": "On dialectic",
+   "status": "taylor"
+  },
+  {
+   "id": "I.4",
+   "title": "On happiness",
+   "status": "to come",
+   "milestone": "E2"
+  },
+  {
+   "id": "I.5",
+   "title": "Whether happiness grows with time",
+   "status": "to come",
+   "milestone": "E2"
+  },
+  {
+   "id": "I.6",
+   "title": "On beauty",
+   "status": "to come",
+   "milestone": "E3"
+  },
+  {
+   "id": "I.7",
+   "title": "On the first good and the other goods",
+   "status": "to come",
+   "milestone": "E3"
+  },
+  {
+   "id": "I.8",
+   "title": "What evils are, and where they come from",
+   "status": "to come",
+   "milestone": "E4"
+  },
+  {
+   "id": "I.9",
+   "title": "On going out of life",
+   "status": "to come",
+   "milestone": "E4"
+  },
+  {
+   "id": "II.1",
+   "title": "On the heaven",
+   "status": "to come",
+   "milestone": "E7"
+  },
+  {
+   "id": "II.2",
+   "title": "On the movement of the heaven",
+   "status": "to come",
+   "milestone": "E7"
+  },
+  {
+   "id": "II.3",
+   "title": "Whether the stars are causes",
+   "status": "to come",
+   "milestone": "E8"
+  },
+  {
+   "id": "II.4",
+   "title": "On matter",
+   "status": "taylor"
+  },
+  {
+   "id": "II.5",
+   "title": "On what is potential and what is actual",
+   "status": "to come",
+   "milestone": "E9"
+  },
+  {
+   "id": "II.6",
+   "title": "On substance, or on quality",
+   "status": "to come",
+   "milestone": "E9"
+  },
+  {
+   "id": "II.7",
+   "title": "On complete blending",
+   "status": "to come",
+   "milestone": "E9"
+  },
+  {
+   "id": "II.8",
+   "title": "On sight, or why distant things look small",
+   "status": "to come",
+   "milestone": "E9"
+  },
+  {
+   "id": "II.9",
+   "title": "Against the Gnostics",
+   "status": "taylor"
+  },
+  {
+   "id": "III.1",
+   "title": "On destiny",
+   "status": "to come",
+   "milestone": "E10"
+  },
+  {
+   "id": "III.2",
+   "title": "On providence, first part",
+   "status": "to come",
+   "milestone": "E11"
+  },
+  {
+   "id": "III.3",
+   "title": "On providence, second part",
+   "status": "to come",
+   "milestone": "E12"
+  },
+  {
+   "id": "III.4",
+   "title": "On the daemon allotted to us",
+   "status": "to come",
+   "milestone": "E12"
+  },
+  {
+   "id": "III.5",
+   "title": "On love",
+   "status": "to come",
+   "milestone": "E13"
+  },
+  {
+   "id": "III.6",
+   "title": "On the impassibility of the bodiless",
+   "status": "taylor"
+  },
+  {
+   "id": "III.7",
+   "title": "On eternity and time",
+   "status": "taylor"
+  },
+  {
+   "id": "III.8",
+   "title": "On nature, contemplation and the One",
+   "status": "to come",
+   "milestone": "E14"
+  },
+  {
+   "id": "III.9",
+   "title": "Various considerations",
+   "status": "to come",
+   "milestone": "E14"
+  },
+  {
+   "id": "IV.1",
+   "title": "On the being of the soul, first part",
+   "status": "to come",
+   "milestone": "E15"
+  },
+  {
+   "id": "IV.2",
+   "title": "On the being of the soul, second part",
+   "status": "taylor"
+  },
+  {
+   "id": "IV.3",
+   "title": "On difficulties about the soul, first part",
+   "status": "taylor"
+  },
+  {
+   "id": "IV.4",
+   "title": "On difficulties about the soul, second part",
+   "status": "to come",
+   "milestone": "E15-E17"
+  },
+  {
+   "id": "IV.5",
+   "title": "On difficulties about the soul, third part, or on sight",
+   "status": "to come",
+   "milestone": "E18"
+  },
+  {
+   "id": "IV.6",
+   "title": "On perception and memory",
+   "status": "to come",
+   "milestone": "E18"
+  },
+  {
+   "id": "IV.7",
+   "title": "On the immortality of the soul",
+   "status": "taylor"
+  },
+  {
+   "id": "IV.8",
+   "title": "On the descent of the soul into bodies",
+   "status": "to come",
+   "milestone": "E19"
+  },
+  {
+   "id": "IV.9",
+   "title": "Whether all souls are one",
+   "status": "to come",
+   "milestone": "E19"
+  },
+  {
+   "id": "V.1",
+   "title": "On the three first realities",
+   "status": "taylor"
+  },
+  {
+   "id": "V.2",
+   "title": "On the origin and order of what comes after the first",
+   "status": "taylor"
+  },
+  {
+   "id": "V.3",
+   "title": "On the knowing realities and what is beyond",
+   "status": "taylor"
+  },
+  {
+   "id": "V.4",
+   "title": "How what comes after the first comes from it, and on the One",
+   "status": "to come",
+   "milestone": "E20"
+  },
+  {
+   "id": "V.5",
+   "title": "That the intelligibles are not outside intellect, and on the Good",
+   "status": "to come",
+   "milestone": "E20"
+  },
+  {
+   "id": "V.6",
+   "title": "That what is beyond being does not think",
+   "status": "taylor"
+  },
+  {
+   "id": "V.7",
+   "title": "Whether there are forms of individuals",
+   "status": "to come",
+   "milestone": "E21"
+  },
+  {
+   "id": "V.8",
+   "title": "On intelligible beauty",
+   "status": "to come",
+   "milestone": "E21"
+  },
+  {
+   "id": "V.9",
+   "title": "On intellect, the forms and being",
+   "status": "taylor"
+  },
+  {
+   "id": "VI.1",
+   "title": "On the kinds of being, first part",
+   "status": "to come",
+   "milestone": "E22-E23"
+  },
+  {
+   "id": "VI.2",
+   "title": "On the kinds of being, second part",
+   "status": "to come",
+   "milestone": "E24"
+  },
+  {
+   "id": "VI.3",
+   "title": "On the kinds of being, third part",
+   "status": "to come",
+   "milestone": "E25-E26"
+  },
+  {
+   "id": "VI.4",
+   "title": "That being, one and the same, is everywhere whole, first part",
+   "status": "to come",
+   "milestone": "E27"
+  },
+  {
+   "id": "VI.5",
+   "title": "That being, one and the same, is everywhere whole, second part",
+   "status": "to come",
+   "milestone": "E28"
+  },
+  {
+   "id": "VI.6",
+   "title": "On numbers",
+   "status": "to come",
+   "milestone": "E29"
+  },
+  {
+   "id": "VI.7",
+   "title": "How the many forms came to be, and on the Good",
+   "status": "to come",
+   "milestone": "E30-E32"
+  },
+  {
+   "id": "VI.8",
+   "title": "On free will and the will of the One",
+   "status": "to come",
+   "milestone": "E33"
+  },
+  {
+   "id": "VI.9",
+   "title": "On the Good, or the One",
+   "status": "taylor"
+  }
+ ],
+ "treatises": [
+  {
+   "id": "I.1",
+   "title": "What is the living being, and what is the human being?",
+   "summary": "Where do our feelings, perceptions and thoughts belong: to the soul, to the body, or to something made of both? Plotinus argues that the soul in itself cannot be affected: it lights up the body and makes of it, together with that light, a living being, and the feelings and sensations belong to this living being. \"We\" are found higher up, where the soul judges the impressions of sense and reasons, and above us is intellect, which is also ours. Evil, error and punishment belong to the compound, not to the soul itself, which is never cut off from what is above it.",
+   "chapters": [
+    "I.1.1",
+    "I.1.2",
+    "I.1.3",
+    "I.1.4",
+    "I.1.5",
+    "I.1.6",
+    "I.1.7",
+    "I.1.8",
+    "I.1.9",
+    "I.1.10",
+    "I.1.11",
+    "I.1.12",
+    "I.1.13"
+   ]
+  }
+ ],
+ "chapters": [
+  {
+   "id": "I.1.1",
+   "treatise": "I.1",
+   "title": "The question: where do our feelings belong?",
+   "summary": "Pleasure and pain, fear and confidence, desire and aversion: whose are they? The soul's, the soul's as it uses the body, or something made of both? The same must be asked of opinion, of thinking, and of the very thing that asks; and first of all, of perception.",
+   "greek_unit": "1.1.1",
+   "greek_part": 0,
+   "older": [
+    {
+     "n": 1,
+     "label": "I.1, chapter 1",
+     "page": 29,
+     "year": 1917,
+     "text": "Pleasure and distress, fear and courage, desire and aversion, where have these affections and experiences their seat ?\n\nClearly, either in the Soul alone, or in the Soul as employing the body, or in some third entity deriving from both. And for this third entity, again, there are two possible modes : it might be either a blend or a distinct form due to the blending.\n\nAnd what applies to the affections applies also to whatsoever acts, physical or mental, spring from them.\n\nWe have, therefore, to examine discursive-reason and the ordinary mental action upon objects of sense, and enquire whether these have the one seat with the affections and experiences, or perhaps sometimes the one seat, sometimes another.\n\nAnd we must consider also our acts of Intellection, their mode and their seat.\n\nAnd this very examining principle, which investigates and decides in these matters, must be brought to light.\n\nFirstly, what is the seat of Sense-Perception ? This is the obvious beginning since the affections and experiences either are sensations of some kind or at least never occur apart from sensation."
+    }
+   ]
+  },
+  {
+   "id": "I.1.2",
+   "treatise": "I.1",
+   "title": "If the soul is a pure form, it cannot be affected",
+   "summary": "Is the soul one thing and \"being soul\" another? If so, the soul is a compound and may receive feelings. If they are the same, the soul is a form, untouched by what it gives to another, and so truly immortal: it fears nothing, desires nothing, grieves at nothing, and neither perceives nor forms opinions. Whether it thinks is still to be asked.",
+   "greek_unit": "1.1.2",
+   "greek_part": 0,
+   "older": [
+    {
+     "n": 2,
+     "label": "I.1, chapter 2",
+     "page": 29,
+     "year": 1917,
+     "text": "This first enquiry obliges us to consider at the outset the nature of the Soul — that is whether a distinction is to be made between Soul and Essential Soul (between an individual Soul and the Soul-Kind in itself).\n\nIf such a distinction holds, then the Soul (in man) is some sort of a composite and at once we may agree that it is a recipient and — if only reason allows — that all the affections and experiences really have their seat in the Soul, and with the affections every state and mood, good and bad alike.\n\nBut if Soul (in man) and Essential Soul are one and the same, then the Soul will be an Ideal-Form unreceptive of all those activities which it imparts to another Kind but possessing within itself that native Act of its own which Reason manifests.\n\nIf this be so, then, indeed, we may think of the Soul as an immortal — if the immortal, the imperishable, must be impassive, giving out something of itself but itself taking nothing from without except for what it receives from the Exis tents prior to itself from which Exis tents, in that they are the nobler, it cannot be sundered.\n\nNow what could bring fear to a nature thus unreceptive of all the outer ? Fear demands feeling. Nor is there place for courage : courage implies the presence of danger. And such desires as are satisfied by the filling or voiding of the body, must be proper to something very different from the Soul, to that only which admits of replenishment and voidance.\n\nAnd how could the Soul lend itself to any admixture ? An essential is not mixed. Or of the intrusion of anything alien ? If it did, it would be seeking the destruction of its own nature. Pain must be equally far from it. And Grief — how or for what could it grieve ? Whatever possesses Existence is supremely free, dwelling, unchangeable, within its own peculiar nature. And can any increase bring joy, where nothing, not even anything good, can accrue ? What such an Existent is, it is unchangeably.\n\nThus assuredly Sense-Perception, Discursive-Reasoning and all our ordinary mentation are foreign to the Soul : for sensation is a receiving — whether of an Ideal-Form or of an impassive body — and reasoning and all ordinary mental action deal with sensation.\n\nThe question still remains to be examined in the matter of the intellections — whether these are to be assigned to the Soul — and as to Pure-Pleasure (pleasure apart from sense), whether this belongs to the Soul in its solitary state."
+    }
+   ]
+  },
+  {
+   "id": "I.1.3",
+   "treatise": "I.1",
+   "title": "The soul and the body: user and instrument",
+   "summary": "The soul is in the body, and the two together are called a living being. If the soul uses the body as a tool, it need not share the body's feelings, though it may need perception. But how could a feeling pass from a body to a soul? Before philosophy separates them, how were they joined? The possibilities: blended, woven through, a separate form, a form in touch like a pilot, or part one way and part the other.",
+   "greek_unit": "1.1.3",
+   "greek_part": 0,
+   "older": [
+    {
+     "n": 3,
+     "label": "I.1, chapter 3",
+     "page": 31,
+     "year": 1917,
+     "text": "We may treat of the Soul as in the body — whether it be set above it or actually within it — since the association of the two constitutes the one thing called the living organism, the Animate.\n\nNow from this relation, from the Soul using the body as an instrument, it does not follow that the Soul must share the body's experiences : a man does not himself feel all the experiences of the tools with which he is working.\n\nIt may be objected that the Soul must, however, have Sense-Perception since its use of its instrument must acquaint it with the external conditions, and such knowledge comes by way of sense. Thus, it will be argued, the eyes are the instrument of seeing, and seeing may bring distress to the soul : hence the Soul may feel sorrow and pain and every other affection that belongs to the body ; and from this again will spring desire, the Soul seeking the mending of its instrument.\n\nBut, we ask, how, possibly, can these affections pass from body to Soul ? Body may communicate qualities or conditions to another body : but — body to Soul ? Something happens to A ; does that make it happen to B ? As long as we have agent and instrument, there are two distinct entities ; if the Soul uses the body it is separate from it.\n\nBut apart from the philosophical separation how does Soul stand to body ?\n\nClearly there is a combination. And for this several modes are possible. There might be a complete coalescence : Soul might be interwoven through the body : or it might be an Ideal-Form detached or an Ideal-Form in governing contact like a pilot : or there might be part of the Soul detached and another part in contact, the disjoined part being the agent or user, the conjoined part ranking with the instrument or thing used.\n\nIn this last case it will be the double task of philosophy to direct this lower Soul towards the higher, the agent, and except in so far as the conjunction is absolutely necessary, to sever the agent from the instrument, the body, so that it need not forever have its Act upon or through this inferior."
+    }
+   ]
+  },
+  {
+   "id": "I.1.4",
+   "treatise": "I.1",
+   "title": "Neither blended nor woven through",
+   "summary": "If soul and body were blended, the body would gain and the soul would lose; but a soul with less life cannot gain perception, so the body would perceive and desire and fear. If the soul were woven through the body, like light it would not be affected. As a form in matter it would be a separate form, the user; even as the shape of an axe, the feelings would belong to the body as the axe's work belongs to the shaped iron.",
+   "greek_unit": "1.1.4",
+   "greek_part": 0,
+   "older": [
+    {
+     "n": 4,
+     "label": "I.1, chapter 4",
+     "page": 32,
+     "year": 1917,
+     "text": "Let us consider, then, the hypothesis of a coalescence.\n\nNow if there is a coalescence, the lower is ennobled, the nobler degraded ; the body is raised in the scale of being as made participant in life ; the Soul, as associated with death and unreason, is brought lower. How can a lessening of the life-quality produce an increase such as Sense-Perception ?\n\nNo : the body has acquired life, it is the body that will acquire, with life, sensation and the affections coming by sensation. Desire, then, will belong to the body, as the objects of desire are to be enjoyed by the body. And fear, too, will belong to the body alone ; for it is the body's doom to fail of its joys and to perish.\n\nThen again we should have to examine how such a coalescence could be conceived : we might find it impossible : perhaps all this is like announcing the coalescence of things utterly incongruous in kind, let us say of a line and whiteness.\n\nNext for the suggestion that the Soul is interwoven through the body : such a relation would not give woof and warp community of sensation : the interwoven element might very well suffer no change : the permeating soul might remain entirely untouched by what affects the body — as light goes always free of all it floods — and all the more so, since, precisely, we are asked to consider it as (not confined to any one part but) diffused throughout the entire frame.\n\nUnder such an interweaving, then, the Soul would not be subjected to the body's affections and experiences : it would be present rather as Ideal-Form in Matter.\n\nLet us then suppose Soul to be in body as Ideal-Form in Matter. Now if — the first possibility — the Soul is an essence, a self-existent, it can be present only as separable form and will therefore all the more decidedly be the Using-Principle (and therefore unaffected).\n\nSuppose, next, the Soul to be present like axe-form on iron : here, no doubt, the form is all important but it is still (not the one member but) the axe, the complement of iron and form, that effects whatever is effected by the iron thus modified : on this analogy, therefore, we are even more strictly compelled to assign all the experiences of the combination to the body : their natural seat is the material member, the instrument, the potential recipient of life (and not the Life-Principle itself).\n\nCompare the passage (in Plato) where we read that \" it is absurd to suppose that the Soul weaves \" ; equally absurd to think of it as desiring, grieving. All this is rather in the province of something which we may call the Animate."
+    }
+   ]
+  },
+  {
+   "id": "I.1.5",
+   "treatise": "I.1",
+   "title": "Can the compound feel? Opinion and desire",
+   "summary": "The living being is the body of a certain kind, the compound, or a third thing. Either the soul stays unaffected and causes the feeling in another, or it feels too. Grief starting from a judgement that something is bad does not show that the compound feels; nor does saying that desire belongs to the desiring part. Which comes first, the man's desire, the desiring part's, or the body's state?",
+   "greek_unit": "1.1.5",
+   "greek_part": 0,
+   "older": [
+    {
+     "n": 5,
+     "label": "I.1, chapter 5",
+     "page": 33,
+     "year": 1917,
+     "text": "Now this Animate might be merely the body as having life : it might be the Couplement of Soul and body : it might be a third and different entity formed from both.\n\nThe Soul in turn — apart from the nature of the Animate — must be either impassive, merely causing Sense-Perception in its yoke-fellow, or sympathetic ; and, if sympathetic, it may have identical experiences with its fellow or merely correspondent experiences : desire for example in the Animate may be something quite distinct from the accompanying movement or state in the desiring faculty.\n\nThe body, the live-body as we know it, we will consider later.\n\nLet us take first the Couplement of body and Soul. How could suffering, for example, be seated in this Couplement ?\n\nIt may be suggested that some unwelcome state of the body produces a distress which reaches to a Sensitive-Faculty which in turn merges into Soul. But this account still leaves the origin of the sensation unexplained.\n\nAnother suggestion might be that all is due to an opinion or judgement : some evil seems to have befallen the man or his belongings and this conviction sets up a state of trouble in the body and in the entire Animate. But this account leaves still a question as to the source and seat of the judgement : does it belong to the Soul or to the Couplement ? Besides, the judgement that evil is present does not involve the feeling of grief : the judgement might very well arise and the grief by no means follow : one may think oneself slighted and yet not be angry ; and the appetite is not necessarily excited by the thought of a pleasure. We are, thus, no nearer than before to any warrant for assigning these affections to the Couplement.\n\nIs it any explanation to say that desire is vested in a Faculty-ofdesire and anger in the Irascible-Faculty and, collectively, that all tendency is seated in the Appetitive-Faculty ? Such a statement of the facts does not help towards making the affections common to the Couplement ; they might still be seated either in the Soul alone or in the body alone. On the one hand if the appetite is to be stirred, as in the carnal passion, there must be a heating of the blood and the bile, a well-defined state of the body ; on the other hand, the impulse towards The Good cannot be a joint affection, but, like certain others too, it would belong necessarily to the Soul alone.\n\nReason, then, does not permit us to assign all the affections to the Couplement.\n\nIn the case of carnal desire, it will certainly be the Man that desires, and yet, on the other hand, there must be desire in the Desiring-Faculty as well. How can this be ? Are we to suppose that, when the man originates the desire, the Desiring-Faculty moves to the order ? How could the Man have come to desire at all unless through a prior activity in the Desiring-Faculty ? Then it is the Desiring-Faculty that takes the lead ? Yet how, unless the body be first in the appropriate condition ?"
+    }
+   ]
+  },
+  {
+   "id": "I.1.6",
+   "treatise": "I.1",
+   "title": "Do powers act, or what has the powers?",
+   "summary": "Perhaps, in general, what has a power acts by it, while the power itself stays unmoved. Then the soul, which gives life to the compound, is unaffected, and living and perceiving belong to the compound. But if perception is a movement through the body that ends in the soul, how can the soul not perceive?",
+   "greek_unit": "1.1.6",
+   "greek_part": 0,
+   "older": [
+    {
+     "n": 6,
+     "label": "I.1, chapter 6",
+     "page": 34,
+     "year": 1917,
+     "text": "It may seem reasonable to lay down as a law that when any powers are contained by a recipient, every action or state expressive of them must be the action or state of that recipient, they themselves remaining unaffected as merely furnishing efficiency.\n\nBut if this were so, then, since the Animate is the recipient of the Causing-Principle (i.e. the Soul) which brings life to the Couplement, this Cause must itself remain unaffected, all the experiences and expressive activities of the life being vested in the recipient, the Animate.\n\nBut this would mean that life itself belongs not to the Soul but to the Couplement ; or at least the life of the Couplement would not be the life of the Soul ; Sense-Perception would belong not to the Sensitive-Faculty but to the container of the faculty.\n\nBut if sensation is a movement traversing the body and culminating in Soul, how can the soul lack sensation ? The very presence of the Sensitive-Faculty must assure sensation to the Soul.\n\nOnce again, where is Sense-Perception seated ?\n\nIn the Couplement.\n\nYet how can the Couplement have sensation independently of action in the Sensitive-Faculty, the Soul left out of count and the Soul-Faculty ?"
+    }
+   ]
+  },
+  {
+   "id": "I.1.7",
+   "treatise": "I.1",
+   "title": "The light of the soul; where \"we\" are",
+   "summary": "The compound exists by the soul's presence: the soul does not give itself, but makes, from the body and a kind of light from itself, the living being, which perceives and feels. We perceive because we are not apart from it. The soul's power of perception grasps the impressions, already intelligible; from these come reasoning, opinion and thought, and there \"we\" are most of all: the true man, above the lion and the many-coloured beast.",
+   "greek_unit": "1.1.7",
+   "greek_part": 0,
+   "older": [
+    {
+     "n": 7,
+     "label": "I.1, chapter 7",
+     "page": 35,
+     "year": 1917,
+     "text": "The truth lies in the Consideration that the Couplement subsists by virtue of the Soul's presence.\n\nThis, however, is not to say that the Soul gives itself as it is in itself to form either the Couplement or the body.\n\nNo ; from the organised body and something else, let us say a light, which the Soul gives forth from itself, it forms a distinct Principle, the Animate ; and in this Principle are vested Sense-Perception and all the other experiences found to belong to the Animate.\n\nBut the \" We \" ? How have We Sense-Perception ?\n\nBy the fact that We are not separate from the Animate so constituted, even though certainly other and nobler elements go to make up the entire many-sided nature of Man.\n\nThe faculty of perception in the Soul cannot act by the immediate grasping of sensible objects, but only by the discerning of impressions printed upon the Animate by sensation : these impressions are already Intelligibles while the outer sensation is a mere phantom of the other (of that in the Soul) which is nearer to Authentic-Existence as being an impassive reading of Ideal-Forms.\n\nAnd by means of these Ideal-Forms, by which the Soul wields single lordship over the Animate, we have Discursive-Reasoning, Sense-Knowledge and Intellection. From this moment we have peculiarly the We : before this there was only the \" Ours \" ; but at this stage stands the WE (the authentic Human-Principle) loftily presiding over the Animate.\n\nThere is no reason why the entire compound entity should not be described as the Animate or Living-Being — mingled in a lower phase, but above that point the beginning of the veritable man, distinct from all that is kin to the lion, all that is of the order of the multiple brute. And since The Man, so understood, is essentially the associate of the reasoning Soul, in our reasoning it is this \"We\" that reasons, in that the use and act of reason is a characteristic Act of the Soul."
+    }
+   ]
+  },
+  {
+   "id": "I.1.8",
+   "treatise": "I.1",
+   "title": "Intellect, God, and the soul's images",
+   "summary": "Intellect itself, not the soul's state of mind, is ours too, above us: shared by all and whole in each. So we have the forms twice, unrolled in the soul and all together in intellect. God rides above the intelligible nature; we come third, from the undivided soul above and the soul divided among bodies, which seems divided because it shines into them, like one face in many mirrors. Its images run down to the powers of growth and generation.",
+   "greek_unit": "1.1.8",
+   "greek_part": 0,
+   "older": [
+    {
+     "n": 8,
+     "label": "I.1, chapter 8",
+     "page": 36,
+     "year": 1917,
+     "text": "And towards the Intellectual-Principle what is our relation ? By this I mean, not that faculty in the soul which is one of the emanations from the Intellectual-Principle, but The Intellectual-Principle itself (Divine-Mind).\n\nThis also we possess as the summit of our being. And we have It either as common to all or as our own immediate possession : or again we may possess It in both degrees, that is in common, since It is indivisible — one, everywhere and always Its entire self — and severally in that each personality possesses It entire in the First-Soul (i.e. in the Intellectual as distinguished from the lower phase of the Soul).\n\nHence we possess the Ideal-Forms also after two modes : in the Soul, as it were unrolled and separate ; in the Intellectual-Principle, concentrated, one.\n\nAnd how do we possess the Divinity ?\n\nIn that the Divinity is contained in the Intellectual-Principle and Authentic-Existence ; and We come third in order after these two, for the We is constituted by a union of the supreme, the undivided Soul — we read — and that Soul which is divided among (living) bodies. For, note, we inevitably think of the Soul, though one and undivided in the All, as being present to bodies in division : in so far as any bodies are Animates, the Soul has given itself to each of the separate material masses ; or rather it appears to be present in the bodies by the fact that it shines into them : it makes them living beings not by merging into body but by giving forth, without any change in itself, images or likenesses of itself like one face caught by many minors.\n\nThe first of these images is (the faculty of) Sense-Perception seated in the Couplement ; and from this downwards all the successive images are to be recognised as phases of the Soul in lessening succession from one another, until the series ends in the faculties of generation and growth and of all production of offspring — offspring efficient in its turn, in contradistinction to the engendering Soul which (has no direct action within matter but) produces by mere inclination towards what it fashions."
+    }
+   ]
+  },
+  {
+   "id": "I.1.9",
+   "treatise": "I.1",
+   "title": "The soul does not err; errors come from below",
+   "summary": "The soul is free of the causes of the evils a human does and suffers. Then how can opinion and reasoning belong to it without error? Wrong-doing comes when the worse in us wins: imagination that has not waited for reason's judgement. Intellect did not touch the act. What needs no body is the soul's own, and true reasoning is the activity of thoughts, judging the impressions of sense. So the soul itself stays at rest; the turmoil belongs to the compound.",
+   "greek_unit": "1.1.9",
+   "greek_part": 0,
+   "older": [
+    {
+     "n": 9,
+     "label": "I.1, chapter 9",
+     "page": 37,
+     "year": 1917,
+     "text": "That Soul, then, in us, will in its nature stand apart from all that can cause any of the evils which man does or suffers ; for all such evil, as we have seen, belongs only to the Animate, the Couplement.\n\nBut there is a difficulty in understanding how the Soul can go guiltless if our mentation and reasoning are vested in it : for all this lower kind of knowledge is delusion and is the cause of much of what is evil.\n\nWhen we have done evil it is because we have been worsted by our baser side — for a man is many — by desire or rage or some evil image : the misnamed reasoning that takes up with the false, in reality fancy, has not stayed for the judgement of the Reasoning-Principle: we have acted at the call of the less worthy, just as in matters of the sense-sphere we sometimes see falsely because we credit only the lower perception, that of the Couplement, without applying the tests of the Reasoning-Faculty.\n\nThe Intellectual-Principle has held aloof from the act and so is guiltless ; or, as we may state it, all depends on whether we ourselves have or have not put ourselves in touch with the Intellectual-Realm either in the Intellectual-Principle or within ourselves ; for it is possible at once to possess and not to use.\n\nThus we have marked off what belongs to the Couplement from what stands by itself : the one group has the character of body and never exists apart from body, while all that has no need of body for its manifestation belongs peculiarly to Soul : and the Understanding, as passing judgement upon Sense-Impressions, is at the point of the vision of Ideal-Forms, seeing them as it were with an answering sensation (i.e. with consciousness) this last is at any rate true of the Understanding in the Veritable Soul. For Understanding, the true, is the Act of the Intellections : in many of its manifestations it is the assimilation and reconciliation of the outer to the inner.\n\nThus in spite of all, the Soul is at peace as to itself and within itself : all the changes and all the turmoil we experience are the issue of what is subjoined to the Soul, and are, as we have said, the states and experiences of this elusive \" Couplement.\""
+    }
+   ]
+  },
+  {
+   "id": "I.1.10",
+   "treatise": "I.1",
+   "title": "The two senses of \"we\"; the true man",
+   "summary": "If we are the soul, and we feel these things, the soul feels them. But \"we\" is said in two ways: with the beast, that is, the body brought to life, or above it. The true man is pure of it and has the virtues of thought, which sit in the soul that can be separated; the virtues of habit and training, and the vices, belong to the compound.",
+   "greek_unit": "1.1.10",
+   "greek_part": 0,
+   "older": [
+    {
+     "n": 10,
+     "label": "I.1, chapter 10",
+     "page": 38,
+     "year": 1917,
+     "text": "It will be objected, that if the Soul constitutes the We (the personality) and We are subject to these states then the Soul must be subject to them, and similarly that what We do must be done by the Soul.\n\nBut it has been observed that the Couplement, too — especially before our emancipation — is a member of this total We, and in fact what the body experiences we say We experience. This We then covers two distinct notions ; sometimes it includes the brute-part, sometimes it transcends the brute. The body is brute touched to life ; the true man is the other, going pure of the body, natively endowed with the virtues which belong to the Intellectual-Activity, virtues whose seat is the Separate Soul, the Soul which even in its dwelling here may be kept apart. (This Soul constitutes the human being) for when it has wholly withdrawn, that other Soul which is a radiation (or emanation) from it withdraws also, drawn after it.\n\nThose virtues, on the other hand, which spring not from contemplative wisdom but from custom or practical discipline belong to the Couplement : to the Couplement, too, belong the vices ; they are its repugnances, desires, sympathies.\n\nAnd Friendship ?\n\nThis emotion belongs sometimes to the lower part, sometimes to the interior man."
+    }
+   ]
+  },
+  {
+   "id": "I.1.11",
+   "treatise": "I.1",
+   "title": "Children, the middle, and the animals",
+   "summary": "In children the compound is at work and little shines down from above. The higher part is ours only when we are aware of it, as we direct the middle up or down. In animals, if they hold human souls that have sinned, the separable part is present but not present to them; if not, they live by a light from the soul of the whole.",
+   "greek_unit": "1.1.11",
+   "greek_part": 0,
+   "older": [
+    {
+     "n": 11,
+     "label": "I.1, chapter 11",
+     "page": 39,
+     "year": 1917,
+     "text": "In childhood the main activity is in the Couplement and there is but little irradiation from the higher principles of our being : but when these higher principles act but feebly or rarely upon us their action is directed towards the Supreme ; they work upon us only when they stand at the mid-point.\n\nBut does not the We include that phase of our being which stands above the mid-point ?\n\nIt does, but on condition that we lay hold of it : our entire nature is not ours at all times but only as we direct the mid-point upwards or downwards, or lead some particular phase of our nature from potentiality or native character into act.\n\nAnd the animals, in what way or degree do they possess the Animate ?\n\nIf there be in them, as the opinion goes, human Souls that have sinned, then the Animating-Principle in its separable phase does not enter directly into the brute ; it is there but not there to them ; they are aware only of the image of the Soul (only of the lower Soul) and of that only by being aware of the body organised and determined by that image.\n\nIf there be no human Soul in them, the Animate is constituted for them by a radiation from the All-Soul."
+    }
+   ]
+  },
+  {
+   "id": "I.1.12",
+   "treatise": "I.1",
+   "title": "Is the soul sinless? Glaucus and Heracles",
+   "summary": "If the soul is without sin, why the punishments? The two accounts can be reconciled: the sinless soul is the simple soul, essence and soul the same; the soul that sins is the compound, with another kind of soul added at birth. Its going down is only lighting what is below, as a shadow is no fault of the light. Homer's Heracles, a shade in Hades and a god among the gods, shows the two.",
+   "greek_unit": "1.1.12",
+   "greek_part": 0,
+   "older": [
+    {
+     "n": 12,
+     "label": "I.1, chapter 12",
+     "page": 39,
+     "year": 1917,
+     "text": "But if Soul is sinless, how come the expiations ? Here surely is a contradiction ; on the one side the Soul is above all guilt ; on the other, we hear of its sin, its purification, its expiation ; it is doomed to the lower world, it passes from body to body.\n\nWe may take either view at will : they are easily reconciled.\n\nWhen we tell of the sinless Soul we make Soul and Essential-Soul one and the same : it is the simple unbroken Unity.\n\nBy the Soul subject to sin we indicate a groupment, we include that other, that phase of the Soul which knows all the states and passions : the Soul in this sense is compound, all-inclusive : it falls under the conditions of the entire living experience : this compound it is that sins ; it is this, and not the other, that pays penalty.\n\nIt is in this sense that we read of the Soul \" We saw it as those others saw the sea-god Glaukos.\" \" And,\" reading on, \" if we mean to discern the nature of the Soul we must strip it free of all that has gathered about it, must see into the philosophy of it, examine with what Existences it has touch and by kinship to what Existences it is what it is.\"\n\nThus the Life is one thing, the Act is another and the Expiator yet another. The retreat and sundering, then, must be not from this body only, but from every alien accruement. Such accruement takes place at birth ; or rather birth is the coming-into-being of that other (lower) phase of the Soul. For the meaning of birth has been indicated elsewhere ; it is brought about by a descent of the Soul, something being given off by the Soul other than that actually coming down in the declension.\n\nThen the Soul has let this image fall ? And this declension is it not certainly sin ?\n\nIf the declension is no more than the illuminating of an object beneath, it constitutes no sin : the shadow is to be attributed not to the luminary but to the object illuminated ; if the object were not there, the light could cause no shadow.\n\nAnd the Soul is said to go down, to decline, only in that the object it illuminates lives by its life. And it lets the image fall only if there be nothing near to take it up ; and it lets it fall, not as a thing cut off, but as a thing that ceases to be : the image has no further being when the whole Soul is looking toward the Supreme.\n\nThe poet, too, in the story of Hercules, seems to give this image separate existence ; he puts the shade of Hercules in the lower world and Hercules himself among the gods : treating the hero as existing in the two realms at once, he gives us a twofold Hercules.\n\nIt is not difficult to explain this distinction. Hercules was a hero of practical virtue. By his noble serviceableness he was worthy to be a God. On the other hand, his merit was action and not the Contemplation which would place him unreservedly in the higher realm. Therefore while he has place above, something of him remains below."
+    }
+   ]
+  },
+  {
+   "id": "I.1.13",
+   "treatise": "I.1",
+   "title": "Who inquires? We, by the soul",
+   "summary": "Who made this inquiry: we, or the soul? We, by the soul, in so far as it is soul, with a movement that is its own life, not a body's. Our thinking is twofold: the soul is intellectual, and intellect too acts on us, for it is part of us, and we go up to it.",
+   "greek_unit": "1.1.13",
+   "greek_part": 0,
+   "older": [
+    {
+     "n": 13,
+     "label": "I.1, chapter 13",
+     "page": 41,
+     "year": 1917,
+     "text": "And the principle that reasons out these matters ? Is it We or the Soul?\n\nWe, but by the Soul.\n\nBut how \" by the Soul \" ? Does this mean that the Soul reasons by possession (by contact with the matters of enquiry) ?\n\nNo ; by the fact of being Soul. Its Act subsists without movement ; or any movement that can be ascribed to it must be utterly distinct from all corporal movement and be simply the Soul's own life.\n\nAnd Intellection in us is twofold : since the Soul is intellective, and Intellection is the highest phase of life, we have Intellection both by the characteristic Act of our Soul and by the Act of the Intellectual-Principle upon us — for this Intellectual-Principle is part of us no less than the Soul, and towards it we are ever rising."
+    }
+   ]
+  }
+ ],
+ "paragraphs": [
+  {
+   "seg": "I.1.1.p1",
+   "chapter": "I.1.1",
+   "modern": "Pleasures and pains, fears and boldness, desires and aversions, and suffering: whose would these be? They belong either to the soul, or to the soul as it uses a body, or to some third thing made of both. And this third thing can be taken in two ways: either it is the mixture itself, or it is something else, made from the mixture. It is likewise with what comes about from these feelings: what we do, and what we believe because of them. So we must also examine reasoning and opinion, and ask whether they belong to the same thing as the feelings, or whether some belong in this way and others in another. We must also consider acts of thought: how they happen, and whose they are. And we must ask what this very thing is that examines these questions, carries out the inquiry and makes the judgement. But before all this: whose is perceiving? That is where we should begin, since the feelings are either perceptions of some kind or never come about without perception.",
+   "greek": "Ἡδοναὶ καὶ λῦπαι φόβοι τε καὶ θάρρη ἐπιθυμίαι τε καὶ ἀποστροφαὶ καὶ τὸ ἀλγεῖν τίνος ἂν εἶεν; ἢ γὰρ ψυχῆς, ἢ χρωμένης ψυχῆς σώματι, ἢ τρίτου τινὸς ἐξ ἀμφοῖν. διχῶς δὲ καὶ τοῦτο: ἢ γὰρ τοῦτο μῖγμα, ἢ ἄλλο ἕτερον ἐκ τοῦ μίγματος. ὁμοίως δὲ καὶ τὰ ἐκ τούτων τῶν παθημάτων γινόμενα καὶ πραττόμενα καὶ δοξαζόμενα. καὶ οὖν καὶ διάνοια καὶ δόξα ζητητέαι, πότερα ὧν τὰ πάθη, ἢ αἱ μὲν οὕτως, αἱ δὲ ἄλλως. καὶ τὰς νοήσεις δὲ θεωρητέον πῶς καὶ τίνος, καὶ δὴ καὶ αὐτὸ τοῦτο τὸ ἐπισκοποῦν καὶ περὶ τούτων τὴν ζήτησιν καὶ τὴν κρίσιν ποιούμενον τί ποτ̓ ἂν εἴη. καὶ πρότερον τὸ αἰσθάνεσθαι τίνος; ἐντεῦθεν γὰρ ἄρχεσθαι προσήκει, ἐπείπερ τὰ πάθη ἢ αἰσθήσεις τινὲς ἢ οὐκ ἄνευ αἰσθήσεως."
+  },
+  {
+   "seg": "I.1.2.p1",
+   "chapter": "I.1.2",
+   "modern": "First we must take up the soul, and ask whether the soul is one thing and being soul another. If so, the soul is something composite, and then it would not be strange for it to receive these feelings and for them to be its own, if the argument allows even this; and, in general, for it to have better and worse habits and dispositions. But if soul and being soul are the same, then the soul would be a form that does not receive any of these activities, which it brings to something else. It would have an activity of its own, native to it and within it, whatever our argument shows that activity to be.",
+   "greek": "πρῶτον δὲ ψυχὴν ληπτέον, πότερον ἄλλο μὲν ψυχή, ἄλλο δὲ ψυχῇ εἶναι. εἰ γὰρ τοῦτο, σύνθετόν τι ἡ ψυχὴ καὶ οὐκ ἄτοπον ἤδη δέχεσθαι αὐτὴν καὶ αὐτῆς εἶναι τὰ πάθη τὰ τοιαῦτα, εἰ ἐπιτρέψει καὶ οὕτως ὁ λόγος, καὶ ὅλως ἕξεις καὶ διαθέσεις χείρους καὶ βελτίους. ἤ, εἰ ταὐτόν ἐστι ψυχὴ καὶ τὸ ψυχῇ εἶναι, εἰδός τι ἂν εἴη ψυχὴ ἄδεκτον τούτων ἁπασῶν τῶν ἐνεργειῶν, ὧν ἐποιστικὸν ἄλλῳ, ἑαυτῷ δὲ συμφυᾶ ἔχον τὴν ἐνέργειαν ἐν ἑαυτῷ, ἥντινα ἂν φήνῃ ὁ λόγος.",
+   "flags": [
+    {
+     "taylor": "which Reason manifests",
+     "in": "MacKenna",
+     "why": "The Greek ἥντινα ἂν φήνῃ ὁ λόγος means \"whatever the argument shows it to be\": the \"reason\" (λόγος) here is the discussion now under way, not the soul's faculty of Reason."
+    }
+   ]
+  },
+  {
+   "seg": "I.1.2.p2",
+   "chapter": "I.1.2",
+   "modern": "In this way, too, it is true to call it immortal, if what is immortal and indestructible must be unaffected: it gives something of itself to another, but takes nothing from another, except what it has from the beings before it, from which, since they are better, it is not cut off. What would such a thing fear, when it receives nothing at all from outside? Let what can be affected do the fearing. Nor, then, is it bold: boldness belongs to those to whom frightening things come. And how could it have desires, which are satisfied through the body as it is emptied and filled, when what is emptied and filled is something other than the soul? How could it receive a mixture, if what is a real being is unmixed? How could anything be brought into it from outside? That would be to hurry towards not being what it is. Suffering is further away still. How could it grieve, or over what? What is simple in its being is sufficient to itself, since it stays in its own being. Does it take pleasure when something is added, when nothing comes to it, not even a good? What it is, it always is.",
+   "greek": "οὕτω γὰρ καὶ ἀθάνατον ἀληθὲς λέγειν, εἴπερ δεῖ τὸ ἀθάνατον καὶ ἄφθαρτον ἀπαθὲς εἶναι, ἄλλῳ ἑαυτοῦ πως διδόν, αὐτὸ δὲ παῤ ἄλλου μηδὲν ἢ ὅσον παρὰ τῶν πρὸ αὐτοῦ ἔχειν, ὧν μὴ ἀποτέτμηται κρειττόνων ὄντων. τί γὰρ ἂν καὶ φοβοῖτο τοιοῦτον ἄδεκτον ἂν παντὸς τοῦ ἔξω; ἐκεῖνο τοίνυν φοβείσθω, ὃ δύναται παθεῖν. οὐδὲ θαρρεῖ τοίνυν: τούτοις γὰρ θάρρος, οἷς ἂν τὰ φοβερὰ παρῇ. ἐπιθυμίαι δὲπῶς, αἳ διὰ σώματος ἀποπληροῦνται κενουμένου καὶ πληρουμένου, ἄλλου τοῦ πληρουμένου καὶ κενουμένου ὄντος. πῶς δὲ μίξεως δεκτικόν, εἰ τὸ οὐσιῶδες ἄμικτον. πῶς δὲ ἐπεισαγωγῆς τινων; οὕτω γὰρ ἂν σπεύδοι εἰς τὸ μὴ εἶναι ὅ ἐστι. τὸ δ’ ἀλγεῖν ἔτι πόρρω. λυπεῖσθαι δὲ πῶς ἢ ἐπὶ τίνι; αὔταρκες γὰρ τό γε ἁπλοῦν ἐν οὐσίᾳ, οἷόν ἐστι μένον ἐν οὐσίᾳ τῇ αὑτοῦ. ἥδεται δὲ προσγενομένου τίνος, οὐδενὸς οὐδ’ ἀγαθοῦ προσιόντος; ὃ γάρ ἐστιν, ἔστιν ἀεί."
+  },
+  {
+   "seg": "I.1.2.p3",
+   "chapter": "I.1.2",
+   "modern": "Nor will perception belong to it, nor reasoning, nor opinion. For perception is a receiving of a form, or of a body without being affected, and reasoning and opinion rest on perception. But we must look into thinking, and how it belongs to the soul, if we are to leave thinking to it; and again into pure pleasure, whether it comes to the soul when it is alone.",
+   "greek": "καὶ μὴν οὐδὲ αἴσθησις ἔσται οὐδὲ διάνοια οὐδὲ δόξα περὶ αὐτό: αἴσθησις γὰρ παραδοχὴ εἴδους ἢ ἀπαθοῦς σώματος, διάνοια δὲ καὶ δόξα ἐπ’ αἴσθησιν. περὶ δὲ νοήσεως ἐπισκεπτέον πῶς, εἰ ταύτην αὐτῇ καταλείψομεν: καὶ περὶ ἡδονῆς αὖ καθαρᾶς, εἰ συμβαίνει περὶ αὐτὴν μόνην οὖσαν.",
+   "notes": [
+    "The words \"a receiving of a form, or of a body without being affected\" (παραδοχὴ εἴδους ἢ ἀπαθοῦς σώματος) are hard, and may not be what Plotinus wrote; the modern version keeps them as Volkmann prints them."
+   ]
+  },
+  {
+   "seg": "I.1.3.p1",
+   "chapter": "I.1.3",
+   "modern": "But we must set the soul in a body, whether it exists before the body or in it, since it is from the body and the soul together that the whole is called a living being. Now if the soul uses the body as a tool, it is not forced to receive the feelings that come through the body, any more than craftsmen receive the feelings of their tools. But perhaps it must have perception, if in using the tool it must know, by perception, what happens to it from outside: for to use eyes is to see. But there are also harms to seeing, and so griefs and suffering, and in general whatever happens to the body as a whole; and so desires too, as the soul seeks the care of its tool.",
+   "greek": "ἀλλὰ γὰρ ἐν σώματι θετέον ψυχήν, οὖσαν εἴτε πρὸ τούτου, εἴτ̓ ἐν τούτῳ, ἐξ οὗ καὶ αὐτῆς ζῷον τὸ σύμπαν ἐκλήθη. χρωμένη μὲν οὖν σώματι οἷα ὀργάνῳ οὐκ ἀναγκάζεται δέξασθαι τὰ διὰ τοῦ σώματος παθήματα, ὥσπερ οὐδὲ τὰ τῶν ὀργάνων παθήματα οἱ τεχνῖται: αἴσθησιν δὲ τάχ̓ ἂν ἀναγκαίως, εἴπερ δεῖ χρῆσθαι τῷ ὀργάνῳ γινωσκούσῃ τὰ ἔξωθεν παθήματα ἐξ αἰσθήσεως: ἐπεὶ καὶ τὸ χρῆσθαι ὄμμασίν ἔστιν ὁρᾶν. ἀλλὰ καὶ βλάβαι περὶ τὸ ὁρᾶν, ὥστε καὶ λῦπαι καὶ τὸ ἀλγεῖν καὶ ὅλως ὅ τι περ ἂν περὶ σῶμα πᾶν γίγνηται: ὥστε καὶ ἐπιθυμίαι ζητούσης τὴν θεραπείαν τοῦ ὀργάνου."
+  },
+  {
+   "seg": "I.1.3.p2",
+   "chapter": "I.1.3",
+   "modern": "But how will the feelings come from the body into the soul? A body will pass on something of its own to another body; but how can a body pass anything to a soul? That would be like one thing being affected because another was. As long as one is the user and the other what it uses, each is separate; at any rate, whoever makes the soul the user separates them. But before they are separated by philosophy, how was the soul placed? It was mixed. But if it was mixed, then either there was a kind of blending; or it was woven through the body; or it was a form, separate; or a form in touch with the body, like a pilot; or one part of it was in one way and another in another. I mean that one part is separate, the part that uses, and the other is mixed in some way, and is itself ranked with what is used. Then philosophy would turn this second part back to the part that uses, and lead the part that uses away from what it uses, as far as is not wholly necessary, so that it does not always use it.",
+   "greek": "ἀλλὰ πῶς ἀπὸ τοῦ σώματος εἰς αὐτὴν ἥξει τὰ πάθη; σῶμα μὲν γὰρ σώματι ἄλλῳ μεταδώσει τῶν ἑαυτοῦ, σῶμα δὲ ψυχῇ πῶς; τοῦτο γάρ ἐστιν οἷον ἄλλου παθόντος ἄλλο παθεῖν. μέχρι γὰρ τοῦ τὸ μὲν εἶναι τὸ χρώμενον, τὸ δὲ ᾧ χρῆται, χωρίς ἐστιν ἑκάτερον: χωρίζει γοῦν ὁ τὸ χρώμενον διδούς. ἀλλὰ πρὸ τοῦ χωρίσαι διὰ φιλοσοφίας αὐτὸ πῶς εἶχεν; ἢ ἐμέμικτο. ἀλλὰ εἰ ἐμέμικτο, ἢ κρᾶσίς τις ἦν, ἢ ὡς διαπλακεῖσα, ἢ ὡς εἶδός τι κεχωρισμένον, ἢ εἶδος ἐφαπτόμενον, ὥσπερ ὁ κυβερνήτης, ἢ τὸ μὲν οὕτως αὐτοῦ, τὸ δὲ ἐκείνως: λέγω δὴ τὸ μὲν κεχωρισμένον, ὅπερ τὸ χρώμενον, τὸ δὲ μεμιγμένον ὁπωσοῦν καὶ αὐτὸ ὂν ἐν τάξει τοῦ ᾧ χρῆται, ἵνα τοῦτο ἡ φιλοσοφία καὶ αὐτὸ ἐπιστρέφῃ πρὸς τὸ χρώμενον καὶ τὸ χρώμενον ἀπάγῃ, ὅσον μὴ πᾶσα ἀνάγκη, ἀπὸ τοῦ ᾧ χρῆται, ὡς μὴ ἀεὶ χρῆσθαι.",
+   "notes": [
+    "The pilot is Aristotle's image, in On the Soul II.1 (413a8-9): it is not clear whether the soul is the actuality of the body as a pilot is of a ship."
+   ]
+  },
+  {
+   "seg": "I.1.4.p1",
+   "chapter": "I.1.4",
+   "modern": "Let us suppose, then, that it has been mixed. But if it has been mixed, the worse will become better and the better worse: the body better, by getting a share of life, the soul worse, by getting a share of death and unreason. How could something that has lost some of its life gain perceiving as an addition? It would be the other way round: the body, having received life, would be what shares in perception and in the feelings that come from perception. Then the body will also have desires, since it is the body that will enjoy what it desires; and it will fear for itself, since it is the body that will miss its pleasures and be destroyed. We must also look into how such a mixture could happen, and whether it is not impossible: as if someone said that a line had been mixed with white, one nature with another of a different kind.",
+   "greek": "θῶμεν τοίνυν μεμῖχθαι. ἀλλ’ εἰ μέμικται, τὸ μὲν χεῖρον ἔσται βέλτιον, τὸ δὲ βέλτιον χεῖρον: καὶ βέλτιον μὲν τὸ σῶμα ζωῆς μεταλαβόν, χεῖρον δὲ ἡ ψυχὴ θανάτου καὶ ἀλογίας. τὸ δὴ ἀφαιρεθὲν ὁπωσοῦν ζωῆς πῶς ἂν προσθήκην λάβοι τὸ αἰσθάνεσθαι; τοὐναντίον δ’ ἂν τὸ σῶμα ζωὴν λαβὸν τοῦτο ἂν εἴη τὸ αἰσθήσεως καὶ τῶν ἐξ αἰσθήσεως παθημάτων μεταλαμβάνον. τοῦτο τοίνυν καὶ ὀρέξεται: τοῦτο γὰρ καὶ ἀπολαύσει ὧν ὀρέγεται καὶ φοβήσεται περὶ αὑτοῦ: τοῦτο γὰρ καὶ οὐ τεύξεται τῶν ἡδέων καὶ φθαρήσεται. ζητητέον δὲ καὶ τὸν τρόπον τῆς μίξεως, μήποτε οὐ δυνατὸς ᾖ, ὥσπερ ἂν εἴ τις λέγοι μεμῖχθαι λευκῷ γραμμήν, φύσιν ἄλλην ἄλλῃ."
+  },
+  {
+   "seg": "I.1.4.p2",
+   "chapter": "I.1.4",
+   "modern": "As for being woven through: that does not make the things woven together share the same feelings. What is woven through can be unaffected, and a soul that runs through the body can fail to suffer the body's feelings, just as light does; all the more if it is woven through the whole of it in this way. So the soul will not suffer the body's feelings because it is woven through it; but it will be in the body as a form in matter. But in the first place it will be a separable form, if it is a real being, and so it would be all the more the user. And if it is in the body as the shape of an axe is in the iron, so that the two together do what the iron, shaped in this way, does, though by virtue of its shape, then we would all the more give whatever feelings are shared to the body: to the body of this kind, natural, fitted with organs, potentially having life. For he says that it is absurd to say that the soul weaves; and so it is absurd to say that it desires and grieves. It is rather the living being that does these things.",
+   "greek": "τὸ δὲ διαπλακεῖσα οὐ ποιεῖ ὁμοπαθῆ τὰ διαπλακέντα, ἀλλ’ ἔστιν ἀπαθὲς εἶναι τὸ διαπλακὲν καὶ ἔστι ψυχὴν διαπεφοιτηκυῖαν μήτι πάσχειν τὰ ἐκείνου πάθη, ὥσπερ καὶ τὸ φῶς, καὶ μάλιστα, εἰ οὕτω, δἰ ὅλου ὡς διαπεπλέχθαι. οὐ παρὰ τοῦτο οὖν πείσεται τὰ σώματος πάθη, ὅτι διαπέπλεκται, ἀλλ’ ὡς εἶδος ἐν ὕλῃ ἔσται ἐν τῷ σώματι. ἀλλὰ πρῶτον μὲν ὡς χωριστὸν εἶδος ἔσται, εἴπερ οὐσία, καὶ μᾶλλον ἂν εἴη κατὰ τὸ χρώμενον: εἰ δὲ ὡς τῷ πελέκει τὸ σχῆμα τὸ ἐπὶ τῷ σιδήρῳ, καὶ τὸ συναμφότερον ποιήσει ἃ ποιεῖ ὁ σίδηρος ὁ οὕτως ἐσχηματισμένος, κατὰ τὸ σχῆμα μέντοι, μᾶλλον ἂν τῷ σώματι διδοῖμεν ὅσα κοινὰ πάθη, τῷ μέντοι τοιούτῳ, τῷ φυσικῷ, ὀργανικῷ, δυνάμει ζωὴν ἔχοντι. καὶ γὰρ ἄτοπόν φησι τὴν ψυχὴν ὑφαίνειν λέγειν, ὥστε καὶ ἐπιθυμεῖν καὶ λυπεῖσθαι: ἀλλὰ τὸ ζῷον μᾶλλον.",
+   "flags": [
+    {
+     "taylor": "Compare the passage (in Plato) where we read that \" it is absurd to suppose that the Soul weaves \"",
+     "in": "MacKenna",
+     "why": "MacKenna puts the saying in Plato; it is Aristotle's, in On the Soul I.4 (408b11-15), where he says that to call the soul angry is like saying that it weaves or builds."
+    }
+   ],
+   "notes": [
+    "\"Natural, fitted with organs, potentially having life\", the shape of the axe, and the saying that it is absurd to say that the soul weaves, are all Aristotle's, in On the Soul: II.1 (412a27-b6, the axe at 412b12) and I.4 (408b11-15). The \"he\" who says it is Aristotle."
+   ]
+  },
+  {
+   "seg": "I.1.5.p1",
+   "chapter": "I.1.5",
+   "modern": "But the living being must be either the body of a certain kind, or the compound, or some other third thing that has come from both. However that may be, either we must keep the soul itself unaffected, as the cause of such a state in another, or it must share in the feeling. And if it shares, either it suffers the same feeling, or something like it: for instance, the living being desires in one way, and the desiring part is active or affected in another. The body of a certain kind we must examine later. But how does the compound feel grief, for example? Is it that, when the body is disposed in a certain way, and the feeling passes through to perception, and the perception ends in the soul? But how perception works is not yet clear. Or is it that grief starts from an opinion, a judgement that something bad is present, either to oneself or to someone close, and then a painful change comes about in the body and in the whole living being? But it is not yet clear whose the opinion is either, the soul's or the compound's. Then again, the opinion that something is bad does not carry the feeling of grief with it. It is possible to have the opinion and for grief not to follow at all; or to judge that one has been slighted and still not be angry; or to judge that something is good and still not have one's appetite stirred.",
+   "greek": "ἀλλὰ τὸ ζῷον ἢ τὸ σῶμα δεῖ λέγειν τὸ τοιόνδε, ἢ τὸ κοινόν, ἢ ἕτερόν τι τρίτον ἐξ ἀμφοῖν γεγενημένον. ὅπως δ’ ἂν ἔχῃ, ἤτοι ἀπαθῆ δεῖ τὴν ψυχὴν φυλάττειν αὐτὴν αἰτίαν γενομένην ἄλλῳ τοῦ τοιούτου, ἢ συμπάσχειν καὶ αὐτήν: καὶ ἢ ταὐτὸν πάσχουσαν πάθημα πάσχειν, ἢ ὅμοιόν τι, οἷον ἄλλως μὲν τὸ ζῷον ἐπιθυμεῖν, ἄλλως δὲ τὸ ἐπιθυμητικὸν ἐνεργεῖν ἢ πάσχειν. τὸ μὲν οὖν σῶμα τὸ τοιόνδε ὕστερον ἐπισκεπτέον: τὸ δὲ συναμφότερον οἷον λυπεῖσθαι πῶς; ἆρα, ὅτι τοῦ σώματος οὑτωσὶ διατεθέντος καὶ μέχρις αἰσθήσεως διελθόντος τοῦ πάθους τῆς αἰσθήσεως εἰς ψυχὴν τελευτώσης; ἀλλ’ ἡ αἴσθησις οὔπω δῆλον πῶς. ἀλλ’ ὅταν ἡ λύπη ἀρχὴν ἀπὸ δόξης καὶ κρίσεως λάβῃ τοῦ κακόν τι παρεῖναι ἢ αὐτῷ ἤ τινι τῶν οἰκείων, εἶτ̓ ἐντεῦθεν τροπὴ λυπηρὰ ἐπὶ τὸ σῶμα καὶ ὅλως ἐπὶ πᾶν τὸ ζῷον γένηται; ἀλλὰ καὶ τὸ τῆς δόξης οὔπω δῆλον τίνος, τῆς ψυχῆς ἢ τοῦ συναμφοτέρου: εἶτα ἡ μὲν δόξα ἡ περὶ τὸ κακὸν τὸ τῆς λύπης οὐκ ἔχει πάθος: καὶ γὰρ δυνατὸν τῆς δόξης παρούσης μὴ πάντως ἐπιγίνεσθαι τὸ λυπεῖσθαι, μηδ’ αὖ τὸ ὀργίζεσθαι δόξης τοῦ ὀλιγωρεῖσθαι γενομένης, μηδ’ αὖ ἀγαθοῦ δόξης κινεῖσθαι τὴν ὄρεξιν."
+  },
+  {
+   "seg": "I.1.5.p2",
+   "chapter": "I.1.5",
+   "modern": "How, then, are these feelings shared? Is it because desire belongs to the desiring part, anger to the spirited part, and, in general, reaching out for something to the part that reaches out? But then they will no longer be shared: they will belong to the soul alone, or else to the body as well, since blood and bile must boil, and the body must be in a certain state to stir the appetite, as in sexual desire. But the desire for the good will not be a shared feeling; it will belong to the soul, as some others do; and the argument does not give them all to the compound. But when a man desires sex, it will be the man who desires, and yet in another way the desiring part will desire too. And how? Will the man start the desire, and the desiring part follow? But how could the man desire at all, if the desiring part had not been moved? Then the desiring part will start it. But where will it start from, if the body is not first in a certain state?",
+   "greek": "πῶς οὖν κοινὰ ταῦτα; ἤ, ὅτι καὶ ἡ ἐπιθυμία τοῦ ἐπιθυμητικοῦ καὶ ὁ θυμὸς τοῦ θυμικοῦ καὶ ὅλως τοῦ ὀρεκτικοῦ ἡ ἐπί τι ἔκτασις; ἀλλ’ οὕτως οὐκέτι κοινὰ ἔσται, ἀλλὰ τῆς ψυχῆς μόνης, ἢ καὶ τοῦ σώματος, ὅτι δεῖ αἷμα καὶ χολὴν ζέσαι καί πως διατεθὲν τὸ σῶμα τὴν ὄρεξιν κινῆσαι, οἷον ἐπὶ ἀφροδισίων. ἡ δὲ τοῦ ἀγαθοῦ ὄρεξις μὴ κοινὸν πάθημα ἀλλὰ ψυχῆς ἔσται, ὥσπερ καὶ ἄλλα, καὶ οὐ πάντα τῷ κοινῷ δίδωσιν ὁ λόγος. ἀλλὰ ὀρεγομένου ἀφροδισίων τοῦ ἀνθρώπου ἔσται μὲν ὁ ἄνθρωπος ὁ ἐπιθυμῶν, ἔσται δὲ ἄλλως καὶ τὸ ἐπιθυμητικὸν ἐπιθυμοῦν. καὶ πῶς; ἆρα ἄρξει μὲν ὁ ἄνθρωπος τῆς ἐπιθυμίας, ἐπακολουθήσει δὲ τὸ ἐπιθυμητικόν; ἀλλὰ πῶς ὅλως ἐπεθύμησεν ὁ ἄνθρωπος μὴ τοῦ ἐπιθυμητικοῦ κεκινημένου; ἀλλ’ ἄρξει τὸ ἐπιθυμητικόν. ἀλλὰ τοῦ σώματος μὴ πρότερον οὑτωσὶ διατεθέντος πόθεν ἄρξεται;"
+  },
+  {
+   "seg": "I.1.6.p1",
+   "chapter": "I.1.6",
+   "modern": "But perhaps it is better to say, in general, that by the presence of the powers it is the things that have them that act by them, while the powers themselves are unmoved and supply the ability to act to what has them. But if this is so, then when the living being is affected, the cause of its life, which has given life to the compound, must itself be unaffected by the feelings and activities, which belong to what has it. But if so, living as a whole will belong not to the soul but to the compound; or rather, the compound's living will not be the soul's; and the power of perception will not perceive, but what has the power will. But if perception is a movement through the body that ends in the soul, how will the soul not perceive? Or is it that, when the power of perception is present, the compound perceives by its being present? What, then, will perceive? The compound. But if the power is not moved, how can the compound still perceive, when the soul and the soul's power are not counted in with it?",
+   "greek": "ἀλλ’ ἴσως βέλτιον εἰπεῖν καθόλου τῷ παρεῖναι τὰς δυνάμεις τὰ ἔχοντα εἶναι τὰ ἐνεργοῦντα κατ’ αὐτάς, αὐτὰς δὲ ἀκινήτους εἶναι χορηγούσας τὸ δύνασθαι τοῖς ἔχουσιν. ἀλλ’ εἰ τοῦτό ἐστι, πάσχοντος τοῦ ζῴου τὴν αἰτίαν τοῦ ζῆν τῷ συναμφοτέρῳ δοῦσαν ἀνάγκη αὐτὴν ἀπαθῆ εἶναι τῶν παθῶν καὶ τῶν ἐνεργειῶν τοῦ ἔχοντος ὄντων. ἀλλ’ εἰ τοῦτο, καὶ τὸ ζῆν ὅλως οὐ τῆς ψυχῆς, ἀλλὰ τοῦ συναμφοτέρου ἔσται: ἢ τὸ τοῦ συναμφοτέρου ζῆν οὐ τῆς ψυχῆς ἔσται: καὶ ἡ δύναμις δὲ ἡ αἰσθητικὴ οὐκ αἰσθήσεται, ἀλλὰ τὸ ἔχον τὴν δύναμιν. ἀλλ’ εἰ ἡ αἴσθησις διὰ σώματος κίνησις οὖσα εἰς ψυχὴν τελευτᾷ, πῶς ἡ ψυχὴ οὐκ αἰσθήσεται; ἢ τῆς δυνάμεως τῆς αἰσθητικῆς παρούσης τῷ ταύτην παρεῖναι αἰσθήσεται. τί οὖν αἰσθήσεται; τὸ συναμφότερον. ἀλλ’ εἰ ἡ δύναμις μὴ κινήσεται, πῶς ἔτι τὸ συναμφότερον μὴ συναριθμουμένης ψυχῆς μηδὲ τῆς ψυχικῆς δυνάμεως;"
+  },
+  {
+   "seg": "I.1.7.p1",
+   "chapter": "I.1.7",
+   "modern": "Or the compound will exist by the soul's presence, though the soul does not give itself, as it is, either to the compound or to either of its two parts. It makes the nature of the living being, something different, out of a body of this kind and a sort of light given from itself; and to this belong perceiving and the other feelings that have been said to be the living being's. But how is it that we perceive? Because we have not been set free from a living being of this kind, even if other, more honourable things are present to us, which go to make the whole being of a human, made up of many parts.",
+   "greek": "ἢ τὸ συναμφότερον ἔσται τῆς ψυχῆς τῷ παρεῖναι οὐχ αὑτὴν δούσης τῆς τοιαύτης εἰς τὸ συναμφότερον ἢ εἰς θάτερον, ἀλλὰ ποιούσης ἐκ τοῦ σώματος τοῦ τοιούτου καί τινος οἷον φωτὸς τοῦ παῤ αὐτῆς δοθέντος τὴν τοῦ ζῴου φύσιν ἕτερόν τι, οὗ τὸ αἰσθάνεσθαι καὶ τὰ ἄλλα ὅσα ζῴου πάθη εἴρηται. ἀλλὰ πῶς ἡμεῖς αἰσθανόμεθα; ἤ, ὅτι οὐκ ἀπηλλάγημεν τοῦ τοιούτου ζῴου, καὶ εἰ ἄλλα ἡμῖν τιμιώτερα εἰς τὴν ὅλην ἀνθρώπου οὐσίαν ἐκ πολλῶν οὖσαν πάρεστι."
+  },
+  {
+   "seg": "I.1.7.p2",
+   "chapter": "I.1.7",
+   "modern": "The soul's power of perceiving must not be a perceiving of the things perceived, but rather a grasping of the impressions that perception makes in the living being: for these are already intelligible. So the perception outside is an image of this one, and this one, truer in its being, is a seeing of forms alone, without being affected. From these forms, from which the soul alone now takes over the leading of the living being, come reasonings, opinions and acts of thought; and it is here, above all, that we are. What comes before these is ours; but we are what stands over the living being from here upwards. Nothing will stop us from calling the whole a living being: mixed in its lower parts, while from here up it is, more or less, the true man. Those lower parts are the lion-like part and the many-coloured beast as a whole. For since the human being goes along with the rational soul, when we reason, it is we who reason, because reasonings are activities of the soul.",
+   "greek": "τὴν δὲ τῆς ψυχῆς τοῦ αἰσθάνεσθαι δύναμιν οὐ τῶν αἰσθητῶν εἶναι δεῖ, τῶν δὲ ἀπὸ τῆς αἰσθήσεως ἐγγιγνομένων τῷ ζῴῳ τύπων ἀντιληπτικὴν εἶναι μᾶλλον: νοητὰ γὰρ ἤδη ταῦτα: ὡς τὴν αἴσθησιν τὴν ἔξω εἴδωλον εἶναι ταύτης, ἐκείνην δὲ ἀληθεστέραν τῇ οὐσίᾳ οὖσαν εἰδῶν μόνον ἀπαθῶς εἶναι θεωρίαν. ἀπὸ δὴ τούτων τῶν εἰδῶν, ἀφ̓ ὧν ψυχὴ ἤδη παραδέχεται μόνη τὴν τοῦ ζῴου ἡγεμονίαν, διάνοιαι δὴ καὶ δόξαι καὶ νοήσεις: ἔνθα δὴ ἡμεῖς μάλιστα. τὰ δὲ πρὸ τούτων ἡμέτερα, ἡμεῖς δὲ τὸ ἐντεῦθεν ἄνω ἐφεστηκότες τῷ ζῴῳ. κωλύσει δὲ οὐδὲν τὸ σύμπαν ζῷον λέγειν, μικτὸν μὲν τὰ κάτω, τὸ δὲ ἐντεῦθεν ὁ ἄνθρωπος ὁ ἀληθὴς σχεδόν: ἐκεῖνα δὲ τὸ λεοντῶδες καὶ τὸ ποικίλον ὅλως θηρίον. συνδρόμου γὰρ ὄντος τοῦ ἀνθρώπου τῇ λογικῇ ψυχῇ, ὅταν λογιζώμεθα, ἡμεῖς λογιζόμεθα τῷ τοὺς λογισμοὺς ψυχῆς εἶναι ἐνεργήματα.",
+   "flags": [
+    {
+     "taylor": "Discursive-Reasoning, Sense-Knowledge and Intellection",
+     "in": "MacKenna",
+     "why": "The Greek has διάνοιαι καὶ δόξαι καὶ νοήσεις, \"reasonings, opinions and acts of thought\": δόξαι are opinions, not \"sense-knowledge\"."
+    }
+   ],
+   "notes": [
+    "The lion and the many-coloured, many-headed beast within us are from Plato's image of the soul in the Republic, book 9 (588c-590b)."
+   ]
+  },
+  {
+   "seg": "I.1.8.p1",
+   "chapter": "I.1.8",
+   "modern": "And how do we stand towards intellect? By intellect I do not mean the state the soul has, which is one of the things that come from intellect, but intellect itself. We have this too, above us. We have it either as shared, or as our own, or as both shared by all and our own: shared, because it is without parts, one, and everywhere the same; our own, because each of us also has the whole of it in the first soul. So we also have the forms in two ways: in the soul, unrolled, as it were, and separated; in intellect, all together.",
+   "greek": "πρὸς δὲ τὸν νοῦν πῶς; νοῦν δὲ λέγω οὐχ ἣν ἡ ψυχὴ ἔχει ἕξιν οὖσαν ʽτῶν̓ παρὰ τοῦ νοῦ, ἀλλ’ αὐτὸν τὸν νοῦν. ἢ ἔχομεν καὶ τοῦτον ὑπεράνω ἡμῶν. ἔχομεν δὲ ἢ κοινὸν ἢ ἴδιον, ἢ καὶ κοινὸν πάντων καὶ ἴδιον: κοινὸν μέν, ὅτι ἀμέριστος καὶ εἷς καὶ πανταχοῦ ὁ αὐτός, ἴδιον δέ, ὅτι ἔχει καὶ ἕκαστος αὐτὸν ὅλον ἐν ψυχῇ τῇ πρώτῃ. ἔχομεν οὖν καὶ τὰ εἴδη διχῶς, ἐν μὲν ψυχῇ οἷον ἀνειλιγμένα καὶ οἷον κεχωρισμένα, ἐν δὲ νῷ ὁμοῦ τὰ πάντα.",
+   "flags": [
+    {
+     "taylor": "This also we possess as the summit of our being.",
+     "in": "MacKenna",
+     "why": "The Greek says we have intellect \"above us\" (ὑπεράνω ἡμῶν); MacKenna makes it the summit of our own being."
+    },
+    {
+     "taylor": "one of the emanations from the Intellectual-Principle",
+     "in": "MacKenna",
+     "why": "The Greek calls it a state (ἕξις) that the soul has, one of the things that come from intellect; the word \"emanation\" is MacKenna's."
+    }
+   ]
+  },
+  {
+   "seg": "I.1.8.p2",
+   "chapter": "I.1.8",
+   "modern": "And how do we stand towards God? As towards one who rides above the intelligible nature and the real being; and we are third from there, made, Plato says, \"from the undivided soul above, and from the soul divided among bodies\". We must understand this soul as divided among bodies in this way: it gives itself to the magnitudes of the body, to each living thing as large as it is, since even in the whole universe it is one. Or rather, it seems to be present to bodies because it shines into them and makes living beings, not from itself and the body, but staying as it is itself and giving images of itself, like a face in many mirrors. The first image is perception, in the compound. Then from this comes every other form that is called soul, each one from another in turn. It ends with the power of generation and growth, and in general with making something other than itself and bringing it to completion; and the soul that makes is turned towards what it completes.",
+   "greek": "πρὸς δὲ θεὸν πῶς; ἢ ὡς ἐποχούμενον τῇ νοητῇ φύσει καὶ τῇ οὐσίᾳ τῇ ὄντως, ἡμᾶς δὲ ἐκεῖθεν τρίτους ἐκ τῆς ἀμερίστου, φησί, τῆς ἄνωθεν καὶ ἐκ τῆς περὶ τὰ σώματα μεριστῆς, ἣν δὴ δεῖ νοεῖν οὕτω μεριστὴν περὶ τὰ σώματα, ὅτι δίδωσιν ἑαυτὴν τοῖς σώματος μεγέθεσιν, ὁπόσον ἂν ζῷον ᾖ ἕκαστον, ἐπεὶ κἀν τῷ παντὶ ὅλῳ οὖσα μία: ἤ, ὅτι φαντάζεται τοῖς σώμασι παρεῖναι ἐλλάμπουσα εἰς αὐτὰ καὶ ζῷα ποιοῦσα οὐκ ἐξ αὑτῆς καὶ σώματος, ἀλλὰ μένουσα μὲν αὐτή, εἴδωλα δὲ αὑτῆς διδοῦσα, ὥσπερ πρόσωπον ἐν πολλοῖς κατόπτροις. πρῶτον δὲ εἴδωλον αἴσθησις ἡ ἐν τῷ κοινῷ: εἶτα ἀπὸ ταύτης αὖ πᾶν ἄλλο εἶδος λέγεται ψυχῆς, ἕτερον ἀφ̓ ἑτέρου ἀεί, καὶ τελευτᾷ μέχρι γεννητικοῦ καὶ αὐξήσεως καὶ ὅλως ποιήσεως ἄλλου καὶ ἀποτελεστικοῦ ἄλλου παῤ αὐτὴν τὴν ποιοῦσαν ἐπεστραμμένης αὐτῆς τῆς ποιούσης πρὸς τὸ ἀποτελούμενον.",
+   "flags": [
+    {
+     "taylor": "the Divinity is contained in the Intellectual-Principle and Authentic-Existence",
+     "in": "MacKenna",
+     "why": "The Greek says God \"rides upon\" (ἐποχούμενον) the intelligible nature and real being: he is above it, not contained in it."
+    }
+   ],
+   "notes": [
+    "\"The undivided soul above, and the soul divided among bodies\" are from Plato's making of the soul in the Timaeus (35a)."
+   ]
+  },
+  {
+   "seg": "I.1.9.p1",
+   "chapter": "I.1.9",
+   "modern": "The nature of that soul, then, will be free in us from being the cause of the evils that a human does and suffers: these belong to the living being, the compound, as has been said. But if opinion and reasoning belong to the soul, how is it free of error? For opinion is false, and many evils are done by it. Rather, evils are done when we are overcome by what is worse in us, for we are many: by desire, or anger, or an evil image. What is called reasoning about false things is imagination, which did not wait for the judgement of the reasoning part: we acted because we were persuaded by what is worse in us. It is like what happens in perception: we see falsely through the shared perception, before the reasoning part has judged. Intellect did not touch the act, and so it is without error. Or rather, we must say this: either we have touched the intelligible that is in intellect or we have not, or the intelligible that is in us: for it is possible both to have it and not to have it at hand.",
+   "greek": "ἔσται τοίνυν ἐκείνης ἡμῖν τῆς ψυχῆς ἡ φύσις ἀπηλλαγμένη αἰτίας κακῶν, ὅσα ἄνθρωπος καὶ ποιεῖ καὶ πάσχει: περὶ γὰρ τὸ ζῷον ταῦτα καὶ τὸ κοινόν, ὡς εἴρηται. ἀλλ’ εἰ δόξα τῆς ψυχῆς καὶ διάνοια, πῶς ἀναμάρτητος; ψευδὴς γὰρ δόξα καὶ πολλὰ κατ’ αὐτὴν πράττεται τῶν κακῶν. ἢ πράττεται μὲν τὰ κακὰ ἡττωμένων ἡμῶν ὑπὸ τοῦ χείρονος: πολλὰ γὰρ ἡμεῖς: ἢ ἐπιθυμίας ἢ θυμοῦ ἢ εἰδώλου κακοῦ: ἡ δὲ τῶν ψευδῶν λεγομένη διάνοια φαντασία οὖσα οὐκ ἀνέμεινε τὴν τοῦ διανοητικοῦ κρίσιν, ἀλλ’ ἐπράξαμεν τοῖς χείροσι πεισθέντες, ὥσπερ ἐπὶ τῆς αἰσθήσεως πρὶν τῷ διανοητικῷ ἐπικρῖναι ψευδῆ ὁρᾶν συμβαίνει τῇ κοινῇ αἰσθήσει. ὁ δὲ νοῦς οὐκ ἐφήψατο, ὥστε ἀναμάρτητος. ἢ οὕτω δὴ λεκτέον, ὡς ἡμεῖς ἢ ἐφηψάμεθα τοῦ ἐν τῷ νῷ νοητοῦ ἢ οὔ, ʽἢ τοῦ ἐν ἡμῖν̓: δυνατὸν γὰρ καὶ ἔχειν καὶ μὴ πρόχειρον ἔχειν."
+  },
+  {
+   "seg": "I.1.9.p2",
+   "chapter": "I.1.9",
+   "modern": "So we have divided what is shared from what is the soul's own. What is shared is bodily, and does not exist without the body. What needs no body for its activity is the soul's own. And reasoning, when it judges the impressions that come from perception, is already seeing forms, and seeing them, as it were, with awareness: this is reasoning in the proper sense, the reasoning of the true soul. For true reasoning is an activity of thoughts, and often a likeness and fellowship of the things outside with those within. So the soul will be no less at rest towards itself and in itself. The changes and the turmoil in us come from what is attached to us, and from the feelings of the compound, whatever that is, as has been said.",
+   "greek": "διείλομεν δὴ τὰ κοινὰ καὶ τὰ ἴδια τῷ τὰ μὲν σωματικὰ καὶ οὐκ ἄνευ σώματος εἶναι, ὅσα δὲ οὐ δεῖται σώματος εἰς ἐνέργειαν, ταῦτα ἴδια ψυχῆς εἶναι καὶ τὴν διάνοιαν ἐπίκρισιν ποιουμένην τῶν ἀπὸ τῆς αἰσθήσεως τύπων εἴδη ἤδη θεωρεῖν καὶ θεωρεῖν οἷον συναισθήσει, τήν γε κυρίως τῆς ψυχῆς τῆς ἀληθοῦς διάνοιαν: νοήσεων γὰρ ἐνέργεια ἡ διάνοια ἡ ἀληθὴς καὶ τῶν ἔξω πολλάκις πρὸς τἄνδον ὁμοιότης καὶ κοινωνία. ἀτρεμήσει οὖν οὐδὲν ἧττον ἡ ψυχὴ πρὸς ἑαυτὴν καὶ ἐν ἑαυτῇ: αἱ δὲ τροπαὶ καὶ ὁ θόρυβος ἐν ἡμῖν παρὰ τῶν συνηρτημένων καὶ τῶν τοῦ κοινοῦ, ὅ τι δήποτέ ἐστι τοῦτο, ὡς εἴρηται, παθημάτων."
+  },
+  {
+   "seg": "I.1.10.p1",
+   "chapter": "I.1.10",
+   "modern": "But if we are the soul, and we feel these things, then the soul would feel them, and would also do what we do. Rather, we said that the compound is ours too, especially while we have not yet been separated; for what our body feels, we say that we feel. So \"we\" is twofold: either the beast is counted in, or it is what is above the beast. The beast is the body brought to life. But the true man is another, the one pure of this, who has the virtues that lie in thought. These sit in the soul that separates itself, that separates itself and is separable even while it is still here. For when this soul withdraws altogether, the soul that was lit up from it goes away too, following it. But the virtues that come about not by wisdom but by habit and training belong to the compound. So do the vices, since envy, jealousy and pity belong to it. And friendships: whose are they? Some belong to the compound, others to the man within.",
+   "greek": "ἀλλ’ εἰ ἡμεῖς ἡ ψυχή, πάσχομεν δὲ ταῦτα ἡμεῖς, ταὐτὰ ἂν εἴη πάσχουσα ἡ ψυχὴ καὶ αὖ ποιήσει ἃ ποιοῦμεν. ἢ καὶ τὸ κοινὸν ἔφαμεν ἡμῶν εἶναι καὶ μάλιστα οὔπω κεχωρισμένων: ἐπεὶ καὶ ἃ πάσχει τὸ σῶμα ἡμῶν ἡμᾶς φαμεν πάσχειν. διττὸν οὖν τὸ ἡμεῖς, ἢ συναριθμουμένου τοῦ θηρίου, ἢ τὸ ὑπὲρ τοῦτο ἤδη: θηρίον δὲ ζῳωθὲν τὸ σῶμα. ὁ δ’ ἀληθὴς ἄνθρωπος ἄλλος ὁ καθαρὸς τούτου τὰς ἀρετὰς ἔχων τὰς ἐν νοήσει, αἳ δὴ ἐν αὐτῇ τῇ χωριζομένῃ ψυχῇ ἵδρυνται, χωριζομένῃ δὲ καὶ χωριστῇ ἔτι ἐνταῦθα οὔσῃ: ἐπεὶ καί, ὅταν αὕτη παντάπασιν ἀποστῇ, καὶ ἡ ἀπ’ αὐτῆς ἐλλαμφθεῖσα ἀπελήλυθε συνεπομένη. αἱ δ’ ἀρεταὶ αἱ μὴ φρονήσει, ἔθεσι δὲ ἐγγινόμεναι καὶ ἀσκήσεσι, τοῦ κοινοῦ: τούτου γὰρ αἱ κακίαι, ἐπεὶ καὶ φθόνοι καὶ ζῆλοι καὶ ἔλεοι. φιλίαι δὲ τίνος; ἢ αἱ μὲν τούτου, αἱ δὲ τοῦ ἔνδον ἀνθρώπου.",
+   "flags": [
+    {
+     "taylor": "they are its repugnances, desires, sympathies",
+     "in": "MacKenna",
+     "why": "The Greek names \"envies, jealousies and pities\" (φθόνοι καὶ ζῆλοι καὶ ἔλεοι), as the feelings that show the vices belong to the compound."
+    }
+   ],
+   "notes": [
+    "\"The man within\" is Plato's phrase in the Republic, book 9 (589a-b)."
+   ]
+  },
+  {
+   "seg": "I.1.11.p1",
+   "chapter": "I.1.11",
+   "modern": "While we are children, what comes from the compound is at work, and little shines into it from the things above. When the higher part is idle towards us, it is active towards what is above; it is active towards us when it reaches as far as the middle. What then? Are we not also what comes before the middle? Yes, but we must be aware of it. For we do not always use all that we have; only when we direct the middle part either towards what is above or towards the opposite, or bring something from potentiality or a settled state into activity.",
+   "greek": "παίδων δὲ ὄντων ἐνεργεῖ μὲν τὰ ἐκ τοῦ συνθέτου, ὀλίγα δὲ ἐλλάμπει ἐκ τῶν ἄνω εἰς αὐτό. ὅταν δ’ ἀργῇ εἰς ἡμᾶς, ἐνεργεῖ πρὸς τὸ ἄνω: εἰς ἡμᾶς δὲ ἐνεργεῖ, ὅταν μέχρι τοῦ μέσου ἥκῃ. τί οὖν; οὐχ ἡμεῖς καὶ τὸ πρὸ τούτου; ἀλλ’ ἀντίληψιν δεῖ γενέσθαι: οὐ γάρ, ὅσα ἔχομεν, τούτοις χρώμεθα ἀεί, ἀλλ’ ὅταν τὸ μέσον τάξωμεν ἢ πρὸς τὰ ἄνω ἢ πρὸς τὰ ἐναντία, ʽἢ ὅσα ἀπὸ δυνάμεως ἢ ἕξεως εἰς ἐνέργειαν ἄγομεν."
+  },
+  {
+   "seg": "I.1.11.p2",
+   "chapter": "I.1.11",
+   "modern": "And how do the animals have the living being? If there are human souls in them that have sinned, as is said, then the separable part does not come to belong to the animals: it is there, but it is not present to them. Their awareness has the image of the soul together with the body; and the body is of such a kind, as if given its qualities by an image of soul. But if no human soul has entered, such a living being has come about by a light shining from the soul of the whole.",
+   "greek": "τὰ δὲ θηρία πῶς τὸ ζῷον ἔχει; ἢ εἰ μὲν ψυχαὶ εἶεν ἐν αὐτοῖς ἀνθρώπειοι, ὥσπερ λέγεται, ἁμαρτοῦσαι, οὐ τῶν θηρίων γίνεται τοῦτο, ὅσον χωριστόν, ἀλλὰ παρὸν οὐ πάρεστιν αὐτοῖς, ἀλλ’ ἡ συναίσθησις τὸ τῆς ψυχῆς εἴδωλον μετὰ τοῦ σώματος ἔχει: σῶμα δὴ τοιόνδε οἷον ποιωθὲν ψυχῆς εἰδώλῳ: εἰ δὲ μὴ ἀνθρώπου ψυχὴ εἰσέδυ, ἐλλάμψει ἀπὸ τῆς ὅλης τὸ τοιοῦτον ζῷον γενόμενόν ἐστιν."
+  },
+  {
+   "seg": "I.1.12.p1",
+   "chapter": "I.1.12",
+   "modern": "But if the soul is without sin, how can there be punishments? This argument disagrees with every account that says the soul sins, is purified, pays penalties in Hades and passes into other bodies. One may side with whichever account one likes; but perhaps one could find a way in which they do not conflict. The account that makes the soul sinless held it to be one and simple in every way, and said that the soul and being soul are the same. The account that lets it sin weaves another kind of soul into it and adds it on, the kind that has the terrible feelings. So this soul becomes composite, made of all of them; it is affected as a whole; it is the composite that sins, and it is this that pays the penalty, not that other soul.",
+   "greek": "ἀλλ’ εἰ ἀναμάρτητος ἡ ψυχή, πῶς αἱ δίκαι; ἀλλὰ γὰρ οὗτος ὁ λόγος ἀσυμφωνεῖ παντὶ λόγῳ, ὅς φησιν αὐτὴν καὶ ἁμαρτάνειν καὶ καθαρθῆναι καὶ διδόναι δίκας ʽκαἲ ἐν ᾅδου καὶ μετενσωματοῦσθαι. προσθετέον μὲν οὖν ὅτῳ τις βούλεται λόγῳ: τάχα δ’ ἄν τις ἐξεύροι καὶ ὅπῃ μὴ μαχοῦνται. ὁ μὲν γὰρ τὸ ἀναμάρτητον διδοὺς τῇ ψυχῇ λόγος ἓν ἁπλοῦν πάντη ἐτίθετο τὸ αὐτὸ ψυχὴν καὶ τὸ ψυχῇ εἶναι λέγων, ὁ δ’ ἁμαρτεῖν διδοὺς συμπλέκει μὲν καὶ προστίθησιν αὐτῇ καὶ ἄλλο ψυχῆς εἶδος τὸ τὰ δεινὰ ἔχον πάθη: σύνθετος οὖν καὶ τὸ ἐκ πάντων ἡ ψυχὴ αὕτη γίνεται καὶ πάσχει δὴ κατὰ τὸ ὅλον καὶ ἁμαρτάνει τὸ σύνθετον καὶ τοῦτό ἐστι τὸ διδὸν δίκην αὐτῷ, οὐκ ἐκεῖνο.",
+   "flags": [
+    {
+     "taylor": "We may take either view at will : they are easily reconciled.",
+     "in": "MacKenna",
+     "why": "The Greek is more careful: one may side with whichever account one wishes, \"but perhaps one could find\" how they do not conflict. There is no \"easily\"."
+    }
+   ]
+  },
+  {
+   "seg": "I.1.12.p2",
+   "chapter": "I.1.12",
+   "modern": "That is why Plato says: \"We have seen it as those who see Glaucus of the sea.\" \"But if anyone wishes,\" he says, \"to see its nature, he must knock off what has been added to it, and look to its philosophy, its love of wisdom: to what it touches, and to what it is akin to, that it is what it is.\" So it has another life and other activities, and what is punished is something different. The withdrawing and the separating are not only from this body, but from everything that has been added. For the adding happens at birth; or rather, birth as a whole is the coming to be of the other kind of soul. How the birth happens has been said elsewhere: as the soul comes down, something else comes from it, and this is what comes down in its inclining.",
+   "greek": "ὅθεν φησί: ʽτεθεάμεθα γὰρ αὐτήν, ὥσπερ οἱ τὸν θαλάττιον Γλαῦκον ὁρῶντες.ʼ δεῖ δὲ περικρούσαντας τὰ προστεθέντα, εἴπερ τις ἐθέλει τὴν φύσιν, φησίν, αὐτῆς ἰδεῖν, εἰς τὴν φιλοσοφίαν αὐτῆς ἰδεῖν, ὧν ἐφάπτεται καὶ τίσι συγγενὴς οὖσα ἐστὶν ὅ ἐστιν. ἄλλη οὖν ζωὴ καὶ ἄλλαι ἐνέργειαι καὶ τὸ κολαζόμενον ἕτερον: ἡ δὲ ἀναχώρησις καὶ ὁ χωρισμὸς οὐ μόνον τοῦδε τοῦ σώματος, ἀλλὰ καὶ ἅπαντος τοῦ προστεθέντος. καὶ γὰρ ἐν τῇ γενέσει ἡ προσθήκη: ἢ ὅλως ἡ γένεσις τοῦ ἄλλου ψυχῆς εἴδους. τὸ δὲ πῶς ἡ γένεσις εἴρηται, ὅτι καταβαινούσης, ἄλλου του ἀπ’ αὐτῆς γινομένου τοῦ καταβαίνοντος ἐν τῇ νεύσει.",
+   "flags": [
+    {
+     "taylor": "Thus the Life is one thing, the Act is another and the Expiator yet another.",
+     "in": "MacKenna",
+     "why": "The Greek says the soul has \"another life and other activities\", and \"what is punished is something different\": not three things, but the soul's own life against the compound that is punished. τὸ κολαζόμενον is what is punished, not an \"expiator\"."
+    }
+   ],
+   "notes": [
+    "Glaucus of the sea, whose body was covered by shells and weed, is Plato's image for the soul in the Republic, book 10 (611c-612a); \"its love of wisdom\" (φιλοσοφία) is in 611e."
+   ]
+  },
+  {
+   "seg": "I.1.12.p3",
+   "chapter": "I.1.12",
+   "modern": "Does it, then, let the image go? And how is the inclining not a sin? If the inclining is a shining on what is below, it is not a sin, any more than a shadow is: what is lit is the cause, for if it did not exist, the soul would have nowhere to shine. The soul is said to come down and to incline because what it lights up lives with it. And it lets the image go if there is nothing near to receive it. It lets it go not by its being cut off, but by its no longer existing; and it no longer exists if the whole soul looks there.",
+   "greek": "ἆῤ οὖν ἀφίησι τὸ εἴδωλον; καὶ ἡ νεῦσις δὲ πῶς οὐχ ἁμαρτία; ἀλλ’ εἰ ἡ νεῦσις ἔλλαμψις πρὸς τὸ κάτω, οὐχ ἁμαρτία, ὥσπερ οὐδ’ ἡ σκιά, ἀλλ’ αἴτιον τὸ ἐλλαμπόμενον: εἰ γὰρ μὴ εἴη, οὐκ ἔχει ὅποι ἐλλάμψει. καταβαίνειν οὖν καὶ νεύειν λέγεται τῷ συνεζηκέναι αὐτῇ τὸ ἐλλαμφθὲν παῤ αὐτῆς. ἀφίησιν οὖν τὸ εἴδωλον, εἰ μὴ ἐγγὺς τὸ ὑποδεξόμενον: ἀφίησι δὲ οὐ τῷ ἀποσχισθῆναι, ἀλλὰ τῷ μηκέτι εἶναι: οὐκέτι δὲ ἔστιν, ἐὰν ἐκεῖ βλέπῃ ὅλη."
+  },
+  {
+   "seg": "I.1.12.p4",
+   "chapter": "I.1.12",
+   "modern": "The poet seems to separate the image in the case of Heracles: he puts his image in Hades, but Heracles himself among the gods. Held by both stories, that he is among the gods and that he is in Hades, he divided him. Perhaps the account would be convincing like this: Heracles had the virtue of action, and was found worthy to be a god because of his nobility. But because he was a man of action and not of contemplation, so as to be wholly there, he is above, and yet something of him is also below.",
+   "greek": "χωρίζειν δὲ ἔοικεν ὁ ποιητὴς τοῦτο ἐπὶ τοῦ ʽΗρακλέους τὸ εἴδωλον αὐτοῦ διδοὺς ἐν ᾅδου, αὐτὸν δὲ ἐν θεοῖς εἶναι ὑπ’ ἀμφοτέρων τῶν λόγων κατεχόμενος, καὶ ὅτι ἐν θεοῖς καὶ ὅτι ἐν ᾅδου: ἐμέρισε δ’ οὖν. τάχα δ’ ἂν οὕτω πιθανὸς ὁ λόγος εἴη: ὅτι δὴ πρακτικὴν ἀρετὴν ἔχων ʽΗρακλῆς καὶ ἀξιωθεὶς διὰ καλοκαγαθίαν θεὸς εἶναι, ὅτι πρακτικός, ἀλλ’ οὐ θεωρητικὸς ἦν, ἵνα ἂν ὅλος ἦν ἐκεῖ, ἄνω τέ ἐστι καὶ ἔτι ἐστί τι αὐτοῦ καὶ κάτω.",
+   "notes": [
+    "The poet is Homer: in the Odyssey, book 11 (601-604), Odysseus sees the image of Heracles in Hades, while Heracles himself feasts among the gods."
+   ]
+  },
+  {
+   "seg": "I.1.13.p1",
+   "chapter": "I.1.13",
+   "modern": "What has inquired into these things: is it we, or the soul? It is we, but by the soul. And how \"by the soul\"? Did we inquire by having it? No: by its being soul. Will it not be moved, then? Yes, but we must grant it such a movement as does not belong to bodies, and is its own life. And our thinking is like this too, because the soul is intellectual, and thinking is a higher life: both when the soul thinks and when intellect is active upon us. For intellect too is a part of us, and it is towards intellect that we go up.",
+   "greek": "τὸ δὲ ἐπισκεψάμενον περὶ τούτων ἡμεῖς ἢ ἡ ψυχή; ἢ ἡμεῖς, ἀλλὰ τῇ ψυχῇ. τὸ δὲ τῇ ψυχῇ πῶς; ἆρα τῷ ἔχειν ἐπεσκέψατο; ἢ ᾗ ψυχή. οὔκουν κινήσεται. ἢ κίνησιν τὴν τοιαύτην δοτέον αὐτῇ, ἣ μὴ σωμάτων, ἀλλ’ ἐστὶν αὐτῆς ζωή. καὶ ἡ νόησις δὲ ἡμῶν οὕτως, ὅτι καὶ νοερὰ ἡ ψυχὴ καὶ ζωὴ κρείττων ἡ νόησις, καὶ ὅταν ψυχὴ νοῇ, καὶ ὅταν νοῦς ἐνεργῇ εἰς ἡμᾶς: μέρος γὰρ καὶ οὗτος ἡμῶν καὶ πρὸς τοῦτον ἄνιμεν.",
+   "flags": [
+    {
+     "taylor": "Does this mean that the Soul reasons by possession (by contact with the matters of enquiry) ?",
+     "in": "MacKenna",
+     "why": "The Greek asks whether we inquired \"by having\" the soul; the words in brackets are MacKenna's guess, and not in the Greek."
+    },
+    {
+     "taylor": "Its Act subsists without movement",
+     "in": "MacKenna",
+     "why": "The Greek asks a question, \"will it not, then, be moved?\", and answers that we must grant the soul a movement that is not a body's: the soul is not said to be without movement."
+    }
+   ]
+  }
+ ],
+ "links": [
+  {
+   "term": "intellect",
+   "forms": [
+    "intellect"
+   ]
+  },
+  {
+   "term": "soul",
+   "forms": [
+    "soul"
+   ]
+  },
+  {
+   "term": "virtue",
+   "forms": [
+    "virtue",
+    "virtues"
+   ]
+  },
+  {
+   "term": "phronesis",
+   "forms": [
+    "practical wisdom"
+   ]
+  },
+  {
+   "term": "likeness-to-god",
+   "forms": [
+    "like God",
+    "likeness to God"
+   ]
+  },
+  {
+   "term": "justice",
+   "forms": [
+    "justice"
+   ]
+  },
+  {
+   "term": "dialectic",
+   "forms": [
+    "dialectic"
+   ]
+  },
+  {
+   "term": "intelligible-world",
+   "forms": [
+    "intelligible"
+   ]
+  },
+  {
+   "term": "return",
+   "forms": [
+    "turning",
+    "turned"
+   ]
+  },
+  {
+   "term": "recollection",
+   "forms": [
+    "recollect"
+   ]
+  },
+  {
+   "term": "daemons",
+   "forms": [
+    "daemon"
+   ]
+  },
+  {
+   "term": "image-and-original",
+   "forms": [
+    "pattern"
+   ]
+  },
+  {
+   "term": "eros",
+   "forms": [
+    "lover"
+   ]
+  },
+  {
+   "term": "matter",
+   "forms": [
+    "matter"
+   ]
+  },
+  {
+   "term": "evil-as-privation",
+   "forms": [
+    "privation"
+   ]
+  },
+  {
+   "term": "world-soul",
+   "forms": [
+    "soul of the world"
+   ]
+  },
+  {
+   "term": "the-good",
+   "forms": [
+    "the Good"
+   ]
+  },
+  {
+   "term": "forms",
+   "forms": [
+    "Forms"
+   ]
+  },
+  {
+   "term": "the-beautiful",
+   "forms": [
+    "beauty"
+   ]
+  }
+ ]
+}

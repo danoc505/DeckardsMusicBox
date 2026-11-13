@@ -1,0 +1,165 @@
+# The Enneads of Plotinus in modern English: the Workshop's own, machine-assisted.
+# Made from Volkmann's Greek (First1KGreek's TEI), chapter by chapter, for the treatises Taylor did not translate
+# (his fifteen are in plotinus.txt, beside his English), and checked against Stephen MacKenna's translation
+# (1917-1930), which was made from the same Greek. Checked and built by tools/modern_enneads.py.
+# One milestone at a time, in Porphyry's order (workshop ROADMAP, "The Enneads in modern English").
+#
+#   @treatise <Ennead.treatise> | <title>   a treatise, with its summary on the lines after
+#   @ch <chapter> | <short title>            a chapter of the Greek (I.1.1), with its gist on the lines after
+#   @older <n> <n> ...                       MacKenna's chapters shown with it, where his numbers are not the Greek's
+#                                            (by default his chapter of the same number)
+#   @p                                       a paragraph of the modern version
+#   @greek <first words>                     where the paragraph begins in the chapter's Greek
+#                                            (the first paragraph of a chapter begins with the chapter)
+#   !flag <MacKenna's words> | <why>         a hard place, or where MacKenna's English and the Greek differ;
+#                                            his words are found, word for word, in his chapters shown with it
+#   !note <text>                             a note on the paragraph
+# Lines starting with # are comments.
+
+@treatise I.1 | What is the living being, and what is the human being?
+Where do our feelings, perceptions and thoughts belong: to the soul, to the body, or to something made of both? Plotinus argues that the soul in itself cannot be affected: it lights up the body and makes of it, together with that light, a living being, and the feelings and sensations belong to this living being. "We" are found higher up, where the soul judges the impressions of sense and reasons, and above us is intellect, which is also ours. Evil, error and punishment belong to the compound, not to the soul itself, which is never cut off from what is above it.
+
+@ch I.1.1 | The question: where do our feelings belong?
+Pleasure and pain, fear and confidence, desire and aversion: whose are they? The soul's, the soul's as it uses the body, or something made of both? The same must be asked of opinion, of thinking, and of the very thing that asks; and first of all, of perception.
+
+@p
+Pleasures and pains, fears and boldness, desires and aversions, and suffering: whose would these be? They belong either to the soul, or to the soul as it uses a body, or to some third thing made of both. And this third thing can be taken in two ways: either it is the mixture itself, or it is something else, made from the mixture. It is likewise with what comes about from these feelings: what we do, and what we believe because of them. So we must also examine reasoning and opinion, and ask whether they belong to the same thing as the feelings, or whether some belong in this way and others in another. We must also consider acts of thought: how they happen, and whose they are. And we must ask what this very thing is that examines these questions, carries out the inquiry and makes the judgement. But before all this: whose is perceiving? That is where we should begin, since the feelings are either perceptions of some kind or never come about without perception.
+
+@ch I.1.2 | If the soul is a pure form, it cannot be affected
+Is the soul one thing and "being soul" another? If so, the soul is a compound and may receive feelings. If they are the same, the soul is a form, untouched by what it gives to another, and so truly immortal: it fears nothing, desires nothing, grieves at nothing, and neither perceives nor forms opinions. Whether it thinks is still to be asked.
+
+@p
+First we must take up the soul, and ask whether the soul is one thing and being soul another. If so, the soul is something composite, and then it would not be strange for it to receive these feelings and for them to be its own, if the argument allows even this; and, in general, for it to have better and worse habits and dispositions. But if soul and being soul are the same, then the soul would be a form that does not receive any of these activities, which it brings to something else. It would have an activity of its own, native to it and within it, whatever our argument shows that activity to be.
+!flag which Reason manifests | The Greek ἥντινα ἂν φήνῃ ὁ λόγος means "whatever the argument shows it to be": the "reason" (λόγος) here is the discussion now under way, not the soul's faculty of Reason.
+
+@p
+@greek οὕτω γὰρ καὶ ἀθάνατον
+In this way, too, it is true to call it immortal, if what is immortal and indestructible must be unaffected: it gives something of itself to another, but takes nothing from another, except what it has from the beings before it, from which, since they are better, it is not cut off. What would such a thing fear, when it receives nothing at all from outside? Let what can be affected do the fearing. Nor, then, is it bold: boldness belongs to those to whom frightening things come. And how could it have desires, which are satisfied through the body as it is emptied and filled, when what is emptied and filled is something other than the soul? How could it receive a mixture, if what is a real being is unmixed? How could anything be brought into it from outside? That would be to hurry towards not being what it is. Suffering is further away still. How could it grieve, or over what? What is simple in its being is sufficient to itself, since it stays in its own being. Does it take pleasure when something is added, when nothing comes to it, not even a good? What it is, it always is.
+
+@p
+@greek καὶ μὴν οὐδὲ αἴσθησις
+Nor will perception belong to it, nor reasoning, nor opinion. For perception is a receiving of a form, or of a body without being affected, and reasoning and opinion rest on perception. But we must look into thinking, and how it belongs to the soul, if we are to leave thinking to it; and again into pure pleasure, whether it comes to the soul when it is alone.
+!note The words "a receiving of a form, or of a body without being affected" (παραδοχὴ εἴδους ἢ ἀπαθοῦς σώματος) are hard, and may not be what Plotinus wrote; the modern version keeps them as Volkmann prints them.
+
+@ch I.1.3 | The soul and the body: user and instrument
+The soul is in the body, and the two together are called a living being. If the soul uses the body as a tool, it need not share the body's feelings, though it may need perception. But how could a feeling pass from a body to a soul? Before philosophy separates them, how were they joined? The possibilities: blended, woven through, a separate form, a form in touch like a pilot, or part one way and part the other.
+
+@p
+But we must set the soul in a body, whether it exists before the body or in it, since it is from the body and the soul together that the whole is called a living being. Now if the soul uses the body as a tool, it is not forced to receive the feelings that come through the body, any more than craftsmen receive the feelings of their tools. But perhaps it must have perception, if in using the tool it must know, by perception, what happens to it from outside: for to use eyes is to see. But there are also harms to seeing, and so griefs and suffering, and in general whatever happens to the body as a whole; and so desires too, as the soul seeks the care of its tool.
+
+@p
+@greek ἀλλὰ πῶς ἀπὸ τοῦ σώματος
+But how will the feelings come from the body into the soul? A body will pass on something of its own to another body; but how can a body pass anything to a soul? That would be like one thing being affected because another was. As long as one is the user and the other what it uses, each is separate; at any rate, whoever makes the soul the user separates them. But before they are separated by philosophy, how was the soul placed? It was mixed. But if it was mixed, then either there was a kind of blending; or it was woven through the body; or it was a form, separate; or a form in touch with the body, like a pilot; or one part of it was in one way and another in another. I mean that one part is separate, the part that uses, and the other is mixed in some way, and is itself ranked with what is used. Then philosophy would turn this second part back to the part that uses, and lead the part that uses away from what it uses, as far as is not wholly necessary, so that it does not always use it.
+!note The pilot is Aristotle's image, in On the Soul II.1 (413a8-9): it is not clear whether the soul is the actuality of the body as a pilot is of a ship.
+
+@ch I.1.4 | Neither blended nor woven through
+If soul and body were blended, the body would gain and the soul would lose; but a soul with less life cannot gain perception, so the body would perceive and desire and fear. If the soul were woven through the body, like light it would not be affected. As a form in matter it would be a separate form, the user; even as the shape of an axe, the feelings would belong to the body as the axe's work belongs to the shaped iron.
+
+@p
+Let us suppose, then, that it has been mixed. But if it has been mixed, the worse will become better and the better worse: the body better, by getting a share of life, the soul worse, by getting a share of death and unreason. How could something that has lost some of its life gain perceiving as an addition? It would be the other way round: the body, having received life, would be what shares in perception and in the feelings that come from perception. Then the body will also have desires, since it is the body that will enjoy what it desires; and it will fear for itself, since it is the body that will miss its pleasures and be destroyed. We must also look into how such a mixture could happen, and whether it is not impossible: as if someone said that a line had been mixed with white, one nature with another of a different kind.
+
+@p
+@greek τὸ δὲ διαπλακεῖσα
+As for being woven through: that does not make the things woven together share the same feelings. What is woven through can be unaffected, and a soul that runs through the body can fail to suffer the body's feelings, just as light does; all the more if it is woven through the whole of it in this way. So the soul will not suffer the body's feelings because it is woven through it; but it will be in the body as a form in matter. But in the first place it will be a separable form, if it is a real being, and so it would be all the more the user. And if it is in the body as the shape of an axe is in the iron, so that the two together do what the iron, shaped in this way, does, though by virtue of its shape, then we would all the more give whatever feelings are shared to the body: to the body of this kind, natural, fitted with organs, potentially having life. For he says that it is absurd to say that the soul weaves; and so it is absurd to say that it desires and grieves. It is rather the living being that does these things.
+!note "Natural, fitted with organs, potentially having life", the shape of the axe, and the saying that it is absurd to say that the soul weaves, are all Aristotle's, in On the Soul: II.1 (412a27-b6, the axe at 412b12) and I.4 (408b11-15). The "he" who says it is Aristotle.
+!flag Compare the passage (in Plato) where we read that " it is absurd to suppose that the Soul weaves " | MacKenna puts the saying in Plato; it is Aristotle's, in On the Soul I.4 (408b11-15), where he says that to call the soul angry is like saying that it weaves or builds.
+
+@ch I.1.5 | Can the compound feel? Opinion and desire
+The living being is the body of a certain kind, the compound, or a third thing. Either the soul stays unaffected and causes the feeling in another, or it feels too. Grief starting from a judgement that something is bad does not show that the compound feels; nor does saying that desire belongs to the desiring part. Which comes first, the man's desire, the desiring part's, or the body's state?
+
+@p
+But the living being must be either the body of a certain kind, or the compound, or some other third thing that has come from both. However that may be, either we must keep the soul itself unaffected, as the cause of such a state in another, or it must share in the feeling. And if it shares, either it suffers the same feeling, or something like it: for instance, the living being desires in one way, and the desiring part is active or affected in another. The body of a certain kind we must examine later. But how does the compound feel grief, for example? Is it that, when the body is disposed in a certain way, and the feeling passes through to perception, and the perception ends in the soul? But how perception works is not yet clear. Or is it that grief starts from an opinion, a judgement that something bad is present, either to oneself or to someone close, and then a painful change comes about in the body and in the whole living being? But it is not yet clear whose the opinion is either, the soul's or the compound's. Then again, the opinion that something is bad does not carry the feeling of grief with it. It is possible to have the opinion and for grief not to follow at all; or to judge that one has been slighted and still not be angry; or to judge that something is good and still not have one's appetite stirred.
+
+@p
+@greek πῶς οὖν κοινὰ ταῦτα
+How, then, are these feelings shared? Is it because desire belongs to the desiring part, anger to the spirited part, and, in general, reaching out for something to the part that reaches out? But then they will no longer be shared: they will belong to the soul alone, or else to the body as well, since blood and bile must boil, and the body must be in a certain state to stir the appetite, as in sexual desire. But the desire for the good will not be a shared feeling; it will belong to the soul, as some others do; and the argument does not give them all to the compound. But when a man desires sex, it will be the man who desires, and yet in another way the desiring part will desire too. And how? Will the man start the desire, and the desiring part follow? But how could the man desire at all, if the desiring part had not been moved? Then the desiring part will start it. But where will it start from, if the body is not first in a certain state?
+
+@ch I.1.6 | Do powers act, or what has the powers?
+Perhaps, in general, what has a power acts by it, while the power itself stays unmoved. Then the soul, which gives life to the compound, is unaffected, and living and perceiving belong to the compound. But if perception is a movement through the body that ends in the soul, how can the soul not perceive?
+
+@p
+But perhaps it is better to say, in general, that by the presence of the powers it is the things that have them that act by them, while the powers themselves are unmoved and supply the ability to act to what has them. But if this is so, then when the living being is affected, the cause of its life, which has given life to the compound, must itself be unaffected by the feelings and activities, which belong to what has it. But if so, living as a whole will belong not to the soul but to the compound; or rather, the compound's living will not be the soul's; and the power of perception will not perceive, but what has the power will. But if perception is a movement through the body that ends in the soul, how will the soul not perceive? Or is it that, when the power of perception is present, the compound perceives by its being present? What, then, will perceive? The compound. But if the power is not moved, how can the compound still perceive, when the soul and the soul's power are not counted in with it?
+
+@ch I.1.7 | The light of the soul; where "we" are
+The compound exists by the soul's presence: the soul does not give itself, but makes, from the body and a kind of light from itself, the living being, which perceives and feels. We perceive because we are not apart from it. The soul's power of perception grasps the impressions, already intelligible; from these come reasoning, opinion and thought, and there "we" are most of all: the true man, above the lion and the many-coloured beast.
+
+@p
+Or the compound will exist by the soul's presence, though the soul does not give itself, as it is, either to the compound or to either of its two parts. It makes the nature of the living being, something different, out of a body of this kind and a sort of light given from itself; and to this belong perceiving and the other feelings that have been said to be the living being's. But how is it that we perceive? Because we have not been set free from a living being of this kind, even if other, more honourable things are present to us, which go to make the whole being of a human, made up of many parts.
+
+@p
+@greek τὴν δὲ τῆς ψυχῆς τοῦ αἰσθάνεσθαι
+The soul's power of perceiving must not be a perceiving of the things perceived, but rather a grasping of the impressions that perception makes in the living being: for these are already intelligible. So the perception outside is an image of this one, and this one, truer in its being, is a seeing of forms alone, without being affected. From these forms, from which the soul alone now takes over the leading of the living being, come reasonings, opinions and acts of thought; and it is here, above all, that we are. What comes before these is ours; but we are what stands over the living being from here upwards. Nothing will stop us from calling the whole a living being: mixed in its lower parts, while from here up it is, more or less, the true man. Those lower parts are the lion-like part and the many-coloured beast as a whole. For since the human being goes along with the rational soul, when we reason, it is we who reason, because reasonings are activities of the soul.
+!flag Discursive-Reasoning, Sense-Knowledge and Intellection | The Greek has διάνοιαι καὶ δόξαι καὶ νοήσεις, "reasonings, opinions and acts of thought": δόξαι are opinions, not "sense-knowledge".
+!note The lion and the many-coloured, many-headed beast within us are from Plato's image of the soul in the Republic, book 9 (588c-590b).
+
+@ch I.1.8 | Intellect, God, and the soul's images
+Intellect itself, not the soul's state of mind, is ours too, above us: shared by all and whole in each. So we have the forms twice, unrolled in the soul and all together in intellect. God rides above the intelligible nature; we come third, from the undivided soul above and the soul divided among bodies, which seems divided because it shines into them, like one face in many mirrors. Its images run down to the powers of growth and generation.
+
+@p
+And how do we stand towards intellect? By intellect I do not mean the state the soul has, which is one of the things that come from intellect, but intellect itself. We have this too, above us. We have it either as shared, or as our own, or as both shared by all and our own: shared, because it is without parts, one, and everywhere the same; our own, because each of us also has the whole of it in the first soul. So we also have the forms in two ways: in the soul, unrolled, as it were, and separated; in intellect, all together.
+!flag This also we possess as the summit of our being. | The Greek says we have intellect "above us" (ὑπεράνω ἡμῶν); MacKenna makes it the summit of our own being.
+!flag one of the emanations from the Intellectual-Principle | The Greek calls it a state (ἕξις) that the soul has, one of the things that come from intellect; the word "emanation" is MacKenna's.
+
+@p
+@greek πρὸς δὲ θεὸν πῶς
+And how do we stand towards God? As towards one who rides above the intelligible nature and the real being; and we are third from there, made, Plato says, "from the undivided soul above, and from the soul divided among bodies". We must understand this soul as divided among bodies in this way: it gives itself to the magnitudes of the body, to each living thing as large as it is, since even in the whole universe it is one. Or rather, it seems to be present to bodies because it shines into them and makes living beings, not from itself and the body, but staying as it is itself and giving images of itself, like a face in many mirrors. The first image is perception, in the compound. Then from this comes every other form that is called soul, each one from another in turn. It ends with the power of generation and growth, and in general with making something other than itself and bringing it to completion; and the soul that makes is turned towards what it completes.
+!note "The undivided soul above, and the soul divided among bodies" are from Plato's making of the soul in the Timaeus (35a).
+!flag the Divinity is contained in the Intellectual-Principle and Authentic-Existence | The Greek says God "rides upon" (ἐποχούμενον) the intelligible nature and real being: he is above it, not contained in it.
+
+@ch I.1.9 | The soul does not err; errors come from below
+The soul is free of the causes of the evils a human does and suffers. Then how can opinion and reasoning belong to it without error? Wrong-doing comes when the worse in us wins: imagination that has not waited for reason's judgement. Intellect did not touch the act. What needs no body is the soul's own, and true reasoning is the activity of thoughts, judging the impressions of sense. So the soul itself stays at rest; the turmoil belongs to the compound.
+
+@p
+The nature of that soul, then, will be free in us from being the cause of the evils that a human does and suffers: these belong to the living being, the compound, as has been said. But if opinion and reasoning belong to the soul, how is it free of error? For opinion is false, and many evils are done by it. Rather, evils are done when we are overcome by what is worse in us, for we are many: by desire, or anger, or an evil image. What is called reasoning about false things is imagination, which did not wait for the judgement of the reasoning part: we acted because we were persuaded by what is worse in us. It is like what happens in perception: we see falsely through the shared perception, before the reasoning part has judged. Intellect did not touch the act, and so it is without error. Or rather, we must say this: either we have touched the intelligible that is in intellect or we have not, or the intelligible that is in us: for it is possible both to have it and not to have it at hand.
+
+@p
+@greek διείλομεν δὴ τὰ κοινὰ
+So we have divided what is shared from what is the soul's own. What is shared is bodily, and does not exist without the body. What needs no body for its activity is the soul's own. And reasoning, when it judges the impressions that come from perception, is already seeing forms, and seeing them, as it were, with awareness: this is reasoning in the proper sense, the reasoning of the true soul. For true reasoning is an activity of thoughts, and often a likeness and fellowship of the things outside with those within. So the soul will be no less at rest towards itself and in itself. The changes and the turmoil in us come from what is attached to us, and from the feelings of the compound, whatever that is, as has been said.
+
+@ch I.1.10 | The two senses of "we"; the true man
+If we are the soul, and we feel these things, the soul feels them. But "we" is said in two ways: with the beast, that is, the body brought to life, or above it. The true man is pure of it and has the virtues of thought, which sit in the soul that can be separated; the virtues of habit and training, and the vices, belong to the compound.
+
+@p
+But if we are the soul, and we feel these things, then the soul would feel them, and would also do what we do. Rather, we said that the compound is ours too, especially while we have not yet been separated; for what our body feels, we say that we feel. So "we" is twofold: either the beast is counted in, or it is what is above the beast. The beast is the body brought to life. But the true man is another, the one pure of this, who has the virtues that lie in thought. These sit in the soul that separates itself, that separates itself and is separable even while it is still here. For when this soul withdraws altogether, the soul that was lit up from it goes away too, following it. But the virtues that come about not by wisdom but by habit and training belong to the compound. So do the vices, since envy, jealousy and pity belong to it. And friendships: whose are they? Some belong to the compound, others to the man within.
+!flag they are its repugnances, desires, sympathies | The Greek names "envies, jealousies and pities" (φθόνοι καὶ ζῆλοι καὶ ἔλεοι), as the feelings that show the vices belong to the compound.
+!note "The man within" is Plato's phrase in the Republic, book 9 (589a-b).
+
+@ch I.1.11 | Children, the middle, and the animals
+In children the compound is at work and little shines down from above. The higher part is ours only when we are aware of it, as we direct the middle up or down. In animals, if they hold human souls that have sinned, the separable part is present but not present to them; if not, they live by a light from the soul of the whole.
+
+@p
+While we are children, what comes from the compound is at work, and little shines into it from the things above. When the higher part is idle towards us, it is active towards what is above; it is active towards us when it reaches as far as the middle. What then? Are we not also what comes before the middle? Yes, but we must be aware of it. For we do not always use all that we have; only when we direct the middle part either towards what is above or towards the opposite, or bring something from potentiality or a settled state into activity.
+
+@p
+@greek τὰ δὲ θηρία πῶς
+And how do the animals have the living being? If there are human souls in them that have sinned, as is said, then the separable part does not come to belong to the animals: it is there, but it is not present to them. Their awareness has the image of the soul together with the body; and the body is of such a kind, as if given its qualities by an image of soul. But if no human soul has entered, such a living being has come about by a light shining from the soul of the whole.
+
+@ch I.1.12 | Is the soul sinless? Glaucus and Heracles
+If the soul is without sin, why the punishments? The two accounts can be reconciled: the sinless soul is the simple soul, essence and soul the same; the soul that sins is the compound, with another kind of soul added at birth. Its going down is only lighting what is below, as a shadow is no fault of the light. Homer's Heracles, a shade in Hades and a god among the gods, shows the two.
+
+@p
+But if the soul is without sin, how can there be punishments? This argument disagrees with every account that says the soul sins, is purified, pays penalties in Hades and passes into other bodies. One may side with whichever account one likes; but perhaps one could find a way in which they do not conflict. The account that makes the soul sinless held it to be one and simple in every way, and said that the soul and being soul are the same. The account that lets it sin weaves another kind of soul into it and adds it on, the kind that has the terrible feelings. So this soul becomes composite, made of all of them; it is affected as a whole; it is the composite that sins, and it is this that pays the penalty, not that other soul.
+!flag We may take either view at will : they are easily reconciled. | The Greek is more careful: one may side with whichever account one wishes, "but perhaps one could find" how they do not conflict. There is no "easily".
+
+@p
+@greek ὅθεν φησί
+That is why Plato says: "We have seen it as those who see Glaucus of the sea." "But if anyone wishes," he says, "to see its nature, he must knock off what has been added to it, and look to its philosophy, its love of wisdom: to what it touches, and to what it is akin to, that it is what it is." So it has another life and other activities, and what is punished is something different. The withdrawing and the separating are not only from this body, but from everything that has been added. For the adding happens at birth; or rather, birth as a whole is the coming to be of the other kind of soul. How the birth happens has been said elsewhere: as the soul comes down, something else comes from it, and this is what comes down in its inclining.
+!note Glaucus of the sea, whose body was covered by shells and weed, is Plato's image for the soul in the Republic, book 10 (611c-612a); "its love of wisdom" (φιλοσοφία) is in 611e.
+!flag Thus the Life is one thing, the Act is another and the Expiator yet another. | The Greek says the soul has "another life and other activities", and "what is punished is something different": not three things, but the soul's own life against the compound that is punished. τὸ κολαζόμενον is what is punished, not an "expiator".
+
+@p
+@greek ἆῤ οὖν ἀφίησι τὸ εἴδωλον
+Does it, then, let the image go? And how is the inclining not a sin? If the inclining is a shining on what is below, it is not a sin, any more than a shadow is: what is lit is the cause, for if it did not exist, the soul would have nowhere to shine. The soul is said to come down and to incline because what it lights up lives with it. And it lets the image go if there is nothing near to receive it. It lets it go not by its being cut off, but by its no longer existing; and it no longer exists if the whole soul looks there.
+
+@p
+@greek χωρίζειν δὲ ἔοικεν ὁ ποιητὴς
+The poet seems to separate the image in the case of Heracles: he puts his image in Hades, but Heracles himself among the gods. Held by both stories, that he is among the gods and that he is in Hades, he divided him. Perhaps the account would be convincing like this: Heracles had the virtue of action, and was found worthy to be a god because of his nobility. But because he was a man of action and not of contemplation, so as to be wholly there, he is above, and yet something of him is also below.
+!note The poet is Homer: in the Odyssey, book 11 (601-604), Odysseus sees the image of Heracles in Hades, while Heracles himself feasts among the gods.
+
+@ch I.1.13 | Who inquires? We, by the soul
+Who made this inquiry: we, or the soul? We, by the soul, in so far as it is soul, with a movement that is its own life, not a body's. Our thinking is twofold: the soul is intellectual, and intellect too acts on us, for it is part of us, and we go up to it.
+
+@p
+What has inquired into these things: is it we, or the soul? It is we, but by the soul. And how "by the soul"? Did we inquire by having it? No: by its being soul. Will it not be moved, then? Yes, but we must grant it such a movement as does not belong to bodies, and is its own life. And our thinking is like this too, because the soul is intellectual, and thinking is a higher life: both when the soul thinks and when intellect is active upon us. For intellect too is a part of us, and it is towards intellect that we go up.
+!flag Does this mean that the Soul reasons by possession (by contact with the matters of enquiry) ? | The Greek asks whether we inquired "by having" the soul; the words in brackets are MacKenna's guess, and not in the Greek.
+!flag Its Act subsists without movement | The Greek asks a question, "will it not, then, be moved?", and answers that we must grant the soul a movement that is not a body's: the soul is not said to be without movement.

@@ -51,7 +51,9 @@ TAYLOR_VOL1 = ROOT / "texts" / "taylor-1804" / "vol1"
 MODERN = ROOT / "sources" / "translations" / "modern"
 # Milestone 27: the Workshop's modern English of the Neoplatonists, from the Greek (tools/modern_neo.py), by text id.
 MODERN_NEO = ("plotinus", "proclus-alcibiades", "aristotle-categories", "aristotle-on-interpretation", "aristotle-prior-analytics",
-              "aristotle-metaphysics")
+              "aristotle-metaphysics", "enneads")
+# The Enneads milestones (E1 onward): the rest of Plotinus in modern English, beside MacKenna's (tools/modern_enneads.py).
+MODERN_ENNEADS = "enneads"
 # Milestone 35: the Workshop's modern English of Aristotle (tools/modern_ar.py), read with the same page as Proclus'.
 # Milestone 15: English for the Greek texts, the Workshop's own or a printed one paired with it.
 TRANSLATIONS = ROOT / "sources" / "translations"
@@ -932,6 +934,12 @@ class Library:
                 # Milestone 27: proofread and in modern English, so far.
                 t["modern"] = {"text": mod["text"], "title": mod["title"], "treatises": [{"id": x["id"], "title": x["title"]} for x in mod["treatises"]],
                                "pages": len({pg["n"] for x in mod["paragraphs"] for pg in x.get("pages", [])})}
+            enn = self.modern_enneads()
+            if enn and enn["greek_text"] == t["id"]:
+                # The Enneads milestones: the Workshop's modern English of the whole Enneads, so far.
+                t["modern"] = {"text": enn["text"], "kind": "enneads", "title": enn["title"],
+                               "treatises": [{"id": x["id"], "title": x["title"]} for x in enn["treatises"]],
+                               "beside_taylor": sum(1 for c in enn["contents"] if c["status"] == "taylor")}
         stats = self.one("SELECT value FROM build WHERE key = 'neo_stats'")
         return {"texts": texts, "stats": json.loads(stats["value"]) if stats else None}
 
@@ -995,6 +1003,13 @@ class Library:
             for u in units:
                 if u["label"] in have:
                     u["modern"] = True
+        enn = self.modern_enneads()
+        if enn and enn["greek_text"] == text_id:
+            # The Enneads milestones: each chapter in modern English links to it, read beside MacKenna's English.
+            have = {c["id"] for c in enn["chapters"]}
+            for u in units:
+                if u["label"] in have:
+                    u["modern_enneads"] = {"text": enn["text"], "id": u["label"]}
         return {"text": t, "part": p, "units": units, "corrections": corr,
                 "prev": self.one("SELECT seq, label FROM neo_part WHERE text_id = ? AND seq = ?", text_id, part - 1),
                 "next": self.one("SELECT seq, label FROM neo_part WHERE text_id = ? AND seq = ?", text_id, part + 1) if part + 1 < n_parts else None}
@@ -1016,6 +1031,12 @@ class Library:
                 return d
         return None
 
+    @staticmethod
+    def modern_enneads():
+        """The Workshop's modern English of the Enneads (tools/modern_enneads.py), or None."""
+        f = MODERN / f"{MODERN_ENNEADS}.json"
+        return json.loads(f.read_text(encoding="utf-8")) if f.exists() else None
+
     def modern_neo(self, text_id):
         """A modern version made from a proofread scan (milestone 27), whole, with your marks on it."""
         if text_id not in MODERN_NEO:
@@ -1024,6 +1045,21 @@ class Library:
         if not f.exists():
             return None
         d = json.loads(f.read_text(encoding="utf-8"))
+        if d.get("kind") == "enneads":
+            # The whole Enneads: the treatises done here, and Taylor's fifteen, read in modern English beside his English
+            # (milestone 27) at their part of his translation.
+            d["marks"] = self.mine.modern_marks(text_id)
+            d["greek_info"] = self.one("SELECT id, author, title, edition, editor, year FROM neo_text WHERE id = ?", d["greek_text"]) if self.has_neo() else None
+            seqs = {}
+            if self.has_taylor():
+                for p in self.rows("SELECT seq, label FROM taylor_part WHERE work_id = 'taylor-plotinus' ORDER BY seq"):
+                    m = re.match(r"Ennead ([IV]+\.\d+):", p["label"])
+                    if m:
+                        seqs.setdefault(m.group(1), p["seq"])
+            for c in d["contents"]:
+                if c["status"] == "taylor":
+                    c["taylor_part"] = seqs.get(c["id"])
+            return d
         if d.get("kind") == "aristotle":
             d["marks"] = self.mine.modern_marks(text_id)
             return d

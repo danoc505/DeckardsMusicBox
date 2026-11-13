@@ -359,7 +359,7 @@ and Olympiodorus on the First Alcibiades, proofread first in the same way, then 
 
 ![Plotinus I.2.3 in modern English, with Taylor's words beside](docs/reader-m27-modern-neo.png)
 
-**Milestone 35, modern English of Aristotle: the Categories (35a), On Interpretation (35b), the Prior Analytics (35c) and Books Α to Κ of the Metaphysics (35m1 to 35m6) done; the current focus, with work on Plato and the Neoplatonists paused (November 2026).** Aristotle is being put into plain modern English, in the
+**Milestone 35, modern English of Aristotle: the Categories (35a), On Interpretation (35b), the Prior Analytics (35c) and Books Α to Κ of the Metaphysics (35m1 to 35m6) done; paused after 35m6 (November 2026), for the Enneads.** Aristotle is being put into plain modern English, in the
 Platonists' order of reading, one work or group of works a session (the sub-milestones 35a to 35n are in the ROADMAP). Where
 public-domain English is on the shelf, the modern version modernises it, checked sentence by sentence against the Greek, and
 follows the Greek where they differ; where there is none, it is made fresh from the Greek. First, the **Categories**, the first work
@@ -438,7 +438,32 @@ Physics on luck, motion, the infinite and the kinds of change. 22 chapters, 80 p
 unity", and Taylor's "virtue of vice" turned round, his "inseparable" for separate, "habit", "duad", "the Calends to the Nones",
 and his note that Aristotle "cannot be serious" against the Forms in X.10. The notes give the Platonists' answers (Plotinus and
 Proclus on the One beyond being, Proclus on the Form as cause, not one more member of its species). Taylor's chapters are
-Bekker's. Next: Book Λ (35m7).
+Bekker's. Next, when the Aristotle work resumes: Book Λ (35m7).
+
+**The Enneads in modern English (milestones E1 to E34): I.1 done; the current focus (November 2026).** The rest of Plotinus,
+the thirty-nine treatises Taylor did not translate, is being put into plain modern English a treatise or two at a time, in
+Porphyry's order, as milestone 27 did for Taylor's fifteen: made from Volkmann's Greek, chapter by chapter, every idea kept,
+and checked against the older English beside it, here **Stephen MacKenna's** (1917-1930, made from the same Greek; public
+domain in the United States). Where MacKenna adds to the Greek or misses it, a flag quotes his words and says why. Done so far:
+**I.1, What is the living being, and what is the human being?** (E1): 13 chapters, 25 paragraphs, 11 flags, among them his
+"soul that weaves" put in Plato, where Plotinus quotes Aristotle (On the Soul 408b), God "contained in" the intelligible, where
+the Greek has him "riding upon" it, "sense-knowledge" for opinions, "easily reconciled" where Plotinus says only that perhaps
+the two accounts can be, and the "expiator" for what is punished; the notes give Aristotle's On the Soul, the Timaeus (35a), the
+Republic's lion and many-coloured beast (588c-590b) and Glaucus (611c-612a), and Homer's Heracles (Odyssey 11). It opens at
+`#neo-modern/enneads` (from the Neoplatonists' shelf, under Plotinus, and from each chapter of the Greek): each treatise and
+chapter with a short title and a summary, the Greek of every paragraph one tap away (linking to its chapter in Volkmann's
+text), MacKenna's chapter one tap away (*MacKenna's words*, with his page) or beside it (*Side by side*), and *Mark a sentence*.
+The page and its contents column also list **the whole Enneads**, all fifty-four treatises in Porphyry's order: those done here
+link to their chapters, Taylor's fifteen to his English with the modern beside it, and the rest say which milestone will do
+them. Labelled as the Workshop's own and machine-assisted, not yet checked by a scholar. MacKenna's English is the Internet
+Archive's OCR of his volumes, kept as received in `sources/mackenna-plotinus-1917/` and read by rule by `tools/mackenna.py`
+into `texts/plotinus/mackenna-1917.json` (running heads and page numbers out, broken words and paragraphs joined, his
+hyphened terms such as "Sense-Perception" kept; not proofread). The master copy is
+`sources/translations/modern/enneads.txt`; `tools/modern_enneads.py` checks it (Porphyry's order and none of Taylor's
+treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
+covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
+[`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: I.4 and I.5 (E2).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,
