@@ -420,7 +420,10 @@ no Bekker numbers, so the Organon is placed at the Oxford's columns carried over
 the Loeb English (≈). OCR cleaned by rule, not proofread. Five more works come from Perseus with their Loeb English, each
 GLAUx-tagged: the Eudemian Ethics, Politics, Economics, Rhetoric and Poetics; Taylor's Rhetoric and Poetic (1811) are beside
 the last two. Seven more are in Greek only, from First1KGreek, GLAUx-tagged, with no English yet: the Magna Moralia,
-Generation and Corruption, Meteorology, and Parts, Progression, Movement and Generation of Animals.
+Generation and Corruption, Meteorology, and Parts, Progression, Movement and Generation of Animals. The Parva Naturalia (eight
+short treatises, from On Sense to On Respiration) are in Greek only too, Bekker's Oxford text, which prints no Berlin columns: these
+are carried over word by word from the margin of Biehl's Greek (Teubner, 1898). The History of Animals has D'Arcy Thompson's Oxford
+translation (1910) beside it, its columns carried over from his margin chapter by chapter (≈).
 
 ## Running it
 

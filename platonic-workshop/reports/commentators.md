@@ -4,7 +4,7 @@ Written by `tools/aristotle_commentators.py` when the library is built (Aristotl
 
 The text is First1KGreek's TEI of the *Commentaria in Aristotelem Graeca* (CC BY-SA 4.0), read by the Berlin pages. A page is linked to a column of Aristotle when the editor prints the column's reference in the margin (*printed*), or when the page repeats at least two runs of five words found in that column and in no other column of the work (*quoted*, ≈: a lemma, or a quotation from elsewhere in the work).
 
-**7,516 pages linked: 2,606 links printed, 7,041 quoted.** 23 printed references name no column of the Workshop's text and are left unlinked.
+**7,636 pages linked: 2,667 links printed, 7,121 quoted.** 23 printed references name no column of the Workshop's text and are left unlinked.
 
 | Commentary | On | Pages | Greek words | Pages linked | Printed | Quoted | Pages missing from the file | Pages left out |
 |---|---|---:|---:|---:|---:|---:|---|---:|
@@ -14,7 +14,7 @@ The text is First1KGreek's TEI of the *Commentaria in Aristotelem Graeca* (CC BY
 | David, Prolegomena to philosophy (`david-prolegomena`) | philosophy, and Aristotle as a whole | 79 | 29,578 | 0 | 0 | 0 | none | 0 |
 | David, On Porphyry's Introduction (`david-isagoge`) | Porphyry's Introduction | 140 | 45,420 | 64 | 0 | 80 | none | 0 |
 | Porphyry, On the Categories, by question and answer (`porphyry-categories`) | Categories | 89 | 29,902 | 53 | 0 | 72 | 54 | 0 |
-| Ammonius, On the Categories (`ammonius-categories`) | Categories | 106 | 28,071 | 75 | 23 | 72 | none | 38 |
+| Ammonius, On the Categories (`ammonius-categories`) | Categories | 106 | 28,071 | 75 | 23 | 72 | none | 76 |
 | Philoponus, On the Categories (`philoponus-categories`) | Categories | 205 | 65,881 | 142 | 0 | 176 | none | 0 |
 | Olympiodorus, On the Categories (`olympiodorus-categories`) | Categories | 123 | 49,509 | 82 | 0 | 102 | none | 1 |
 | Elias, On the Categories (`elias-categories`) | Categories | 149 | 56,235 | 63 | 0 | 72 | none | 0 |
@@ -37,7 +37,7 @@ The text is First1KGreek's TEI of the *Commentaria in Aristotelem Graeca* (CC BY
 | Alexander of Aphrodisias, Mantissa (supplement to On the Soul), with On the Intellect (`alexander-mantissa`) | On the Soul | 86 | 35,753 | 3 | 0 | 3 | none | 0 |
 | [Simplicius], On the Soul (`simplicius-de-anima`) | On the Soul | 329 | 136,117 | 287 | 0 | 333 | none | 1 |
 | Philoponus, On the Soul (`philoponus-de-anima`) | On the Soul | 606 | 235,740 | 422 | 0 | 492 | 24 | 1 |
-| Alexander of Aphrodisias, On Sense and Sensibles (`alexander-de-sensu`) | not in the Workshop yet | 173 | 50,815 | 0 | 0 | 0 | none | 0 |
+| Alexander of Aphrodisias, On Sense and Sensibles (`alexander-de-sensu`) | On Sense and the Sensible | 173 | 50,815 | 120 | 61 | 80 | none | 0 |
 | [Philoponus], On the Generation of Animals (`philoponus-generation-animals`) | Generation of Animals | 249 | 94,784 | 232 | 148 | 174 | none | 0 |
 | Alexander of Aphrodisias, On the Metaphysics (`alexander-metaphysics`) | Metaphysics | 837 | 336,015 | 769 | 492 | 507 | none | 0 |
 | Syrianus, On the Metaphysics, Books Β, Γ, Μ and Ν (`syrianus-metaphysics`) | Metaphysics | 195 | 75,442 | 44 | 1 | 49 | none | 0 |
