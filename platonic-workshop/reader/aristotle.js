@@ -11,6 +11,8 @@ const arRank = (id) => { const i = AR_ORDER.flatMap((g) => g.works.map(([wid]) =
 const arWorks = () => state.works.filter((w) => w.imported && isAR(w)).sort((a, b) => arRank(a.id) - arRank(b.id));
 // Works whose Greek (Bekker's own text, in his Oxford reprint of 1837) does not print the Berlin columns: carried over from
 // the Oxford translation's margin, chapter by chapter (tools/aristotle_organon.py).
+// Milestone 35: the works with the Workshop's modern English (tools/modern_ar.py), read at #neo-modern/<text>.
+const AR_MODERN = { ar006: "aristotle-categories" };
 const AR_CARRIED = new Set(["ar006", "ar017", "ar044", "ar040"]);
 // Aristotle milestone A8d: the same Greek of the Parva Naturalia, its columns carried over word by word from the margin of Biehl's Greek
 // (tools/aristotle_biehl.py); and of the History of Animals, from the margin of Thompson's Oxford translation, chapter by chapter.
@@ -203,7 +205,7 @@ function arShelf() {
       · <a href="#ar-reconcile"><b>Plato and Aristotle reconciled</b></a> <span class="meta">The commentators on where the two agree, in their Greek.</span>
       · <a href="#search?corpus=aristotle"><b>Search Aristotle</b></a> <span class="meta">The concordance across his works.</span></p>
     <p><a href="#aristotle"><b>Start here: Aristotle as the Platonists read him</b></a> <span class="meta">The order they read his works in, the end they lead to, and where he agrees with Plato, each in Taylor's words.</span></p>
-    <ul class="studies">${ws.map((w) => `<li><a href="#${esc(w.slug)}"><b>${esc(w.title)}</b></a> <span class="meta">${esc(AR_PLAIN[w.id] || "")}</span></li>`).join("")}</ul>
+    <ul class="studies">${ws.map((w) => `<li><a href="#${esc(w.slug)}"><b>${esc(w.title)}</b></a>${AR_MODERN[w.id] ? ` · <a href="#neo-modern/${AR_MODERN[w.id]}">in modern English</a>` : ""} <span class="meta">${esc(AR_PLAIN[w.id] || "")}</span></li>`).join("")}</ul>
     <h4>The door to the logic</h4>
     <ul class="studies">
       <li><a href="#taylor/porphyry-introduction"><b>Porphyry's Introduction (Isagoge)</b></a> (Owen's English, 1853) <span class="meta">The five words the Categories takes for granted: genus, species, difference, property, accident. The Platonists read it before any Aristotle. The Greek (Busse, 1887) is <a href="#neo/porphyry-isagoge">on the Neoplatonists' shelf</a>.</span></li>
@@ -296,6 +298,7 @@ function renderTocAR(w) {
   }
   h += `<h3>Aristotle</h3><ul class="books">${arWorks().map((x) =>
     `<li class="${x.id === w.id ? "here" : ""}"><a href="#${esc(x.slug)}"><span>${esc(x.title)}</span></a></li>`).join("")}</ul>
+    ${AR_MODERN[w.id] ? `<p class="note"><a href="#neo-modern/${AR_MODERN[w.id]}"><b>In modern English</b></a>, the Workshop's own (machine-assisted)</p>` : ""}
     <p class="note"><a href="#aristotle">Start here for Aristotle</a> · <a href="#taylor/aristotle-dissertation">Taylor's Dissertation</a></p>
     ${["ar006", "ar017", "ar001", "ar001p", "ar044", "ar040"].includes(w.id) ? `<p class="note"><a href="#taylor/porphyry-introduction">Porphyry's Introduction</a>, the door to the logic</p>` : ""}
     ${w.id === "ar025" ? `<p class="note"><a href="#taylor/metaphysics-introduction">Taylor's Introduction</a> · <a href="#taylor/metaphysics-additional-notes">his Additional Notes</a></p>` : ""}

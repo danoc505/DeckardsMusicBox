@@ -298,7 +298,7 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   Taylor's English exists; then Damascius and Hermias. Plotinus' other treatises have no Taylor to check against: check
   them against another public-domain translation, or label them so.
 
-## Milestone 35: modern English of Aristotle (next, ahead of further Proclus sessions; asked for by Daniel)
+## Milestone 35: modern English of Aristotle (35a done; next, ahead of further Proclus sessions; asked for by Daniel)
 
 - As milestone 27 did for the Neoplatonists, for Aristotle: a modern English version beside the Greek, with Modern /
   Side by side views, Taylor's words a tap away, each section with its gist, and Mark a sentence.
@@ -307,6 +307,33 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   Greek differ. Labelled as the Workshop's own, machine-assisted, not yet checked by a scholar.
 - Begin with the works the Platonists read first (the order of milestone A2: logic, then ethics, politics, physics and
   theology). Several sessions, one per thread.
+- Split into sub-milestones, one thread each, in the order of reading (planned November 2026). Each one modernises the
+  public-domain English already on the shelf where there is one (the Loeb English is shown, not modernised: it is not all
+  free), checked against the Greek chapter by chapter, and makes a
+  fresh version from the Greek where there is none:
+  - 35a: the shared tooling, and the Categories (the first work read, after Porphyry's Introduction). Done: `tools/modern_ar.py`
+    reads a master copy in milestone 27's format (`sources/translations/modern/aristotle-<slug>.txt`; `@ch Cat.5`, or `NE.I.5` for a
+    work in books; `@taylor` names Taylor's chapters where his numbering differs) against the work's Greek from First1KGreek, chapter
+    by chapter, keeps each paragraph's Greek with the Bekker columns it lies on (the reader's own), checks each flag against Taylor's
+    chapter or another English of the work in `texts/aristotle/<slug>/`, and writes the JSON and `reports/modern_ar.md`. The page is
+    milestone 27's (`#neo-modern/aristotle-categories`, `reader/neo.js`, served by `tools/serve.py` with `MODERN_NEO`), linked from
+    the Aristotle shelf and the work (`AR_MODERN` in `reader/aristotle.js`). The Categories: 15 chapters, 66 paragraphs, modernised
+    from Edghill (1928) against Bekker's Greek, compared with Taylor (1812) and Owen (1853), 12 flags. To add a work: write its
+    master copy, add it to `TEXTS` in `tools/modern_ar.py`, to `MODERN_NEO` and to `AR_MODERN`.
+  - 35b: On Interpretation (Edghill 1928, Owen 1853, Taylor 1812). Next.
+  - 35c: the Prior Analytics (Jenkinson 1928, Owen, Taylor), two sessions, one a book.
+  - 35d: the Posterior Analytics (Mure 1928, Owen), two sessions.
+  - 35e: the Topics and the Sophistical Refutations (Pickard-Cambridge 1928, Owen), several sessions.
+  - 35f: the Nicomachean Ethics (Taylor 1811, Chase 1847), several sessions.
+  - 35g: the Eudemian Ethics, the Magna Moralia and On Virtues and Vices (fresh from the Greek, checked against the Loeb where Perseus has it).
+  - 35h: the Politics, the Economics and the Constitution of the Athenians (fresh from the Greek, checked against the Loeb; Kenyon 1891 for the Constitution), several sessions.
+  - 35i: the Physics (Hardie and Gaye 1930), several sessions.
+  - 35j: On the Heavens (Stocks 1922), Generation and Corruption and the Meteorology (fresh from the Greek).
+  - 35k: On the Soul (Hicks 1907) and the Parva Naturalia (fresh from the Greek).
+  - 35l: the works on animals (Thompson's History of Animals 1910; the others fresh from the Greek), several sessions.
+  - 35m: the Metaphysics (Taylor 1801, Ross 1908), several sessions; the summit of the course.
+  - 35n: the Rhetoric and the Poetics (Taylor 1811), then the mathematical, minor and spurious works, the Letters
+    and the Divisions, fresh from the Greek.
 
 ## Milestone 28: the later readers
 

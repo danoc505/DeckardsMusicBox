@@ -50,7 +50,8 @@ TAYLOR_VOL1 = ROOT / "texts" / "taylor-1804" / "vol1"
 # Milestone 24: the Workshop's modern English of the Introduction and the Life, beside Taylor's (tools/modern.py).
 MODERN = ROOT / "sources" / "translations" / "modern"
 # Milestone 27: the Workshop's modern English of the Neoplatonists, from the Greek (tools/modern_neo.py), by text id.
-MODERN_NEO = ("plotinus", "proclus-alcibiades")
+MODERN_NEO = ("plotinus", "proclus-alcibiades", "aristotle-categories")
+# Milestone 35: the Workshop's modern English of Aristotle (tools/modern_ar.py), read with the same page as Proclus'.
 # Milestone 15: English for the Greek texts, the Workshop's own or a printed one paired with it.
 TRANSLATIONS = ROOT / "sources" / "translations"
 # Taylor's prefatory texts the Library shelves (milestone 13), with what each is, in a line.
@@ -1022,6 +1023,9 @@ class Library:
         if not f.exists():
             return None
         d = json.loads(f.read_text(encoding="utf-8"))
+        if d.get("kind") == "aristotle":
+            d["marks"] = self.mine.modern_marks(text_id)
+            return d
         if d.get("kind") != "proofread":
             return None
         d["marks"] = self.mine.modern_marks(text_id)
