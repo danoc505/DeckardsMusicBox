@@ -359,7 +359,7 @@ and Olympiodorus on the First Alcibiades, proofread first in the same way, then 
 
 ![Plotinus I.2.3 in modern English, with Taylor's words beside](docs/reader-m27-modern-neo.png)
 
-**Milestone 35, modern English of Aristotle: the Categories (35a), On Interpretation (35b), the Prior Analytics (35c) and Books Α to Θ of the Metaphysics (35m1 to 35m5) done; the current focus, with work on Plato and the Neoplatonists paused (November 2026).** Aristotle is being put into plain modern English, in the
+**Milestone 35, modern English of Aristotle: the Categories (35a), On Interpretation (35b), the Prior Analytics (35c) and Books Α to Κ of the Metaphysics (35m1 to 35m6) done; the current focus, with work on Plato and the Neoplatonists paused (November 2026).** Aristotle is being put into plain modern English, in the
 Platonists' order of reading, one work or group of works a session (the sub-milestones 35a to 35n are in the ROADMAP). Where
 public-domain English is on the shelf, the modern version modernises it, checked sentence by sentence against the Greek, and
 follows the Greek where they differ; where there is none, it is made fresh from the Greek. First, the **Categories**, the first work
@@ -426,7 +426,19 @@ tire, no evil in the eternal things, and being as true, where the simple is know
 44 flags, among them Ross's "complete reality" for actuality, "organic unity", "rational formula", "will" for choice, "the
 Idea of science", "the eternal prime mover", and Taylor's "energy", "transcendency" for excess, "impotency", "ablation" and
 "free-will". The notes give the Platonists' readings (Plotinus on what is in potency and in actuality, Proclus on evil and
-on participation). Taylor's chapters are Bekker's. Next: Books Ι and Κ (35m6).
+on participation). Taylor's chapters are Bekker's. Then Books **Ι and Κ**
+(35m6): the one, said in as many ways as being, and above all the first measure of each kind, not a substance by itself; the
+one and the many, the same, the like and the other; contrariety as the complete difference, and privation; the equal between
+the great and the small; intermediates made of the contraries; what it is to be other in species, and why male and female are
+not; the perishable and the imperishable other in kind, so no Forms of the kind some speak of. Then Book Κ, which goes over
+Books Β, Γ and Ε in short (the puzzles, one science of being as being, the firmest principle against Heraclitus and
+Protagoras, the three theoretical sciences with theology the first, no science of the accidental) and then chapters of the
+Physics on luck, motion, the infinite and the kinds of change. 22 chapters, 80 paragraphs, 54 flags, among them Ross's
+"quarter-tone", "the indefinite", "equinity", "ad hominem", "infimae species", "material universe" for the heaven and "organic
+unity", and Taylor's "virtue of vice" turned round, his "inseparable" for separate, "habit", "duad", "the Calends to the Nones",
+and his note that Aristotle "cannot be serious" against the Forms in X.10. The notes give the Platonists' answers (Plotinus and
+Proclus on the One beyond being, Proclus on the Form as cause, not one more member of its species). Taylor's chapters are
+Bekker's. Next: Book Λ (35m7).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,

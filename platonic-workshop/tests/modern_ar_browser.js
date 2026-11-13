@@ -136,7 +136,7 @@ async function run(b, viewport, touch, first) {
   check(await p.$$eval('#lib-ar a[href="#neo-modern/aristotle-metaphysics"]', (es) => es.length) === 1, `${tag}: the Aristotle shelf links to the Metaphysics in modern English`);
   await p.goto(base + "#neo-modern/aristotle-metaphysics/Metaph.I.9");
   await p.waitForSelector("#mc-Metaph\\.I\\.9");
-  check(await p.$$eval(".tg-mod", (es) => es.length) === 94 && /so far Books Α, α, Β, Γ, Δ, Ε, Ζ, Η and Θ/.test(await p.$eval(".tg-read", (e) => e.textContent)), `${tag}: the Metaphysics, ninety-four chapters so far, saying which books`);
+  check(await p.$$eval(".tg-mod", (es) => es.length) === 116 && /so far Books Α, α, Β, Γ, Δ, Ε, Ζ, Η, Θ, Ι and Κ/.test(await p.$eval(".tg-read", (e) => e.textContent)), `${tag}: the Metaphysics, a hundred and sixteen chapters so far, saying which books`);
   check(/Book Α \(I\), chapter 9\. Against the Forms/.test(await p.$eval("#mc-Metaph\\.I\\.9", (e) => e.textContent)) && /Book α \(II\), chapter 1\./.test(await p.$eval("#mc-Metaph\\.II\\.1", (e) => e.textContent)), `${tag}: chapters are headed by the book's letter`);
   check(/Ross, Oxford \(1908\): “so is the reason in our soul to the things”/.test(await p.$eval("#mp-Metaph\\.II\\.1\\.p1", (e) => e.textContent)), `${tag}: a flag on Ross's "reason" for νοῦς`);
   await p.click("#mp-Metaph\\.I\\.1\\.p1 .mp-greek summary");
@@ -185,6 +185,16 @@ async function run(b, viewport, touch, first) {
   await p.click('[data-nm-mode="both"]');
   await p.waitForSelector(".mod-both .tg-tcol");
   check(/Taylor, The Metaphysics \(1801\), book ix, chapter 6/.test(await p.$eval("#mc-Metaph\\.IX\\.6 .tg-tcol", (e) => e.textContent)), `${tag}: Book Θ side by side with Taylor's own chapter`);
+  await p.click('[data-nm-mode="modern"]');
+  // Milestone 35m6: Books Ι and Κ, the one and the many, and the summary of Β, Γ, Ε and of the Physics; Taylor's chapters are Bekker's.
+  await p.goto(base + "#neo-modern/aristotle-metaphysics/Metaph.XI.7");
+  await p.waitForSelector("#mc-Metaph\\.XI\\.7");
+  check(/Book Ι \(X\), chapter 4\. Contrariety, the complete difference/.test(await p.$eval("#mc-Metaph\\.X\\.4", (e) => e.textContent)) && /Book Κ \(XI\), chapter 7\. The three theoretical sciences/.test(await p.$eval("#mc-Metaph\\.XI\\.7", (e) => e.textContent)), `${tag}: Books Ι and Κ are headed by their letters`);
+  check(/physics, mathematics, theology/.test(await p.$eval("#mp-Metaph\\.XI\\.7\\.p2", (e) => e.textContent)), `${tag}: the three theoretical sciences in modern English`);
+  check(/Ross, Oxford \(1908\): “though there is proof ad hominem”/.test(await p.$eval("#mp-Metaph\\.XI\\.5\\.p1", (e) => e.textContent)), `${tag}: a flag on Ross's "ad hominem"`);
+  await p.click('[data-nm-mode="both"]');
+  await p.waitForSelector(".mod-both .tg-tcol");
+  check(/Taylor, The Metaphysics \(1801\), book xi, chapter 7/.test(await p.$eval("#mc-Metaph\\.XI\\.7 .tg-tcol", (e) => e.textContent)), `${tag}: Book Κ side by side with Taylor's own chapter`);
   await p.click('[data-nm-mode="modern"]');
   await p.goto(base + "#metaphysics/980a");
   await p.waitForSelector("#toc a[href=\"#neo-modern/aristotle-metaphysics\"]", { state: "attached" });
