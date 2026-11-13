@@ -440,7 +440,7 @@ class Server(unittest.TestCase):
 
     def test_the_shelf_and_the_scan_link_to_it(self):
         t = next(t for t in self.get("neo")["texts"] if t["id"] == TID)
-        self.assertEqual((t["modern"]["text"], t["modern"]["pages"]), (TID, 191))
+        self.assertEqual((t["modern"]["text"], t["modern"]["pages"]), (TID, 199))
         part = self.get(f"neo/{TID}/0")
         u = next(u for u in part["units"] if u["label"] == "II p. 2")
         self.assertEqual(u["modern_section"], {"text": TID, "id": "Pr.1"})
