@@ -136,7 +136,7 @@ async function run(b, viewport, touch, first) {
   check(await p.$$eval('#lib-ar a[href="#neo-modern/aristotle-metaphysics"]', (es) => es.length) === 1, `${tag}: the Aristotle shelf links to the Metaphysics in modern English`);
   await p.goto(base + "#neo-modern/aristotle-metaphysics/Metaph.I.9");
   await p.waitForSelector("#mc-Metaph\\.I\\.9");
-  check(await p.$$eval(".tg-mod", (es) => es.length) === 13 && /so far Books Α and α/.test(await p.$eval(".tg-read", (e) => e.textContent)), `${tag}: the Metaphysics, thirteen chapters so far, saying which books`);
+  check(await p.$$eval(".tg-mod", (es) => es.length) === 27 && /so far Books Α, α, Β and Γ/.test(await p.$eval(".tg-read", (e) => e.textContent)), `${tag}: the Metaphysics, twenty-seven chapters so far, saying which books`);
   check(/Book Α \(I\), chapter 9\. Against the Forms/.test(await p.$eval("#mc-Metaph\\.I\\.9", (e) => e.textContent)) && /Book α \(II\), chapter 1\./.test(await p.$eval("#mc-Metaph\\.II\\.1", (e) => e.textContent)), `${tag}: chapters are headed by the book's letter`);
   check(/Ross, Oxford \(1908\): “so is the reason in our soul to the things”/.test(await p.$eval("#mp-Metaph\\.II\\.1\\.p1", (e) => e.textContent)), `${tag}: a flag on Ross's "reason" for νοῦς`);
   await p.click("#mp-Metaph\\.I\\.1\\.p1 .mp-greek summary");
@@ -145,6 +145,16 @@ async function run(b, viewport, touch, first) {
   await p.waitForSelector(".mod-both .tg-tcol");
   check(/Taylor, The Metaphysics \(1801\), book i, chapter 7/.test(await p.$eval("#mc-Metaph\\.I\\.9 .tg-tcol", (e) => e.textContent)), `${tag}: side by side with Taylor's own chapter`);
   await wide("Metaphysics side by side");
+  await p.click('[data-nm-mode="modern"]');
+  // Milestone 35m2: Books Β and Γ, the puzzles and the principle of non-contradiction, with Taylor's own chapters of Book Γ.
+  await p.goto(base + "#neo-modern/aristotle-metaphysics/Metaph.IV.3");
+  await p.waitForSelector("#mc-Metaph\\.IV\\.3");
+  check(/Book Β \(III\), chapter 1\./.test(await p.$eval("#mc-Metaph\\.III\\.1", (e) => e.textContent)) && /Book Γ \(IV\), chapter 3\./.test(await p.$eval("#mc-Metaph\\.IV\\.3", (e) => e.textContent)), `${tag}: Books Β and Γ are headed by their letters`);
+  check(/cannot at the same time belong and not belong/.test(await p.$eval("#mp-Metaph\\.IV\\.3\\.p2", (e) => e.textContent)), `${tag}: the principle of non-contradiction in modern English`);
+  check(/Ross, Oxford \(1908\): “The school of Hesiod and all the mythologists”/.test(await p.$eval("#mp-Metaph\\.III\\.4\\.p5", (e) => e.textContent)), `${tag}: a flag on Ross's "mythologists" for θεολόγοι`);
+  await p.click('[data-nm-mode="both"]');
+  await p.waitForSelector(".mod-both .tg-tcol");
+  check(/Taylor, The Metaphysics \(1801\), book iv, chapter 2/.test(await p.$eval("#mc-Metaph\\.IV\\.3 .tg-tcol", (e) => e.textContent)), `${tag}: Book Γ side by side with Taylor's own chapter`);
   await p.click('[data-nm-mode="modern"]');
   await p.goto(base + "#metaphysics/980a");
   await p.waitForSelector("#toc a[href=\"#neo-modern/aristotle-metaphysics\"]", { state: "attached" });

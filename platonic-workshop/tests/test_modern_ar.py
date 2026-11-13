@@ -218,12 +218,12 @@ class Metaphysics(unittest.TestCase):
         self.assertEqual((d["by"], d["kind"], d["work"], d["work_slug"]), ("Workshop modern version", "aristotle", "ar025", "metaphysics"))
         self.assertIs(d["machine_assisted"], True)
         self.assertIn("not yet checked", d["label"])
-        self.assertIn("so far Books Α and α", d["about"])
+        self.assertIn("so far Books Α, α, Β and Γ", d["about"])
         self.assertEqual(d["greek_info"]["edition"], "Ross, Oxford, 1924 (Perseus)")
-        self.assertEqual(modern_ar.TEXTS["aristotle-metaphysics"]["done_books"], [1, 2])
-        self.assertEqual([t["id"] for t in d["treatises"]], ["Metaph.I", "Metaph.II"])
+        self.assertEqual(modern_ar.TEXTS["aristotle-metaphysics"]["done_books"][:2], [1, 2])
+        self.assertEqual([t["id"] for t in d["treatises"]][:2], ["Metaph.I", "Metaph.II"])
         ids = [f"Metaph.I.{n}" for n in range(1, 11)] + [f"Metaph.II.{n}" for n in range(1, 4)]
-        self.assertEqual([c["id"] for c in d["chapters"]], ids)
+        self.assertEqual([c["id"] for c in d["chapters"]][:13], ids)
         for c in d["chapters"]:
             self.assertTrue(c["title"] and c["summary"] and c["taylor"], c["id"])
             self.assertTrue(any(p["chapter"] == c["id"] for p in d["paragraphs"]), c["id"])
@@ -237,7 +237,7 @@ class Metaphysics(unittest.TestCase):
     def test_paragraphs_have_their_greek_and_bekker_columns(self):
         d = load("aristotle-metaphysics")
         cols = [c for p in d["paragraphs"] for c in p["cols"]]
-        self.assertEqual((cols[0], cols[-1]), ("980a", "995a"))
+        self.assertEqual(cols[0], "980a")
         keys = [(int(c[:-1]), c[-1]) for c in cols]
         self.assertEqual(keys, sorted(keys))
         for p in d["paragraphs"]:
@@ -274,6 +274,51 @@ class Metaphysics(unittest.TestCase):
         finally:
             modern_ar.TEXTS["aristotle-metaphysics"] = old
         self.assertTrue(any("the chapters are" in x and "(3, 1)" not in x.split("the Greek has")[1] for x in problems), problems)
+
+
+class MetaphysicsBetaGamma(unittest.TestCase):
+    """Milestone 35m2: the Metaphysics, Books Β and Γ (III and IV): the puzzles, and the science of being as being with the
+    principle of non-contradiction; Taylor's Book Γ has seven chapters, not eight."""
+
+    def test_books_three_and_four_every_chapter_with_taylor(self):
+        d = load("aristotle-metaphysics")
+        self.assertEqual(modern_ar.TEXTS["aristotle-metaphysics"]["done_books"], [1, 2, 3, 4])
+        self.assertEqual([t["id"] for t in d["treatises"]], ["Metaph.I", "Metaph.II", "Metaph.III", "Metaph.IV"])
+        ids = [f"Metaph.III.{n}" for n in range(1, 7)] + [f"Metaph.IV.{n}" for n in range(1, 9)]
+        self.assertEqual([c["id"] for c in d["chapters"]][13:], ids)
+        tay = {c["id"]: [x["label"] for x in c["taylor"]] for c in d["chapters"]}
+        self.assertEqual(tay["Metaph.III.4"], ["Book III, Chapter 4"])
+        # Taylor's Book IV: his 1 holds Bekker's 1 and 2, then his 2-7 are Bekker's 3-8.
+        self.assertEqual(tay["Metaph.IV.1"], ["Book IV, Chapter 1"])
+        self.assertEqual(tay["Metaph.IV.2"], ["Book IV, Chapter 1"])
+        self.assertEqual(tay["Metaph.IV.3"], ["Book IV, Chapter 2"])
+        self.assertEqual(tay["Metaph.IV.8"], ["Book IV, Chapter 7"])
+
+    def test_paragraphs_run_from_995a_to_1012b(self):
+        d = load("aristotle-metaphysics")
+        ps = [p for p in d["paragraphs"] if p["chapter"].startswith(("Metaph.III.", "Metaph.IV."))]
+        self.assertGreaterEqual(len(ps), 60)
+        cols = [c for p in ps for c in p["cols"]]
+        self.assertEqual((cols[0], cols[-1]), ("995a", "1012b"))
+        keys = [(int(c[:-1]), c[-1]) for c in cols]
+        self.assertEqual(keys, sorted(keys))
+        para = {p["seg"]: p for p in ps}
+        self.assertTrue(para["Metaph.III.1.p1"]["greek"].startswith("ἀνάγκη πρὸς τὴν ἐπιζητουμένην ἐπιστήμην"))
+        self.assertIn("untie a knot", para["Metaph.III.1.p1"]["modern"])
+        self.assertTrue(para["Metaph.IV.1.p1"]["modern"].startswith("There is a science that studies being as being"))
+        self.assertIn("the same thing cannot at the same time belong and not belong to the same thing in the same respect",
+                      para["Metaph.IV.3.p2"]["modern"])
+        self.assertIn("Megara", para["Metaph.IV.4.p8"]["modern"])
+        self.assertIn("the first mover is itself unmoved", para["Metaph.IV.8.p2"]["modern"])
+
+    def test_flags_on_books_three_and_four(self):
+        d = load("aristotle-metaphysics")
+        flags = [(p["seg"], f) for p in d["paragraphs"] for f in p.get("flags", []) if p["chapter"].startswith(("Metaph.III.", "Metaph.IV."))]
+        self.assertGreaterEqual(len(flags), 20)
+        # Ross's "mythologists" for θεολόγοι and "negatively" for ἐλεγκτικῶς; Taylor's "energy" for ἐνέργεια.
+        self.assertTrue(any(seg == "Metaph.III.4.p5" and "mythologists" in f["taylor"] and f["in"].startswith("Ross") for seg, f in flags))
+        self.assertTrue(any(seg == "Metaph.IV.4.p2" and "demonstrate negatively" in f["taylor"] for seg, f in flags))
+        self.assertTrue(any(seg == "Metaph.III.1.p3" and "capacity or energy" in f["taylor"] and f["in"].startswith("Taylor") for seg, f in flags))
 
 
 @unittest.skipUnless(FIRST1K.exists(), "run python3 tools/fetch_sources.py first")
@@ -339,7 +384,7 @@ class Server(unittest.TestCase):
         self.assertEqual((d["kind"], d["marks"], len(d["chapters"])), ("aristotle", [], 73))
         self.assertEqual(d["paragraphs"][0]["cols"], ["24a", "24b"])
         d = self.get("modern-neo/aristotle-metaphysics")
-        self.assertEqual((d["kind"], d["marks"], len(d["chapters"])), ("aristotle", [], 13))
+        self.assertEqual((d["kind"], d["marks"], len(d["chapters"])), ("aristotle", [], 27))
         self.assertEqual(d["paragraphs"][0]["cols"], ["980a"])
 
 

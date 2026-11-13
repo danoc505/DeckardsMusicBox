@@ -359,7 +359,7 @@ and Olympiodorus on the First Alcibiades, proofread first in the same way, then 
 
 ![Plotinus I.2.3 in modern English, with Taylor's words beside](docs/reader-m27-modern-neo.png)
 
-**Milestone 35, modern English of Aristotle: the Categories (35a), On Interpretation (35b), the Prior Analytics (35c) and Books Α and α of the Metaphysics (35m1) done; the current focus, with work on Plato and the Neoplatonists paused (November 2026).** Aristotle is being put into plain modern English, in the
+**Milestone 35, modern English of Aristotle: the Categories (35a), On Interpretation (35b), the Prior Analytics (35c) and Books Α to Γ of the Metaphysics (35m1, 35m2) done; the current focus, with work on Plato and the Neoplatonists paused (November 2026).** Aristotle is being put into plain modern English, in the
 Platonists' order of reading, one work or group of works a session (the sub-milestones 35a to 35n are in the ROADMAP). Where
 public-domain English is on the shelf, the modern version modernises it, checked sentence by sentence against the Greek, and
 follows the Greek where they differ; where there is none, it is made fresh from the Greek. First, the **Categories**, the first work
@@ -394,7 +394,13 @@ and Taylor's own note that Aristotle answers the words of the earlier philosophe
 in Plato that Aristotle answers, and say where the Platonists replied (Syrianus on Books Μ and Ν). Chapters are headed by the
 book's letter ("Book Α (I), chapter 9"), and *Side by side* shows Taylor's own chapter: his Book Α has seven chapters, not ten.
 It opens at `#neo-modern/aristotle-metaphysics`. The master copy grows by books: `"done_books"` in `tools/modern_ar.py` names the
-books done, and the check wants every chapter of those books. Next: Books Β and Γ (35m2).
+books done, and the check wants every chapter of those books. Then Books **Β and Γ** (35m2): the fourteen puzzles
+that Aristotle sets before the science he is seeking ("one cannot untie a knot one does not know"), and the science of being as
+being, with the principle of non-contradiction ("the same thing cannot at the same time belong and not belong to the same thing
+in the same respect") defended against Protagoras and the Heracliteans; 14 chapters, 67 paragraphs, 26 flags, among them Ross's
+"mythologists" for Hesiod's θεολόγοι (the Platonists' "theologians"), his "negatively" for showing by refutation, and Taylor's
+"energy" for actuality. The notes say where the later books answer each puzzle, and where Plato (the Theaetetus, the Sophist)
+says the same. Taylor's Book Γ has seven chapters, not eight. Next: Book Δ (35m3).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,
