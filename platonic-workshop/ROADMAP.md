@@ -13,6 +13,20 @@ Each milestone is meant to be one working session, in its own thread. Start the 
 When a milestone is done and merged, its thread hands off to a new thread for the next milestone (as 14 to 18 have done),
 so that each thread starts small.
 
+## The current focus (November 13, 2026, asked for by Daniel): Aristotle, beginning with the Metaphysics
+
+Daniel: "let's pause any work on Plato, move focus over to modernizing and correcting the texts of Aristotle, start with
+Metaphysics; we need to turn this into a milestone list so that new threads can be made to save tokens."
+
+- All work on Plato and the Neoplatonists is **paused**: the milestones not yet done (18 to 22, the rest of 27, the Proclus
+  sessions, 28 to 34, and A6) are marked "paused" below and keep their plans, to take up again when Daniel asks.
+- The work now is milestone 35, modern English of Aristotle, corrected against the Greek: first the **Metaphysics**, in eight
+  small sub-milestones (35m1 to 35m8, below), then the rest of Aristotle in the Platonists' order of reading (35d onward).
+- **One sub-milestone per thread.** A thread does its one sub-milestone, merges it, checks the deployed site, reports, and stops;
+  the next sub-milestone starts in a fresh thread, which reads only this section, milestone 35 below, and the README's section on
+  milestone 35. Each sub-milestone is sized to fit one fresh thread.
+- The next one to do is always the first sub-milestone below not marked done.
+
 ## Milestone 13: the Platonist order, Start here, Taylor's glossary and Introduction (done)
 
 - The dialogues are listed in the **Neoplatonic curriculum** of Iamblichus by default (Anon. Prol. 26, quoted with
@@ -95,7 +109,7 @@ so that each thread starts small.
   "intellect", "progression"), so that a term's panel shows Plato and every Neoplatonist together. The forms are already
   in terms.json; procession, hyparxis, theurgy and the other later words have no word of Plato's to mark.
 
-## Milestone 18: the Neoplatonists, linked and readable
+## Milestone 18: the Neoplatonists, linked and readable (paused, November 2026)
 
 - The Neoplatonist shelf, read whole with contents: Proclus on the Timaeus (Taylor, 1820), Proclus' Theology
   (Taylor, 1816), Plotinus (Taylor, 1817), Iamblichus (Taylor, 1821), all already in `sources/`; OCR shown as received,
@@ -107,7 +121,7 @@ so that each thread starts small.
 - A map of the Neoplatonic hierarchy (the One, Intellect, Soul, Nature, Body) drawn from Taylor's and Proclus' words;
   each level opens its passages.
 
-## Milestone 19: the middle of each dialogue
+## Milestone 19: the middle of each dialogue (paused, November 2026)
 
 - Compute the middle of every dialogue from Burnet's Greek in several ways: letters (no spaces or punctuation, so it
   does not depend on word division, which the ancient books did not have), words, Stephanus sections, and
@@ -117,12 +131,12 @@ so that each thread starts small.
   quoted, with its critics); anything the ancient Platonists say about a dialogue's centre (search the commentators).
 - A marker in the reader at each dialogue's middle, and a page comparing the dialogues.
 
-## Milestone 20: a reading path
+## Milestone 20: a reading path (paused, November 2026)
 
 - Follow the curriculum dialogue by dialogue: for each, its aim (skopos) in the Prolegomena's and Proclus' words,
   Taylor's Introduction to it, the famous passages in it, and where to go next. Remember where the reader is.
 
-## Milestone 21: the Greek scholia in English
+## Milestone 21: the Greek scholia in English (paused, November 2026)
 
 - The scholia to every dialogue (Hermann's Greek, 1853; about 44,000 Greek words of OCR) have no English translation in print.
   Translate them for the Workshop, dialogue by dialogue in the Platonist order (Alcibiades I first), labelled "Workshop
@@ -132,7 +146,7 @@ so that each thread starts small.
 - Then the longer Greek quotations inside the English commentaries (Adam, England, Archer-Hind quote Proclus and others at length):
   translate those of more than about twenty words, the same way, beginning with the dialogues read first.
 
-## Milestone 22: voices inside the narrated dialogues (asked for by Daniel)
+## Milestone 22: voices inside the narrated dialogues (asked for by Daniel; paused, November 2026)
 
 - In the narrated dialogues (Republic, Charmides and Lovers, told by Socrates; Phaedo, told by Phaedo; Parmenides, told by
   Cephalus; also the Symposium, told by Apollodorus, and the Protagoras, Euthydemus and Lysis, told by Socrates) the markup names only the
@@ -206,7 +220,7 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   the shelf), the Synesius extracts. Placing the rest of the Elements needs a cleaner Greek text (Dodds is in copyright) or a
   proofread of Creuzer's OCR.
 
-## Milestone 27: modern English of the Neoplatonists
+## Milestone 27: modern English of the Neoplatonists (paused, November 2026)
 
 - As milestone 24, for Proclus, Plotinus, Iamblichus and the others: made from the Greek, checked against Taylor and any other
   public-domain translation, so it does not inherit Taylor's oddities; where only Taylor's English exists, modernise his English.
@@ -298,7 +312,7 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   Taylor's English exists; then Damascius and Hermias. Plotinus' other treatises have no Taylor to check against: check
   them against another public-domain translation, or label them so.
 
-## Milestone 35: modern English of Aristotle (35a, 35b and 35c done; next, ahead of further Proclus sessions; asked for by Daniel)
+## Milestone 35: modern English of Aristotle (35a, 35b, 35c and 35m1 done; the current focus, ahead of everything else; asked for by Daniel)
 
 - As milestone 27 did for the Neoplatonists, for Aristotle: a modern English version beside the Greek, with Modern /
   Side by side views, Taylor's words a tap away, each section with its gist, and Mark a sentence.
@@ -339,7 +353,37 @@ could do before. The school and curriculum ideas are left out as beyond the scop
     Book II his own way (his 1 = II.1-2, 3 = II.3-4, 8 = II.8-9, 14 = II.14-16, then II.17-27 = his 15-25), set with `@taylor`.
     The fixed renderings are in the master copy's header ("belong to" for Taylor's "be present with", "complete" for Jenkinson's
     "perfect", "setting out" for ἔκθεσις, "reduction to the impossible"); II.24 says "pattern" for παράδειγμα beside "example".
-  - 35d: the Posterior Analytics (Mure 1928, Owen), two sessions. Next.
+  - 35m: the **Metaphysics**, the current focus (moved ahead of 35d on November 13, 2026, at Daniel's asking). Ross's Oxford
+    English (1908) modernised against Ross's Greek (Oxford 1924, Perseus), compared with Taylor (1801); the Loeb English
+    (Tredennick) is shown in the reader but not modernised. One master copy, `sources/translations/modern/aristotle-metaphysics.txt`,
+    grows a few books at a time: each sub-milestone adds its books to `"done_books"` in `TEXTS` (`tools/modern_ar.py`), and the
+    check wants every chapter of those books and no others. Chapter ids are `Metaph.I.1` (Book Α, chapter 1) to `Metaph.XIV.6`;
+    one `@treatise` per book (`Metaph.I`, `Metaph.II` ...). Taylor's chapters do not always match Bekker's: name his with `@taylor`
+    (his Book I has seven chapters: his 6 = Bekker 6-7, his 7 = Bekker 8-10). Where the OCR of Ross has lost lines (it has, in
+    I.9 and II.1-2), follow the Greek, with Taylor beside it. Fixed renderings are in the master copy's header; keep them.
+    Each sub-milestone also adds a test class to `tests/test_modern_ar.py` and a few checks to `tests/modern_ar_browser.js`.
+    - 35m1: Books Α and α (I and II), 13 chapters, 980a-995a: the desire to know, wisdom as the science of first causes,
+      the earlier thinkers on the four causes, Plato, and the criticism of the Forms (I.9); the truth hard and easy, no
+      infinite series of causes, and the method (II). Also the tooling for a work in Perseus' Greek done a few books at a
+      time. Done: `sources/translations/modern/aristotle-metaphysics.txt`, 13 chapters, 67 paragraphs, 14 flags (Ross's
+      "reason" for νοῦς, "essence" for τὸ τί ἦν εἶναι, "musical scale" for ἁρμονία, "the Forms—i.e. the Numbers" where the 1924
+      Greek brackets "the Forms", "prime" for "first"; Taylor's "species of matter", "phantasm", "reasons" for arguments, and his
+      note on the literal meaning), at `#neo-modern/aristotle-metaphysics`; chapters headed "Book Α (I), chapter 1"
+      (`nmChapterLabel` in `reader/neo.js`). `greek_chapters_perseus` in `tools/modern_ar.py` reads the Greek with the reader's
+      own walker (`aristotle.BekkerWalker`), one Bekker column a piece.
+    - 35m2: Books Β and Γ (III and IV), 14 chapters, 995a-1012b: the fourteen puzzles (aporiai); the science of being as
+      being, and the principle of non-contradiction defended. Next.
+    - 35m3: Book Δ (V), 30 chapters, 1012b-1025a: the philosophical lexicon (principle, cause, element, nature, necessary,
+      one, being, substance ...). Short chapters; one thread.
+    - 35m4: Books Ε and Ζ (VI and VII), 21 chapters, 1025b-1041b: the divisions of theoretical science, being as accident
+      and as true; substance as essence, the universal and the Forms (Ζ 13-16), substance as cause.
+    - 35m5: Books Η and Θ (VIII and IX), 16 chapters, 1042a-1052a: matter and form, potency and actuality.
+    - 35m6: Books Ι and Κ (X and XI), 22 chapters, 1052a-1069a: the one and the many; the summary of Β, Γ, Ε and of the Physics.
+    - 35m7: Book Λ (XII), 10 chapters, 1069a-1076a: the kinds of substance, the unmoved mover, the intellect that thinks
+      itself, the spheres, the good of the universe; the summit of the course for the Platonists. One thread for this book alone.
+    - 35m8: Books Μ and Ν (XIII and XIV), 16 chapters, 1076a-1093b: against the Forms and the Ideal Numbers, with a note on each
+      chapter that Syrianus answers (his commentary on these books is on the commentators' shelf, A5; its English is A6, paused).
+  - 35d: the Posterior Analytics (Mure 1928, Owen), two sessions. Next after the Metaphysics.
   - 35e: the Topics and the Sophistical Refutations (Pickard-Cambridge 1928, Owen), several sessions.
   - 35f: the Nicomachean Ethics (Taylor 1811, Chase 1847), several sessions.
   - 35g: the Eudemian Ethics, the Magna Moralia and On Virtues and Vices (fresh from the Greek, checked against the Loeb where Perseus has it).
@@ -348,42 +392,42 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   - 35j: On the Heavens (Stocks 1922), Generation and Corruption and the Meteorology (fresh from the Greek).
   - 35k: On the Soul (Hicks 1907) and the Parva Naturalia (fresh from the Greek).
   - 35l: the works on animals (Thompson's History of Animals 1910; the others fresh from the Greek), several sessions.
-  - 35m: the Metaphysics (Taylor 1801, Ross 1908), several sessions; the summit of the course.
+  - (35m, the Metaphysics, moved ahead of 35d: see above.)
   - 35n: the Rhetoric and the Poetics (Taylor 1811), then the mathematical, minor and spurious works, the Letters
     and the Divisions, fresh from the Greek.
 
-## Milestone 28: the later readers
+## Milestone 28: the later readers (paused, November 2026)
 
 - Ficino's Latin commentaries and translations, and the Byzantine and Arabic readers of Plato, in public-domain editions and
   translations where they exist; each labelled with its tradition and date.
 
-## Milestone 29: the reverse map of the tradition
+## Milestone 29: the reverse map of the tradition (paused, November 2026)
 
 - Find every place any Neoplatonist (and the later readers) quotes or alludes to each line of Plato: quotations by matching the
   Greek, allusions by the commentators' own references, each kept with the words it rests on and marked as quotation or
   allusion. Show them on the line in the reader, and a page of which passages the tradition used most and which it ignored.
 
-## Milestone 30: the structure of every dialogue
+## Milestone 30: the structure of every dialogue (paused, November 2026)
 
 - Building on milestone 19 (the middle): the twelfths and other proportions of each dialogue, counted in the Greek, and what
   sits at each point, for all 36 dialogues side by side. Kennedy's theory quoted and labelled as modern, with its critics.
 
-## Milestone 31: each dialogue's aim, as Proclus read it
+## Milestone 31: each dialogue's aim, as Proclus read it (paused, November 2026)
 
 - Building on milestone 20: every dialogue laid out by its aim (skopos) in the Prolegomena's and Proclus' words, its parts, and
   the level of being it treats (in Taylor's and Proclus' words), all on one page, so the dialogues can be compared.
 
-## Milestone 32: the translators word by word
+## Milestone 32: the translators word by word (paused, November 2026)
 
 - Align Taylor, Jowett and the Loeb with Burnet's Greek word by word, and show where each translator added, left out or bent a
   word, with a summary per translator of what it shows about how he read Plato. The alignment is machine-made and labelled so.
 
-## Milestone 33: argument maps
+## Milestone 33: argument maps (paused, November 2026)
 
 - Each argument laid out step by step, premises and conclusion, each step quoting Plato's words; linked to the places where
   Proclus, Plotinus or the others defend or attack a step (from milestone 29). The steps are the Workshop's reading, labelled.
 
-## Milestone 34: the Septuagint
+## Milestone 34: the Septuagint (paused, November 2026)
 
 - The Greek Old Testament (Swete, 1887 to 1894, public domain), read from the scans, with English (Brenton, 1844) beside it.
   Harder than milestone 23: the good tagged digital texts cannot be reused, so the words are tagged by Morpheus and GLAUx-style
@@ -489,7 +533,7 @@ Built by `tools/aristotle.py` (works of corpus `aristotle`, a Bekker column, 980
   Stephanus, Philoponus Against Proclus); First1KGreek's Simplicius on the Physics lacks pp. 552-800 (the end of Book IV, with the
   Corollaries on place and time). Both are listed in `reports/commentators.md`, for a later milestone from the scans.
 
-### A6: Syrianus' replies on the Forms, in English
+### A6: Syrianus' replies on the Forms, in English (paused, November 2026)
 
 - Syrianus on Metaphysics Μ and Ν in the Workshop's own English from Kroll's Greek, checked against Taylor's extracts,
   labelled as the Workshop's translation; shown under Aristotle's text where it answers it.
