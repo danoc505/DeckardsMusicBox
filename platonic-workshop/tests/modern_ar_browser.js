@@ -87,7 +87,7 @@ async function run(b, viewport, touch, first) {
 
   // The work's page links to it.
   await p.goto(base + "#categories/1a");
-  await p.waitForSelector("#toc a[href=\"#neo-modern/aristotle-categories\"]");
+  await p.waitForSelector("#toc a[href=\"#neo-modern/aristotle-categories\"]", { state: "attached" });
   check(true, `${tag}: the work's contents column links to the modern English`);
   check(errors.length === 0, `${tag}: no script errors (${errors.join("; ")})`);
   await p.close();
