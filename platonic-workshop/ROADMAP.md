@@ -312,7 +312,7 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   Taylor's English exists; then Damascius and Hermias. Plotinus' other treatises have no Taylor to check against: check
   them against another public-domain translation, or label them so.
 
-## Milestone 35: modern English of Aristotle (35a, 35b, 35c and 35m1 to 35m5 done; the current focus, ahead of everything else; asked for by Daniel)
+## Milestone 35: modern English of Aristotle (35a, 35b, 35c and 35m1 to 35m6 done; the current focus, ahead of everything else; asked for by Daniel)
 
 - As milestone 27 did for the Neoplatonists, for Aristotle: a modern English version beside the Greek, with Modern /
   Side by side views, Taylor's words a tap away, each section with its gist, and Mark a sentence.
@@ -422,9 +422,27 @@ could do before. The school and curriculum ideas are left out as beyond the scop
       "actuality" ("complete actuality" side by side), ἀδυναμία "incapacity", μετὰ λόγου "with reason", ἐσχάτη ὕλη "the last
       matter", ἐκείνινον "that-en", θιγεῖν "to touch". `terms-greek.json` gains an exception for τὸ νοητικόν in IX.10 ("the
       power of thinking", not "intelligible").
-    - 35m6: Books Ι and Κ (X and XI), 22 chapters, 1052a-1069a: the one and the many; the summary of Β, Γ, Ε and of the Physics. Next.
+    - 35m6: Books Ι and Κ (X and XI), 22 chapters, 1052a-1069a: the one and the many; the summary of Β, Γ, Ε and of the Physics.
+      Done: 22 chapters, 80 paragraphs (35 in Ι, 45 in Κ), 54 flags (among them Ross's "quarter-tone" for δίεσις, "the
+      indefinite" for τὸ ἄπειρον, "indicated graphically", "easily-bounded continuum", "piercing" and "compressing" colours,
+      "from the highest string to the lowest", "equinity", "the genus or family of the Heraclidae", "different in kind",
+      "infimae species", "permanent or transient state", "ad hominem", "the essence depends on quality", "will" for choice,
+      "spontaneity", "material universe" for the heaven, "reason" for νοῦς, "the completely real", "rolling" (not in his 1924
+      Greek), "insecable", "concrete argument" and "organic unity"; Taylor's "inseparable" for χωριστῷ, "dianoetic", "vocal
+      element", "participated properties", "than to gold" added, "the third signification of the similar", "co-ordination
+      of predication", "habit", "impotency", "virtue of vice" turned round, "duad", "continued indefinite quantity", "man is
+      not man from the matter", his note "Aristotle, therefore, cannot be serious" on X.10, "mathematical species", "the
+      first philosophy", "energy" and "capacity", "accommodated manner", "impermeable", "number or the even" for air, "subject"
+      for the positive term, "health" for ignorance, "discipline" and "the Calends to the Nones"), with notes giving the
+      Platonists' answers (Plotinus and Proclus on the One beyond being and the categories, Proclus on the Form as cause and
+      on means, the Laws against Protagoras, the Timaeus on the heavens). `"done_books": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]`.
+      Taylor's chapters are Bekker's. The scan of Ross has lost a line in XI.6 and reads "ordered" for "unordered" in XI.8;
+      the modern version follows the Greek, and a flag says where. Fixed renderings added in the master copy's header:
+      δίεσις "quarter-tone", ἕξις "having", συστοιχία "column", διακριτικόν and συγκριτικόν "dividing" and "compressing",
+      γένος and εἶδος "kind" and "form" in X.10, τὸ ἄπειρον "the infinite" in Book Κ, ὑποκείμενον "positive" in XI.11,
+      πρὸς τόνδε "against this person", σύμφυσις "growing together".
     - 35m7: Book Λ (XII), 10 chapters, 1069a-1076a: the kinds of substance, the unmoved mover, the intellect that thinks
-      itself, the spheres, the good of the universe; the summit of the course for the Platonists. One thread for this book alone.
+      itself, the spheres, the good of the universe; the summit of the course for the Platonists. One thread for this book alone. Next.
     - 35m8: Books Μ and Ν (XIII and XIV), 16 chapters, 1076a-1093b: against the Forms and the Ideal Numbers, with a note on each
       chapter that Syrianus answers (his commentary on these books is on the commentators' shelf, A5; its English is A6, paused).
   - 35d: the Posterior Analytics (Mure 1928, Owen), two sessions. Next after the Metaphysics.
