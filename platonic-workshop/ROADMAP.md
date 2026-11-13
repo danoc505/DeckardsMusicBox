@@ -53,7 +53,12 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   he puts the "soul that weaves" in Plato, where Plotinus is quoting Aristotle, On the Soul 408b; he has God "contained in" the
   intelligible, where the Greek has him "riding upon" it), and notes on Aristotle's On the Soul, the Timaeus, the Republic's beast
   and Glaucus, and Homer's Heracles.
-- E2: I.4 On happiness, I.5 Whether happiness grows with time (5,565).
+- **E2: I.4 On happiness, I.5 Whether happiness grows with time (5,565) (done).** I.4 in 16 chapters, 40 paragraphs, 17 flags;
+  I.5 in 10 chapters, 13 paragraphs, 5 flags (e.g. MacKenna has the good man "put to torture" where the Greek says only that the
+  pain is drawn out, "misery and disgrace" for poverty and obscurity, "a mimic of eternity" for the Timaeus' "image of eternity",
+  "last year's morality" for wisdom, and adds a sentence to close I.4.2). σπουδαῖος is "the good man" (MacKenna's "Sage"), with a
+  note. Notes on Aristotle's Nicomachean Ethics (Priam, self-sufficiency, unhindered activity, the complete life), the Republic's
+  greatest study, the Phaedo's child within, the Theaetetus' likeness to God, the Timaeus, Parmenides and the bull of Phalaris.
 - E3: I.6 On beauty, I.7 On the first good and the other goods (3,753).
 - E4: I.8 What evils are, and where they come from, I.9 On going out of life (4,533). MacKenna's I.8 has 12 chapters for
   Volkmann's 15: name his chapters with `@older`, and check that tools/mackenna.py reads his chapter numbers there.

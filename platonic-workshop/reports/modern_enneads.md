@@ -3,14 +3,14 @@
 Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.txt`. The Workshop's modern English, machine-assisted: drafted with an AI model (Claude) from the Greek and not yet checked by a scholar. The Greek of each paragraph, and MacKenna's English of each chapter, are one tap away.
 
 - Made from: Volkmann's Greek (Leipzig, 1883-1884), as First1KGreek gives it; checked against MacKenna's English (1917; the Internet Archive's OCR of the printed volumes, read by rule (tools/mackenna.py), not proofread).
-- Treatises done here: I.1 What is the living being, and what is the human being?.
-- The whole Enneads: 1 treatise here, 15 beside Taylor (milestone 27), 38 to come.
-- Chapters: 13, each with a short title and a summary.
-- Paragraphs: 25, each with its Greek.
-- Words: 3,808 modern, 2,675 Greek, 4,454 in MacKenna's English of the same chapters.
-- Sentences (each can be marked in the reader): 174.
-- Flags (where MacKenna and the Greek differ, or the Greek is hard): 11.
-- Notes (Plato's, Aristotle's and Homer's places, hard readings): 8.
+- Treatises done here: I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time.
+- The whole Enneads: 3 treatises here, 15 beside Taylor (milestone 27), 36 to come.
+- Chapters: 39, each with a short title and a summary.
+- Paragraphs: 78, each with its Greek.
+- Words: 11,137 modern, 8,232 Greek, 12,628 in MacKenna's English of the same chapters.
+- Sentences (each can be marked in the reader): 451.
+- Flags (where MacKenna and the Greek differ, or the Greek is hard): 33.
+- Notes (Plato's, Aristotle's and Homer's places, hard readings): 25.
 - Problems found: 0.
 
 ## Flags
@@ -28,6 +28,28 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | I.1.12.p2 | Thus the Life is one thing, the Act is another and the Expiator yet another. | The Greek says the soul has "another life and other activities", and "what is punished is something different": not three things, but the soul's own life against the compound that is punished. τὸ κολαζόμενον is what is punished, not an "expiator". |
 | I.1.13.p1 | Does this mean that the Soul reasons by possession (by contact with the matters of enquiry) ? | The Greek asks whether we inquired "by having" the soul; the words in brackets are MacKenna's guess, and not in the Greek. |
 | I.1.13.p1 | Its Act subsists without movement | The Greek asks a question, "will it not, then, be moved?", and answers that we must grant the soul a movement that is not a body's: the soul is not said to be without movement. |
+| I.4.1.p2 | it is impossible to deny the good of life to any order of living things | The Greek says that whoever takes living well away from "the other animals" is absurd; the plants have just been set aside, so it does not speak of every order of living things. |
+| I.4.2.p1 | are really denying it to all living things | The Greek says they "run the risk" (κινδυνεύουσιν) of not granting it even to all the animals: the point is about the animals, and is put as a likelihood. |
+| I.4.2.p3 | Let us try basing it upon Life. | These words are not in the Greek of this chapter, which ends with the people who are at a loss. The next chapter begins "let us say from the beginning what we take being happy to be", and only then puts it in life. |
+| I.4.3.p2 | If mere Being is insufficient | There is no such clause in the Greek, which says: "if being happy belongs to what has life in the full (ἄγαν), that is, to what lacks nothing of life". |
+| I.4.3.p3 | The Good, as a Divine Hypostasis | The words in brackets are MacKenna's explanation; the Greek says only "the nature of the Good". |
+| I.4.4.p2 | for nothing is good that lies outside him | The Greek says "there is no good that he does not have" (οὐδὲν ... ἀγαθὸν ὃ μὴ ἔχει): it is about what he has, not about where goods lie. |
+| I.4.4.p3 | to that in him which stands apart from the Supreme | The Greek says "what in him does not have intellect" (τὸ ἐν αὐτῷ νοῦν οὐκ ἔχον): the part without intellect, not a part that stands apart from the Supreme. |
+| I.4.5.p1 | misery and disgrace | The Greek names poverty (πενία) and obscurity, or lack of good name (ἀδοξία): not misery and disgrace. |
+| I.4.7.p1 | but they do serve towards the integrity of his being | The Greek says only that they contribute "to being" (πρὸς τὸ εἶναι), to his existing, as their opposites tend "towards not being". |
+| I.4.7.p2 | or . . . Zeus ... by mortality among mortals | νὴ Δία is an oath, "by Zeus!": the Greek reads "who thinks wood and stones, and, by Zeus, the deaths of mortals, great things". The wood and stones are the razed city. |
+| I.4.7.p3 | into his enemies' hands, into prison | The Greek says only "if he is led away captive" (αἰχμάλωτος), as a prisoner of war; and "the way out" is out of life, not an escape from prison. |
+| I.4.8.p1 | when he is put to torture he will plan what is to be done | The Greek says "if it is drawn out" (εἰ παρατείνοι), of the pain; no torture is named. He "will take counsel", keeping his power over himself (τὸ αὐτεξούσιον). |
+| I.4.10.p1 | When the Intellect is in upward orientation | The Greek says that awareness comes about "when the thought bends back" (ἀνακάμπτοντος τοῦ νοήματος); nothing is said of intellect turned upwards, and the words in brackets that follow are MacKenna's. |
+| I.4.12.p1 | nor in any violent emotions | The Greek names περιχαρείας, transports of joy or wild delight: not violent emotions in general. |
+| I.4.13.p1 | like a part of his being | The Greek says the greatest study is "always at hand and with him" (πρόχειρον ἀεὶ καὶ μετ’ αὐτοῦ); it does not call it a part of his being. |
+| I.4.14.p1 | even a happy balance of temperament | The Greek has "nor, again, in perceiving well" (οὐδ’ αὖ ἐν τῷ αἰσθάνεσθαι εὖ): good senses, not good temperament. |
+| I.4.15.p3 | it is to himself and in his own great concern that he is the Sage | The Greek says "he is such towards himself too, and in his own affairs" (τοιοῦτος γὰρ καὶ περὶ αὑτὸν καὶ ἐν τοῖς ἑαυτοῦ): the sternness is not kept for others; he is the same with himself. |
+| I.5.2.p1 | at once time supplants moral excellence as the measure of felicity | The Greek says only that happiness "will no longer be measured by virtue" (τῇ ἀρετῇ); that time takes its place is MacKenna's gloss. |
+| I.5.6.p2 | true happiness is not vague and fluid | The Greek says positively that happiness "has a limit and a bound" (ὅρον τε καὶ πέρας) and is always the same. |
+| I.5.7.p1 | a mimic of eternity | The Greek says εἰκὼν αἰῶνος, "an image of eternity", Plato's words in the Timaeus (37d): an image, not a mimic. |
+| I.5.8.p1 | last year's morality | The Greek is τὸ δὲ τῆς φρονήσεως, ὅτι πέρυσιν ἐφρόνουν, "and of wisdom, that last year I was wise": wisdom, not morality. |
+| I.5.10.p2 | the good of the act is for all alike, no matter whose was the saving hand | The Greek says that "the pleasure at the saving of one's country could come to him even if another did it": it is about the good man's own pleasure, not a good shared by all. |
 
 ## The plan, in Porphyry's order
 
@@ -36,8 +58,8 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | I.1 | What is the living being, and what is the human being? | done here |
 | I.2 | On the virtues | done beside Taylor (milestone 27) |
 | I.3 | On dialectic | done beside Taylor (milestone 27) |
-| I.4 | On happiness | to come (E2) |
-| I.5 | Whether happiness grows with time | to come (E2) |
+| I.4 | On happiness | done here |
+| I.5 | Whether happiness grows with time | done here |
 | I.6 | On beauty | to come (E3) |
 | I.7 | On the first good and the other goods | to come (E3) |
 | I.8 | What evils are, and where they come from | to come (E4) |
