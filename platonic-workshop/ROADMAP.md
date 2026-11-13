@@ -298,7 +298,7 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   Taylor's English exists; then Damascius and Hermias. Plotinus' other treatises have no Taylor to check against: check
   them against another public-domain translation, or label them so.
 
-## Milestone 35: modern English of Aristotle (35a done; next, ahead of further Proclus sessions; asked for by Daniel)
+## Milestone 35: modern English of Aristotle (35a and 35b done; next, ahead of further Proclus sessions; asked for by Daniel)
 
 - As milestone 27 did for the Neoplatonists, for Aristotle: a modern English version beside the Greek, with Modern /
   Side by side views, Taylor's words a tap away, each section with its gist, and Mark a sentence.
@@ -320,8 +320,15 @@ could do before. The school and curriculum ideas are left out as beyond the scop
     the Aristotle shelf and the work (`AR_MODERN` in `reader/aristotle.js`). The Categories: 15 chapters, 66 paragraphs, modernised
     from Edghill (1928) against Bekker's Greek, compared with Taylor (1812) and Owen (1853), 12 flags. To add a work: write its
     master copy, add it to `TEXTS` in `tools/modern_ar.py`, to `MODERN_NEO` and to `AR_MODERN`.
-  - 35b: On Interpretation (Edghill 1928, Owen 1853, Taylor 1812). Next.
-  - 35c: the Prior Analytics (Jenkinson 1928, Owen, Taylor), two sessions, one a book.
+  - 35b: On Interpretation (Edghill 1928, Owen 1853, Taylor 1812). Done: `sources/translations/modern/aristotle-on-interpretation.txt`,
+    14 chapters, 45 paragraphs, modernised from Edghill against Bekker's Greek (the Greek, with Owen and Taylor, where the OCR of
+    Edghill has lost words, in chapters 6, 9 and 14), 11 flags (Taylor's "passions
+    of the soul", "from compact", "illiterate sounds", "inherent", "energies"; Edghill's "substantival", "natural means", "no real
+    alternatives", "actually true", "every man is not", "primary substances"), at `#neo-modern/aristotle-on-interpretation`. Taylor's
+    chapter 5 begins inside his chapter 4 in the scan, so chapter 5 shows both (`@taylor 4 5`). Words the shared check of key terms
+    reads as ὁμοίωσις ("likeness") also match the adverb ὁμοίως ("likewise"): the modern version says "likewise" or "in like
+    manner" there, which is right in any case.
+  - 35c: the Prior Analytics (Jenkinson 1928, Owen, Taylor), two sessions, one a book. Next.
   - 35d: the Posterior Analytics (Mure 1928, Owen), two sessions.
   - 35e: the Topics and the Sophistical Refutations (Pickard-Cambridge 1928, Owen), several sessions.
   - 35f: the Nicomachean Ethics (Taylor 1811, Chase 1847), several sessions.

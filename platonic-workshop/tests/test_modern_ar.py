@@ -109,6 +109,52 @@ class Files(unittest.TestCase):
             self.assertTrue((MOD / f"{tid}.json").exists(), tid)
 
 
+class OnInterpretation(unittest.TestCase):
+    """Milestone 35b: On Interpretation, with the same tooling and page as the Categories."""
+
+    def test_labelled_and_every_chapter_with_a_title_a_summary_and_taylor(self):
+        d = load("aristotle-on-interpretation")
+        self.assertEqual((d["by"], d["kind"], d["work"], d["work_slug"]), ("Workshop modern version", "aristotle", "ar017", "on-interpretation"))
+        self.assertIs(d["machine_assisted"], True)
+        self.assertIn("not yet checked", d["label"])
+        self.assertIn("modernises the public-domain English", d["about"])
+        self.assertEqual([c["id"] for c in d["chapters"]], [f"Int.{n}" for n in range(1, 15)])
+        for c in d["chapters"]:
+            self.assertTrue(c["title"] and c["summary"] and c["taylor"], c["id"])
+            self.assertTrue(any(p["chapter"] == c["id"] for p in d["paragraphs"]), c["id"])
+        # The beginning of chapter 5 is in Taylor's chapter 4, as the scan gives it.
+        self.assertEqual([x["n"] for x in d["chapters"][4]["taylor"]], [4, 5])
+
+    def test_paragraphs_have_their_greek_and_bekker_columns(self):
+        d = load("aristotle-on-interpretation")
+        cols = [c for p in d["paragraphs"] for c in p["cols"]]
+        self.assertEqual((cols[0], cols[-1]), ("16a", "24b"))
+        keys = [(int(c[:-1]), c[-1]) for c in cols]
+        self.assertEqual(keys, sorted(keys))
+        for p in d["paragraphs"]:
+            self.assertTrue(p["modern"] and p["greek"] and p["cols"], p["seg"])
+            self.assertTrue(modern.sentences(p["modern"]), p["seg"])
+        para = {p["seg"]: p for p in d["paragraphs"]}
+        self.assertIn("ΠΡΩΤΟΝ δεῖ θέσθαι", para["Int.1.p1"]["greek"])
+        self.assertIn("sea battle", para["Int.9.p6"]["modern"])
+        self.assertIn("soul", para["Int.1.p1"]["modern"])           # ψυχή
+        self.assertIn("privation", para["Int.10.p2"]["modern"])     # στέρησις
+
+    def test_flags_quote_an_older_english_word_for_word(self):
+        d = load("aristotle-on-interpretation")
+        eng = modern_ar.english(modern_ar.TEXTS["aristotle-on-interpretation"])
+        labels = {lab: whole for lab, _, whole, _ in eng.values()}
+        flags = [(p["seg"], f) for p in d["paragraphs"] for f in p.get("flags", [])]
+        self.assertGreaterEqual(len(flags), 10)
+        for seg, f in flags:
+            self.assertIn(norm(f["taylor"]), labels[f["in"]], seg)
+            self.assertTrue(f["why"], seg)
+        # Edghill's "primary substances" for the first, always actual substances (13, 23a23).
+        self.assertTrue(any(seg == "Int.13.p6" and "primary substances" in f["taylor"] and f["in"].startswith("Edghill") for seg, f in flags))
+        # Edghill's "actually true" where the Greek says "not yet true" (9, 19a39).
+        self.assertTrue(any(seg == "Int.9.p6" and "actually true" in f["taylor"] for seg, f in flags))
+
+
 @unittest.skipUnless(FIRST1K.exists(), "run python3 tools/fetch_sources.py first")
 class AgainstTheGreek(unittest.TestCase):
     def test_built_with_no_problems_and_up_to_date(self):
@@ -118,11 +164,12 @@ class AgainstTheGreek(unittest.TestCase):
             self.assertEqual(load(tid), json.loads(json.dumps(d, ensure_ascii=False)), f"{tid}.json is out of date: run python3 tools/modern_ar.py")
 
     def test_the_paragraphs_cover_all_the_greek(self):
-        d = load()
-        g = modern_ar.greek_chapters("ar006")
-        for c in d["chapters"]:
-            joined = " ".join(p["greek"] for p in d["paragraphs"] if p["chapter"] == c["id"])
-            self.assertEqual(joined.replace(" ", ""), g[modern_ar.chapter_key(c["id"])]["text"].replace(" ", ""), c["id"])
+        for tid, meta in modern_ar.TEXTS.items():
+            d = load(tid)
+            g = modern_ar.greek_chapters(meta["work"])
+            for c in d["chapters"]:
+                joined = " ".join(p["greek"] for p in d["paragraphs"] if p["chapter"] == c["id"])
+                self.assertEqual(joined.replace(" ", ""), g[modern_ar.chapter_key(c["id"])]["text"].replace(" ", ""), c["id"])
 
     def test_a_flag_not_in_any_english_is_caught(self):
         src = (MOD / "aristotle-categories.txt").read_text(encoding="utf-8")
@@ -164,6 +211,9 @@ class Server(unittest.TestCase):
         self.assertEqual(d["marks"], [])
         self.assertEqual(len(d["chapters"]), 15)
         self.assertEqual(d["paragraphs"][0]["cols"], ["1a"])
+        d = self.get("modern-neo/aristotle-on-interpretation")
+        self.assertEqual((d["kind"], d["marks"], len(d["chapters"])), ("aristotle", [], 14))
+        self.assertEqual(d["paragraphs"][0]["cols"], ["16a"])
 
 
 @unittest.skipUnless(has_library() and shutil.which("node"), "needs the library and Node")

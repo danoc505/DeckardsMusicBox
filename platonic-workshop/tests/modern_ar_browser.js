@@ -89,6 +89,26 @@ async function run(b, viewport, touch, first) {
   await p.goto(base + "#categories/1a");
   await p.waitForSelector("#toc a[href=\"#neo-modern/aristotle-categories\"]", { state: "attached" });
   check(true, `${tag}: the work's contents column links to the modern English`);
+
+  // Milestone 35b: On Interpretation, from the shelf, with its flags, Greek and Taylor.
+  await p.goto(base + "#library");
+  await p.waitForSelector("#lib-ar");
+  check(await p.$$eval('#lib-ar a[href="#neo-modern/aristotle-on-interpretation"]', (es) => es.length) === 1, `${tag}: the Aristotle shelf links to On Interpretation in modern English`);
+  await p.goto(base + "#neo-modern/aristotle-on-interpretation/Int.9");
+  await p.waitForSelector("#mc-Int\\.9");
+  check(await p.$$eval(".tg-mod", (es) => es.length) === 14 && /machine-assisted/i.test(await p.$eval(".tg-read", (e) => e.innerText)), `${tag}: On Interpretation, fourteen chapters, labelled machine-assisted`);
+  check(/Chapter 9\. Statements about the future/.test(await p.$eval("#mc-Int\\.9", (e) => e.textContent)) && /not yet true or false/.test(await p.$eval("#mp-Int\\.9\\.p6", (e) => e.textContent)), `${tag}: the sea battle chapter`);
+  check(/Edghill, Oxford \(1928\): “but it cannot be either actually true or actually false”/.test(await p.$eval("#mp-Int\\.9\\.p6", (e) => e.textContent)), `${tag}: a flag on Edghill's English`);
+  await p.click("#mp-Int\\.1\\.p1 .mp-greek summary");
+  check(await p.$$eval('#mp-Int\\.1\\.p1 .mp-greek a[href="#on-interpretation/16a"]', (es) => es.length) === 1, `${tag}: the Greek of a paragraph links to its Bekker column`);
+  await p.click('[data-nm-mode="both"]');
+  await p.waitForSelector(".mod-both .tg-tcol");
+  check(/Taylor, On Interpretation \(1812\)/.test(await p.$eval("#mc-Int\\.1 .tg-tcol", (e) => e.textContent)), `${tag}: side by side with Taylor`);
+  await wide("On Interpretation side by side");
+  await p.click('[data-nm-mode="modern"]');
+  await p.goto(base + "#on-interpretation/16a");
+  await p.waitForSelector("#toc a[href=\"#neo-modern/aristotle-on-interpretation\"]", { state: "attached" });
+  check(true, `${tag}: On Interpretation's contents column links to the modern English`);
   check(errors.length === 0, `${tag}: no script errors (${errors.join("; ")})`);
   await p.close();
 }
