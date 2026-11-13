@@ -4,7 +4,7 @@ Written by `tools/aristotle_commentators.py` when the library is built (Aristotl
 
 The text is First1KGreek's TEI of the *Commentaria in Aristotelem Graeca* (CC BY-SA 4.0), read by the Berlin pages. A page is linked to a column of Aristotle when the editor prints the column's reference in the margin (*printed*), or when the page repeats at least two runs of five words found in that column and in no other column of the work (*quoted*, ≈: a lemma, or a quotation from elsewhere in the work).
 
-**6,519 pages linked: 2,029 links printed, 6,382 quoted.** 19 printed references name no column of the Workshop's text and are left unlinked.
+**7,516 pages linked: 2,606 links printed, 7,041 quoted.** 23 printed references name no column of the Workshop's text and are left unlinked.
 
 | Commentary | On | Pages | Greek words | Pages linked | Printed | Quoted | Pages missing from the file | Pages left out |
 |---|---|---:|---:|---:|---:|---:|---|---:|
@@ -29,16 +29,16 @@ The text is First1KGreek's TEI of the *Commentaria in Aristotelem Graeca* (CC BY
 | Simplicius, On the Physics (`simplicius-physics`) | Physics | 1,116 | 425,235 | 791 | 123 | 910 | 75, 552-800 | 1 |
 | Philoponus, On the Physics (`philoponus-physics`) | Physics | 908 | 299,660 | 622 | 395 | 438 | none | 1 |
 | Simplicius, On the Heavens (`simplicius-de-caelo`) | On the Heavens | 731 | 262,695 | 485 | 27 | 582 | none | 0 |
-| Philoponus, On Generation and Corruption (`philoponus-generation`) | not in the Workshop yet | 314 | 105,657 | 0 | 0 | 0 | none | 0 |
-| Alexander of Aphrodisias, On the Meteorology (`alexander-meteorology`) | not in the Workshop yet | 227 | 84,373 | 0 | 0 | 0 | none | 1 |
-| Philoponus, On the Meteorology, Book I (`philoponus-meteorology`) | not in the Workshop yet | 131 | 52,778 | 0 | 0 | 0 | none | 29 |
-| Olympiodorus, On the Meteorology (`olympiodorus-meteorology`) | not in the Workshop yet | 338 | 110,766 | 0 | 0 | 0 | none | 0 |
+| Philoponus, On Generation and Corruption (`philoponus-generation`) | On Generation and Corruption | 314 | 105,657 | 258 | 260 | 51 | none | 0 |
+| Alexander of Aphrodisias, On the Meteorology (`alexander-meteorology`) | Meteorology | 227 | 84,373 | 188 | 85 | 133 | none | 1 |
+| Philoponus, On the Meteorology, Book I (`philoponus-meteorology`) | Meteorology | 131 | 52,778 | 104 | 84 | 37 | none | 29 |
+| Olympiodorus, On the Meteorology (`olympiodorus-meteorology`) | Meteorology | 338 | 110,766 | 215 | 0 | 264 | none | 0 |
 | Alexander of Aphrodisias, On the Soul (his own treatise) (`alexander-de-anima`) | On the Soul | 99 | 30,911 | 10 | 0 | 10 | 58 | 0 |
 | Alexander of Aphrodisias, Mantissa (supplement to On the Soul), with On the Intellect (`alexander-mantissa`) | On the Soul | 86 | 35,753 | 3 | 0 | 3 | none | 0 |
 | [Simplicius], On the Soul (`simplicius-de-anima`) | On the Soul | 329 | 136,117 | 287 | 0 | 333 | none | 1 |
 | Philoponus, On the Soul (`philoponus-de-anima`) | On the Soul | 606 | 235,740 | 422 | 0 | 492 | 24 | 1 |
 | Alexander of Aphrodisias, On Sense and Sensibles (`alexander-de-sensu`) | not in the Workshop yet | 173 | 50,815 | 0 | 0 | 0 | none | 0 |
-| [Philoponus], On the Generation of Animals (`philoponus-generation-animals`) | not in the Workshop yet | 249 | 94,784 | 0 | 0 | 0 | none | 0 |
+| [Philoponus], On the Generation of Animals (`philoponus-generation-animals`) | Generation of Animals | 249 | 94,784 | 232 | 148 | 174 | none | 0 |
 | Alexander of Aphrodisias, On the Metaphysics (`alexander-metaphysics`) | Metaphysics | 837 | 336,015 | 769 | 492 | 507 | none | 0 |
 | Syrianus, On the Metaphysics, Books Β, Γ, Μ and Ν (`syrianus-metaphysics`) | Metaphysics | 195 | 75,442 | 44 | 1 | 49 | none | 0 |
 | Asclepius, On the Metaphysics, Books Α-Ζ (`asclepius-metaphysics`) | Metaphysics | 452 | 175,796 | 400 | 0 | 528 | none | 0 |

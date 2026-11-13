@@ -848,3 +848,88 @@ class PerseusWorks(unittest.TestCase):
         # The Ethics' note on I 6 (the Platonists' doctrine of ideas) once ran on as the end of the Poetic's last note.
         self.assertTrue(any("doctrine of ideas" in n["text"] for n in json.loads((ROOT / "texts/aristotle/nicomachean-ethics/taylor-1811.json").read_text())["notes"]))
         self.assertFalse(any("doctrine of ideas" in n["text"] for n in json.loads((ROOT / "texts/aristotle/poetics/taylor-1811.json").read_text())["notes"]))
+
+
+GREEK_ONLY = {"ar022": ("1181a", "1213b"), "ar013": ("314a", "338b"), "ar026": ("338a", "390b"), "ar030": ("639a", "697b"),
+              "ar015": ("704a", "714b"), "ar021": ("698a", "704b"), "ar012": ("715a", "789b")}
+
+
+class GreekOnlyWorks(unittest.TestCase):
+    """Aristotle milestone A8c: the works First1KGreek has in Greek only that carry Bekker's columns (in the margin, or in
+    GLAUx): the Magna Moralia, Generation and Corruption, Meteorology, and Parts, Progression, Movement and Generation of Animals."""
+
+    def test_a_column_as_a_scanned_margin_prints_it(self):
+        import aristotle_f1k as f
+        for printed, col in (("p. 704a", "704a"), ("698 a", "698a"), ("650.a", "650a"), ("648, b", "648b"), ("1181a 25", "1181a"), ("p.704 b", "704b")):
+            m = f.MARGIN.match(printed)
+            self.assertTrue(m, printed)
+            self.assertEqual(f"{m.group(1)}{m.group(2)}", col)
+        self.assertIsNone(f.MARGIN.match("(XV)"))
+        self.assertIsNone(f.MARGIN.match("1193"))
+
+    def test_a_lost_column_is_placed_by_length_between_the_two_read(self):
+        import aristotle_f1k as f
+        paras = [{"text": "α " * 50}, {"text": "β " * 50}]
+        marks, placed = f.fill_gaps(paras, [(0, 0, "100a"), (1, 0, "101a")], ("100a", "101b"))
+        self.assertEqual(placed, ["100b", "101b"])
+        self.assertEqual([c for _, _, c in marks], ["100a", "100b", "101a", "101b"])
+        self.assertEqual(marks[1][:2], (0, 50))         # halfway between 100a and 101a
+        self.assertEqual(marks[3][:2], (1, 50))         # halfway between 101a and the end of the work
+
+    def test_the_reader_lists_the_columns_placed_by_length(self):
+        import aristotle_f1k as f
+        js = (ROOT / "reader" / "aristotle.js").read_text(encoding="utf-8")
+        listed = dict(re.findall(r'^  (ar\d+): (\[[^\]]*\]),$', js[js.index("const AR_BY_LENGTH"):js.index("};", js.index("const AR_BY_LENGTH"))], re.M))
+        if not all((f.RAW / f.F1K_SRC / "data" / "tlg0086" / w["tlg"]).exists() for w in f.WORKS):
+            self.skipTest("fetch First1KGreek first (python3 tools/fetch_sources.py first1k-aristotle)")
+        for w in f.WORKS:
+            if not w.get("fill_gaps"):
+                continue
+            paras, _ = f.read_tei(w)
+            glaux, cols = f.glaux_words(w)
+            *_, placed = f.sections_of(paras, [] if w.get("margin") else cols, glaux, None, w["bekker"], True)
+            self.assertEqual(json.loads(listed.get(w["id"], "[]")), placed, w["id"])
+            self.assertIn(w["id"], js[js.index("const AR_GREEK_ONLY"):js.index("const AR_BY_LENGTH")])
+
+
+@unittest.skipUnless(has_aristotle(), "build the library with Aristotle first (python3 tools/build_db.py)")
+class GreekOnlyWorksInTheLibrary(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.lib = serve.Library(build_db.DB_PATH)
+
+    def test_each_work_has_every_column_from_its_first_to_its_last(self):
+        import aristotle_f1k as f
+        for wid, (first, last) in GREEK_ONLY.items():
+            w = self.lib.work(wid)
+            want = [first]
+            while want[-1] != last:
+                want.append(f.next_col(want[-1]))
+            self.assertEqual(w["sections"], want, wid)
+
+    def test_the_greek_is_tagged(self):
+        for wid in GREEK_ONLY:
+            n, tagged = self.lib.db.execute(
+                "SELECT count(*), count(g.token_id) FROM token t JOIN edition e ON e.id = t.edition_id "
+                "LEFT JOIN tag g ON g.token_id = t.id AND g.part = 0 WHERE e.work_id = ? AND e.lang = 'grc'", (wid,)).fetchone()
+            self.assertGreater(n, 1500, wid)
+            self.assertGreater(tagged / n, 0.9, wid)
+
+    def test_famous_passages_are_at_their_columns(self):
+        db = self.lib.db
+        def refs(wid, words):
+            return {r[0] for r in db.execute("SELECT c.section_ref FROM chunk c JOIN edition e ON e.id = c.edition_id "
+                                             "WHERE e.work_id = ? AND e.lang = 'grc' AND c.text LIKE ?", (wid, f"%{words}%"))}
+        # GA II 3, 736b27-28: the intellect alone enters from outside and alone is divine.
+        self.assertTrue(refs("ar012", "θύραθεν") & {"736b"})
+        # PA I 5, 645a: in all natural things there is something marvellous (Heraclitus at the oven).
+        self.assertTrue(refs("ar030", "Ἡράκλειτος") & {"645a"})
+        # MA 1-4: the heaven's unmoved mover (699a-700a); Meteor. I 1 begins at 338a20.
+        self.assertTrue(refs("ar021", "Ἄτλαντα") & {"699a", "699b"})
+        self.assertTrue(refs("ar026", "πρώτων αἰτίων") & {"338a"})
+
+    def test_the_commentators_are_linked(self):
+        for wid, tid in (("ar013", "philoponus-generation"), ("ar026", "alexander-meteorology"), ("ar026", "olympiodorus-meteorology"),
+                         ("ar012", "philoponus-generation-animals")):
+            n = self.lib.db.execute("SELECT count(*) FROM ar_comment WHERE work_id = ? AND text_id = ?", (wid, tid)).fetchone()[0]
+            self.assertGreater(n, 10, tid)

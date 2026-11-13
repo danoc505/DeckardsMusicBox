@@ -26,6 +26,8 @@ RAW = ROOT / "data" / "raw"
 TEI = "{http://www.tei-c.org/ns/1.0}"
 F1K_SRC, GLAUX_SRC = "first1k-aristotle", "glaux-aristotle"
 BEKKER = re.compile(r"^(\d{2,4})\s?([ab])$")
+# A column as the margin of a scanned edition prints it: "p. 704a", "698 a", "650.a", "1181a 25" (with the line number).
+MARGIN = re.compile(r"^(?:p\s?\.?\s?)?(\d{2,4})\s?[.,]?\s?([ab])(?:\s+\d{1,2})?$")
 ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV"]
 
 # The works, in the Platonists' order within each step (logic, ethics, physics, theology).
@@ -70,6 +72,42 @@ WORKS = [
      "plain": "The soul as the first actuality of a natural body; nutrition, sensation, imagination, thought; and in Book III "
               "chapter 5 the intellect that makes all things, separate, impassive and unmixed, which the commentators read "
               "as the divine intellect in us."},
+    # Aristotle milestone A8c: the works First1KGreek has in Greek only that print Bekker's columns (in the margin, or in
+    # GLAUx). margin: the columns are read from the margin of the TEI, not GLAUx's; fill_gaps: the columns lost (in the margin,
+    # or GLAUx's) are placed by length (≈); bekker: the work's first and last column; glaux: GLAUx's number for the work.
+    {"id": "ar022", "tlg": "tlg022", "file": "grc1", "title": "Magna Moralia", "abbr": "MM", "slug": "magna-moralia",
+     "greek_title": "Ἠθικὰ μεγάλα", "editor": "Franz Susemihl", "label": "Susemihl (Leipzig, 1883)", "margin": True, "bekker": ("1181a", "1213b"), "fill_gaps": True,
+     "plain": "A shorter course of the ethics in two books, under Aristotle's name since antiquity: happiness, the virtues of character "
+              "and of intellect, self-control, pleasure and friendship; whether it is his own or his school's is disputed."},
+    {"id": "ar013", "tlg": "tlg013", "file": "grc2", "title": "On Generation and Corruption", "abbr": "GC", "slug": "generation-and-corruption",
+     "greek_title": "Περὶ γενέσεως καὶ φθορᾶς", "editor": "Carl Prantl", "label": "Prantl (Leipzig, 1881)", "margin": True, "bekker": ("314a", "338b"), "fill_gaps": True,
+     "glaux_merge": {(1, 10): (1, 9)},     # Prantl's TEI runs Book I chapter 10 on in chapter 9
+     "plain": "Coming to be and passing away, distinguished from alteration and growth; contact, action and passion, mixture; the four "
+              "elements from the hot, cold, wet and dry, and their change into one another; the cycle of generation kept going by the "
+              "sun's motion along the ecliptic (Book II 10)."},
+    {"id": "ar026", "tlg": "tlg026", "file": "grc2", "title": "Meteorology", "abbr": "Mete.", "slug": "meteorology",
+     "greek_title": "Μετεωρολογικά", "editor": "Francis H. Fobes", "label": "Fobes (Cambridge, Mass., 1919)", "margin": True, "bekker": ("338a", "390b"), "fill_gaps": True,
+     "plain": "What happens in the region below the moon: shooting stars, comets and the Milky Way; rain, snow and dew; rivers and the "
+              "sea, and why it is salt; winds, earthquakes, thunder, rainbows; and in Book IV the hot and the cold working on the "
+              "homoeomerous bodies."},
+    {"id": "ar030", "tlg": "tlg030", "file": "grc1", "title": "Parts of Animals", "abbr": "PA", "slug": "parts-of-animals",
+     "greek_title": "Περὶ ζῴων μορίων", "editor": "Bernhard Langkavel", "label": "Langkavel (Leipzig, 1868)", "bekker": ("639a", "697b"), "fill_gaps": True,
+     "plain": "The method of the study of nature: the final cause before the necessary, and the dignity of studying even the humblest "
+              "animals, since in all of them there is something natural and beautiful (Book I 5); then the parts of animals, "
+              "uniform and non-uniform, and what each is for."},
+    {"id": "ar015", "tlg": "tlg015", "file": "grc1", "title": "Progression of Animals", "abbr": "IA", "slug": "progression-of-animals",
+     "greek_title": "Περὶ πορείας ζῴων", "editor": "Werner Jaeger", "label": "Jaeger (Leipzig, 1913)", "margin": True, "bekker": ("704a", "714b"), "fill_gaps": True, "glaux": "021",
+     "plain": "Why animals move as they do: the three dimensions of up and down, front and back, right and left, and why animals with "
+              "blood walk on no more than four points; nature does nothing in vain."},
+    {"id": "ar021", "tlg": "tlg021", "file": "grc1", "title": "Movement of Animals", "abbr": "MA", "slug": "movement-of-animals",
+     "greek_title": "Περὶ ζῴων κινήσεως", "editor": "Werner Jaeger", "label": "Jaeger (Leipzig, 1913)", "margin": True, "bekker": ("698a", "704b"), "fill_gaps": True, "glaux": "015",
+     "plain": "The common cause of animal motion: an unmoved point within the animal and an unmoved mover outside, as the first mover "
+              "of the heaven (chapters 1-4); desire and thought as the movers of the animal, and the practical syllogism."},
+    {"id": "ar012", "tlg": "tlg012", "file": "grc1", "title": "Generation of Animals", "abbr": "GA", "slug": "generation-of-animals",
+     "greek_title": "Περὶ ζῴων γενέσεως", "editor": "Immanuel Bekker", "label": "Bekker (Berlin, 1829)",
+     "plain": "How animals are generated: the male gives the form and the source of motion, the female the matter; the soul's "
+              "powers in the embryo, and the intellect alone entering from outside (θύραθεν) as divine (Book II 3); then "
+              "inheritance, and why offspring take after one parent or the other."},
 ]
 WORK_BY_ID = {w["id"]: w for w in WORKS}
 
@@ -104,7 +142,7 @@ def read_tei(work):
             return
         if tag == "note":
             n = " ".join("".join(el.itertext()).split())
-            m = BEKKER.match(n)
+            m = MARGIN.match(n)
             if el.get("type") == "marginal" and m and state["cur"] is not None:
                 state["cur"]["marks"].append((len("".join(state["cur"]["parts"])), f"{int(m.group(1))}{m.group(2)}"))
             return
@@ -151,11 +189,17 @@ def read_tei(work):
     return result, build_db.header_info(root)
 
 
+def glaux_file(work):
+    """GLAUx's file of a work: by its TLG number, except where GLAUx numbers it otherwise (it has De motu animalium as
+    0086-015 and De incessu animalium as 0086-021, the other way round from the TLG and First1KGreek)."""
+    return RAW / GLAUX_SRC / "xml" / f"0086-{work.get('glaux', work['tlg'][3:])}.xml"
+
+
 def glaux_words(work):
     """GLAUx words of one work, real words only, grouped by (book, chapter); and its Bekker columns in order, if it has them."""
     by_ch = defaultdict(list)
     cols = []
-    path = RAW / GLAUX_SRC / "xml" / f"0086-{work['tlg'][3:]}.xml"
+    path = glaux_file(work)
     analysis = None
     for event, el in ET.iterparse(path, events=("start", "end")):
         if event == "start" and el.tag == "sentence":
@@ -177,6 +221,7 @@ def glaux_words(work):
                     key = (0, ch[0])
                 else:
                     key = (0, 0)
+                key = work.get("glaux_merge", {}).get(key, key)
                 by_ch[key].append({**a, "analysis": analysis})
             el.clear()
     return by_ch, cols
@@ -233,7 +278,7 @@ def marks_from_glaux(paras, glaux):
     return out
 
 
-def sections_of(paras, glaux_cols, glaux=None, carried=None, bekker=None):
+def sections_of(paras, glaux_cols, glaux=None, carried=None, bekker=None, fill=False):
     """Cut the paragraphs at the Bekker columns: [(para index, start, end, column)]. The columns are GLAUx's, word by
     word, where GLAUx has them; otherwise those printed in the margin of the TEI. Either way, only the longest run in
     Bekker's order is kept, so that a misprinted or misread column (another edition's page, 440b for 404b) is left out."""
@@ -253,12 +298,21 @@ def sections_of(paras, glaux_cols, glaux=None, carried=None, bekker=None):
                 hundreds = int(col[:-1]) // 100
                 cand.append((k, off, col))
         basis = "Bekker's pages and columns printed in the margin of the First1KGreek TEI"
-    if bekker:          # a file holding two works: the other's columns are left out
+    out_of_range = []
+    if bekker:          # a file holding two works: the other's columns are left out (and a misread one outside the work)
         lo, hi = col_key(bekker[0]), col_key(bekker[1])
+        out_of_range = [x[2] for x in cand if not lo <= col_key(x[2]) <= hi]
         cand = [x for x in cand if lo <= col_key(x[2]) <= hi]
     kept = increasing(cand, lambda x: col_key(x[2]))
     keep_set = set(id(x) for x in kept)
-    dropped = [x[2] for x in cand if id(x) not in keep_set]
+    dropped = [x[2] for x in cand if id(x) not in keep_set] + (out_of_range if fill else [])
+    by_length = []
+    if fill and kept:
+        kept, by_length = fill_gaps(paras, kept, bekker)
+        if by_length:
+            basis += ("; where a column is lost (" + ("GLAUx gives no word of it" if glaux_cols and glaux is not None and carried is None
+                      else "the margin does not print it, or the scan misread it") + "), it is placed by the length of the text "
+                      "between the columns either side (≈): " + ", ".join(by_length))
     pieces = []
     cur = kept[0][2] if kept else "1a"
     if bekker and kept and kept[0][2] != bekker[0] and (kept[0][0], kept[0][1]) != (0, 0):
@@ -278,7 +332,51 @@ def sections_of(paras, glaux_cols, glaux=None, carried=None, bekker=None):
         for a, b in zip(offs, offs[1:] + [len(t)]):
             if t[a:b].strip():
                 pieces.append((k, a, b, cuts[a]))
+    if fill:
+        return pieces, [c for _, _, c in kept], dropped, basis, by_length
     return pieces, [c for _, _, c in kept], dropped, basis
+
+
+def next_col(c):
+    return f"{c[:-1]}b" if c[-1] == "a" else f"{int(c[:-1]) + 1}a"
+
+
+def fill_gaps(paras, kept, bekker=None):
+    """The columns the margin has lost, between two it prints (and before the first, after the last, to the work's first and
+    last column): placed by length, each at the same share of the text between the columns read either side, at a word's
+    start. Returns the marks with these added, in order, and the columns so placed."""
+    starts, total = [], 0
+    for p in paras:
+        starts.append(total)
+        total += len(p["text"]) + 1
+
+    def at(pos):
+        k = max(i for i, s0 in enumerate(starts) if s0 <= pos)
+        return k, min(pos - starts[k], len(paras[k]["text"]))
+
+    def missing(a, b):
+        out, c = [], next_col(a)
+        while col_key(c) < col_key(b) and len(out) < 50:
+            out.append(c)
+            c = next_col(c)
+        return out
+
+    marks = [(starts[k] + off, col) for k, off, col in kept]
+    if bekker and col_key(bekker[0]) < col_key(marks[0][1]):
+        marks.insert(0, (0, bekker[0]))
+    if bekker and col_key(marks[-1][1]) < col_key(bekker[1]):
+        marks.append((total, next_col(bekker[1])))          # the end of the text, as if the next column began there
+    out, placed = [], []
+    for (p0, c0), (p1, c1) in zip(marks, marks[1:]):
+        out.append((p0, c0))
+        gap = missing(c0, c1)
+        for i, c in enumerate(gap, 1):
+            out.append((p0 + (p1 - p0) * i // (len(gap) + 1), c))
+            placed.append(c)
+    out.append(marks[-1])
+    if bekker and out[-1][0] == total:
+        out.pop()
+    return [(*at(pos), col) for pos, col in out], placed
 
 
 def build_greek(db, work, sources):
@@ -290,13 +388,14 @@ def build_greek(db, work, sources):
     if work.get("columns") == "english":
         import aristotle_organon
         carried = aristotle_organon.carried_marks(work, paras)
-    pieces, cols, dropped, basis = sections_of(paras, glaux_cols, glaux, carried, work.get("bekker"))
+    fill = work.get("fill_gaps", False)
+    pieces, cols, dropped, basis, *rest = sections_of(paras, [] if work.get("margin") else glaux_cols, glaux, carried, work.get("bekker"), fill)
     order = []
     for _, _, _, col in pieces:
         if not order or order[-1] != col:
             order.append(col)
     stats = {"work": wid, "title": work["title"], "columns_from": basis, "marks_kept": len(cols), "marks_left_out": dropped,
-             "glaux_columns": len(glaux_cols)}
+             "glaux_columns": len(glaux_cols), "columns_by_length": rest[0] if rest else []}
     seen = set()
     order = [c for c in order if not (c in seen or seen.add(c))]
     urn = f"urn:cts:greekLit:tlg0086.{work['tlg']}"
@@ -391,7 +490,7 @@ def build_greek(db, work, sources):
 def lemmas():
     out = set()
     for w in WORKS:
-        p = RAW / GLAUX_SRC / "xml" / f"0086-{w['tlg'][3:]}.xml"
+        p = glaux_file(w)
         if p.exists():
             for m in re.finditer(r' lemma="([^"]*)"', p.read_text(encoding="utf-8")):
                 out.add(greek.nfc(m.group(1)))
@@ -399,5 +498,5 @@ def lemmas():
 
 
 def available():
-    return all((RAW / F1K_SRC / "data" / "tlg0086" / w["tlg"]).exists() and (RAW / GLAUX_SRC / "xml" / f"0086-{w['tlg'][3:]}.xml").exists()
+    return all((RAW / F1K_SRC / "data" / "tlg0086" / w["tlg"]).exists() and glaux_file(w).exists()
                for w in WORKS)

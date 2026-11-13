@@ -448,12 +448,23 @@ Built by `tools/aristotle.py` (works of corpus `aristotle`, a Bekker column, 980
   the Economics (Armstrong), the Rhetoric (Ross; Freese) and the Poetics (Fyfe), at Bekker's columns as Perseus marks them,
   GLAUx-tagged; for the Rhetoric and the Poetics, which GLAUx divides by chapter only, each GLAUx word takes the column of the
   Perseus word it is matched to (`aristotle.glaux_resection`).
+- The works First1KGreek has in Greek only whose source gives Bekker's columns (A8c, done): the Magna Moralia (Susemihl, 1883),
+  Generation and Corruption (Prantl, 1881), Meteorology (Fobes, 1919), Progression and Movement of Animals (Jaeger, 1913), with
+  the columns read from the margin of the TEI; Parts of Animals (Langkavel, 1868) and Generation of Animals (Bekker, 1829), with
+  GLAUx's. A column the margin (or GLAUx) lacks is placed by the length of the text between the columns either side (≈), and the
+  reader names it (`aristotle_f1k.fill_gaps`, `AR_BY_LENGTH`). GLAUx numbers De motu and De incessu the other way round from the
+  TLG (`glaux` in `WORKS`). The commentators on Generation and Corruption, the Meteorology and Generation of Animals (Philoponus,
+  Alexander, Olympiodorus, Michael) are now linked to the columns. No English for these yet.
 - What is left of A8, for the next thread:
-  1. The works First1KGreek has in Greek only (no Loeb English in Perseus): tlg004, 007, 008, 011, 012, 013 (Generation and
-     Corruption), 014-016, 018-024, 026 (Meteorology), 027, 030, 032, 036, 037, 039, 041-043, 046-048, 052, 054; read through
-     `tools/aristotle_f1k.py` as the Organon is, GLAUx-tagged (GLAUx lacks 004, 019 and 046). Perseus has the Constitution of the
-     Athenians (tlg003, Kenyon) and On Virtues and Vices (tlg045) in Greek only. Order them as the Platonists did (A2).
-  2. Optional: Taylor's translation of Porphyry's Introduction and his Introductions to the Categories, On Interpretation and the
+  1. The works First1KGreek has only in Bekker's Oxford reprint (1837), which prints no Berlin columns, and GLAUx gives none
+     either: the Parva Naturalia (tlg041 Sense, 024 Memory, 042 Sleep, 016 Dreams, 008 Divination, 020 Length of Life, 018
+     Youth and Old Age, 037 Respiration) and the History of Animals (014). Their columns need a source: the Oxford translation
+     (Beare and Ross, 1908; Thompson, 1910) prints them in its margin, and could give them as the Organon's were given
+     (`aristotle_organon.carried_marks`, ≈). Then Alexander on Sense (`alexander-de-sensu`) can be linked.
+  2. The spurious and minor works in Greek only: tlg004, 007, 011 (Letters), 019, 023, 027, 032, 036 (Problems), 039, 043,
+     046-048, 052, 054; check each TEI's margin for Bekker's columns first (GLAUx lacks 004, 019 and 046). Perseus has the
+     Constitution of the Athenians (tlg003, Kenyon) and On Virtues and Vices (tlg045) in Greek only.
+  3. Optional: Taylor's translation of Porphyry's Introduction and his Introductions to the Categories, On Interpretation and the
      Prior Analytics (vol. I, leaves 59-72, 149-155, 205-212 of `ia-taylor-organon-1812`; already in `PARTS` in
      `tools/aristotle_taylor.py`, not yet written out as texts).
 - Then A6 (Daniel: "Do A7 and A8 first, A6 last").
