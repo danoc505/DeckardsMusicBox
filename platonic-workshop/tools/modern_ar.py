@@ -18,7 +18,9 @@ sources/translations/modern/aristotle-<slug>.txt
 This tool turns it into sources/translations/modern/aristotle-<slug>.json, which the reader shows at
 #neo-modern/aristotle-<slug>, and checks it (reports/modern_ar.md):
 
-  * every chapter of the work's Greek (First1KGreek's TEI, tools/aristotle_f1k.py) has a modern version, once, in order;
+  * every chapter of the work's Greek (First1KGreek's TEI, tools/aristotle_f1k.py; for the Metaphysics, Perseus' TEI,
+    tools/aristotle.py) has a modern version, once, in order; a long work done a few books a session ("done_books")
+    wants only the chapters of the books done so far;
   * every @greek start is found in its chapter's Greek, in order; the Greek from one start to the next is kept with the
     paragraph, with the Bekker columns it lies on (the reader's own columns, from tools/aristotle_f1k.sections_of);
   * every flag's words are found word for word in Taylor's chapters named for the chapter, or anywhere in another
@@ -101,7 +103,30 @@ TEXTS = {
                  "Categories and On Interpretation: the Categories is about simple terms, On Interpretation about statements, "
                  "and this work about statements joined into syllogisms.",
     },
+    "aristotle-metaphysics": {
+        "work": "ar025",
+        "slug": "metaphysics",
+        "books": True,
+        "done_books": [1, 2],       # milestone 35m1; each later sub-milestone adds its books (ROADMAP, 35m2 to 35m8)
+        "title": "The Metaphysics in modern English",
+        "english": {"taylor-1801": "Taylor (1801)", "ross-1908": "Ross, Oxford (1908)"},
+        "taylor_title": "Taylor, The Metaphysics (1801)",
+        "about": "A modern English version of Aristotle's Metaphysics, written for the Workshop, a few books at a time: so far "
+                 "Books Α and α (I and II). It modernises the public-domain English on the shelf, W. D. Ross's in the Oxford "
+                 "translation (1908), checked sentence by sentence against the Greek, Ross's own later text (Oxford, 1924) as "
+                 "Perseus gives it; where the old English and the Greek differ, the modern version follows the Greek. It is "
+                 "compared with Thomas Taylor's translation (1801), the English the Platonists' Workshop reads beside it: where "
+                 "an older English says something the Greek does not, or the Greek is hard, a flag shows the older words and the "
+                 "difference. The books and chapters are Bekker's; the short titles and summaries are the Workshop's. Taylor "
+                 "divides Book Α into seven chapters, not ten, so each chapter names the chapter of his that holds it. The "
+                 "Platonists read the Metaphysics last of Aristotle's works, as the summit of the course: the science of the "
+                 "first causes and principles, which Aristotle calls wisdom and theology.",
+    },
 }
+
+
+# Works whose Greek is Perseus' (tools/aristotle.py), not First1KGreek's: the edition, as the report names it.
+PERSEUS = {"ar025": {"editor": "Ross", "label": "Oxford, 1924 (Perseus)"}}
 
 
 def chapter_key(cid):
@@ -174,8 +199,32 @@ def parse(src):
     return treatises, chapters, paras
 
 
+def greek_chapters_perseus(work_id):
+    """The same, for a work whose Greek is Perseus' TEI (the Metaphysics: Ross's text of 1924), read by the walker the
+    reader is built with (tools/aristotle.py): each piece is one Bekker column, and each chapter begins a piece."""
+    import xml.etree.ElementTree as ET
+    import aristotle
+    work = aristotle.WORK_BY_ID[work_id]
+    f = sorted((aristotle.RAW / aristotle.GREEK_SRC / "data" / "tlg0086" / work["tlg"]).glob("*-grc*.xml"))[0]
+    g = aristotle.BekkerWalker(ET.parse(f).getroot())
+    opens = {i: (int(b), int(c)) for b, c, i in g.chapter_chunks}
+    out, key = {}, None
+    for i, c in enumerate(g.chunks):
+        key = opens.get(i, key)
+        if key is None or not c["text"].strip():
+            continue
+        ch = out.setdefault(key, {"text": "", "cols": []})
+        if ch["text"]:
+            ch["text"] += " "
+        ch["cols"].append((len(ch["text"]), c["section"]))
+        ch["text"] += norm(c["text"])
+    return out
+
+
 def greek_chapters(work_id):
     """{(book, chapter): {'text': the chapter's Greek on one line, 'cols': [(start, column)]}} as the reader has it."""
+    if work_id in PERSEUS:
+        return greek_chapters_perseus(work_id)
     import aristotle_f1k
     work = aristotle_f1k.WORK_BY_ID[work_id]
     paras, _ = aristotle_f1k.read_tei(work)
@@ -222,6 +271,8 @@ def build(text_id, terms=None, greek_chs=None, eng=None):
     terms = terms or json.loads(TERMS.read_text(encoding="utf-8"))
     treatises, chapters, paras = parse((MODERN / f"{text_id}.txt").read_text(encoding="utf-8"))
     greek_chs = greek_chs if greek_chs is not None else greek_chapters(meta["work"])
+    if meta.get("done_books"):      # a long work done a few books a session: only the books done so far are wanted
+        greek_chs = {k: v for k, v in greek_chs.items() if k[0] in meta["done_books"]}
     eng = eng if eng is not None else english(meta)
     taylor_stem = next(iter(meta["english"]))
     problems = []
@@ -328,8 +379,12 @@ def build(text_id, terms=None, greek_chs=None, eng=None):
     def tbook(c):
         return f"Book {list(ROMAN)[chapter_key(c['id'])[0] - 1]}, " if meta.get("books") else ""
 
-    import aristotle_f1k
-    w = aristotle_f1k.WORK_BY_ID[meta["work"]]
+    if meta["work"] in PERSEUS:
+        import aristotle as aristotle_f1k
+        w = {"title": aristotle_f1k.WORK_BY_ID[meta["work"]]["title"], **PERSEUS[meta["work"]]}
+    else:
+        import aristotle_f1k
+        w = aristotle_f1k.WORK_BY_ID[meta["work"]]
     d = {
         "schema": SCHEMA,
         "text": text_id,
@@ -375,7 +430,7 @@ def report(results):
         ps = d["paragraphs"]
         flags = [(p["seg"], f) for p in ps for f in p.get("flags", [])]
         lines += [f"## {d['title']}", "",
-                  f"- The Greek: {d['greek_info']['edition']}, from First1KGreek; the English compared: "
+                  f"- The Greek: {d['greek_info']['edition']}{'' if d['work'] in PERSEUS else ', from First1KGreek'}; the English compared: "
                   f"{', '.join(e['label'] for e in d['english'])}.",
                   f"- Chapters: {len(d['chapters'])}, every one of the Greek's, each with a short title and a summary.",
                   f"- Paragraphs: {len(ps)}, each with its Greek and its Bekker columns.",

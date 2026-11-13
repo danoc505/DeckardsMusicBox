@@ -209,6 +209,73 @@ class PriorAnalytics(unittest.TestCase):
         self.assertTrue(any(seg == "APr.I.1.p2" and "perfect syllogism" in f["taylor"] and f["in"].startswith("Jenkinson") for seg, f in flags))
 
 
+class Metaphysics(unittest.TestCase):
+    """Milestone 35m1: the Metaphysics, Books Α and α (I and II), the first books of a work done a few books at a time,
+    from Perseus' Greek (Ross 1924), with Taylor's own chapters of Book Α."""
+
+    def test_labelled_the_books_done_so_far_and_every_chapter_with_a_title_a_summary_and_taylor(self):
+        d = load("aristotle-metaphysics")
+        self.assertEqual((d["by"], d["kind"], d["work"], d["work_slug"]), ("Workshop modern version", "aristotle", "ar025", "metaphysics"))
+        self.assertIs(d["machine_assisted"], True)
+        self.assertIn("not yet checked", d["label"])
+        self.assertIn("so far Books Α and α", d["about"])
+        self.assertEqual(d["greek_info"]["edition"], "Ross, Oxford, 1924 (Perseus)")
+        self.assertEqual(modern_ar.TEXTS["aristotle-metaphysics"]["done_books"], [1, 2])
+        self.assertEqual([t["id"] for t in d["treatises"]], ["Metaph.I", "Metaph.II"])
+        ids = [f"Metaph.I.{n}" for n in range(1, 11)] + [f"Metaph.II.{n}" for n in range(1, 4)]
+        self.assertEqual([c["id"] for c in d["chapters"]], ids)
+        for c in d["chapters"]:
+            self.assertTrue(c["title"] and c["summary"] and c["taylor"], c["id"])
+            self.assertTrue(any(p["chapter"] == c["id"] for p in d["paragraphs"]), c["id"])
+        tay = {c["id"]: [x["label"] for x in c["taylor"]] for c in d["chapters"]}
+        # Taylor's Book I has seven chapters: his 6 holds Bekker's 6-7, his 7 holds 8-10.
+        self.assertEqual(tay["Metaph.I.5"], ["Book I, Chapter 5"])
+        self.assertEqual(tay["Metaph.I.7"], ["Book I, Chapter 6"])
+        self.assertEqual(tay["Metaph.I.9"], ["Book I, Chapter 7"])
+        self.assertEqual(tay["Metaph.II.2"], ["Book II, Chapter 2"])
+
+    def test_paragraphs_have_their_greek_and_bekker_columns(self):
+        d = load("aristotle-metaphysics")
+        cols = [c for p in d["paragraphs"] for c in p["cols"]]
+        self.assertEqual((cols[0], cols[-1]), ("980a", "995a"))
+        keys = [(int(c[:-1]), c[-1]) for c in cols]
+        self.assertEqual(keys, sorted(keys))
+        for p in d["paragraphs"]:
+            self.assertTrue(p["modern"] and p["greek"] and p["cols"], p["seg"])
+        para = {p["seg"]: p for p in d["paragraphs"]}
+        self.assertTrue(para["Metaph.I.1.p1"]["modern"].startswith("All human beings by nature desire to know."))
+        self.assertTrue(para["Metaph.I.1.p1"]["greek"].startswith("πάντες ἄνθρωποι τοῦ εἰδέναι ὀρέγονται φύσει."))
+        self.assertIn("intellect", para["Metaph.I.3.p6"]["modern"])        # Anaxagoras' νοῦς
+        self.assertIn("what it is to be", para["Metaph.I.3.p1"]["modern"])  # τὸ τί ἦν εἶναι
+        self.assertIn("eyes of bats", para["Metaph.II.1.p1"]["modern"])
+
+    def test_flags_quote_an_older_english_word_for_word(self):
+        d = load("aristotle-metaphysics")
+        eng = modern_ar.english(modern_ar.TEXTS["aristotle-metaphysics"])
+        labels = {lab: whole for lab, _, whole, _ in eng.values()}
+        flags = [(p["seg"], f) for p in d["paragraphs"] for f in p.get("flags", [])]
+        self.assertGreaterEqual(len(flags), 12)
+        for seg, f in flags:
+            self.assertIn(norm(f["taylor"]), labels[f["in"]], seg)
+            self.assertTrue(f["why"], seg)
+        # Ross's "reason" for νοῦς, and his "essence" for τὸ τί ἦν εἶναι; Taylor's "species of matter".
+        self.assertTrue(any(seg == "Metaph.II.1.p1" and "reason in our soul" in f["taylor"] and f["in"].startswith("Ross") for seg, f in flags))
+        self.assertTrue(any(seg == "Metaph.I.3.p1" and "the essence" in f["taylor"] for seg, f in flags))
+        self.assertTrue(any(seg == "Metaph.I.3.p2" and "species of matter" in f["taylor"] and f["in"].startswith("Taylor") for seg, f in flags))
+
+    def test_only_the_books_done_are_wanted(self):
+        meta = modern_ar.TEXTS["aristotle-metaphysics"]
+        g = {(1, 1): {"text": "x", "cols": []}, (3, 1): {"text": "y", "cols": []}}
+        meta2 = dict(meta, done_books=[1])
+        old = modern_ar.TEXTS["aristotle-metaphysics"]
+        modern_ar.TEXTS["aristotle-metaphysics"] = meta2
+        try:
+            _, problems = modern_ar.build("aristotle-metaphysics", greek_chs=g, eng=modern_ar.english(meta))
+        finally:
+            modern_ar.TEXTS["aristotle-metaphysics"] = old
+        self.assertTrue(any("the chapters are" in x and "(3, 1)" not in x.split("the Greek has")[1] for x in problems), problems)
+
+
 @unittest.skipUnless(FIRST1K.exists(), "run python3 tools/fetch_sources.py first")
 class AgainstTheGreek(unittest.TestCase):
     def test_built_with_no_problems_and_up_to_date(self):
@@ -271,6 +338,9 @@ class Server(unittest.TestCase):
         d = self.get("modern-neo/aristotle-prior-analytics")
         self.assertEqual((d["kind"], d["marks"], len(d["chapters"])), ("aristotle", [], 73))
         self.assertEqual(d["paragraphs"][0]["cols"], ["24a", "24b"])
+        d = self.get("modern-neo/aristotle-metaphysics")
+        self.assertEqual((d["kind"], d["marks"], len(d["chapters"])), ("aristotle", [], 13))
+        self.assertEqual(d["paragraphs"][0]["cols"], ["980a"])
 
 
 @unittest.skipUnless(has_library() and shutil.which("node"), "needs the library and Node")

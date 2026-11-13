@@ -129,6 +129,26 @@ async function run(b, viewport, touch, first) {
   await p.goto(base + "#prior-analytics/24a");
   await p.waitForSelector("#toc a[href=\"#neo-modern/aristotle-prior-analytics\"]", { state: "attached" });
   check(true, `${tag}: the Prior Analytics' contents column links to the modern English`);
+
+  // Milestone 35m1: the Metaphysics, Books Α and α so far, from Perseus' Greek, with Taylor's own chapters of Book Α.
+  await p.goto(base + "#library");
+  await p.waitForSelector("#lib-ar");
+  check(await p.$$eval('#lib-ar a[href="#neo-modern/aristotle-metaphysics"]', (es) => es.length) === 1, `${tag}: the Aristotle shelf links to the Metaphysics in modern English`);
+  await p.goto(base + "#neo-modern/aristotle-metaphysics/Metaph.I.9");
+  await p.waitForSelector("#mc-Metaph\\.I\\.9");
+  check(await p.$$eval(".tg-mod", (es) => es.length) === 13 && /so far Books Α and α/.test(await p.$eval(".tg-read", (e) => e.innerText)), `${tag}: the Metaphysics, thirteen chapters so far, saying which books`);
+  check(/Book Α \(I\), chapter 9\. Against the Forms/.test(await p.$eval("#mc-Metaph\\.I\\.9", (e) => e.textContent)) && /Book α \(II\), chapter 1\./.test(await p.$eval("#mc-Metaph\\.II\\.1", (e) => e.textContent)), `${tag}: chapters are headed by the book's letter`);
+  check(/Ross, Oxford \(1908\): “so is the reason in our soul to the things”/.test(await p.$eval("#mp-Metaph\\.II\\.1\\.p1", (e) => e.textContent)), `${tag}: a flag on Ross's "reason" for νοῦς`);
+  await p.click("#mp-Metaph\\.I\\.1\\.p1 .mp-greek summary");
+  check(await p.$$eval('#mp-Metaph\\.I\\.1\\.p1 .mp-greek a[href="#metaphysics/980a"]', (es) => es.length) === 1, `${tag}: the Greek of a paragraph links to its Bekker column`);
+  await p.click('[data-nm-mode="both"]');
+  await p.waitForSelector(".mod-both .tg-tcol");
+  check(/Taylor, The Metaphysics \(1801\), book i, chapter 7/.test(await p.$eval("#mc-Metaph\\.I\\.9 .tg-tcol", (e) => e.textContent)), `${tag}: side by side with Taylor's own chapter`);
+  await wide("Metaphysics side by side");
+  await p.click('[data-nm-mode="modern"]');
+  await p.goto(base + "#metaphysics/980a");
+  await p.waitForSelector("#toc a[href=\"#neo-modern/aristotle-metaphysics\"]", { state: "attached" });
+  check(true, `${tag}: the Metaphysics' contents column links to the modern English`);
   check(errors.length === 0, `${tag}: no script errors (${errors.join("; ")})`);
   await p.close();
 }

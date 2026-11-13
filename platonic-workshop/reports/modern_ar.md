@@ -87,3 +87,32 @@ Written by `tools/modern_ar.py` from `sources/translations/modern/aristotle-*.tx
 | APr.II.20.p1 | Taylor (1812) | when there will not be an elenchus | Taylor keeps the Greek word ἔλεγχος as "elenchus"; in this chapter it means simply a refutation of what the answerer has granted, so this version says "refutation". |
 | APr.II.25.p1 | Taylor (1812) | Abduction, however, is, when it is evident that the first | Taylor's "abduction" renders ἀπαγωγή, "leading away"; since Peirce, "abduction" names inference to the best explanation, which is something else. This version says "reduction", as Jenkinson does. |
 | APr.II.27.p1 | Taylor (1812) | The consentaneous, however, and a sign, are not the same | Taylor's "consentaneous" for εἰκός, "what is likely", is a word now unknown; Jenkinson says "probability", and this version says "likelihood", which keeps it apart from mathematical probability. |
+
+## The Metaphysics in modern English
+
+- The Greek: Ross, Oxford, 1924 (Perseus); the English compared: Taylor (1801), Ross, Oxford (1908).
+- Chapters: 13, every one of the Greek's, each with a short title and a summary.
+- Paragraphs: 67, each with its Greek and its Bekker columns.
+- Words: 11,378 modern, 9,182 Greek.
+- Sentences (each can be marked in the reader): 406.
+- Flags (where an older English and the Greek differ, or the Greek is hard): 14.
+- Problems found: 0.
+
+### Flags
+
+| Paragraph | In | Older words | Why |
+|---|---|---|---|
+| Metaph.I.3.p1 | Ross, Oxford (1908) | In one of these we mean the substance, i.e. the essence | Ross's "essence" stands for a phrase of Aristotle's own making, τὸ τί ἦν εἶναι, literally "the what it was to be", the being of a thing that its definition states. The modern version says "what it is to be" throughout, and keeps "essence" for nothing else. |
+| Metaph.I.3.p2 | Taylor (1801) | alone subsisted in the species of matter | Taylor's "species of matter" renders ἐν ὕλης εἴδει word for word; the sense is "in the form of matter", that is, material principles only. Here εἶδος has no technical sense. |
+| Metaph.I.3.p6 | Ross, Oxford (1908) | When one man said, then, that reason was present | Ross's "reason" stands for νοῦς, "intellect" (Taylor's word), the highest power of knowing and, for Anaxagoras, the cause that orders all things. The Platonists read this praise of Anaxagoras beside Socrates' in the Phaedo (97b-99c), where Socrates hopes for an intellect that orders everything for the best, and is disappointed. |
+| Metaph.I.5.p1 | Ross, Oxford (1908) | the whole heaven to be a musical scale and a number | Ross's "musical scale" renders ἁρμονία, "harmony" in the old sense: a fitting together, the tuning of a scale. The modern version keeps "harmony", since the word carries both the music and the fitting together of the cosmos, as in Plato's Timaeus (35b-36b), where the world soul is built on the ratios of a scale. |
+| Metaph.I.5.p6 | Taylor (1801) | to the literal and not to the true meaning of their assertions | Taylor's own note, printed in his text: Aristotle answers the Eleatics' words, not their meaning, which for the Platonists is the One beyond being and the intelligible whole. The note is Taylor's, not Aristotle's; the Greek here only reports and sets them aside. |
+| Metaph.I.6.p3 | Ross, Oxford (1908) | come the Forms—i.e. the Numbers | Ross's Greek of 1924 brackets "the Forms" (τὰ εἴδη) in this sentence as a gloss, and reads that the numbers come from the great and the small by participation in the One. That the Forms are numbers Aristotle says elsewhere (991b9, and Books Μ and Ν); the modern version follows the 1924 text. |
+| Metaph.I.6.p3 | Ross, Oxford (1908) | except those which were prime | The Greek says "except the first" (ἔξω τῶν πρώτων). Ross takes it as "the prime numbers"; it may as well mean the first numbers of the series, which the dyad cannot generate by doubling. The modern version keeps the Greek's word. |
+| Metaph.I.8.p1 | Taylor (1801) | who consider the universe as one, and as being one certain nature, as matter | Taylor's words are close to the Greek, but "certain" is his: the Greek says simply "one nature as matter". The modern version keeps the plainer phrase. |
+| Metaph.I.9.p2 | Taylor (1801) | a certain phantasm of these | Taylor's "phantasm" renders φάντασμα, a mental image. The point is plain: we can still picture a thing that has perished, so if every object of thought needed a Form, perishable things would have Forms. |
+| Metaph.I.9.p2 | Taylor (1801) | the most accurate of reasons, some make ideas of things relative | Taylor's "reasons" are λόγοι, "arguments"; and what he renders "an essential genus" is a kind by itself (καθʼ αὑτὸ γένος): relatives, which are always of something else, are not a class of things on their own. The argument from "equal itself" in Plato's Phaedo (74a-75b) makes such a Form. |
+| Metaph.I.9.p4 | Ross, Oxford (1908) | to use empty words and poetical metaphors | Ross's words are right; the note is the Platonists'. The "pattern" (παράδειγμα) and the maker "looking to" it are Plato's own, in the Timaeus (28a-29a), where the craftsman of the world looks to the eternal pattern; the Platonists held that this is not a metaphor but the way intellect makes. |
+| Metaph.II.1.p1 | Ross, Oxford (1908) | so is the reason in our soul to the things | Ross's "reason" stands for νοῦς, "intellect". The Platonists read this sentence as theirs: what is clearest by nature, the intelligible and its principle, is dimmest to us, as the sun to eyes come from the cave (Republic 515e-516a). |
+| Metaph.II.2.p3 | Ross, Oxford (1908) | Nor would there be reason in the world | Ross's "reason" is νοῦς, "intellect", as everywhere in this work; and the Greek says "in the things that are" (ἐν τοῖς οὖσιν), not "in the world". |
+| Metaph.II.3.p1 | Ross, Oxford (1908) | because they regard it as pettifoggery | Ross's "pettifoggery" is a lawyer's word for μικρολογία, "pettiness", the hair-splitting of the small-minded; the comparison that follows is with contracts, where haggling over trifles seems mean. |

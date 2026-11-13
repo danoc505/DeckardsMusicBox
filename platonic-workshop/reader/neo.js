@@ -561,9 +561,13 @@ function nmTaylor(d, c) {
     ${c.taylor.map((x) => `<p><span class="meta">${esc(x.label || `Introduction, paragraph ${x.n}`)}.</span> ${esc(x.text)}</p>`).join("")}</div>`;
 }
 
-// An Aristotle chapter id is "Cat.5", or "APr.II.5" for a work in books.
+// An Aristotle chapter id is "Cat.5", or "APr.II.5" for a work in books. The Metaphysics' books are cited by their
+// Greek letters as well (Metaph.II.1 is Book α, the "little alpha").
+const NM_META_LETTERS = ["Α", "α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", "Ν"];
+const NM_ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV"];
 function nmChapterLabel(id) {
   const p = id.split(".");
+  if (p.length > 2 && p[0] === "Metaph") return `Book ${NM_META_LETTERS[NM_ROMAN.indexOf(p[1])]} (${esc(p[1])}), chapter ${esc(p[2])}`;
   return p.length > 2 ? `Book ${esc(p[1])}, chapter ${esc(p[2])}` : `Chapter ${esc(p.pop())}`;
 }
 
