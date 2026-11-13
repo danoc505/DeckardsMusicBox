@@ -36,6 +36,19 @@ Written by `tools/build_db.py` (through `tools/aristotle.py`) each time the libr
 | Progression of Animals | 22 | 6,360 | 6,339 (99.67%) | 6,315 | 0 | 149 |
 | Movement of Animals | 14 | 4,116 | 4,106 (99.76%) | 4,079 | 0 | 257 |
 | Generation of Animals | 150 | 50,150 | 49,726 (99.15%) | 49,576 | 0 | 2,002 |
+| Mechanics | 24 | 8,346 | 8,216 (98.44%) | 7,718 | 0 | 148 |
+| On Indivisible Lines | 10 | 2,959 | 0 (0.00%) | 2,909 | 0 | 0 |
+| On Melissus, Xenophanes and Gorgias | 14 | 4,873 | 4,865 (99.84%) | 4,803 | 0 | 262 |
+| On Colours | 18 | 5,002 | 5,002 (100.00%) | 4,961 | 0 | 131 |
+| On Things Heard | 10 | 3,492 | 0 (0.00%) | 3,458 | 0 | 0 |
+| Physiognomics | 20 | 5,763 | 5,758 (99.91%) | 5,643 | 0 | 217 |
+| On Plants | 32 | 11,311 | 11,251 (99.47%) | 11,138 | 0 | 422 |
+| On Marvellous Things Heard | 36 | 9,180 | 9,158 (99.76%) | 8,969 | 0 | 187 |
+| Problems | 218 | 73,881 | 73,638 (99.67%) | 73,510 | 0 | 2,888 |
+| Situations and Names of Winds | 2 | 426 | 0 (0.00%) | 391 | 0 | 0 |
+| On Breath | 12 | 3,463 | 3,437 (99.25%) | 3,450 | 0 | 160 |
+| Physics VII, the other version | 15 | 2,349 | 2,264 (96.38%) | 2,242 | 0 | 137 |
+| On the Soul II, the other version | 7 | 2,446 | 2,387 (97.59%) | 2,362 | 0 | 156 |
 
 ## The translations beside the Greek
 
@@ -96,5 +109,18 @@ Written by `tools/build_db.py` (through `tools/aristotle.py`) each time the libr
 - **Progression of Animals**: the Greek from First1KGreek, its 22 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI (left out, out of Bekker's order: 716b).
 - **Movement of Animals**: the Greek from First1KGreek, its 14 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI; where a column is lost (the margin does not print it, or the scan misread it), it is placed by the length of the text between the columns either side (≈): 703a.
 - **Generation of Animals**: the Greek from First1KGreek, its 150 Bekker columns from GLAUx's Bekker column of each word.
+- **Mechanics**: the Greek from First1KGreek, its 24 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
+- **On Indivisible Lines**: the Greek from First1KGreek, its 10 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
+- **On Melissus, Xenophanes and Gorgias**: the Greek from First1KGreek, its 14 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
+- **On Colours**: the Greek from First1KGreek, its 18 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
+- **On Things Heard**: the Greek from First1KGreek, its 10 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
+- **Physiognomics**: the Greek from First1KGreek, its 20 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
+- **On Plants**: the Greek from First1KGreek, its 32 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
+- **On Marvellous Things Heard**: the Greek from First1KGreek, its 36 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
+- **Problems**: the Greek from First1KGreek, its 218 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
+- **Situations and Names of Winds**: the Greek from First1KGreek, its 2 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
+- **On Breath**: the Greek from First1KGreek, its 12 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI; where a column is lost (the margin does not print it, or the scan misread it), it is placed by the length of the text between the columns either side (≈): 486a, 486b.
+- **Physics VII, the other version**: the Greek from First1KGreek, its 15 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
+- **On the Soul II, the other version**: the Greek from First1KGreek, its 7 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
 
 Every placement not printed in the book is marked ≈ in the reader. The OCR of Ross and Taylor is cleaned by rule (`tools/aristotle_ocr.py`) and not proofread; *Show the OCR* in the reader shows each paragraph as the scan reads it.

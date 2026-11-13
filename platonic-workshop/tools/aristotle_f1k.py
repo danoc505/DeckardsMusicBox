@@ -28,7 +28,15 @@ F1K_SRC, GLAUX_SRC = "first1k-aristotle", "glaux-aristotle"
 BEKKER = re.compile(r"^(\d{2,4})\s?([ab])$")
 # A column as the margin of a scanned edition prints it: "p. 704a", "698 a", "650.a", "1181a 25" (with the line number).
 MARGIN = re.compile(r"^(?:p\s?\.?\s?)?(\d{2,4})\s?[.,]?\s?([ab])(?:\s+\d{1,2})?$")
-ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV"]
+def _roman(n):
+    out = ""
+    for v, r in ((10, "X"), (9, "IX"), (5, "V"), (4, "IV"), (1, "I")):
+        while n >= v:
+            out, n = out + r, n - v
+    return out
+
+
+ROMAN = [_roman(n) for n in range(1, 41)]      # the Problems have 38 books
 
 # The works, in the Platonists' order within each step (logic, ethics, physics, theology).
 # columns "english": the Greek prints no Bekker columns (Bekker's own text, in the Oxford reprint of 1837, paged anew);
@@ -138,6 +146,68 @@ WORKS = [
      "plain": "How animals are generated: the male gives the form and the source of motion, the female the matter; the soul's "
               "powers in the embryo, and the intellect alone entering from outside (θύραθεν) as divine (Book II 3); then "
               "inheritance, and why offspring take after one parent or the other."},
+    # Aristotle milestone A8e: the minor and spurious works, in Greek only. Bekker's own text (in his Oxford reprint, 1837),
+    # where First1KGreek marks the Berlin columns as milestones (<milestone unit="page" resp="Bekker" n="800a">); the Problems
+    # (Ruelle, Teubner, 1922), the same; On Breath (Jaeger, 1913) and the other versions of On the Soul II and Physics VII (Ross),
+    # with the columns in the margin. glaux None: GLAUx does not have the work, so the words carry Morpheus's parses only.
+    # pair: how our words and GLAUx's are paired (pair_key), where the two divide the work differently.
+    {"id": "ar023", "tlg": "tlg023", "file": "grc1", "title": "Mechanics", "abbr": "Mech.", "slug": "mechanics",
+     "greek_title": "Μηχανικά", "editor": LOGIC_EDITOR, "label": "Bekker (Oxford, 1837)", "margin": True, "bekker": ("847a", "858b"), "fill_gaps": True, "pair": "whole",
+     "plain": "Mechanical problems: why a small force moves a great weight with the lever, traced to the circle, in which contraries "
+              "meet; then the balance, the oar, the rudder, the wedge and the pulley. From Aristotle's school."},
+    {"id": "ar019", "tlg": "tlg019", "file": "grc1", "title": "On Indivisible Lines", "abbr": "Lin. Insec.", "slug": "on-indivisible-lines",
+     "greek_title": "Περὶ ἀτόμων γραμμῶν", "editor": LOGIC_EDITOR, "label": "Bekker (Oxford, 1837)", "margin": True, "bekker": ("968a", "972b"), "fill_gaps": True, "glaux": None,
+     "plain": "Against the doctrine of the Academy that there are indivisible lines: its arguments set out and answered one by one "
+              "from mathematics. From Aristotle's school."},
+    {"id": "ar047", "tlg": "tlg047", "file": "grc1", "title": "On Melissus, Xenophanes and Gorgias", "abbr": "MXG", "slug": "on-melissus-xenophanes-gorgias",
+     "greek_title": "Περὶ Μελίσσου, Ξενοφάνους, Γοργίου", "editor": LOGIC_EDITOR, "label": "Bekker (Oxford, 1837)", "margin": True, "bekker": ("974a", "980b"), "fill_gaps": True, "pair": "chapter",
+     "plain": "Three arguments about being set out and examined: Melissus' that what is is one, ungenerated and unmoved; "
+              "Xenophanes' on God; and Gorgias' that nothing is, or if it is cannot be known, or if known cannot be told. "
+              "Bekker titles it On Xenophanes, Zeno and Gorgias. From Aristotle's school."},
+    {"id": "ar007", "tlg": "tlg007", "file": "grc1", "title": "On Colours", "abbr": "Col.", "slug": "on-colours",
+     "greek_title": "Περὶ χρωμάτων", "editor": LOGIC_EDITOR, "label": "Bekker (Oxford, 1837)", "margin": True, "bekker": ("791a", "799b"), "fill_gaps": True, "pair": "whole",
+     "plain": "The simple colours of the elements, and the others as mixtures of them, of light and shade; the colours of plants, "
+              "fruit, hair and feathers, and how they change as they grow. From Aristotle's school."},
+    {"id": "ar004", "tlg": "tlg004", "file": "grc1", "title": "On Things Heard", "abbr": "Aud.", "slug": "on-things-heard",
+     "greek_title": "Περὶ ἀκουστῶν", "editor": LOGIC_EDITOR, "label": "Bekker (Oxford, 1837)", "margin": True, "bekker": ("800a", "804b"), "fill_gaps": True, "glaux": None,
+     "plain": "How voices and sounds arise from the blows of the breath on the air, and why they differ, clear or muffled, rough or "
+              "smooth, in men, animals and instruments. An extract from a work of Aristotle's school."},
+    {"id": "ar032", "tlg": "tlg032", "file": "grc1", "title": "Physiognomics", "abbr": "Phgn.", "slug": "physiognomics",
+     "greek_title": "Φυσιογνωμονικά", "editor": LOGIC_EDITOR, "label": "Bekker (Oxford, 1837)", "margin": True, "bekker": ("805a", "814b"), "fill_gaps": True, "pair": "chapter",
+     "plain": "How character is read from the body, since soul and body are affected together: from a man's likeness to an animal, "
+              "from his people, and from the looks that go with each passion. From Aristotle's school."},
+    {"id": "ar039", "tlg": "tlg039", "file": "grc1", "title": "On Plants", "abbr": "Pl.", "slug": "on-plants",
+     "greek_title": "Περὶ φυτῶν", "editor": LOGIC_EDITOR, "label": "Bekker (Oxford, 1837)", "margin": True, "bekker": ("815a", "830b"), "fill_gaps": True,
+     # The TEI opens with the prologue of the Byzantine translator, which Bekker does not print on his Berlin pages (its
+     # milestones, 814a-815b, are the columns of the end of the Physiognomics): left out.
+     "skip_parts": ("prol",),
+     "plain": "Whether plants have soul, desire and sensation; then their parts, their kinds, and how they grow, flower and bear "
+              "fruit. Not Aristotle's: the treatise of Nicolaus of Damascus, come back into Greek from Latin, by way of Arabic."},
+    {"id": "ar027", "tlg": "tlg027", "file": "grc1", "title": "On Marvellous Things Heard", "abbr": "Mir.", "slug": "on-marvellous-things-heard",
+     "greek_title": "Περὶ θαυμασίων ἀκουσμάτων", "editor": LOGIC_EDITOR, "label": "Bekker (Oxford, 1837)", "margin": True, "bekker": ("830a", "847b"), "fill_gaps": True, "pair": "chapter",
+     "plain": "A collection of wonders, strange animals, springs, metals and peoples, from the far West to India, gathered from "
+              "many writers in Aristotle's school and after it."},
+    {"id": "ar036", "tlg": "tlg036", "file": "grc1", "title": "Problems", "abbr": "Pr.", "slug": "problems",
+     "greek_title": "Προβλήματα", "editor": "Charles Ruelle", "label": "Ruelle, Knoellinger and Klek (Leipzig, 1922)", "margin": True, "bekker": ("859a", "967b"), "fill_gaps": True, "pair": "book",
+     "plain": "Questions asked and answered under thirty-eight heads, medicine, sweat, wine, the voice, music, mathematics, justice "
+              "and wisdom among them; gathered in Aristotle's school over many generations. Book XXX 1 asks why all who have been "
+              "outstanding in philosophy, politics, poetry or the arts are melancholic."},
+    {"id": "ar046", "tlg": "tlg046", "file": "grc1", "title": "Situations and Names of Winds", "abbr": "Vent.", "slug": "situations-of-winds",
+     "greek_title": "Ἀνέμων θέσεις καὶ προσηγορίαι", "editor": LOGIC_EDITOR, "label": "Bekker (Oxford, 1837)", "margin": True, "bekker": ("973a", "973b"), "fill_gaps": True, "glaux": None,
+     "plain": "The winds, by the quarters of the sky they blow from, with the names each people gives them. A short extract under "
+              "Aristotle's name."},
+    {"id": "ar043", "tlg": "tlg043", "file": "grc1", "title": "On Breath", "abbr": "Spir.", "slug": "on-breath",
+     "greek_title": "Περὶ πνεύματος", "editor": "Werner Jaeger", "label": "Jaeger (Leipzig, 1913)", "margin": True, "bekker": ("481a", "486b"), "fill_gaps": True,
+     "plain": "How the breath (πνεῦμα) inborn in animals is kept up and fed, and how it bears on breathing, the pulse and digestion; "
+              "many questions are raised and left open. From Aristotle's school."},
+    {"id": "ar054", "tlg": "tlg054", "file": "grc1", "title": "Physics VII, the other version", "abbr": "Phys. VII β", "slug": "physics-vii-other-version",
+     "greek_title": "Φυσικὴ ἀκρόασις Η (textus alter)", "editor": "W. D. Ross", "label": "Ross (Oxford)", "margin": True, "bekker": ("241b", "248b"), "fill_gaps": True,
+     "plain": "Book VII of the Physics as some manuscripts give it, in a version that differs throughout from the common text, "
+              "printed by Ross beside it: everything moved is moved by something, and there must be a first mover."},
+    {"id": "ar052", "tlg": "tlg052", "file": "grc1", "title": "On the Soul II, the other version", "abbr": "de An. II (E)", "slug": "on-the-soul-ii-other-version",
+     "greek_title": "Περὶ ψυχῆς Β (codicis E)", "editor": "W. D. Ross", "label": "Ross (Oxford)", "margin": True,
+     "plain": "Passages of Book II of On the Soul (on nutrition, and on the senses) as one manuscript (E) gives them, in a version "
+              "that differs from the common text; printed by Ross. The passages are not continuous, so only the columns they fall in are here."},
 ]
 WORK_BY_ID = {w["id"]: w for w in WORKS}
 
@@ -165,10 +235,21 @@ def read_tei(work):
                 state["in"] = el.get("n") == work["select"]
                 state["book"] = None
             elif el.get("subtype") in ("book", "part"):
-                state["book"] = int(el.get("n"))
+                n = el.get("n")
+                state["skip"] = n in work.get("skip_parts", ())
+                # On Melissus, Xenophanes, Gorgias names its parts ("Xenoph", "Zenon", "Georg"): numbered in order
+                state["book"] = int(n) if n.isdigit() else state.setdefault("named", {}).setdefault(n, len(state.get("named", {})) + 1)
             elif el.get("subtype") == "chapter":
                 state["chapter"] = int(re.match(r"\d+", el.get("n")).group(0))     # '49b' (HA IX 49B) is chapter 49
         if tag in ("head", "gap", "bibl"):
+            return
+        if tag == "milestone" and not state.get("skip") and el.get("unit") == "page" and el.get("resp") == "Bekker" and BEKKER.match(el.get("n", "")):
+            # Bekker's own text of the minor works prints his Berlin columns as milestones (<milestone unit="page" n="800a">)
+            # (between two paragraphs, it marks the start of the next)
+            if state.get("in_p") and state["cur"] is not None:
+                state["cur"]["marks"].append((len("".join(state["cur"]["parts"])), el.get("n")))
+            else:
+                state.setdefault("pending", []).append(el.get("n"))
             return
         if tag == "note":
             n = " ".join("".join(el.itertext()).split())
@@ -177,8 +258,10 @@ def read_tei(work):
                 state["cur"]["marks"].append((len("".join(state["cur"]["parts"])), f"{int(m.group(1))}{m.group(2)}"))
             return
         if tag == "p":
-            state["cur"] = {"book": state["book"], "chapter": state["chapter"], "parts": [], "marks": []}
-            if state["in"]:
+            state["cur"] = {"book": state["book"], "chapter": state["chapter"], "parts": [],
+                            "marks": [(0, c) for c in state.pop("pending", [])]}
+            state["in_p"] = True
+            if state["in"] and not state.get("skip"):
                 paras.append(state["cur"])
         if tag == "del":
             out("[")
@@ -194,6 +277,8 @@ def read_tei(work):
             out("⟩")
         if tag in ("l", "lb"):
             out(" ")
+        if tag == "p":
+            state["in_p"] = False
 
     walk(body)
     result = []
@@ -222,6 +307,8 @@ def read_tei(work):
 def glaux_file(work):
     """GLAUx's file of a work: by its TLG number, except where GLAUx numbers it otherwise (it has De motu animalium as
     0086-015 and De incessu animalium as 0086-021, the other way round from the TLG and First1KGreek)."""
+    if work.get("glaux", "") is None:          # GLAUx does not have this work (On Things Heard, Indivisible Lines, Winds)
+        return None
     return RAW / GLAUX_SRC / "xml" / f"0086-{work.get('glaux', work['tlg'][3:])}.xml"
 
 
@@ -230,6 +317,8 @@ def glaux_words(work):
     by_ch = defaultdict(list)
     cols = []
     path = glaux_file(work)
+    if path is None:
+        return by_ch, cols
     analysis = None
     for event, el in ET.iterparse(path, events=("start", "end")):
         if event == "start" and el.tag == "sentence":
@@ -251,10 +340,24 @@ def glaux_words(work):
                     key = (0, ch[0])
                 else:
                     key = (0, 0)
-                key = work.get("glaux_merge", {}).get(key, key)
+                key = pair_key(work, *key)
                 by_ch[key].append({**a, "analysis": analysis})
             el.clear()
     return by_ch, cols
+
+
+def pair_key(work, book, chapter):
+    """The key by which our words and GLAUx's are paired, chapter by chapter. pair "whole": the whole work at once (where the
+    TEI and GLAUx divide it differently, or one of them not at all); pair "chapter": by chapter alone (the chapters are
+    numbered through the work in one, by part in the other); pair "book": by book alone (GLAUx numbers the chapters of
+    the Problems otherwise from the TEI after the first books); glaux_merge: two chapters taken as one."""
+    if work.get("pair") == "whole":
+        return (0, 0)
+    if work.get("pair") == "chapter":
+        return (0, chapter)
+    if work.get("pair") == "book":
+        return (book, 0)
+    return work.get("glaux_merge", {}).get((book, chapter), (book, chapter))
 
 
 def increasing(seq, key):
@@ -491,7 +594,7 @@ def build_greek(db, work, sources):
     toks = []   # (chunk id, start, end, form, column, (book, chapter))
     for cid, k, col, text in chunk_rows:
         for m in greek.WORD.finditer(text):
-            toks.append((cid, m.start(), m.end(), greek.nfc(m.group(0)), col, (paras[k]["book"] or 0, paras[k]["chapter"] or 0)))
+            toks.append((cid, m.start(), m.end(), greek.nfc(m.group(0)), col, pair_key(work, paras[k]["book"] or 0, paras[k]["chapter"] or 0)))
     tok_keys, all_keys = {}, set()
     for t in toks:
         if t[3] not in tok_keys:
@@ -562,12 +665,12 @@ def lemmas():
     out = set()
     for w in WORKS:
         p = glaux_file(w)
-        if p.exists():
+        if p is not None and p.exists():
             for m in re.finditer(r' lemma="([^"]*)"', p.read_text(encoding="utf-8")):
                 out.add(greek.nfc(m.group(1)))
     return {l for l in out if greek.is_greek(l)}
 
 
 def available():
-    return all((RAW / F1K_SRC / "data" / "tlg0086" / w["tlg"]).exists() and glaux_file(w).exists()
+    return all((RAW / F1K_SRC / "data" / "tlg0086" / w["tlg"]).exists() and (glaux_file(w) is None or glaux_file(w).exists())
                for w in WORKS)

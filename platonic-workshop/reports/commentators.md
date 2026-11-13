@@ -14,7 +14,7 @@ The text is First1KGreek's TEI of the *Commentaria in Aristotelem Graeca* (CC BY
 | David, Prolegomena to philosophy (`david-prolegomena`) | philosophy, and Aristotle as a whole | 79 | 29,578 | 0 | 0 | 0 | none | 0 |
 | David, On Porphyry's Introduction (`david-isagoge`) | Porphyry's Introduction | 140 | 45,420 | 64 | 0 | 80 | none | 0 |
 | Porphyry, On the Categories, by question and answer (`porphyry-categories`) | Categories | 89 | 29,902 | 53 | 0 | 72 | 54 | 0 |
-| Ammonius, On the Categories (`ammonius-categories`) | Categories | 106 | 28,071 | 75 | 23 | 72 | none | 76 |
+| Ammonius, On the Categories (`ammonius-categories`) | Categories | 106 | 28,071 | 75 | 23 | 72 | none | 38 |
 | Philoponus, On the Categories (`philoponus-categories`) | Categories | 205 | 65,881 | 142 | 0 | 176 | none | 0 |
 | Olympiodorus, On the Categories (`olympiodorus-categories`) | Categories | 123 | 49,509 | 82 | 0 | 102 | none | 1 |
 | Elias, On the Categories (`elias-categories`) | Categories | 149 | 56,235 | 63 | 0 | 72 | none | 0 |
