@@ -136,7 +136,7 @@ async function run(b, viewport, touch, first) {
   check(await p.$$eval('#lib-ar a[href="#neo-modern/aristotle-metaphysics"]', (es) => es.length) === 1, `${tag}: the Aristotle shelf links to the Metaphysics in modern English`);
   await p.goto(base + "#neo-modern/aristotle-metaphysics/Metaph.I.9");
   await p.waitForSelector("#mc-Metaph\\.I\\.9");
-  check(await p.$$eval(".tg-mod", (es) => es.length) === 57 && /so far Books Α, α, Β, Γ and Δ/.test(await p.$eval(".tg-read", (e) => e.textContent)), `${tag}: the Metaphysics, fifty-seven chapters so far, saying which books`);
+  check(await p.$$eval(".tg-mod", (es) => es.length) === 78 && /so far Books Α, α, Β, Γ, Δ, Ε and Ζ/.test(await p.$eval(".tg-read", (e) => e.textContent)), `${tag}: the Metaphysics, seventy-eight chapters so far, saying which books`);
   check(/Book Α \(I\), chapter 9\. Against the Forms/.test(await p.$eval("#mc-Metaph\\.I\\.9", (e) => e.textContent)) && /Book α \(II\), chapter 1\./.test(await p.$eval("#mc-Metaph\\.II\\.1", (e) => e.textContent)), `${tag}: chapters are headed by the book's letter`);
   check(/Ross, Oxford \(1908\): “so is the reason in our soul to the things”/.test(await p.$eval("#mp-Metaph\\.II\\.1\\.p1", (e) => e.textContent)), `${tag}: a flag on Ross's "reason" for νοῦς`);
   await p.click("#mp-Metaph\\.I\\.1\\.p1 .mp-greek summary");
@@ -165,6 +165,16 @@ async function run(b, viewport, touch, first) {
   await p.click('[data-nm-mode="both"]');
   await p.waitForSelector(".mod-both .tg-tcol");
   check(/Taylor, The Metaphysics \(1801\), book v, chapter 6/.test(await p.$eval("#mc-Metaph\\.V\\.6 .tg-tcol", (e) => e.textContent)), `${tag}: Book Δ side by side with Taylor's own chapter`);
+  await p.click('[data-nm-mode="modern"]');
+  // Milestone 35m4: Books Ε and Ζ, the three theoretical sciences and the inquiry into substance; Taylor's Ζ has sixteen chapters.
+  await p.goto(base + "#neo-modern/aristotle-metaphysics/Metaph.VII.13");
+  await p.waitForSelector("#mc-Metaph\\.VII\\.13");
+  check(/Book Ε \(VI\), chapter 1\./.test(await p.$eval("#mc-Metaph\\.VI\\.1", (e) => e.textContent)) && /Book Ζ \(VII\), chapter 13\. No universal is substance/.test(await p.$eval("#mc-Metaph\\.VII\\.13", (e) => e.textContent)), `${tag}: Books Ε and Ζ are headed by their letters`);
+  check(/three theoretical philosophies, mathematics, natural science and theology/.test(await p.$eval("#mp-Metaph\\.VI\\.1\\.p4", (e) => e.textContent)), `${tag}: the three theoretical philosophies in modern English`);
+  check(/Ross, Oxford \(1908\): “what we may call theology”/.test(await p.$eval("#mp-Metaph\\.VI\\.1\\.p4", (e) => e.textContent)), `${tag}: a flag on Ross's "what we may call theology"`);
+  await p.click('[data-nm-mode="both"]');
+  await p.waitForSelector(".mod-both .tg-tcol");
+  check(/Taylor, The Metaphysics \(1801\), book vii, chapter 12/.test(await p.$eval("#mc-Metaph\\.VII\\.13 .tg-tcol", (e) => e.textContent)), `${tag}: Book Ζ side by side with Taylor's own chapter`);
   await p.click('[data-nm-mode="modern"]');
   await p.goto(base + "#metaphysics/980a");
   await p.waitForSelector("#toc a[href=\"#neo-modern/aristotle-metaphysics\"]", { state: "attached" });

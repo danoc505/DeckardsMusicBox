@@ -312,7 +312,7 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   Taylor's English exists; then Damascius and Hermias. Plotinus' other treatises have no Taylor to check against: check
   them against another public-domain translation, or label them so.
 
-## Milestone 35: modern English of Aristotle (35a, 35b, 35c and 35m1 to 35m3 done; the current focus, ahead of everything else; asked for by Daniel)
+## Milestone 35: modern English of Aristotle (35a, 35b, 35c and 35m1 to 35m4 done; the current focus, ahead of everything else; asked for by Daniel)
 
 - As milestone 27 did for the Neoplatonists, for Aristotle: a modern English version beside the Greek, with Modern /
   Side by side views, Taylor's words a tap away, each section with its gist, and Mark a sentence.
@@ -392,8 +392,21 @@ could do before. The school and curriculum ideas are left out as beyond the scop
       a flag or note says where. In this book δύναμις is "power" where Aristotle speaks of what can act or be acted on (V.12,
       V.15) and "potency" against actuality; ἕξις is "having" (V.20, first sense) or "state"; τέλειον "complete".
     - 35m4: Books Ε and Ζ (VI and VII), 21 chapters, 1025b-1041b: the divisions of theoretical science, being as accident
-      and as true; substance as essence, the universal and the Forms (Ζ 13-16), substance as cause. Next.
-    - 35m5: Books Η and Θ (VIII and IX), 16 chapters, 1042a-1052a: matter and form, potency and actuality.
+      and as true; substance as essence, the universal and the Forms (Ζ 13-16), substance as cause. Done: 21 chapters,
+      79 paragraphs (14 in Ε, 65 in Ζ), 50 flags (among them Ross's "what we may call theology", "will" for προαίρεσις,
+      "confectioner", "simple concepts and essences", "the individual" for τόδε τι, "abstract linguistic" for λογικῶς,
+      "intelligible" for γνώριμον, "the Idea of good" and "the ideal animal" for αὐτὸ τὸ ἀγαθόν and αὐτὸ ζῷον, "complete reality"
+      for ἐντελέχεια, "intuitive reason" for νόησις, "actual consciousness", "imperfect form" for πήρωμα, "in knowledge" against
+      his own 1924 γενέσει in VII.13, "genus and differentia of substance", "efficient" and "final" cause; Taylor's "dianoetic",
+      "formal cause" and "very nature of a thing" for τὸ τί ἦν εἶναι, "essence" for οὐσία, "a wooden triangle", "paradigm",
+      "from equivocals", "from induction" for ἔκθεσις, "energy", "capacity", "participated properties", and his note on matter
+      after Plotinus and Simplicius read into VII.3), with notes giving the Platonists' answers to Ζ 8 and 13-16 (Syrianus,
+      Proclus on participation and the unparticipated). `"done_books": [1, 2, 3, 4, 5, 6, 7]`. Taylor's Book Ε has three
+      chapters (his 3 = Bekker 3-4) and his Book Ζ sixteen (his 5 = Bekker 5-6, his 6-16 = Bekker 7-17), set with `@taylor`.
+      Ross's 1924 text moves 1029b3-12 to the end of VII.3; the Workshop's Greek follows it, and a note says so. Fixed
+      renderings added in the master copy's header: λογικῶς "in the manner of argument about words", τόδε τι "a this",
+      ἔκθεσις "setting out examples", ταὐτόματον "chance" and τύχη "luck".
+    - 35m5: Books Η and Θ (VIII and IX), 16 chapters, 1042a-1052a: matter and form, potency and actuality. Next.
     - 35m6: Books Ι and Κ (X and XI), 22 chapters, 1052a-1069a: the one and the many; the summary of Β, Γ, Ε and of the Physics.
     - 35m7: Book Λ (XII), 10 chapters, 1069a-1076a: the kinds of substance, the unmoved mover, the intellect that thinks
       itself, the spheres, the good of the universe; the summit of the course for the Platonists. One thread for this book alone.
