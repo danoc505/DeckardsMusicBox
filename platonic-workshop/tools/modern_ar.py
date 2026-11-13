@@ -68,6 +68,21 @@ TEXTS = {
                  "short titles and summaries are the Workshop's. The Platonists read the Categories first of all Aristotle's "
                  "works, after Porphyry's Introduction: it is about simple words as they signify things, by way of thoughts.",
     },
+    "aristotle-on-interpretation": {
+        "work": "ar017",
+        "slug": "on-interpretation",
+        "title": "On Interpretation in modern English",
+        "english": {"taylor-1812": "Taylor (1812)", "oxford-1928": "Edghill, Oxford (1928)", "owen-1853": "Owen (1853)"},
+        "taylor_title": "Taylor, On Interpretation (1812)",
+        "about": "A modern English version of Aristotle's On Interpretation, written for the Workshop. It modernises the public-domain "
+                 "English on the shelf, E. M. Edghill's in the Oxford translation (1928), checked sentence by sentence against "
+                 "the Greek, Bekker's text (Oxford, 1837) as First1KGreek gives it; where the old English and the Greek differ, the "
+                 "modern version follows the Greek, and where the OCR of Edghill's pages has lost a passage, it follows the Greek "
+                 "with Owen (1853) and Taylor (1812) beside it. Where an older English says something the Greek does not, or the "
+                 "Greek is hard, a flag shows the older words and the difference. The chapters are Bekker's; the short titles and "
+                 "summaries are the Workshop's. The Platonists read On Interpretation second, after the Categories: the Categories "
+                 "is about simple words, this work about words joined into statements that are true or false.",
+    },
 }
 
 

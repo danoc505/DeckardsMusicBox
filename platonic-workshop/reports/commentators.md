@@ -8,35 +8,35 @@ The text is First1KGreek's TEI of the *Commentaria in Aristotelem Graeca* (CC BY
 
 | Commentary | On | Pages | Greek words | Pages linked | Printed | Quoted | Pages missing from the file | Pages left out |
 |---|---|---:|---:|---:|---:|---:|---|---:|
-| Ammonius, On Porphyry's Introduction (`ammonius-isagoge`) | Porphyry's Introduction | 128 | 33,677 | 71 | 71 | 21 | none | 5 |
-| Olympiodorus, Prolegomena to the logic (`olympiodorus-prolegomena`) | philosophy, and Aristotle as a whole | 25 | 9,824 | 0 | 0 | 0 | none | 1 |
+| Ammonius, On Porphyry's Introduction (`ammonius-isagoge`) | Porphyry's Introduction | 128 | 33,677 | 71 | 71 | 21 | none | 25 |
+| Olympiodorus, Prolegomena to the logic (`olympiodorus-prolegomena`) | philosophy, and Aristotle as a whole | 25 | 9,824 | 0 | 0 | 0 | none | 5 |
 | Elias, Prolegomena to philosophy, and on Porphyry's Introduction (`elias-isagoge`) | Porphyry's Introduction | 104 | 34,193 | 44 | 0 | 59 | none | 0 |
 | David, Prolegomena to philosophy (`david-prolegomena`) | philosophy, and Aristotle as a whole | 79 | 29,578 | 0 | 0 | 0 | none | 0 |
 | David, On Porphyry's Introduction (`david-isagoge`) | Porphyry's Introduction | 140 | 45,420 | 64 | 0 | 80 | none | 0 |
 | Porphyry, On the Categories, by question and answer (`porphyry-categories`) | Categories | 89 | 29,902 | 53 | 0 | 72 | 54 | 0 |
-| Ammonius, On the Categories (`ammonius-categories`) | Categories | 106 | 28,071 | 75 | 23 | 72 | none | 38 |
+| Ammonius, On the Categories (`ammonius-categories`) | Categories | 106 | 28,071 | 75 | 23 | 72 | none | 228 |
 | Philoponus, On the Categories (`philoponus-categories`) | Categories | 205 | 65,881 | 142 | 0 | 176 | none | 0 |
-| Olympiodorus, On the Categories (`olympiodorus-categories`) | Categories | 123 | 49,509 | 82 | 0 | 102 | none | 1 |
+| Olympiodorus, On the Categories (`olympiodorus-categories`) | Categories | 123 | 49,509 | 82 | 0 | 102 | none | 5 |
 | Elias, On the Categories (`elias-categories`) | Categories | 149 | 56,235 | 63 | 0 | 72 | none | 0 |
-| Simplicius, On the Categories (`simplicius-categories`) | Categories | 438 | 167,759 | 136 | 0 | 165 | none | 2 |
-| Ammonius, On On Interpretation (`ammonius-interpretation`) | On Interpretation | 272 | 95,002 | 142 | 52 | 131 | none | 46 |
+| Simplicius, On the Categories (`simplicius-categories`) | Categories | 438 | 167,759 | 136 | 0 | 165 | none | 10 |
+| Ammonius, On On Interpretation (`ammonius-interpretation`) | On Interpretation | 272 | 95,002 | 142 | 52 | 131 | none | 230 |
 | Alexander of Aphrodisias, On the Prior Analytics, Book I (`alexander-prior-analytics`) | Prior Analytics | 417 | 157,771 | 336 | 259 | 222 | 66-67, 371-372 | 0 |
-| Ammonius, On the Prior Analytics, Book I (`ammonius-prior-analytics`) | Prior Analytics | 76 | 33,383 | 49 | 7 | 59 | none | 25 |
+| Ammonius, On the Prior Analytics, Book I (`ammonius-prior-analytics`) | Prior Analytics | 76 | 33,383 | 49 | 7 | 59 | none | 125 |
 | Philoponus, On the Prior Analytics (`philoponus-prior-analytics`) | Prior Analytics | 485 | 160,604 | 412 | 0 | 604 | none | 0 |
 | Philoponus, On the Posterior Analytics (`philoponus-posterior-analytics`) | Posterior Analytics | 424 | 137,315 | 331 | 0 | 369 | 161-176 | 0 |
 | Alexander of Aphrodisias, On the Topics (`alexander-topics`) | Topics | 587 | 182,118 | 504 | 440 | 215 | 14, 60-61, 540 | 0 |
 | [Alexander of Aphrodisias], On the Sophistical Refutations (`alexander-sophistical-refutations`) | Sophistical Refutations | 198 | 71,892 | 182 | 139 | 111 | none | 0 |
-| Simplicius, On the Physics (`simplicius-physics`) | Physics | 1,116 | 425,235 | 791 | 123 | 910 | 75, 552-800 | 1 |
-| Philoponus, On the Physics (`philoponus-physics`) | Physics | 908 | 299,660 | 622 | 395 | 438 | none | 1 |
+| Simplicius, On the Physics (`simplicius-physics`) | Physics | 1,116 | 425,235 | 791 | 123 | 910 | 75, 552-800 | 5 |
+| Philoponus, On the Physics (`philoponus-physics`) | Physics | 908 | 299,660 | 622 | 395 | 438 | none | 5 |
 | Simplicius, On the Heavens (`simplicius-de-caelo`) | On the Heavens | 731 | 262,695 | 485 | 27 | 582 | none | 0 |
 | Philoponus, On Generation and Corruption (`philoponus-generation`) | On Generation and Corruption | 314 | 105,657 | 258 | 260 | 51 | none | 0 |
-| Alexander of Aphrodisias, On the Meteorology (`alexander-meteorology`) | Meteorology | 227 | 84,373 | 188 | 85 | 133 | none | 1 |
-| Philoponus, On the Meteorology, Book I (`philoponus-meteorology`) | Meteorology | 131 | 52,778 | 104 | 84 | 37 | none | 29 |
+| Alexander of Aphrodisias, On the Meteorology (`alexander-meteorology`) | Meteorology | 227 | 84,373 | 188 | 85 | 133 | none | 5 |
+| Philoponus, On the Meteorology, Book I (`philoponus-meteorology`) | Meteorology | 131 | 52,778 | 104 | 84 | 37 | none | 145 |
 | Olympiodorus, On the Meteorology (`olympiodorus-meteorology`) | Meteorology | 338 | 110,766 | 215 | 0 | 264 | none | 0 |
 | Alexander of Aphrodisias, On the Soul (his own treatise) (`alexander-de-anima`) | On the Soul | 99 | 30,911 | 10 | 0 | 10 | 58 | 0 |
 | Alexander of Aphrodisias, Mantissa (supplement to On the Soul), with On the Intellect (`alexander-mantissa`) | On the Soul | 86 | 35,753 | 3 | 0 | 3 | none | 0 |
-| [Simplicius], On the Soul (`simplicius-de-anima`) | On the Soul | 329 | 136,117 | 287 | 0 | 333 | none | 1 |
-| Philoponus, On the Soul (`philoponus-de-anima`) | On the Soul | 606 | 235,740 | 422 | 0 | 492 | 24 | 1 |
+| [Simplicius], On the Soul (`simplicius-de-anima`) | On the Soul | 329 | 136,117 | 287 | 0 | 333 | none | 5 |
+| Philoponus, On the Soul (`philoponus-de-anima`) | On the Soul | 606 | 235,740 | 422 | 0 | 492 | 24 | 5 |
 | Alexander of Aphrodisias, On Sense and Sensibles (`alexander-de-sensu`) | On Sense and the Sensible | 173 | 50,815 | 120 | 61 | 80 | none | 0 |
 | [Philoponus], On the Generation of Animals (`philoponus-generation-animals`) | Generation of Animals | 249 | 94,784 | 232 | 148 | 174 | none | 0 |
 | Alexander of Aphrodisias, On the Metaphysics (`alexander-metaphysics`) | Metaphysics | 837 | 336,015 | 769 | 492 | 507 | none | 0 |

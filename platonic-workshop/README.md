@@ -359,7 +359,7 @@ and Olympiodorus on the First Alcibiades, proofread first in the same way, then 
 
 ![Plotinus I.2.3 in modern English, with Taylor's words beside](docs/reader-m27-modern-neo.png)
 
-**Milestone 35, modern English of Aristotle: the Categories done (35a).** Aristotle is being put into plain modern English, in the
+**Milestone 35, modern English of Aristotle: the Categories (35a) and On Interpretation (35b) done.** Aristotle is being put into plain modern English, in the
 Platonists' order of reading, one work or group of works a session (the sub-milestones 35a to 35n are in the ROADMAP). Where
 public-domain English is on the shelf, the modern version modernises it, checked sentence by sentence against the Greek, and
 follows the Greek where they differ; where there is none, it is made fresh from the Greek. First, the **Categories**, the first work
@@ -374,7 +374,12 @@ columns a tap away (each column opens the work there), each chapter Taylor's Eng
 `sources/translations/modern/aristotle-categories.txt`; `tools/modern_ar.py` checks it (every chapter of the Greek once, in order;
 every paragraph's Greek found in its chapter, in order, with the columns it lies on; every flag's words found in Taylor's chapter
 or in another English of the work on the shelf; the fixed renderings of `terms-greek.json`) and writes the JSON the reader shows and
-[`reports/modern_ar.md`](reports/modern_ar.md). `tests/test_modern_ar.py`, `tests/modern_ar_browser.js`. Next: On Interpretation (35b).
+[`reports/modern_ar.md`](reports/modern_ar.md). `tests/test_modern_ar.py`, `tests/modern_ar_browser.js`. Then **On Interpretation** (35b), the second work read: all fourteen
+chapters, 45 paragraphs, modernised from Edghill against Bekker's Greek (following the Greek, with Owen and Taylor beside it, where
+the OCR of Edghill's pages has lost a passage), with 11 flags: Taylor's "passions of the soul", "from compact", "illiterate sounds"
+and "energies"; Edghill's "actually true or actually false" in the sea battle chapter, where the Greek says "not yet true or false";
+his "every man is not" for "not every man is"; and his "primary substances" for the first, always actual substances of chapter 13.
+It opens at `#neo-modern/aristotle-on-interpretation`. Next: the Prior Analytics (35c).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,

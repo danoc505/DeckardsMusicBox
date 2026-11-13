@@ -50,7 +50,7 @@ TAYLOR_VOL1 = ROOT / "texts" / "taylor-1804" / "vol1"
 # Milestone 24: the Workshop's modern English of the Introduction and the Life, beside Taylor's (tools/modern.py).
 MODERN = ROOT / "sources" / "translations" / "modern"
 # Milestone 27: the Workshop's modern English of the Neoplatonists, from the Greek (tools/modern_neo.py), by text id.
-MODERN_NEO = ("plotinus", "proclus-alcibiades", "aristotle-categories")
+MODERN_NEO = ("plotinus", "proclus-alcibiades", "aristotle-categories", "aristotle-on-interpretation")
 # Milestone 35: the Workshop's modern English of Aristotle (tools/modern_ar.py), read with the same page as Proclus'.
 # Milestone 15: English for the Greek texts, the Workshop's own or a printed one paired with it.
 TRANSLATIONS = ROOT / "sources" / "translations"

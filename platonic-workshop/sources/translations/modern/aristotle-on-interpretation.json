@@ -1,0 +1,944 @@
+{
+ "schema": "platonic-workshop/modern-ar-v1",
+ "text": "aristotle-on-interpretation",
+ "kind": "aristotle",
+ "title": "On Interpretation in modern English",
+ "author": "Aristotle",
+ "by": "Workshop modern version",
+ "machine_assisted": true,
+ "label": "The Workshop's modern English, machine-assisted: drafted with an AI model (Claude) and not yet checked by a scholar. The Greek of each paragraph, and Taylor's English of each chapter, are one tap away.",
+ "made_from": "english and greek",
+ "work": "ar017",
+ "work_slug": "on-interpretation",
+ "greek_text": "ar017",
+ "greek_info": {
+  "title": "On Interpretation",
+  "edition": "Immanuel Bekker, Bekker (Oxford, 1837)"
+ },
+ "taylor_work": "texts/aristotle/on-interpretation/taylor-1812.json",
+ "taylor_title": "Taylor, On Interpretation (1812)",
+ "english": [
+  {
+   "file": "texts/aristotle/on-interpretation/taylor-1812.json",
+   "label": "Taylor (1812)"
+  },
+  {
+   "file": "texts/aristotle/on-interpretation/oxford-1928.json",
+   "label": "Edghill, Oxford (1928)"
+  },
+  {
+   "file": "texts/aristotle/on-interpretation/owen-1853.json",
+   "label": "Owen (1853)"
+  }
+ ],
+ "about": "A modern English version of Aristotle's On Interpretation, written for the Workshop. It modernises the public-domain English on the shelf, E. M. Edghill's in the Oxford translation (1928), checked sentence by sentence against the Greek, Bekker's text (Oxford, 1837) as First1KGreek gives it; where the old English and the Greek differ, the modern version follows the Greek, and where the OCR of Edghill's pages has lost a passage, it follows the Greek with Owen (1853) and Taylor (1812) beside it. Where an older English says something the Greek does not, or the Greek is hard, a flag shows the older words and the difference. The chapters are Bekker's; the short titles and summaries are the Workshop's. The Platonists read On Interpretation second, after the Categories: the Categories is about simple words, this work about words joined into statements that are true or false.",
+ "source": "sources/translations/modern/aristotle-on-interpretation.txt",
+ "treatises": [
+  {
+   "id": "Int",
+   "title": "On Interpretation",
+   "summary": "The second of Aristotle's works that the Platonists read, after the Categories. The Categories was about simple words; this work is about words joined into statements, which are true or false. It defines the noun, the verb, the sentence and the statement, and then the affirmation and the denial, and how they are opposed: as contradictories, one of which must be true and the other false, or as contraries, which cannot both be true but can both be false. Chapter 9 asks whether this holds of statements about single future events (\"there will be a sea battle tomorrow\"), and answers that it does not hold in the same way, since otherwise everything would happen of necessity and there would be no point in deliberating. The later chapters treat statements with \"not\" attached to the subject or the predicate, statements that combine several predicates, and statements of what is possible, contingent, impossible and necessary; the last chapter asks whether the contrary of a true belief is its denial or the belief in its contrary. The Greek title, Peri Hermeneias, means \"on expression\": how thought is put into speech.",
+   "chapters": [
+    "Int.1",
+    "Int.2",
+    "Int.3",
+    "Int.4",
+    "Int.5",
+    "Int.6",
+    "Int.7",
+    "Int.8",
+    "Int.9",
+    "Int.10",
+    "Int.11",
+    "Int.12",
+    "Int.13",
+    "Int.14"
+   ]
+  }
+ ],
+ "chapters": [
+  {
+   "id": "Int.1",
+   "treatise": "Int",
+   "title": "Words, thoughts and things; truth comes with combination",
+   "summary": "Spoken words are signs of what the soul undergoes, and written words are signs of spoken ones. Words differ between peoples, but the experiences of the soul, and the things they are likenesses of, are the same for all. Single words are like thoughts without combination: neither true nor false until \"is\" or \"is not\" is added.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Chapter 1",
+     "text": "In the first place, it is necessary to determine what noun and verb are ; and in the next place^ what negation, affirmation, enunciation, and a sentence are. Those things, therefore, which are in the voice, are symbols of the passions of the soul ; and those things which are written are symbols of the passions in the voice. And as there are not the same letters among all men, so neither are there the same voices, or articulate sounds. The passions of the soul, however, of which these are- primarily the signs, arc the same among all men ; and the things- of which these are the similitudes are also the same. Concerning these, therefore,, we have spoken in the treatise On the Soul ; for these belong to another discussion ^ But as in the soul, a conception is at one time without truth. truth or falsehood, but at another time it is that in which one of these is necessarily inherent; thus also it is in voice, or articulate sound. For For the false and the true are conversant with composition and division. Nouns and verbs, therefore, are assimilated to the conception which is without composition and division ; such, for instance, as man, or white,, when something is not added; for then it is neither true nor false. Of which this is an indication, that the word tragelaphos signifies, indeed, something, but not yet any thing true or false, unless to be or not to be is added, cither simply, or according to time V"
+    }
+   ]
+  },
+  {
+   "id": "Int.2",
+   "treatise": "Int",
+   "title": "The noun",
+   "summary": "A noun is a sound that signifies by convention, without time, no part of which signifies on its own. \"By convention\" because no noun is a noun by nature: animals' cries mean something but are not nouns. \"Not-man\" is an indefinite noun; \"of Philo\", \"to Philo\" are cases of a noun, not nouns.",
+   "taylor": [
+    {
+     "n": 2,
+     "label": "Chapter 2",
+     "text": "A NO UK, therefore, is^ a sound significant from compact, without time, of which no part taken separately is significant. ThuB in the noun KaUippoSf ippos signifies nothing by itself, as it docs in the sentence kalos ippos (i. e. a beautiful horse). Nor is it in simple nouns as it is in those that are conjoined. For in the former a part is by no means significant ; but in the latter, a part wishes, indeed, to be significant, yet signifies nothing separately. Thus in the word Epakirokeles^ /re/es signifies nothing by itself. But I say, according to compact^ because no name or noun is from nature, but when it is fabricated is a symbol. For illiterate sounds also signify something, such as the sounds of beasts, of which there is no noun^. Not /wan, however, is not a noun^. Neither is a name instituted by which it ought to be called ; for it is neither a sentence, nor a negation. J Jut let it be an indefinite uoun, because it is similarly inherent as well in that which is, as in that which is not^. PhilonoSj however, or Philoni, and such like words, arc not nouns, but cases of a noun ?. But the definition of it, (i. e. of the case of a noun) is as to other things the same ; [with the definition of of a noun]. Because, however, in conjunction with [the verb] is, or teas, or ivill be, it docs not signify what is true or false, and a noun always [signifies this, hence] it differs [from a noun]. For instance, Fhilonos is, or is not ; since this docs not yet signify cither what is true, or ^vhat is false."
+    }
+   ]
+  },
+  {
+   "id": "Int.3",
+   "treatise": "Int",
+   "title": "The verb",
+   "summary": "A verb also signifies time, no part of it signifies on its own, and it always signifies something said of something else. \"Is not-healthy\" is an indefinite verb; \"was healthy\", \"will be healthy\" are tenses of the verb. A verb said by itself is a kind of noun: it signifies something, but not yet that anything is or is not.",
+   "taylor": [
+    {
+     "n": 3,
+     "label": "Chapter 3",
+     "text": "A VERB is that Avhich in addition to something else signifies time; of Avhich no part is significant ; and it is always an indication of those things which arc asserted of something else^ But I say that in addition tion to something else it signifies time. Thus, for instance, health is a noun ; but is well is a verb ; for it signifies in addition to being wellj that health is 7zow inherent. And it is always an indication of those things which are asserted of something else ; as, for instance, of those thing which are predicated of a subject, or which are in a subject 9. I do not, however, call i$ not nelly and is not ill^ verbs. For they signify, in deed, time in addition to something else, and they are alwaj's [an indication] of something ; but a name is not given to this differenceBut let them be indefinite, verbs, because the}' are similarly inherent^ both in whatever exists, and whatever does not exist In like manner^ I do not call, was well, and will be welly verbs, but cases of a verb. But they differ from a verb ; because the one, indeed, (i. e. a verb) signifies in addition to something else the present time; but the others, that which is about the present time. Verbs, therefore, so called by them selves, are nouns ^, and signify something; (for he who pronounces [some verb] stops the discursive power [of the hearer,] and he who hears acquiesces,) but they do not yet signify whether a thing is or is not ^. For neither is to ic, or not to hCy an indication of a thing ^; nor if you should say that zchich is merely being; [will it be an indication of any thing] for that is nothing 7. Tliey signify, however, in addition to something else, a certain composition ^ without wliich it is not possible to understand composites."
+    }
+   ]
+  },
+  {
+   "id": "Int.4",
+   "treatise": "Int",
+   "title": "The sentence; only some sentences are statements",
+   "summary": "A sentence is a meaningful sound some part of which means something on its own, as an expression but not as an affirmation. Every sentence signifies by convention, but only those that are true or false are statements. A prayer is a sentence but neither true nor false: such sentences belong to rhetoric and poetry.",
+   "taylor": [
+    {
+     "n": 4,
+     "label": "Chapter 4",
+     "text": "A SENTENCE, howevcf, is voice significant according to compact, of which a certain part is significant considered separately 9.. [It signifies indeed] as a word, but not as affirmation or negation. But I say, as, for instance, man signifies something, but not that it is, or is not ^ It will be, however, affirmation or negation, if any thing is added to it ^ But one syllable of the word av^^oiroi (i. e. man) is not [significant]. For neither in the word mtis (a mouse) is us significant, but it is now sound articulate alone. In double words, however, [a part] signifies, indeed, isomething, but not by itself, as we have before observed. But every sentenceis, indeed, significant, not as an instrument, but as we have said, according to compact. Not every sentence, however, is enunciative, but that in which truth or falsehood is inherent ; but these are not inherent in every sentence. Thus, for instance, a |?raj(cr, is, indeed, a sentence, but is neither true nor false. The consideration, therefore, of other sentences must be omitted ; because it is more adapted to rhetoric or poetry. But an enunciative sentence belongs to the present theory^."
+    }
+   ]
+  },
+  {
+   "id": "Int.5",
+   "treatise": "Int",
+   "title": "One statement and many; simple and compound",
+   "summary": "The first single statement is the affirmation, then the denial; others are one by being joined. Every statement needs a verb or a tense of a verb. A statement is one if it makes one thing plain, or is one by a connective. A noun or verb alone is only an expression. A simple statement says that something belongs or does not belong, in some time.",
+   "taylor": [
+    {
+     "n": 4,
+     "label": "Chapter 4",
+     "text": "A SENTENCE, howevcf, is voice significant according to compact, of which a certain part is significant considered separately 9.. [It signifies indeed] as a word, but not as affirmation or negation. But I say, as, for instance, man signifies something, but not that it is, or is not ^ It will be, however, affirmation or negation, if any thing is added to it ^ But one syllable of the word av^^oiroi (i. e. man) is not [significant]. For neither in the word mtis (a mouse) is us significant, but it is now sound articulate alone. In double words, however, [a part] signifies, indeed, isomething, but not by itself, as we have before observed. But every sentenceis, indeed, significant, not as an instrument, but as we have said, according to compact. Not every sentence, however, is enunciative, but that in which truth or falsehood is inherent ; but these are not inherent in every sentence. Thus, for instance, a |?raj(cr, is, indeed, a sentence, but is neither true nor false. The consideration, therefore, of other sentences must be omitted ; because it is more adapted to rhetoric or poetry. But an enunciative sentence belongs to the present theory^."
+    },
+    {
+     "n": 5,
+     "label": "Chapter 5",
+     "text": "many enunciative sentences, are either those which signify many things/ and not one thing^, or which arc without conjunction. Let, therefore, a noun or a verb be a word alone ^ ; since it cannot be said that he who^ thus renders any thing manifest by articulate sound, enunciates, whether he is 7 interrogated by any one or not, but that he speaks from deliberate intention. But of these, one, indeed, is a simple enunciation, as, for instance, something of something ®, or something from something!); but another is composed from these, as a certain sentence which is now a composite. Simple enunciation, however, is sound significant about something being inherent, or not being inherent, according as times are divided."
+    }
+   ]
+  },
+  {
+   "id": "Int.6",
+   "treatise": "Int",
+   "title": "Affirmation, denial, contradiction",
+   "summary": "An affirmation states something of something, a denial states something away from something. Since one can state what belongs as not belonging, and so on, every affirmation has an opposite denial, and every denial an opposite affirmation. Such a pair is a contradiction: the same thing affirmed and denied of the same thing.",
+   "taylor": [
+    {
+     "n": 6,
+     "label": "Chapter 6",
+     "text": "Since, however, it is possible to enunciate that which is inherent as if it were not inherent ; that which is not inherent as if it were inherent ; that which is inherent as if it were inherent; and that which is not inherent as if it were not inherent; and in a similar manner about the times which are external to the present ; — this being the case, it is possible tliat whatever any one affirms may be denied, and that whatever any one denies may be affirnied, Ilcnce it is evident, that there is a negation opposite to every affirmation, and an affirmation opposite to every negation. And let this be contradiction; affirmation and negation being opposites. But I say, that the enunciation of the same thing is opposed respecting the same thing, but not homonymously, and such other particuhirs of this kmd, as we have concluded against sophistical importunities^."
+    }
+   ]
+  },
+  {
+   "id": "Int.7",
+   "treatise": "Int",
+   "title": "Universal and individual; contraries and contradictories",
+   "summary": "Some things are universal, some individual. Universal statements made universally (\"every man is white\", \"no man is white\") are contraries and cannot both be true. \"Every man is white\" and \"not every man is white\" are contradictories: one must be true and the other false. Statements about a universal not made universally (\"a man is white\", \"a man is not white\") can both be true. Each affirmation has one denial.",
+   "taylor": [
+    {
+     "n": 7,
+     "label": "Chapter 7",
+     "text": "Since, hoAvever, of things some are universals, but othei-s particulars ; (but I call that universal which is naturally adapted to be predicated of many things, but that particular which is not adapted to be so predicated ; as man is a universal, but Callias a particular) it is necessary to enunciate that something is inherent or is not inherent, at one time in something univei'sal, but at another in something particular, lt\\ therefore, any one universally enunciates of that which is universal, that something is inherent, or is not inherent, these enunciations will be contrary 7. But I say, to enunciate univei'>sally of that which is uni. . versal; verjial ; as, for iiistancc, every man is wliilo, no man is white. But when he enunciales of things nnivei-sal not universally ^ these arc not contrary. The things signified 9, may, however, sometimes be contrary. But I say, to enunciate not universally of things universal; as, for instance, uran is white, man is not white. For man being a universal, is notusied as a universal in the enunciation ; since the word every ^ does not signify universal, but [shows that the subject] is universally [assumed]. Of that, however, Avhich is universally predicated, the universal predicate is not true. For no affirmation will be true, in which the universal is predicated of that which is universally predicated «; as for instance, every man is every animal. I say, therefore, that affirmation is opposed to negation contradictorily ; the affirmation which signifies a universal, to that which signifies that the same is not to be universally assumed ; as every man is white, not every man is white ; no man is white, some man is white. But the affirmation of a universal, and the negation of a univci'sal, are opposed contrarily ; as every man is white, no man is white ; ever}*^ man is just, no man is just. Hence it is impossible that these should be at one aiid the same time true. It may sometimes, however, happen, that the opposites to these, are co- verified in the same thing ; as, not every man is white, and some man is white. Of such contradictions, therefore, of universals as arc universally made, it is necessary that one of them should be true or false <5; and also such as are of particulars; as, Socrates is white, Socrates is not white. But with respect to such contradictions as are of universals, indeed, yet are not universally made, the one is not always true, but the other false 7. For at one and the same time it may be truly said, man is white, and man is not white; and man is beautiful, and man is not beautiful ; for if he is deformed he is not beautiful; and if any thing is becoming to be, it is not. This, however, may immedU ately appear to be absurd \\ because this assertion, man is not white^ seems at the same time to signify the same thing, as no man is whiter It neither, however, necessarily signifies the same thing, nor at the same time. iiiit it is evident, that there is one negation of one affirmation ; for it is necessary that the same tiling (i. e. the attribute) should deny the negation which affirmation affirmed ; and also from the same, (i e. subject) viz. either from some particular, or some universal, either as universal ^ or as not univei'saP. T say, as, for instance, Socrates is white, Socrates is not white. But if there is something else from the same, or the same thing from something clse^, that [enunciation] will not be opposite, but different from it. To this [enunciation], however, every man is white, the enunciation, not every man is white, [is opposed]. But to this, a certain man is white, the enunciation is opposed, no man is white. And to this, man is white, the enunciation is opposed, man is not white. And thus we have shown that one affirmation is contradictorily opposed to one negation, and also what these are. Wc have likewise shown that there are other contraries, and what they arc ; and that not every contradiction is true or false, and why it is not, and when it is true or false."
+    }
+   ]
+  },
+  {
+   "id": "Int.8",
+   "treatise": "Int",
+   "title": "A statement is one when it signifies one thing of one thing",
+   "summary": "An affirmation and denial are one if they signify one thing of one thing. If one name is given to two things that do not make one, as if \"cloak\" meant both horse and man, then \"a cloak is white\" is not one statement but two, and its contradiction need not have one true and one false member.",
+   "taylor": [
+    {
+     "n": 8,
+     "label": "Chapter 8",
+     "text": "The affirmation, however, and also the negation is one, which signifies one thing of one, either universal, if it is as universal, or similarly, if it is not. For instance, every man is white, not every man is white ; man is white, man is not white; no man is white, some man is white; if that which is white signifies one thing. Bui if one name is given to two things, from which there is not one thing ^; there is not one affirmation, nor one negation. Thus, if any one should give the name of ^arment to a horse and to a man, the affirmation will not be one, that the garment is Avhitc, nor will the negation of it be one. Fortius in no respect diffei-s from saying, that a man and a horse are white ; and this in no respect differs from saying a man is white, and a horse is white. . If therefore these [enunciations] signify many things, and are many; it-is evident that the first enunciation ^ also either signifies many things «, or nothlng9; for some man is not a horse. Hence, neither in these is it necessary that one should be a true, but the other a false contradiction."
+    }
+   ]
+  },
+  {
+   "id": "Int.9",
+   "treatise": "Int",
+   "title": "Statements about the future: the sea battle",
+   "summary": "Of what is or has been, one member of a contradiction must be true and the other false. If this held equally of individual future events, everything would happen of necessity and deliberation would be pointless. But we see that deliberating and acting are sources of what will be, and that many things can both be and not be. So it is necessary that there either will or will not be a sea battle tomorrow, but not necessary that there will be one, nor that there will not.",
+   "taylor": [
+    {
+     "n": 9,
+     "label": "Chapter 9",
+     "text": "In those things, therefore, which are, and in those which are becoming to be, or passing into existence, it is necessary that affirmation or negation should be true or false; and in universals, indeed, as univer versals, that always the one should be true, but the other false ; and ^ also in particulars, as we have shown. But in univcrsals not univcr sally pronounced this is not necessary ; concerning which also we have spoken^ Tliis, however, is not^ similarly the case in things partieular and future. For if every ^ affirmation or negation is true or false, it is also also necessary tlmt every thing should exist, or should not exist. For if one person says that something, will be, but another says it will not be; be ; it is evident that one of them necessarily speaks truly, if every affirmation or negation is true or false ; since both will not subsist at one and and the same time in things of this kind. Thus, if it is true to say that a thing is white, or that it is not wliite, it is necessary that it shouUl be white, -white, or not white. And if it is white, or not white, it was true to aflirm or deny [that it is white, or not white]. Also if it is not, it is falsely falsely said to be so ; and if it is falsely said to be so, it is not. Hence it is necessary, that either afllrmation or negation should be true or false. Nothing, Tsothing, therefore, either is, or is generated (i. e. is beconiing to be) cither fortuitously, or casually, nor will it be or not be, but all things arc from necessity, and not casually, or in any manner whatever. For either he Avho affirms says truly, or he who denies; since otherwise, it might^ similarly be generated or not be generated. For that which subsists casually, does not more subsist, or will not more subsist in this way than in that^. Again, if a thing is now white, it was true to say before, that it will be white; so that it was always true to say, of any thing which is in generation or becoming to be, that it is, or will be ; and it is not possible that this is not or will not be. But. with respect to that which it is impossible should not pass into existence, it is impossible that it should not be generated. And with respect to that which cannot not be generated, it is necessary that it should be generated. It is necessary, therefore, that all things that will be should be generated. And hence nothing will be casual, nor subsist fortuitously; for if fortuitously, it will not be from necessity. Nor can it be said that neither of them is true ; as, for instance, that it neither will be, nor will not be. For ia the first place, the affirmation being false, the negation will not be true; and this being false, it will happen that the affirmation is not true. And, besides, if it was true to say, that a thing is white and at the same time great, it is necessary that both should exist. But [if it was true to say] it will be to-morrow, it is necessary that it should be to-morrow. And if [it was true to say] it neither will be, nor will not be to-morrow, it will not be that which may happen casually, or in any way ; as, for instance, a naval engagement. For it would be requisite that a naval engagement should neither take place, nor should not take place. These, therefore, and other such like absurdities will happen, if of every affirmation and negation, either in things univeisal consi-^ dered as universal, or in particulars, it is necessary that the one of oppositcs should be true, and the other false j viz. that nothing in things generated will be casual, but that all things will be, and will be generated from necessity. Hence it will neither be requisite to consult, nor to be busily employed ; so as that if we do this particular thing, something defmite will take place ; but if not, it v/ill not take place. For nothing hinders, but that one person may for ten thousand years assert that this will t^ike place, and that another person may assert that it will not ; so that from necessity it will come to pass, that it was then true to assert either of them. Nor is it of any consequence whether some person should utter a contradiction, or should not. For it is evident that the things thus subsist, although the one should not affirm any thing, but the other should deny it For not because a thing is affirmed or denied, will it, therefore, be or not be ; nor will it more be or not be for ten thousand yeai-s, than for any time whatever. Hence if a thing will thus subsist in every time, that it will be true to assert the one of these, it was necessary that this should take place ; and every thing generated will always so subsist, as that it will be generated from necessity. For when any one truly says that it will be, it is not possible that it should not be generated ; and with respect to that which is generated, it was always true to say, that it will be. But these things are impossible. For we see that there is a beginning of things which will be, from our deliberating and acting ; and, in short, we see in things which do not always energize, that there is a power of similarly being and not being, in which both may happen, viz. to be and not tobej so that also they may be generated, and may not be generated. And many things are manifest to us which thus subsist. Thus, for instance, it is possible that this garment may be cut in pieces, and it may not be cut in pieces, but prior to this may be worn out. In like manner also, it is possible that it may not be cut in pieces ; for it would not prior to this have been worn out, unless it had been possible that it might not be cut in pieces. [The same thing, therefore], must also be said in other generations, which are spoken of according to a power of this kind. Hence it is evident, that all things neither are, nor arc generated, or becoming to be, from necessity ; but that some things have a casual subsistence, and that afBrmatiou respecting them is not more true than negation ; and that there arc® other things in which one of these subsists more frequently, and for the most part, and yet it may happen that the one of these may take place, but the other nots>. It is necessary, therefore, that being should be when it is, and that non-being should not be, when it is not. It is not, however, necessary either that every being should be, or that non-being should not be. For it is not the same thing for every being to be from necessity, when it is, and simply to be from necessity. And the like must be asserted of non-being. There is also the same reasoning in contradiction. For it is necessary that every thing should either be or not be, and also that it will be, or will not be. Yet it is not necessary to speak of one of them separately. I say, for instance, it is necessary, indeed, that there will be or will not be a naval engagement to-morrow, yet it is not necessary that there should be a naval engagement to-morrow, nor that there should not be. It is necessary, however, that it should either be or not be. Hence, since assertions and things are similarly true, it is evident that in things which so subsist, that in whatever manner they may happen to be, contraries may also happen, it is necessary that contradiction should likewise subsist in a similar manner ; which happens to be the case, in things which are not always; or which not always are not. For of these it is necessary that one part of the contradiction should be true or false; not, however, this thing or that, but just as it may happen. It is also necessary that the other^ part should be more true ; yet it is not necessary that it should now be true or false. Hence it evidently is not necessary that of every affirmation and negation of opposites, the one should be true, but the other false ^. For the like does not take place in things which are not indeed, but which either may be, or may not be, as in things which are ; but it happens as we have said."
+    }
+   ]
+  },
+  {
+   "id": "Int.10",
+   "treatise": "Int",
+   "title": "Statements with \"not\" in the subject or the predicate",
+   "summary": "Every affirmation is made of a noun or indefinite noun and a verb. With \"is\" alone there are pairs like \"man is\" and \"man is not\", \"not-man is\" and \"not-man is not\". With \"is\" as a third element (\"a man is just\") there are four statements, and four more with \"not-man\" as subject. \"Every\" shows only that the subject is taken universally. Changing the order of noun and verb does not change the statement.",
+   "taylor": [
+    {
+     "n": 10,
+     "label": "Chapter 10",
+     "text": "Since, however ♦, affirmation signifies something of something, and this is either a noun, or anonymous^; but it is necessary that what is in affirmation should be one things, and of one thing; all affirmation and L negation, will be either from a noun and a verb, or from an indefinite noun and verb. But what a noun is, and what the anonj^mous, has been shown by ns before. For I do not call not-man a noun, but an indefinite noun ; since an indefinite noun in a certain respect signifies one thing®; just as is not zcdl, is not a verb, but an indefinite verb But without a verb there is no affirmation nor negation. For it is, or it will be, or it was, or it is becoming to be, and other things of the like kind arc verbs, [as is evident] from what has been before asserted ; since in addition to something else they signify time. Hence thc^ first affirmation and negation will be, man is, man is not ; and afterwards, non-man is, non-man is not. Again, every man is, every man is not, every non-man is, every non-man is not; and there is the same reasoning in external times. But when [the verb] is is additionally predicated as the 2 third thing, then the oppositions are said to subsist doubly. I say, for instance, a man is just: for here the word w, is, I say, composed as tlie third thing in this affirmation, whether it be [called] a noun or a verb. Jlcnce, on this account, these will be four, of which two, indeed, will subsist with reference to affirmation and negation, accordincy to the order of consecution, as privations, but two will not,^ But I say that [the verb] is cither is added to the just, or to the non-just; and, therefore negation also is added. Hence there will be four. We shall understand, however, what is said from the underwritten [examples] : a man is just; the negation of this is, a man is not just. He is not a just man ; of this the negation is, he is not not a just man. For lierc the [verb] is and is not are added to the just, and the not just. These, therefore, as we have shown in our Analytics arc thus ar ranged.\n\nThe like also will take place if the affirmation is of a noun^ univer sally considered. For instance, every man is just : of this the negation is, not every man is just. Every man is not just, not every man is not just ; except that it does not similarly happen that those which are diametrically opposed are co-verified 7. Sometimes, however, this happens^ to be the case K These two, therefore, arc opposed to each other. But the other two [are similarly opposed to each other], with respect to jion-man, as to a certain added subject. Thus, for instance, non-man is just, non-man is not just. That is not just which is not man, that is not not just which is not man. There are not, however, more oppositions than these. But these separate from those, will be themselves by themselves, as using the noun not-man. But in those in which [the verb] is is not adapted, as in [the verbs] to be well and to zmlk, in these it effects the same when thus posited, as if [the verb] is were added. Tlius, for instance, every man is well, every man is not well, every non-man is well, every non-man is not well. For it must not be said, not every man, but the negation not must be added to man. For eve7y does not signify the universal, but that [a thing is assumed universally]. But this is evident from what follows : a man is well, a man is not well ; non-mail is well, non-man is not well. For 9 these differ from those, because they are not universally [assumed]. Hence every^ or no one signifies nothing else than that affirmation or negation is of a noun universally [assumed]. It is necessary, therefore, to add other things in the same manner 2. But because to this [affirmation] every animal is just, the negation is contrary, signifying that no animal is just, it is evident that these will never be at the same time true, nor in the same ; but the cpposites to these will be sometime or other [at one and the same time] true. Tlius, for instance, not every animal is just, and some animal is just. But these follow : This indeed, no man is just follows that every man is not just; but the opposite, viz. some man is just, follows this, not every man is not just ; for it is necessary that some man should be just. It is evident, however, in particulars, that if any one being in terrogated truly denies, [that which he denies] is also truly affirmed For instance, is Socrates a wise man ? No. Socrates, therefore, is no a wise man. But in universals [the affirmation] is not true, which similarly asserted ; but the negation is true. For instance, is every man wise ? No. Every man, therefore, is not wise. For this is false. But this, not every man, therefore, is wise, is true. And this is opposite, but that contrary. But the opposites according to indefinite nouns and verbs, such as non-man, and non-just, may appear to be as it were negations without a noun and verb. They are not, however. For it is always necessary that negation should be either true or false. But he who says non-man does not speak more truly or falsely, but less so, un less something is added. This assertion, however, every non-man is just, docs not signify the same thing as some one of those [former enuncia lions] ; nor the opposite to this, viz. not every non-man is just. But this assertion, every one not just is not a man, is the same with this, no one is just who is not a man. Nouns and verbs, however, when transposed signify the same thing. For instance, he is a white man^ he is a man white. For unless it is so, there will be many negations of the same thing. It has been sliown, however, that there is one negation of one thing. For the negation of this assertion, he is a white man, is, he is not a white man. But of this assertion, he is a man white, unless it is the same with the enunciation he is a white man, the negation will either be, he is not not a man white, or he is not a man white. But the one is a negation of this, he is not a man white, and the other of this, he is a white man. It is evident, therefore, that a noun and verb being transposed, there will be the same affirmation and negation."
+    }
+   ]
+  },
+  {
+   "id": "Int.11",
+   "treatise": "Int",
+   "title": "When several predicates make one statement",
+   "summary": "Affirming one thing of many, or many of one, is one statement only if the many make up one thing (\"two-footed tame animal\"), not if they do not (\"white walking man\"). So a question about many is not one dialectical question. Predicates true separately are not always true combined: a man may be good and a cobbler without being a good cobbler. What is accidental, or already contained in the other, does not combine.",
+   "taylor": [
+    {
+     "n": 11,
+     "label": "Chapter 11",
+     "text": "To affirm and deny, however, one thing of many things, or many things of one thing, unless that is one certain thing which is manifested from the many, is not one affirmation, nor one negation. But I say one, not if one name is given to many things, nor if one thing is produced from them. Thus, for instance, man is perhaps an animal, a . biped, and mild ; but one thing is produced from these. But from white, man, and to walk, one thing is not produced. Hence, neither if any one affirms one certain thing of these, is there one affirmation ; but there is one articulate sound, indeed, and many affirmations : nor if [he should affirm] these of one thing, [is there one affirmation] but there are similarly many [affirmations]. If, therefore, dialectic interrogation, is the request of an answer, either of a proposition, or of the other part of a contradiction; but a proposition is a part of one contradiction ; there will not be to these things one answer, for neither is there one interrogation, not even if it is true. About these things, however, we have spoken in the Topics. But it is at the same tinie evident, that the question what is it, is. not a dialectic interrogation. For it is necessary that a choice should be given from the interrogation of enunciating this or that part of the contradiction J but it is requisite that the interrogation should first define whether this part:c:i\\.i ti.u-^ is a man, or not this particular thing. Since, however, of things which are separately predicated, some are predicated as composites, so that the whole that is predicated becomes one thing, but others are not, what is the diflbrerice ? For of man it is true to assert separately animal, and separately biped ; and these as one thing : and also man and white, and these as one thing. But if he is a shoemaker and a good man, he is not also a good shoemaker. For if, because each of them [separately] is true, it is also necessary that both should be at the same time true, many absurdities will follow. For of a man, man and white are truly asserted, so that the whole also is truly asserted. Again, if the same thing is white, the whole also is white ; so that it will be a raaa white white, and this to infinity. And again, a musician white walking; and these frequently conjoined to infinity. Farther still, if Socrates is Socrates and man ; Socrates also is Socrates man. And if he is man and biped, he is also man biped. It is evident, therefore, that if any one says conjunctions are simply produced, many absurdities must be said to happen. Let us, however, now show how they are to be placed Of things, therefore, which are predicated, and of those things to which it happens to be predicated, such things as are said from accident, either of the same, or the one of the other, these will not be one ; as, for instance, man is white, and a musician. But whiteness and music are not the same thing; for both are accidents to the same thing. Nor though it should be true to say that what is white is a musician, yet at the same time, musical white will not be one thing ; for that which is white is a musician from accident ; so that white musical will not be one thing. Hence neither [if a man is a shoemaker and a good man] is he simply a good shoemaker ; but [if he is an animal and a biped, he is rightly called] a biped animal, because [these] are not [predicated] from accident Again, neither are such things as are inherent in another [to be added]; and hence neither is whiteness to be frequently [adduced]. Nor is a man a man animal, or [a man] biped ; for animal and biped are inherent in man. It may, however, be truly asserted and simply of some one ; as, for instance, that a certain man is a man ; \\ or that a certain white man is a white man ; but this cannot always be [ asserted. But when in the adjunct, something of opposites is inherent, [ from which contradiction follows, then it is not true but false ; as if, for instance, a dead man should be said' to be a man. When, however, [something repugnant] is not inherent, then it is true. Or shall we say that when [something repugnant] is inherent, it is always not true? But when it is not inherent, it is not always true ? As Homer is something, for instance, a poet. Is he, therefore, or is he not ? For the verb 2^ is predicated of Homer from accident; since is is predicated of Homer, because he is a poet, but is not predicated per se, or essentially. Hence in those categories in which contrariety is not inherent, if definitions are asserted instead of nouns, and are predicated essentially, and not from [ accident ; in these, that which is some particular thing, may also be truly said to be simply such. But non-being because it is an object of opinion, cannot be truly said to be a certain being ; for the opinion of it is, not that it is, but that it is not."
+    }
+   ]
+  },
+  {
+   "id": "Int.12",
+   "treatise": "Int",
+   "title": "The denials of \"possible\" and \"necessary\"",
+   "summary": "How are statements of the possible, the contingent, the impossible and the necessary opposed? As the denial of \"to be a man\" is \"not to be a man\", not \"to be a not-man\", one might think the denial of \"possible to be\" is \"possible not to be\". But the same thing can be and not be, and contradictories cannot both be true; so the denial is \"not possible to be\". \"Possible\", \"necessary\" and the rest are the additions that make the affirmation and the denial; \"to be\" and \"not to be\" are their subject.",
+   "taylor": [
+    {
+     "n": 12,
+     "label": "Chapter 12",
+     "text": "These things, however, being determined, let us consider how the afiinnations and negations of that which is possible to be and not possible subsist ^Yitll reference to each other ; and let us also consider the contingent and non-contingent, the impossible and the necessary. For [this consideration] is attended with certain doubts. For if among things connected, those contradictions arc opposed to each other, which are arranged according to the verb to be, and not to be ; (as, for instance, the negation of .tliis, to be a man, is, not to be a man, and not this, to be not a man ; and the negation of this, to be a white man, is, not to be a white man, and not this, to be not a white man ; for if of every thing affirmation or negation is true, it will be true to say that wood is not a white man) — if this be the case, in those things in which the verb to be is not added, that which is asserted instead of the verb to be,, will eflfcct the same thing. Thus, for instance, of this affirmation a man walks, the negation will not be, that which is not a man walks, but a man does not walk. For it makes no diftcrence to say a man walks, or a man is walking. Hence, if this is every where the case, the negation also of this, it is possible to be, will be, it is possible not to be, and not this, it is not possible to be. But it appears that it is possible for the same thing both to be and not to be. For every thing which may be cut, or which may walk, may also not be cut, and may not walk. But the reason is, because every thing which is thus possible, does not always energize ; so that negation also pertains to it. For that which is capable of walking may not walk, and that which is visible may not be seen. It is, however, impossible that opposite affirmations and negations should be verified of the same thing. Hence the negation of this,, it is possible to be, is not this, it is possible not to be. For it happens from these things, cither that we at the same time affirm and. deny the same thing of the same, or that the affirmations and negations are not made according to those additions to be, and not to be. If, therefore, that is impossible, this will be eligible. Hence, the negation of this, it is possible to be, is, it is not possible to be, and not this, it is possible not to be. There is also the same reasoning about the being contingent ; for the negation of this is, not to be contingent. In a similar manner also in other things ; as, for instance, in the necessary and impossible. For as in those, to be, and not to be are additions, but whiteness and man are subject things ; so here, to be and not to be, become as a subject; but to be possible and to be contingent are additions, which in these [enunciations] indeed, to be possible, and to be not possible, so determine the true and the false, as in those to be, and not to be. But of this, it is possible not to be, the negation is not this, it is not possible to be, but this, it is not possible not to be. And of this, it is possible to be, the negation is not this, it is possible not to be, but this, it is not possible to be. Hence, these will appear to follow each other, viz. it is possible to be, and it is possible not to be. For it is the same thing to be possible to be, and not to be ; since things of this kind are not contradictions of each other, viz, it is possible to be, and it is possible not to be. But it is possible to be, and it is not possible to be, are never at one and the same time verified of the same thing ; for they are opposed. Neither are these, it is possible not to be, and it is not possible not to be, ever verified at one and the same time of the same thing. In a similar manner of this [enunciation] it is necessary to be, the negation is not this, it is necessary not to be, but this, it is not necessary to be. But of this, it is necessary not to be, [the negation] is this, it is not necessary not to be. And of this, it is impossible to be, the [negation] is not this, it is impossible not to be, but this, it is not impossible to be. But of this, it is impossible not to be, [the negation] is this, it is not impossible not to be. And universally, as we have said, it is necessary that to be, and not to be should be considered as subjects, but that affirmation and negation, which produce these, should be co-arranged with to be, and not to be. It is also requisite to think that these are opposite affirmations and negations ; viz. possible, not possible; contingent, not contingent ; impossible, not impossible; necessary, not necessary ; true, not true."
+    }
+   ]
+  },
+  {
+   "id": "Int.13",
+   "treatise": "Int",
+   "title": "What follows from what: the possible, the impossible, the necessary",
+   "summary": "\"Possible\" brings with it \"contingent\", \"not impossible\" and \"not necessary\", and so on, as a table shows. The impossible follows the possible by contradiction but in reverse. The necessary needs correcting: what follows \"possible to be\" is \"not necessary not to be\". What is necessary is possible in one sense, as actual, not in the sense of what can also not be. The necessary is actual, so actuality is prior to potentiality: some things are actualities without potentiality, the first substances.",
+   "taylor": [
+    {
+     "n": 13,
+     "label": "Chapter 13",
+     "text": "The consecutions, however, when properly made are disposed as follows: The (enunciation), it may happen to be, follows this, it is possible to be, and this reciprocates v/ith that; and also this, it is not impos sible to be, and this, it is not nccessjxry to be. But this, it is not necessary not to be, and it is not impossible not to be, follow that, it is possible riot to be, and it may happen not to be ; and thus, it is necessary not to be, and it is possible to be, follow that, it is not possible to be, and does not happen to be. But this, it is necessary to be, and also this, it is impossible not to be, follow this, it is not possible not to be, and it is not contingent not to be. What we say, however, may be surveyed from the following description. 1 s\n\nIt IS possible to be. It is not possible to be.\n\nIt may happen to be. It may not happen to be.\n\nIt is not impossible to be. It is impossible, to be.\n\nIt is not necessary to be. It is necessary not to be.\n\nIt is possible not to be. ' It is not possible not to be.\n\nIt may happen not to be. It may happen not to be.\n\nIt is not impossible not to be. It is impossible not to be.\n\nIt is not necessary not to be. ' It is necessary to be. The impossible, therefore, and the not impossible, follow contradictorily the contingent and the possible, and the not contingent and the not possible, but vice versa. For the negation of the impossible, viz. it is not impossible to be, follows the enunciation it is possible to be; but affirmation follows negation. For the enunciation, it is impossible to be, follows this, it is not possible to be ; since, it is impossible to be, is affirmation, but, it is not impossible, to be, is negation. Let us also see how the necessary subsists. It is evident, therefore, 2 A that that it does not subsist in this manner, but contraries follow ; and contradictions [arc placed] separately. For, the enunciation, it is not ne^ cessary to be, is not the negation of it is necessary not to be; since it may happen that both may be verified in the same thing. For that \"which necessarily is not, has not a necessary existence. But the reason why the necessary does not similarly follow the other enunciations is this, that the impossible being enunciated in a way contrary to the necessary signifies the same thing. For with respect to that which it is impossible should exist, it is necessary not that it should be, but that it should not be ; and with respect to that which it is impossible should not be, it is necessary that it should be. Hence, if those similarly follow the possible and the not possible, these follow in a contrary mode; because the necessary and the impossible do not signify the same thing, but, as we have said, vice versa. Or is it impossible that the contradictions of the necessary should be thus arranged ? For that is possible to be which necessarily is. For if not, negation would follow ; since it , is necessary either to affirm or deny ; so that if it is not possible to be, it is impossible to be. ^ Hence it is impossible for that to be which necessarily is, which is absurd. But the enunciation, it is not impossible to be, follows this, it is possible to be, and this again is followed by, it is not necessary to be. Hence it happens that what necessarily exists, docs not necessarily exist, which is absurd. Moreover, neither does the enunciation, it is necessary to be, nor the enunciation, it is necessary not to be, follow this, it is possible to be ; for to that both may happen; but whichever of these is true, those ^ will be no longer true. For at one and the same time [these are true] it is possible to be, and it is possible not to be. But if it is necessary to be or not to be, both will not be possible. It remains, therefore, that this enunciation, it is not necessary not to be, should follow, it is possible to be. For 7 this also is truly asserted of that which has a necessary existence. For this becomes the contradiction of the enunciation which follows it, viz. it is not possible to be; since it is impossible to be, and it is necessary not to be, follow that; of which the negation is this, it is not necessary not to be. These contradictions, therefore, follow according to the above-mentioned mode ; and no absurdit}' happens when they are thus arranged. Some one, however, may doubt whether the enunciation, it is possible to be, follows this, it is necessary to be. For if it does not follow, the contradiction, it is not possible to be, will follow. And if any one should say that this is not a contradiction, it is necessary to call this a contradiction, viz. it is possible not to be ; both which are false of that which necessarily exists. Again, however, it may appear to be possible, that the same thing may be cut and may not be cut, may be and may not be ; so that that which necessarily is, may happen hot to be. This, however, is fiilse.- But it is evident that not every thing which can be, or can walk, has also the power of effecting the opposites; but there are some things in which this is not true. In the first place, in those things which have power without reason ; as, for instance, fire is calorific, and has an irrational power. The powers, therefore, which subsist in conjunction with reason, are the powers of many things and of such as are contrary. Not all irrational powers, however, are capa blc of this ; but as we have said, fire has not the power of heating, and not heating ; nor such other things as alu'ays energize. Yet some tilings among those which possess irrational pb\\vcj's can at one and the same time receive opposites. This, however, has been said by us, because not every power is susceptive of contraries, not even sucli as are predicated according to the same species. But some powers are homonymous; for the possible is not simply predicated : but one thing is said to be possible, because it is true, as being in energy. Thus, it is possible for a man to walk, because he walks ; and, in short, a thing is possible to be, because that is now in energy which is said to be possible. But another thing is said to be possible, because it can be in energy. Thus, it is possible for a man to walk because he has the power of walking. And this power alone exists in moveable natures; but that in such as are immoveable. But with respect to both it is true to say, that it is possible to walk, or to be, and that a man now walks and energizes,' and that he has the power of walking. Hence, that which is thus possible s>, is not truly asserted of that which is simply necessary; but the other is truly asserted. Hence too, the universal follows that which is in a part ; and to be able to be, though not all ability of this kind, follows that which exists from necessity. And perhaps, indeed, the necessary and the not necessary are the principle of the existence, or non-existence of all things ; and it is necessary to consider of other things as consequent to these ^. From what has been said, therefore, it is evident, that a thing which is from necessity, is in energy. Hence, if eternal natures have a prior subsistence, energy also is prior to power (i. e. to capacity). And some things, indeed, are energies without capacity, as, for instance, the first essences; but othere arc energies together with capacity ; and these are, indeed, prior by nature, but posterior in time; and others are never energies, but arc capacities only 3. CHAP."
+    }
+   ]
+  },
+  {
+   "id": "Int.14",
+   "treatise": "Int",
+   "title": "Is the contrary of a statement its denial or its contrary affirmation?",
+   "summary": "Is \"every man is just\" contrary to \"no man is just\" or to \"every man is unjust\"? Spoken statements follow beliefs, so ask: is the belief that the good is not good, or that it is bad, contrary to the true belief that it is good? Error is most about what a thing is in itself, and the denial is about that; so the belief in the denial is the contrary. So the universal denial is the contrary of the affirmation. True beliefs and statements are never contrary.",
+   "taylor": [
+    {
+     "n": 14,
+     "label": "Chapter 14",
+     "text": "But whether is affirmation contrary to negation, or affirmation to affirmation ? And is the sentence whicli says every man is just, contrary to the sentence, no man is just? Oris this sentence, every man is just, contrary contrary to tlie sentence every man is unjust ? For instance, Callias is just, Callias is not just, Callias is unjust. Which of these is contrary ? For if those things which are iii voice follow those which are in the dianoclic power, but there the opinion of a contrary is contrary, as, for instance, that every man is just, is contrary to the opinion that every man is unjust; — if this be the case, in the alfinnations also enunciated by the voice, it is necessary that the like should take place. But if there, the opinion of a contrary is not contrary, neither will affirmation be contrary to affirmation, but the above-mentioned negation. Hence, it must be considered which false opinion is contrary to the true opi nion, whether that of negation, or that which opines it to be the con trary. But J say as follows : There is a certain true opinion of good, that it is good ; there is another false opinion that it is not good ; and there is another opinion, that it is evil. Which, therefore, of these is contrary to the true opinion? And if there is one [contrary] accordingto which is it contrary? If then any one should fancy that contrary opinions are defined by this, that they are of contraries, [his opinion will be] false. For of good that it is good, and of evil, that it is evil, there is perhaps the same opinion, and it is true whether [you should say that this is] one opinion, or many. And these [i. e. good and evil] ar« contraries. They are not, however, contraries, because they are of contraries, but rather because they have a contrary mode of subsistence. If, therefore, there is an opinion of good that it is good, but another opinion that it is not good ; and there is also something else, which is neither inherent, nor can be inherent in good ; — if this be the case, no one [contrary] of other things is to be admitted, nor such opinions as fancy that to be inherent which is not, nor that not to be inherent which is. . For both the former and the latter of these are infinite. But in those things in which there is deception [contraries are to be admitted] ; and these are things from which there are generations. Generations, however, are from opposites ; and, therefore, deceptions also. If, therefore, good is good and not evil, and the one is essential, but the other accidental; (for it happens to it not tcr be evil) but of every thing, the opinion which is essential is more true, and [also the opinion which is essential is more] false, since the [more true] is thus assumed ; — if tliis be the case, the opinion that good is not good, is false of that which is essentially inherent ; but the opinion that it is evil [is false] of that which is from accident. Hence, the opinion of the negation of good is more false than the opinion of the contrary. But he is especially deceived about every thing, who has a contrary opinion; for contraries pertain to things which very much difier about the same thing. If, therefore, one of these is contrary, but the opinion of negation is more contrary, it is evident that this will be [truly] contrary. But the opinion that evil is good is complex ; for, perhaps, it is necessary that the same person [who entertains this opinion] should conceive [that good] is not good. Farther still, if it is requisite that the like should take place in other things, here also it may appear to have been well said. For [the opinion] of negation is either every where, or no where [contrary]. Bat of those things to which there are not contraries, of these, [the opinion] also is false which is opposed to the true opinion. Thus he who fancies that man is not man is deceived. If, therefore, these negations are contrary, the other [opinions] also of negation [are contrary]. Again, the opinion of good that it is good, and the opinion of that which is not good, that it is not good, have a similar subsistence ; and besides these, the opinion of good that it is not good, and the opinion of that which is not good that it is good. To the true opinion, therefore, that what is not good is not good, what opinion will be contrary ? For it will not be the opinion which says that it is evil, since it may at one and the same time be true. But truth is never contrary to truth. For something which is not good is evil ; so that it will happen that these opinions are at one and. the same time true.^ Nor again, will [the opinion] that [what is not good] is not evil be [the contrary to the opinion that what is not good is not good], for at one and the same time these may be true. It remains, therefore, that the contrary to the opinion thai what is not good is not good, is the opinion of what is not good that it is good ; for this is false. Hence the opinion of good that it is not good, will be contrary to the opinion of good that it is good. But it is evident that it makes no difference though we should propose universal affirmation ; for universal negation will be the contrary. Thus, for instance, to the opinion which opines that whatever is good is good, the opinion that nothing among the number of good things is good, [^yill be contrary]. For the opinion of good that it is good, if good is universally [assumed], is the same with the opinion that what is good is good. And this differs in no respect from the opinion that every thing which is good is good. The like also takes place in that which is not good. Hence, if this is the case in opinion, and the affirmations and negations in voice are the symbols of [conceptions] in the soul, it is evident that the universal negation which is about the same thing, is contrary to affirmation. Thus, for instance, to the affirmation that every thing good is good, or that every man b good, this negation is contrary, no good is good, or no man is good. But this assertion that not every thing good is good, or that not every man is good, is opposed contradictorily. It is evident, however, that neither true opinion can be contrary to true opinion, nor true negation to true negation. For those are contraries which are about oppositcs ; and about these it happens that the same thing is ve« rifled. But it cannot happen that contraries can at one and the same time be inherent in the same thin^."
+    }
+   ]
+  }
+ ],
+ "paragraphs": [
+  {
+   "seg": "Int.1.p1",
+   "chapter": "Int.1",
+   "modern": "First we must lay down what a noun is and what a verb is; then what a denial, an affirmation, a statement and a sentence are. Spoken sounds are symbols of what is undergone in the soul, and written marks are symbols of spoken sounds. Just as all people do not have the same writing, so they do not all have the same spoken sounds. But what these are first of all signs of, the experiences of the soul, are the same for all; and the things that these experiences are likenesses of are the same as well. These matters have been discussed in my work on the soul, since they belong to another inquiry.",
+   "greek": "ΠΡΩΤΟΝ δεῖ θέσθαι τί ὄνομα καὶ τί ῥῆμα, ἔπειτα τί ἐστιν ἀπόφασις καὶ κατάφασις καὶ ἀπόφανσις καὶ λόγος. Ἔστι μὲν οὖν τὰ ἐν τῇ φωνῇ τῶν ἐν τῇ ψυχῇ παθημάτων σύμβολα, καὶ τὰ γραφόμενα τῶν ἐν τῇ φωνῇ. Καὶ ὥσπερ οὐδὲ γράμματα πᾶσι τὰ αὐτά, οὐδὲ φωναὶ αἱ αὐταί· ὧν μέντοι ταῦτα σημεῖα πρώτως, ταὐτὰ πᾶσι παθήματα τῆς ψυχῆς, καὶ ὧν ταῦτα ὁμοιώματα, πράγματα ἤδη ταὐτά. Περὶ μὲν οὖν τούτων εἴρηται ἐν τοῖς περὶ ψυχῆς· ἄλλης γὰρ πραγματείας.",
+   "cols": [
+    "16a"
+   ],
+   "flags": [
+    {
+     "taylor": "symbols of the passions of the soul",
+     "in": "Taylor (1812)",
+     "why": "Taylor's \"passions\" renders παθήματα, what the soul undergoes or experiences: the impressions and thoughts that things produce in it. Today \"passions\" suggests strong emotions, which is not what Aristotle means."
+    }
+   ],
+   "notes": [
+    "\"Signs ... first of all\": spoken words signify the soul's experiences directly, and through them the things. The commentators (Ammonius, Boethius) build their whole account of meaning on this sentence: things, thoughts, spoken words, written words."
+   ]
+  },
+  {
+   "seg": "Int.1.p2",
+   "chapter": "Int.1",
+   "modern": "In the soul there are sometimes thoughts that are neither true nor false, and sometimes thoughts that must be one or the other; and it is the same with speech. For falsity and truth have to do with combining and separating. So nouns and verbs by themselves are like a thought without combining or separating, such as \"man\" or \"white\" when nothing is added: they are not yet either false or true. Here is a sign of this. \"Goat-stag\" signifies something, but it is not yet true or false unless \"is\" or \"is not\" is added, either simply or with a time.",
+   "greek": "Ἔστι δ᾿, ὥσπερ ἐν τῇ ψυχῇ ὁτὲ μὲν νόημα ἄνευ τοῦ ἀληθεύειν ἢ ψεύδεσθαι, ὁτὲ δὲ ἤδη ᾧ ἀνάγκη τούτων ὑπάρχειν θάτερον, οὕτω καὶ ἐν τῇ φωνῇ· περὶ γὰρ σύνθεσιν καὶ διαίρεσίν ἐστι τὸ ψεῦδος καὶ τὸ ἀληθές. Τὰ μὲν οὖν ὀνόματα αὐτὰ καὶ τὰ ῥήματα ἔοικε τῷ ἄνευ συνθέσεως καὶ διαιρέσεως νοήματι, οἷον τὸ ἄνθρωπος ἢ τὸ λευκόν, ὅταν μὴ προστεθῇ τι· οὔτε γὰρ ψεῦδος οὔτε ἀληθές πω. Σημεῖον δ᾿ ἐστὶ τοῦδε· καὶ γὰρ ὁ τραγέλαφος σημαίνει μέν τι, οὔπω δὲ ἀληθὲς ἢ ψεῦδος, ἐὰν μὴ τὸ εἶναι ἢ μὴ εἶναι προστεθῇ, ἢ ἁπλῶς ἢ κατὰ χρόνον.",
+   "cols": [
+    "16a"
+   ],
+   "notes": [
+    "The goat-stag (τραγέλαφος) was an imaginary beast, half goat and half deer: the word has a meaning though nothing answers to it, and so it shows that meaning comes before truth."
+   ]
+  },
+  {
+   "seg": "Int.2.p1",
+   "chapter": "Int.2",
+   "modern": "A noun, then, is a spoken sound that signifies by convention, without time, and no part of which signifies anything when taken apart. In the name \"Kallippos\" (\"Fairhorse\"), the \"hippos\" (\"horse\") signifies nothing on its own, as it does in the phrase \"kalos hippos\" (\"a fair horse\"). But it is not the same with compound nouns as with simple ones. In simple nouns the part does not signify at all; in compound ones the part aims at a meaning, but it signifies nothing taken apart, as in \"epaktrokelēs\" (\"pirate boat\") the \"kelēs\" (\"boat\") signifies nothing on its own. I say \"by convention\" because no noun is a noun by nature, but only when it becomes a symbol. Even inarticulate noises, such as the noises of wild animals, make something plain, but none of them is a noun.",
+   "greek": "Ὄνομα μὲν οὖν ἐστὶ φωνὴ σημαντικὴ κατὰ συνθήκην ἄνευ χρόνου, ἧς μηδὲν μέρος ἐστὶ σημαντικὸν κεχωρισμένον· ἐν γὰρ τῷ Κάλλιππος τὸ ἵππος οὐδὲν αὐτὸ καθ᾿ ἑαυτὸ σημαίνει, ὥσπερ ἐν τῷ λόγῳ τῷ καλὸς ἵππος. Οὐ μὴν οὐδ᾿ ὥσπερ ἐν τοῖς ἁπλοῖς ὀνόμασιν, οὕτως ἔχει καὶ ἐν τοῖς συμπεπλεγμένοις· ἐν ἐκείνοις μὲν γὰρ τὸ μέρος οὐδαμῶς σημαντικόν, ἐν δὲ τούτοις βούλεται μέν, ἀλλ᾿ οὐδενὸς κεχωρισμένον, οἷον ἐν τῷ ἐπακτροκέλης τὸ κέλης οὐδὲν σημαίνει καθ᾿ ἑαυτό. Τὸ δὲ κατὰ συνθήκην, ὅτι φύσει τῶν ὀνομάτων οὐδέν ἐστιν, ἀλλ᾿ ὅταν γένηται σύμβολον, ἐπεὶ δηλοῦσί γέ τι καὶ οἱ ἀγράμματοι ψόφοι, οἷον θηρίων, ὧν οὐδέν ἐστιν ὄνομα.",
+   "cols": [
+    "16a"
+   ],
+   "flags": [
+    {
+     "taylor": "a sound significant from compact",
+     "in": "Taylor (1812)",
+     "why": "Taylor's \"from compact\" renders κατὰ συνθήκην, \"by agreement\" or \"by convention\": a word means what it does because people have settled on it, not by nature."
+    },
+    {
+     "taylor": "For illiterate sounds also signify something",
+     "in": "Taylor (1812)",
+     "why": "Taylor's \"illiterate\" renders ἀγράμματοι, sounds that cannot be written in letters: inarticulate noises like the cries of animals. It has nothing to do with being unable to read."
+    }
+   ],
+   "notes": [
+    "Edghill renders the two names as \"Fairsteed\" and \"pirate-boat\", to keep the point in English: in a compound name the part has no meaning of its own."
+   ]
+  },
+  {
+   "seg": "Int.2.p2",
+   "chapter": "Int.2",
+   "modern": "\"Not-man\" is not a noun. There is no name laid down for what we should call it, since it is neither a sentence nor a denial. Let it be called an indefinite noun, since it applies equally to anything, both to what is and to what is not. \"Of Philo\", \"to Philo\" and the like are not nouns but cases of a noun. Their account is the same as the noun's in other respects, except that with \"is\", \"was\" or \"will be\" they do not say anything true or false, whereas the noun always does. \"Of Philo is\" or \"of Philo is not\", for instance, says nothing yet either true or false.",
+   "greek": "Τὸ δ᾿ οὐκ ἄνθρωπος οὐκ ὄνομα. Οὐ μὴν οὐδὲ κεῖται ὄνομα ὅ τι δεῖ καλεῖν αὐτό· οὔτε γὰρ λόγος οὔτε ἀπόφασίς ἐστιν. Ἀλλ᾿ ἔστω ὄνομα ἀόριστον, ὅτι ὁμοίως ἐφ᾿ ὁτουοῦν ὑπάρχει καὶ ὄντος καὶ μὴ ὄντος. Τὸ δὲ Φίλωνος ἢ Φίλωνι καὶ ὅσα τοιαῦτα, οὐκ ὀνόματα ἀλλὰ πτώσεις ὀνόματος. Λόγος δέ ἐστιν αὐτοῦ τὰ μὲν ἄλλα κατὰ τὰ αὐτά· ὅτι δὲ μετὰ τοῦ ἔστιν ἢ ἦν ἢ ἔσται οὐκ ἀληθεύει ἢ ψεύδεται, τὸ δὲ ὄνομα ἀεί· οἷον Φίλωνός ἐστιν ἢ οὐκ ἔστιν· οὐδὲν γάρ πω οὔτε ἀληθεύει οὔτε ψεύδεται.",
+   "cols": [
+    "16a",
+    "16b"
+   ],
+   "notes": [
+    "\"Cases\" (πτώσεις) are the oblique cases of a noun, the genitive \"of Philo\" and the dative \"to Philo\". In Greek, \"Philo is\" makes a statement, but \"of Philo is\" does not."
+   ]
+  },
+  {
+   "seg": "Int.3.p1",
+   "chapter": "Int.3",
+   "modern": "A verb is what also signifies time, no part of it signifies on its own, and it is always a sign of things said of something else. I say that it also signifies time: \"health\", for instance, is a noun, but \"is healthy\" is a verb, since it also signifies that the health belongs now. And it is always a sign of things said of something else, that is, of things said of a subject or in a subject. \"Is not-healthy\" and \"is not-ill\" I do not call verbs. They also signify time and always belong to something, but there is no name for this difference. Let each be called an indefinite verb, since it applies in like manner to anything, both to what is and to what is not. In the same way \"was healthy\" and \"will be healthy\" are not verbs but tenses of a verb. They differ from the verb because the verb also signifies the present time, and they the time around it.",
+   "greek": "Ῥῆμα δέ ἐστι τὸ προσσημαῖνον χρόνον, οὗ μέρος οὐδὲν σημαίνει χωρίς, καὶ ἔστιν ἀεὶ τῶν καθ᾿ ἑτέρου λεγομένων σημεῖον. Λέγω δ᾿ ὅτι προσσημαίνει χρόνον, οἷον ὑγίεια μὲν ὄνομα, τὸ δὲ ὑγιαίνει ῥῆμα· προσσημαίνει γὰρ τὸ νῦν ὑπάρχειν. Καὶ ἀεὶ τῶν καθ᾿ ἑτέρου λεγομένων σημεῖόν ἐστιν, οἷον τῶν καθ᾿ ὑποκειμένου ἢ ἐν ὑποκειμένῳ. Τὸ δὲ οὐχ ὑγιαίνει καὶ τὸ οὐ κάμνει οὐ ῥῆμα λέγω· προσσημαίνει μὲν γὰρ χρόνον καὶ ἀεὶ κατά τινος ὑπάρχει, τῇ δὲ διαφορᾷ ὄνομα οὐ κεῖται· ἀλλ᾿ ἔστω ἀόριστον ῥῆμα, ὅτι ὁμοίως ἐφ᾿ ὁτουοῦν ὑπάρχει, καὶ ὄντος καὶ μὴ ὄντος. Ὁμοίως δὲ καὶ τὸ ὑγίανεν ἢ τὸ ὑγιανεῖ οὐ ῥῆμα, ἀλλὰ πτῶσις ῥήματος· διαφέρει δὲ τοῦ ῥήματος, ὅτι τὸ μὲν τὸν παρόντα προσσημαίνει χρόνον, τὰ δὲ τὸ πέριξ.",
+   "cols": [
+    "16b"
+   ],
+   "notes": [
+    "\"Said of a subject or in a subject\" are the two ways of belonging set out in the Categories (chapter 2)."
+   ]
+  },
+  {
+   "seg": "Int.3.p2",
+   "chapter": "Int.3",
+   "modern": "Verbs said by themselves are nouns and signify something: the speaker brings his thought to a halt, and the hearer rests. But they do not yet signify whether anything is or is not. For not even \"to be\" or \"not to be\" is a sign of the thing, nor is \"being\", if you say it bare by itself. By itself it is nothing, but it also signifies a certain combination, which cannot be thought of without the things combined.",
+   "greek": "Αὐτὰ μὲν οὖν καθ᾿ ἑαυτὰ λεγόμενα τὰ ῥήματα ὀνόματά ἐστι καὶ σημαίνει τι (ἵστησι γὰρ ὁ λέγων τὴν διάνοιαν, καὶ ὁ ἀκούσας ἠρέμησεν), ἀλλ᾿ εἰ ἔστιν ἢ μή, οὔπω σημαίνει· οὐδὲ γὰρ τὸ εἶναι ἢ μὴ εἶναι σημεῖόν ἐστι τοῦ πράγματος, οὐδ᾿ ἐὰν τὸ ὂν εἴπῃς αὐτὸ καθ᾿ ἑαυτὸ ψιλόν. Αὐτὸ μὲν γὰρ οὐδέν ἐστι, προσσημαίνει δὲ σύνθεσίν τινα, ἣν ἄνευ τῶν συγκειμένων οὐκ ἔστι νοῆσαι.",
+   "cols": [
+    "16b"
+   ],
+   "flags": [
+    {
+     "taylor": "Verbs in and by themselves are substantival and have significance",
+     "in": "Edghill, Oxford (1928)",
+     "why": "Edghill's \"substantival\" renders ὀνόματά ἐστι, \"are nouns\" (or \"names\"). Aristotle's point is simpler than a grammar term: a verb said alone, like \"walks\", names something and fixes the mind on it, as a noun does."
+    }
+   ]
+  },
+  {
+   "seg": "Int.4.p1",
+   "chapter": "Int.4",
+   "modern": "A sentence is a spoken sound that signifies by convention, some part of which signifies something when taken apart, as an expression but not as an affirmation or denial. I mean that \"man\", for instance, signifies something, but not that it is or is not; it will be an affirmation or a denial if something is added. But a single syllable of \"man\" signifies nothing. Nor does the \"ys\" in \"mys\" (\"mouse\") signify anything: it is only a sound. In compound words the part does signify, but not by itself, as was said before.",
+   "greek": "Λόγος δέ ἐστι φωνὴ σημαντικὴ κατὰ συνθήκην, ἧς τῶν μερῶν τι σημαντικόν ἐστι κεχωρισμένον, ὡς φάσις, ἀλλ᾿ οὐχ ὡς κατάφασις ἢ ἀπόφασις. Λέγω δέ, οἷον ἄνθρωπος σημαίνει μέν τι, ἀλλ᾿ οὐχ ὅτι ἔστιν ἢ οὐκ ἔστιν· ἀλλ᾿ ἔσται κατάφασις ἢ ἀπόφασις, ἐάν τι προστεθῇ. Ἀλλ᾿ οὐχὶ τοῦ ἀνθρώπου συλλαβὴ μία. Οὐδὲ γὰρ ἐν τῷ μῦς τὸ ῦς σημαντικόν, ἀλλὰ φωνή ἐστι νῦν μόνον. Ἐν δὲ τοῖς διπλοῖς σημαίνει μέν, ἀλλ᾿ οὐ καθ᾿ αὑτό, ὡς προείρηται.",
+   "cols": [
+    "16b"
+   ],
+   "notes": [
+    "The Greek word for man is \"anthrōpos\" and for mouse \"mys\"; Edghill renders the second \"the part '-ouse' has no meaning in itself\"."
+   ]
+  },
+  {
+   "seg": "Int.4.p2",
+   "chapter": "Int.4",
+   "modern": "Every sentence signifies something, not as a natural tool, but, as was said, by convention. But not every sentence is a statement: only those in which there is truth or falsity. And truth and falsity are not in all of them: a prayer, for instance, is a sentence, but it is neither true nor false. Let us leave the others aside, since their study belongs more to rhetoric or poetry. The statement belongs to the present inquiry.",
+   "greek": "Ἔστι δὲ λόγος ἅπας μὲν σημαντικός, οὐχ ὡς ὄργανον δέ, ἀλλ᾿ ὡς προείρηται, κατὰ συνθήκην. Ἀποφαντικὸς δὲ οὐ πᾶς, ἀλλ᾿ ἐν ᾧ τὸ ἀληθεύειν ἢ ψεύδεσθαι ὑπάρχει. Οὐκ ἐν ἅπασι δὲ ὑπάρχει, οἷον ἡ εὐχὴ λόγος μέν, ἀλλ᾿ οὔτε ἀληθὴς οὔτε ψευδής. Οἱ μὲν οὖν ἄλλοι ἀφείσθωσαν· ῥητορικῆς γὰρ ἢ ποιητικῆς οἰκειοτέρα ἡ σκέψις· ὁ δὲ ἀποφαντικὸς τῆς νῦν θεωρίας.",
+   "cols": [
+    "16b",
+    "17a"
+   ],
+   "flags": [
+    {
+     "taylor": "not as being the natural means by which a physical faculty is realized",
+     "in": "Edghill, Oxford (1928)",
+     "why": "Edghill expands three Greek words, οὐχ ὡς ὄργανον, \"not as a tool (or instrument)\": speech does not signify by nature, as the eye sees, but by convention. Taylor has \"not as an instrument\"."
+    }
+   ]
+  },
+  {
+   "seg": "Int.5.p1",
+   "chapter": "Int.5",
+   "modern": "The first single statement is the affirmation, and next the denial; all the others are one by a connective. Every statement must contain a verb or a tense of a verb. Even the account of man, if \"is\" or \"was\" or \"will be\" or something of the kind is not added, is not yet a statement. Why \"two-footed land animal\" is one thing and not many is another question, for it is not one because the words are said close together; to say why belongs to another inquiry. A single statement is either one that makes one thing plain, or one that is one by a connective; statements are many if they make many things plain and not one, or if they are not connected.",
+   "greek": "Ἔστι δὲ εἷς πρῶτος λόγος ἀποφαντικὸς κατάφασις, εἶτα ἀπόφασις· οἱ δ᾿ ἄλλοι πάντες συνδέσμῳ εἷς. Ἀνάγκη δὲ πάντα λόγον ἀποφαντικὸν ἐκ ῥήματος εἶναι ἢ πτώσεως ῥήματος· καὶ γὰρ ὁ τοῦ ἀνθρώπου λόγος, ἐὰν μὴ τὸ ἔστιν ἢ ἦν ἢ ἔσται ἤ τι τοιοῦτον προστεθῇ, οὔπω λόγος ἀποφαντικός. Διότι δὴ ἕν τί ἐστιν ἀλλ᾿ οὐ πολλὰ τὸ ζῷον πεζὸν δίπουν· οὐ γὰρ δὴ τῷ σύνεγγυς εἰρῆσθαι εἷς ἔσται. Ἔστι δὲ ἄλλης πραγματείας τοῦτο εἰπεῖν. Ἔστι δὲ εἷς λόγος ἀποφαντικὸς ἢ ὁ ἓν δηλῶν ἢ ὁ συνδέσμῳ εἷς, πολλοὶ δὲ οἱ πολλὰ καὶ μὴ ἓν ἢ οἱ ἀσύνδετοι.",
+   "cols": [
+    "17a"
+   ],
+   "notes": [
+    "\"Is one by a connective\": a statement like \"Socrates is wise and Plato is wise\" is one only because \"and\" joins its parts; Aristotle counts it among the compounds.",
+    "The beginning of this chapter is missing in the scan of Taylor's translation as the Workshop has it; what remains of it is shown with chapters 4 and 5."
+   ]
+  },
+  {
+   "seg": "Int.5.p2",
+   "chapter": "Int.5",
+   "modern": "Let a noun or a verb be called only an expression, since one cannot, by saying it alone, make something plain with one's voice in a way that makes a statement, whether someone has asked a question or one speaks of one's own accord. Of statements, one kind is simple, saying something of something or denying something of something; the other is made up of these, a kind of composite sentence. The simple statement is a spoken sound that signifies whether something belongs or does not belong, in the way the times are divided.",
+   "greek": "Τὸ μὲν οὖν ὄνομα ἢ ῥῆμα φάσις ἔστω μόνον, ἐπειδὴ οὐκ ἔστιν εἰπεῖν οὕτω δηλοῦντά τι τῇ φωνῇ ὥστε ἀποφαίνεσθαι, ἢ ἐρωτῶντός τινος, ἢ μή, ἀλλ᾿ αὐτὸν προαιρούμενον. Τούτων δὲ ἡ μὲν ἁπλῆ ἐστὶν ἀπόφανσις, οἷον τὶ κατά τινος ἢ τὶ ἀπό τινος, ἡ δὲ ἐκ τούτων συγκειμένη οἷον λόγος τις ἤδη σύνθετος. Ἔστι δὲ ἡ ἁπλῆ ἀπόφανσις φωνὴ σημαντικὴ περὶ τοῦ ὑπάρχειν τι ἢ μὴ ὑπάρχειν, ὡς οἱ χρόνοι διῄρηνται.",
+   "cols": [
+    "17a"
+   ]
+  },
+  {
+   "seg": "Int.6.p1",
+   "chapter": "Int.6",
+   "modern": "An affirmation is a statement of something about something; a denial is a statement of something away from something. One can state what belongs as not belonging, what does not belong as belonging, what belongs as belonging and what does not belong as not belonging, and the same with the times outside the present. So whatever anyone has affirmed can be denied, and whatever anyone has denied can be affirmed. It is clear, then, that every affirmation has a denial opposite to it, and every denial an affirmation. Let a contradiction be this: an affirmation and a denial that are opposite. I call opposite the affirmation and denial of the same thing about the same thing, not homonymously, together with whatever other such qualifications we add to meet the quibbles of the sophists.",
+   "greek": "Κατάφασις δέ ἐστιν ἀπόφανσίς τινος κατά τινος. Ἀπόφασις δέ ἐστιν ἀπόφανσίς τινος ἀπό τινος. Ἐπεὶ δὲ ἔστι καὶ τὸ ὑπάρχον ἀποφαίνεσθαι ὡς μὴ ὑπάρχον καὶ τὸ μὴ ὑπάρχον ὡς ὑπάρχον καὶ τὸ ὑπάρχον ὡς ὑπάρχον καὶ τὸ μὴ ὑπάρχον ὡς μὴ ὑπάρχον, καὶ περὶ τοὺς ἐκτὸς δὲ τοῦ νῦν χρόνους ὡσαύτως, ἅπαν ἂν ἐνδέχοιτο καὶ ὃ κατέφησέ τις ἀποφῆσαι καὶ ὃ ἀπέφησέ τις καταφῆσαι. Ὥστε δῆλον ὅτι πάσῃ καταφάσει ἐστὶν ἀπόφασις ἀντικειμένη καὶ πάσῃ ἀποφάσει κατάφασις. Καὶ ἔστω ἀντίφασις τοῦτο, κατάφασις καὶ ἀπόφασις αἱ ἀντικείμεναι. Λέγω δὲ ἀντικεῖσθαι τὴν τοῦ αὐτοῦ κατὰ τοῦ αὐτοῦ, μὴ ὁμωνύμως δέ, καὶ ὅσα ἄλλα τῶν τοιούτων προσδιοριζόμεθα πρὸς τὰς σοφιστικὰς ἐνοχλήσεις.",
+   "cols": [
+    "17a"
+   ],
+   "flags": [
+    {
+     "taylor": "to enunciate that which is inherent as if it were not inherent",
+     "in": "Taylor (1812)",
+     "why": "Taylor's \"inherent\" renders ὑπάρχον, what \"belongs\" to or holds of a thing. Aristotle means only that a predicate holds or does not hold; \"inherent\" suggests something lodged inside the thing."
+    }
+   ],
+   "notes": [
+    "\"Not homonymously\": the word must be used with the same meaning in both; the Categories opens with homonyms, things with one name and different accounts."
+   ]
+  },
+  {
+   "seg": "Int.7.p1",
+   "chapter": "Int.7",
+   "modern": "Of things, some are universal and some individual. By universal I mean what is of a nature to be predicated of more than one thing, and by individual what is not: \"man\", for instance, is a universal, and \"Callias\" an individual. So we must sometimes state that something belongs or does not belong to a universal, and sometimes to an individual. If one states universally of a universal that something belongs or does not, the statements will be contrary. By stating universally of a universal I mean, for instance, \"every man is white\" and \"no man is white\". When one states of universals, but not universally, the statements are not contrary, though what they make plain may sometimes be contrary. By stating of universals not universally I mean, for instance, \"a man is white\" and \"a man is not white\". \"Man\" is a universal, but it is not used universally in the statement. For \"every\" does not signify the universal, but that the subject is taken universally. To predicate the universal universally of the predicate is not true: no affirmation will be true in which a universal is predicated universally of the predicate, such as \"every man is every animal\".",
+   "greek": "Ἐπεὶ δ᾿ ἐστὶ τὰ μὲν καθόλου τῶν πραγμάτων τὰ δὲ καθ᾿ ἕκαστον (λέγω δὲ καθόλου μὲν ὃ ἐπὶ πλειόνων πέφυκε κατηγορεῖσθαι, καθ᾿ ἕκαστον δὲ ὃ μή, οἷον ἄνθρωπος μὲν τῶν καθόλου, Καλλίας δὲ τῶν καθ᾿ ἕκαστον)· ἀνάγκη δὲ ἀποφαίνεσθαι ὡς ὑπάρχει τι ἢ μὴ ὁτὲ μὲν τῶν καθόλου τινί, ὁτὲ δὲ τῶν καθ᾿ ἕκαστον. Ἐὰν μὲν οὖν καθόλου ἀποφαίνηται ἐπὶ τοῦ καθόλου ὅτι ὑπάρχει τι ἢ μή, ἔσονται ἐναντίαι αἱ ἀποφάνσεις. Λέγω δὲ ἐπὶ τοῦ καθόλου ἀποφαίνεσθαι καθόλου, οἷον πᾶς ἄνθρωπος λευκός, οὐδεὶς ἄνθρωπος λευκός. Ὅταν δὲ ἐπὶ τῶν καθόλου μέν, μὴ καθόλου δέ, αὗται μὲν οὐκ εἰσὶν ἐναντίαι, τὰ μέντοι δηλούμενα ἔστιν εἶναι ἐναντία ποτέ. Λέγω δὲ τὸ μὴ καθόλου ἀποφαίνεσθαι ἐπὶ τῶν καθόλου, οἷον ἔστι λευκὸς ἄνθρωπος, οὐκ ἔστι λευκὸς ἄνθρωπος· καθόλου γὰρ ὄντος τοῦ ἄνθρωπος οὐχ ὡς καθόλου κέχρηται τῇ ἀποφάνσει· τὸ γὰρ πᾶς οὐ τὸ καθόλου σημαίνει ἀλλ᾿ ὅτι καθόλου. Ἐπὶ δὲ τοῦ κατηγορουμένου καθόλου κατηγορεῖν τὸ καθόλου οὐκ ἔστιν ἀληθές· οὐδεμία γὰρ κατάφασις ἀληθὴς ἔσται, ἐν ᾗ τοῦ κατηγορουμένου καθόλου τὸ καθόλου κατηγορεῖται, οἷον ἔστι πᾶς ἄνθρωπος πᾶν ζῷον.",
+   "cols": [
+    "17a",
+    "17b"
+   ],
+   "notes": [
+    "\"A man is white\": Greek has no indefinite article, so ἔστι λευκὸς ἄνθρωπος can mean \"man is white\" or \"a man is white\". Aristotle calls such statements \"indefinite\" in the Prior Analytics: they leave open whether all or some are meant."
+   ]
+  },
+  {
+   "seg": "Int.7.p2",
+   "chapter": "Int.7",
+   "modern": "I call an affirmation and a denial contradictorily opposite when one signifies the universal and the other, of the same subject, that it is not universal: \"every man is white\" and \"not every man is white\"; \"no man is white\" and \"some man is white\". I call them contrarily opposite when the affirmation and the denial are both universal: \"every man is white\" and \"no man is white\"; \"every man is just\" and \"no man is just\". So these cannot be true together, but the statements opposite to them can sometimes be true together about the same thing, such as \"not every man is white\" and \"some man is white\". Of contradictions about universals made universally, one must be true and the other false; and so of those about individuals, such as \"Socrates is white\" and \"Socrates is not white\". But of those about universals not made universally, one is not always true and the other false. For it is true at the same time to say that a man is white and that a man is not white, and that a man is noble and that a man is not noble: if he is ugly, he is not noble; and if something is coming to be noble, it is not yet. This might seem strange at first sight, because \"a man is not white\" seems to signify the same as \"no man is white\". But it does not signify the same, and they are not necessarily true or false together.",
+   "greek": "Ἀντικεῖσθαι μὲν οὖν κατάφασιν ἀποφάσει λέγω ἀντιφατικῶς τὴν τὸ καθόλου σημαίνουσαν τῷ αὐτῷ ὅτι οὐ καθόλου, οἷον πᾶς ἄνθρωπος λευκός — οὐ πᾶς ἄνθρωπος λευκός, οὐδεὶς ἄνθρωπος λευκός — ἔστι τις ἄνθρωπος λευκός· ἐναντίως δὲ τὴν τοῦ καθόλου κατάφασιν καὶ τὴν τοῦ καθόλου ἀπόφασιν, οἷον πᾶς ἄνθρωπος λευκός — οὐδεὶς ἄνθρωπος λευκός, πᾶς ἄνθρωπος δίκαιος — οὐδεὶς ἄνθρωπος δίκαιος. Διὸ ταύτας μὲν οὐχ οἷόν τε ἅμα ἀληθεῖς εἶναι, τὰς δὲ ἀντικειμένας αὐταῖς ἐνδέχεταί ποτε ἐπὶ τοῦ αὐτοῦ ἅμα ἀληθεῖς εἶναι, οἷον οὐ πᾶς ἄνθρωπος λευκός καὶ ἔστι τις ἄνθρωπος λευκός. Ὅσαι μὲν οὖν ἀντιφάσεις τῶν καθόλου εἰσὶ καθόλου, ἀνάγκη τὴν ἑτέραν ἀληθῆ εἶναι ἢ ψευδῆ, καὶ ὅσαι ἐπὶ τῶν καθ᾿ ἕκαστα, οἷον ἔστι Σωκράτης λευκός — οὐκ ἔστι Σωκράτης λευκός· ὅσαι δὲ ἐπὶ τῶν καθόλου μέν, μὴ καθόλου δέ, οὐκ ἀεὶ ἡ μὲν ἀληθὴς ἡ δὲ ψευδής. Ἅμα γὰρ ἀληθές ἐστιν εἰπεῖν ὅτι ἔστιν ἄνθρωπος λευκὸς καὶ ὅτι οὐκ ἔστιν ἄνθρωπος λευκός, καὶ ἔστιν ἄνθρωπος καλὸς καὶ οὐκ ἔστιν ἄνθρωπος καλός. Εἰ γὰρ αἰσχρός, καὶ οὐ καλός· καὶ εἰ γίνεταί τι, καὶ οὐκ ἔστιν. Δόξειε δ᾿ ἂν ἐξαίφνης ἄτοπον εἶναι διὰ τὸ φαίνεσθαι σημαίνειν τὸ οὐκ ἔστιν ἄνθρωπος λευκός ἅμα καὶ ὅτι οὐδεὶς ἄνθρωπος λευκός· τὸ δὲ οὔτε ταὐτὸν σημαίνει οὔθ᾿ ἅμα ἐξ ἀνάγκης.",
+   "cols": [
+    "17b"
+   ],
+   "notes": [
+    "The four statements set out here became the \"square of opposition\" of the later logicians: \"every\" and \"no\" are contraries; \"every\" and \"not every\", \"no\" and \"some\", are contradictories.",
+    "\"Noble\" renders καλός, which means both beautiful and fine; the ugly man (αἰσχρός) is its opposite."
+   ]
+  },
+  {
+   "seg": "Int.7.p3",
+   "chapter": "Int.7",
+   "modern": "It is clear, too, that there is one denial to one affirmation. For the denial must deny the very thing that the affirmation affirmed, and of the same subject, whether it is an individual or a universal, taken universally or not. I mean, for instance, \"Socrates is white\" and \"Socrates is not white\". If something else is denied, or the same thing of something else, it will not be the opposite denial, but a different one. To \"every man is white\" the denial is \"not every man is white\"; to \"some man is white\", \"no man is white\"; to \"a man is white\", \"a man is not white\". So we have said that one affirmation has one denial contradictorily opposite to it, and which these are; that contraries are different, and which they are; and that not every contradiction is such that one is true and the other false, and why, and when one is true and the other false.",
+   "greek": "Φανερὸν δὲ ὅτι καὶ μία ἀπόφασις μιᾶς καταφάσεώς ἐστι· τὸ γὰρ αὐτὸ δεῖ ἀποφῆσαι τὴν ἀπόφασιν ὅπερ κατέφησεν ἡ κατάφασις, καὶ ἀπὸ τοῦ αὐτοῦ, ἢ τῶν καθ᾿ ἕκαστά τινος ἢ ἀπὸ τῶν καθόλου τινός, ἢ ὡς καθόλου ἢ ὡς μὴ καθόλου. Λέγω δὲ οἷον ἔστι Σωκράτης λευκός — οὐκ ἔστι Σωκράτης λευκός. Ἐὰν δὲ ἄλλο τι ἢ ἀπ᾿ ἄλλου τὸ αὐτό, οὐχ ἡ ἀντικειμένη ἀλλ᾿ ἔσται ἐκείνης ἑτέρα. Τῇ δὲ πᾶς ἄνθρωπος λευκός ἡ οὐ πᾶς ἄνθρωπος λευκός, τῇ δὲ τὶς ἄνθρωπος λευκός ἡ οὐδεὶς ἄνθρωπος λευκός· τῇ δὲ ἔστιν ἄνθρωπος λευκός ἡ οὐκ ἔστιν ἄνθρωπος λευκός. Ὅτι μὲν οὖν μιᾷ καταφάσει μία ἀπόφασις ἀντίκειται ἀντιφατικῶς, καὶ τίνες εἰσὶν αὗται, εἴρηται· καὶ ὅτι αἱ ἐναντίαι ἄλλαι, καὶ τίνες εἰσὶν αὗται, εἴρηται· καὶ ὅτι οὐ πᾶσα ἀληθὴς ἢ ψευδὴς ἀντίφασις, καὶ διὰ τί, καὶ πότε ἀληθὴς ἢ ψευδής.",
+   "cols": [
+    "18a"
+   ]
+  },
+  {
+   "seg": "Int.8.p1",
+   "chapter": "Int.8",
+   "modern": "An affirmation and a denial are one if they signify one thing of one thing, whether it is about a universal taken universally or not like that: for instance, \"every man is white\" and \"not every man is white\"; \"a man is white\" and \"a man is not white\"; \"no man is white\" and \"some man is white\", if \"white\" signifies one thing. But if one name is laid down for two things that do not make up one thing, the affirmation is not one, nor the denial. Suppose someone gave the name \"cloak\" to a horse and a man: then \"the cloak is white\" is not one affirmation, nor is its denial one. For it is no different from saying \"a horse and a man are white\", and that is no different from saying \"a horse is white and a man is white\". If these signify many things and are many, it is clear that the first also signifies either many things or nothing, since no individual man is a horse. So with these statements too it is not necessary that one member of the contradiction be true and the other false.",
+   "greek": "Μία δέ ἐστι κατάφασις καὶ ἀπόφασις ἡ ἓν καθ᾿ ἑνὸς σημαίνουσα, ἢ καθόλου ὄντος καθόλου ἢ μὴ ὁμοίως, οἷον πᾶς ἄνθρωπος λευκός ἐστιν — οὐκ ἔστι πᾶς ἄνθρωπος λευκός, ἔστιν ἄνθρωπος λευκός — οὐκ ἔστιν ἄνθρωπος λευκός, οὐδεὶς ἄνθρωπος λευκός — ἔστι τις ἄνθρωπος λευκός, εἰ τὸ λευκὸν ἓν σημαίνει. Εἰ δὲ δυοῖν ἓν ὄνομα κεῖται, ἐξ ὧν μή ἐστιν ἕν, οὐ μία κατάφασις οὐδὲ ἀπόφασις μία, οἷον εἴ τις θεῖτο ὄνομα ἱμάτιον ἵππῳ καὶ ἀνθρώπῳ, τὸ ἔστιν ἱμάτιον λευκόν, αὕτη οὐ μία κατάφασις οὐδὲ ἀπόφασις μία. Οὐδὲν γὰρ διαφέρει τοῦτο εἰπεῖν ἢ ἔστιν ἵππος καὶ ἄνθρωπος λευκός. Τοῦτο δὲ οὐδὲν διαφέρει τοῦ εἰπεῖν ἔστιν ἵππος λευκὸς καὶ ἔστιν ἄνθρωπος λευκός. Εἰ οὖν αὗται πολλὰ σημαίνουσι καὶ εἰσὶ πολλαί, δῆλον ὅτι καὶ ἡ πρώτη ἤτοι πολλὰ ἢ οὐδὲν σημαίνει· οὐ γάρ ἐστιν ὁ τὶς ἄνθρωπος ἵππος. Ὥστε οὐδ᾿ ἐν ταύταις ἀνάγκη τὴν μὲν ἀληθῆ τὴν δὲ ψευδῆ εἶναι ἀντίφασιν.",
+   "cols": [
+    "18a"
+   ]
+  },
+  {
+   "seg": "Int.9.p1",
+   "chapter": "Int.9",
+   "modern": "With what is and what has come to be, then, the affirmation or the denial must be true or false. With universals taken universally, one must always be true and the other false, and also with individuals, as has been said; but with universals not taken universally this is not necessary, and this too has been discussed. But with individuals and future things it is not like that. For if every affirmation and denial is true or false, then everything must either belong or not belong. So if one person says that something will be and another denies this very thing, clearly one of them must be speaking the truth, if every affirmation and denial is true or false. For both will not hold at the same time in such cases.",
+   "greek": "Ἐπὶ μὲν οὖν τῶν ὄντων καὶ γενομένων ἀνάγκη τὴν κατάφασιν ἢ τὴν ἀπόφασιν ἀληθῆ ἢ ψευδῆ εἶναι, καὶ ἐπὶ μὲν τῶν καθόλου ὡς καθόλου ἀεὶ τὴν μὲν ἀληθῆ τὴν δὲ ψευδῆ εἶναι, καὶ ἐπὶ τῶν καθ᾿ ἕκαστα, ὥσπερ εἴρηται, ἐπὶ δὲ τῶν καθόλου μὴ καθόλου λεχθέντων οὐκ ἀνάγκη· εἴρηται δὲ καὶ περὶ τούτων. Ἐπὶ δὲ τῶν καθ᾿ ἕκαστα καὶ μελλόντων οὐχ ὁμοίως. Εἰ γὰρ πᾶσα κατάφασις καὶ ἀπόφασις ἀληθὴς ἢ ψευδής, καὶ ἅπαν ἀνάγκη ὑπάρχειν ἢ μὴ ὑπάρχειν, ὥστε εἰ ὁ μὲν φήσει ἔσεσθαί τι ὁ δὲ μὴ φήσει τὸ αὐτὸ τοῦτο, δῆλον ὅτι ἀνάγκη ἀληθεύειν τὸν ἕτερον αὐτῶν, εἰ πᾶσα κατάφασις καὶ ἀπόφασις ἀληθὴς ἢ ψευδής. Ἄμφω γὰρ οὐχ ὑπάρξει ἅμα ἐπὶ τοῖς τοιούτοις.",
+   "cols": [
+    "18a"
+   ],
+   "notes": [
+    "This is the most discussed chapter of the work. The Platonists (Ammonius, Boethius) read it as saying that statements about future contingents are true or false, but not definitely so; some modern readers take it to say that they are neither true nor false yet. The modern version keeps to the Greek and leaves the question open, as the Greek does."
+   ]
+  },
+  {
+   "seg": "Int.9.p2",
+   "chapter": "Int.9",
+   "modern": "For if it is true to say that something is white or is not white, it must be white or not white; and if it is white or not white, it was true to affirm or to deny it. If it does not belong, one speaks falsely; and if one speaks falsely, it does not belong. So the affirmation or the denial must be true or false. Then nothing is or comes to be by chance, or as it happens, nor will be or not be, but everything is of necessity and not as it happens: for either the one who affirms or the one who denies speaks the truth. Otherwise it would be just as likely to come about as not, since what happens as it happens is no more so, or not so, now or in the future. Again, if something is white now, it was true earlier to say that it would be white, so that it was always true to say of anything that has come to be that it is or will be. And if it was always true to say that it is or will be, it cannot not be, or not be going to be. But what cannot not come to be is impossible not to come to be; and what is impossible not to come to be must come to be. So everything that will be comes to be of necessity. Nothing, then, will be as it happens or by chance; for if by chance, then not of necessity.",
+   "greek": "Εἰ γὰρ ἀληθὲς εἰπεῖν ὅτι λευκὸν ἢ ὅτι οὐ λευκόν ἐστιν, ἀνάγκη εἶναι λευκὸν ἢ οὐ λευκόν, καὶ εἰ ἔστι λευκὸν ἢ οὐ λευκόν, ἀληθὲς ἦν φάναι ἢ ἀποφάναι· καὶ εἰ μὴ ὑπάρχει, ψεύδεται, καὶ εἰ ψεύδεται, οὐχ ὑπάρχει, ὥστε ἀνάγκη ἢ τὴν κατάφασιν ἢ τὴν ἀπόφασιν ἀληθῆ εἶναι ἢ ψευδῆ. Οὐδὲν ἄρα οὔτε ἔστιν οὔτε γίνεται οὔτε ἀπὸ τύχης οὔθ᾿ ὁπότερ᾿ ἔτυχεν, οὐδὲ ἔσται ἢ οὐκ ἔσται, ἀλλ᾿ ἐξ ἀνάγκης ἅπαντα καὶ οὐχ ὁπότερ᾿ ἔτυχεν. Ἢ γὰρ ὁ φὰς ἀληθεύσει ἢ ὁ ἀποφάς. Ὁμοίως γὰρ ἂν ἐγίνετο ἢ οὐκ ἐγίνετο· τὸ γὰρ ὁπότερ᾿ ἔτυχεν οὐδὲν μᾶλλον οὕτως ἢ μὴ οὕτως ἔχει ἢ ἕξει. Ἔτι εἰ ἔστι λευκὸν νῦν, ἀληθὲς ἦν εἰπεῖν πρότερον ὅτι ἔσται λευκόν, ὥστε ἀεὶ ἀληθὲς ἦν εἰπεῖν ὁτιοῦν τῶν γενομένων ὅτι ἔστιν ἢ ἔσται. Εἰ δὲ ἀεὶ ἀληθὲς ἦν εἰπεῖν ὅτι ἔστιν ἢ ἔσται, οὐχ οἷόν τε τοῦτο μὴ εἶναι οὐδὲ μὴ ἔσεσθαι. Ὃ δὲ μὴ οἷόν τε μὴ γενέσθαι, ἀδύνατον μὴ γενέσθαι· ὃ δὲ ἀδύνατον μὴ γενέσθαι, ἀνάγκη γενέσθαι. Ἅπαντα οὖν τὰ ἐσόμενα ἀναγκαῖον γενέσθαι. Οὐδὲν ἄρα ὁπότερ᾿ ἔτυχεν οὐδὲ ἀπὸ τύχης ἔσται· εἰ γὰρ ἀπὸ τύχης, οὐκ ἐξ ἀνάγκης.",
+   "cols": [
+    "18a",
+    "18b"
+   ],
+   "flags": [
+    {
+     "taylor": "there are no real alternatives",
+     "in": "Edghill, Oxford (1928)",
+     "why": "Edghill's phrase renders ὁπότερ᾿ ἔτυχεν, \"whichever way it happens\", what can turn out either way. \"Real alternatives\" is Edghill's gloss; the modern version keeps closer to the Greek with \"as it happens\"."
+    }
+   ]
+  },
+  {
+   "seg": "Int.9.p3",
+   "chapter": "Int.9",
+   "modern": "Nor can we say that neither is true, that it neither will be nor will not be. First, if the affirmation is false, the denial is not true, and if the denial is false, the affirmation turns out not to be true. Besides, if it is true to say that something is white and large, both must belong to it; and if they will belong tomorrow, they will belong tomorrow. But if something neither will be nor will not be tomorrow, there would be no \"as it happens\": take a sea battle. It would have to be that a sea battle neither comes about tomorrow nor fails to come about.",
+   "greek": "Ἀλλὰ μὴν οὐδ᾿ ὡς οὐδέτερόν γε ἀληθὲς ἐνδέχεται λέγειν, οἷον ὅτι οὔτε ἔσται οὔτε οὐκ ἔσται. Πρῶτον μὲν γὰρ οὔσης τῆς καταφάσεως ψευδοῦς ἡ ἀπόφασις οὐκ ἀληθής, καὶ ταύτης ψευδοῦς οὔσης τὴν κατάφασιν συμβαίνει μὴ ἀληθῆ εἶναι. Καὶ πρὸς τούτοις, εἰ ἀληθὲς εἰπεῖν ὅτι λευκὸν καὶ μέγα, δεῖ ἄμφω ὑπάρχειν. Εἰ δὲ ὑπάρξει εἰς αὔριον, ὑπάρξει εἰς αὔριον. Εἰ δὲ μήτε ἔσται μήτε μὴ ἔσται αὔριον, οὐκ ἂν εἴη τὸ ὁπότερ᾿ ἔτυχεν, οἷον ναυμαχία· δέοι γὰρ ἂν μήτε γενέσθαι ναυμαχίαν αὔριον μήτε μὴ γενέσθαι.",
+   "cols": [
+    "18b"
+   ],
+   "notes": [
+    "The OCR of Edghill's page has lost part of this paragraph (from \"though facts should prove\" to \"both white and large\"); the modern version follows the Greek here."
+   ]
+  },
+  {
+   "seg": "Int.9.p4",
+   "chapter": "Int.9",
+   "modern": "These, then, are the absurd results, and others like them, if of every affirmation and denial, whether about universals taken universally or about individuals, one of the opposites must be true and the other false, and nothing happens as it happens among the things that come to be, but everything is and comes to be of necessity. Then there would be no need to deliberate or to take trouble, thinking that if we do this, that will happen, and if we do not, it will not. For nothing prevents one person from saying, ten thousand years ahead, that this will happen, and another from denying it; so that whichever of the two it was true to say then will happen of necessity. Nor does it make any difference whether anyone actually made the affirmation and the denial or not. For clearly things are so, even if one person did not affirm and another deny: it is not because of the affirming or denying that something will be or will not be, nor any more so ten thousand years ahead than at any other time. So if in all time things were such that one of them was true, it was necessary for this to come about; and each thing that came to be was always such as to come to be of necessity. For what someone has truly said will be cannot fail to come about; and of what comes about it was always true to say that it would be.",
+   "greek": "Τὰ μὲν δὴ συμβαίνοντα ἄτοπα ταῦτα καὶ τοιαῦτα ἕτερα, εἴπερ πάσης καταφάσεως καὶ ἀποφάσεως ἢ ἐπὶ τῶν καθόλου λεγομένων ὡς καθόλου ἢ ἐπὶ τῶν καθ᾿ ἕκαστον ἀνάγκη τῶν ἀντικειμένων εἶναι τὴν μὲν ἀληθῆ τὴν δὲ ψευδῆ, μηδὲν δὲ ὁπότερ᾿ ἔτυχεν εἶναι ἐν τοῖς γιγνομένοις, ἀλλὰ πάντα εἶναι καὶ γίγνεσθαι ἐξ ἀνάγκης. Ὥστε οὔτε βουλεύεσθαι δέοι ἂν οὔτε πραγματεύεσθαι, ὡς ἐὰν μὲν τοδὶ ποιήσωμεν, ἔσται τοδί, ἐὰν δὲ μὴ τοδί, οὐκ ἔσται τοδί. Οὐδὲν γὰρ κωλύει καὶ εἰς μυριοστὸν ἔτος τὸν μὲν φάναι τοῦτο ἔσεσθαι τὸν δὲ μὴ φάναι, ὥστε ἐξ ἀνάγκης ἔσεσθαι ὁποτερονοῦν αὐτῶν ἀληθὲς ἦν εἰπεῖν τότε. Ἀλλὰ μὴν οὐδὲ τοῦτο διαφέρει, εἴ τινες εἶπον τὴν ἀντίφασιν ἢ μὴ εἶπον· δῆλον γὰρ ὅτι οὕτως ἔχει τὰ πράγματα, κἂν μὴ ὁ μὲν καταφήσῃ τι ὁ δὲ ἀποφήσῃ οὐδὲ γὰρ διὰ τὸ καταφαθῆναι ἢ ἀποφαθῆναι ἔσται ἢ οὐκ ἔσται, οὐδ᾿ εἰς μυριοστὸν ἔτος μᾶλλον ἢ ἐν ὁποσῳοῦν χρόνῳ. Ὥστε εἰ ἐν ἅπαντι τῷ χρόνῳ οὕτως εἶχεν ὥστε τὸ ἕτερον ἀληθεύεσθαι, ἀναγκαῖον ἦν τοῦτο γενέσθαι, καὶ ἕκαστον τῶν γενομένων ἀεὶ οὕτως εἶχεν ὥστε ἐξ ἀνάγκης γενέσθαι. Ὅ τε γὰρ ἀληθῶς εἶπέ τις ὅτι ἔσται, οὐχ οἷόν τε μὴ γενέσθαι· καὶ τὸ γινομένον ἀληθὲς ἦν εἰπεῖν ἀεὶ ὅτι ἔσται.",
+   "cols": [
+    "18b",
+    "19a"
+   ]
+  },
+  {
+   "seg": "Int.9.p5",
+   "chapter": "Int.9",
+   "modern": "But these things are impossible. For we see that what will be has a source both in our deliberating and in our doing something, and that, in general, in things that are not always active there is the possibility both of being and of not being. In these both are possible, being and not being, and so also coming to be and not coming to be. Many things are plainly like this. This cloak, for instance, can be cut up, and yet it will not be cut up but will wear out first. Likewise it can also not be cut up; for it could not wear out first if it could not also not be cut up. And so with all other comings to be that are spoken of with this kind of possibility. It is clear, then, that not everything is or comes to be of necessity. Some things happen as it happens, and the affirmation is no more true than the denial; with others one way is more likely and happens for the most part, yet the other can come about instead.",
+   "greek": "Εἰ δὴ ταῦτα ἀδύνατα — ὁρῶμεν γὰρ ὅτι ἔστιν ἀρχὴ τῶν ἐσομένων καὶ ἀπὸ τοῦ βουλεύεσθαι καὶ ἀπὸ τοῦ πρᾶξαί τι, καὶ ὅτι ὅλως ἔστιν ἐν τοῖς μὴ ἀεὶ ἐνεργοῦσι τὸ δυνατὸν εἶναι καὶ μὴ ὁμοίως· ἐν οἷς ἄμφω ἐνδέχεται, καὶ τὸ εἶναι καὶ τὸ μὴ εἶναι, ὥστε καὶ τὸ γενέσθαι καὶ τὸ μὴ γενέσθαι. Καὶ πολλὰ ἡμῖν δῆλά ἐστιν οὕτως ἔχοντα, οἷον ὅτι τουτὶ τὸ ἱμάτιον δυνατόν ἐστι διατμηθῆναι καὶ οὐ διατμηθήσεται, ἀλλ᾿ ἔμπροσθεν κατατριβήσεται. Ὁμοίως δὲ καὶ τὸ μὴ διατμηθῆναι δυνατόν· οὐ γὰρ ἂν ὑπῆρχε τὸ ἔμπροσθεν αὐτὸ κατατριβῆναι, εἴγε μὴ δυνατὸν ἦν τὸ μὴ διατμηθῆναι. Ὥστε καὶ ἐπὶ τῶν ἄλλων γενέσεων, ὅσαι κατὰ δύναμιν λέγονται τὴν τοιαύτην. Φανερὸν ἄρα ὅτι οὐχ ἅπαντα ἐξ ἀνάγκης οὔτ᾿ ἔστιν οὔτε γίνεται, ἀλλὰ τὰ μὲν ὁπότερ᾿ ἔτυχε, καὶ οὐδὲν μᾶλλον ἡ κατάφασις ἢ ἡ ἀπόφασις ἀληθής, τὰ δὲ μᾶλλον μὲν καὶ ὡς ἐπὶ τὸ πολὺ θάτερον, οὐ μὴν ἀλλ᾿ ἐνδέχεται γενέσθαι καὶ θάτερον, θάτερον δὲ μή.",
+   "cols": [
+    "19a"
+   ],
+   "notes": [
+    "\"For the most part\" (ὡς ἐπὶ τὸ πολύ) is Aristotle's phrase for what usually but not always happens, between the necessary and pure chance."
+   ]
+  },
+  {
+   "seg": "Int.9.p6",
+   "chapter": "Int.9",
+   "modern": "That what is should be when it is, and that what is not should not be when it is not, is necessary. But it is not necessary that everything that is should be, nor that everything that is not should not be. For it is not the same to say that everything that is, is of necessity when it is, and to say that it simply is of necessity. Likewise with what is not. And the same account holds of the contradiction. Everything must either be or not be, and either be going to be or not; but one cannot divide them and say that one or the other is necessary. I mean, for instance: it is necessary that there will be a sea battle tomorrow or not, but it is not necessary that there will be a sea battle tomorrow, nor that there will not; it is necessary, though, that it either comes about or does not. So, since statements are true in the way the things are, it is clear that where things are such that they happen as it happens and admit of contraries, the contradiction must be like them. This is what happens with things that do not always exist or do not always fail to exist. With these, one member of the contradiction must be true or false, but not this one or that one: as it happens. One may be more likely true than the other, but it is not yet true or false. So it is clear that it is not necessary, of every affirmation and denial that are opposite, that one is true and the other false. For it is not the same with things that are not but can be or not be as with things that are; it is as we have said.",
+   "greek": "Τὸ μὲν οὖν εἶναι τὸ ὂν ὅταν ᾖ, καὶ τὸ μὴ ὂν μὴ εἶναι ὅταν μὴ ᾗ, ἀνάγκη· οὐ μὴν οὔτε τὸ ὂν ἅπαν ἀνάγκη εἶναι οὔτε τὸ μὴ ὂν μὴ εἶναι. Οὐ γὰρ ταὐτόν ἐστι τὸ ὂν ἅπαν εἶναι ἐξ ἀνάγκης ὅτε ἔστι, καὶ τὸ ἁπλῶς εἶναι ἐξ ἀνάγκης. Ὁμοίως δὲ καὶ ἐπὶ τοῦ μὴ ὄντος. Καὶ ἐπὶ τῆς ἀντιφάσεως ὁ αὐτὸς λόγος. Εἶναι μὲν ἢ μὴ εἶναι ἅπαν ἀνάγκη, καὶ ἔσεσθαί γε ἢ μή· οὐ μέντοι διελόντα γε εἰπεῖν θάτερον ἀναγκαῖον. Λέγω δὲ οἷον ἀνάγκη μὲν ἔσεσθαι ναυμαχίαν αὔριον ἢ μὴ ἔσεσθαι, οὐ μέντοι ἔσεσθαί γε αὔριον ναυμαχίαν ἀναγκαῖον οὐδὲ μὴ γενέσθαι· γενέσθαι μέντοι ἢ μὴ γενέσθαι ἀναγκαῖον. Ὤστ᾿ ἐπεὶ ὁμοίως οἱ λόγοι ἀληθεῖς ὥσπερ τὰ πράγματα, δῆλον ὅτι ὅσα οὕτως ἔχει ὥστε ὁπότερ᾿ ἔτυχε καὶ τἀναντία ἐνδέχεσθαι, ἀνάγκη ὁμοίως ἔχειν καὶ τὴν ἀντίφασιν. Ὅπερ συμβαίνει ἐπὶ τοῖς μὴ ἀεὶ οὖσιν ἢ μὴ ἀεὶ μὴ οὖσιν. Τούτων γὰρ ἀνάγκη μὲν θάτερον μόριον τῆς ἀντιφάσεως ἀληθὲς εἶναι ἢ ψεῦδος, οὐ μέντοι τόδε ἢ τόδε ἀλλ᾿ ὁπότερ᾿ ἔτυχε, καὶ μᾶλλον μὲν ἀληθῆ τὴν ἑτέραν, οὐ μέντοι ἤδη ἀληθῆ ἢ ψευδῆ. Ὥστε δῆλον ὅτι οὐκ ἀνάγκη πάσης καταφάσεως καὶ ἀποφάσεως τῶν ἀντικειμένων τὴν μὲν ἀληθῆ τὴν δὲ ψευδῆ εἶναι· οὐ γὰρ ὥσπερ ἐπὶ τῶν ὄντων, οὕτως ἔχει καὶ ἐπὶ τῶν μὴ ὄντων μὲν δυνατῶν δὲ εἶναι ἢ μὴ εἶναι, ἀλλ᾿ ὥσπερ εἴρηται.",
+   "cols": [
+    "19a"
+   ],
+   "flags": [
+    {
+     "taylor": "but it cannot be either actually true or actually false",
+     "in": "Edghill, Oxford (1928)",
+     "why": "Edghill's \"actually\" brings in the language of actuality, which the Greek does not use here. The Greek says οὐ μέντοι ἤδη ἀληθῆ ἢ ψευδῆ, \"but not yet (or not already) true or false\", as Owen has it: \"yet not already true nor false\"."
+    }
+   ]
+  },
+  {
+   "seg": "Int.10.p1",
+   "chapter": "Int.10",
+   "modern": "An affirmation signifies something about something, and this subject is either a noun or what has no name; and what is in an affirmation must be one thing and about one thing. (The noun and what has no name were discussed before: \"not-man\" I do not call a noun but an indefinite noun, since an indefinite noun too signifies in a way one thing; just as \"is not-healthy\" is not a verb but an indefinite verb.) So every affirmation and denial will be made either of a noun and a verb or of an indefinite noun and a verb. Without a verb there is no affirmation or denial, since \"is\", \"will be\", \"was\", \"comes to be\" and the like are verbs by what was laid down: they also signify time. So the first affirmation and denial will be \"a man is\" and \"a man is not\"; then \"a not-man is\" and \"a not-man is not\"; again, \"every man is\" and \"not every man is\"; \"every not-man is\" and \"not every not-man is\". And the same account holds for the times outside the present.",
+   "greek": "Ἐπεὶ δέ ἐστί τι κατά τινος ἡ κατάφασις σημαίνουσα, τοῦτο δέ ἐστιν ἢ ὄνομα ἢ τὸ ἀνώνυμον, ἓν δὲ δεῖ εἶναι καὶ καθ᾿ ἑνὸς τὸ ἐν τῇ καταφάσει (τὸ δὲ ὄνομα εἴρηται καὶ τὸ ἀνώνυμον πρότερον· τὸ γὰρ οὐκ ἄνθρωπος ὄνομα μὲν οὐ λέγω ἀλλ᾿ ἀόριστον ὄνομα· ἓν γάρ πως σημαίνει καὶ τὸ ἀόριστον· ὥσπερ καὶ τὸ οὐχ ὑγιαίνει οὐ ῥῆμα ἀλλ᾿ ἀόριστον ῥῆμα), ἔσται πᾶσα κατάφασις καὶ ἀπόφασις ἢ ἐξ ὀνόματος καὶ ῥήματος ἢ ἐξ ἀορίστου ὀνόματος καὶ ῥήματος. Ἄνευ δὲ ῥήματος οὐδεμία κατάφασις οὐδὲ ἀπόφασις· τὸ γὰρ ἔστιν ἢ ἔσται ἢ ἦν ἢ γίνεται, ἢ ὅσα ἄλλα τοιαῦτα, ῥήματα ἐκ τῶν κειμένων ἐστί· προσσημαίνει γὰρ χρόνον. Ὥστε πρώτη ἔσται κατάφασις καὶ ἀπόφασις τὸ ἔστιν ἄνθρωπος — οὐκ ἔστιν ἄνθρωπος, εἶτα ἔστιν οὐκ ἄνθρωπος — οὐκ ἔστιν οὐκ ἄνθρωπος, πάλιν ἔστι πᾶς ἄνθρωπος — οὐκ ἔστι πᾶς ἄνθρωπος, ἔστι πᾶς οὐκ ἄνθρωπος — οὐκ ἔστι πᾶς οὐκ ἄνθρωπος. Καὶ ἐπὶ τῶν ἐκτὸς δὲ χρόνων ὁ αὐτὸς λόγος.",
+   "cols": [
+    "19a"
+   ],
+   "flags": [
+    {
+     "taylor": "‘every man is’, ‘every man is not’",
+     "in": "Edghill, Oxford (1928)",
+     "why": "Edghill's \"every man is not\" renders οὐκ ἔστι πᾶς ἄνθρωπος. In today's English \"every man is not\" sounds like \"no man is\", the contrary; the Greek denial is the contradictory, \"not every man is\", as Aristotle explains in chapter 7."
+    }
+   ]
+  },
+  {
+   "seg": "Int.10.p2",
+   "chapter": "Int.10",
+   "modern": "When \"is\" is predicated as a third element, the opposed pairs are said in two ways. I mean, for instance, \"a man is just\": here I say that \"is\" is put together as a third element, noun or verb, in the affirmation. So for this reason there will be four statements, of which two will stand to the affirmation and denial in their order of sequence as the privations do, and two will not. I mean that \"is\" will be added either to \"just\" or to \"not-just\", and so too with the denial; so there will be four. We understand what is meant from the table written below. \"A man is just\": its denial, \"a man is not just\". \"A man is not-just\": its denial, \"a man is not not-just\". For \"is\" and \"is not\" are added here to \"just\" and to \"not-just\". These, then, are arranged as is said in the Analytics. It is the same if the affirmation is about the noun taken universally: \"every man is just\", its denial \"not every man is just\"; \"every man is not-just\", its denial \"not every man is not-just\". But here it is not possible in like manner for those across the diagonal to be true together, though it is possible sometimes. These two pairs, then, are opposed; and there are two others, when something is added to \"not-man\" as a kind of subject: \"a not-man is just\" and \"a not-man is not just\"; \"a not-man is not-just\" and \"a not-man is not not-just\". There will be no more opposed pairs than these. These last will stand apart from the others, by themselves, as using \"not-man\" as a noun.",
+   "greek": "Ὅταν δὲ τὸ ἔστι τρίτον προσκατηγορῆται, ἤδη διχῶς λέγονται αἱ ἀντιθέσεις. Λέγω δὲ οἷον ἔστι δίκαιος ἄνθρωπος· τὸ ἔστι τρίτον φημὶ συγκεῖσθαι ὄνομα ἢ ῥῆμα ἐν τῇ καταφάσει. Ὥστε διὰ τοῦτο τέτταρα ἔσται ταῦτα, ὧν τὰ μὲν δύο πρὸς τὴν κατάφασιν καὶ ἀπόφασιν ἕξει κατὰ τὸ στοιχοῦν ὡς αἱ στερήσεις, τὰ δὲ δύο οὔ. Λέγω δ᾿ ὅτι τὸ ἔστιν ἢ τῷ δικαίῳ προσκείσεται ἢ τῷ οὐ δικαίῳ, ὥστε καὶ ἡ ἀπόφασις. Τέτταρα οὖν ἔσται. Νοοῦμεν δὲ τὸ λεγόμενον ἐκ τῶν ὑπογεγραμμένων. Ἔστι δίκαιος ἄνθρωπος· ἀπόφασις τούτου, οὐκ ἔστι δίκαιος ἄνθρωπος. Ἔστιν οὐ δίκαιος ἄνθρωπος· τούτου ἀπόφασις, οὐκ ἔστιν οὐ δίκαιος ἄνθρωπος. Τὸ γὰρ ἔστιν ἐνταῦθα καὶ τὸ οὐκ ἔστι τῷ δικαίῳ προσκείσεται καὶ τῷ οὐ δικαίῳ. Ταῦτα μὲν οὖν, ὥσπερ ἐν τοῖς Ἀναλυτικοῖς λέγεται, οὕτω τέτακται. Ὁμοίως δὲ ἔχει κἂν καθόλου τοῦ ὀνόματος ᾖ ἡ κατάφασις, οἷον πᾶς ἐστὶν ἄνθρωπος δίκαιος. Ἀπόφασις τούτου, οὐ πᾶς ἐστὶν ἄνθρωπος δίκαιος. Πᾶς ἐστὶν ἄνθρωπος οὐ δίκαιος — οὐ πᾶς ἐστὶν ἄνθρωπος οὐ δίκαιος. Πλὴν οὐχ ὁμοίως τὰς κατὰ διάμετρον ἐνδέχεται συναληθεύειν· ἐνδέχεται δὲ ποτέ. Αὗται μὲν οὖν δύο ἀντίκεινται, ἄλλαι δὲ δύο πρὸς τὸ οὐκ ἄνθρωπος ὡς ὑποκείμενόν τι προστεθέν· ἔστι δίκαιος οὐκ ἄνθρωπος — οὐκ ἔστι δίκαιος οὐκ ἄνθρωπος, ἔστιν οὐ δίκαιος οὐκ ἄνθρωπος — οὐκ ἔστιν οὐ δίκαιος οὐκ ἄνθρωπος. Πλείους δὲ τούτων οὐκ ἔσονται ἀντιθέσεις. Αὗται δὲ χωρὶς ἐκείνων αὐταὶ καθ᾿ ἑαυτὰς ἔσονται, ὡς ὀνόματι τῷ οὐκ ἄνθρωπος χρώμεναι.",
+   "cols": [
+    "19a"
+   ],
+   "notes": [
+    "\"As the privations do\": \"a man is not-just\" stands to \"a man is just\" as \"a man is unjust\" (the privation) does. Edghill's notes discuss whether \"is\" here is the copula or means \"there is\"; the modern version keeps the copula, as the Greek's example suggests.",
+    "\"The table written below\" was a diagram in Aristotle's copy, with the four statements at the corners; the diagonal joins \"a man is not just\" to \"a man is not-just\" and \"a man is just\" to \"a man is not not-just\"."
+   ]
+  },
+  {
+   "seg": "Int.10.p3",
+   "chapter": "Int.10",
+   "modern": "Where \"is\" does not fit, as with \"is healthy\" and \"walks\", the verb so placed does the same as \"is\" would if it were attached: \"every man is healthy\" and \"not every man is healthy\"; \"every not-man is healthy\" and \"not every not-man is healthy\". For in these one must not say \"not-every man\": the \"not\", the denial, must be added to \"man\". For \"every\" does not signify the universal, but that the subject is taken universally. This is clear from these: \"a man is healthy\" and \"a man is not healthy\"; \"a not-man is healthy\" and \"a not-man is not healthy\". These differ from the others in not being universal. So \"every\" and \"no\" signify nothing further than that the affirmation or the denial is about the noun taken universally. The rest must be added in the same way.",
+   "greek": "Ἐφ᾿ ὅσων δὲ τὸ ἔστι μὴ ἁρμόττει, οἷον ἐπὶ τοῦ ὑγιαίνει καὶ βαδίζει, ἐπὶ τούτων τὸ αὐτὸ ποιεῖ οὕτω τιθέμενον ὡς ἂν εἰ τὸ ἔστι προσήπτετο, οἷον ὑγιαίνει πᾶς ἄνθρωπος — οὐχ ὑγιαίνει πᾶς ἄνθρωπος, ὑγιαίνει πᾶς οὐκ ἄνθρωπος — οὐχ ὑγιαίνει πᾶς οὐκ ἄνθρωπος. Οὐ γάρ ἐστι τὸ οὐ πᾶς ἄνθρωπος λεκτέον, ἀλλὰ τὸ οὔ, τὴν ἀπόφασιν, τῷ ἄνθρωπος προσθετέον. Τὸ γὰρ πᾶς οὐ τὸ καθόλου σημαίνει, ἀλλ᾿ ὅτι καθόλου. Δῆλον δὲ ἐκ τοῦδε, ὑγιαίνει ἄνθρωπος — οὐχ ὑγιαίνει ἄνθρωπος, ὑγιαίνει οὐκ ἄνθρωπος — οὐχ ὑγιαίνει οὐκ ἄνθρωπος. Ταῦτα γὰρ ἐκείνων διαφέρει τῷ μὴ καθόλου εἶναι. Ὥστε τὸ πᾶς ἢ οὐδείς οὐδὲν ἄλλο προσσημαίνει ἢ ὅτι καθόλου τοῦ ὀνόματος ἢ κατάφασιν ἢ ἀπόφασιν. Τὰ δὲ ἄλλα τὰ αὐτὰ δεῖ προστιθέναι.",
+   "cols": [
+    "19a",
+    "19b",
+    "20a"
+   ],
+   "notes": [
+    "The sentence about \"not-every man\" is hard and read in more than one way. The modern version takes it, with most readers, to mean that in \"every not-man\" the \"not\" belongs with \"man\" and not with \"every\"."
+   ]
+  },
+  {
+   "seg": "Int.10.p4",
+   "chapter": "Int.10",
+   "modern": "Since the denial contrary to \"every animal is just\" is the one that signifies that \"no animal is just\", clearly these will never be true together, nor of the same thing; but their opposites sometimes will be, such as \"not every animal is just\" and \"some animal is just\". These follow: from \"every man is not-just\", \"no man is just\"; and from \"some man is just\", its opposite, \"not every man is not-just\", since there must be some just man. It is clear too that with individuals, if it is true to deny something when asked, it is also true to affirm something. \"Is Socrates wise? No.\" Then \"Socrates is not-wise\". But with universals the statement made in like manner is not true; the denial is. \"Is every man wise? No.\" Then \"every man is not-wise\": this is false. But \"not every man is wise\" is true: this is the opposite, the other is the contrary. Opposites made with indefinite nouns and verbs, such as \"not-man\" and \"not-just\", might seem to be denials without a noun and a verb. But they are not. For a denial must always be true or false; but someone who says \"not-man\", unless something is added, has said nothing more true or false than someone who says \"man\", but rather less. \"Every not-man is just\" signifies the same as none of those statements; nor does its opposite, \"not every not-man is just\". But \"every not-man is not-just\" signifies the same as \"no not-man is just\".",
+   "greek": "Ἐπεὶ δὲ ἐναντία ἀπόφασίς ἐστι τῇ ἅπαν ἐστὶ ζῷον δίκαιον ἡ σημαίνουσα ὅτι οὐδέν ἐστι ζῷον δίκαιον, αὗται μὲν φανερὸν ὅτι οὐδέποτε ἔσονται οὔτε ἀληθεῖς ἅμα οὔτε ἐπὶ τοῦ αὐτοῦ, αἱ δὲ ἀντικείμεναι ταύταις ἔσονταί ποτε, οἷον οὐ πᾶν ζῷον δίκαιον καὶ ἔστι τι ζῷον δίκαιον. Ἀκολουθοῦσι δὲ αὗται, τῇ μὲν πᾶς ἄνθρωπος οὐ δίκαιός ἐστιν ἡ οὐδείς ἐστιν ἄνθρωπος δίκαιος, τῇ δὲ ἔστι τις ἄνθρωπος δίκαιος ἡ ἀντικειμένη ὅτι οὐ πᾶς ἄνθρωπός ἐστιν οὐ δίκαιος· ἀνάγκη γὰρ εἶναί τινα. Φανερὸν δὲ καὶ ὅτι ἐπὶ μὲν τῶν καθ᾿ ἕκαστον, εἰ ἀληθὲς ἐρωτηθέντα ἀποφῆσαι, ὅτι καὶ καταφῆσαι ἀληθές· οἷον ἆρά γε Σωκράτης σοφός; οὔ. Σωκράτης ἄρα οὐ σοφός. Ἐπὶ δὲ τῶν καθόλου οὐκ ἀληθὴς ἡ ὁμοίως λεγομένη, ἀληθὴς δὲ ἡ ἀπόφασις, οἷον ἆρά γε πᾶς ἄνθρωπος σοφός; οὔ. Πᾶς ἄρα ἄνθρωπος οὐ σοφός· τοῦτο γὰρ ψεῦδος. Ἀλλὰ τὸ οὐ πᾶς ἄρα ἄνθρωπος σοφός ἀληθές· αὕτη δέ ἐστιν ἡ ἀντικειμένη, ἐκείνη δὲ ἡ ἐναντία. Αἱ δὲ κατὰ τὰ ἀόριστα ἀντικείμεναι ὀνόματα καὶ ῥήματα, οἷον ἐπὶ τοῦ μὴ ἄνθρωπος καὶ μὴ δίκαιος, ὥσπερ ἀποφάσεις ἄνευ ὀνόματος καὶ ῥήματος δόξειαν ἂν εἶναι. Οὐκ εἰσὶ δέ· ἀεὶ γὰρ ἀληθεύειν ἀνάγκη ἢ ψεύδεσθαι τὴν ἀπόφασιν, ὁ δ᾿ εἰπὼν οὐκ ἄνθρωπος οὐδὲν μᾶλλον τοῦ εἰπόντος ἄνθρωπος ἀλλὰ καὶ ἧττον ἠλήθευκέ τι ἢ ἔψευσται, ἐὰν μήτι προστεθῇ. Σημαίνει δὲ τὸ ἔστι πᾶς οὐκ ἄνθρωπος δίκαιος οὐδεμιᾷ ἐκείνων ταὐτόν, οὐδὲ ἡ ἀντικειμένη ταύτῃ ἡ οὐκ ἔστι πᾶς οὐκ ἄνθρωπος δίκαιος· τὸ δὲ πᾶς οὐ δίκαιος οὐκ ἄνθρωπος τῷ οὐδεὶς δίκαιος οὐκ ἄνθρωπος ταὐτὸν σημαίνει.",
+   "cols": [
+    "20a"
+   ]
+  },
+  {
+   "seg": "Int.10.p5",
+   "chapter": "Int.10",
+   "modern": "Nouns and verbs signify the same when their order is changed: \"man is white\" and \"white is man\". For if this were not so, there would be more than one denial of the same affirmation. But it has been shown that one affirmation has one denial. For the denial of \"man is white\" is \"man is not white\"; and the denial of \"white is man\", if it is not the same as \"man is white\", will be either \"white is not not-man\" or \"white is not man\". But the first is the denial of \"white is not-man\", and the second the denial of \"man is white\"; so there will be two denials of one affirmation. It is clear, then, that when the noun and the verb change places, the affirmation and the denial stay the same.",
+   "greek": "Μετατιθέμενα δὲ τὰ ὀνόματα καὶ τὰ ῥήματα ταὐτὸν σημαίνει, οἷον ἔστι λευκὸς ἄνθρωπος, ἔστιν ἄνθρωπος λευκός. Εἰ γὰρ μὴ τοῦτό ἐστι, τοῦ αὐτοῦ πλείους ἔσονται ἀποφάσεις. Ἀλλ᾿ ἐδέδεικτο ὅτι μία μιᾶς. Τοῦ μὲν γὰρ ἔστι λευκὸς ἄνθρωπος ἀπόφασις τὸ οὐκ ἔστι λευκὸς ἄνθρωπος· τοῦ δὲ ἔστιν ἄνθρωπος λευκός, εἰ μὴ ἡ αὐτή ἐστι τῇ ἔστι λευκὸς ἄνθρωπος, ἔσται ἀπόφασις ἤτοι τὸ οὐκ ἔστιν οὐκ ἄνθρωπος λευκός ἢ τὸ οὐκ ἔστιν ἄνθρωπος λευκός. Ἀλλ᾿ ἡ ἑτέρα μέν ἐστιν ἀπόφασις τοῦ ἔστιν οὐκ ἄνθρωπος λευκός, ἡ ἑτέρα δὲ τοῦ ἔστι λευκὸς ἄνθρωπος, ὥστε ἔσονται δύο μιᾶς. Ὅτι μὲν οὖν μετατιθεμένου τοῦ ὀνόματος καὶ τοῦ ῥήματος ἡ αὐτὴ γίνεται κατάφασις καὶ ἀπόφασις, δῆλον.",
+   "cols": [
+    "20a",
+    "20b"
+   ],
+   "notes": [
+    "The Greek examples, ἔστι λευκὸς ἄνθρωπος and ἔστιν ἄνθρωπος λευκός, differ only in word order, which Greek can change freely; English cannot, so the modern version, like Edghill, turns them into \"man is white\" and \"white is man\"."
+   ]
+  },
+  {
+   "seg": "Int.11.p1",
+   "chapter": "Int.11",
+   "modern": "To affirm or deny one thing of many, or many things of one, is not one affirmation or one denial unless something one is made plain by the many. I do not call it one if one name is laid down but there is not one thing made from them. Man, perhaps, is animal and two-footed and tame, and yet one thing comes from these; but from white and man and walking, not one thing. So if someone affirms one thing of these, it is not one affirmation: it is one spoken sound but many affirmations. Nor is it one if he affirms these of one thing: they are likewise many.",
+   "greek": "Τὸ δὲ ἓν κατὰ πολλῶν ἢ πολλὰ καθ᾿ ἑνὸς καταφάναι ἢ ἀποφάναι, ἐὰν μὴ ἕν τι ᾖ τὸ ἐκ τῶν πολλῶν δηλούμενον, οὐκ ἔστι κατάφασις μία οὐδὲ ἀπόφασις. Λέγω δὲ ἓν οὐκ ἐὰν ὄνομα ἓν ᾖ κείμενον, μὴ ᾖ δὲ ἕν τι ἐξ ἐκείνων, οἷον ὁ ἄνθρωπος ἴσως ἐστὶ καὶ ζῷον καὶ δίπουν καὶ ἥμερον, ἀλλὰ καὶ ἕν τι γίνεται ἐκ τούτων· ἐκ δὲ τοῦ λευκοῦ καὶ τοῦ ἀνθρώπου καὶ τοῦ βαδίζειν οὐχ ἕν. Ὥστε οὔτ᾿ ἐὰν ἕν τι κατὰ τούτων καταφήσῃ τις μία κατάφασις, ἀλλὰ φωνὴ μὲν μία καταφάσεις δὲ πολλαί, οὔτε ἐὰν καθ᾿ ἑνὸς ταῦτα, ἀλλ᾿ ὁμοίως πολλαί.",
+   "cols": [
+    "20b"
+   ],
+   "notes": [
+    "\"Two-footed tame animal\" was a stock definition of man in the schools; its parts make one thing, a definition, whereas \"white walking man\" is a heap."
+   ]
+  },
+  {
+   "seg": "Int.11.p2",
+   "chapter": "Int.11",
+   "modern": "A dialectical question is a request for an answer, either for a premise or for one part of a contradiction, and a premise is one part of one contradiction. If so, there could not be one answer to these questions, since the question is not one either, not even if it is true. This has been discussed in the Topics. At the same time it is clear that \"what is it?\" is not a dialectical question either. For the one questioned must be given the choice, by the question, of stating whichever part of the contradiction he wishes. The questioner must specify further, asking, for instance, whether a man is this or not this.",
+   "greek": "Εἰ οὖν ἡ ἐρώτησις ἡ διαλεκτικὴ ἀποκρίσεώς ἐστιν αἴτησις, ἢ τῆς προτάσεως ἢ θατέρου μορίου τῆς ἀντιφάσεως, ἡ δὲ πρότασις ἀντιφάσεως μιᾶς μόριον, οὐκ ἂν εἴη ἀπόκρισις μία πρὸς ταῦτα· οὐδὲ γὰρ ἡ ἐρώτησις μία, οὐδ᾿ ἐὰν ᾖ ἀληθής. Εἴρηται δὲ ἐν τοῖς Τοπικοῖς περὶ αὐτῶν. Ἅμα δὲ δῆλον ὅτι οὐδὲ τὸ τί ἐστιν ἐρώτησίς ἐστι διαλεκτική· δεῖ γὰρ δεδόσθαι ἐκ τῆς ἐρωτήσεως ἑλέσθαι ὁπότερον βούλεται τῆς ἀντιφάσεως μόριον ἀποφήνασθαι. Ἀλλὰ δεῖ τὸν ἐρωτῶντα προσδιορίσαι πότερον τόδε ἐστὶν ὁ ἄνθρωπος ἢ οὐ τοῦτο.",
+   "cols": [
+    "20b"
+   ],
+   "notes": [
+    "A dialectical debate, as the Topics describes it, goes by questions answered \"yes\" or \"no\". \"What is a man?\" cannot be answered so; \"Is a man a two-footed animal?\" can."
+   ]
+  },
+  {
+   "seg": "Int.11.p3",
+   "chapter": "Int.11",
+   "modern": "Some things predicated separately are also predicated combined, as one whole predicate, and some are not. What is the difference? Of a man it is true to say \"animal\" separately and \"two-footed\" separately, and these as one; and \"man\" and \"white\", and these as one. But if he is a cobbler and good, he is not therefore a good cobbler. For if, because each is true, the combination must also be true, many absurd results will follow. Of a man both \"man\" and \"white\" are true, and so the whole. Again, if \"white\" is true, so is the whole, so that he will be a white white man, and so on without end. Again, \"musical white walking\": and these can be woven together many times without end. Again, if Socrates is Socrates and a man, he is Socrates the man Socrates; and if he is a man and two-footed, he is a two-footed man man. It is clear, then, that if one says simply that the combinations always come about, many absurd results follow. Let us now say how it should be laid down.",
+   "greek": "Ἐπεὶ δὲ τὰ μὲν κατηγορεῖται συντιθέμενα, ὡς ἓν τὸ πᾶν κατηγόρημα τῶν χωρὶς κατηγορουμένων, τὰ δ᾿ οὔ, τίς ἡ διαφορά; κατὰ γὰρ τοῦ ἀνθρώπου ἀληθὲς εἰπεῖν καὶ χωρὶς ζῷον καὶ χωρὶς δίπουν, καὶ ταῦτα ὡς ἕν, καὶ ἄνθρωπον καὶ λευκόν, καὶ ταῦθ᾿ ὡς ἕν. Ἀλλ᾿ οὐχί, εἰ σκυτεὺς καὶ ἀγαθός, καὶ σκυτεὺς ἀγαθός. Εἰ γάρ, ὅτι ἑκάτερον ἀληθές, εἶναι δεῖ καὶ τὸ συνάμφω, πολλὰ καὶ ἄτοπα ἔσται. Κατὰ γὰρ τοῦ ἀνθρώπου καὶ τὸ ἄνθρωπος ἀληθὲς καὶ τὸ λευκόν, ὥστε καὶ τὸ ἅπαν. Πάλιν εἰ τὸ λευκὸν αὐτό, καὶ τὸ ἅπαν, ὥστε ἔσται ἄνθρωπος λευκὸς λευκός, καὶ τοῦτο εἰς ἄπειρον. Καὶ πάλιν μουσικὸς λευκὸς βαδίζων· καὶ ταῦτα πολλάκις πεπλεγμένα εἰς ἄπειρον. Ἔτι εἰ ὁ Σωκράτης Σωκράτης καὶ ἄνθρωπος, καὶ Σωκράτης Σωκράτης ἄνθρωπος. Καὶ εἰ ἄνθρωπος καὶ δίπους, καὶ ἄνθρωπος ἄνθρωπος δίπους. Ὅτι μὲν οὖν εἴ τις ἁπλῶς φήσει τὰς συμπλοκὰς γίνεσθαι, πολλὰ συμβαίνει λέγειν ἄτοπα, δῆλον· ὅπως δὲ θετέον, λέγομεν νῦν.",
+   "cols": [
+    "20b",
+    "21a"
+   ]
+  },
+  {
+   "seg": "Int.11.p4",
+   "chapter": "Int.11",
+   "modern": "Of things predicated, and things they happen to be predicated of, those that are said by accident, either of the same thing or one of the other, will not be one. A man, for instance, is white and musical, but \"white\" and \"musical\" are not one, since both are accidents of the same thing. Nor, even if it is true to say that the white is musical, will \"musical white\" be one thing; for the musical is white by accident, so \"white musical\" will not be one thing. This is why a cobbler is not simply good, but he is a two-footed animal, since this does not belong to him by accident. Again, things that are contained in the other do not combine either. So \"white\" is not repeated, and a man is not a man-animal or a two-footed man, since \"animal\" and \"two-footed\" are contained in \"man\".",
+   "greek": "Τῶν δὴ κατηγορουμένων, καὶ ἐφ᾿ οἷς κατηγορεῖσθαι συμβαίνει, ὅσα μὲν λέγεται κατὰ συμβεβηκὸς ἢ κατὰ τοῦ αὐτοῦ ἢ θάτερον κατὰ θατέρου, ταῦτα οὐκ ἔσται ἕν, οἷον ἄνθρωπος λευκός ἐστι καὶ μουσικός, ἀλλ᾿ οὐχ ἓν τὸ λευκὸν καὶ τὸ μουσικόν· συμβεβηκότα γὰρ ἄμφω τῷ αὐτῷ. Οὐδ᾿ εἰ τὸ λευκὸν μουσικὸν ἀληθὲς εἰπεῖν, ὅμως οὐκ ἔσται τὸ μουσικὸν λευκὸν ἕν τι· κατὰ συμβεβηκὸς γὰρ τὸ μουσικὸν λευκόν, ὥστε οὐκ ἔσται τὸ λευκὸν μουσικὸν ἕν τι. Διὸ οὐδ᾿ ὁ σκυτεὺς ἁπλῶς ἀγαθός, ἀλλὰ ζῷον δίπουν· οὐ γὰρ κατὰ συμβεβηκός. Ἔτι οὐδ᾿ ὅσα ἐνυπάρχει ἐν τῷ ἑτέρῳ. Διὸ οὔτε τὸ λευκὸν πολλάκις οὔτε ὁ ἄνθρωπος ἄνθρωπος ζῷόν ἐστιν ἢ δίπουν· ἐνυπάρχει γὰρ ἐν τῷ ἀνθρώπῳ τὸ ζῷον καὶ τὸ δίπουν.",
+   "cols": [
+    "21a"
+   ]
+  },
+  {
+   "seg": "Int.11.p5",
+   "chapter": "Int.11",
+   "modern": "But it is true to say something of the individual simply as well: that a particular man is a man, or a particular white man a white man. Not always, though. When something opposite is contained in what is added, from which a contradiction follows, it is not true but false: to call a dead man a man, for instance. When nothing of the kind is contained, it is true. Or rather: when it is contained, it is never true, and when it is not, it is not always true. Homer, for instance, is something, a poet. Does it follow that he is, or not? \"Is\" is predicated of Homer by accident: it is predicated of him because he is a poet, not in its own right. So with predications that contain no contrariety if accounts are said in place of the names, and where the predicates are said in their own right and not by accident, it will be true to say the particular thing simply too. But what is not, because it is believed in, cannot truly be said to be something; for the belief about it is not that it is, but that it is not.",
+   "greek": "Ἀληθὲς δέ ἐστιν εἰπεῖν κατὰ τοῦ τινὸς καὶ ἁπλῶς, οἷον τὸν τινὰ ἄνθρωπον ἄνθρωπον ἢ τὸν τινὰ λευκὸν ἄνθρωπον ἄνθρωπον λευκόν· οὐκ ἀεὶ δέ, ἀλλ᾿ ὅταν μὲν ἐν τῷ προσκειμένῳ τῶν ἀντικειμένων τι ἐνυπάρχῃ ᾧ ἕπεται ἀντίφασις, οὐκ ἀληθὲς ἀλλὰ ψεῦδος, οἷον τὸν τεθνεῶτα ἄνθρωπον ἄνθρωπον εἰπεῖν, ὅταν δὲ μὴ ἐνυπάρχῃ, ἀληθές. Ἢ ὅταν μὲν ἐνυπάρχῃ, ἀεὶ οὐκ ἀληθές, ὅταν δὲ μὴ ἐνυπάρχῃ, οὐκ ἀεὶ ἀληθές, ὥσπερ Ὅμηρός ἐστί τι, οἷον ποιητής. Ἀρ᾿ οὖν καὶ ἔστιν, ἢ οὔ; κατὰ συμβεβηκὸς γὰρ κατηγορεῖται τοῦ Ὁμήρου τὸ ἔστιν· ὅτι γὰρ ποιητής ἐστιν, ἀλλ᾿ οὐ καθ᾿ αὑτό, κατηγορεῖται κατὰ τοῦ Ὁμήρου τὸ ἔστιν. Ὥστε ἐν ὅσαις κατηγορίαις μήτε ἐναντιότης ἔνεστιν, ἐὰν λόγοι ἀντ᾿ ὀνομάτων λέγωνται, καὶ καθ᾿ ἑαυτὰ κατηγορῆται καὶ μὴ κατὰ συμβεβηκός, ἐπὶ τούτων τὸ τὶ καὶ ἁπλῶς ἀληθὲς ἔσται εἰπεῖν. Τὸ δὲ μὴ ὄν, ὅτι δοξαστόν, οὐκ ἀληθὲς εἰπεῖν ὄν τι· δόξα γὰρ αὐτοῦ οὐκ ἔστιν ὅτι ἔστιν, ἀλλ᾿ ὅτι οὐκ ἔστιν.",
+   "cols": [
+    "21a"
+   ],
+   "notes": [
+    "\"A dead man\" contains an opposite: a man is a living animal, and \"dead\" contradicts \"living\"; so a dead man is not simply a man. Homer, long dead, is still \"a poet\", but it does not follow that he \"is\"."
+   ]
+  },
+  {
+   "seg": "Int.12.p1",
+   "chapter": "Int.12",
+   "modern": "With these things settled, we must consider how the denials and affirmations of \"possible to be\" and \"not possible\", \"contingent\" and \"not contingent\", and of \"impossible\" and \"necessary\", are related to each other; for this has some difficulties. Of combined expressions, those are opposed to each other as contradictories that are ranged by \"to be\" and \"not to be\". The denial of \"to be a man\", for instance, is \"not to be a man\", not \"to be a not-man\"; and the denial of \"to be a white man\" is \"not to be a white man\", not \"to be a not-white man\". For if either the affirmation or the denial is true of everything, it would be true to say that a log is a not-white man. If this is so, then where \"to be\" is not added, what is said in place of \"to be\" will do the same. The denial of \"a man walks\" will not be \"a not-man walks\" but \"a man does not walk\", since there is no difference between saying that a man walks and that a man is walking. So if this holds everywhere, the denial of \"possible to be\" will be \"possible not to be\", and not \"not possible to be\".",
+   "greek": "Τούτων δὲ διωρισμένων σκεπτέον ὅπως ἔχουσιν αἱ ἀποφάσεις καὶ καταφάσεις πρὸς ἀλλήλας αἱ τοῦ δυνατὸν εἶναι καὶ μὴ δυνατὸν καὶ ἐνδεχόμενον καὶ μὴ ἐνδεχόμενον, καὶ περὶ τοῦ ἀδυνάτου τε καὶ ἀναγκαίου· ἔχει γὰρ ἀπορίας τινάς. Εἰ γὰρ τῶν συμπλεκομένων αὗται ἀλλήλαις ἀντίκεινται ἀντιφάσεις, ὅσαι κατὰ τὸ εἶναι καὶ μὴ εἶναι τάττονται, οἷον τοῦ εἶναι ἄνθρωπον ἀπόφασις τὸ μὴ εἶναι ἄνθρωπον, οὐ τὸ εἶναι μὴ ἄνθρωπον, καὶ τοῦ εἶναι λευκὸν ἄνθρωπον τὸ μὴ εἶναι λευκὸν ἄνθρωπον, ἀλλ᾿ οὐ τὸ εἶναι μὴ λευκὸν ἄνθρωπον. Εἰ γὰρ κατὰ παντὸς ἡ κατάφασις ἢ ἡ ἀπόφασις, τὸ ξύλον ἔσται ἀληθὲς εἰπεῖν εἶναι μὴ λευκὸν ἄνθρωπον. Εἰ δὲ τοῦτο οὕτως, καὶ ὅσοις τὸ εἶναι μὴ προστίθεται, τὸ αὐτὸ ποιήσει τὸ ἀντὶ τοῦ εἶναι λεγόμενον, οἷον τοῦ ἄνθρωπος βαδίζει οὐ τὸ οὐκ ἄνθρωπος βαδίζει ἀπόφασις ἔσται, ἀλλὰ τὸ οὐ βαδίζει ἄνθρωπος· οὐδὲν γὰρ διαφέρει εἰπεῖν ἄνθρωπον βαδίζειν ἢ ἄνθρωπον βαδίζοντα εἶναι. Ὥστε εἰ οὕτως πανταχοῦ, καὶ τοῦ δυνατὸν εἶναι ἀπόφασις ἔσται τὸ δυνατὸν μὴ εἶναι, ἀλλ᾿ οὐ τὸ μὴ δυνατὸν εἶναι.",
+   "cols": [
+    "21a",
+    "21b"
+   ]
+  },
+  {
+   "seg": "Int.12.p2",
+   "chapter": "Int.12",
+   "modern": "But the same thing seems to be able both to be and not to be. Everything that can be cut or can walk can also not walk and not be cut. The reason is that whatever is possible in this way is not always active, so that the denial will belong to it too: what can walk can also not walk, and what can be seen can also not be seen. But it is impossible for opposite statements to be true of the same thing. So \"possible not to be\" is not the denial of \"possible to be\". For it follows from this either that one affirms and denies the same thing of the same thing at the same time, or that the affirmations and denials are not made by adding \"to be\" and \"not to be\". If the first is impossible, the second must be chosen. So the denial of \"possible to be\" is \"not possible to be\". The same account holds of \"contingent to be\": its denial is \"not contingent to be\". And likewise with the others, such as \"necessary\" and \"impossible\". In the earlier cases \"to be\" and \"not to be\" were additions, and the underlying things were \"white\" and \"man\". In the same way here \"to be\" and \"not to be\" become the subject, and \"can\" and \"is contingent\" are the additions, which determine the possible and the not possible, just as \"to be\" and \"not to be\" determined the true and the false in the earlier cases.",
+   "greek": "Δοκεῖ δὲ τὸ αὐτὸ δύνασθαι καὶ εἶναι καὶ μὴ εἶναι· πᾶν γὰρ τὸ δυνατὸν τέμνεσθαι ἢ βαδίζειν καὶ μὴ βαδίζειν καὶ μὴ τέμνεσθαι δυνατόν. Λόγος δέ, ὅτι ἅπαν τὸ οὕτω δυνατὸν οὐκ ἀεὶ ἐνεργεῖ, ὥστε ὑπάρξει αὐτῷ καὶ ἡ ἀπόφασις· δύναται γὰρ καὶ μὴ βαδίζειν τὸ βαδιστικὸν καὶ μὴ ὁρᾶσθαι τὸ ὁρατόν. Ἀλλὰ μὴν ἀδύνατον κατὰ τοῦ αὐτοῦ ἀληθεύεσθαι τὰς ἀντικειμένας φάσεις· οὐκ ἄρα τοῦ δυνατὸν εἶναι ἀπόφασίς ἐστι τὸ δυνατὸν μὴ εἶναι. Συμβαίνει γὰρ ἐκ τούτων ἢ τὸ αὐτὸ φάναι καὶ ἀποφάναι ἅμα καὶ κατὰ τοῦ αὐτοῦ, ἢ μὴ κατὰ τὸ εἶναι καὶ μὴ εἶναι τὰ προστιθέμενα γίνεσθαι φάσεις καὶ ἀποφάσεις. Εἰ οὖν ἐκεῖνο ἀδύνατον, τοῦτ᾿ ἂν εἴη αἱρετόν. Ἔστιν ἄρα ἀπόφασις τοῦ δυνατὸν εἶναι τὸ μὴ δυνατὸν εἶναι. Ὁ δ᾿ αὐτὸς λόγος καὶ περὶ τοῦ ἐνδεχόμενον εἶναι· καὶ γὰρ τούτου ἀπόφασις τὸ μὴ ἐνδεχόμενον εἶναι. Καὶ ἐπὶ τῶν ἄλλων δὲ ὁμοιοτρόπως, οἷον ἀναγκαίου τε καὶ ἀδυνάτου. Γίνεται γὰρ ὥσπερ ἐπ᾿ ἐκείνων τὸ εἶναι καὶ τὸ μὴ εἶναι προσθέσεις, τὰ δ᾿ ὑποκείμενα πράγματα τὸ μὲν λευκὸν τὸ δ᾿ ἄνθρωπος; οὕτως ἐνταῦθα τὸ μὲν εἶναι καὶ μὴ εἶναι ὡς ὑποκείμενον γίνεται, τὸ δὲ δύνασθαι καὶ τὸ ἐνδέχεσθαι προσθέσεις διορίζουσαι, ὥσπερ ἐπ᾿ ἐκείνων τὸ εἶναι καὶ μὴ εἶναι, τὸ ἀληθὲς καὶ τὸ ψεῦδος, ὁμοίως αὗται ἐπὶ τοῦ εἶναι δυνατὸν καὶ εἶναι οὐ δυνατόν.",
+   "cols": [
+    "21b"
+   ],
+   "notes": [
+    "\"Contingent\" (ἐνδεχόμενον) is what may happen, what is open to being or not being; here Aristotle uses it as another word for \"possible\"."
+   ]
+  },
+  {
+   "seg": "Int.12.p3",
+   "chapter": "Int.12",
+   "modern": "The denial of \"possible not to be\" is not \"not possible to be\" but \"not possible not to be\"; and the denial of \"possible to be\" is not \"possible not to be\" but \"not possible to be\". So \"possible to be\" and \"possible not to be\" might seem even to follow from each other: for the same thing can be and not be, since such statements are not contradictories of each other. But \"possible to be\" and \"not possible to be\" are never true of the same thing at the same time, since they are opposites; nor are \"possible not to be\" and \"not possible not to be\" ever true of the same thing at the same time. Likewise the denial of \"necessary to be\" is not \"necessary not to be\" but \"not necessary to be\"; and of \"necessary not to be\", \"not necessary not to be\". And the denial of \"impossible to be\" is not \"impossible not to be\" but \"not impossible to be\"; and of \"impossible not to be\", \"not impossible not to be\". In general, as has been said, \"to be\" and \"not to be\" must be laid down as the subjects, and one must join to \"to be\" and \"not to be\" the words that make the affirmation and the denial. These must be taken to be the opposite statements: possible, not possible; contingent, not contingent; impossible, not impossible; necessary, not necessary; true, not true.",
+   "greek": "Τοῦ δὲ δυνατὸν μὴ εἶναι ἀπόφασις οὐ τὸ οὐ δυνατὸν εἶναι, ἀλλὰ τὸ οὐ δυνατὸν μὴ εἶναι, καὶ τοῦ δυνατὸν εἶναι οὐ τὸ δυνατὸν μὴ εἶναι, ἀλλὰ τὸ μὴ δυνατὸν εἶναι. Διὸ καὶ ἀκολουθεῖν ἂν δόξειαν ἀλλήλαις αἱ τοῦ δυνατὸν εἶναι καὶ δυνατὸν μὴ εἶναι· τὸ γὰρ αὐτὸ δυνατὸν εἶναι καὶ μὴ εἶναι· οὐ γὰρ ἀντιφάσεις ἀλλήλων αἱ τοιαῦται, τὸ δυνατὸν εἶναι καὶ δυνατὸν μὴ εἶναι. Ἀλλὰ τὸ δυνατὸν εἶναι καὶ μὴ δυνατὸν εἶναι οὐδέποτε ἐπὶ τοῦ αὐτοῦ ἅμα ἀληθεύονται· ἀντίκεινται γάρ. Οὐδέ γε τὸ δυνατὸν μὴ εἶναι καὶ οὐ δυνατὸν μὴ εἶναι οὐδέποτε ἅμα ἐπὶ τοῦ αὐτοῦ ἀληθεύονται. Ὁμοίως δὲ καὶ τοῦ ἀναγκαῖον εἶναι ἀπόφασις οὐ τὸ ἀναγκαῖον μὴ εἶναι, ἀλλὰ τὸ μὴ ἀναγκαῖον εἶναι· τοῦ δὲ ἀναγκαῖον μὴ εἶναι τὸ μὴ ἀναγκαῖον μὴ εἶναι. Καὶ τοῦ ἀδύνατον εἶναι οὐ τὸ ἀδύνατον μὴ εἶναι, ἀλλὰ τὸ μὴ ἀδύνατον εἶναι· τοῦ δὲ ἀδύνατον μὴ εἶναι τὸ οὐκ ἀδύνατον μὴ εἶναι. Καὶ καθόλου δέ, ὥσπερ εἴρηται, τὸ μὲν εἶναι καὶ μὴ εἶναι δεῖ τιθέναι ὡς τὰ ὑποκείμενα, κατάφασιν δὲ καὶ ἀπόφασιν ταῦτα ποιοῦντα πρὸς τὸ εἶναι καὶ μὴ εἶναι. συντάττειν. Καὶ ταύτας οἴεσθαι χρὴ εἶναι τὰς ἀντικειμένας φάσεις, δυνατόν — οὐ δυνατόν, ἐνδεχόμενον — οὐκ ἀνδεχόμενον, ἀδύνατον — οὐκ ἀδύνατον, ἀναγκαῖον — οὐκ ἀναγκαῖον, ἀληθές — οὐκ ἀληθές.",
+   "cols": [
+    "21b",
+    "22a"
+   ]
+  },
+  {
+   "seg": "Int.13.p1",
+   "chapter": "Int.13",
+   "modern": "The ways in which one statement follows another work out reasonably when the statements are laid down like this. From \"possible to be\" follows \"contingent to be\", and the second converts with the first; and \"not impossible to be\" and \"not necessary to be\" follow too. From \"possible not to be\" and \"contingent not to be\" follow \"not necessary not to be\" and \"not impossible not to be\". From \"not possible to be\" and \"not contingent to be\" follow \"necessary not to be\" and \"impossible to be\". From \"not possible not to be\" and \"not contingent not to be\" follow \"necessary to be\" and \"impossible not to be\". Let what we say be seen from the table. First: possible to be; contingent to be; not impossible to be; not necessary to be. Second: not possible to be; not contingent to be; impossible to be; necessary not to be. Third: possible not to be; contingent not to be; not impossible not to be; not necessary not to be. Fourth: not possible not to be; not contingent not to be; impossible not to be; necessary to be.",
+   "greek": "Καὶ αἱ ἀκολουθήσεις δὲ κατὰ λόγον γίνονται οὕτω τιθεμένοις· τῷ μὲν γὰρ δυνατὸν εἶναι τὸ ἐνδέχεσθαι εἶναι, καὶ τοῦτο ἐκείνῳ ἀντιστρέφει, καὶ τὸ μὴ ἀδύνατον εἶναι καὶ τὸ μὴ ἀναγκαῖον εἶναι· τῷ δὲ δυνατὸν μὴ εἶναι καὶ ἐνδεχόμενον μὴ εἶναι τὸ μὴ ἀναγκαῖον μὴ εἶναι καὶ τὸ οὐκ ἀδύνατον μὴ εἶναι, τῷ δὲ μὴ δυνατὸν εἶναι καὶ μὴ ἐνδεχόμενον εἶναι τὸ ἀναγκαῖον μὴ εἶναι καὶ τὸ ἀδύνατον εἶναι, τῷ δὲ μὴ δυνατὸν μὴ εἶναι καὶ μὴ ἐνδεχόμενον μὴ εἶναι τὸ ἀναγκαῖον εἶναι καὶ τὸ ἀδύνατον μὴ εἶναι. Θεωρείσθω δὲ ἐκ τῆς ὑπογραφῆς ὡς λέγομεν. δυνατὸν εἶναι οὐ δυνατὸν εἶναι ἐνδεχόμενον εἶναι οὐκ ἐνδεχόμενον εἶναι οὐκ ἀδύνατον εἶναι ἀδύνατον εἶναι οὐκ ἀναγκαῖον εἶναι ἀναγκαῖον μὴ εἶναι δυνατὸν μὴ εἶναι οὐ δυνατὸν μὴ εἶναι ἐνδεχόμενον μὴ εἶναι οὐκ ἐνδεχόμενον μὴ εἶναι οὐκ ἀδύνατον μὴ εἶναι ἀδύνατον μὴ εἶναι οὐκ ἀναγκαῖον μὴ εἶναι ἀναγκαῖον εἶναι",
+   "cols": [
+    "22a"
+   ],
+   "notes": [
+    "Aristotle corrects this table later in the chapter: what follows from \"possible to be\" is not \"not necessary to be\" but \"not necessary not to be\"."
+   ]
+  },
+  {
+   "seg": "Int.13.p2",
+   "chapter": "Int.13",
+   "modern": "\"Impossible\" and \"not impossible\" follow \"contingent\" and \"possible\", and \"not contingent\" and \"not possible\", as contradictories, but in reverse. The denial of \"impossible\" follows \"possible to be\", and the affirmation follows the denial: from \"not possible to be\" follows \"impossible to be\". For \"impossible to be\" is an affirmation, and \"not impossible to be\" a denial. How it is with the necessary we must look into. Clearly it is not so: here the contraries follow, and the contradictories are kept apart. For the denial of \"necessary not to be\" is not \"not necessary to be\", since both can be true of the same thing: what is necessarily not, is not necessarily. The reason why the necessary does not follow in like manner to the others is that the impossible is given in the contrary sense to the necessary, though it has the same force. For if it is impossible to be, it is necessary, not that it be, but that it not be; and if it is impossible not to be, it is necessary that it be. So if the impossible statements follow the possible and the not possible in the same way, the necessary ones follow from the contrary side, since \"necessary\" and \"impossible\" do not signify the same, but, as was said, in reverse.",
+   "greek": "Τὸ μὲν οὖν ἀδύνατον καὶ οὐκ ἀδύνατον τῷ ἐνδεχομένῳ καὶ δυνατῷ καὶ οὐκ ἐνδεχομένῳ καὶ μὴ δυνατῷ ἀκολουθεῖ μὲν ἀντιφατικῶς, ἀντεστραμμένως δέ· τῷ μὲν γὰρ δυνατὸν εἶναι ἡ ἀπόφασις τοῦ ἀδυνάτου ἀκολουθεῖ, τῇ δὲ ἀποφάσει ἡ κατάφασις· τῷ γὰρ οὐ δυνατὸν εἶναι τὸ ἀδύνατον εἶναι· κατάφασις γὰρ τὸ ἀδύνατον εἶναι, τὸ δ᾿ οὐκ ἀδύνατον εἶναι ἀπόφασις. Τὸ δ᾿ ἀναγκαῖον πῶς, ὀπτέον. Φανερὸν δὴ ὅτι οὐχ οὕτως ἔχει, ἀλλ᾿ αἱ ἐναντίαι ἕπονται· αἱ δ᾿ ἀντιφάσεις χωρίς. Οὐ γάρ ἐστιν ἀπόφασις τοῦ ἀνάγκη μὴ εἶναι τὸ οὐκ ἀνάγκη εἶναι· ἐνδέχεται γὰρ ἀληθεύεσθαι ἐπὶ τοῦ αὐτοῦ ἀμφοτέρας· τὸ γὰρ ἀναγκαῖον μὴ εἶναι οὐκ ἀναγκαῖον εἶναι. Αἴτιον δὲ τοῦ μὴ ἀκολουθεῖν τὸ ἀναγκαῖον ὁμοίως τοῖς ἑτέροις, ὅτι ἐναντίως τὸ ἀδύνατον τῷ ἀναγκαίῳ ἀποδίδοται, τὸ αὐτὸ δυνάμενον. Εἰ γὰρ ἀδύνατον εἶναι, ἀναγκαῖον τοῦτο οὐκ εἶναι ἀλλὰ μὴ εἶναι· εἰ δὲ ἀδύνατον μὴ εἶναι, τοῦτο ἀνάγκη εἶναι· ὥστε εἰ ἐκεῖνα ὁμοίως τῷ δυνατῷ καὶ μή, ταῦτα ἐξ ἐναντίας, ἐπεὶ οὐ σημαίνει γε ταὐτὸν τό τε ἀνάγκαῖον καὶ τὸ ἀδύνατον, ἀλλ᾿ ὥσπερ εἴρηται, ἀντεστραμμένως.",
+   "cols": [
+    "22a",
+    "22b"
+   ]
+  },
+  {
+   "seg": "Int.13.p3",
+   "chapter": "Int.13",
+   "modern": "Or is it impossible to lay down the contradictories of the necessary like this? For what is necessary to be is possible to be. Otherwise the denial would follow, since one must either affirm or deny; so if it is not possible to be, it is impossible to be; so what is necessary to be would be impossible to be, which is absurd. Yet from \"possible to be\" follows \"not impossible to be\", and from that, \"not necessary to be\"; so it turns out that what is necessary to be is not necessary to be, which is absurd. But neither does \"necessary to be\" follow from \"possible to be\", nor does \"necessary not to be\". For with the possible both can happen, but if either of these is true, both will no longer be possible. For the same thing is possible both to be and not to be; but if it is necessary that it be, or that it not be, both will not be possible. It remains, then, that \"not necessary not to be\" follows from \"possible to be\". For this is true also of what is necessary to be. And it becomes the contradictory of what follows \"not possible to be\"; for from that follow \"impossible to be\" and \"necessary not to be\", whose denial is \"not necessary not to be\". So these contradictories too follow in the way described, and nothing impossible results when they are laid down so.",
+   "greek": "Ἣ ἀδύνατον οὕτως κεῖσθαι τὰς τοῦ ἀναγκαίου ἀντιφάσεις; τὸ μὲν γὰρ ἀναγκαῖον εἶναι δυνατὸν εἶναι· εἰ γὰρ μή, ἡ ἀπόφασις ἀκολουθήσει· ἀνάγκη γὰρ ἢ φάναι ἢ ἀποφάναι· ὥστ᾿ εἰ μὴ δυνατὸν εἶναι, ἀδύνατον εἶναι· ἀδύνατον ἄρα εἶναι τὸ ἀναγκαῖον εἶναι, ὅπερ ἄτοπον. Ἀλλὰ μὴν τῷ γε δυνατὸν εἶναι τὸ οὐκ ἀδύνατον εἶναι ἀκολουθεῖ, τούτῳ δὲ τὸ μὴ ἀναγκαῖον εἶναι· ὥστε συμβαίνει τὸ ἀναγκαῖον εἶναι μὴ ἀναγκαῖον εἶναι, ὅπερ ἄτοπον. Ἀλλὰ μὴν οὐδὲ τὸ ἀναγκαῖον εἶναι ἀκολουθεῖ τῷ δυνατὸν εἶναι, οὐδὲ τὸ ἀναγκαῖον μὴ εἶναι· τῷ μὲν γὰρ ἄμφω ἐνδέχεται συμβαίνειν, τούτων δὲ ὁπότερον ἂν ἀληθὲς ᾖ, οὐκέτι ἔσται ἐκεῖνα ἀληθῆ. Ἄμα γὰρ δυνατὸν εἶναι καὶ μὴ εἶναι· εἰ δ᾿ ἀνάγκη εἶναι ἢ μὴ εἶναι, οὐκ ἔσται δυνατὸν ἄμφω. Λείπεται τοίνυν τὸ οὐκ ἀναγκαῖον μὴ εἶναι ἀκολουθεῖν τῷ δυνατὸν εἶναι. Τοῦτο γὰρ ἀληθὲς καὶ κατὰ τοῦ ἀναγκαῖον εἶναι. Καὶ γὰρ αὕτη γίνεται ἀντίφασις τῇ ἑπομένῃ τῷ οὐ δυνατὸν εἶναι· ἐκείνῳ γὰρ ἀκολουθεῖ τὸ ἀδύνατον εἶναι καὶ ἀναγκαῖον μὴ εἶναι, οὗ ἡ ἀπόφασις τὸ οὐκ ἀναγκαῖον μὴ εἶναι. Ἀκολουθοῦσί τε ἄρα καὶ αὗται αἱ ἀντιφάσεις κατὰ τὸν εἰρημένον τρόπον, καὶ οὐδὲν ἀδύνατον συμβαίνει τιθεμένων οὕτως.",
+   "cols": [
+    "22b"
+   ]
+  },
+  {
+   "seg": "Int.13.p4",
+   "chapter": "Int.13",
+   "modern": "One might ask whether \"possible to be\" follows from \"necessary to be\". If it does not, its contradictory, \"not possible to be\", follows; and if someone says that this is not the contradictory, he must say \"possible not to be\"; but both of these are false of what is necessary to be. Yet again, the same thing seems to be capable both of being cut and of not being cut, both of being and of not being, so that what is necessary to be would be contingently not to be; and this is false. It is clear, then, that not everything that is capable of being or of walking is capable of the opposites too. There are things of which this is not true: first, things capable not by reason, as fire can heat and has a capacity without reason. The capacities that go with reason are capacities for more than one thing, for contraries; but not all the capacities without reason are. As was said, fire cannot both heat and not heat, nor can anything else that is always active. Some, though, even of the capacities without reason can take on opposites at the same time. But this has been said to make the point that not every capacity is for opposites, not even all those said to be of the same kind.",
+   "greek": "Ἀπορήσειε δ᾿ ἄν τις εἰ τῷ ἀναγκαῖον εἶναι τὸ δυνατὸν εἶναι ἕπεται. Εἴ τε γὰρ μὴ ἕπεται, ἡ ἀντίφασις ἀκολουθήσει, τὸ μὴ δυνατὸν εἶναι· καὶ εἴ τις ταύτην μὴ φήσειεν εἶναι ἀντίφασιν, ἀνάγκη λέγειν τὸ δυνατὸν μὴ εἶναι· ἅπερ ἄμφω ψευδῆ κατὰ τοῦ ἀναγκαῖον εἶναι. Ἁλλὰ μὴν πάλιν τὸ αὐτὸ εἶναι δοκεῖ δυνατὸν τέμνεσθαι καὶ μὴ τέμνεσθαι καὶ εἶναι καὶ μὴ εἶναι, ὥστε ἔσται τὸ ἀναγκαῖον εἶναι ἐνδεχόμενον μὴ εἶναι· τοῦτο δὲ ψεῦδος. Φανερὸν δὴ ὅτι οὐ πᾶν τὸ δυνατὸν ἢ εἶναι ἢ βαδίζειν καὶ τὰ ἀντικείμενα δύναται, ἀλλ᾿ ἔστιν ἐφ᾿ ὧν οὐκ ἀληθές, πρῶτον μὲν ἐπὶ τῶν μὴ κατὰ λόγον δυνατῶν, οἷον τὸ πῦρ θερμαντικὸν καὶ ἔχει δύναμιν ἄλογον. Αἱ μὲν οὖν μετὰ λόγου δυνάμεις αἱ αὐταὶ πλειόνων καὶ τῶν ἐναντίων, αἱ δ᾿ ἄλογοι οὐ πᾶσαι, ἀλλ᾿ ὥσπερ εἴρηται, τὸ πῦρ οὐ δυνατὸν θερμαίνειν καὶ μή, οὐδ᾿ ὅσα ἅλλα ἐνεργεῖ ἀεί. Ἔνια μέντοι δύναται καὶ τῶν κατὰ τὰς ἀλόγους δυνάμεις ἅμα τὰ ἀντικείμενα δέξασθαι. Ἀλλὰ τοῦτο μὲν τούτου χάριν εἴρηται, ὅτι οὐ πᾶσα δύναμις τῶν ἀντικειμένων, οὐδ᾿ ὅσαι λέγονται κατὰ τὸ αὐτὸ εἶδος.",
+   "cols": [
+    "22b",
+    "23a"
+   ],
+   "notes": [
+    "A doctor's art, a capacity with reason, can cure or harm; fire, a capacity without reason, can only heat. Aristotle works this out in Metaphysics IX (Θ), chapters 2 and 5."
+   ]
+  },
+  {
+   "seg": "Int.13.p5",
+   "chapter": "Int.13",
+   "modern": "Some capacities are homonymous, for \"possible\" is not said in one way only. In one sense it is said because it is true, as being actual: something is possible to walk because it is walking, and in general something is possible to be because it already actually is what it is said to be possible to be. In the other sense, because it might be active: something is possible to walk because it might walk. This second capacity belongs only to things that can change; the first belongs also to things that cannot. Of both it is true to say that it is not impossible to walk, or to be: both of what is already walking and active, and of what is able to walk. To say \"possible\" in the second sense of what is necessary without qualification is not true; in the first sense it is true. So, since the universal follows the particular, being able to be follows what is of necessity, though not in every sense. And perhaps the necessary and the not necessary are the first principle of everything's being or not being, and the rest must be considered as following from these.",
+   "greek": "Ἔνιαι δὲ δυνάμεις ὁμώνυμοί εἰσιν. Τὸ γὰρ δυνατὸν οὐχ ἁπλῶς λέγεται, ἀλλὰ τὸ μὲν ὅτι ἀληθὲς ὡς ἐνεργείᾳ ὄν, οἷον δυνατὸν βαδίζειν ὅτι βαδίζει, καὶ ὅλως δυνατὸν εἶναι ὅτι ἤδη ἔστι κατ᾿ ἐνέργειαν ὃ λέγεται εἶναι δυνατόν, τὸ δὲ ὅτι ἐνεργήσειεν ἄν, οἷον δυνατὸν εἶναι βαδίζειν ὅτι βαδίσειεν ἄν. Καὶ αὕτη μὲν ἐπὶ τοῖς κινητοῖς ἐστὶ μόνοις ἡ δύναμις, ἐκείνη δὲ καὶ ἐπὶ τοῖς ἀκινήτοις. Ἅμφω δὲ ἀληθὲς εἰπεῖν τὸ μὴ ἀδύνατον εἶναι βαδίζειν ἢ εἶναι, καὶ τὸ βαδίζον ἤδη καὶ ἐνεργοῦν καὶ τὸ βαδιστικόν. Τὸ μὲν οὖν οὕτω δυνατὸν οὐκ ἀληθὲς κατὰ τοῦ ἀναγκαίου ἁπλῶς εἰπεῖν, θάτερον δὲ ἀληθές. Ὥστε ἐπεὶ τῷ ἐν μέρει τὸ καθόλου ἕπεται, τῷ ἐξ ἀνάγκης ὄντι ἕπεται τὸ δύνασθαι εἶναι, οὐ μέντοι πᾶν. Καὶ ἔστι δὴ ἀρχὴ ἴσως τὸ ἀναγκαῖον καὶ μὴ ἀναγκαῖον πάντων ἢ εἶναι ἢ μὴ εἶναι, καὶ τἆλλα ὡς τούτοις ἀκολουθοῦντα ἐπισκοπεῖν δεῖ.",
+   "cols": [
+    "23a"
+   ]
+  },
+  {
+   "seg": "Int.13.p6",
+   "chapter": "Int.13",
+   "modern": "It is clear from what has been said that what is of necessity is actual. So if the eternal things are prior, actuality too is prior to potentiality. Some things are actualities without potentiality, such as the first substances; others are actual with potentiality, and these are prior by nature but later in time; and others are never actualities, but only potentialities.",
+   "greek": "Φανερὸν δὴ ἐκ τῶν εἰρημένων ὅτι τὸ ἐξ ἀνάγκης ὂν κατ᾿ ἐνέργειάν ἐστιν, ὥστε εἰ πρότερα τὰ ἀΐδια, καὶ ἡ ἐνέργεια δυνάμεως προτέρα. Καὶ τὰ μὲν ἄνευ δυνάμεως ἐνέργειαί εἰσιν, οἷον αἱ πρῶται οὐσίαι, τὰ δὲ μετὰ δυνάμεως, ἃ τῇ μὲν φύσει πρότερα τῷ δὲ χρόνῳ ὕστερα, τὰ δὲ οὐδέποτε ἐνέργειαί εἰσιν ἀλλὰ δυνάμεις μόνον.",
+   "cols": [
+    "23a"
+   ],
+   "flags": [
+    {
+     "taylor": "Some things are actualities without potentiality, namely, the primary substances",
+     "in": "Edghill, Oxford (1928)",
+     "why": "\"Primary substances\" are, in the Categories (chapter 5), individual things like this man or this horse. Here αἱ πρῶται οὐσίαι are the first substances, the eternal and unchanging movers of Metaphysics XII, which are always actual. Taylor's \"the first essences\" keeps them apart."
+    },
+    {
+     "taylor": "are energies without capacity",
+     "in": "Taylor (1812)",
+     "why": "Taylor's \"energies\" and \"capacity\" render ἐνέργεια and δύναμις, actuality and potentiality. \"Energy\" today means a physical quantity, which is not Aristotle's sense; the modern version says \"actuality\" and \"potentiality\"."
+    }
+   ],
+   "notes": [
+    "The Platonists made much of this sentence: the commentators (Ammonius) read the first substances, always actual, as the divine causes, and saw here Aristotle's agreement with Plato that the first principles are prior to all becoming."
+   ]
+  },
+  {
+   "seg": "Int.14.p1",
+   "chapter": "Int.14",
+   "modern": "Is the affirmation contrary to the denial, or the affirmation to another affirmation? Is the sentence \"every man is just\" contrary to \"no man is just\", or \"every man is just\" to \"every man is unjust\"? Take, for instance, \"Callias is just\", \"Callias is not just\", \"Callias is unjust\": which of these are contrary? If spoken sounds follow what is in thought, and in thought the contrary belief is the belief in the contrary, as \"every man is just\" to \"every man is unjust\", then it must be likewise with the affirmations in speech. But if in thought the belief in the contrary is not the contrary belief, then the affirmation will not be contrary to the affirmation, but the denial we spoke of will be. So we must consider which false belief is contrary to a true belief: the belief in the denial, or the belief that the contrary is so.",
+   "greek": "Πότερον δὲ ἐναντία ἐστὶν ἡ κατάφασις τῇ ἀποφάσει ἢ ἡ κατάφασις τῇ καταφάσει, καὶ ὁ λόγος τῷ λόγῳ ὁ λέγων ὅτι πᾶς ἄνθρωπος δίκαιος τῷ οὐδεὶς ἄνθρωπος δίκαιος, ἢ τὸ πᾶς ἄνθρωπος δίκαιος τῷ πᾶς ἄνθρωπος ἄδικος, οἷον ἔστι Καλλίας δίκαιος — οὐκ ἔστι Καλλίας δίκαιος — Καλλίας ἄδικός ἐστι· ποτέρα δὴ ἐναντία τούτων; εἰ γὰρ τὰ μὲν ἐν τῇ φωνῇ ἀκολουθεῖ τοῖς ἐν τῇ διανοίᾳ, ἐκεῖ δὲ ἐναντία δόξα ἡ τοῦ ἐναντίου, οἷον ὅτι πᾶς ἄνθρωπος δίκαιος τῇ πᾶς ἄνθρωπος ἄδικος, καὶ ἐπὶ τῶν ἐν τῇ φωνῇ καταφάσεων ἀνάγκη ὁμοίως ἔχειν. Εἰ δὲ μὴ ἐκεῖ ἡ τοῦ ἐναντίου δόξα ἐναντία ἐστίν, οὐδὲ ἡ κατάφασις τῇ καταφάσει ἔσται ἐναντία, ἀλλ᾿ ἡ εἰρημένη ἀπόφασις. Ὥστε σκεπτέον ποία δόξα ἀληθὴς ψευδεῖ δόξῃ ἐναντία, πότερον ἡ τῆς ἀποφάσεως ἢ ἡ τὸ ἐναντίον εἶναι δοξάζουσα.",
+   "cols": [
+    "23a"
+   ],
+   "notes": [
+    "Edghill's text joins the end of chapter 13 and the start of chapter 14 in one paragraph; in the Greek this is where chapter 14 begins."
+   ]
+  },
+  {
+   "seg": "Int.14.p2",
+   "chapter": "Int.14",
+   "modern": "I mean this. There is a true belief about the good, that it is good; another, false, that it is not good; and another, that it is bad. Which of these is contrary to the true one? And if they are one, by which is it contrary? To think that contrary beliefs are defined by being about contraries is false. For the belief about the good, that it is good, and about the bad, that it is bad, may well be the same, and true, whether they are one or more. Yet these things are contraries. But beliefs are not contrary by being about contraries; rather by being contrary to each other. Now there is a belief about the good, that it is good, and another, that it is not good; and there is something else, which does not and cannot belong to it. We must not take any of the other beliefs as the contrary, neither those that believe that what does not belong belongs, nor those that believe that what belongs does not belong; for both are without limit, both those believing that what does not belong belongs and those believing that what belongs does not. We must take those in which there is deception. And these are the ones from which comings to be start; and comings to be are from opposites, and so are deceptions.",
+   "greek": "Λέγω δὲ ὧδε. Ἔστι τις δόξα ἀληθὴς τοῦ ἀγαθοῦ ὅτι ἀγαθόν, ἄλλη δὲ ὅτι οὐκ ἀγαθὸν ψευδής, ἑτέρα δὲ ὅτι κακόν. Ποτέρα δὴ τούτων ἐναντία τῇ ἀληθεῖ; καὶ εἰ ἔστι μία, καθ᾿ ὁποτέραν ἡ ἐναντία; τὸ μὲν δὴ τούτῳ οἴεσθαι τὰς ἐναντίας δόξας ὡρίσθαι, τῷ τῶν ἐναντίων εἶναι, ψεῦδος· τοῦ γὰρ ἀγαθοῦ ὅτι ἀγαθὸν καὶ τοῦ κακοῦ ὅτι κακὸν ἡ αὐτὴ ἴσως καὶ ἀληθὴς ἔσται, εἴτε πλείους εἴτε μία ἐστίν. Ἐναντία δὲ ταῦτα. Ἀλλ᾿ οὐ τῷ ἐναντίων εἶναι ἐναντία, ἀλλὰ μᾶλλον τῷ ἐναντίως. Εἰ δὴ ἔστι μὲν τοῦ ἀγαθοῦ ὅτι ἐστὶν ἀγαθὸν δόξα, ἄλλη δ᾿ ὅτι οὐκ ἀγαθόν, ἔστι δὲ ἄλλο τι ὃ οὐχ ὑπάρχει οὐδ᾿ οἷόν τε ὑπάρξαι, τῶν μὲν δὴ ἄλλων οὐδεμίαν θετέον, οὔτε ὅσαι ὑπάρχειν τὸ μὴ ὑπάρχον δοξάζουσιν οὔθ᾿ ὅσαι μὴ ὑπάρχειν τὸ ὑπάρχον (ἄπειροι γὰρ ἀμφότεραι, καὶ ὅσαι ὑπάρχειν δοξάζουσι τὸ μὴ ὑπάρχον καὶ ὅσαι μὴ ὑπάρχειν τὸ ὑπάρχον), ἀλλ᾿ ἐν ὅσαις ἐστὶν ἡ ἀπάτη. Αὗται δέ εἰσιν ἐξ ὧν αἱ γενέσεις. Ἐκ των ἀντικειμένων δὲ αἱ γενέσεις, ὥστε καὶ αἱ ἀπάται.",
+   "cols": [
+    "23a",
+    "23b"
+   ],
+   "notes": [
+    "Things come to be from their opposites (the hot from the cold, Physics I); so error, Aristotle says, lies between opposites too, not among the endless things a thing is not."
+   ]
+  },
+  {
+   "seg": "Int.14.p3",
+   "chapter": "Int.14",
+   "modern": "Now the good is both good and not bad: the first in itself, the second by accident, since it happens to it not to be bad. And if the true belief about each thing is more true when it is about what the thing is in itself, the false belief is also more false when it is about that. Now the belief that the good is not good is false about what belongs to it in itself, and the belief that it is bad is false about what belongs to it by accident. So the belief in the denial of the good would be more false than the belief in the contrary. And the person most deceived about each thing is the one with the contrary belief, since contraries are the things that differ most within the same kind. If, then, one of the two is the contrary, and the belief in the contradictory is more contrary, it is clear that this would be the contrary. The belief that the good is bad is compound, for presumably the same person must also suppose that it is not good. Further, if it must be likewise in other cases, this too would seem to be right; for the contradictory is the contrary either everywhere or nowhere. And where there is no contrary, the false belief is the one opposite to the true: someone who thinks that a man is not a man is deceived. If, then, these are contraries, so are the other beliefs in the contradictory.",
+   "greek": "Εἰ οὖν τὸ ἀγαθὸν καὶ ἀγαθὸν καὶ οὐ κακόν ἐστι, καὶ τὸ μὲν καθ᾿ ἑαυτὸ τὸ δὲ κατὰ συμβεβηκός (συμβέβηκε γὰρ αὐτῷ οὐ κακῷ εἶναι), μᾶλλον δὲ ἑκάστου ἀληθὴς ἡ καθ᾿ ἑαυτό, καὶ ψευδής, εἴπερ καὶ ἀληθής. Ἡ μὲν οὖν ὅτι οὐκ ἀγαθὸν τὸ ἀγαθὸν τοῦ καθ᾿ ἑαυτὸ ὑπάρχοντος ψευδής, ἡ δὲ τοῦ ὅτι κακὸν τοῦ κατὰ συμβεβηκός. Ὥστε μᾶλλον ἂν εἴη ψευδὴς τοῦ ἀγαθοῦ ἡ τῆς ἀποφάσεως ἢ ἡ τοῦ ἐναντίου δόξα. Διέψευσται δὲ μάλιστα περὶ ἕκαστον ὁ τὴν ἐναντίαν ἔχων δόξαν· τὰ γὰρ ἐναντία τῶν πλεῖστον διαφερόντων περὶ τὸ αὐτό. Εἰ οὖν ἐναντία μὲν τούτων ἡ ἑτέρα, ἐναντιωτέρα δὲ ἡ τῆς ἀντιφάσεως, δῆλον ὅτι αὕτη ἂν εἴη ἐναντία. Ἡ δὲ τοῦ ὅτι κακὸν τὸ ἀγαθὸν συμπεπλεγμένη ἐστί· καὶ γὰρ ὅτι οὐκ ἀγαθὸν ἀνάγκη ἴσως ὑπολαμβάνειν τὸν αὐτόν. Ἔτι δέ, εἰ καὶ ἐπὶ τῶν ἄλλων ὁμοίως δεῖ ἔχειν, καὶ ταύτῃ ἂν δόξειε καλῶς εἰρῆσθαι· ἢ γὰρ πανταχοῦ τὸ τῆς ἀντιφάσεως ἢ οὐδαμοῦ. Ὅσοις δὲ μή ἐστιν ἐναντία, περὶ τούτων ἔστι μὲν ψευδὴς ἡ τῇ ἀληθεῖ ἀντικειμένη, οἷον ὁ τὸν ἄνθρωπον οὐκ ἄνθρωπον οἰόμενος διέψευσται. Εἰ οὖν αὗται ἐναντίαι, καὶ αἱ ἄλλαι αἱ τῆς ἀντιφάσεως.",
+   "cols": [
+    "23b"
+   ]
+  },
+  {
+   "seg": "Int.14.p4",
+   "chapter": "Int.14",
+   "modern": "Again, the belief about the good that it is good stands like the belief about the not good that it is not good; and, besides these, the belief about the good that it is not good stands like the belief about the not good that it is good. What, then, would be contrary to the true belief about the not good, that it is not good? Not the belief that says it is bad: for that might be true at the same time, and a true belief is never contrary to a true one; some things that are not good are bad, so both can be true together. Nor the belief that it is not bad: for this too is true, and these might hold at the same time. It remains, then, that the contrary of the belief about the not good that it is not good is the belief about the not good that it is good; for this is false. And so the belief about the good that it is not good is contrary to the belief about the good that it is good.",
+   "greek": "Ἔτι ὁμοίως ἔχει ἡ τοῦ ἁγαθοῦ ὅτι ἀγαθὸν καὶ ἡ τοῦ μὴ ἀγαθοῦ ὅτι οὐκ ἀγαθόν, καὶ πρὸς ταύταις ἡ τοῦ ἀγαθοῦ ὅτι οὐκ ἀγαθὸν καὶ ἡ τοῦ μὴ ἀγαθοῦ ὅτι ἀγαθόν. Τῇ οὖν τοῦ μὴ ἀγαθοῦ ὅτι οὐκ ἀγαθὸν ἀληθεῖ οὔσῃ δόξῃ τίς ἂν εἴη ἡ ἐναντία; οὐ γὰρ δὴ ἡ λέγουσα ὅτι κακόν· ἅμα γὰρ ἄν ποτε εἴη ἀληθής, οὐδέποτε δὲ ἀληθὴς ἀληθεῖ ἐναντία· ἔστι γάρ τι μὴ ἀγαθὸν κακόν, ὥστε ἐνδέχεται ἅμα ἀληθεῖς εἶναι. Οὐδ᾿ αὖ ἡ ὅτι οὐ κακόν· ἀληθὴς γὰρ καὶ αὕτη. Ἅμα γὰρ καὶ ταῦτα ἂν εἴη. Λείπεται οὖν τῇ τοῦ μὴ ἀγαθοῦ ὅτι οὐκ ἀγαθὸν ἐναντία ἡ τοῦ μὴ ἀγαθοῦ ὅτι ἀγαθόν· ψευδὴς γὰρ αὕτη. Ὥστε καὶ ἡ τοῦ ἀγαθοῦ ὅτι οὐκ ἀγαθὸν τῇ τοῦ ἀγαθοῦ ὅτι ἀγαθόν.",
+   "cols": [
+    "23b",
+    "24a"
+   ]
+  },
+  {
+   "seg": "Int.14.p5",
+   "chapter": "Int.14",
+   "modern": "It is clear that it will make no difference if we lay down the affirmation universally: the universal denial will be the contrary. To the belief that everything good is good, for instance, the contrary is the belief that nothing good is good. For the belief about the good that it is good, if the good is taken universally, is the same as the belief that whatever is good is good; and this is no different from the belief that everything good is good. Likewise with the not good. So if this is how it is with belief, and spoken affirmations and denials are symbols of what is in the soul, it is clear that the contrary of an affirmation is the universal denial about the same thing. To \"everything good is good\", or \"every man is good\", the contrary is \"nothing good is good\", or \"no man is good\"; the contradictory is \"not everything good is good\", or \"not every man is good\". It is clear too that neither a true belief nor a true denial can be contrary to a true one. For contraries are about opposites; and about these the same person can speak truly; but contraries cannot belong to the same thing at the same time.",
+   "greek": "Φανερὸν δὲ ὅτι οὐδὲν διοίσει οὐδ᾿ ἂν καθόλου τιθῶμεν τὴν κατάφασιν· ἡ γὰρ καθόλου ἀπόφασις ἐναντία ἔσται, οἷον τῇ δόξῃ τῇ δοξαζούσῃ ὅτι πᾶν ὃ ἂν ᾖ ἀγαθὸν ἀγαθόν ἐστιν ἡ ὅτι οὐδὲν τῶν ἀγαθῶν ἀγαθόν. Ἡ γὰρ τοῦ ἀγαθοῦ ὅτι ἀγαθόν, εἰ καθόλου τὸ ἀγαθόν, ἡ αὐτή ἐστι τῇ ὅτι ὃ ἂν ᾖ ἀγαθὸν δοξαζούσῃ ὅτι ἀγαθόν· τοῦτο δὲ οὐδὲν διαφέρει τοῦ ὅτι πᾶν ὃ ἂν ᾖ ἀγαθὸν ἀγαθόν ἐστιν. Ὁμοίως δὲ καὶ ἐπὶ τοῦ μὴ ἀγαθοῦ. Ὥστε εἴπερ ἐπὶ δόξης οὕτως ἔχει, εἰσὶ δὲ αἱ ἐν τῇ φωνῇ καταφάσεις καὶ ἀποφάσεις σύμβολα τῶν ἐν τῇ ψυχῇ, δῆλον ὅτι καὶ καταφάσει ἐναντία μὲν ἀπόφασις ἡ περὶ τοῦ αὐτοῦ καθόλου, οἷον τῇ ὅτι πᾶν ἀγαθὸν ἀγαθὸν ἢ ὅτι πᾶς ἄνθρωπος ἀγαθὸς ἡ ὅτι οὐδὲν ἢ οὐδείς, ἀντιφατικῶς δὲ ὅτι ἢ οὐ πᾶν ἢ οὐ πᾶς. Φανερὸν δὲ ὅτι καὶ ἀληθῆ ἀληθεῖ οὐκ ἐνδέχεται ἐναντίαν εἶναι οὔτε δόξαν οὔτε ἀπόφασιν. Ἐναντίαι μὲν γὰρ αἱ περὶ τὰ ἀντικείμενα, περὶ ταῦτα δὲ ἐνδέχεται ἀληθεύειν τὸν αὐτόν· ἅμα δὲ οὐκ ἐνδέχεται τὰ ἐναντία ὑπάρχειν τῷ αὐτῷ.",
+   "cols": [
+    "24a",
+    "24b"
+   ],
+   "notes": [
+    "The last chapter returns to the first: spoken words are symbols of what is in the soul, so the logic of statements follows the logic of beliefs."
+   ]
+  }
+ ],
+ "links": [
+  {
+   "term": "intellect",
+   "forms": [
+    "intellect"
+   ]
+  },
+  {
+   "term": "soul",
+   "forms": [
+    "soul"
+   ]
+  },
+  {
+   "term": "virtue",
+   "forms": [
+    "virtue",
+    "virtues"
+   ]
+  },
+  {
+   "term": "phronesis",
+   "forms": [
+    "practical wisdom"
+   ]
+  },
+  {
+   "term": "likeness-to-god",
+   "forms": [
+    "like God",
+    "likeness to God"
+   ]
+  },
+  {
+   "term": "justice",
+   "forms": [
+    "justice"
+   ]
+  },
+  {
+   "term": "dialectic",
+   "forms": [
+    "dialectic"
+   ]
+  },
+  {
+   "term": "intelligible-world",
+   "forms": [
+    "intelligible"
+   ]
+  },
+  {
+   "term": "return",
+   "forms": [
+    "turning",
+    "turned"
+   ]
+  },
+  {
+   "term": "recollection",
+   "forms": [
+    "recollect"
+   ]
+  },
+  {
+   "term": "daemons",
+   "forms": [
+    "daemon"
+   ]
+  },
+  {
+   "term": "image-and-original",
+   "forms": [
+    "pattern"
+   ]
+  },
+  {
+   "term": "eros",
+   "forms": [
+    "lover"
+   ]
+  },
+  {
+   "term": "matter",
+   "forms": [
+    "matter"
+   ]
+  },
+  {
+   "term": "evil-as-privation",
+   "forms": [
+    "privation"
+   ]
+  },
+  {
+   "term": "world-soul",
+   "forms": [
+    "soul of the world"
+   ]
+  },
+  {
+   "term": "the-good",
+   "forms": [
+    "the Good"
+   ]
+  },
+  {
+   "term": "forms",
+   "forms": [
+    "Forms"
+   ]
+  },
+  {
+   "term": "the-beautiful",
+   "forms": [
+    "beauty"
+   ]
+  }
+ ]
+}
