@@ -160,8 +160,8 @@ _T = [
      "Philoponus from Ammonius' lectures; the commentary printed on Book III is of uncertain author (Philoponus' own on III 4-8 "
      "survives in William of Moerbeke's Latin, not here).", books(3)),
     ("Sense and Generation of Animals", "alexander-de-sensu", "Alexander of Aphrodisias", "On Sense and Sensibles", "Εἰς τὸ Περὶ αἰσθήσεως",
-     "in Sens.", "tlg0732/tlg007/tlg0732.tlg007.1st1K-grc1.xml", None, "III.1", "Paul Wendland", 1901, "Alexandri in librum De sensu commentarium",
-     "Alexander on the first of the short treatises on nature (the Workshop does not have the treatise itself yet).", None),
+     "in Sens.", "tlg0732/tlg007/tlg0732.tlg007.1st1K-grc1.xml", "ar041", "III.1", "Paul Wendland", 1901, "Alexandri in librum De sensu commentarium",
+     "Alexander on the first of the short treatises on nature.", None),
     ("Sense and Generation of Animals", "philoponus-generation-animals", "[Philoponus]", "On the Generation of Animals", "Εἰς τὸ Περὶ ζῴων γενέσεως",
      "in GA", "tlg4015/tlg007/tlg4015.tlg007.1st1K-grc1.xml", "ar012", "XIV.3", "Michael Hayduck", 1903, "Ioannis Philoponi (Michaelis Ephesii) in libros De generatione animalium commentaria",
      "Printed under Philoponus' name; by Michael of Ephesus (12th century).", books(5)),

@@ -12,6 +12,10 @@ const arWorks = () => state.works.filter((w) => w.imported && isAR(w)).sort((a, 
 // Works whose Greek (Bekker's own text, in his Oxford reprint of 1837) does not print the Berlin columns: carried over from
 // the Oxford translation's margin, chapter by chapter (tools/aristotle_organon.py).
 const AR_CARRIED = new Set(["ar006", "ar017", "ar044", "ar040"]);
+// Aristotle milestone A8d: the same Greek of the Parva Naturalia, its columns carried over word by word from the margin of Biehl's Greek
+// (tools/aristotle_biehl.py); and of the History of Animals, from the margin of Thompson's Oxford translation, chapter by chapter.
+const AR_CARRIED_BIEHL = new Set(["ar041", "ar024", "ar042", "ar016", "ar008", "ar020", "ar018", "ar037"]);
+const AR_CARRIED_THOMPSON = new Set(["ar014"]);
 
 const AR_ABOUT = `Aristotle studied in Plato's Academy for twenty years. The later Platonists put his works first in their
   course of reading, as the way up to Plato's, and Thomas Taylor translated all of them (1806–1812) with notes from the Greek
@@ -42,16 +46,35 @@ const AR_PLAIN = {
   ar015: "Why animals move as they do: the three dimensions of up and down, front and back, right and left, and why animals with blood walk on no more than four points; nature does nothing in vain.",
   ar021: "The common cause of animal motion: an unmoved point within the animal and an unmoved mover outside, as the first mover of the heaven (chapters 1-4); desire and thought as the movers of the animal, and the practical syllogism.",
   ar012: "How animals are generated: the male gives the form and the source of motion, the female the matter; the soul's powers in the embryo, and the intellect alone entering from outside (θύραθεν) as divine (Book II 3); then inheritance, and why offspring take after one parent or the other.",
+  ar014: "The facts about animals before their causes: their parts, outward and inward, their ways of breeding, their lives and characters, from man to the sponge; Book X, on barrenness, is thought not to be Aristotle's.",
+  ar041: "The first of the short treatises on what is common to soul and body: the five senses and their organs, colour, flavour and odour, and whether two things can be perceived at once by one sense.",
+  ar024: "Memory is of the past and belongs to the part of the soul that imagines; no one thinks without an image; recollection, a search through a chain of movements, belongs to man alone.",
+  ar042: "Sleep and waking as affections of the primary sense-organ; sleep is for the sake of waking, and is caused by the evaporation that rises from food and cools in the head.",
+  ar016: "The dream belongs to the imagination, not to sense or opinion: the movements left by perceptions go on in sleep, and appear when the greater movements of waking are stilled.",
+  ar008: "Whether dreams foretell: some are causes or signs of what follows, most are coincidences; they are not sent by God, since they come to ordinary men and to animals.",
+  ar020: "Why some living things live longer than others: the long-lived are warm and moist, and the moist must not be easily dried.",
+  ar018: "The nutritive soul has its seat in the heart, the source of natural heat; life is the keeping of that heat, and death its failing or its quenching.",
+  ar037: "The earlier accounts of breathing (Anaxagoras, Diogenes, Democritus, Plato's Timaeus) examined; breathing, and the gills of fishes, are for cooling the heat about the heart.",
 };
 // Works in Greek only (Aristotle milestone A8c): no English is in the Workshop yet. Where the margin of the edition has lost a
 // Bekker column, it is placed by length between the columns read either side (tools/aristotle_f1k.fill_gaps); listed here.
-const AR_GREEK_ONLY = new Set(["ar022", "ar013", "ar026", "ar030", "ar015", "ar021", "ar012"]);
+const AR_GREEK_ONLY = new Set(["ar022", "ar013", "ar026", "ar030", "ar015", "ar021", "ar012",
+  "ar041", "ar024", "ar042", "ar016", "ar008", "ar020", "ar018", "ar037"]);
 const AR_BY_LENGTH = {
   ar022: ["1183a", "1187a", "1193b", "1197b", "1199b", "1203a", "1210a"],
   ar013: ["319b", "323a", "327b", "329a", "333a", "336b"],
   ar026: ["360b", "364b", "370b", "389b", "390a"],
   ar030: ["692a", "692b", "693a", "693b", "694a", "694b", "695a"],
   ar021: ["703a"],
+  ar041: ["437a", "437b", "438b", "439b", "441a", "441b", "443b", "444a", "444b", "445b", "447b", "449b"],
+  ar024: ["451b", "453b"],
+  ar042: ["454a", "455a", "456a"],
+  ar016: ["459b"],
+  ar008: ["463a", "464b"],
+  ar020: ["465a", "465b"],
+  ar018: ["468b"],
+  ar037: ["471b", "474b", "475b", "477a", "477b", "478b", "479b"],
+  ar014: ["522b", "604b", "607b", "608a", "614b", "634a", "634b", "635a", "635b", "636a", "636b", "637a", "637b", "638a", "638b"],
 };
 
 function arSources() {
@@ -69,6 +92,11 @@ function arSources() {
     Generation and Corruption (Leipzig, 1881), Fobes's Meteorology (Cambridge, Mass., 1919), Jaeger's Progression and Movement of Animals (Leipzig,
     1913), with Bekker's columns read from their margins (a column the margin has lost is placed by length, ≈); Langkavel's Parts of Animals
     (Leipzig, 1868) and Bekker's Generation of Animals (Berlin, 1829), with Bekker's columns from GLAUx (where GLAUx marks none, placed by length, ≈).</p>
+    <p class="prov">The Parva Naturalia and the History of Animals: Bekker's own text, from First1KGreek (CC BY-SA 4.0), in his Oxford reprint (1837),
+    which does not print the Berlin columns. For the Parva Naturalia they are carried over from the margin of Biehl's Greek (Leipzig: Teubner, 1898),
+    whose words the Internet Archive's scan gives and the Workshop pairs one by one with Bekker's (≈, to the line); for the History of Animals, from
+    the margin of D'Arcy Thompson's Oxford translation (1910), chapter by chapter (≈); a column neither gives is placed by length (≈). Thompson's
+    English is beside the Greek, cleaned by rule from the scan and not proofread; he leaves out Book X.</p>
     <p class="prov">The Organon: the Greek of First1KGreek (CC BY-SA 4.0), Ross's Analytics (Oxford, 1964), with Bekker's columns in the margin, and
     Bekker's own text of the Categories, On Interpretation, Topics and Sophistical Refutations (in his Oxford reprint, 1837), which does not print
     the Berlin columns: these are carried over from the English, chapter by chapter (≈). English: the Oxford translation (1928; Edghill, Jenkinson,
@@ -139,6 +167,13 @@ function arHead(w) {
   return `<div class="nt-head page-note"><p><b>${esc(w.title)}.</b> ${esc(AR_PLAIN[w.id] || "")}</p>
     ${AR_CARRIED.has(w.id) ? `<p class="meta">This Greek (Bekker's text, in his Oxford reprint of 1837) does not print the Berlin columns: they are
       carried over from the margin of the Oxford translation (1928), chapter by chapter, and may be a few lines out (≈).</p>` : ""}
+    ${AR_CARRIED_BIEHL.has(w.id) ? `<p class="meta">This Greek (Bekker's text, in his Oxford reprint of 1837) does not print the Berlin columns: they are
+      carried over from the margin of Biehl's Greek (Leipzig, 1898), word by word, each to the first word of the line beside which Biehl prints
+      it, and may be a word or two out (≈).</p>` : ""}
+    ${AR_CARRIED_THOMPSON.has(w.id) ? `<p class="meta">This Greek (Bekker's text, in his Oxford reprint of 1837) does not print the Berlin columns: they are
+      carried over from the margin of Thompson's Oxford translation (1910), chapter by chapter, and may be a few lines out (≈). Thompson does not
+      translate Book X, which is thought not to be Aristotle's.${AR_BY_LENGTH[w.id] ? ` Bekker's columns ${esc(AR_BY_LENGTH[w.id].join(", "))} are
+      given by neither: each is placed by the length of the text between the columns either side (≈).` : ""}</p>` : ""}
     ${AR_GREEK_ONLY.has(w.id) ? `<p class="meta">The Greek only: no English translation of this work is in the Workshop yet. The word box gives every
       word's dictionary form, grammar and dictionary entries.${AR_BY_LENGTH[w.id] ? ` Bekker's column${AR_BY_LENGTH[w.id].length === 1 ? "" : "s"} ${esc(AR_BY_LENGTH[w.id].join(", "))}
       ${AR_BY_LENGTH[w.id].length === 1 ? "is" : "are"} not marked in this Greek's source: each is placed by the length of the text between the columns either side, and may be a few lines out (≈).` : ""}</p>` : ""}
@@ -212,8 +247,10 @@ const AR_ORDER = [
     works: [["ar010", "Nicomachean Ethics"], ["ar009", "Eudemian Ethics"], ["ar022", "Great Morals (Magna Moralia)"], ["ar045", "On Virtues and Vices"]] },
   { step: "Politics", taylor: "practical: economical and political", note: "",
     works: [["ar035", "Politics"], ["ar029", "Economics"], ["ar003", "Constitution of the Athenians"]] },
-  { step: "Physics", taylor: "theoretic: physical", note: "\"The knowledge of natural things\", ending in the soul.",
-    works: [["ar031", "Physics"], ["ar005", "On the Heavens"], ["ar013", "On Generation and Corruption"], ["ar026", "Meteorology"], ["ar030", "Parts of Animals"], ["ar015", "Progression of Animals"], ["ar021", "Movement of Animals"], ["ar012", "Generation of Animals"], ["ar002", "On the Soul"]] },
+  { step: "Physics", taylor: "theoretic: physical", note: "\"The knowledge of natural things\", ending in the soul and the short treatises on what is common to soul and body (the Parva Naturalia).",
+    works: [["ar031", "Physics"], ["ar005", "On the Heavens"], ["ar013", "On Generation and Corruption"], ["ar026", "Meteorology"], ["ar014", "History of Animals"], ["ar030", "Parts of Animals"], ["ar015", "Progression of Animals"], ["ar021", "Movement of Animals"], ["ar012", "Generation of Animals"], ["ar002", "On the Soul"],
+      ["ar041", "On Sense"], ["ar024", "On Memory"], ["ar042", "On Sleep"], ["ar016", "On Dreams"], ["ar008", "On Divination in Sleep"],
+      ["ar020", "On Length of Life"], ["ar018", "On Youth and Old Age"], ["ar037", "On Respiration"]] },
   { step: "Theology", taylor: "theoretic: theological", note: "\"Those luminous beings, which have a supernatural subsistence\".",
     works: [["ar025", "Metaphysics"]] },
 ];

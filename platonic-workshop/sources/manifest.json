@@ -967,7 +967,16 @@
         "xml/0086-030.xml",
         "xml/0086-015.xml",
         "xml/0086-021.xml",
-        "xml/0086-012.xml"
+        "xml/0086-012.xml",
+        "xml/0086-041.xml",
+        "xml/0086-024.xml",
+        "xml/0086-042.xml",
+        "xml/0086-016.xml",
+        "xml/0086-008.xml",
+        "xml/0086-020.xml",
+        "xml/0086-018.xml",
+        "xml/0086-037.xml",
+        "xml/0086-014.xml"
       ],
       "layer": "lemma",
       "language": "grc",
@@ -998,7 +1007,16 @@
         "data/tlg0086/tlg021",
         "data/tlg0086/tlg022",
         "data/tlg0086/tlg026",
-        "data/tlg0086/tlg030"
+        "data/tlg0086/tlg030",
+        "data/tlg0086/tlg041",
+        "data/tlg0086/tlg024",
+        "data/tlg0086/tlg042",
+        "data/tlg0086/tlg016",
+        "data/tlg0086/tlg008",
+        "data/tlg0086/tlg020",
+        "data/tlg0086/tlg018",
+        "data/tlg0086/tlg037",
+        "data/tlg0086/tlg014"
       ],
       "layer": "text",
       "language": "grc",
@@ -1247,6 +1265,50 @@
       "citation_scheme": "Owen's books and chapters as printed; Bekker's columns carried over from the Oxford translation (≈); the scan's leaves for the page",
       "licence": "Public domain (published in 1853, before 1930)",
       "provenance": "Internet Archive item organonorlogica04porpgoog (Google's scan of the second volume of Owen's Organon in Bohn's Classical Library, marked NOT_IN_COPYRIGHT by the Archive): its OCR with the place of every word (_djvu.xml), downloaded on 2026-11-12 and pinned by sha256. The OCR of the pages read (leaves 12-288: the Topics, the Sophistical Elenchi, and Porphyry's Introduction at leaves 264-288, printed pages 609-633) is committed in sources/aristotle/ocr/. Cleaned by rule by tools/aristotle_owen.py (texts/aristotle/<work>/owen-1853.json) and tools/aristotle_porphyry.py (texts/aristotle/porphyry/owen-1853.json); unproofread, every paragraph keeps its raw OCR.",
+      "status": "verified"
+    },
+    {
+      "id": "ia-biehl-parva-naturalia-1898",
+      "title": "Wilhelm Biehl, Aristotelis Parva naturalia (Leipzig: Teubner, 1898), Internet Archive OCR",
+      "kind": "archive",
+      "item": "aristotelisparv00biehgoog",
+      "repo": "https://archive.org/details/aristotelisparv00biehgoog",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/aristotelisparv00biehgoog/aristotelisparv00biehgoog_djvu.xml",
+          "sha256": "2a919dce3038ee9ba847449f1a93f3bda80866efd5212bbc87802cf5d2a2ca5a",
+          "bytes": 24312432
+        }
+      ],
+      "sha256": "2a919dce3038ee9ba847449f1a93f3bda80866efd5212bbc87802cf5d2a2ca5a",
+      "layer": "citation",
+      "language": "grc",
+      "citation_scheme": "Bekker's pages and columns, and his line numbers (5, 10 ... 35), printed in the margin of the Greek",
+      "licence": "Public domain (published in 1898)",
+      "provenance": "Internet Archive item aristotelisparv00biehgoog (Google's scan of Stanford's copy): its OCR with the place of every word (_djvu.xml), downloaded on 2026-11-13 and pinned by sha256. The OCR of the text pages (leaves 25-150) is committed in sources/aristotle/ocr/. Used only for Bekker's columns: its Greek is aligned word by word with the First1KGreek text of the Parva Naturalia (Bekker's Oxford reprint, which prints no columns) by tools/aristotle_columns.py.",
+      "status": "verified"
+    },
+    {
+      "id": "ia-thompson-historia-1910",
+      "title": "D'Arcy Wentworth Thompson, Historia Animalium, The Works of Aristotle translated into English, vol. IV (Oxford: Clarendon Press, 1910), Internet Archive OCR",
+      "kind": "archive",
+      "item": "worksofaristotle04arisuoft",
+      "repo": "https://archive.org/details/worksofaristotle04arisuoft",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/worksofaristotle04arisuoft/worksofaristotle04arisuoft_djvu.xml",
+          "sha256": "5de5ea5000e6a04a11e601095ebee30eabbbed159326076c740bff7617bb2816",
+          "bytes": 16837807
+        }
+      ],
+      "sha256": "5de5ea5000e6a04a11e601095ebee30eabbbed159326076c740bff7617bb2816",
+      "layer": "citation",
+      "language": "eng",
+      "citation_scheme": "Bekker's pages and columns and line numbers as the translator prints them in the margin, the chapters in the running head and inner margin",
+      "licence": "Public domain (published in 1910)",
+      "provenance": "Internet Archive item worksofaristotle04arisuoft (the University of Toronto's copy): its OCR with the place of every word (_djvu.xml), downloaded on 2026-11-13 and pinned by sha256. The OCR of the translation's pages is committed in sources/aristotle/ocr/. Used for Bekker's columns, carried over to the First1KGreek Greek (Bekker's Oxford reprint, which prints none) chapter by chapter (≈).",
       "status": "verified"
     },
     {

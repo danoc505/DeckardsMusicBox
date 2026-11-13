@@ -52,6 +52,10 @@ for _wid, _tr, _label, _title in (("ar006", "E. M. Edghill", "Edghill (1928)", "
                                    ("ar040", "W. A. Pickard-Cambridge", "Pickard-Cambridge (1928)", "De Sophisticis Elenchis")):
     TRANSLATIONS[_wid] = [("ia-oxford-organon-1928", "oxford1928", _label, _tr, f"{_tr}, {_title}, {_OX}", "oxford-1928",
                            None, "organon", None)]
+# Milestone A8d: Thompson's Historia Animalium (1910), cleaned by tools/aristotle_organon.py as the Oxford Organon is.
+TRANSLATIONS["ar014"] = [("ia-thompson-historia-1910", "thompson1910", "Thompson (1910)", "D'Arcy Wentworth Thompson",
+                          "D'Arcy Wentworth Thompson, Historia Animalium, The Works of Aristotle translated into English, vol. IV "
+                          "(Oxford: Clarendon Press, 1910)", "thompson-1910", None, "organon", None)]
 # Milestone A4c: Owen's Organon (1853), cleaned by tools/aristotle_owen.py into owen-1853.json, placed by the Oxford's columns.
 for _wid, _vol in (("ar006", "I"), ("ar017", "I"), ("ar001", "I"), ("ar001p", "I"), ("ar044", "II"), ("ar040", "II")):
     TRANSLATIONS[_wid].append(("ia-owen-organon-1853-v1" if _vol == "I" else "ia-owen-organon-1853", "owen1853", "Owen (1853)",

@@ -455,16 +455,21 @@ Built by `tools/aristotle.py` (works of corpus `aristotle`, a Bekker column, 980
   reader names it (`aristotle_f1k.fill_gaps`, `AR_BY_LENGTH`). GLAUx numbers De motu and De incessu the other way round from the
   TLG (`glaux` in `WORKS`). The commentators on Generation and Corruption, the Meteorology and Generation of Animals (Philoponus,
   Alexander, Olympiodorus, Michael) are now linked to the columns. No English for these yet.
+- The Parva Naturalia and the History of Animals (A8d, done), in Bekker's Oxford reprint (1837) from First1KGreek, GLAUx-tagged.
+  Their Berlin columns come from scans: for the Parva Naturalia (On Sense, Memory, Sleep, Dreams, Divination, Length of Life,
+  Youth and Old Age, Respiration), from the margin of Biehl's Teubner Greek (1898; `ia-biehl-parva-naturalia-1898`), whose
+  words are paired one by one with Bekker's (92% paired) and each column begun at the first word of the line where Biehl prints
+  it (`tools/aristotle_biehl.py`; a misread page is resolved by the length of the Greek between marks, 60 of 90 columns read);
+  for the History of Animals, from the margin of Thompson's Oxford translation (1910; `ia-thompson-historia-1910`), chapter by
+  chapter as the Organon's (`aristotle_organon.CARRIED`; the book read from the running head too; a chapter anchor that would
+  stretch the Greek out of proportion is left out; Book X, which Thompson does not translate, by length). The rest by length
+  (≈), named in the reader (`AR_BY_LENGTH`). Thompson's English is beside the Greek. Alexander on Sense is linked. The Oxford
+  Parva Naturalia (Beare and Ross) was not used: its 1908 issue is not on the Archive, and the 1931 reprint is not yet free.
 - What is left of A8, for the next thread:
-  1. The works First1KGreek has only in Bekker's Oxford reprint (1837), which prints no Berlin columns, and GLAUx gives none
-     either: the Parva Naturalia (tlg041 Sense, 024 Memory, 042 Sleep, 016 Dreams, 008 Divination, 020 Length of Life, 018
-     Youth and Old Age, 037 Respiration) and the History of Animals (014). Their columns need a source: the Oxford translation
-     (Beare and Ross, 1908; Thompson, 1910) prints them in its margin, and could give them as the Organon's were given
-     (`aristotle_organon.carried_marks`, ≈). Then Alexander on Sense (`alexander-de-sensu`) can be linked.
-  2. The spurious and minor works in Greek only: tlg004, 007, 011 (Letters), 019, 023, 027, 032, 036 (Problems), 039, 043,
+  1. The spurious and minor works in Greek only: tlg004, 007, 011 (Letters), 019, 023, 027, 032, 036 (Problems), 039, 043,
      046-048, 052, 054; check each TEI's margin for Bekker's columns first (GLAUx lacks 004, 019 and 046). Perseus has the
      Constitution of the Athenians (tlg003, Kenyon) and On Virtues and Vices (tlg045) in Greek only.
-  3. Optional: Taylor's translation of Porphyry's Introduction and his Introductions to the Categories, On Interpretation and the
+  2. Optional: Taylor's translation of Porphyry's Introduction and his Introductions to the Categories, On Interpretation and the
      Prior Analytics (vol. I, leaves 59-72, 149-155, 205-212 of `ia-taylor-organon-1812`; already in `PARTS` in
      `tools/aristotle_taylor.py`, not yet written out as texts).
 - Then A6 (Daniel: "Do A7 and A8 first, A6 last").

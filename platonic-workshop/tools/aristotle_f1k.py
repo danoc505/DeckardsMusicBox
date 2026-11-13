@@ -90,6 +90,36 @@ WORKS = [
      "plain": "What happens in the region below the moon: shooting stars, comets and the Milky Way; rain, snow and dew; rivers and the "
               "sea, and why it is salt; winds, earthquakes, thunder, rainbows; and in Book IV the hot and the cold working on the "
               "homoeomerous bodies."},
+    # Aristotle milestone A8d: the Parva Naturalia and the History of Animals, in Bekker's Oxford reprint (1837), which prints
+    # no Berlin columns. columns "biehl": carried word by word from the margin of Biehl's Greek (tools/aristotle_biehl.py);
+    # columns "thompson": from the margin of Thompson's Oxford translation (1910), chapter by chapter (aristotle_organon).
+    {"id": "ar041", "tlg": "tlg041", "file": "grc1", "title": "On Sense and the Sensible", "abbr": "Sens.", "slug": "on-sense",
+     "greek_title": "Περὶ αἰσθήσεως καὶ αἰσθητῶν", "editor": LOGIC_EDITOR, "label": "Bekker (Oxford, 1837)", "columns": "biehl", "bekker": ("436a", "449b"), "fill_gaps": True,
+     "plain": "The first of the short treatises on what is common to soul and body: the five senses and their organs, colour, flavour and odour, and whether two things can be perceived at once by one sense."},
+    {"id": "ar024", "tlg": "tlg024", "file": "grc1", "title": "On Memory", "abbr": "Mem.", "slug": "on-memory",
+     "greek_title": "Περὶ μνήμης καὶ ἀναμνήσεως", "editor": LOGIC_EDITOR, "label": "Bekker (Oxford, 1837)", "columns": "biehl", "bekker": ("449b", "453b"), "fill_gaps": True,
+     "plain": "Memory is of the past and belongs to the part of the soul that imagines; no one thinks without an image; recollection, a search through a chain of movements, belongs to man alone."},
+    {"id": "ar042", "tlg": "tlg042", "file": "grc1", "title": "On Sleep", "abbr": "Somn. Vig.", "slug": "on-sleep",
+     "greek_title": "Περὶ ὕπνου καὶ ἐγρηγόρσεως", "editor": LOGIC_EDITOR, "label": "Bekker (Oxford, 1837)", "columns": "biehl", "bekker": ("453b", "458a"), "fill_gaps": True,
+     "plain": "Sleep and waking as affections of the primary sense-organ; sleep is for the sake of waking, and is caused by the evaporation that rises from food and cools in the head."},
+    {"id": "ar016", "tlg": "tlg016", "file": "grc1", "title": "On Dreams", "abbr": "Insomn.", "slug": "on-dreams",
+     "greek_title": "Περὶ ἐνυπνίων", "editor": LOGIC_EDITOR, "label": "Bekker (Oxford, 1837)", "columns": "biehl", "bekker": ("458a", "462b"), "fill_gaps": True,
+     "plain": "The dream belongs to the imagination, not to sense or opinion: the movements left by perceptions go on in sleep, and appear when the greater movements of waking are stilled."},
+    {"id": "ar008", "tlg": "tlg008", "file": "grc1", "title": "On Divination in Sleep", "abbr": "Div. Somn.", "slug": "on-divination-in-sleep",
+     "greek_title": "Περὶ τῆς καθ᾽ ὕπνον μαντικῆς", "editor": LOGIC_EDITOR, "label": "Bekker (Oxford, 1837)", "columns": "biehl", "bekker": ("462b", "464b"), "fill_gaps": True,
+     "plain": "Whether dreams foretell: some are causes or signs of what follows, most are coincidences; they are not sent by God, since they come to ordinary men and to animals."},
+    {"id": "ar020", "tlg": "tlg020", "file": "grc1", "title": "On Length and Shortness of Life", "abbr": "Long.", "slug": "on-length-of-life",
+     "greek_title": "Περὶ μακροβιότητος καὶ βραχυβιότητος", "editor": LOGIC_EDITOR, "label": "Bekker (Oxford, 1837)", "columns": "biehl", "bekker": ("464b", "467b"), "fill_gaps": True,
+     "plain": "Why some living things live longer than others: the long-lived are warm and moist, and the moist must not be easily dried."},
+    {"id": "ar018", "tlg": "tlg018", "file": "grc1", "title": "On Youth, Old Age, Life and Death", "abbr": "Juv.", "slug": "on-youth-and-old-age",
+     "greek_title": "Περὶ νεότητος καὶ γήρως, καὶ περὶ ζωῆς καὶ θανάτου", "editor": LOGIC_EDITOR, "label": "Bekker (Oxford, 1837)", "columns": "biehl", "bekker": ("467b", "470b"), "fill_gaps": True,
+     "plain": "The nutritive soul has its seat in the heart, the source of natural heat; life is the keeping of that heat, and death its failing or its quenching."},
+    {"id": "ar037", "tlg": "tlg037", "file": "grc1", "title": "On Respiration", "abbr": "Resp.", "slug": "on-respiration",
+     "greek_title": "Περὶ ἀναπνοῆς", "editor": LOGIC_EDITOR, "label": "Bekker (Oxford, 1837)", "columns": "biehl", "bekker": ("470b", "480b"), "fill_gaps": True,
+     "plain": "The earlier accounts of breathing (Anaxagoras, Diogenes, Democritus, Plato's Timaeus) examined; breathing, and the gills of fishes, are for cooling the heat about the heart."},
+    {"id": "ar014", "tlg": "tlg014", "file": "grc1", "title": "History of Animals", "abbr": "HA", "slug": "history-of-animals",
+     "greek_title": "Τῶν περὶ τὰ ζῷα ἱστοριῶν", "editor": LOGIC_EDITOR, "label": "Bekker (Oxford, 1837)", "columns": "thompson", "bekker": ("486a", "638b"), "fill_gaps": True,
+     "plain": "The facts about animals before their causes: their parts, outward and inward, their ways of breeding, their lives and characters, from man to the sponge; Book X, on barrenness, is thought not to be Aristotle's."},
     {"id": "ar030", "tlg": "tlg030", "file": "grc1", "title": "Parts of Animals", "abbr": "PA", "slug": "parts-of-animals",
      "greek_title": "Περὶ ζῴων μορίων", "editor": "Bernhard Langkavel", "label": "Langkavel (Leipzig, 1868)", "bekker": ("639a", "697b"), "fill_gaps": True,
      "plain": "The method of the study of nature: the final cause before the necessary, and the dignity of studying even the humblest "
@@ -137,7 +167,7 @@ def read_tei(work):
             elif el.get("subtype") in ("book", "part"):
                 state["book"] = int(el.get("n"))
             elif el.get("subtype") == "chapter":
-                state["chapter"] = int(el.get("n"))
+                state["chapter"] = int(re.match(r"\d+", el.get("n")).group(0))     # '49b' (HA IX 49B) is chapter 49
         if tag in ("head", "gap", "bibl"):
             return
         if tag == "note":
@@ -278,14 +308,15 @@ def marks_from_glaux(paras, glaux):
     return out
 
 
-def sections_of(paras, glaux_cols, glaux=None, carried=None, bekker=None, fill=False):
+def sections_of(paras, glaux_cols, glaux=None, carried=None, bekker=None, fill=False, carried_basis=None):
     """Cut the paragraphs at the Bekker columns: [(para index, start, end, column)]. The columns are GLAUx's, word by
     word, where GLAUx has them; otherwise those printed in the margin of the TEI. Either way, only the longest run in
     Bekker's order is kept, so that a misprinted or misread column (another edition's page, 440b for 404b) is left out."""
     if carried is not None:
         cand = carried
-        basis = ("Bekker's columns carried over from the margin of the Oxford translation (1928), chapter by chapter, at the same "
-                 "proportion of the chapter (≈): this Greek, Bekker's text in his Oxford reprint (1837), does not print them")
+        basis = carried_basis or ("Bekker's columns carried over from the margin of the Oxford translation (1928), chapter by chapter, "
+                                  "at the same proportion of the chapter (≈): this Greek, Bekker's text in his Oxford reprint (1837), "
+                                  "does not print them")
     elif glaux_cols and glaux is not None:
         cand = marks_from_glaux(paras, glaux)
         basis = "GLAUx's Bekker column of each word"
@@ -311,7 +342,8 @@ def sections_of(paras, glaux_cols, glaux=None, carried=None, bekker=None, fill=F
         kept, by_length = fill_gaps(paras, kept, bekker)
         if by_length:
             basis += ("; where a column is lost (" + ("GLAUx gives no word of it" if glaux_cols and glaux is not None and carried is None
-                      else "the margin does not print it, or the scan misread it") + "), it is placed by the length of the text "
+                      else "the margin does not print it, or the scan misread it" if carried is None or carried_basis
+                      else "the translation's margin does not give it") + "), it is placed by the length of the text "
                       "between the columns either side (≈): " + ", ".join(by_length))
     pieces = []
     cur = kept[0][2] if kept else "1a"
@@ -335,6 +367,27 @@ def sections_of(paras, glaux_cols, glaux=None, carried=None, bekker=None, fill=F
     if fill:
         return pieces, [c for _, _, c in kept], dropped, basis, by_length
     return pieces, [c for _, _, c in kept], dropped, basis
+
+
+def even_out(paras, marks):
+    """Carried columns (para, offset, column), in order: where a column carried over comes out far too short beside one far
+    too long (under a third and over half again the usual length), the mark between them was misplaced in the
+    translation's margin; it is dropped, and the column placed by length between its neighbours (fill_gaps, ≈)."""
+    starts, total = [], 0
+    for p in paras:
+        starts.append(total)
+        total += len(p["text"]) + 1
+    pos = [starts[k] + off for k, off, _ in marks]
+    lengths = [b - a for a, b in zip(pos, pos[1:])]
+    if len(lengths) < 3:
+        return marks
+    usual = sorted(lengths)[len(lengths) // 2]
+    drop = set()
+    for i in range(len(lengths) - 1):
+        a, b = lengths[i], lengths[i + 1]
+        if (a < usual / 3 and b > 1.5 * usual) or (b < usual / 3 and a > 1.5 * usual):
+            drop.add(i + 1)
+    return [m for i, m in enumerate(marks) if i not in drop]
 
 
 def next_col(c):
@@ -379,17 +432,35 @@ def fill_gaps(paras, kept, bekker=None):
     return [(*at(pos), col) for pos, col in out], placed
 
 
+def columns_of(work, paras, glaux, glaux_cols):
+    """The work's paragraphs cut at Bekker's columns, from wherever its columns come (sections_of, with fill)."""
+    carried, carried_basis = None, None
+    if work.get("columns") in ("english", "thompson"):
+        import aristotle_organon
+        carried = aristotle_organon.carried_marks(work, paras)
+    if work.get("columns") == "thompson":
+        carried_basis = ("Bekker's columns carried over from the margin of Thompson's Oxford translation (1910), chapter by chapter, at "
+                         "the same proportion of the chapter (≈): this Greek, Bekker's text in his Oxford reprint (1837), does not print "
+                         "them, and Thompson does not translate Book X")
+    elif work.get("columns") == "biehl":
+        import aristotle_biehl
+        carried = aristotle_biehl.carried_marks(work, paras)
+        carried_basis = ("Bekker's columns carried over from the margin of Biehl's Greek (Teubner, 1898), word by word: each begins at the "
+                         "first word of the line beside which Biehl prints it (≈, to the line): this Greek, Bekker's text in his Oxford "
+                         "reprint (1837), does not print them")
+    if carried and work.get("columns") == "thompson":
+        carried = even_out(paras, carried)
+    fill = work.get("fill_gaps", False)
+    return sections_of(paras, [] if work.get("margin") else glaux_cols, glaux, carried, work.get("bekker"), fill,
+                       carried_basis)
+
+
 def build_greek(db, work, sources):
     """The Greek of one work into the library. Returns its figures (as build_db.build_work does)."""
     wid = work["id"]
     paras, head = read_tei(work)
     glaux, glaux_cols = glaux_words(work)
-    carried = None
-    if work.get("columns") == "english":
-        import aristotle_organon
-        carried = aristotle_organon.carried_marks(work, paras)
-    fill = work.get("fill_gaps", False)
-    pieces, cols, dropped, basis, *rest = sections_of(paras, [] if work.get("margin") else glaux_cols, glaux, carried, work.get("bekker"), fill)
+    pieces, cols, dropped, basis, *rest = columns_of(work, paras, glaux, glaux_cols)
     order = []
     for _, _, _, col in pieces:
         if not order or order[-1] != col:

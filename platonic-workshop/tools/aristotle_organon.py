@@ -45,6 +45,12 @@ TREATISES = {
     "ar044": (369, 553, "W. A. Pickard-Cambridge", r"TOPIC|BOOK", "100a", "164b"),
     "ar040": (555, 617, "W. A. Pickard-Cambridge", r"SOPHIST|ELENCH|CHAPTER", "164a", "184b"),
 }
+# Aristotle milestone A8d: Thompson's Historia Animalium (Oxford, 1910), read the same way, for its Bekker columns only (the
+# Greek, Bekker's Oxford reprint of 1837, prints none): {work id: (source, file name, spec as in TREATISES)}.
+CARRIED = {
+    "ar014": ("ia-thompson-historia-1910", "thompson-1910",
+              (23, 472, "D'Arcy Wentworth Thompson", r"HISTORIA|ANIMALIUM|BOOK", "486a", "633b")),
+}
 PRINTED = ("E. M. Edghill (Categories, On Interpretation), A. J. Jenkinson (Prior Analytics), G. R. G. Mure (Posterior "
            "Analytics), W. A. Pickard-Cambridge (Topics, Sophistical Refutations), The Works of Aristotle translated into "
            "English, vol. I (Oxford: Clarendon Press, 1928)")
@@ -89,14 +95,18 @@ def roman(s):
     return v
 
 
-def clean(work_id, vocab):
-    first_leaf, last_leaf, translator, head_re, c0, c1 = TREATISES[work_id]
+def clean(work_id, vocab, src=SRC, spec=None, head_books=False):
+    """spec: (first leaf, last leaf, translator, running-head words, first column, last column), TREATISES' by default.
+    head_books: the book is also read from the running head (BOOK III. 4), where the book's own heading is lost or
+    misread (Thompson's Historia Animalium)."""
+    first_leaf, last_leaf, translator, head_re, c0, c1 = spec or TREATISES[work_id]
     order = columns(c0, c1)
-    pages = aristotle_ocr.scan_pages(SRC)
+    pages = aristotle_ocr.scan_pages(src)
     stream = []          # one entry per line of text: {'text', 'raw', 'leaf', 'new_para', 'chapter', 'book', 'line', 'mark'}
     notes = []
     stats = {"leaves": 0, "line_numbers": 0, "marks_read": 0, "chapters_read": 0, "notes": 0, "textual_notes_left_out": 0}
     book, nxt, last_line = 1, 0, 0
+    last_chapter = {}
     for lf in range(first_leaf, last_leaf + 1):
         lines = sorted(pages.get(lf, []), key=lambda l: l[0])
         if len(lines) < 4:
@@ -117,6 +127,9 @@ def clean(work_id, vocab):
         head_page = []      # the numbers in the running head that may be the page at its top
         for hl in lines[:start]:
             words = [w[0] for w in hl[2]]
+            hb = re.match(r"^\W*BOOK\W*([IVXLl1T]+)\b", " ".join(words)) if head_books else None
+            if hb and roman(hb.group(1).replace("T", "I")) == book + 1:
+                book += 1
             for j, w in enumerate(hl[2]):
                 before = words[j - 1] if j else ""
                 if re.match(r"^(CHAPTER|CH|[IVXL]+\.?,?)$", before.strip(".,")) or before.endswith("."):
@@ -160,6 +173,10 @@ def clean(work_id, vocab):
                 if b and b == book + 1:
                     book = b
                 continue
+            if head_books and centred and re.match(r"^\W*BOOK\W+\S{1,5}\W*$", t) and text[0][0] and \
+                    last_chapter.get(book, 0) > 3:
+                book += 1                    # 'BOOK. WI': a book's heading, its number misread
+                continue
             letters = [c for c in t if c.isalpha()]
             if centred and len(t) < 25 or len(t.split()) <= 4 and letters and sum(c.isupper() for c in letters) > 0.7 * len(letters):
                 continue          # a heading (the treatise's name)
@@ -177,6 +194,7 @@ def clean(work_id, vocab):
                 if side != line_side:
                     if n.isdigit() and 0 < int(n) < 50:
                         entry["chapter"] = int(n)
+                        last_chapter[book] = max(last_chapter.get(book, 0), int(n))
                     continue
                 page = int(order[min(nxt, len(order) - 1)][:-1])
                 cm = column_mark(w[0], page)
@@ -298,15 +316,51 @@ def assemble(stream, notes, order, vocab, stats):
 
 
 def write(work_id, slug, vocab):
-    paras, notes, stats = clean(work_id, vocab)
-    dest = TEXTS / slug / "oxford-1928.json"
+    if work_id in CARRIED:
+        src, name, spec = CARRIED[work_id]
+        paras, notes, stats = clean(work_id, vocab, src=src, spec=spec, head_books=True)
+    else:
+        src, name, spec = SRC, "oxford-1928", TREATISES[work_id]
+        paras, notes, stats = clean(work_id, vocab)
+    dest = TEXTS / slug / f"{name}.json"
     dest.parent.mkdir(parents=True, exist_ok=True)
-    dest.write_text(json.dumps({"source": SRC, "translator": TREATISES[work_id][2], "proof_status": "OCR cleaned by rule",
+    dest.write_text(json.dumps({"source": src, "translator": spec[2], "proof_status": "OCR cleaned by rule",
                                 "stats": stats, "paragraphs": paras, "notes": notes}, ensure_ascii=False, indent=0) + "\n", encoding="utf-8")
     return stats
 
 
-def greek_marks(greek_paras, english, order):
+def strict_anchors(english, estart, etotal, gfirst, gtotal, key, lo=0.6, hi=1.6):
+    """The chapters read in the English margin that may be trusted as fixed points: a number misread (a note's, or a
+    chapter's read twice) would put a chapter where the Greek's is not. Between two fixed points the Greek must run to
+    some lo to hi times its usual length for the English; of the chapters that keep to that, in order, the most are
+    taken (a longest path), with the start and the end."""
+    cands = [(0, 0)]
+    seen = set()
+    for k, p in enumerate(english):
+        ck = key(p)
+        if ck in seen or ck[1] == 0 or ck not in gfirst:
+            continue
+        seen.add(ck)
+        cands.append((estart[k], gfirst[ck]))
+    cands.append((etotal, gtotal))
+    rate = gtotal / max(1, etotal)
+    best = [(1, None)]
+    for n in range(1, len(cands)):
+        e1, g1 = cands[n]
+        top = (0, None)
+        for m in range(n):
+            e0, g0 = cands[m]
+            if best[m][0] and e0 < e1 and g0 < g1 and lo * rate <= (g1 - g0) / (e1 - e0) <= hi * rate and best[m][0] + 1 > top[0]:
+                top = (best[m][0] + 1, m)
+        best.append(top)
+    n, out = len(cands) - 1, []
+    while n is not None:
+        out.append(cands[n])
+        n = best[n][1]
+    return out[::-1]
+
+
+def greek_marks(greek_paras, english, order, strict=False):
     """The columns of a Greek text that does not print them, carried over from the English. The chapters whose start
     is read in the English margin are fixed points (the Greek's chapters are marked in its TEI); between two of them a
     column the English begins at some fraction of the way begins at the same fraction of the Greek, at a word's start.
@@ -323,16 +377,22 @@ def greek_marks(greek_paras, english, order):
     gfirst = {}
     for k, p in enumerate(greek_paras):
         gfirst.setdefault(key(p), gstart[k])
-    anchors = [(0, 0)]
-    seen = set()
-    for k, p in enumerate(english):
-        ck = key(p)
-        if ck in seen or ck[1] == 0:
-            continue
-        seen.add(ck)
-        if ck in gfirst and gfirst[ck] > anchors[-1][1] and estart[k] > anchors[-1][0]:
-            anchors.append((estart[k], gfirst[ck]))
-    anchors.append((etotal, gtotal))
+    if strict:
+        # The English stops before the Greek does (Thompson leaves out Book X): the Greek's end is its next book's start.
+        last_book = max((p.get("book") or 1) for p in english)
+        gtotal = min((g for (b, c), g in gfirst.items() if b > last_book), default=gtotal)
+        anchors = strict_anchors(english, estart, etotal, gfirst, gtotal, key)
+    else:
+        anchors = [(0, 0)]
+        seen = set()
+        for k, p in enumerate(english):
+            ck = key(p)
+            if ck in seen or ck[1] == 0:
+                continue
+            seen.add(ck)
+            if ck in gfirst and gfirst[ck] > anchors[-1][1] and estart[k] > anchors[-1][0]:
+                anchors.append((estart[k], gfirst[ck]))
+        anchors.append((etotal, gtotal))
 
     def to_greek(e):
         for (e0, g0), (e1, g1) in zip(anchors, anchors[1:]):
@@ -358,13 +418,15 @@ def greek_marks(greek_paras, english, order):
 
 
 def carried_marks(work, greek_paras):
-    """For aristotle_f1k: the Greek's columns carried over from this English (texts/aristotle/<slug>/oxford-1928.json)."""
-    path = TEXTS / work["slug"] / "oxford-1928.json"
+    """For aristotle_f1k: the Greek's columns carried over from this English (texts/aristotle/<slug>/oxford-1928.json,
+    or the file CARRIED names)."""
+    name, spec = (CARRIED[work["id"]][1:] if work["id"] in CARRIED else ("oxford-1928", TREATISES[work["id"]]))
+    path = TEXTS / work["slug"] / f"{name}.json"
     if not path.exists():
         return []
     import aristotle_trans
     english = json.loads(path.read_text(encoding="utf-8"))["paragraphs"]
-    c0, c1 = TREATISES[work["id"]][4:6]
+    c0, c1 = spec[4:6]
     order = columns(c0, c1)
     # Every column, where the English has it: printed, computed from its line numbers, or shared out between two.
     begun = {}
@@ -375,16 +437,18 @@ def carried_marks(work, greek_paras):
         marked[k]["marks"].append([a, col])
     for p in marked:
         p["marks"].sort()
-    return greek_marks(greek_paras, marked, order)
+    return greek_marks(greek_paras, marked, order, strict=work["id"] in CARRIED)
 
 
 def main():
     import aristotle_f1k
     if "--extract" in sys.argv:
         aristotle_ocr.write_extract(SRC, range(17, 620))
+        for src, _, spec in CARRIED.values():
+            aristotle_ocr.write_extract(src, range(spec[0], spec[1] + 1))
         return
     vocab = aristotle_ocr.english_vocab()
-    for wid in TREATISES:
+    for wid in list(TREATISES) + list(CARRIED):
         w = aristotle_f1k.WORK_BY_ID[wid]
         s = write(wid, w["slug"], vocab)
         print(f"{w['title']}: {s['leaves']} leaves, {s['columns_printed']} columns printed and {s['columns_computed']} computed "

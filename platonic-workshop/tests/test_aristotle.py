@@ -887,9 +887,10 @@ class GreekOnlyWorks(unittest.TestCase):
                 continue
             paras, _ = f.read_tei(w)
             glaux, cols = f.glaux_words(w)
-            *_, placed = f.sections_of(paras, [] if w.get("margin") else cols, glaux, None, w["bekker"], True)
+            *_, placed = f.columns_of(w, paras, glaux, cols)
             self.assertEqual(json.loads(listed.get(w["id"], "[]")), placed, w["id"])
-            self.assertIn(w["id"], js[js.index("const AR_GREEK_ONLY"):js.index("const AR_BY_LENGTH")])
+            if w.get("columns") != "thompson":       # the History of Animals has Thompson's English beside it
+                self.assertIn(w["id"], js[js.index("const AR_GREEK_ONLY"):js.index("const AR_BY_LENGTH")])
 
 
 @unittest.skipUnless(has_aristotle(), "build the library with Aristotle first (python3 tools/build_db.py)")
@@ -933,3 +934,94 @@ class GreekOnlyWorksInTheLibrary(unittest.TestCase):
                          ("ar012", "philoponus-generation-animals")):
             n = self.lib.db.execute("SELECT count(*) FROM ar_comment WHERE work_id = ? AND text_id = ?", (wid, tid)).fetchone()[0]
             self.assertGreater(n, 10, tid)
+
+
+CARRIED_NEW = {"ar041": ("436a", "449b"), "ar024": ("449b", "453b"), "ar042": ("453b", "458a"), "ar016": ("458a", "462b"),
+               "ar008": ("462b", "464b"), "ar020": ("464b", "467b"), "ar018": ("467b", "470b"), "ar037": ("470b", "480b"),
+               "ar014": ("486a", "638b")}
+
+
+class ParvaNaturaliaAndHistory(unittest.TestCase):
+    """Aristotle milestone A8d: the Parva Naturalia, columns from Biehl's Greek (1898); the History of Animals, from
+    Thompson's Oxford translation (1910)."""
+
+    def test_a_misread_page_is_still_its_page(self):
+        import aristotle_biehl as b
+        self.assertEqual(b.column_page("496b"), ("496", "b"))
+        self.assertEqual(b.column_page("445»"), ("445", None))
+        self.assertIsNone(b.column_page("30"))
+        self.assertEqual(b.likeness("496", 436), 2)
+        self.assertEqual(b.likeness("411", 471), 3)       # 7 read as 1
+        self.assertEqual(b.likeness("443", 440), 2)
+
+    def test_a_mark_out_of_proportion_is_left_out(self):
+        import aristotle_biehl as b
+        lines = [{"words": ["α"], "mark": None} for _ in range(100)]
+        lines[30]["mark"] = ("436", "b")      # 436b, a third of the way
+        lines[33]["mark"] = ("437", "a")      # far too soon after it: left out
+        lines[60]["mark"] = ("437", None)     # 437a, two thirds
+        old = (b.FIRST, b.LAST)
+        b.FIRST, b.LAST = "436a", "437b"
+        try:
+            starts = b.column_starts(lines, lambda i: i * 10)
+        finally:
+            b.FIRST, b.LAST = old
+        self.assertEqual(starts, {0: "436a", 30: "436b", 60: "437a"})
+
+    def test_biehl_is_read_and_paired(self):
+        import aristotle_biehl as b
+        import aristotle_f1k as f
+        if not all((f.RAW / f.F1K_SRC / "data" / "tlg0086" / f"tlg{w[2:]}").exists() for w in CARRIED_NEW):
+            self.skipTest("fetch First1KGreek first (python3 tools/fetch_sources.py first1k-aristotle)")
+        toks, paired, start_at, share = b.biehl()
+        self.assertGreater(share, 0.9)
+        self.assertGreaterEqual(len(start_at), 55)
+        self.assertEqual(sorted(start_at.values(), key=f.col_key), sorted(set(start_at.values()), key=f.col_key))
+
+    def test_thompson_is_cleaned(self):
+        d = json.loads((ROOT / "texts/aristotle/history-of-animals/thompson-1910.json").read_text(encoding="utf-8"))
+        self.assertGreater(d["stats"]["columns_printed"], 200)
+        self.assertEqual(d["stats"]["columns_reached"], "633b")
+        self.assertEqual(max(p["book"] for p in d["paragraphs"]), 9)
+        self.assertTrue(d["paragraphs"][0]["text"].startswith("1 OF the parts of animals") or "parts of animals" in d["paragraphs"][0]["text"])
+
+
+@unittest.skipUnless(has_aristotle(), "build the library with Aristotle first (python3 tools/build_db.py)")
+class ParvaNaturaliaAndHistoryInTheLibrary(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.lib = serve.Library(build_db.DB_PATH)
+
+    def refs(self, wid, words):
+        return {r[0] for r in self.lib.db.execute("SELECT c.section_ref FROM chunk c JOIN edition e ON e.id = c.edition_id "
+                                                  "WHERE e.work_id = ? AND e.lang = 'grc' AND c.text LIKE ?", (wid, f"%{words}%"))}
+
+    def test_each_work_has_every_column_from_its_first_to_its_last(self):
+        import aristotle_f1k as f
+        for wid, (first, last) in CARRIED_NEW.items():
+            want = [first]
+            while want[-1] != last:
+                want.append(f.next_col(want[-1]))
+            self.assertEqual(self.lib.work(wid)["sections"], want, wid)
+
+    def test_the_greek_is_tagged(self):
+        for wid in CARRIED_NEW:
+            n, tagged = self.lib.db.execute(
+                "SELECT count(*), count(g.token_id) FROM token t JOIN edition e ON e.id = t.edition_id "
+                "LEFT JOIN tag g ON g.token_id = t.id AND g.part = 0 WHERE e.work_id = ? AND e.lang = 'grc'", (wid,)).fetchone()
+            self.assertGreater(n, 1000, wid)
+            self.assertGreater(tagged / n, 0.9, wid)
+
+    def test_famous_passages_are_at_their_columns(self):
+        # Mem. 1, 449b31-450a1: there is no thinking without an image.
+        self.assertTrue(self.refs("ar024", "νοεῖν οὐκ ἔστιν") & {"449b", "450a"})
+        # HA VIII 1, 588b4: nature passes little by little from the lifeless to the animals.
+        self.assertTrue(self.refs("ar014", "κατὰ μικρὸν") & {"588b"})
+
+    def test_thompson_is_beside_the_history(self):
+        n = self.lib.db.execute("SELECT count(*) FROM chunk WHERE edition_id = 'ar014.thompson1910'").fetchone()[0]
+        self.assertGreater(n, 250)
+
+    def test_alexander_on_sense_is_linked(self):
+        n = self.lib.db.execute("SELECT count(*) FROM ar_comment WHERE work_id = 'ar041' AND text_id = 'alexander-de-sensu'").fetchone()[0]
+        self.assertGreater(n, 10)
