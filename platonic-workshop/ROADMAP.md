@@ -305,8 +305,8 @@ could do before. The school and curriculum ideas are left out as beyond the scop
 - Made fresh from the Greek where no public-domain English exists; where it exists (Taylor, Thompson, Kenyon, and the
   others already on the shelf), modernise that English, checked against the Greek, and flag where the old English and the
   Greek differ. Labelled as the Workshop's own, machine-assisted, not yet checked by a scholar.
-- Begin with the works the Platonists read first (the order of milestone A2: the Categories and the Organon, then the
-  Ethics, Physics, De Anima and Metaphysics). Several sessions, one per thread.
+- Begin with the works the Platonists read first (the order of milestone A2: logic, then ethics, politics, physics and
+  theology). Several sessions, one per thread.
 
 ## Milestone 28: the later readers
 
