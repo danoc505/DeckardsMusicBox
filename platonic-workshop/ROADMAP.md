@@ -13,6 +13,87 @@ Each milestone is meant to be one working session, in its own thread. Start the 
 When a milestone is done and merged, its thread hands off to a new thread for the next milestone (as 14 to 18 have done),
 so that each thread starts small.
 
+## The current focus (November 13, 2026, asked for by Daniel): the Enneads of Plotinus in modern English
+
+Daniel: "Ok lets put a pause to this and move over to the Enniads, translating it into modern english".
+
+- The Aristotle work is **paused** after 35m6 (see the section below); everything else paused stays paused.
+- The work now is the **Enneads in modern English**, milestones E1 to E34 below, in Porphyry's order (the order of his edition,
+  six sets of nine; the order Daniel wants unless he says otherwise). Fifteen treatises are already done, beside Taylor's English
+  (milestone 27, sessions 1 and 2: I.2, I.3, II.4, II.9, III.6, III.7, IV.2, IV.3, IV.7, V.1, V.2, V.3, V.6, V.9, VI.9); the
+  milestones below do the other thirty-nine.
+- **The pattern** (as the Aristotle milestones 35m1 to 35m6, and milestone 27 for Plotinus): modern English made from the Greek
+  (Volkmann, Leipzig 1883-1884, First1KGreek's TEI, already in the Workshop as `plotinus-enneads`), chapter by chapter and
+  paragraph by paragraph, every idea kept; the older English beside it, side by side or one tap away; a flag wherever the older
+  English misses or adds to the Greek, quoting its words word for word (the build checks the quotation); notes giving Plato's,
+  Aristotle's and Homer's places; labelled as the Workshop's own AI-drafted (machine-assisted) translation, not yet checked by a
+  scholar; Mark a sentence. The fixed renderings of `terms-greek.json` apply (νοῦς intellect, ψυχή soul, ἀρετή virtue ...).
+- **The older English** is Stephen MacKenna's (1917-1930; published before 1931, so public domain in the United States), made from
+  the same Greek: the Internet Archive's OCR of each volume is kept as received in `sources/mackenna-plotinus-<year>/` and read by
+  rule by `tools/mackenna.py` into `texts/plotinus/mackenna-<year>.json` (running heads and page numbers out, broken words and
+  paragraphs joined; not proofread). The milestone that first needs a volume adds it: vol. I (1917, Ennead I and Porphyry's Life),
+  E1; vol. II (1921, Enneads II and III), E7; vol. III (1924, Ennead IV), E15; vol. IV (1926, Ennead V), E20; vol. V (1930,
+  Ennead VI), E22. Where MacKenna's chapter numbers are not Volkmann's (in I.8 his 12 chapters hold Volkmann's 15), the master
+  copy names his chapters for each Greek chapter with `@older`.
+- **The files**: master copy `sources/translations/modern/enneads.txt` (format at its head), built and checked by
+  `tools/modern_enneads.py` into `enneads.json` and `reports/modern_enneads.md`; read at `#neo-modern/enneads`, which also shows
+  the contents of all fifty-four treatises in Porphyry's order (done here, beside Taylor, or to come with its milestone: the
+  `PLAN` list in `tools/modern_enneads.py`, which each milestone keeps true). Tests: `tests/test_modern_enneads.py` and
+  `tests/modern_enneads_browser.js` (each milestone adds a check or two for its treatises).
+- **One milestone per thread.** A thread does its one milestone, merges it, checks the deployed site, reports, and stops; the next
+  starts in a fresh thread, which reads only this section and the README's section on the Enneads. Each is sized for one fresh
+  thread (about 2,500 to 7,500 Greek words). Run the tests that touch the files changed (the full suite can take over 25 minutes).
+- The next one to do is always the first milestone below not marked done.
+
+### The milestones (Greek words in brackets)
+
+- **E1: I.1, What is the living being, and what is the human being? (2,682) (done).** MacKenna's vol. I brought in
+  (`tools/mackenna.py`); `tools/modern_enneads.py`, the reader page with the whole Enneads in Porphyry's order, links from the
+  Neoplatonists' shelf and from each chapter of the Greek; I.1 in 13 chapters, 25 paragraphs, 11 flags against MacKenna (e.g.
+  he puts the "soul that weaves" in Plato, where Plotinus is quoting Aristotle, On the Soul 408b; he has God "contained in" the
+  intelligible, where the Greek has him "riding upon" it), and notes on Aristotle's On the Soul, the Timaeus, the Republic's beast
+  and Glaucus, and Homer's Heracles.
+- E2: I.4 On happiness, I.5 Whether happiness grows with time (5,565).
+- E3: I.6 On beauty, I.7 On the first good and the other goods (3,753).
+- E4: I.8 What evils are, and where they come from, I.9 On going out of life (4,533). MacKenna's I.8 has 12 chapters for
+  Volkmann's 15: name his chapters with `@older`, and check that tools/mackenna.py reads his chapter numbers there.
+- E5: Porphyry's Life of Plotinus, chapters 1-12. Porphyry set it before the Enneads, and its English is in MacKenna's vol. I;
+  but its Greek is not yet in the Workshop (First1KGreek has no Vita Plotini): bring in Volkmann's vol. I (1883), which opens with the
+  Life (check this in the scan), as an Internet Archive scan on the Neoplatonists' shelf, and proofread its pages as Proclus' commentary was
+  (`tools/proofread.py`), then translate. Placed after Ennead I because of that extra work; Daniel may move it first, or drop it.
+- E6: Porphyry's Life of Plotinus, chapters 13-26 (Porphyry's account of the order of the treatises, and his edition).
+- E7: II.1 On the heaven, II.2 On the movement of the heaven (3,747); MacKenna's vol. II (1921).
+- E8: II.3 Whether the stars are causes (4,489).
+- E9: II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On
+  sight (4,430).
+- E10: III.1 On destiny (2,648).
+- E11: III.2 On providence, first part (6,582).
+- E12: III.3 On providence, second part, III.4 On the daemon allotted to us (4,044).
+- E13: III.5 On love (3,531).
+- E14: III.8 On nature, contemplation and the One, III.9 Various considerations (5,035).
+- E15: IV.1 On the being of the soul, first part, and IV.4 chapters 1-17 (about 5,000); MacKenna's vol. III (1924).
+- E16: IV.4 chapters 18-31 (about 4,700).
+- E17: IV.4 chapters 32-45 (about 4,600).
+- E18: IV.5 On sight, IV.6 On perception and memory (4,686).
+- E19: IV.8 On the descent of the soul into bodies, IV.9 Whether all souls are one (4,062).
+- E20: V.4 How what comes after the first comes from it, V.5 That the intelligibles are not outside intellect (5,314);
+  MacKenna's vol. IV (1926).
+- E21: V.7 Whether there are forms of individuals, V.8 On intelligible beauty (5,221).
+- E22: VI.1 On the kinds of being, first part, chapters 1-15 (about 4,900); MacKenna's vol. V (1930).
+- E23: VI.1 chapters 16-30 (about 4,900).
+- E24: VI.2 On the kinds of being, second part (7,442).
+- E25: VI.3 On the kinds of being, third part, chapters 1-14 (about 4,700).
+- E26: VI.3 chapters 15-28 (about 4,700).
+- E27: VI.4 That being, one and the same, is everywhere whole, first part (5,731).
+- E28: VI.5 the same, second part (3,658).
+- E29: VI.6 On numbers (6,963).
+- E30: VI.7 How the many forms came to be, and on the Good, chapters 1-14 (about 4,800).
+- E31: VI.7 chapters 15-28 (about 4,800).
+- E32: VI.7 chapters 29-42 (about 4,800).
+- E33: VI.8 On free will and the will of the One (7,778).
+- E34 (optional): MacKenna's English beside the fifteen done with Taylor too, and their flags checked against him, so that the
+  whole Enneads read the same way.
+
 ## The current focus (November 13, 2026, asked for by Daniel): Aristotle, beginning with the Metaphysics
 
 **Paused (November 13, 2026, asked for by Daniel):** Daniel: "Ok lets put a pause to this and move over to the Enniads,
@@ -313,8 +394,8 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   (for ἐμφάσεις) kept and noted; the Latin at the foot of these pages is Ficino's (signed M. F.). Session 23, after milestone 35
   (next): from "Τοῦτο μὲν οὖν ὥσπερ πόρισμα" on p. 297 (leaf 324), the rest of the lemma's commentary. Next sessions, in this order: the rest of Proclus on the First Alcibiades (Taylor's Additional Notes
   to check against), and Olympiodorus on it (Creuzer's OCR, proofread first); then On the Mysteries and the Elements, where
-  Taylor's English exists; then Damascius and Hermias. Plotinus' other treatises have no Taylor to check against: check
-  them against another public-domain translation, or label them so.
+  Taylor's English exists; then Damascius and Hermias. Plotinus' other treatises have no Taylor to check against: they are
+  now the Enneads milestones (E1 onward, the current focus at the top of this file), checked against MacKenna's English.
 
 ## Milestone 35: modern English of Aristotle (35a, 35b, 35c and 35m1 to 35m6 done; paused after 35m6, November 2026; asked for by Daniel)
 

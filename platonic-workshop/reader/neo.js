@@ -59,6 +59,8 @@ function neoNotHere() {
 // Milestone 27: a scanned text proofread and put into modern English, so far.
 function neoModernLink(t) {
   if (!t.modern) return "";
+  if (t.modern.kind === "enneads") return `<br><span class="meta">In modern English, the Workshop's own:</span> <a href="#neo-modern/${esc(t.modern.text)}">${esc(t.modern.title)}</a>
+    <span class="meta">(${t.modern.treatises.map((x) => esc(x.id)).join(", ")} beside MacKenna's English, and ${t.modern.beside_taylor} beside Taylor's)</span>`;
   return `<br><span class="meta">Proofread and in modern English, the Workshop's own:</span> <a href="#neo-modern/${esc(t.modern.text)}">${t.modern.treatises.map((x) => esc(x.title)).join(", ")}</a> <span class="meta">(${t.modern.pages} pages)</span>`;
 }
 
@@ -96,7 +98,9 @@ async function showNeo(raw) {
     <p class="lead">${esc(t.about)}</p>${typeof arCommentsOn === "function" ? arCommentsOn(t) : ""}
     <p class="meta">${neoKind(t)} ${esc(t.edition)}. ${t.n_units.toLocaleString()} ${unit}, ${t.words.toLocaleString()} Greek words${t.latin_units ? `; ${t.latin_units} pages in Latin (the editor's preface, translation or notes), folded when read` : ""}.
       Cited as ${esc(t.cite)}.</p>
-    ${t.modern ? `<p class="mod-label"><b>In modern English, the Workshop's own:</b> <a href="#neo-modern/${esc(t.modern.text)}">${t.modern.treatises.map((x) => esc(x.title)).join(", ")}</a>.
+    ${t.modern && t.modern.kind === "enneads" ? `<p class="mod-label"><b>In modern English, the Workshop's own:</b> <a href="#neo-modern/${esc(t.modern.text)}">${esc(t.modern.title)}</a>.
+      <span class="meta">All fifty-four treatises in Porphyry's order: ${t.modern.treatises.map((x) => esc(x.id)).join(", ")} so far beside MacKenna's English, and ${t.modern.beside_taylor} beside Taylor's; the rest to come.</span></p>`
+      : t.modern ? `<p class="mod-label"><b>In modern English, the Workshop's own:</b> <a href="#neo-modern/${esc(t.modern.text)}">${t.modern.treatises.map((x) => esc(x.title)).join(", ")}</a>.
       <span class="meta">Its ${t.modern.pages} pages were proofread from the page images first; the proofreading is kept with the corrections, and <em>With corrections</em> reads it.</span></p>` : ""}
     <h3>Source and licence</h3><ul class="neo-sources">${neoSources(t)}</ul>
     ${t.kind === "ocr" ? `<p class="meta">The text is the OCR as the Internet Archive gives it. Lines that are only specks of the scan are hidden from the page and shown in <em>the OCR as received</em>.
@@ -512,7 +516,8 @@ document.addEventListener("click", (ev) => {
     const open = box.hasAttribute("hidden");
     box.toggleAttribute("hidden", !open);
     t.setAttribute("aria-expanded", String(open));
-    t.textContent = open ? "Hide Taylor's words" : "Taylor's words";
+    const words = t.dataset.words || "Taylor's words";
+    t.textContent = open ? `Hide ${words}` : words;
   }
 });
 
@@ -536,6 +541,13 @@ const NM_MODES = [["modern", "Modern English", "The Workshop's modern English, w
   ["both", "Side by side", "The modern English and Taylor's English together, section by section"]];
 
 function nmPara(p) {
+  if (NM.cur.kind === "enneads") {
+    // The Enneads: the Greek of the chapter in Volkmann's text, on the Neoplatonists' shelf.
+    const c = NM.cur.chapters.find((x) => x.id === p.chapter) || {};
+    const at = c.greek_part != null ? `<a href="#neo/${esc(NM.cur.greek_text)}/${c.greek_part}/${encodeURIComponent(c.greek_unit)}">${esc(c.id)}</a>` : esc(p.chapter);
+    return tgModernPara(p).replace(`<summary>The Greek of this paragraph</summary>`,
+      `<summary>The Greek of this paragraph</summary><p class="meta">Volkmann's text, from chapter ${at}.</p>`);
+  }
   if (NM.cur.kind === "aristotle") {
     // Milestone 35: Aristotle's Greek is read at Bekker's columns, in the work's own reader.
     const cols = (p.cols || []).map((c) => `<a href="#${esc(NM.cur.work_slug)}/${esc(c)}">${esc(c)}</a>`).join(", ");
@@ -550,6 +562,12 @@ function nmPara(p) {
 }
 
 function nmTaylor(d, c) {
+  if (d.kind === "enneads") {
+    if (!c.older.length) return `<p class="meta nm-none">MacKenna's translation has no chapter matched to this one.</p>`;
+    return `<div class="tg-tay"><div class="mp-tay-h">MacKenna, ${c.older.map((x) => `${esc(x.label)} (${esc(String(x.year))}${x.page ? `, p. ${esc(String(x.page))}` : ""})`).join("; ")}
+      <span class="meta">(the scan's OCR, read by rule, not proofread)</span></div>
+      ${c.older.map((x) => x.text.split("\n\n").map((t) => `<p>${esc(t)}</p>`).join("")).join("")}</div>`;
+  }
   if (d.kind === "aristotle") {
     if (!c.taylor.length) return `<p class="meta nm-none">Taylor's translation has no chapter matched to this one.</p>`;
     return `<div class="tg-tay"><div class="mp-tay-h">${esc(d.taylor_title)}, ${c.taylor.map((x) => esc(x.label.toLowerCase())).join(", ")}
@@ -574,18 +592,38 @@ function nmChapterLabel(id) {
 function nmSection(d, c, mode) {
   const paras = d.paragraphs.filter((p) => p.chapter === c.id);
   const tay = nmTaylor(d, c);
+  const words = d.kind === "enneads" ? "MacKenna's words" : "Taylor's words";
+  const theirs = d.kind === "enneads" ? c.older : c.taylor;
   return `<section class="tg-ch tg-mod tg-mode-${mode}" id="mc-${esc(c.id)}">
     <h4 class="neo-unit-n">${d.kind === "aristotle" ? nmChapterLabel(c.id) : esc(c.id.replace(/^Pr\./, ""))}. ${esc(c.title)}</h4>
     <div class="ms-sum"><b>In short</b> ${esc(c.summary)}</div>
     <div class="tg-cols"><div class="tg-mcol">${paras.map(nmPara).join("")}</div>
       ${mode === "both" ? `<div class="tg-tcol">${tay}</div>` : ""}</div>
-    ${mode === "both" || !c.taylor.length ? "" : `<p class="mp-tools"><button type="button" class="link-btn" data-tg-tay aria-expanded="false">Taylor's words</button></p>
+    ${mode === "both" || !theirs.length ? "" : `<p class="mp-tools"><button type="button" class="link-btn" data-tg-tay data-words="${words}" aria-expanded="false">${words}</button></p>
       <div class="tg-tay-box" hidden>${tay}</div>`}
   </section>`;
 }
 
+// The Enneads: all fifty-four treatises in Porphyry's order, each done here, beside Taylor (milestone 27), or to come.
+function nmEnneadsContents(d, short) {
+  const enn = ["I", "II", "III", "IV", "V", "VI"];
+  return enn.map((e, k) => `<p class="meta"><b>Ennead ${e}</b></p><ul class="mod-secs enn-contents">${d.contents.filter((c) => c.id.split(".")[0] === e).map((c) => {
+    const n = `${esc(c.id)} `;
+    if (c.status === "here") return `<li class="enn-here"><a href="#neo-modern/${esc(d.text)}/${esc(c.first)}" data-scroll="mc-${esc(c.first)}">${n}${esc(c.title)}</a>${c.chapters_done ? ` <span class="meta">(chapters 1-${c.chapters_done} of ${c.chapters_all} so far)</span>` : ""}</li>`;
+    if (c.status === "taylor") return `<li class="enn-taylor">${c.taylor_part != null ? `<a href="#neo-en/taylor-plotinus/${c.taylor_part}">${n}${esc(c.title)}</a>` : `${n}${esc(c.title)}`} <span class="meta">beside Taylor</span></li>`;
+    return `<li class="enn-later"><span class="meta">${n}${esc(c.title)}${short ? "" : ` (to come, ${esc(c.milestone || "")})`}</span></li>`;
+  }).join("")}</ul>`).join("");
+}
+
 function nmToc(d) {
   const marks = MODERN.marks || [];
+  if (d.kind === "enneads") {
+    return `<p><a href="#library">‹ Library</a></p><h3><a href="${nmGreekHref(d)}">${esc(d.author)}, ${esc(d.greek_info ? d.greek_info.title : "the Enneads")}</a></h3>
+      <h4 class="pane-h">In modern English, in Porphyry's order</h4>${nmEnneadsContents(d, true)}
+      <h4 class="pane-h">Your marks${marks.length ? ` (${marks.length})` : ""}</h4>
+      ${marks.length ? `<ul class="mod-marks">${marks.map((mk) => `<li><a href="#mp-${esc(mk.para)}" data-scroll="mp-${esc(mk.para)}"><b>${esc(mk.kind)}</b></a>: ${esc(mk.sentence.length > 90 ? mk.sentence.slice(0, 88) + "…" : mk.sentence)}</li>`).join("")}</ul>`
+        : `<p class="meta">None yet. If a sentence reads badly or seems wrong, tap “Mark a sentence” under its paragraph.</p>`}`;
+  }
   return `<p><a href="#library">‹ Library</a></p><h3><a href="${nmGreekHref(d)}">${esc(d.author)}, ${esc(d.greek_info ? d.greek_info.title : "")}</a></h3>
     <h4 class="pane-h">In modern English</h4>
     ${d.treatises.map((t) => `<p class="meta"><b>${esc(t.title)}</b></p><ol class="mod-secs">${d.chapters.filter((c) => c.treatise === t.id).map((c) =>
@@ -605,7 +643,10 @@ function renderNeoModern(d, sec) {
   MODERN.t = { modern: d };
   MODERN.marks = d.marks || [];
   MODERN.toc = () => { $("#toc").innerHTML = nmToc(d); };
-  const modes = `<div class="mod-modes" role="group" aria-label="Which English">${NM_MODES.map(([k, l, title]) =>
+  const enn = d.kind === "enneads";
+  const nmModes = enn ? [["modern", "Modern English", "The Workshop's modern English, with MacKenna's words a tap away"],
+    ["both", "Side by side", "The modern English and MacKenna's English together, chapter by chapter"]] : NM_MODES;
+  const modes = `<div class="mod-modes" role="group" aria-label="Which English">${nmModes.map(([k, l, title]) =>
     `<button type="button" class="chip${k === NM.mode ? " on" : ""}" data-nm-mode="${k}" aria-pressed="${k === NM.mode}" title="${esc(title)}">${esc(l)}</button>`).join("")}</div>`;
   const g = d.greek_info || {};
   const ar = d.kind === "aristotle";
@@ -614,15 +655,21 @@ function renderNeoModern(d, sec) {
     ${d.treatises.map((t) => `<div class="ms-sum"><b>${esc(t.title)}, in short</b> ${esc(t.summary)}</div>`).join("")}
     <div class="mod-label" role="note"><b>Modern English, the Workshop's own</b>
       <span class="mod-badge" title="Drafted with an AI model and not yet checked by a scholar">machine-assisted</span>
-      <p>${esc(d.label)} ${ar ? `Modernised from the public-domain English, checked against the Greek of ${esc(g.edition || "")}, and compared with ${d.english.map((e) => esc(e.label)).join(", ")}.`
+      <p>${esc(d.label)} ${enn ? `Made from the Greek of ${esc(g.edition || "Volkmann's edition")}, checked against Stephen MacKenna's translation (${d.older.volumes.map((v) => esc(String(v.year))).join(", ")}), made from the same Greek.`
+        : ar ? `Modernised from the public-domain English, checked against the Greek of ${esc(g.edition || "")}, and compared with ${d.english.map((e) => esc(e.label)).join(", ")}.`
         : `Made from the Greek of ${esc(g.edition || "")}, checked against Taylor's Introduction and notes to the dialogue (1804).`}
         Tap “Mark a sentence” under a paragraph if a sentence reads badly or seems wrong: your marks are kept for revision.</p>
       <details><summary>About this version</summary><p>${esc(d.about)}</p>
-        ${ar ? `<p class="meta">Master copy: <code>${esc(d.source)}</code>; the checks: <code>reports/modern_ar.md</code>.
+        ${enn ? `<p class="meta">Master copy: <code>${esc(d.source)}</code>; the checks: <code>reports/modern_enneads.md</code>.
+          MacKenna's English: ${d.older.volumes.map((v) => `<code>${esc(v.file)}</code>`).join(", ")}, ${esc(d.older.how)}.</p>`
+        : ar ? `<p class="meta">Master copy: <code>${esc(d.source)}</code>; the checks: <code>reports/modern_ar.md</code>.
           The older English: ${d.english.map((e) => `<code>${esc(e.file)}</code>`).join(", ")}.</p>`
         : `<p class="meta">Master copy: <code>${esc(d.source)}</code>; the proofread Greek: <code>${esc(d.proofread)}</code>; the checks: <code>reports/modern_neo.md</code>.
           Taylor's English: ${esc(d.taylor_source)}.</p>`}</details>
       ${modes}</div>`;
+  if (enn) h += `<details class="enn-all"><summary>The whole Enneads, in Porphyry's order</summary>
+    <p class="meta">Porphyry edited his teacher's fifty-four treatises in six sets of nine, the Enneads. Those Taylor translated (1817) are read in modern English
+      beside his English; the others are done here, a few at a time, beside MacKenna's.</p>${nmEnneadsContents(d, false)}</details>`;
   for (const c of d.chapters) h += nmSection(d, c, NM.mode);
   h += `<p class="neo-nav"><a class="btn" href="${nmGreekHref(d)}">The Greek text</a></p>`;
   $("#main").innerHTML = h + `</div>`;
@@ -658,6 +705,15 @@ document.addEventListener("click", (ev) => {
     window.scrollTo(0, y);
   }
 });
+
+// The Enneads milestones: each chapter of the Greek done in modern English links to it, beside MacKenna's English.
+const _neoTaylorLinksEnn = neoTaylorLinks;
+neoTaylorLinks = function (u) {  // eslint-disable-line no-global-assign
+  const h = _neoTaylorLinksEnn(u);
+  if (!u.modern_enneads) return h;
+  const m = u.modern_enneads;
+  return h + `<p class="tg-back meta">In modern English, the Workshop's own, beside MacKenna's English: <a href="#neo-modern/${esc(m.text)}/${esc(m.id)}">${esc(m.id)}</a></p>`;
+};
 
 // The proofread pages of the scan link to the modern English of their section.
 const _neoTaylorLinks27 = neoTaylorLinks;

@@ -1,0 +1,18 @@
+{
+  "plotinusethicalt01plotuoft_djvu.txt": {
+    "url": "https://archive.org/download/plotinusethicalt01plotuoft/plotinusethicalt01plotuoft_djvu.txt",
+    "fetched_at": "2026-11-13T22:10:36+00:00",
+    "http_status": 200,
+    "content_type": "text/plain; charset=utf-8",
+    "bytes": 394681,
+    "sha256": "6b0576b36104109fd86ede01c464d9a4b91ebc93c1382b6db7b2148818612fd9"
+  },
+  "plotinusethicalt01plotuoft_metadata.json": {
+    "url": "https://archive.org/metadata/plotinusethicalt01plotuoft/metadata",
+    "fetched_at": "2026-11-13T22:10:37+00:00",
+    "http_status": 200,
+    "content_type": "application/json",
+    "bytes": 2183,
+    "sha256": "1b049f708be20fd49cd99df491f5382e2bf2b2b6e4b911d65cd8f0b29bc05d5b"
+  }
+}
