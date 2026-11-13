@@ -107,12 +107,12 @@ TEXTS = {
         "work": "ar025",
         "slug": "metaphysics",
         "books": True,
-        "done_books": [1, 2, 3, 4, 5, 6, 7],  # 35m1 (I, II), 35m2 (III, IV), 35m3 (V), 35m4 (VI, VII); each later sub-milestone adds its books (ROADMAP, 35m5 to 35m8)
+        "done_books": [1, 2, 3, 4, 5, 6, 7, 8, 9],  # 35m1 (I, II), 35m2 (III, IV), 35m3 (V), 35m4 (VI, VII), 35m5 (VIII, IX); each later sub-milestone adds its books (ROADMAP, 35m6 to 35m8)
         "title": "The Metaphysics in modern English",
         "english": {"taylor-1801": "Taylor (1801)", "ross-1908": "Ross, Oxford (1908)"},
         "taylor_title": "Taylor, The Metaphysics (1801)",
         "about": "A modern English version of Aristotle's Metaphysics, written for the Workshop, a few books at a time: so far "
-                 "Books Α, α, Β, Γ, Δ, Ε and Ζ (I to VII). It modernises the public-domain English on the shelf, W. D. Ross's in the Oxford "
+                 "Books Α, α, Β, Γ, Δ, Ε, Ζ, Η and Θ (I to IX). It modernises the public-domain English on the shelf, W. D. Ross's in the Oxford "
                  "translation (1908), checked sentence by sentence against the Greek, Ross's own later text (Oxford, 1924) as "
                  "Perseus gives it; where the old English and the Greek differ, the modern version follows the Greek. It is "
                  "compared with Thomas Taylor's translation (1801), the English the Platonists' Workshop reads beside it: where "

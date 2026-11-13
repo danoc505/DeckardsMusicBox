@@ -218,7 +218,7 @@ class Metaphysics(unittest.TestCase):
         self.assertEqual((d["by"], d["kind"], d["work"], d["work_slug"]), ("Workshop modern version", "aristotle", "ar025", "metaphysics"))
         self.assertIs(d["machine_assisted"], True)
         self.assertIn("not yet checked", d["label"])
-        self.assertIn("so far Books Α, α, Β, Γ, Δ, Ε and Ζ", d["about"])
+        self.assertIn("so far Books Α, α, Β, Γ, Δ, Ε, Ζ, Η and Θ", d["about"])
         self.assertEqual(d["greek_info"]["edition"], "Ross, Oxford, 1924 (Perseus)")
         self.assertEqual(modern_ar.TEXTS["aristotle-metaphysics"]["done_books"][:2], [1, 2])
         self.assertEqual([t["id"] for t in d["treatises"]][:2], ["Metaph.I", "Metaph.II"])
@@ -372,10 +372,10 @@ class MetaphysicsEpsilonZeta(unittest.TestCase):
 
     def test_books_six_and_seven_every_chapter_with_taylor(self):
         d = load("aristotle-metaphysics")
-        self.assertEqual(modern_ar.TEXTS["aristotle-metaphysics"]["done_books"], [1, 2, 3, 4, 5, 6, 7])
-        self.assertEqual([t["id"] for t in d["treatises"]][5:], ["Metaph.VI", "Metaph.VII"])
+        self.assertEqual(modern_ar.TEXTS["aristotle-metaphysics"]["done_books"][:7], [1, 2, 3, 4, 5, 6, 7])
+        self.assertEqual([t["id"] for t in d["treatises"]][5:7], ["Metaph.VI", "Metaph.VII"])
         ids = [f"Metaph.VI.{n}" for n in range(1, 5)] + [f"Metaph.VII.{n}" for n in range(1, 18)]
-        self.assertEqual([c["id"] for c in d["chapters"]][57:], ids)
+        self.assertEqual([c["id"] for c in d["chapters"]][57:78], ids)
         tay = {c["id"]: [x["label"] for x in c["taylor"]] for c in d["chapters"]}
         self.assertEqual((tay["Metaph.VI.3"], tay["Metaph.VI.4"]), (["Book VI, Chapter 3"], ["Book VI, Chapter 3"]))
         self.assertEqual((tay["Metaph.VII.5"], tay["Metaph.VII.6"]), (["Book VII, Chapter 5"], ["Book VII, Chapter 5"]))
@@ -412,6 +412,56 @@ class MetaphysicsEpsilonZeta(unittest.TestCase):
         self.assertTrue(any(seg == "Metaph.VI.1.p4" and "what we may call theology" in f["taylor"] and f["in"].startswith("Ross") for seg, f in flags))
         self.assertTrue(any(seg == "Metaph.VII.14.p3" and "the ideal animal" in f["taylor"] for seg, f in flags))
         self.assertTrue(any(seg == "Metaph.VII.3.p2" and "adulterated reason" in f["taylor"] and f["in"].startswith("Taylor") for seg, f in flags))
+
+
+class MetaphysicsEtaTheta(unittest.TestCase):
+    """Milestone 35m5: the Metaphysics, Books Η and Θ (VIII and IX): sensible substance as matter and form, potency and
+    actuality, and the unity of the definition; then potency and actuality themselves, against the Megarians, actuality
+    and motion, the priority of actuality, and being as true. Taylor's chapters are Bekker's."""
+
+    def test_books_eight_and_nine_every_chapter_with_taylor(self):
+        d = load("aristotle-metaphysics")
+        self.assertEqual(modern_ar.TEXTS["aristotle-metaphysics"]["done_books"], [1, 2, 3, 4, 5, 6, 7, 8, 9])
+        self.assertEqual([t["id"] for t in d["treatises"]][7:], ["Metaph.VIII", "Metaph.IX"])
+        ids = [f"Metaph.VIII.{n}" for n in range(1, 7)] + [f"Metaph.IX.{n}" for n in range(1, 11)]
+        self.assertEqual([c["id"] for c in d["chapters"]][78:], ids)
+        tay = {c["id"]: [x["label"] for x in c["taylor"]] for c in d["chapters"]}
+        for n in range(1, 7):
+            self.assertEqual(tay[f"Metaph.VIII.{n}"], [f"Book VIII, Chapter {n}"])
+        for n in range(1, 11):
+            self.assertEqual(tay[f"Metaph.IX.{n}"], [f"Book IX, Chapter {n}"])
+        titles = {c["id"]: c["title"] for c in d["chapters"]}
+        self.assertEqual(titles["Metaph.VIII.6"], "What makes the definition, and the thing, one")
+        self.assertEqual(titles["Metaph.IX.8"], "Actuality is prior to potency")
+
+    def test_paragraphs_run_from_1042a_to_1052a(self):
+        d = load("aristotle-metaphysics")
+        ps = [p for p in d["paragraphs"] if p["chapter"].startswith(("Metaph.VIII.", "Metaph.IX."))]
+        self.assertGreaterEqual(len(ps), 40)
+        cols = [c for p in ps for c in p["cols"]]
+        self.assertEqual((cols[0], cols[-1]), ("1042a", "1052a"))
+        keys = [(int(c[:-1]), c[-1]) for c in cols]
+        self.assertEqual(keys, sorted(keys))
+        para = {p["seg"]: p for p in ps}
+        self.assertTrue(para["Metaph.VIII.1.p1"]["greek"].startswith("ἐκ δὴ τῶν εἰρημένων"))
+        self.assertIn("one as matter, another as form and actuality, and the third the one made of these", para["Metaph.VIII.2.p3"]["modern"])
+        self.assertIn("the last matter and the form are the same and one thing", para["Metaph.VIII.6.p3"]["modern"])
+        self.assertIn("such as the Megarians, who say that a thing can act only when it is acting", para["Metaph.IX.3.p1"]["modern"])
+        self.assertIn("At the same time one sees and has seen", para["Metaph.IX.6.p4"]["modern"])
+        self.assertIn("they have sight in order to see", para["Metaph.IX.8.p3"]["modern"])
+        self.assertIn("the sun and the stars and the whole heaven are always at work", para["Metaph.IX.8.p5"]["modern"])
+        self.assertIn("to touch and to say is true", para["Metaph.IX.10.p2"]["modern"])
+
+    def test_flags_on_books_eight_and_nine(self):
+        d = load("aristotle-metaphysics")
+        flags = [(p["seg"], f) for p in d["paragraphs"] for f in p.get("flags", [])
+                 if p["chapter"].startswith(("Metaph.VIII.", "Metaph.IX."))]
+        self.assertGreaterEqual(len(flags), 40)
+        # Ross's "complete reality" and "the Idea of science"; Taylor's "energy" and "free-will".
+        self.assertTrue(any(seg == "Metaph.IX.1.p1" and "complete reality" in f["taylor"] and f["in"].startswith("Ross") for seg, f in flags))
+        self.assertTrue(any(seg == "Metaph.IX.8.p5" and "the Idea of science" in f["taylor"] for seg, f in flags))
+        self.assertTrue(any(seg == "Metaph.VIII.2.p2" and "energy itself" in f["taylor"] and f["in"].startswith("Taylor") for seg, f in flags))
+        self.assertTrue(any(seg == "Metaph.IX.5.p2" and "free-will" in f["taylor"] and f["in"].startswith("Taylor") for seg, f in flags))
 
 
 @unittest.skipUnless(FIRST1K.exists(), "run python3 tools/fetch_sources.py first")
@@ -477,7 +527,7 @@ class Server(unittest.TestCase):
         self.assertEqual((d["kind"], d["marks"], len(d["chapters"])), ("aristotle", [], 73))
         self.assertEqual(d["paragraphs"][0]["cols"], ["24a", "24b"])
         d = self.get("modern-neo/aristotle-metaphysics")
-        self.assertEqual((d["kind"], d["marks"], len(d["chapters"])), ("aristotle", [], 78))
+        self.assertEqual((d["kind"], d["marks"], len(d["chapters"])), ("aristotle", [], 94))
         self.assertEqual(d["paragraphs"][0]["cols"], ["980a"])
 
 

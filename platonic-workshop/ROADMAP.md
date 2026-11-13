@@ -312,7 +312,7 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   Taylor's English exists; then Damascius and Hermias. Plotinus' other treatises have no Taylor to check against: check
   them against another public-domain translation, or label them so.
 
-## Milestone 35: modern English of Aristotle (35a, 35b, 35c and 35m1 to 35m4 done; the current focus, ahead of everything else; asked for by Daniel)
+## Milestone 35: modern English of Aristotle (35a, 35b, 35c and 35m1 to 35m5 done; the current focus, ahead of everything else; asked for by Daniel)
 
 - As milestone 27 did for the Neoplatonists, for Aristotle: a modern English version beside the Greek, with Modern /
   Side by side views, Taylor's words a tap away, each section with its gist, and Mark a sentence.
@@ -406,8 +406,23 @@ could do before. The school and curriculum ideas are left out as beyond the scop
       Ross's 1924 text moves 1029b3-12 to the end of VII.3; the Workshop's Greek follows it, and a note says so. Fixed
       renderings added in the master copy's header: λογικῶς "in the manner of argument about words", τόδε τι "a this",
       ἔκθεσις "setting out examples", ταὐτόματον "chance" and τύχη "luck".
-    - 35m5: Books Η and Θ (VIII and IX), 16 chapters, 1042a-1052a: matter and form, potency and actuality. Next.
-    - 35m6: Books Ι and Κ (X and XI), 22 chapters, 1052a-1069a: the one and the many; the summary of Β, Γ, Ε and of the Physics.
+    - 35m5: Books Η and Θ (VIII and IX), 16 chapters, 1042a-1052a: matter and form, potency and actuality. Done: 16
+      chapters, 47 paragraphs (18 in Η, 29 in Θ), 44 flags (among them Ross's "complete reality" for ἐντελέχεια, "the
+      privation of positive character", "what most resembles full actuality", "object of reason" for νοητή, "an ideal animal
+      and an ideal biped", "proximate matter" for ἐσχάτη ὕλη, "organic unity", "rational formula", "calorific" and
+      "frigorific", "will" for προαίρεσις, "genus and differentia" of actuality, "substantiality", "the eternal prime mover",
+      "the Idea of science", "geometrical relations" for διαγράμματα, "the actuality of thought", "essences" for ὅπερ εἶναί
+      τι, and "in the strictest sense" where his 1924 Greek brackets κυριώτατα ὄν; Taylor's "mathematical species",
+      "internal change", "trope", "transcendency", "energy", "duad", "may now be opportunely solved", "progression", "habit",
+      "efficient cause", "impotency", "ablation", "dianoetic", "free-will", and his "even are equal to odd numbers" added
+      in IX.4), with notes giving the Platonists' readings (Plotinus II.5 on potency and actuality and II.4 on intelligible
+      matter, Proclus on participation, on evil and on Euclid I.32). `"done_books": [1, 2, 3, 4, 5, 6, 7, 8, 9]`. Taylor's
+      chapters are Bekker's. The OCR of Ross has lost lines in VIII.3, VIII.4 and VIII.6; the modern version follows the
+      Greek, and a flag says where. Fixed renderings added in the master copy's header: ἐνέργεια and ἐντελέχεια both
+      "actuality" ("complete actuality" side by side), ἀδυναμία "incapacity", μετὰ λόγου "with reason", ἐσχάτη ὕλη "the last
+      matter", ἐκείνινον "that-en", θιγεῖν "to touch". `terms-greek.json` gains an exception for τὸ νοητικόν in IX.10 ("the
+      power of thinking", not "intelligible").
+    - 35m6: Books Ι and Κ (X and XI), 22 chapters, 1052a-1069a: the one and the many; the summary of Β, Γ, Ε and of the Physics. Next.
     - 35m7: Book Λ (XII), 10 chapters, 1069a-1076a: the kinds of substance, the unmoved mover, the intellect that thinks
       itself, the spheres, the good of the universe; the summit of the course for the Platonists. One thread for this book alone.
     - 35m8: Books Μ and Ν (XIII and XIV), 16 chapters, 1076a-1093b: against the Forms and the Ideal Numbers, with a note on each
