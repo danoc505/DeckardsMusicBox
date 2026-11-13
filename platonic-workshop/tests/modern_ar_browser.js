@@ -136,7 +136,7 @@ async function run(b, viewport, touch, first) {
   check(await p.$$eval('#lib-ar a[href="#neo-modern/aristotle-metaphysics"]', (es) => es.length) === 1, `${tag}: the Aristotle shelf links to the Metaphysics in modern English`);
   await p.goto(base + "#neo-modern/aristotle-metaphysics/Metaph.I.9");
   await p.waitForSelector("#mc-Metaph\\.I\\.9");
-  check(await p.$$eval(".tg-mod", (es) => es.length) === 78 && /so far Books Α, α, Β, Γ, Δ, Ε and Ζ/.test(await p.$eval(".tg-read", (e) => e.textContent)), `${tag}: the Metaphysics, seventy-eight chapters so far, saying which books`);
+  check(await p.$$eval(".tg-mod", (es) => es.length) === 94 && /so far Books Α, α, Β, Γ, Δ, Ε, Ζ, Η and Θ/.test(await p.$eval(".tg-read", (e) => e.textContent)), `${tag}: the Metaphysics, ninety-four chapters so far, saying which books`);
   check(/Book Α \(I\), chapter 9\. Against the Forms/.test(await p.$eval("#mc-Metaph\\.I\\.9", (e) => e.textContent)) && /Book α \(II\), chapter 1\./.test(await p.$eval("#mc-Metaph\\.II\\.1", (e) => e.textContent)), `${tag}: chapters are headed by the book's letter`);
   check(/Ross, Oxford \(1908\): “so is the reason in our soul to the things”/.test(await p.$eval("#mp-Metaph\\.II\\.1\\.p1", (e) => e.textContent)), `${tag}: a flag on Ross's "reason" for νοῦς`);
   await p.click("#mp-Metaph\\.I\\.1\\.p1 .mp-greek summary");
@@ -175,6 +175,16 @@ async function run(b, viewport, touch, first) {
   await p.click('[data-nm-mode="both"]');
   await p.waitForSelector(".mod-both .tg-tcol");
   check(/Taylor, The Metaphysics \(1801\), book vii, chapter 12/.test(await p.$eval("#mc-Metaph\\.VII\\.13 .tg-tcol", (e) => e.textContent)), `${tag}: Book Ζ side by side with Taylor's own chapter`);
+  await p.click('[data-nm-mode="modern"]');
+  // Milestone 35m5: Books Η and Θ, matter and form, potency and actuality; Taylor's chapters are Bekker's.
+  await p.goto(base + "#neo-modern/aristotle-metaphysics/Metaph.IX.6");
+  await p.waitForSelector("#mc-Metaph\\.IX\\.6");
+  check(/Book Η \(VIII\), chapter 6\. What makes the definition/.test(await p.$eval("#mc-Metaph\\.VIII\\.6", (e) => e.textContent)) && /Book Θ \(IX\), chapter 6\. What actuality is/.test(await p.$eval("#mc-Metaph\\.IX\\.6", (e) => e.textContent)), `${tag}: Books Η and Θ are headed by their letters`);
+  check(/At the same time one sees and has seen/.test(await p.$eval("#mp-Metaph\\.IX\\.6\\.p4", (e) => e.textContent)), `${tag}: actuality and motion in modern English`);
+  check(/Ross, Oxford \(1908\): “more scientific than the Idea of science”/.test(await p.$eval("#mp-Metaph\\.IX\\.8\\.p5", (e) => e.textContent)), `${tag}: a flag on Ross's "the Idea of science"`);
+  await p.click('[data-nm-mode="both"]');
+  await p.waitForSelector(".mod-both .tg-tcol");
+  check(/Taylor, The Metaphysics \(1801\), book ix, chapter 6/.test(await p.$eval("#mc-Metaph\\.IX\\.6 .tg-tcol", (e) => e.textContent)), `${tag}: Book Θ side by side with Taylor's own chapter`);
   await p.click('[data-nm-mode="modern"]');
   await p.goto(base + "#metaphysics/980a");
   await p.waitForSelector("#toc a[href=\"#neo-modern/aristotle-metaphysics\"]", { state: "attached" });

@@ -359,7 +359,7 @@ and Olympiodorus on the First Alcibiades, proofread first in the same way, then 
 
 ![Plotinus I.2.3 in modern English, with Taylor's words beside](docs/reader-m27-modern-neo.png)
 
-**Milestone 35, modern English of Aristotle: the Categories (35a), On Interpretation (35b), the Prior Analytics (35c) and Books Α to Ζ of the Metaphysics (35m1 to 35m4) done; the current focus, with work on Plato and the Neoplatonists paused (November 2026).** Aristotle is being put into plain modern English, in the
+**Milestone 35, modern English of Aristotle: the Categories (35a), On Interpretation (35b), the Prior Analytics (35c) and Books Α to Θ of the Metaphysics (35m1 to 35m5) done; the current focus, with work on Plato and the Neoplatonists paused (November 2026).** Aristotle is being put into plain modern English, in the
 Platonists' order of reading, one work or group of works a session (the sub-milestones 35a to 35n are in the ROADMAP). Where
 public-domain English is on the shelf, the modern version modernises it, checked sentence by sentence against the Greek, and
 follows the Greek where they differ; where there is none, it is made fresh from the Greek. First, the **Categories**, the first work
@@ -417,7 +417,16 @@ as the cause by which the matter is some definite thing, the form. 21 chapters, 
 reality" for actuality, "abstract linguistic" for arguing about words, and Taylor's "very nature of a thing" for what it is to
 be, "essence" for substance, "paradigm", "from equivocals", and his long note on matter, after Plotinus, which the scan reads
 into VII.3. The notes give the Platonists' answers to Ζ 13-16. Taylor's Book Ε has three chapters and his Ζ sixteen; each
-chapter names his. Next: Books Η and Θ (35m5).
+chapter names his. Then Books **Η and Θ**
+(35m5): sensible substance as matter and form, read as potency and actuality, and the puzzle of Book Ζ solved, that the last
+matter and the form are one thing, the one in potency and the other in actuality; then potency and actuality themselves:
+powers with reason and without, the Megarians answered, actuality grasped by analogy and set apart from motion ("at the same
+time one sees and has seen"), actuality prior to potency in account, in time and in substance, the sun and stars that never
+tire, no evil in the eternal things, and being as true, where the simple is known by touching it. 16 chapters, 47 paragraphs,
+44 flags, among them Ross's "complete reality" for actuality, "organic unity", "rational formula", "will" for choice, "the
+Idea of science", "the eternal prime mover", and Taylor's "energy", "transcendency" for excess, "impotency", "ablation" and
+"free-will". The notes give the Platonists' readings (Plotinus on what is in potency and in actuality, Proclus on evil and
+on participation). Taylor's chapters are Bekker's. Next: Books Ι and Κ (35m6).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,
