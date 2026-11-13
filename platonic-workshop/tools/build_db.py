@@ -499,13 +499,15 @@ def build_work(db, work_id, sources, cfg=None):
 
     # Perseus's own file first, where another project's is beside it (the Poetics has a digicorpus Greek too).
     grc_file = sorted(wdir.glob("*-grc*.xml"), key=lambda f: ("perseus" not in f.name, f.name))[0]
-    eng_file = sorted(wdir.glob("*-eng*.xml"), key=lambda f: ("perseus" not in f.name, f.name))[0]
+    # Aristotle milestone A8f: a work Perseus has in Greek only (On Virtues and Vices) is read without an English.
+    eng_files = sorted(wdir.glob("*-eng*.xml"), key=lambda f: ("perseus" not in f.name, f.name))
+    eng_file = eng_files[0] if eng_files else None
     g_root = ET.parse(grc_file).getroot()
-    e_root = ET.parse(eng_file).getroot()
+    e_root = ET.parse(eng_file).getroot() if eng_file else None
     W = cfg["walker"] or Walker
     g = W(g_root)
-    e = W(e_root)
-    speakers = speaker_names(g, e)
+    e = W(e_root) if eng_file else None
+    speakers = speaker_names(g, e) if e else {}
     stats["speaker_names"] = speakers
 
     # Sections: the Greek order is the reference order.
@@ -515,18 +517,21 @@ def build_work(db, work_id, sources, cfg=None):
     known = set(g.order)
     stats["sections"] = len(g.order)
 
-    gh, eh = header_info(g_root), header_info(e_root)
-    g_ed, e_ed = f"{work_id}.{grc_file.stem.split('.')[-1]}", f"{work_id}.{eng_file.stem.split('.')[-1]}"
+    gh = header_info(g_root)
+    g_ed = f"{work_id}.{grc_file.stem.split('.')[-1]}"
     db.execute("INSERT INTO edition (id, work_id, source_id, lang, role, label, responsible, printed, file, proof_status) VALUES (?,?,?,?,?,?,?,?,?,?)", (
         g_ed, work_id, cfg["greek_source"], "grc", "text",
         f"{gh['editor'].split()[-1]} ({gh['place']}, {gh['date']})", gh["editor"],
         f"{gh['editor']}, {gh['title']}, vol. {gh['volume']} ({gh['place']}, {gh['date']})",
         f"{cfg['tlg_dir']}/{pid}/{grc_file.name}", "clean source text"))
-    db.execute("INSERT INTO edition (id, work_id, source_id, lang, role, label, responsible, printed, file, proof_status) VALUES (?,?,?,?,?,?,?,?,?,?)", (
-        e_ed, work_id, cfg["english_source"], "eng", "translation",
-        f"{eh['editor'].split()[-1]} (Loeb, {eh['date']})", eh["editor"],
-        f"{eh['editor']}, {eh['title']}, vol. {eh['volume']} ({eh['place']}, {eh['date']})",
-        f"{cfg['tlg_dir']}/{pid}/{eng_file.name}", "clean source text"))
+    if e:
+        eh = header_info(e_root)
+        e_ed = f"{work_id}.{eng_file.stem.split('.')[-1]}"
+        db.execute("INSERT INTO edition (id, work_id, source_id, lang, role, label, responsible, printed, file, proof_status) VALUES (?,?,?,?,?,?,?,?,?,?)", (
+            e_ed, work_id, cfg["english_source"], "eng", "translation",
+            f"{eh['editor'].split()[-1]} (Loeb, {eh['date']})", eh["editor"],
+            f"{eh['editor']}, {eh['title']}, vol. {eh['volume']} ({eh['place']}, {eh['date']})",
+            f"{cfg['tlg_dir']}/{pid}/{eng_file.name}", "clean source text"))
 
     # Text layer: chunks.
     def insert_chunks(walker, edition_id):
@@ -541,9 +546,9 @@ def build_work(db, work_id, sources, cfg=None):
         return ids
 
     g_chunk_ids = insert_chunks(g, g_ed)
-    e_chunk_ids = insert_chunks(e, e_ed)
-    stats["english_sections"] = len(set(e.order))
-    stats["english_sections_missing"] = sorted(known - set(e.order), key=steph_key)
+    e_chunk_ids = insert_chunks(e, e_ed) if e else []
+    stats["english_sections"] = len(set(e.order)) if e else 0
+    stats["english_sections_missing"] = sorted(known - set(e.order), key=steph_key) if e else []
 
     # Tokens, section by section, with GLAUx tags and Morpheus keys.
     glaux = glaux_words_by_section(num, cfg["glaux_file"](num), cfg["glaux_section"])
@@ -624,8 +629,8 @@ def build_work(db, work_id, sources, cfg=None):
 
     # Commentary layer: the Loeb footnotes in the English, and links read from them.
     n_notes = n_links = 0
-    commentator = f"{eh['editor'].split()[-1]} (Loeb, {eh['date']})"
-    for nt in e.notes:
+    commentator = f"{eh['editor'].split()[-1]} (Loeb, {eh['date']})" if e else None
+    for nt in (e.notes if e else ()):
         el = nt["el"]
         if cfg["note_resp"] and el.get("resp") != cfg["note_resp"]:
             continue

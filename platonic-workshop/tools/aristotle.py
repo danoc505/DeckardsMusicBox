@@ -89,6 +89,14 @@ WORKS += [
      "plain": "Poetry as imitation; tragedy, its plot, character and the purgation (κάθαρσις) of pity and fear; and epic. "
               "An answer, in part, to Plato's banishing of the poets from the Republic."},
 ]
+# Aristotle milestone A8f: a work Perseus has in Greek only. greek_only: no English file, so nothing to place a translation
+# against; no_parts: the TEI has no books or chapters (its one <div> is Bekker's first page).
+WORKS += [
+    {"id": "ar045", "tlg": "tlg045", "title": "On Virtues and Vices", "abbr": "VV", "slug": "on-virtues-and-vices",
+     "greek_title": "Περὶ ἀρετῶν καὶ κακιῶν", "letters": False, "greek_only": True, "no_parts": True,
+     "plain": "The virtues and vices of each part of the soul, taken as three after Plato (reason, spirit, desire), each defined with what "
+              "goes with it and follows from it. From Aristotle's school."},
+]
 WORK_BY_ID = {w["id"]: w for w in WORKS}
 
 
@@ -152,6 +160,8 @@ def book_label(work, n):
 def parts_of(work):
     """The books and chapters of the Greek, from the walker's parts, as division rows (kind, label, first, last)."""
     def parts(g):
+        if work.get("no_parts"):
+            return []
         out, book = [], None
         books = {}
         for subtype, n, a, b in g.parts:
@@ -221,8 +231,9 @@ def available():
 
 def lemmas():
     """Every GLAUx lemma of the Aristotle files (so that the dictionaries are linked for them too)."""
+    import aristotle_cited
     import aristotle_f1k
-    out = set(aristotle_f1k.lemmas())
+    out = set(aristotle_f1k.lemmas()) | aristotle_cited.lemmas()
     for w in WORKS:
         p = RAW / GLAUX_SRC / "xml" / f"0086-{w['tlg'][3:]}.xml"
         for m in re.finditer(r' lemma="([^"]*)"', p.read_text(encoding="utf-8")):
@@ -490,8 +501,8 @@ def build(db, sources):
         db.execute("INSERT INTO work (id, urn, title, imported, abbr, slug, corpus) VALUES (?,?,?,?,?,?,?)",
                    (w["id"], f"{AR_URN}.{w['tlg']}", w["title"], 0, w["abbr"], w["slug"], "aristotle"))
         s = build_db.build_work(db, w["id"], sources, cfg_for(w))
-        placer = translations.Placer(db, w["id"])
-        s["translations"] = [t for t in (build_ross(db, w, placer), build_taylor(db, w, placer), build_chase(db, w, placer)) if t]
+        placer = None if w.get("greek_only") else translations.Placer(db, w["id"])
+        s["translations"] = [t for t in (build_ross(db, w, placer), build_taylor(db, w, placer), build_chase(db, w, placer)) if t] if placer else []
         s["term_words"] = mark_terms(db, w["id"])
         s["plain"] = w["plain"]
         stats["works"].append(s)
@@ -501,6 +512,11 @@ def build(db, sources):
     if aristotle_f1k.available():
         for w in aristotle_f1k.WORKS:
             build_f1k_work(db, w, sources, stats)
+    # Aristotle milestone A8f: the works not on Bekker's pages (the Constitution of the Athenians, the Letters, the Divisions).
+    import aristotle_cited
+    if aristotle_cited.available():
+        for w in aristotle_cited.WORKS:
+            stats["works"].append(aristotle_cited.build_work(db, w, sources))
     db.execute("""UPDATE work SET first_token = r.lo, last_token = r.hi, n_tokens = r.n FROM
                   (SELECT e.work_id, min(t.id) lo, max(t.id) hi, count(*) n FROM token t JOIN edition e ON e.id = t.edition_id
                    WHERE e.lang = 'grc' AND e.source_id IN (?, ?) GROUP BY e.work_id) r WHERE r.work_id = work.id""",
@@ -537,8 +553,10 @@ def write_report(stats):
         if s.get("english_sections"):
             lines.append(f"- **{s['title']}**: the Loeb English from Perseus, at Bekker's columns as Perseus marks them "
                          f"({s['english_sections']} of {s['sections']} columns; none missing: {not s['english_sections_missing']}).")
+        elif "columns_from" not in s:
+            lines.append(f"- **{s['title']}**: the Greek only, from Perseus, at Bekker's columns as Perseus marks them ({s['sections']}).")
         else:
-            lines.append(f"- **{s['title']}**: the Greek from First1KGreek, its {s['sections']} Bekker columns from {s['columns_from']}"
+            lines.append(f"- **{s['title']}**: the Greek from {s.get('greek_from', 'First1KGreek')}, its {s['sections']} {s.get('sections_are', 'Bekker columns')} from {s['columns_from']}"
                          + (f" (left out, out of Bekker's order: {', '.join(s['marks_left_out'])})" if s['marks_left_out'] else "") + ".")
         for t in s["translations"]:
             extra = ""

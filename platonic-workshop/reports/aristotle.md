@@ -11,6 +11,7 @@ Written by `tools/build_db.py` (through `tools/aristotle.py`) each time the libr
 | Economics | 22 | 6,241 | 6,225 (99.74%) | 6,192 | 34 | 276 |
 | Rhetoric | 133 | 43,182 | 43,046 (99.69%) | 43,079 | 639 | 2,795 |
 | Poetics | 32 | 10,260 | 10,065 (98.10%) | 10,212 | 179 | 508 |
+| On Virtues and Vices | 6 | 1,498 | 1,488 (99.33%) | 1,495 | 0 | 226 |
 | Categories | 30 | 10,316 | 10,312 (99.96%) | 10,049 | 0 | 748 |
 | On Interpretation | 18 | 6,244 | 6,244 (100.00%) | 6,111 | 0 | 614 |
 | Prior Analytics | 86 | 37,200 | 37,015 (99.50%) | 34,118 | 0 | 1,681 |
@@ -49,6 +50,9 @@ Written by `tools/build_db.py` (through `tools/aristotle.py`) each time the libr
 | On Breath | 12 | 3,463 | 3,437 (99.25%) | 3,450 | 0 | 160 |
 | Physics VII, the other version | 15 | 2,349 | 2,264 (96.38%) | 2,242 | 0 | 137 |
 | On the Soul II, the other version | 7 | 2,446 | 2,387 (97.59%) | 2,362 | 0 | 156 |
+| Constitution of the Athenians | 299 | 16,184 | 16,055 (99.20%) | 15,930 | 0 | 791 |
+| Letters | 6 | 783 | 781 (99.74%) | 778 | 0 | 76 |
+| Divisions | 101 | 9,515 | 1,743 (18.32%) | 9,442 | 0 | 140 |
 
 ## The translations beside the Greek
 
@@ -65,6 +69,7 @@ Written by `tools/build_db.py` (through `tools/aristotle.py`) each time the libr
   - `ar038.taylor1811`: 240 paragraphs, 75,039 words, 274 pieces placed, 27 notes; 1139 anchors found by tools/align.py. 21 fixed points (book and chapter starts); Taylor's chapters agree with the Perseus text's in books 3.
 - **Poetics**: the Loeb English from Perseus, at Bekker's columns as Perseus marks them (32 of 32 columns; none missing: True).
   - `ar034.taylor1811`: 34 paragraphs, 15,732 words, 40 pieces placed, 11 notes; 429 anchors found by tools/align.py. 26 fixed points (book and chapter starts); Taylor's chapters agree with the Perseus text's in books 1.
+- **On Virtues and Vices**: the Greek only, from Perseus, at Bekker's columns as Perseus marks them (6).
 - **Categories**: the Greek from First1KGreek, its 30 Bekker columns from Bekker's columns carried over from the margin of the Oxford translation (1928), chapter by chapter, at the same proportion of the chapter (≈): this Greek, Bekker's text in his Oxford reprint (1837), does not print them.
   - `ar006.oxford1928`: 125 paragraphs, 13,716 words, 152 pieces placed, 19 notes; 0 anchors found by tools/align.py. 18 Bekker columns read from Ross's margin and used as fixed points; 18 pieces begin at a column he prints.
   - `ar006.owen1853`: 65 paragraphs, 13,704 words, 94 pieces placed, 152 notes; 0 anchors found by tools/align.py. 0 Bekker columns read from Ross's margin and used as fixed points; 0 pieces begin at a column he prints.
@@ -122,5 +127,9 @@ Written by `tools/build_db.py` (through `tools/aristotle.py`) each time the libr
 - **On Breath**: the Greek from First1KGreek, its 12 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI; where a column is lost (the margin does not print it, or the scan misread it), it is placed by the length of the text between the columns either side (≈): 486a, 486b.
 - **Physics VII, the other version**: the Greek from First1KGreek, its 15 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
 - **On the Soul II, the other version**: the Greek from First1KGreek, its 7 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
+- **Constitution of the Athenians**: the Greek from Perseus, its 299 sections from chapter and section as Perseus divides Kenyon's text (<div subtype="section">, <div subtype="subsection">), as every edition numbers them.
+  - `ar003.kenyon`: 115 paragraphs, 24,555 words, 344 pieces placed, 0 notes; 0 anchors found by tools/align.py.
+- **Letters**: the Greek from First1KGreek, its 6 letters from the letters as Hercher numbers them (<div subtype="epistle">).
+- **Divisions**: the Greek from First1KGreek, its 101 divisions from Mutschmann's numbers of the divisions, in Diogenes Laertius' text and in the codex Marcianus' (<div subtype="section" n="1_col1">, n="5_col2").
 
 Every placement not printed in the book is marked ≈ in the reader. The OCR of Ross and Taylor is cleaned by rule (`tools/aristotle_ocr.py`) and not proofread; *Show the OCR* in the reader shows each paragraph as the scan reads it.

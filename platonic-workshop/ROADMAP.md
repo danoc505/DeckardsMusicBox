@@ -434,7 +434,7 @@ Built by `tools/aristotle.py` (works of corpus `aristotle`, a Bekker column, 980
   God as maker (Simplicius), with Simplicius' rule of reading, each quoted in their Greek from the page and checked by test against it
   and against the column it is linked to; the English is the Workshop's own and labelled so.
 
-### A8: the rest of Aristotle (in part done)
+### A8: the rest of Aristotle (done, but for the optional English of the minor works)
 
 - Every other work in First1KGreek or Perseus Greek, GLAUx-tagged, with the Loeb English where Perseus has it
   (Politics, Rhetoric, Poetics, Eudemian Ethics) and Taylor's for the rest, in the Platonists' order.
@@ -476,14 +476,26 @@ Built by `tools/aristotle.py` (works of corpus `aristotle`, a Bekker column, 980
   Winds, whose words carry Morpheus's parses only, as the reader says. The Mechanics and On Indivisible Lines are a new step in the
   order of reading, *Mathematics*, from Taylor's division ("mathematical, such as his Mechanical Problems, and his treatise On
   Indivisible Lines").
+- The works not on Bekker's pages, and On Virtues and Vices (A8f, done). Bekker did not print the Constitution of the Athenians
+  (found on a papyrus in 1890), the Letters or the Divisions, so each is cited by its own numbers (`tools/aristotle_cited.py`),
+  in the reader's form for a chapter and verse (milestone 23's): a section is "chapter:number", a page of the reader is the
+  chapter, and the reader shows each in its own form (`AR_CITED` in `reader/aristotle.js`). The Constitution in Kenyon's Greek
+  (Oxford Classical Texts, 1920; Perseus), by chapter and section (42.1 is `42:1`, on page 42), with Kenyon's English (first
+  published 1891; Project Gutenberg #26095, committed in `sources/aristotle/kenyon-athenian-constitution/`), each chapter at its
+  first section and the sections within it shared out by length (≈); the four fragments of the lost beginning are left out. The
+  Letters in Hercher's Greek (Epistolographi Graeci, 1873; First1KGreek), by letter (`3:1` is the third, whole). The Divisions in
+  Mutschmann's (Leipzig, 1906; First1KGreek), both his texts, by his numbers: Diogenes Laertius' (III 80-109; page 1, "Diogenes 5"
+  is `1:5`) and the codex Marcianus' (page 2, "Marcianus 58" is `2:58`), where the Marcianus has two divisions against one of
+  Diogenes', each its own section. On Virtues and Vices in Bekker's Greek (1831) from Perseus, which has no English for it:
+  `build_db.build_work` now reads a Perseus work with no English file. All four GLAUx-tagged: the Constitution chapter by
+  chapter, the Letters as a whole, and GLAUx's twenty-one Divisions (its own selection and numbering) each paired with the
+  division of Mutschmann's it matches best; the other Divisions carry Morpheus's parses. The Letters and the Divisions are a
+  last group in the order of reading, *Beside the course* (Taylor's division does not name them).
 - What is left of A8, for a later thread:
-  1. Not done in A8e, for want of Bekker's columns: the Letters (tlg011, Hercher, 1873) and the Divisions (tlg048, Mutschmann,
-     1906), which are not on Bekker's pages and would need a citation of their own (letter; Mutschmann's page); the Constitution
-     of the Athenians (tlg003, Kenyon, Perseus, cited by chapter and section). On Virtues and Vices (tlg045, 1249a-1251b) is in
-     Perseus's Greek only, and GLAUx has it: it needs `tools/aristotle.py` to accept a Perseus work with no English.
-  2. English for the minor works: the Oxford translation, vol. VI (Opuscula, 1913) and vol. VII (the Problems, Forster, 1927),
-     are public domain in the US; read from scans as Thompson's History of Animals, if wanted.
-  3. Optional: Taylor's translation of Porphyry's Introduction and his Introductions to the Categories, On Interpretation and the
+  1. English for the minor works: the Oxford translation, vol. VI (Opuscula, 1913), vol. VII (the Problems, Forster, 1927) and, for
+     On Virtues and Vices, vol. IX (Solomon, 1915), are public domain in the US; read from scans as Thompson's History of Animals,
+     if wanted. No public-domain English of the Letters or the Divisions has been looked for.
+  2. Optional: Taylor's translation of Porphyry's Introduction and his Introductions to the Categories, On Interpretation and the
      Prior Analytics (vol. I, leaves 59-72, 149-155, 205-212 of `ia-taylor-organon-1812`; already in `PARTS` in
      `tools/aristotle_taylor.py`, not yet written out as texts).
 - Then A6 (Daniel: "Do A7 and A8 first, A6 last").
