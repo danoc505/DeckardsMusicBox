@@ -359,7 +359,7 @@ and Olympiodorus on the First Alcibiades, proofread first in the same way, then 
 
 ![Plotinus I.2.3 in modern English, with Taylor's words beside](docs/reader-m27-modern-neo.png)
 
-**Milestone 35, modern English of Aristotle: the Categories (35a), On Interpretation (35b), the Prior Analytics (35c) and Books Α to Γ of the Metaphysics (35m1, 35m2) done; the current focus, with work on Plato and the Neoplatonists paused (November 2026).** Aristotle is being put into plain modern English, in the
+**Milestone 35, modern English of Aristotle: the Categories (35a), On Interpretation (35b), the Prior Analytics (35c) and Books Α to Δ of the Metaphysics (35m1 to 35m3) done; the current focus, with work on Plato and the Neoplatonists paused (November 2026).** Aristotle is being put into plain modern English, in the
 Platonists' order of reading, one work or group of works a session (the sub-milestones 35a to 35n are in the ROADMAP). Where
 public-domain English is on the shelf, the modern version modernises it, checked sentence by sentence against the Greek, and
 follows the Greek where they differ; where there is none, it is made fresh from the Greek. First, the **Categories**, the first work
@@ -400,7 +400,14 @@ being, with the principle of non-contradiction ("the same thing cannot at the sa
 in the same respect") defended against Protagoras and the Heracliteans; 14 chapters, 67 paragraphs, 26 flags, among them Ross's
 "mythologists" for Hesiod's θεολόγοι (the Platonists' "theologians"), his "negatively" for showing by refutation, and Taylor's
 "energy" for actuality. The notes say where the later books answer each puzzle, and where Plato (the Theaetetus, the Sophist)
-says the same. Taylor's Book Γ has seven chapters, not eight. Next: Book Δ (35m3).
+says the same. Taylor's Book Γ has seven chapters, not eight. Then Book **Δ** (35m3), Aristotle's lexicon of philosophy:
+thirty short chapters, each a word the inquiry uses and the ways it is said, from "principle", "cause", "element" and "nature"
+to "one", "being", "substance", "potency", "quality", "relative", "complete", "limit", "whole", "genus", "false" and
+"accident"; 30 chapters, 74 paragraphs, 52 flags, among them Ross's "beginning" for ἀρχή, his "prime mover" for the begetter,
+"formula", "concept" and "conception" for λόγος, "scandal-monger" for the informer and "sketch" for shadow-painting, and Taylor's
+"free-will" for choice and "passion" for affection. The OCR of Ross has lost lines in nine of the thirty chapters; the modern
+version follows the Greek there, and says so. The notes give the Platonists' readings (the One as measure, the Good, limit and
+the unlimited, the prior that can be without the posterior). Taylor's chapters of Book Δ are Bekker's. Next: Books Ε and Ζ (35m4).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,

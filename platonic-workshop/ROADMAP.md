@@ -312,7 +312,7 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   Taylor's English exists; then Damascius and Hermias. Plotinus' other treatises have no Taylor to check against: check
   them against another public-domain translation, or label them so.
 
-## Milestone 35: modern English of Aristotle (35a, 35b, 35c, 35m1 and 35m2 done; the current focus, ahead of everything else; asked for by Daniel)
+## Milestone 35: modern English of Aristotle (35a, 35b, 35c and 35m1 to 35m3 done; the current focus, ahead of everything else; asked for by Daniel)
 
 - As milestone 27 did for the Neoplatonists, for Aristotle: a modern English version beside the Greek, with Modern /
   Side by side views, Taylor's words a tap away, each section with its gist, and Mark a sentence.
@@ -382,9 +382,17 @@ could do before. The school and curriculum ideas are left out as beyond the scop
       lines in IV.3 (1005b13-17), IV.5 (1009a18-22) and IV.6 (1011a26-28): the modern version follows the Greek there.
       The key-term check reads ὁμοίως as "like": say "likewise" (not "alike") where the Greek has it.
     - 35m3: Book Δ (V), 30 chapters, 1012b-1025a: the philosophical lexicon (principle, cause, element, nature, necessary,
-      one, being, substance ...). Short chapters; one thread. Next.
+      one, being, substance ...). Done: 30 chapters, 74 paragraphs, 52 flags (among them Ross's "beginning" for ἀρχή,
+      "formula", "concept" and "conception" for λόγος, "faculty" for δύναμις, "prime mover" for the begetter in V.11,
+      "non-natural" in V.4 against his own 1924 text, "characteristic angle", "scandal-monger" for συκοφάντης, "sketch" for
+      σκιαγραφία, "totals" for πᾶν; Taylor's "free-will" for προαίρεσις, "passion" for πάθος, "perfect" for τέλειον, and a note
+      of his read into V.1), with notes giving the Platonists' readings (the One as measure, the Good itself, limit and the
+      unlimited, prior and posterior in nature). `"done_books": [1, 2, 3, 4, 5]`. Taylor's chapters of Book Δ are Bekker's.
+      The OCR of Ross has lost lines in V.4, 6, 7, 10, 22, 23, 24, 27 and 28: the modern version follows the Greek there, and
+      a flag or note says where. In this book δύναμις is "power" where Aristotle speaks of what can act or be acted on (V.12,
+      V.15) and "potency" against actuality; ἕξις is "having" (V.20, first sense) or "state"; τέλειον "complete".
     - 35m4: Books Ε and Ζ (VI and VII), 21 chapters, 1025b-1041b: the divisions of theoretical science, being as accident
-      and as true; substance as essence, the universal and the Forms (Ζ 13-16), substance as cause.
+      and as true; substance as essence, the universal and the Forms (Ζ 13-16), substance as cause. Next.
     - 35m5: Books Η and Θ (VIII and IX), 16 chapters, 1042a-1052a: matter and form, potency and actuality.
     - 35m6: Books Ι and Κ (X and XI), 22 chapters, 1052a-1069a: the one and the many; the summary of Β, Γ, Ε and of the Physics.
     - 35m7: Book Λ (XII), 10 chapters, 1069a-1076a: the kinds of substance, the unmoved mover, the intellect that thinks
