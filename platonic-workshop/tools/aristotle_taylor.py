@@ -11,7 +11,7 @@ Two of Google's scans in the Internet Archive, pinned by sha256 in sources/manif
                           Categories, On Interpretation and the Prior Analytics, each with his Introduction, and his
                           notes from Simplicius, Ammonius, Philoponus and the other Greek commentators.
   ia-taylor-ethics-1811   The Rhetoric, Poetic, and Nicomachean Ethics (1811; the Oxford copy, item
-                          rhetoricpoetica03arisgoog): the Ethics.
+                          rhetoricpoetica03arisgoog): all three.
 
 The page is read by the rules that read his Metaphysics (tools/aristotle_ocr.py, clean_taylor): the running head and the
 catchword dropped, his footnotes (smaller type, after a gap) set apart and matched to the marks in the text in order,
@@ -20,7 +20,8 @@ so each page is first brought to that scale; Google's own lines ("Digitized by G
 
 Taylor prints no Bekker columns (Bekker's edition is of 1831). The Organon is placed at Bekker's columns as Owen's is
 (tools/aristotle_owen.py, carry_columns): from the Oxford translation of 1928, chapter by chapter (≈). The Ethics is placed
-as his Metaphysics is (tools/aristotle.py), against the Loeb English, with the books as fixed points (≈).
+as his Metaphysics is (tools/aristotle.py), against the Loeb English, with the books as fixed points (≈); so are the
+Rhetoric and the Poetic.
 """
 import json
 import re
@@ -37,16 +38,17 @@ ORGANON, ETHICS = "ia-taylor-organon-1812", "ia-taylor-ethics-1811"
 # Each volume: the leaves read, and the scale that brings its page to the 1801 scan's (65 pixels from line to line).
 # head_top: the running head is above this line, at that scale.
 VOLUMES = {ORGANON: {"leaves": (59, 409), "scale": 0.53, "head_top": 600, "text_height": 60},
-           ETHICS: {"leaves": (321, 638), "scale": 0.48, "head_top": 560, "text_height": 58}}
+           ETHICS: {"leaves": (37, 638), "scale": 0.48, "head_top": 560, "text_height": 58}}
 # The parts of each volume, by leaf: (first, last, part, work id or None for Taylor's own introductions).
 PARTS = {
     ORGANON: [(59, 72, "categories-introduction", None), (73, 147, "categories", "ar006"),
               (149, 155, "interpretation-introduction", None), (157, 203, "interpretation", "ar017"),
               (205, 212, "prior-introduction", None), (213, 409, "prior", "ar001")],
-    ETHICS: [(321, 638, "ethics", "ar010")],
+    ETHICS: [(37, 263, "rhetoric", "ar038"), (267, 320, "poetic", "ar034"), (321, 638, "ethics", "ar010")],
 }
-HEAD = r"CATEGOR|INTERPRET|ANALYT|INTRODUC|ETHIC|ETHIC|NICOM|BOOK|Book"
-SLUG = {"ar006": "categories", "ar017": "on-interpretation", "ar001": "prior-analytics", "ar010": "nicomachean-ethics"}
+HEAD = r"CATEGOR|INTERPRET|ANALYT|INTRODUC|ETHIC|NICOM|RHET|POET|BOOK|Book"
+SLUG = {"ar006": "categories", "ar017": "on-interpretation", "ar001": "prior-analytics", "ar010": "nicomachean-ethics",
+        "ar038": "rhetoric", "ar034": "poetics"}
 EDITION = {
     ORGANON: ("taylor-1812", "Thomas Taylor, The Works of Aristotle, translated from the Greek, with copious elucidations from the best "
                              "of his Greek commentators, vol. I (London, 1812)"),

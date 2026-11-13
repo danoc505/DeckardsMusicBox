@@ -358,6 +358,7 @@ def clean_taylor(corrector, src="ia-taylor-metaphysics-1801", part_of=None, coun
             close()
             book = chapter = 0
             last_part = part
+            last_note = None   # a note does not run on from one treatise into the next
         stats["leaves"] += 1
         left, right, height = page_layout(lines)
         # Running head and page number: the first line, when it is near the top.

@@ -412,12 +412,26 @@ places, 18 dialogues), linked both ways: a section of Plato shows where Aristotl
 *Plato and Aristotle reconciled* quotes the commentators, in their Greek, on where the two agree (the Forms, the soul, the
 eternity of the world, God as maker), each passage checked against its page; the English is the Workshop's own, labelled so.
 
-**Aristotle, milestone A8 (in progress): Taylor's own translations.** Thomas Taylor's Categories, On Interpretation and
+**Aristotle, milestone A8 (done): Taylor's own translations, and the rest of Aristotle.** Thomas Taylor's Categories, On Interpretation and
 Prior Analytics (Works of Aristotle, vol. I, 1812) and his Nicomachean Ethics (1811) are shown beside the Greek as *Taylor
 (1812)* and *Taylor (1811)*, read from Google's scans in the Internet Archive by the rules that read his Metaphysics
 (`tools/aristotle_taylor.py`), with his notes from Simplicius, Ammonius and the other commentators under the text. They print
 no Bekker numbers, so the Organon is placed at the Oxford's columns carried over chapter by chapter, and the Ethics against
-the Loeb English (≈). OCR cleaned by rule, not proofread.
+the Loeb English (≈). OCR cleaned by rule, not proofread. Five more works come from Perseus with their Loeb English, each
+GLAUx-tagged: the Eudemian Ethics, Politics, Economics, Rhetoric and Poetics; Taylor's Rhetoric and Poetic (1811) are beside
+the last two. Seven more are in Greek only, from First1KGreek, GLAUx-tagged, with no English yet: the Magna Moralia,
+Generation and Corruption, Meteorology, and Parts, Progression, Movement and Generation of Animals. The Parva Naturalia (eight
+short treatises, from On Sense to On Respiration) are in Greek only too, Bekker's Oxford text, which prints no Berlin columns: these
+are carried over word by word from the margin of Biehl's Greek (Teubner, 1898). The History of Animals has D'Arcy Thompson's Oxford
+translation (1910) beside it, its columns carried over from his margin chapter by chapter (≈). The minor and spurious works
+are in Greek only too (A8e): the Mechanics and On Indivisible Lines (the mathematical works, in Taylor's division), On Melissus,
+Xenophanes and Gorgias, On Colours, On Things Heard, the Physiognomics, On Plants, On Marvellous Things Heard, the Winds, the
+Problems, On Breath, and the other versions of Physics VII and of On the Soul II, at the Berlin columns First1KGreek marks in them.
+GLAUx tags all but On Things Heard, On Indivisible Lines and the Winds, whose words carry Morpheus's parses only.
+The last four (A8f): On Virtues and Vices, in Bekker's Greek from Perseus, which has no English for it; and three works Bekker did
+not print, each cited by its own numbers: the Constitution of the Athenians in Kenyon's Greek (1920) by chapter and section
+(42.1), with Kenyon's English beside it (Project Gutenberg); the Letters (Hercher, 1873) by letter; and the Divisions
+(Mutschmann, 1906) in both his texts, Diogenes Laertius' and the codex Marcianus', by his numbers (Diogenes 5, Marcianus 58).
 
 ## Running it
 

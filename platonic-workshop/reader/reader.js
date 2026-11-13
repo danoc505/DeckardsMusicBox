@@ -346,7 +346,9 @@ function renderPage() {
   let html = nt
     ? `<div class="page-head"><h1>${d.page}</h1><span>${esc(w.title)}, <span class="term" title="The chapters and verses every Bible uses (chapters from the 13th century, verses from 1551)">chapter</span> ${d.page}, verses ${esc(d.sections[0].ref.split(":")[1])}–${esc(d.sections[d.sections.length - 1].ref.split(":")[1])}</span></div>
       ${d.page === 1 ? ntHead(w) : ""}`
-    : isAR(w) ? `<div class="page-head"><h1>${d.page}</h1><span><span class="term" title="Bekker numbers: the page and column of Bekker's Berlin edition of Aristotle (1831), used by every book on Aristotle">Bekker page</span> ${d.page}, columns ${esc(d.sections.map((s) => s.ref).join(", "))} · ${esc(arWhere(w, d.sections[0].ref))}</span></div>
+    : isAR(w) && arCited(w) ? `<div class="page-head"><h1>${d.page}</h1><span>${arCitedHead(w, d)}</span></div>
+      ${d.prev ? "" : arHead(w)}`
+    : isAR(w) ? `<div class="page-head"><h1>${d.page}</h1><span><span class="term" title="Bekker numbers: the page and column of Bekker's Berlin edition of Aristotle (1831), used by every book on Aristotle">Bekker page</span> ${d.page}, columns ${esc(d.sections.map((s) => s.ref).join(", "))}${arWhere(w, d.sections[0].ref) ? " · " + esc(arWhere(w, d.sections[0].ref)) : ""}</span></div>
       ${d.prev ? "" : arHead(w)}`
     : `<div class="page-head"><h1>${d.page}</h1><span><span class="term" title="Stephanus numbers: the page and part of the page in the edition of Plato printed in 1578, used by every book on Plato">Stephanus page</span> ${d.page}, sections ${esc(d.sections[0].ref)}–${esc(d.sections[d.sections.length - 1].ref)}</span></div>`;
   html += renderTransBar();
@@ -373,14 +375,16 @@ function renderPage() {
       return `<div class="eng" lang="en" data-ed="${esc(e.id)}" data-label="${esc(e.label)}">${before}${body}</div>`;
     }).join("");
     html += `<section class="sec" id="s-${s.ref}" data-ref="${s.ref}">
-      <button class="ref" data-copy="${esc(s.urn)}" title="${nt ? `${esc(w.title)} ${s.ref}: chapter ${s.ref.replace(":", ", verse ")}` : isAR(w) ? `Bekker ${s.ref}: page ${s.ref.slice(0, -1)}, ${s.ref.endsWith("a") ? "left" : "right"} column of Bekker's Berlin edition (1831)` : `Section ${s.ref}: a Stephanus number, the page and part of the page in the 1578 edition`}. Tap to copy its full address (${esc(s.urn)})">${s.ref}</button>
+      <button class="ref" data-copy="${esc(s.urn)}" title="${nt ? `${esc(w.title)} ${s.ref}: chapter ${s.ref.replace(":", ", verse ")}` : isAR(w) && arCited(w) ? esc(arRefTitle(w, s.ref)) : isAR(w) ? `Bekker ${s.ref}: page ${s.ref.slice(0, -1)}, ${s.ref.endsWith("a") ? "left" : "right"} column of Bekker's Berlin edition (1831)` : `Section ${s.ref}: a Stephanus number, the page and part of the page in the 1578 edition`}. Tap to copy its full address (${esc(s.urn)})">${isAR(w) && arCited(w) ? esc(arRefLabel(w, s.ref)) : s.ref}</button>
       <div class="grc" lang="grc">${grc}</div>
       ${eng}
       <div class="app">${renderApparatus(s, d, numbers)}</div>
     </section>`;
   });
   const pg = nt ? "chapter" : "page";
-  html += `<div class="pager">${d.prev ? `<a href="${placeHash(WORK, String(d.prev))}">‹ ${pg} ${d.prev}</a>` : "<span></span>"}${d.next ? `<a href="${placeHash(WORK, String(d.next))}">${pg} ${d.next} ›</a>` : "<span></span>"}</div>`;
+  // Aristotle milestone A8f: a work not on Bekker's pages names its own (a chapter, a letter, one of the two texts of the Divisions).
+  const pgName = (n) => isAR(w) && arCited(w) ? arPageName(w, n) : `${pg} ${n}`;
+  html += `<div class="pager">${d.prev ? `<a href="${placeHash(WORK, String(d.prev))}">‹ ${esc(pgName(d.prev))}</a>` : "<span></span>"}${d.next ? `<a href="${placeHash(WORK, String(d.next))}">${esc(pgName(d.next))} ›</a>` : "<span></span>"}</div>`;
   $("#main").innerHTML = html;
   if (typeof panelAfterRender === "function") panelAfterRender();
 }
@@ -425,6 +429,11 @@ function renderToc() {
       const here = curRefs.some((r) => seqOf.get(r) >= seqOf.get(b.start_ref) && seqOf.get(r) <= seqOf.get(b.end_ref));
       return `<li class="${here ? "here" : ""}"><a href="${esc(placeHash(WORK, b.start_ref))}" title="${esc(b.basis)}"><span>${esc(b.label)}</span><span>${esc(b.start_ref)}–${esc(b.end_ref)}</span></a></li>`;
     }).join("")}</ul>`;
+  }
+  if (isAR(w) && arCited(w)) {
+    html += arCitedPages(w, pages);
+    $("#toc").innerHTML = html + renderTocAR(w);
+    return;
   }
   if (isAR(w)) {
     html += `<h3 title="Bekker's pages: the pages of his Berlin edition of Aristotle (1831), which every book on Aristotle uses">Bekker pages</h3><div class="pages">${pages.map((p) => `<a href="${placeHash(WORK, String(p))}" class="${p === state.page ? "here" : ""}">${p}</a>`).join("")}</div>`;

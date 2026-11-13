@@ -37,7 +37,7 @@ kept in ar_term_hit apart from Plato's term_hit.
 import json
 import re
 import sys
-from collections import Counter
+from collections import Counter, defaultdict
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -67,6 +67,36 @@ WORKS = [
      "plain": "The good for man, the virtues of character and of intellect, friendship, pleasure, and the life of "
               "contemplation as the most divine (Book X)."},
 ]
+# Aristotle milestone A8: the other works Perseus has with a Loeb English.
+WORKS += [
+    {"id": "ar009", "tlg": "tlg009", "title": "Eudemian Ethics", "abbr": "EE", "slug": "eudemian-ethics",
+     "greek_title": "Ἠθικὰ Εὐδήμεια", "letters": False,
+     "plain": "The other Ethics: happiness, the virtues of character, the voluntary, friendship, and in the end the measure of "
+              "every choice, the contemplation and service of God (Book VIII 3)."},
+    {"id": "ar035", "tlg": "tlg035", "title": "Politics", "abbr": "Pol.", "slug": "politics",
+     "greek_title": "Πολιτικά", "letters": False,
+     "plain": "The city, prior by nature to the household and the man; household rule and slavery; the constitutions, their "
+              "kinds and changes; and the best city and the education of its citizens. Book II argues against Plato's Republic and Laws."},
+    {"id": "ar029", "tlg": "tlg029", "title": "Economics", "abbr": "Oec.", "slug": "economics",
+     "greek_title": "Οἰκονομικά", "letters": False,
+     "plain": "The management of the household: husband and wife, slaves, and property; and in Book II the finances of kings and cities."},
+    {"id": "ar038", "tlg": "tlg038", "title": "Rhetoric", "abbr": "Rh.", "slug": "rhetoric",
+     "greek_title": "Τέχνη ῥητορική", "letters": False,
+     "plain": "Rhetoric, the counterpart of dialectic: the three kinds of oratory, proof by character, emotion and argument; "
+              "the emotions one by one (Book II); style and the arrangement of a speech (Book III)."},
+    {"id": "ar034", "tlg": "tlg034", "title": "Poetics", "abbr": "Po.", "slug": "poetics",
+     "greek_title": "Περὶ ποιητικῆς", "letters": False, "chapters_only": True,
+     "plain": "Poetry as imitation; tragedy, its plot, character and the purgation (κάθαρσις) of pity and fear; and epic. "
+              "An answer, in part, to Plato's banishing of the poets from the Republic."},
+]
+# Aristotle milestone A8f: a work Perseus has in Greek only. greek_only: no English file, so nothing to place a translation
+# against; no_parts: the TEI has no books or chapters (its one <div> is Bekker's first page).
+WORKS += [
+    {"id": "ar045", "tlg": "tlg045", "title": "On Virtues and Vices", "abbr": "VV", "slug": "on-virtues-and-vices",
+     "greek_title": "Περὶ ἀρετῶν καὶ κακιῶν", "letters": False, "greek_only": True, "no_parts": True,
+     "plain": "The virtues and vices of each part of the soul, taken as three after Plato (reason, spirit, desire), each defined with what "
+              "goes with it and follows from it. From Aristotle's school."},
+]
 WORK_BY_ID = {w["id"]: w for w in WORKS}
 
 
@@ -76,12 +106,24 @@ class BekkerWalker(build_db.Walker):
     the chunk each chapter opens with."""
     SECTION_UNIT = "page"
     SECTION_RESP = "Bekker"
-    PART_SUBTYPES = ("book", "section")
+    PART_SUBTYPES = ("book", "section", "chapter")
 
     def __init__(self, root):
         self.chapter_chunks = []   # (book, chapter, index of the chunk it opens with)
         self._pending = None
         self._book = None
+        # Rackham's Eudemian Ethics marks Bekker's columns as <milestone unit="section" n="1214a"/>, with no resp.
+        if not any(m.get("unit") == "page" and m.get("resp") == "Bekker" for m in root.iter() if m.tag.endswith("}milestone")):
+            self.SECTION_UNIT, self.SECTION_RESP = "section", None
+        # The chapters: <div subtype="chapter"> where the file has them (the Rhetoric, the Poetics; the Rhetoric's
+        # "section" divisions are within its chapters), else <div subtype="section"> (the Ethics, the Metaphysics).
+        self._chapter = "chapter" if any(d.get("subtype") == "chapter" for d in root.iter() if d.tag.endswith("}div")) else "section"
+        self.PART_SUBTYPES = ("book", self._chapter)
+        # Ross's Politics has no chapter divisions: its chapters are <milestone unit="section" resp="Ross"
+        # n="ross_section_1"/>, numbered within each <div subtype="book">.
+        divs = {d.get("subtype") for d in root.iter() if d.tag.endswith("}div")}
+        self._ross = not divs & {"chapter", "section"} and any(
+            m.get("resp") == "Ross" and (m.get("n") or "").startswith("ross_section_") for m in root.iter() if m.tag.endswith("}milestone"))
         super().__init__(root)
 
     def _chunk(self):
@@ -93,15 +135,22 @@ class BekkerWalker(build_db.Walker):
         return c
 
     def walk(self, el):
+        if self._ross and el.tag.endswith("}milestone") and el.get("resp") == "Ross" and (el.get("n") or "").startswith("ross_section_"):
+            n = el.get("n")[len("ross_section_"):]
+            self.parts.append([self._chapter, n, None, None])
+            self._pending = (self._book or "1", n)
+            return
         if el.tag.endswith("}div") and el.get("type") == "textpart":
             if el.get("subtype") == "book":
                 self._book = el.get("n")
-            elif el.get("subtype") == "section":
-                self._pending = (self._book, el.get("n"))
+            elif el.get("subtype") == self._chapter:
+                self._pending = (self._book or "1", el.get("n"))
         super().walk(el)
 
 
 def book_label(work, n):
+    if work.get("chapters_only"):
+        return ""
     i = int(n) - 1
     if work["letters"]:
         return f"Book {META_BOOKS[i]} ({ROMAN[i]})"
@@ -111,6 +160,8 @@ def book_label(work, n):
 def parts_of(work):
     """The books and chapters of the Greek, from the walker's parts, as division rows (kind, label, first, last)."""
     def parts(g):
+        if work.get("no_parts"):
+            return []
         out, book = [], None
         books = {}
         for subtype, n, a, b in g.parts:
@@ -119,11 +170,47 @@ def parts_of(work):
                 continue
             if not (a and b):
                 continue
-            out.append(("ar-chapter", f"{book_label(work, book)}, chapter {n}", a, b))
+            out.append(("ar-chapter", f"{book_label(work, book)}, chapter {n}" if not work.get("chapters_only") else f"Chapter {n}", a, b))
             first, last = books.get(book, (a, b))
             books[book] = (first, b)
+        if work.get("chapters_only"):
+            return out
         return [("book", book_label(work, k), a, b) for k, (a, b) in books.items()] + out
     return parts
+
+
+def glaux_resection(words, g):
+    """GLAUx's words of a work it divides by chapter only (the Rhetoric, the Poetics), given the Bekker column of the word of
+    the Perseus Greek each is matched to: chapter by chapter, the two word streams are matched by their accentless forms
+    (difflib), and a GLAUx word with no match takes the column of the matched word before it. {column: [words]}."""
+    import difflib
+    plain = lambda f: greek.strip_accents(greek.nfc(f)).rstrip(greek.APOSTROPHES)
+    dotted = any("." in (w.get("div_chapter") or "") for w in words)
+    starts = {i: (b, c) for b, c, i in g.chapter_chunks}
+    ours, key = defaultdict(list), None
+    for i, c in enumerate(g.chunks):
+        if i in starts:
+            b, ch = starts[i]
+            key = f"{b}.{ch}" if dotted else ch
+        for m in greek.WORD.finditer(c["text"]):
+            ours[key].append((plain(m.group(0)), c["section"]))
+    theirs = defaultdict(list)
+    for w in words:
+        theirs[w.get("div_chapter")].append(w)
+    out = defaultdict(list)
+    first_col = g.order[0] if g.order else None
+    for ch, ws in theirs.items():
+        mine = ours.get(ch) or []
+        col_of = [None] * len(ws)
+        sm = difflib.SequenceMatcher(None, [p for p, _ in mine], [plain(w.get("form", "")) for w in ws], autojunk=False)
+        for a, b, n in sm.get_matching_blocks():
+            for k in range(n):
+                col_of[b + k] = mine[a + k][1]
+        last = next((c for c in col_of if c), mine[0][1] if mine else first_col)
+        for w, c in zip(ws, col_of):
+            last = c or last
+            out[last].append(w)
+    return out
 
 
 def cfg_for(work):
@@ -133,7 +220,7 @@ def cfg_for(work):
         "glaux_source": GLAUX_SRC, "glaux_file": lambda num: RAW / GLAUX_SRC / "xml" / f"0086-{num}.xml",
         "glaux_section": ("div_section", "div_bekker_page"), "walker": BekkerWalker, "note_resp": None,
         "page_label": "Bekker page {}", "page_basis": "Bekker's pages and columns (<milestone unit='page' resp='Bekker'>) in the Perseus TEI",
-        "perseus_id": lambda work_id: WORK_BY_ID[work_id]["tlg"], "parts": parts_of(work),
+        "perseus_id": lambda work_id: WORK_BY_ID[work_id]["tlg"], "parts": parts_of(work), "glaux_resection": glaux_resection,
     }
 
 
@@ -144,8 +231,9 @@ def available():
 
 def lemmas():
     """Every GLAUx lemma of the Aristotle files (so that the dictionaries are linked for them too)."""
+    import aristotle_cited
     import aristotle_f1k
-    out = set(aristotle_f1k.lemmas())
+    out = set(aristotle_f1k.lemmas()) | aristotle_cited.lemmas()
     for w in WORKS:
         p = RAW / GLAUX_SRC / "xml" / f"0086-{w['tlg'][3:]}.xml"
         for m in re.finditer(r' lemma="([^"]*)"', p.read_text(encoding="utf-8")):
@@ -248,6 +336,12 @@ TAYLOR_LOEB = {
               "and Platonic dogmas respecting numbers and ideas are unfolded from antient sources (London, 1801)",
               "His notes, from Alexander, Syrianus and the other Greek commentators, are under the text."),
     "ar010": ("taylor-1811", "ia-taylor-ethics-1811", "taylor1811", "Taylor (1811)",
+              "Thomas Taylor, The Rhetoric, Poetic, and Nicomachean Ethics of Aristotle, translated from the Greek (London, 1811)",
+              "His notes are under the text."),
+    "ar038": ("taylor-1811", "ia-taylor-ethics-1811", "taylor1811", "Taylor (1811)",
+              "Thomas Taylor, The Rhetoric, Poetic, and Nicomachean Ethics of Aristotle, translated from the Greek (London, 1811)",
+              "His notes are under the text."),
+    "ar034": ("taylor-1811", "ia-taylor-ethics-1811", "taylor1811", "Taylor (1811)",
               "Thomas Taylor, The Rhetoric, Poetic, and Nicomachean Ethics of Aristotle, translated from the Greek (London, 1811)",
               "His notes are under the text."),
 }
@@ -407,8 +501,8 @@ def build(db, sources):
         db.execute("INSERT INTO work (id, urn, title, imported, abbr, slug, corpus) VALUES (?,?,?,?,?,?,?)",
                    (w["id"], f"{AR_URN}.{w['tlg']}", w["title"], 0, w["abbr"], w["slug"], "aristotle"))
         s = build_db.build_work(db, w["id"], sources, cfg_for(w))
-        placer = translations.Placer(db, w["id"])
-        s["translations"] = [t for t in (build_ross(db, w, placer), build_taylor(db, w, placer), build_chase(db, w, placer)) if t]
+        placer = None if w.get("greek_only") else translations.Placer(db, w["id"])
+        s["translations"] = [t for t in (build_ross(db, w, placer), build_taylor(db, w, placer), build_chase(db, w, placer)) if t] if placer else []
         s["term_words"] = mark_terms(db, w["id"])
         s["plain"] = w["plain"]
         stats["works"].append(s)
@@ -418,6 +512,11 @@ def build(db, sources):
     if aristotle_f1k.available():
         for w in aristotle_f1k.WORKS:
             build_f1k_work(db, w, sources, stats)
+    # Aristotle milestone A8f: the works not on Bekker's pages (the Constitution of the Athenians, the Letters, the Divisions).
+    import aristotle_cited
+    if aristotle_cited.available():
+        for w in aristotle_cited.WORKS:
+            stats["works"].append(aristotle_cited.build_work(db, w, sources))
     db.execute("""UPDATE work SET first_token = r.lo, last_token = r.hi, n_tokens = r.n FROM
                   (SELECT e.work_id, min(t.id) lo, max(t.id) hi, count(*) n FROM token t JOIN edition e ON e.id = t.edition_id
                    WHERE e.lang = 'grc' AND e.source_id IN (?, ?) GROUP BY e.work_id) r WHERE r.work_id = work.id""",
@@ -454,8 +553,10 @@ def write_report(stats):
         if s.get("english_sections"):
             lines.append(f"- **{s['title']}**: the Loeb English from Perseus, at Bekker's columns as Perseus marks them "
                          f"({s['english_sections']} of {s['sections']} columns; none missing: {not s['english_sections_missing']}).")
+        elif "columns_from" not in s:
+            lines.append(f"- **{s['title']}**: the Greek only, from Perseus, at Bekker's columns as Perseus marks them ({s['sections']}).")
         else:
-            lines.append(f"- **{s['title']}**: the Greek from First1KGreek, its {s['sections']} Bekker columns from {s['columns_from']}"
+            lines.append(f"- **{s['title']}**: the Greek from {s.get('greek_from', 'First1KGreek')}, its {s['sections']} {s.get('sections_are', 'Bekker columns')} from {s['columns_from']}"
                          + (f" (left out, out of Bekker's order: {', '.join(s['marks_left_out'])})" if s['marks_left_out'] else "") + ".")
         for t in s["translations"]:
             extra = ""

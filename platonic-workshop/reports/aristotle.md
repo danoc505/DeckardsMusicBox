@@ -6,6 +6,12 @@ Written by `tools/build_db.py` (through `tools/aristotle.py`) each time the libr
 |---|---:|---:|---:|---:|---:|---:|
 | Metaphysics | 228 | 78,946 | 78,660 (99.64%) | 78,678 | 942 | 6,610 |
 | Nicomachean Ethics | 176 | 56,593 | 56,372 (99.61%) | 56,477 | 696 | 5,066 |
+| Eudemian Ethics | 72 | 26,299 | 26,165 (99.49%) | 26,260 | 239 | 2,607 |
+| Politics | 182 | 65,531 | 65,082 (99.31%) | 65,421 | 587 | 5,480 |
+| Economics | 22 | 6,241 | 6,225 (99.74%) | 6,192 | 34 | 276 |
+| Rhetoric | 133 | 43,182 | 43,046 (99.69%) | 43,079 | 639 | 2,795 |
+| Poetics | 32 | 10,260 | 10,065 (98.10%) | 10,212 | 179 | 508 |
+| On Virtues and Vices | 6 | 1,498 | 1,488 (99.33%) | 1,495 | 0 | 226 |
 | Categories | 30 | 10,316 | 10,312 (99.96%) | 10,049 | 0 | 748 |
 | On Interpretation | 18 | 6,244 | 6,244 (100.00%) | 6,111 | 0 | 614 |
 | Prior Analytics | 86 | 37,200 | 37,015 (99.50%) | 34,118 | 0 | 1,681 |
@@ -15,6 +21,38 @@ Written by `tools/build_db.py` (through `tools/aristotle.py`) each time the libr
 | Physics | 167 | 55,458 | 55,100 (99.35%) | 54,295 | 0 | 3,134 |
 | On the Heavens | 91 | 29,677 | 29,069 (97.95%) | 29,044 | 0 | 1,765 |
 | On the Soul | 64 | 20,936 | 20,699 (98.87%) | 20,665 | 0 | 1,656 |
+| Magna Moralia | 66 | 23,561 | 23,253 (98.69%) | 22,736 | 0 | 2,756 |
+| On Generation and Corruption | 50 | 16,523 | 16,384 (99.16%) | 16,088 | 0 | 889 |
+| Meteorology | 106 | 33,668 | 33,159 (98.49%) | 32,735 | 0 | 1,230 |
+| On Sense and the Sensible | 28 | 7,869 | 7,868 (99.99%) | 7,663 | 0 | 406 |
+| On Memory | 9 | 2,516 | 2,516 (100.00%) | 2,399 | 0 | 219 |
+| On Sleep | 10 | 2,989 | 2,989 (100.00%) | 2,911 | 0 | 134 |
+| On Dreams | 10 | 2,437 | 2,437 (100.00%) | 2,389 | 0 | 131 |
+| On Divination in Sleep | 5 | 1,200 | 1,199 (99.92%) | 1,171 | 0 | 57 |
+| On Length and Shortness of Life | 7 | 1,789 | 1,789 (100.00%) | 1,730 | 0 | 82 |
+| On Youth, Old Age, Life and Death | 7 | 1,845 | 1,845 (100.00%) | 1,807 | 0 | 83 |
+| On Respiration | 21 | 6,110 | 6,107 (99.95%) | 5,953 | 0 | 267 |
+| History of Animals | 306 | 94,062 | 94,047 (99.98%) | 91,069 | 0 | 2,037 |
+| Parts of Animals | 118 | 36,814 | 36,300 (98.60%) | 35,378 | 0 | 1,404 |
+| Progression of Animals | 22 | 6,360 | 6,339 (99.67%) | 6,315 | 0 | 149 |
+| Movement of Animals | 14 | 4,116 | 4,106 (99.76%) | 4,079 | 0 | 257 |
+| Generation of Animals | 150 | 50,150 | 49,726 (99.15%) | 49,576 | 0 | 2,002 |
+| Mechanics | 24 | 8,346 | 8,216 (98.44%) | 7,718 | 0 | 148 |
+| On Indivisible Lines | 10 | 2,959 | 0 (0.00%) | 2,909 | 0 | 0 |
+| On Melissus, Xenophanes and Gorgias | 14 | 4,873 | 4,865 (99.84%) | 4,803 | 0 | 262 |
+| On Colours | 18 | 5,002 | 5,002 (100.00%) | 4,961 | 0 | 131 |
+| On Things Heard | 10 | 3,492 | 0 (0.00%) | 3,458 | 0 | 0 |
+| Physiognomics | 20 | 5,763 | 5,758 (99.91%) | 5,643 | 0 | 217 |
+| On Plants | 32 | 11,311 | 11,251 (99.47%) | 11,138 | 0 | 422 |
+| On Marvellous Things Heard | 36 | 9,180 | 9,158 (99.76%) | 8,969 | 0 | 187 |
+| Problems | 218 | 73,881 | 73,638 (99.67%) | 73,510 | 0 | 2,888 |
+| Situations and Names of Winds | 2 | 426 | 0 (0.00%) | 391 | 0 | 0 |
+| On Breath | 12 | 3,463 | 3,437 (99.25%) | 3,450 | 0 | 160 |
+| Physics VII, the other version | 15 | 2,349 | 2,264 (96.38%) | 2,242 | 0 | 137 |
+| On the Soul II, the other version | 7 | 2,446 | 2,387 (97.59%) | 2,362 | 0 | 156 |
+| Constitution of the Athenians | 299 | 16,184 | 16,055 (99.20%) | 15,930 | 0 | 791 |
+| Letters | 6 | 783 | 781 (99.74%) | 778 | 0 | 76 |
+| Divisions | 101 | 9,515 | 1,743 (18.32%) | 9,442 | 0 | 140 |
 
 ## The translations beside the Greek
 
@@ -24,18 +62,26 @@ Written by `tools/build_db.py` (through `tools/aristotle.py`) each time the libr
 - **Nicomachean Ethics**: the Loeb English from Perseus, at Bekker's columns as Perseus marks them (176 of 176 columns; none missing: True).
   - `ar010.taylor1811`: 160 paragraphs, 94,534 words, 225 pieces placed, 50 notes; 1059 anchors found by tools/align.py. 105 fixed points (book and chapter starts); Taylor's chapters agree with the Perseus text's in books 1, 2, 3, 4, 5, 6, 7, 8, 10.
   - `ar010.chase1847`: 1195 paragraphs, 92,325 words, 1195 pieces placed, 0 notes; 1266 anchors found by tools/align.py.
+- **Eudemian Ethics**: the Loeb English from Perseus, at Bekker's columns as Perseus marks them (72 of 72 columns; none missing: True).
+- **Politics**: the Loeb English from Perseus, at Bekker's columns as Perseus marks them (177 of 182 columns; none missing: False).
+- **Economics**: the Loeb English from Perseus, at Bekker's columns as Perseus marks them (22 of 22 columns; none missing: True).
+- **Rhetoric**: the Loeb English from Perseus, at Bekker's columns as Perseus marks them (133 of 133 columns; none missing: True).
+  - `ar038.taylor1811`: 240 paragraphs, 75,039 words, 274 pieces placed, 27 notes; 1139 anchors found by tools/align.py. 21 fixed points (book and chapter starts); Taylor's chapters agree with the Perseus text's in books 3.
+- **Poetics**: the Loeb English from Perseus, at Bekker's columns as Perseus marks them (32 of 32 columns; none missing: True).
+  - `ar034.taylor1811`: 34 paragraphs, 15,732 words, 40 pieces placed, 11 notes; 429 anchors found by tools/align.py. 26 fixed points (book and chapter starts); Taylor's chapters agree with the Perseus text's in books 1.
+- **On Virtues and Vices**: the Greek only, from Perseus, at Bekker's columns as Perseus marks them (6).
 - **Categories**: the Greek from First1KGreek, its 30 Bekker columns from Bekker's columns carried over from the margin of the Oxford translation (1928), chapter by chapter, at the same proportion of the chapter (≈): this Greek, Bekker's text in his Oxford reprint (1837), does not print them.
   - `ar006.oxford1928`: 125 paragraphs, 13,716 words, 152 pieces placed, 19 notes; 0 anchors found by tools/align.py. 18 Bekker columns read from Ross's margin and used as fixed points; 18 pieces begin at a column he prints.
   - `ar006.owen1853`: 65 paragraphs, 13,704 words, 94 pieces placed, 152 notes; 0 anchors found by tools/align.py. 0 Bekker columns read from Ross's margin and used as fixed points; 0 pieces begin at a column he prints.
-  - `ar006.taylor1812`: 25 paragraphs, 15,442 words, 54 pieces placed, 29 notes; 0 anchors found by tools/align.py. 0 Bekker columns read from Ross's margin and used as fixed points; 0 pieces begin at a column he prints.
+  - `ar006.taylor1812`: 25 paragraphs, 15,442 words, 54 pieces placed, 30 notes; 0 anchors found by tools/align.py. 0 Bekker columns read from Ross's margin and used as fixed points; 0 pieces begin at a column he prints.
 - **On Interpretation**: the Greek from First1KGreek, its 18 Bekker columns from Bekker's columns carried over from the margin of the Oxford translation (1928), chapter by chapter, at the same proportion of the chapter (≈): this Greek, Bekker's text in his Oxford reprint (1837), does not print them.
   - `ar017.oxford1928`: 119 paragraphs, 10,336 words, 131 pieces placed, 35 notes; 0 anchors found by tools/align.py. 13 Bekker columns read from Ross's margin and used as fixed points; 13 pieces begin at a column he prints.
   - `ar017.owen1853`: 55 paragraphs, 8,955 words, 72 pieces placed, 160 notes; 0 anchors found by tools/align.py. 0 Bekker columns read from Ross's margin and used as fixed points; 0 pieces begin at a column he prints.
-  - `ar017.taylor1812`: 23 paragraphs, 9,401 words, 40 pieces placed, 36 notes; 0 anchors found by tools/align.py. 0 Bekker columns read from Ross's margin and used as fixed points; 0 pieces begin at a column he prints.
+  - `ar017.taylor1812`: 23 paragraphs, 9,401 words, 40 pieces placed, 37 notes; 0 anchors found by tools/align.py. 0 Bekker columns read from Ross's margin and used as fixed points; 0 pieces begin at a column he prints.
 - **Prior Analytics**: the Greek from First1KGreek, its 86 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
   - `ar001.oxford1928`: 244 paragraphs, 47,003 words, 320 pieces placed, 147 notes; 0 anchors found by tools/align.py. 56 Bekker columns read from Ross's margin and used as fixed points; 56 pieces begin at a column he prints.
   - `ar001.owen1853`: 422 paragraphs, 49,707 words, 506 pieces placed, 617 notes; 0 anchors found by tools/align.py. 0 Bekker columns read from Ross's margin and used as fixed points; 0 pieces begin at a column he prints.
-  - `ar001.taylor1812`: 116 paragraphs, 57,755 words, 198 pieces placed, 262 notes; 0 anchors found by tools/align.py. 0 Bekker columns read from Ross's margin and used as fixed points; 0 pieces begin at a column he prints.
+  - `ar001.taylor1812`: 116 paragraphs, 57,755 words, 198 pieces placed, 263 notes; 0 anchors found by tools/align.py. 0 Bekker columns read from Ross's margin and used as fixed points; 0 pieces begin at a column he prints.
 - **Posterior Analytics**: the Greek from First1KGreek, its 58 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
   - `ar001p.oxford1928`: 193 paragraphs, 34,718 words, 244 pieces placed, 246 notes; 0 anchors found by tools/align.py. 25 Bekker columns read from Ross's margin and used as fixed points; 25 pieces begin at a column he prints.
   - `ar001p.owen1853`: 193 paragraphs, 32,301 words, 250 pieces placed, 427 notes; 0 anchors found by tools/align.py. 0 Bekker columns read from Ross's margin and used as fixed points; 0 pieces begin at a column he prints.
@@ -51,5 +97,39 @@ Written by `tools/build_db.py` (through `tools/aristotle.py`) each time the libr
   - `ar005.stocks1922`: 205 paragraphs, 42,265 words, 291 pieces placed, 257 notes; 0 anchors found by tools/align.py. 67 Bekker columns read from Ross's margin and used as fixed points; 67 pieces begin at a column he prints.
 - **On the Soul**: the Greek from First1KGreek, its 64 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI (left out, out of Bekker's order: 440b, 402a, 420a, 420a, 420b, 430a).
   - `ar002.hicks1907`: 131 paragraphs, 30,627 words, 192 pieces placed, 0 notes; 0 anchors found by tools/align.py. 60 Bekker columns read from Ross's margin and used as fixed points; 60 pieces begin at a column he prints.
+- **Magna Moralia**: the Greek from First1KGreek, its 66 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI; where a column is lost (the margin does not print it, or the scan misread it), it is placed by the length of the text between the columns either side (≈): 1183a, 1187a, 1193b, 1197b, 1199b, 1203a, 1210a (left out, out of Bekker's order: 1188a).
+- **On Generation and Corruption**: the Greek from First1KGreek, its 50 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI; where a column is lost (the margin does not print it, or the scan misread it), it is placed by the length of the text between the columns either side (≈): 319b, 323a, 327b, 329a, 333a, 336b (left out, out of Bekker's order: 328a, 332a, 335b, 397b, 399a).
+- **Meteorology**: the Greek from First1KGreek, its 106 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI; where a column is lost (the margin does not print it, or the scan misread it), it is placed by the length of the text between the columns either side (≈): 360b, 364b, 370b, 389b, 390a (left out, out of Bekker's order: 354b, 339b).
+- **On Sense and the Sensible**: the Greek from First1KGreek, its 28 Bekker columns from Bekker's columns carried over from the margin of Biehl's Greek (Teubner, 1898), word by word: each begins at the first word of the line beside which Biehl prints it (≈, to the line): this Greek, Bekker's text in his Oxford reprint (1837), does not print them; where a column is lost (the margin does not print it, or the scan misread it), it is placed by the length of the text between the columns either side (≈): 437a, 437b, 438b, 439b, 441a, 441b, 443b, 444a, 444b, 445b, 447b, 449b.
+- **On Memory**: the Greek from First1KGreek, its 9 Bekker columns from Bekker's columns carried over from the margin of Biehl's Greek (Teubner, 1898), word by word: each begins at the first word of the line beside which Biehl prints it (≈, to the line): this Greek, Bekker's text in his Oxford reprint (1837), does not print them; where a column is lost (the margin does not print it, or the scan misread it), it is placed by the length of the text between the columns either side (≈): 451b, 453b.
+- **On Sleep**: the Greek from First1KGreek, its 10 Bekker columns from Bekker's columns carried over from the margin of Biehl's Greek (Teubner, 1898), word by word: each begins at the first word of the line beside which Biehl prints it (≈, to the line): this Greek, Bekker's text in his Oxford reprint (1837), does not print them; where a column is lost (the margin does not print it, or the scan misread it), it is placed by the length of the text between the columns either side (≈): 454a, 455a, 456a.
+- **On Dreams**: the Greek from First1KGreek, its 10 Bekker columns from Bekker's columns carried over from the margin of Biehl's Greek (Teubner, 1898), word by word: each begins at the first word of the line beside which Biehl prints it (≈, to the line): this Greek, Bekker's text in his Oxford reprint (1837), does not print them; where a column is lost (the margin does not print it, or the scan misread it), it is placed by the length of the text between the columns either side (≈): 459b.
+- **On Divination in Sleep**: the Greek from First1KGreek, its 5 Bekker columns from Bekker's columns carried over from the margin of Biehl's Greek (Teubner, 1898), word by word: each begins at the first word of the line beside which Biehl prints it (≈, to the line): this Greek, Bekker's text in his Oxford reprint (1837), does not print them; where a column is lost (the margin does not print it, or the scan misread it), it is placed by the length of the text between the columns either side (≈): 463a, 464b.
+- **On Length and Shortness of Life**: the Greek from First1KGreek, its 7 Bekker columns from Bekker's columns carried over from the margin of Biehl's Greek (Teubner, 1898), word by word: each begins at the first word of the line beside which Biehl prints it (≈, to the line): this Greek, Bekker's text in his Oxford reprint (1837), does not print them; where a column is lost (the margin does not print it, or the scan misread it), it is placed by the length of the text between the columns either side (≈): 465a, 465b.
+- **On Youth, Old Age, Life and Death**: the Greek from First1KGreek, its 7 Bekker columns from Bekker's columns carried over from the margin of Biehl's Greek (Teubner, 1898), word by word: each begins at the first word of the line beside which Biehl prints it (≈, to the line): this Greek, Bekker's text in his Oxford reprint (1837), does not print them; where a column is lost (the margin does not print it, or the scan misread it), it is placed by the length of the text between the columns either side (≈): 468b.
+- **On Respiration**: the Greek from First1KGreek, its 21 Bekker columns from Bekker's columns carried over from the margin of Biehl's Greek (Teubner, 1898), word by word: each begins at the first word of the line beside which Biehl prints it (≈, to the line): this Greek, Bekker's text in his Oxford reprint (1837), does not print them; where a column is lost (the margin does not print it, or the scan misread it), it is placed by the length of the text between the columns either side (≈): 471b, 474b, 475b, 477a, 477b, 478b, 479b.
+- **History of Animals**: the Greek from First1KGreek, its 306 Bekker columns from Bekker's columns carried over from the margin of Thompson's Oxford translation (1910), chapter by chapter, at the same proportion of the chapter (≈): this Greek, Bekker's text in his Oxford reprint (1837), does not print them, and Thompson does not translate Book X; where a column is lost (the margin does not print it, or the scan misread it), it is placed by the length of the text between the columns either side (≈): 522b, 604b, 607b, 608a, 614b, 634a, 634b, 635a, 635b, 636a, 636b, 637a, 637b, 638a, 638b.
+  - `ar014.thompson1910`: 1006 paragraphs, 131,554 words, 1290 pieces placed, 1485 notes; 0 anchors found by tools/align.py. 196 Bekker columns read from Ross's margin and used as fixed points; 196 pieces begin at a column he prints.
+- **Parts of Animals**: the Greek from First1KGreek, its 118 Bekker columns from GLAUx's Bekker column of each word; where a column is lost (GLAUx gives no word of it), it is placed by the length of the text between the columns either side (≈): 692a, 692b, 693a, 693b, 694a, 694b, 695a.
+- **Progression of Animals**: the Greek from First1KGreek, its 22 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI (left out, out of Bekker's order: 716b).
+- **Movement of Animals**: the Greek from First1KGreek, its 14 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI; where a column is lost (the margin does not print it, or the scan misread it), it is placed by the length of the text between the columns either side (≈): 703a.
+- **Generation of Animals**: the Greek from First1KGreek, its 150 Bekker columns from GLAUx's Bekker column of each word.
+- **Mechanics**: the Greek from First1KGreek, its 24 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
+- **On Indivisible Lines**: the Greek from First1KGreek, its 10 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
+- **On Melissus, Xenophanes and Gorgias**: the Greek from First1KGreek, its 14 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
+- **On Colours**: the Greek from First1KGreek, its 18 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
+- **On Things Heard**: the Greek from First1KGreek, its 10 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
+- **Physiognomics**: the Greek from First1KGreek, its 20 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
+- **On Plants**: the Greek from First1KGreek, its 32 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
+- **On Marvellous Things Heard**: the Greek from First1KGreek, its 36 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
+- **Problems**: the Greek from First1KGreek, its 218 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
+- **Situations and Names of Winds**: the Greek from First1KGreek, its 2 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
+- **On Breath**: the Greek from First1KGreek, its 12 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI; where a column is lost (the margin does not print it, or the scan misread it), it is placed by the length of the text between the columns either side (≈): 486a, 486b.
+- **Physics VII, the other version**: the Greek from First1KGreek, its 15 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
+- **On the Soul II, the other version**: the Greek from First1KGreek, its 7 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI.
+- **Constitution of the Athenians**: the Greek from Perseus, its 299 sections from chapter and section as Perseus divides Kenyon's text (<div subtype="section">, <div subtype="subsection">), as every edition numbers them.
+  - `ar003.kenyon`: 115 paragraphs, 24,555 words, 344 pieces placed, 0 notes; 0 anchors found by tools/align.py.
+- **Letters**: the Greek from First1KGreek, its 6 letters from the letters as Hercher numbers them (<div subtype="epistle">).
+- **Divisions**: the Greek from First1KGreek, its 101 divisions from Mutschmann's numbers of the divisions, in Diogenes Laertius' text and in the codex Marcianus' (<div subtype="section" n="1_col1">, n="5_col2").
 
 Every placement not printed in the book is marked ≈ in the reader. The OCR of Ross and Taylor is cleaned by rule (`tools/aristotle_ocr.py`) and not proofread; *Show the OCR* in the reader shows each paragraph as the scan reads it.

@@ -889,33 +889,45 @@
     },
     {
       "id": "perseus-greek-aristotle",
-      "title": "Aristotle, Greek text, Perseus TEI (Ross's Metaphysics, 1924; Bywater's Nicomachean Ethics, 1894)",
+      "title": "Aristotle, Greek text, Perseus TEI (Ross's Metaphysics, 1924; Bywater's Nicomachean Ethics, 1894; Susemihl's Eudemian Ethics, 1884; Armstrong's Economics, 1935; Ross's Politics, 1957, and Rhetoric, 1959; Kassel's Poetics, 1965; Kenyon's Constitution of the Athenians, Oxford, 1920; Bekker's On Virtues and Vices, 1831)",
       "kind": "git",
       "repo": "https://github.com/PerseusDL/canonical-greekLit.git",
       "commit": "282e6f5a3ec12e6ca67e44cd4fa3487526e3b421",
       "paths": [
         "data/tlg0086/tlg025",
-        "data/tlg0086/tlg010"
+        "data/tlg0086/tlg010",
+        "data/tlg0086/tlg009",
+        "data/tlg0086/tlg029",
+        "data/tlg0086/tlg034",
+        "data/tlg0086/tlg035",
+        "data/tlg0086/tlg038",
+        "data/tlg0086/tlg003",
+        "data/tlg0086/tlg045"
       ],
       "include": [
         "*-grc*.xml"
       ],
       "layer": "text",
       "language": "grc",
-      "citation_scheme": "Bekker page and column (980a), from <milestone unit='page' resp='Bekker'>; book and chapter from the TEI divisions",
-      "licence": "CC BY-SA 4.0 (Perseus encoding); the editions (Ross 1924, Bywater 1894) were printed before 1930 and are public domain in the US",
-      "provenance": "The same pinned Perseus commit as Plato's. The editor of each text is read from its TEI header (<editor>). Read by tools/aristotle.py (Aristotle milestone A1).",
+      "citation_scheme": "Bekker page and column (980a), from <milestone unit='page' resp='Bekker'>; book and chapter from the TEI divisions. The Constitution of the Athenians, which is not on Bekker's pages, by chapter and section (<div subtype='section'> and <div subtype='subsection'>), as every edition numbers it; On Virtues and Vices by Bekker's columns as <milestone unit='section' resp='bekker'>",
+      "licence": "CC BY-SA 4.0 (Perseus encoding). Ross 1924, Bywater 1894, Susemihl 1884, Bekker's On Virtues and Vices (1831) and Kenyon's Constitution of the Athenians (1920) are public domain; Armstrong's Economics (1935), Ross's Politics (1957) and Rhetoric (1959) and Kassel's Poetics (1965) are not, and are used under Perseus's CC BY-SA 4.0 licence as Perseus distributes them, on the same footing as the Loeb translations of the 1930s.",
+      "provenance": "The same pinned Perseus commit as Plato's. The editor of each text is read from its TEI header (<editor>). Read by tools/aristotle.py (Aristotle milestone A1). Aristotle milestone A8f: the Constitution of the Athenians (read by tools/aristotle_cited.py) and On Virtues and Vices, which Perseus has in Greek only.",
       "status": "verified"
     },
     {
       "id": "perseus-english-aristotle",
-      "title": "Aristotle, English translations in the Loeb edition, Perseus TEI (Tredennick's Metaphysics, 1933-35; Rackham's Nicomachean Ethics, 1926)",
+      "title": "Aristotle, English translations in the Loeb edition, Perseus TEI (Tredennick's Metaphysics, 1933-35; Rackham's Nicomachean Ethics, 1926, Eudemian Ethics, 1935, and Politics, 1932; Armstrong's Economics, 1935; Freese's Rhetoric, 1926; Fyfe's Poetics, 1932)",
       "kind": "git",
       "repo": "https://github.com/PerseusDL/canonical-greekLit.git",
       "commit": "282e6f5a3ec12e6ca67e44cd4fa3487526e3b421",
       "paths": [
         "data/tlg0086/tlg025",
-        "data/tlg0086/tlg010"
+        "data/tlg0086/tlg010",
+        "data/tlg0086/tlg009",
+        "data/tlg0086/tlg029",
+        "data/tlg0086/tlg034",
+        "data/tlg0086/tlg035",
+        "data/tlg0086/tlg038"
       ],
       "include": [
         "*-eng*.xml"
@@ -923,13 +935,13 @@
       "layer": "translation",
       "language": "eng",
       "citation_scheme": "The same Bekker milestones as the Greek",
-      "licence": "CC BY-SA 4.0 (Perseus encoding). Rackham's Nicomachean Ethics (1926) is public domain in the US; Tredennick's Metaphysics (1933-35) is used on the same footing as the Loeb Plato translations of 1930-35 already in the Workshop (Shorey's Republic), as Perseus distributes it.",
+      "licence": "CC BY-SA 4.0 (Perseus encoding). Rackham's Nicomachean Ethics (1926) and Freese's Rhetoric (1926) are public domain in the US; the Loeb translations of 1932-35 (Tredennick, Rackham's Politics and Eudemian Ethics, Armstrong, Fyfe) are used on the same footing as the Loeb Plato translations of 1930-35 already in the Workshop (Shorey's Republic), as Perseus distributes them.",
       "provenance": "Translator read from each file's TEI header. Tredennick's and Rackham's footnotes are kept as notes (resp='Tredennick', resp='Rackham'). Read by tools/aristotle.py.",
       "status": "verified"
     },
     {
       "id": "glaux-aristotle",
-      "title": "GLAUx corpus, Aristotle files (Metaphysics, Nicomachean Ethics, On the Soul, On the Heavens, Physics, and the Organon): lemma, morphology and syntax for every word",
+      "title": "GLAUx corpus, Aristotle files (Metaphysics, Nicomachean Ethics, On the Soul, On the Heavens, Physics, the Organon, the Eudemian Ethics, Politics, Economics, Rhetoric and Poetics; the Magna Moralia, Generation and Corruption, Meteorology, and Parts, Progression, Movement and Generation of Animals; the minor works except On Things Heard, On Indivisible Lines and the Winds, which GLAUx does not have; the Constitution of the Athenians, On Virtues and Vices, the Letters, and twenty-one of the Divisions): lemma, morphology and syntax for every word",
       "kind": "git",
       "repo": "https://github.com/alekkeersmaekers/glaux.git",
       "commit": "b077d8f6ff429a5c7245954bc16bb7d1d7948823",
@@ -945,18 +957,53 @@
         "xml/0086-017.xml",
         "xml/0086-001.xml",
         "xml/0086-044.xml",
-        "xml/0086-040.xml"
+        "xml/0086-040.xml",
+        "xml/0086-009.xml",
+        "xml/0086-029.xml",
+        "xml/0086-034.xml",
+        "xml/0086-035.xml",
+        "xml/0086-038.xml",
+        "xml/0086-022.xml",
+        "xml/0086-013.xml",
+        "xml/0086-026.xml",
+        "xml/0086-030.xml",
+        "xml/0086-015.xml",
+        "xml/0086-021.xml",
+        "xml/0086-012.xml",
+        "xml/0086-041.xml",
+        "xml/0086-024.xml",
+        "xml/0086-042.xml",
+        "xml/0086-016.xml",
+        "xml/0086-008.xml",
+        "xml/0086-020.xml",
+        "xml/0086-018.xml",
+        "xml/0086-037.xml",
+        "xml/0086-014.xml",
+        "xml/0086-007.xml",
+        "xml/0086-023.xml",
+        "xml/0086-027.xml",
+        "xml/0086-032.xml",
+        "xml/0086-036.xml",
+        "xml/0086-039.xml",
+        "xml/0086-043.xml",
+        "xml/0086-047.xml",
+        "xml/0086-052.xml",
+        "xml/0086-054.xml",
+        "xml/0086-003.xml",
+        "xml/0086-011.xml",
+        "xml/0086-045.xml",
+        "xml/0086-048.xml"
       ],
       "layer": "lemma",
       "language": "grc",
-      "citation_scheme": "Each word carries its book and chapter, and for most works the Bekker page and column (div_section or div_bekker_page, 980a)",
+      "citation_scheme": "Each word carries its book and chapter, and for most works the Bekker page and column (div_section or div_bekker_page, 980a); the Constitution of the Athenians by chapter only, the Letters by letter (div_epistle), the Divisions by GLAUx's own chapter numbers (its twenty-one divisions, in its own order)",
       "licence": "CC BY-SA 4.0 for these files (per metadata.txt: source Perseus or First1KGreek)",
       "provenance": "Keersmaekers, The GLAUx corpus (2021): the Perseus text of Aristotle, tagged by the same statistical taggers as Plato's (analysis='auto'). Shown as machine-tagged data, never as established fact.",
       "status": "verified"
     },
     {
       "id": "first1k-aristotle",
-      "title": "Aristotle in First1KGreek's TEI: the Organon (Bekker's text of 1837; Ross's Analytics, with Bekker's pages and columns in the margin), On the Soul (Ross), On the Heavens (Prantl, 1881), Physics (Ross); and Porphyry's Introduction (Busse, 1887)",
+      "title": "Aristotle in First1KGreek's TEI: the Organon (Bekker's text of 1837; Ross's Analytics, with Bekker's pages and columns in the margin), On the Soul (Ross), On the Heavens (Prantl, 1881), Physics (Ross); the Magna Moralia (Susemihl, 1883), Generation and Corruption (Prantl, 1881), Meteorology (Fobes, 1919), Parts of Animals (Langkavel, 1868), Progression and Movement of Animals (Jaeger, 1913), Generation of Animals (Bekker, 1829); the minor and spurious works (Bekker's text of 1837, with the Berlin columns as milestones: Mechanics, On Indivisible Lines, On Melissus, Xenophanes and Gorgias, On Colours, On Things Heard, Physiognomics, On Plants, On Marvellous Things Heard, the Winds; the Problems, Ruelle, Knoellinger and Klek, 1922; On Breath, Jaeger, 1913; Ross's other versions of Physics VII and On the Soul II); the Letters (Hercher, Epistolographi Graeci, 1873) and the Divisions (Mutschmann, 1906), which are not on Bekker's pages; and Porphyry's Introduction (Busse, 1887)",
       "kind": "git",
       "repo": "https://github.com/OpenGreekAndLatin/First1KGreek.git",
       "commit": "ed91552c52530c8f5a3ddf2dd767e899372a804c",
@@ -969,13 +1016,44 @@
         "data/tlg0086/tlg017",
         "data/tlg0086/tlg031",
         "data/tlg0086/tlg040",
-        "data/tlg0086/tlg044"
+        "data/tlg0086/tlg044",
+        "data/tlg0086/tlg012",
+        "data/tlg0086/tlg013",
+        "data/tlg0086/tlg015",
+        "data/tlg0086/tlg021",
+        "data/tlg0086/tlg022",
+        "data/tlg0086/tlg026",
+        "data/tlg0086/tlg030",
+        "data/tlg0086/tlg041",
+        "data/tlg0086/tlg024",
+        "data/tlg0086/tlg042",
+        "data/tlg0086/tlg016",
+        "data/tlg0086/tlg008",
+        "data/tlg0086/tlg020",
+        "data/tlg0086/tlg018",
+        "data/tlg0086/tlg037",
+        "data/tlg0086/tlg014",
+        "data/tlg0086/tlg004",
+        "data/tlg0086/tlg007",
+        "data/tlg0086/tlg019",
+        "data/tlg0086/tlg023",
+        "data/tlg0086/tlg027",
+        "data/tlg0086/tlg032",
+        "data/tlg0086/tlg036",
+        "data/tlg0086/tlg039",
+        "data/tlg0086/tlg043",
+        "data/tlg0086/tlg046",
+        "data/tlg0086/tlg047",
+        "data/tlg0086/tlg052",
+        "data/tlg0086/tlg054",
+        "data/tlg0086/tlg011",
+        "data/tlg0086/tlg048"
       ],
       "layer": "text",
       "language": "grc",
-      "citation_scheme": "Book and chapter (<div subtype>); Bekker's pages and columns as printed in the margin (<note type='marginal'>184a</note>) where the file has them, otherwise from GLAUx's Bekker column of each word",
+      "citation_scheme": "Book and chapter (<div subtype>); Bekker's pages and columns as printed in the margin (<note type='marginal'>184a</note>) where the file has them, otherwise from GLAUx's Bekker column of each word. The Letters by letter (<div subtype='epistle'>); the Divisions by Mutschmann's numbers, of Diogenes Laertius' text (n='1_col1') and of the codex Marcianus' (n='5_col2', and in the second part n='3')",
       "licence": "CC BY-SA 4.0 (each file's <licence>)",
-      "provenance": "Open Greek and Latin, First Thousand Years of Greek: TEI files made from printed editions, the edition named in each file's header; the same commit as first1k-neoplatonists. Read by tools/aristotle_f1k.py (Aristotle milestone A3) for the works Perseus does not have.",
+      "provenance": "Open Greek and Latin, First Thousand Years of Greek: TEI files made from printed editions, the edition named in each file's header; the same commit as first1k-neoplatonists. Read by tools/aristotle_f1k.py (Aristotle milestone A3) for the works Perseus does not have. The Letters and the Divisions are read by tools/aristotle_cited.py (Aristotle milestone A8f).",
       "status": "verified"
     },
     {
@@ -1061,9 +1139,9 @@
       "sha256": "109e0af9d8fbb3701073b13ca3da5c90bc9be35724394e3a9af1dd798bb8baf1",
       "layer": "translation",
       "language": "eng",
-      "citation_scheme": "Taylor's book and chapter as printed; no Bekker numbers: placed by tools/align.py against the Loeb English, with the books as fixed points (≈)",
+      "citation_scheme": "Taylor's book and chapter as printed; no Bekker numbers: placed by tools/align.py against the Loeb English, with the books and chapters as fixed points where they agree (≈)",
       "licence": "Public domain (printed in 1811, before 1930)",
-      "provenance": "Internet Archive item rhetoricpoetica03arisgoog (Google's scan; public domain): its OCR with the place of every word (_djvu.xml), downloaded on 2026-11-12 and pinned by sha256. The OCR of the pages read (leaves 321-638: the Nicomachean Ethics) is committed in sources/aristotle/ocr/. Cleaned by rule (tools/aristotle_taylor.py, with the rules that read his Metaphysics); unproofread, every paragraph keeps its raw OCR.",
+      "provenance": "Internet Archive item rhetoricpoetica03arisgoog (Google's scan; public domain): its OCR with the place of every word (_djvu.xml), downloaded on 2026-11-12 and pinned by sha256. The OCR of the pages read (leaves 37-638: the Rhetoric, the Poetic and the Nicomachean Ethics) is committed in sources/aristotle/ocr/. Cleaned by rule (tools/aristotle_taylor.py, with the rules that read his Metaphysics); unproofread, every paragraph keeps its raw OCR.",
       "status": "verified"
     },
     {
@@ -1221,6 +1299,50 @@
       "status": "verified"
     },
     {
+      "id": "ia-biehl-parva-naturalia-1898",
+      "title": "Wilhelm Biehl, Aristotelis Parva naturalia (Leipzig: Teubner, 1898), Internet Archive OCR",
+      "kind": "archive",
+      "item": "aristotelisparv00biehgoog",
+      "repo": "https://archive.org/details/aristotelisparv00biehgoog",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/aristotelisparv00biehgoog/aristotelisparv00biehgoog_djvu.xml",
+          "sha256": "2a919dce3038ee9ba847449f1a93f3bda80866efd5212bbc87802cf5d2a2ca5a",
+          "bytes": 24312432
+        }
+      ],
+      "sha256": "2a919dce3038ee9ba847449f1a93f3bda80866efd5212bbc87802cf5d2a2ca5a",
+      "layer": "citation",
+      "language": "grc",
+      "citation_scheme": "Bekker's pages and columns, and his line numbers (5, 10 ... 35), printed in the margin of the Greek",
+      "licence": "Public domain (published in 1898)",
+      "provenance": "Internet Archive item aristotelisparv00biehgoog (Google's scan of Stanford's copy): its OCR with the place of every word (_djvu.xml), downloaded on 2026-11-13 and pinned by sha256. The OCR of the text pages (leaves 25-150) is committed in sources/aristotle/ocr/. Used only for Bekker's columns: its Greek is aligned word by word with the First1KGreek text of the Parva Naturalia (Bekker's Oxford reprint, which prints no columns) by tools/aristotle_columns.py.",
+      "status": "verified"
+    },
+    {
+      "id": "ia-thompson-historia-1910",
+      "title": "D'Arcy Wentworth Thompson, Historia Animalium, The Works of Aristotle translated into English, vol. IV (Oxford: Clarendon Press, 1910), Internet Archive OCR",
+      "kind": "archive",
+      "item": "worksofaristotle04arisuoft",
+      "repo": "https://archive.org/details/worksofaristotle04arisuoft",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/worksofaristotle04arisuoft/worksofaristotle04arisuoft_djvu.xml",
+          "sha256": "5de5ea5000e6a04a11e601095ebee30eabbbed159326076c740bff7617bb2816",
+          "bytes": 16837807
+        }
+      ],
+      "sha256": "5de5ea5000e6a04a11e601095ebee30eabbbed159326076c740bff7617bb2816",
+      "layer": "citation",
+      "language": "eng",
+      "citation_scheme": "Bekker's pages and columns and line numbers as the translator prints them in the margin, the chapters in the running head and inner margin",
+      "licence": "Public domain (published in 1910)",
+      "provenance": "Internet Archive item worksofaristotle04arisuoft (the University of Toronto's copy): its OCR with the place of every word (_djvu.xml), downloaded on 2026-11-13 and pinned by sha256. The OCR of the translation's pages is committed in sources/aristotle/ocr/. Used for Bekker's columns, carried over to the First1KGreek Greek (Bekker's Oxford reprint, which prints none) chapter by chapter (≈).",
+      "status": "verified"
+    },
+    {
       "id": "chase-1847",
       "title": "The Nicomachean Ethics of Aristotle, translated by D. P. Chase (1847; Everyman's Library, 1911, introduction by J. A. Smith), Project Gutenberg eBook #8438",
       "kind": "local",
@@ -1234,6 +1356,22 @@
       "citation_scheme": "book and chapter as printed (Chase's chapters); no Bekker numbers",
       "licence": "Public domain in the US (Project Gutenberg: \"for the use of anyone anywhere in the United States ... at no cost and with almost no restrictions\")",
       "provenance": "Project Gutenberg's plain text, downloaded on 2026-11-12 and kept unchanged (fetched.json records the URL, time and sha256). Placed at Bekker's columns by tools/align.py against Rackham's Loeb English, the start of each book a fixed point. Read by tools/aristotle.py (Aristotle milestone A1).",
+      "status": "local"
+    },
+    {
+      "id": "kenyon-athenian-constitution",
+      "title": "The Athenian Constitution, translated by Frederic G. Kenyon, Project Gutenberg eBook #26095",
+      "kind": "local",
+      "path": "sources/aristotle/kenyon-athenian-constitution",
+      "urls": [
+        "https://www.gutenberg.org/ebooks/26095",
+        "https://www.gutenberg.org/cache/epub/26095/pg26095.txt"
+      ],
+      "layer": "translation",
+      "language": "eng",
+      "citation_scheme": "chapter as printed ('Part 1' to 'Part 69'); no sections",
+      "licence": "Public domain in the US (Kenyon's translation was first published in 1891; Project Gutenberg: \"for the use of anyone anywhere in the United States ... at no cost and with almost no restrictions\")",
+      "provenance": "Project Gutenberg's plain text, downloaded on 2026-11-13 and kept unchanged (fetched.json records the URL, time and sha256); Gutenberg names the translator but not the printing it was made from. Each chapter begins at the first section of the Greek chapter it translates (printed); the sections within a chapter are shared out over its English by length, cut at a sentence's end (computed). The transcriber's notes in square brackets are left out. Read by tools/aristotle_cited.py (Aristotle milestone A8f).",
       "status": "local"
     }
   ]

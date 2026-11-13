@@ -804,3 +804,472 @@ class TaylorWorksInTheLibrary(unittest.TestCase):
             n = self.lib.one("SELECT count(DISTINCT section_ref) AS n FROM chunk WHERE edition_id = ?", ed)["n"]
             self.assertGreaterEqual(n, least, ed)
         self.assertTrue(self.lib.rows("SELECT 1 FROM note WHERE edition_id = 'ar006.taylor1812' AND commentator LIKE 'Taylor (1812), from Simplicius%'"))
+
+
+class PerseusWorks(unittest.TestCase):
+    """Aristotle milestone A8: the other works Perseus has with a Loeb English (the Eudemian Ethics, Politics, Economics,
+    Rhetoric, Poetics), GLAUx-tagged, with Taylor's Rhetoric and Poetic (1811)."""
+    COLUMNS = {"ar009": 72, "ar035": 182, "ar029": 22, "ar038": 133, "ar034": 32}
+
+    @classmethod
+    def setUpClass(cls):
+        cls.lib = serve.Library(build_db.DB_PATH)
+        if not cls.lib.rows("SELECT 1 FROM work WHERE id = 'ar034'"):
+            raise unittest.SkipTest("built before A8")
+
+    def test_each_work_at_its_columns(self):
+        for wid, n in self.COLUMNS.items():
+            self.assertEqual(self.lib.one("SELECT count(*) AS n FROM section WHERE work_id = ?", wid)["n"], n, wid)
+
+    def test_the_greek_is_tagged(self):
+        # The Rhetoric and the Poetics: GLAUx gives their words by chapter, matched to the Perseus words (aristotle.glaux_resection).
+        for wid in self.COLUMNS:
+            r = self.lib.one("SELECT count(*) AS n, count(g.token_id) AS t FROM token t JOIN edition e ON e.id = t.edition_id "
+                             "LEFT JOIN (SELECT DISTINCT token_id FROM tag) g ON g.token_id = t.id WHERE e.work_id = ? AND e.lang = 'grc'", wid)
+            self.assertGreater(r["t"] / r["n"], 0.95, wid)
+
+    def test_the_loeb_and_taylor(self):
+        eds = {r["id"] for r in self.lib.rows("SELECT id FROM edition WHERE work_id IN ('ar009','ar035','ar029','ar038','ar034') AND lang = 'eng'")}
+        self.assertTrue({"ar009.perseus-eng2", "ar035.perseus-eng2", "ar038.perseus-eng2", "ar034.perseus-eng2", "ar029.perseus-eng2"} <= eds)
+        self.assertTrue({"ar038.taylor1811", "ar034.taylor1811"} <= eds)
+
+    def test_the_poetics_has_its_26_chapters(self):
+        n = self.lib.one("SELECT count(*) AS n FROM division WHERE work_id = 'ar034' AND kind = 'ar-chapter'")["n"]
+        self.assertEqual(n, 26)
+        self.assertTrue(self.lib.rows("SELECT 1 FROM division WHERE work_id = 'ar038' AND kind = 'ar-chapter' AND label = 'Book II, chapter 1'"))
+
+    def test_the_politics_has_rosss_chapters(self):
+        # Ross marks his chapters as milestones, numbered within each book: 13, 12, 18, 16, 12, 8, 17 and 7.
+        rows = self.lib.rows("SELECT label FROM division WHERE work_id = 'ar035' AND kind = 'ar-chapter'")
+        self.assertEqual(len(rows), 103)
+        self.assertIn("Book VIII, chapter 7", {r["label"] for r in rows})
+
+    def test_a_note_does_not_run_on_into_the_next_treatise(self):
+        # The Ethics' note on I 6 (the Platonists' doctrine of ideas) once ran on as the end of the Poetic's last note.
+        self.assertTrue(any("doctrine of ideas" in n["text"] for n in json.loads((ROOT / "texts/aristotle/nicomachean-ethics/taylor-1811.json").read_text())["notes"]))
+        self.assertFalse(any("doctrine of ideas" in n["text"] for n in json.loads((ROOT / "texts/aristotle/poetics/taylor-1811.json").read_text())["notes"]))
+
+
+GREEK_ONLY = {"ar022": ("1181a", "1213b"), "ar013": ("314a", "338b"), "ar026": ("338a", "390b"), "ar030": ("639a", "697b"),
+              "ar015": ("704a", "714b"), "ar021": ("698a", "704b"), "ar012": ("715a", "789b")}
+
+
+class GreekOnlyWorks(unittest.TestCase):
+    """Aristotle milestone A8c: the works First1KGreek has in Greek only that carry Bekker's columns (in the margin, or in
+    GLAUx): the Magna Moralia, Generation and Corruption, Meteorology, and Parts, Progression, Movement and Generation of Animals."""
+
+    def test_a_column_as_a_scanned_margin_prints_it(self):
+        import aristotle_f1k as f
+        for printed, col in (("p. 704a", "704a"), ("698 a", "698a"), ("650.a", "650a"), ("648, b", "648b"), ("1181a 25", "1181a"), ("p.704 b", "704b")):
+            m = f.MARGIN.match(printed)
+            self.assertTrue(m, printed)
+            self.assertEqual(f"{m.group(1)}{m.group(2)}", col)
+        self.assertIsNone(f.MARGIN.match("(XV)"))
+        self.assertIsNone(f.MARGIN.match("1193"))
+
+    def test_a_lost_column_is_placed_by_length_between_the_two_read(self):
+        import aristotle_f1k as f
+        paras = [{"text": "α " * 50}, {"text": "β " * 50}]
+        marks, placed = f.fill_gaps(paras, [(0, 0, "100a"), (1, 0, "101a")], ("100a", "101b"))
+        self.assertEqual(placed, ["100b", "101b"])
+        self.assertEqual([c for _, _, c in marks], ["100a", "100b", "101a", "101b"])
+        self.assertEqual(marks[1][:2], (0, 50))         # halfway between 100a and 101a
+        self.assertEqual(marks[3][:2], (1, 50))         # halfway between 101a and the end of the work
+
+    def test_the_reader_lists_the_columns_placed_by_length(self):
+        import aristotle_f1k as f
+        js = (ROOT / "reader" / "aristotle.js").read_text(encoding="utf-8")
+        listed = dict(re.findall(r'^  (ar\d+): (\[[^\]]*\]),$', js[js.index("const AR_BY_LENGTH"):js.index("};", js.index("const AR_BY_LENGTH"))], re.M))
+        if not all((f.RAW / f.F1K_SRC / "data" / "tlg0086" / w["tlg"]).exists() for w in f.WORKS):
+            self.skipTest("fetch First1KGreek first (python3 tools/fetch_sources.py first1k-aristotle)")
+        for w in f.WORKS:
+            if not w.get("fill_gaps"):
+                continue
+            paras, _ = f.read_tei(w)
+            glaux, cols = f.glaux_words(w)
+            *_, placed = f.columns_of(w, paras, glaux, cols)
+            self.assertEqual(json.loads(listed.get(w["id"], "[]")), placed, w["id"])
+            if w.get("columns") != "thompson":       # the History of Animals has Thompson's English beside it
+                self.assertIn(w["id"], js[js.index("const AR_GREEK_ONLY"):js.index("const AR_BY_LENGTH")])
+
+
+@unittest.skipUnless(has_aristotle(), "build the library with Aristotle first (python3 tools/build_db.py)")
+class GreekOnlyWorksInTheLibrary(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.lib = serve.Library(build_db.DB_PATH)
+
+    def test_each_work_has_every_column_from_its_first_to_its_last(self):
+        import aristotle_f1k as f
+        for wid, (first, last) in GREEK_ONLY.items():
+            w = self.lib.work(wid)
+            want = [first]
+            while want[-1] != last:
+                want.append(f.next_col(want[-1]))
+            self.assertEqual(w["sections"], want, wid)
+
+    def test_the_greek_is_tagged(self):
+        for wid in GREEK_ONLY:
+            n, tagged = self.lib.db.execute(
+                "SELECT count(*), count(g.token_id) FROM token t JOIN edition e ON e.id = t.edition_id "
+                "LEFT JOIN tag g ON g.token_id = t.id AND g.part = 0 WHERE e.work_id = ? AND e.lang = 'grc'", (wid,)).fetchone()
+            self.assertGreater(n, 1500, wid)
+            self.assertGreater(tagged / n, 0.9, wid)
+
+    def test_famous_passages_are_at_their_columns(self):
+        db = self.lib.db
+        def refs(wid, words):
+            return {r[0] for r in db.execute("SELECT c.section_ref FROM chunk c JOIN edition e ON e.id = c.edition_id "
+                                             "WHERE e.work_id = ? AND e.lang = 'grc' AND c.text LIKE ?", (wid, f"%{words}%"))}
+        # GA II 3, 736b27-28: the intellect alone enters from outside and alone is divine.
+        self.assertTrue(refs("ar012", "θύραθεν") & {"736b"})
+        # PA I 5, 645a: in all natural things there is something marvellous (Heraclitus at the oven).
+        self.assertTrue(refs("ar030", "Ἡράκλειτος") & {"645a"})
+        # MA 1-4: the heaven's unmoved mover (699a-700a); Meteor. I 1 begins at 338a20.
+        self.assertTrue(refs("ar021", "Ἄτλαντα") & {"699a", "699b"})
+        self.assertTrue(refs("ar026", "πρώτων αἰτίων") & {"338a"})
+
+    def test_the_commentators_are_linked(self):
+        for wid, tid in (("ar013", "philoponus-generation"), ("ar026", "alexander-meteorology"), ("ar026", "olympiodorus-meteorology"),
+                         ("ar012", "philoponus-generation-animals")):
+            n = self.lib.db.execute("SELECT count(*) FROM ar_comment WHERE work_id = ? AND text_id = ?", (wid, tid)).fetchone()[0]
+            self.assertGreater(n, 10, tid)
+
+
+CARRIED_NEW = {"ar041": ("436a", "449b"), "ar024": ("449b", "453b"), "ar042": ("453b", "458a"), "ar016": ("458a", "462b"),
+               "ar008": ("462b", "464b"), "ar020": ("464b", "467b"), "ar018": ("467b", "470b"), "ar037": ("470b", "480b"),
+               "ar014": ("486a", "638b")}
+
+
+class ParvaNaturaliaAndHistory(unittest.TestCase):
+    """Aristotle milestone A8d: the Parva Naturalia, columns from Biehl's Greek (1898); the History of Animals, from
+    Thompson's Oxford translation (1910)."""
+
+    def test_a_misread_page_is_still_its_page(self):
+        import aristotle_biehl as b
+        self.assertEqual(b.column_page("496b"), ("496", "b"))
+        self.assertEqual(b.column_page("445»"), ("445", None))
+        self.assertIsNone(b.column_page("30"))
+        self.assertEqual(b.likeness("496", 436), 2)
+        self.assertEqual(b.likeness("411", 471), 3)       # 7 read as 1
+        self.assertEqual(b.likeness("443", 440), 2)
+
+    def test_a_mark_out_of_proportion_is_left_out(self):
+        import aristotle_biehl as b
+        lines = [{"words": ["α"], "mark": None} for _ in range(100)]
+        lines[30]["mark"] = ("436", "b")      # 436b, a third of the way
+        lines[33]["mark"] = ("437", "a")      # far too soon after it: left out
+        lines[60]["mark"] = ("437", None)     # 437a, two thirds
+        old = (b.FIRST, b.LAST)
+        b.FIRST, b.LAST = "436a", "437b"
+        try:
+            starts = b.column_starts(lines, lambda i: i * 10)
+        finally:
+            b.FIRST, b.LAST = old
+        self.assertEqual(starts, {0: "436a", 30: "436b", 60: "437a"})
+
+    def test_biehl_is_read_and_paired(self):
+        import aristotle_biehl as b
+        import aristotle_f1k as f
+        if not all((f.RAW / f.F1K_SRC / "data" / "tlg0086" / f"tlg{w[2:]}").exists() for w in CARRIED_NEW):
+            self.skipTest("fetch First1KGreek first (python3 tools/fetch_sources.py first1k-aristotle)")
+        toks, paired, start_at, share = b.biehl()
+        self.assertGreater(share, 0.9)
+        self.assertGreaterEqual(len(start_at), 55)
+        self.assertEqual(sorted(start_at.values(), key=f.col_key), sorted(set(start_at.values()), key=f.col_key))
+
+    def test_thompson_is_cleaned(self):
+        d = json.loads((ROOT / "texts/aristotle/history-of-animals/thompson-1910.json").read_text(encoding="utf-8"))
+        self.assertGreater(d["stats"]["columns_printed"], 200)
+        self.assertEqual(d["stats"]["columns_reached"], "633b")
+        self.assertEqual(max(p["book"] for p in d["paragraphs"]), 9)
+        self.assertTrue(d["paragraphs"][0]["text"].startswith("1 OF the parts of animals") or "parts of animals" in d["paragraphs"][0]["text"])
+
+
+@unittest.skipUnless(has_aristotle(), "build the library with Aristotle first (python3 tools/build_db.py)")
+class ParvaNaturaliaAndHistoryInTheLibrary(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.lib = serve.Library(build_db.DB_PATH)
+
+    def refs(self, wid, words):
+        return {r[0] for r in self.lib.db.execute("SELECT c.section_ref FROM chunk c JOIN edition e ON e.id = c.edition_id "
+                                                  "WHERE e.work_id = ? AND e.lang = 'grc' AND c.text LIKE ?", (wid, f"%{words}%"))}
+
+    def test_each_work_has_every_column_from_its_first_to_its_last(self):
+        import aristotle_f1k as f
+        for wid, (first, last) in CARRIED_NEW.items():
+            want = [first]
+            while want[-1] != last:
+                want.append(f.next_col(want[-1]))
+            self.assertEqual(self.lib.work(wid)["sections"], want, wid)
+
+    def test_the_greek_is_tagged(self):
+        for wid in CARRIED_NEW:
+            n, tagged = self.lib.db.execute(
+                "SELECT count(*), count(g.token_id) FROM token t JOIN edition e ON e.id = t.edition_id "
+                "LEFT JOIN tag g ON g.token_id = t.id AND g.part = 0 WHERE e.work_id = ? AND e.lang = 'grc'", (wid,)).fetchone()
+            self.assertGreater(n, 1000, wid)
+            self.assertGreater(tagged / n, 0.9, wid)
+
+    def test_famous_passages_are_at_their_columns(self):
+        # Mem. 1, 449b31-450a1: there is no thinking without an image.
+        self.assertTrue(self.refs("ar024", "νοεῖν οὐκ ἔστιν") & {"449b", "450a"})
+        # HA VIII 1, 588b4: nature passes little by little from the lifeless to the animals.
+        self.assertTrue(self.refs("ar014", "κατὰ μικρὸν") & {"588b"})
+
+    def test_thompson_is_beside_the_history(self):
+        n = self.lib.db.execute("SELECT count(*) FROM chunk WHERE edition_id = 'ar014.thompson1910'").fetchone()[0]
+        self.assertGreater(n, 250)
+
+    def test_alexander_on_sense_is_linked(self):
+        n = self.lib.db.execute("SELECT count(*) FROM ar_comment WHERE work_id = 'ar041' AND text_id = 'alexander-de-sensu'").fetchone()[0]
+        self.assertGreater(n, 10)
+
+
+MINOR = {"ar023": ("847a", "858b"), "ar019": ("968a", "972b"), "ar047": ("974a", "980b"), "ar007": ("791a", "799b"),
+         "ar004": ("800a", "804b"), "ar032": ("805a", "814b"), "ar039": ("815a", "830b"), "ar027": ("830a", "847b"),
+         "ar036": ("859a", "967b"), "ar046": ("973a", "973b"), "ar043": ("481a", "486b"), "ar054": ("241b", "248b")}
+MINOR_NO_GLAUX = {"ar004", "ar019", "ar046"}
+
+
+class MinorWorks(unittest.TestCase):
+    """Aristotle milestone A8e: the minor and spurious works, in Greek only, at the Berlin columns First1KGreek marks
+    (as milestones in Bekker's text, or in the margin)."""
+
+    def test_roman_numerals_reach_the_problems_38_books(self):
+        import aristotle_f1k as f
+        self.assertEqual(f.ROMAN[29], "XXX")
+        self.assertEqual(f.ROMAN[37], "XXXVIII")
+        self.assertEqual(f.ROMAN[13], "XIV")
+
+    def test_words_are_paired_with_glaux_by_the_division_both_share(self):
+        import aristotle_f1k as f
+        self.assertEqual(f.pair_key({"pair": "whole"}, 2, 7), (0, 0))
+        self.assertEqual(f.pair_key({"pair": "chapter"}, 2, 7), (0, 7))
+        self.assertEqual(f.pair_key({"pair": "book"}, 2, 7), (2, 0))
+        self.assertEqual(f.pair_key({"glaux_merge": {(1, 10): (1, 9)}}, 1, 10), (1, 9))
+        self.assertEqual(f.pair_key({}, 3, 4), (3, 4))
+        self.assertIsNone(f.glaux_file(f.WORK_BY_ID["ar004"]))
+        self.assertEqual(f.glaux_words(f.WORK_BY_ID["ar004"]), ({}, []))
+
+    def test_bekkers_milestones_are_read_and_the_translators_prologue_left_out(self):
+        import aristotle_f1k as f
+        if not all((f.RAW / f.F1K_SRC / "data" / "tlg0086" / f.WORK_BY_ID[w]["tlg"]).exists() for w in ("ar004", "ar039")):
+            self.skipTest("fetch First1KGreek first (python3 tools/fetch_sources.py first1k-aristotle)")
+        paras, _ = f.read_tei(f.WORK_BY_ID["ar004"])
+        self.assertEqual(paras[0]["marks"], [(0, "800a")])          # the milestone before the first paragraph opens it
+        self.assertEqual([c for p in paras for _, c in p["marks"]][:3], ["800a", "800b", "801a"])
+        paras, _ = f.read_tei(f.WORK_BY_ID["ar039"])
+        self.assertTrue(paras[0]["text"].startswith("Ἡ ΖΩΗ ἐν τοῖς ζῴοις"))
+        self.assertEqual(paras[0]["marks"], [(0, "815a")])
+        self.assertFalse(any("ἀειθαλεῖ" in p["text"] for p in paras))
+
+    def test_the_reader_lists_them(self):
+        js = (ROOT / "reader" / "aristotle.js").read_text(encoding="utf-8")
+        order = js[js.index("const AR_ORDER"):js.index("];", js.index("const AR_ORDER"))]
+        plain = js[js.index("const AR_PLAIN"):js.index("};", js.index("const AR_PLAIN"))]
+        for wid in list(MINOR) + ["ar052"]:
+            self.assertIn(f'"{wid}"', order, wid)
+            self.assertIn(f"  {wid}: ", plain, wid)
+        no_glaux = js[js.index("const AR_NO_GLAUX"):js.index("]);", js.index("const AR_NO_GLAUX"))]
+        self.assertEqual(set(re.findall(r'"(ar\d+)"', no_glaux)), MINOR_NO_GLAUX)
+
+
+@unittest.skipUnless(has_aristotle(), "build the library with Aristotle first (python3 tools/build_db.py)")
+class MinorWorksInTheLibrary(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.lib = serve.Library(build_db.DB_PATH)
+
+    def test_each_work_has_every_column_from_its_first_to_its_last(self):
+        import aristotle_f1k as f
+        for wid, (first, last) in MINOR.items():
+            want = [first]
+            while want[-1] != last:
+                want.append(f.next_col(want[-1]))
+            self.assertEqual(self.lib.work(wid)["sections"], want, wid)
+        # The other version of On the Soul II is passages only: the columns its margin prints.
+        self.assertEqual(self.lib.work("ar052")["sections"], ["415a", "415b", "416a", "421b", "422a", "424a", "424b"])
+
+    def test_the_greek_is_tagged_or_has_morpheus(self):
+        for wid in list(MINOR) + ["ar052"]:
+            n, tagged, morph = self.lib.db.execute(
+                "SELECT count(*), count(DISTINCT g.token_id), count(t.morph_key) FROM token t JOIN edition e ON e.id = t.edition_id "
+                "LEFT JOIN tag g ON g.token_id = t.id AND g.part = 0 WHERE e.work_id = ? AND e.lang = 'grc'", (wid,)).fetchone()
+            self.assertGreater(n, 250, wid)
+            if wid in MINOR_NO_GLAUX:
+                self.assertEqual(tagged, 0, wid)
+                self.assertGreater(morph / n, 0.8, wid)
+            else:
+                self.assertGreater(tagged / n, 0.9, wid)
+
+    def test_famous_passages_are_at_their_columns(self):
+        db = self.lib.db
+        def refs(wid, words):
+            return {r[0] for r in db.execute("SELECT c.section_ref FROM chunk c JOIN edition e ON e.id = c.edition_id "
+                                             "WHERE e.work_id = ? AND e.lang = 'grc' AND c.text LIKE ?", (wid, f"%{words}%"))}
+        # Problems XXX 1, 953a10: why all who have been outstanding in philosophy, politics, poetry or the arts are melancholic.
+        self.assertEqual(refs("ar036", "περιττοὶ γεγόνασιν ἄνδρες"), {"953a"})
+        # On Plants I 1 begins at 815a10; On Indivisible Lines at 968a.
+        self.assertEqual(refs("ar039", "ΖΩΗ ἐν τοῖς ζῴοις"), {"815a"})
+        self.assertIn("968a", refs("ar019", "ἄτομοι γραμμαί"))
+
+
+CITED = {"ar003": ("1:1", "69:2"), "ar011": ("1:1", "6:1"), "ar048": ("1:1", "2:69")}
+
+
+class WorksNotOnBekkersPages(unittest.TestCase):
+    """Aristotle milestone A8f: the Constitution of the Athenians, the Letters and the Divisions, each cited by its own numbers
+    (tools/aristotle_cited.py), and On Virtues and Vices, which Perseus has in Greek only (tools/aristotle.py)."""
+
+    def test_each_scheme_is_cited_as_its_editions_cite_it(self):
+        import aristotle_cited as c
+        self.assertEqual(c.label_of(c.WORK_BY_ID["ar003"], "42:1"), "42.1")
+        self.assertEqual(c.label_of(c.WORK_BY_ID["ar011"], "3:1"), "Letter 3")
+        self.assertEqual(c.label_of(c.WORK_BY_ID["ar048"], "1:5"), "Diogenes 5")
+        self.assertEqual(c.label_of(c.WORK_BY_ID["ar048"], "2:58"), "Marcianus 58")
+        self.assertEqual(c.page_label(c.WORK_BY_ID["ar003"], 42), "Chapter 42")
+        # The reader's own pattern for a chapter and verse takes these refs, so its address bar and jump box do too.
+        js = (ROOT / "reader" / "reader.js").read_text(encoding="utf-8")
+        verse = re.search(r"const VERSE = /(.+)/;", js).group(1)
+        for ref in ("42:1", "2:58", "6:1", "42.1"):
+            self.assertRegex(ref, verse.replace("\\/", "/"))
+
+    def test_the_works_take_no_platonic_or_other_aristotle_ids(self):
+        import aristotle_cited as c
+        import aristotle_f1k as f
+        ids = [w["id"] for w in aristotle.WORKS + f.WORKS + c.WORKS]
+        self.assertEqual(len(ids), len(set(ids)))
+        self.assertIn("ar045", aristotle.WORK_BY_ID)
+        self.assertTrue(aristotle.WORK_BY_ID["ar045"]["greek_only"])
+        self.assertEqual(aristotle.parts_of(aristotle.WORK_BY_ID["ar045"])(None), [])
+
+    def test_the_sources_are_pinned_and_free(self):
+        for path in ("data/tlg0086/tlg003", "data/tlg0086/tlg045"):
+            self.assertIn(path, MANIFEST["perseus-greek-aristotle"]["paths"])
+        for path in ("data/tlg0086/tlg011", "data/tlg0086/tlg048"):
+            self.assertIn(path, MANIFEST["first1k-aristotle"]["paths"])
+        for n in ("003", "011", "045", "048"):
+            self.assertIn(f"xml/0086-{n}.xml", MANIFEST["glaux-aristotle"]["paths"])
+        k = MANIFEST["kenyon-athenian-constitution"]
+        self.assertIn("Public domain", k["licence"])
+        import hashlib
+        stamp = json.loads((ROOT / k["path"] / "fetched.json").read_text(encoding="utf-8"))
+        self.assertEqual(hashlib.sha256((ROOT / k["path"] / "pg26095.txt").read_bytes()).hexdigest(), stamp["sha256"])
+
+    def test_kenyons_english_is_read_chapter_by_chapter(self):
+        import aristotle_cited as c
+        paras = c.read_kenyon()
+        self.assertEqual(sorted({p["chapter"] for p in paras}), list(range(1, 70)))
+        self.assertTrue(paras[0]["text"].startswith("...[They were tried] by a court empanelled"))
+        self.assertFalse(any("Transcriber" in p["text"] for p in paras))
+        self.assertTrue(paras[-1]["text"].endswith("in the order assigned by the lot."))
+
+    def test_the_greek_is_read_by_its_own_numbers(self):
+        import aristotle_cited as c
+        if not c.available():
+            self.skipTest("fetch the sources first (python3 tools/fetch_sources.py perseus-greek-aristotle first1k-aristotle glaux-aristotle)")
+        paras, head = c.read(c.WORK_BY_ID["ar003"])
+        refs = list(dict.fromkeys(p["ref"] for p in paras))
+        self.assertEqual((refs[0], refs[-1]), CITED["ar003"])
+        self.assertEqual(sorted({p["chapter"] for p in paras}), list(range(1, 70)))       # the fragments are left out
+        self.assertIn("42:1", refs)
+        self.assertEqual(head["date"], "1920")
+        paras, _ = c.read(c.WORK_BY_ID["ar011"])
+        self.assertEqual([p["ref"] for p in paras], [f"{n}:1" for n in range(1, 7)])
+        self.assertEqual(paras[5]["label"], "Letter 6: Ἀριστοτέλλης βασιλεῖ Ἀλεξάνδρῳ εὖ πράττειν")
+        paras, _ = c.read(c.WORK_BY_ID["ar048"])
+        refs = list(dict.fromkeys(p["ref"] for p in paras))
+        self.assertEqual(refs, [f"1:{n}" for n in range(1, 33)] + [f"2:{n}" for n in range(1, 70)])
+        # Diogenes' first division opens with his words on Aristotle, the source Mutschmann names before them left out.
+        self.assertTrue(paras[0]["text"].startswith("διῄρει δέ, φησὶν Ἀριστοτέλης"))
+        # Where the Marcianus has two divisions against one of Diogenes', each is its own section.
+        m63 = [p for p in paras if p["ref"] == "2:63"]
+        m51 = [p for p in paras if p["ref"] == "2:51"]
+        self.assertTrue(m63[0]["text"].startswith("διαιρεῖται ἡ ἀρχὴ εἰς μέρη πέντε"))
+        self.assertTrue(m51[0]["text"].startswith("διαιρεῖται ἡ ἀρχὴ εἰς τρία"))
+
+    def test_glaux_divisions_go_to_the_division_they_match(self):
+        import aristotle_cited as c
+        if not c.available():
+            self.skipTest("fetch the sources first")
+        w = c.WORK_BY_ID["ar048"]
+        paras, _ = c.read(w)
+        glaux, matched = c.glaux_for(w, paras)
+        self.assertGreaterEqual(len(matched), 19)
+        self.assertEqual(matched[1][0], (1, 1))        # GLAUx's first: Diogenes' division of the goods
+        self.assertEqual(len(set(k for k, _ in matched.values())), len(matched))
+
+    def test_the_reader_lists_and_cites_them(self):
+        js = (ROOT / "reader" / "aristotle.js").read_text(encoding="utf-8")
+        order = js[js.index("const AR_ORDER"):js.index("];", js.index("const AR_ORDER"))]
+        plain = js[js.index("const AR_PLAIN"):js.index("};", js.index("const AR_PLAIN"))]
+        cited = js[js.index("const AR_CITED"):js.index("};", js.index("const AR_CITED"))]
+        for wid in ("ar003", "ar011", "ar048", "ar045"):
+            self.assertIn(f'"{wid}"', order, wid)
+            self.assertIn(f"  {wid}: ", plain, wid)
+        for wid in CITED:
+            self.assertIn(f"  {wid}: ", cited, wid)
+
+
+@unittest.skipUnless(has_aristotle(), "build the library with Aristotle first (python3 tools/build_db.py)")
+class WorksNotOnBekkersPagesInTheLibrary(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.lib = serve.Library(build_db.DB_PATH)
+        if not cls.lib.work("ar003"):
+            raise unittest.SkipTest("the library was built before Aristotle milestone A8f")
+
+    def test_sections_and_pages(self):
+        for wid, (first, last) in CITED.items():
+            w = self.lib.work(wid)
+            self.assertEqual((w["sections"][0], w["sections"][-1]), (first, last), wid)
+        self.assertEqual(len(self.lib.work("ar003")["sections"]), 299)
+        self.assertEqual(len(self.lib.work("ar048")["sections"]), 101)
+        p = self.lib.page("ar003", 42)
+        self.assertEqual([s["ref"] for s in p["sections"]], ["42:1", "42:2", "42:3", "42:4", "42:5"])
+        self.assertEqual(p["sections"][0]["urn"], "urn:cts:greekLit:tlg0086.tlg003:42.1")
+        self.assertEqual((p["prev"], p["next"]), (41, 43))
+        d = self.lib.page("ar048", 2)
+        self.assertEqual(d["sections"][0]["ref"], "2:1")
+        self.assertEqual(d["prev"], 1)
+        self.assertIsNone(d["next"])
+
+    def test_virtues_and_vices_is_at_bekkers_columns_in_greek_only(self):
+        w = self.lib.work("ar045")
+        self.assertEqual(w["sections"], ["1249a", "1249b", "1250a", "1250b", "1251a", "1251b"])
+        self.assertEqual([e["lang"] for e in w["editions"]], ["grc"])
+        self.assertIn("Bekker", w["editions"][0]["responsible"])
+
+    def test_the_greek_is_tagged(self):
+        for wid, least in (("ar003", 0.9), ("ar011", 0.9), ("ar045", 0.9), ("ar048", 0.15)):
+            n, tagged, morph = self.lib.db.execute(
+                "SELECT count(*), count(DISTINCT g.token_id), count(t.morph_key) FROM token t JOIN edition e ON e.id = t.edition_id "
+                "LEFT JOIN tag g ON g.token_id = t.id AND g.part = 0 WHERE e.work_id = ? AND e.lang = 'grc'", (wid,)).fetchone()
+            self.assertGreater(n, 700, wid)
+            self.assertGreater(tagged / n, least, wid)
+            self.assertGreater(morph / n, 0.8, wid)
+
+    def test_kenyons_english_is_beside_the_greek(self):
+        db = self.lib.db
+        first = db.execute("SELECT section_ref, align_method, text FROM chunk WHERE edition_id = 'ar003.kenyon' ORDER BY seq").fetchall()
+        self.assertEqual(first[0][:2], ("1:1", "printed"))
+        starts = {r[0] for r in first if r[1] == "printed"}
+        self.assertEqual(starts, {f"{c}:1" for c in range(1, 70)})
+        # 42.1: the Constitution of Aristotle's day begins with who are citizens; Kenyon's "The present state of the constitution".
+        at42 = " ".join(r[2] for r in first if r[0] == "42:1")
+        self.assertIn("present state of the constitution", at42)
+        refs = [r[0] for r in first]
+        order = self.lib.work("ar003")["sections"]
+        self.assertEqual(refs, sorted(refs, key=order.index))
+
+    def test_famous_passages_are_at_their_sections(self):
+        db = self.lib.db
+        def refs(wid, words):
+            return {r[0] for r in db.execute("SELECT c.section_ref FROM chunk c JOIN edition e ON e.id = c.edition_id "
+                                             "WHERE e.work_id = ? AND e.lang = 'grc' AND c.text LIKE ?", (wid, f"%{words}%"))}
+        self.assertEqual(refs("ar003", "μετέχουσιν μὲν τῆς πολιτείας οἱ ἐξ ἀμφοτέρων"), {"42:1"})
+        self.assertEqual(refs("ar011", "ξυνετοὶ γάρ εἰσι μόνοις"), {"6:1"})
+        self.assertEqual(refs("ar048", "τῶν ἀγαθῶν ἔστι τὰ μὲν ἐν ψυχῇ"), {"1:1"})
+        self.assertEqual(refs("ar045", "τριμεροῦς δὲ τῆς ψυχῆς λαμβανομένης κατὰ Πλάτωνα"), {"1249a"})

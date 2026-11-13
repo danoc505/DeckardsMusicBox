@@ -434,7 +434,7 @@ Built by `tools/aristotle.py` (works of corpus `aristotle`, a Bekker column, 980
   God as maker (Simplicius), with Simplicius' rule of reading, each quoted in their Greek from the page and checked by test against it
   and against the column it is linked to; the English is the Workshop's own and labelled so.
 
-### A8: the rest of Aristotle
+### A8: the rest of Aristotle (done, but for the optional English of the minor works)
 
 - Every other work in First1KGreek or Perseus Greek, GLAUx-tagged, with the Loeb English where Perseus has it
   (Politics, Rhetoric, Poetics, Eudemian Ethics) and Taylor's for the rest, in the Platonists' order.
@@ -442,8 +442,63 @@ Built by `tools/aristotle.py` (works of corpus `aristotle`, a Bekker column, 980
   (1811), from Google's scans (see A4), as translations beside the Greek (done): read by `tools/aristotle_taylor.py` with the
   rules of his Metaphysics, the page brought to that scan's scale, his notes from the commentators kept apart; the Organon at the
   Oxford's columns carried over chapter by chapter, as Owen's, and the Ethics placed against the Loeb English, as his Metaphysics.
-  Not yet read from the same volumes: his translation of Porphyry's Introduction and his Introductions to each treatise
-  (vol. I), the Rhetoric and the Poetic (1811), which wait for their Greek in the rest of A8.
+  His Rhetoric and Poetic (1811) are read the same way, beside the Greek of the next point (done). Not yet read: his translation of
+  Porphyry's Introduction and his Introductions to each treatise (vol. I).
+- The works Perseus has with a Loeb English (done): the Eudemian Ethics (Susemihl; Rackham), the Politics (Ross; Rackham),
+  the Economics (Armstrong), the Rhetoric (Ross; Freese) and the Poetics (Fyfe), at Bekker's columns as Perseus marks them,
+  GLAUx-tagged; for the Rhetoric and the Poetics, which GLAUx divides by chapter only, each GLAUx word takes the column of the
+  Perseus word it is matched to (`aristotle.glaux_resection`).
+- The works First1KGreek has in Greek only whose source gives Bekker's columns (A8c, done): the Magna Moralia (Susemihl, 1883),
+  Generation and Corruption (Prantl, 1881), Meteorology (Fobes, 1919), Progression and Movement of Animals (Jaeger, 1913), with
+  the columns read from the margin of the TEI; Parts of Animals (Langkavel, 1868) and Generation of Animals (Bekker, 1829), with
+  GLAUx's. A column the margin (or GLAUx) lacks is placed by the length of the text between the columns either side (≈), and the
+  reader names it (`aristotle_f1k.fill_gaps`, `AR_BY_LENGTH`). GLAUx numbers De motu and De incessu the other way round from the
+  TLG (`glaux` in `WORKS`). The commentators on Generation and Corruption, the Meteorology and Generation of Animals (Philoponus,
+  Alexander, Olympiodorus, Michael) are now linked to the columns. No English for these yet.
+- The Parva Naturalia and the History of Animals (A8d, done), in Bekker's Oxford reprint (1837) from First1KGreek, GLAUx-tagged.
+  Their Berlin columns come from scans: for the Parva Naturalia (On Sense, Memory, Sleep, Dreams, Divination, Length of Life,
+  Youth and Old Age, Respiration), from the margin of Biehl's Teubner Greek (1898; `ia-biehl-parva-naturalia-1898`), whose
+  words are paired one by one with Bekker's (92% paired) and each column begun at the first word of the line where Biehl prints
+  it (`tools/aristotle_biehl.py`; a misread page is resolved by the length of the Greek between marks, 60 of 90 columns read);
+  for the History of Animals, from the margin of Thompson's Oxford translation (1910; `ia-thompson-historia-1910`), chapter by
+  chapter as the Organon's (`aristotle_organon.CARRIED`; the book read from the running head too; a chapter anchor that would
+  stretch the Greek out of proportion is left out; Book X, which Thompson does not translate, by length). The rest by length
+  (≈), named in the reader (`AR_BY_LENGTH`). Thompson's English is beside the Greek. Alexander on Sense is linked. The Oxford
+  Parva Naturalia (Beare and Ross) was not used: its 1908 issue is not on the Archive, and the 1931 reprint is not yet free.
+- The minor and spurious works (A8e, done), in Greek only, from First1KGreek: Bekker's own text (Oxford, 1837) of the Mechanics,
+  On Indivisible Lines, On Melissus, Xenophanes and Gorgias, On Colours, On Things Heard, the Physiognomics, On Plants, On Marvellous
+  Things Heard and the Winds, at the Berlin columns First1KGreek marks in it as milestones (`<milestone unit="page" resp="Bekker">`,
+  read by `aristotle_f1k.read_tei`), every column present; the Problems (Ruelle, Knoellinger and Klek, 1922), the same; On Breath
+  (Jaeger, 1913), from its margin, two columns by length (≈); Ross's other versions of Physics VII and of passages of On the Soul II,
+  from his margin. On Plants is read without the Byzantine translator's prologue, which is not on Bekker's Berlin pages (its
+  milestones repeat the columns of the end of the Physiognomics). GLAUx-tagged, paired with our words by whole work or by chapter
+  where the two divide a work differently (`aristotle_f1k.pair_key`); GLAUx lacks On Things Heard, On Indivisible Lines and the
+  Winds, whose words carry Morpheus's parses only, as the reader says. The Mechanics and On Indivisible Lines are a new step in the
+  order of reading, *Mathematics*, from Taylor's division ("mathematical, such as his Mechanical Problems, and his treatise On
+  Indivisible Lines").
+- The works not on Bekker's pages, and On Virtues and Vices (A8f, done). Bekker did not print the Constitution of the Athenians
+  (found on a papyrus in 1890), the Letters or the Divisions, so each is cited by its own numbers (`tools/aristotle_cited.py`),
+  in the reader's form for a chapter and verse (milestone 23's): a section is "chapter:number", a page of the reader is the
+  chapter, and the reader shows each in its own form (`AR_CITED` in `reader/aristotle.js`). The Constitution in Kenyon's Greek
+  (Oxford Classical Texts, 1920; Perseus), by chapter and section (42.1 is `42:1`, on page 42), with Kenyon's English (first
+  published 1891; Project Gutenberg #26095, committed in `sources/aristotle/kenyon-athenian-constitution/`), each chapter at its
+  first section and the sections within it shared out by length (≈); the four fragments of the lost beginning are left out. The
+  Letters in Hercher's Greek (Epistolographi Graeci, 1873; First1KGreek), by letter (`3:1` is the third, whole). The Divisions in
+  Mutschmann's (Leipzig, 1906; First1KGreek), both his texts, by his numbers: Diogenes Laertius' (III 80-109; page 1, "Diogenes 5"
+  is `1:5`) and the codex Marcianus' (page 2, "Marcianus 58" is `2:58`), where the Marcianus has two divisions against one of
+  Diogenes', each its own section. On Virtues and Vices in Bekker's Greek (1831) from Perseus, which has no English for it:
+  `build_db.build_work` now reads a Perseus work with no English file. All four GLAUx-tagged: the Constitution chapter by
+  chapter, the Letters as a whole, and GLAUx's twenty-one Divisions (its own selection and numbering) each paired with the
+  division of Mutschmann's it matches best; the other Divisions carry Morpheus's parses. The Letters and the Divisions are a
+  last group in the order of reading, *Beside the course* (Taylor's division does not name them).
+- What is left of A8, for a later thread:
+  1. English for the minor works: the Oxford translation, vol. VI (Opuscula, 1913), vol. VII (the Problems, Forster, 1927) and, for
+     On Virtues and Vices, vol. IX (Solomon, 1915), are public domain in the US; read from scans as Thompson's History of Animals,
+     if wanted. No public-domain English of the Letters or the Divisions has been looked for.
+  2. Optional: Taylor's translation of Porphyry's Introduction and his Introductions to the Categories, On Interpretation and the
+     Prior Analytics (vol. I, leaves 59-72, 149-155, 205-212 of `ia-taylor-organon-1812`; already in `PARTS` in
+     `tools/aristotle_taylor.py`, not yet written out as texts).
+- Then A6 (Daniel: "Do A7 and A8 first, A6 last").
 
 ## Ideas noted, not yet planned
 
