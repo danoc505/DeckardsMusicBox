@@ -1114,3 +1114,162 @@ class MinorWorksInTheLibrary(unittest.TestCase):
         # On Plants I 1 begins at 815a10; On Indivisible Lines at 968a.
         self.assertEqual(refs("ar039", "ΖΩΗ ἐν τοῖς ζῴοις"), {"815a"})
         self.assertIn("968a", refs("ar019", "ἄτομοι γραμμαί"))
+
+
+CITED = {"ar003": ("1:1", "69:2"), "ar011": ("1:1", "6:1"), "ar048": ("1:1", "2:69")}
+
+
+class WorksNotOnBekkersPages(unittest.TestCase):
+    """Aristotle milestone A8f: the Constitution of the Athenians, the Letters and the Divisions, each cited by its own numbers
+    (tools/aristotle_cited.py), and On Virtues and Vices, which Perseus has in Greek only (tools/aristotle.py)."""
+
+    def test_each_scheme_is_cited_as_its_editions_cite_it(self):
+        import aristotle_cited as c
+        self.assertEqual(c.label_of(c.WORK_BY_ID["ar003"], "42:1"), "42.1")
+        self.assertEqual(c.label_of(c.WORK_BY_ID["ar011"], "3:1"), "Letter 3")
+        self.assertEqual(c.label_of(c.WORK_BY_ID["ar048"], "1:5"), "Diogenes 5")
+        self.assertEqual(c.label_of(c.WORK_BY_ID["ar048"], "2:58"), "Marcianus 58")
+        self.assertEqual(c.page_label(c.WORK_BY_ID["ar003"], 42), "Chapter 42")
+        # The reader's own pattern for a chapter and verse takes these refs, so its address bar and jump box do too.
+        js = (ROOT / "reader" / "reader.js").read_text(encoding="utf-8")
+        verse = re.search(r"const VERSE = /(.+)/;", js).group(1)
+        for ref in ("42:1", "2:58", "6:1", "42.1"):
+            self.assertRegex(ref, verse.replace("\\/", "/"))
+
+    def test_the_works_take_no_platonic_or_other_aristotle_ids(self):
+        import aristotle_cited as c
+        import aristotle_f1k as f
+        ids = [w["id"] for w in aristotle.WORKS + f.WORKS + c.WORKS]
+        self.assertEqual(len(ids), len(set(ids)))
+        self.assertIn("ar045", aristotle.WORK_BY_ID)
+        self.assertTrue(aristotle.WORK_BY_ID["ar045"]["greek_only"])
+        self.assertEqual(aristotle.parts_of(aristotle.WORK_BY_ID["ar045"])(None), [])
+
+    def test_the_sources_are_pinned_and_free(self):
+        for path in ("data/tlg0086/tlg003", "data/tlg0086/tlg045"):
+            self.assertIn(path, MANIFEST["perseus-greek-aristotle"]["paths"])
+        for path in ("data/tlg0086/tlg011", "data/tlg0086/tlg048"):
+            self.assertIn(path, MANIFEST["first1k-aristotle"]["paths"])
+        for n in ("003", "011", "045", "048"):
+            self.assertIn(f"xml/0086-{n}.xml", MANIFEST["glaux-aristotle"]["paths"])
+        k = MANIFEST["kenyon-athenian-constitution"]
+        self.assertIn("Public domain", k["licence"])
+        import hashlib
+        stamp = json.loads((ROOT / k["path"] / "fetched.json").read_text(encoding="utf-8"))
+        self.assertEqual(hashlib.sha256((ROOT / k["path"] / "pg26095.txt").read_bytes()).hexdigest(), stamp["sha256"])
+
+    def test_kenyons_english_is_read_chapter_by_chapter(self):
+        import aristotle_cited as c
+        paras = c.read_kenyon()
+        self.assertEqual(sorted({p["chapter"] for p in paras}), list(range(1, 70)))
+        self.assertTrue(paras[0]["text"].startswith("...[They were tried] by a court empanelled"))
+        self.assertFalse(any("Transcriber" in p["text"] for p in paras))
+        self.assertTrue(paras[-1]["text"].endswith("in the order assigned by the lot."))
+
+    def test_the_greek_is_read_by_its_own_numbers(self):
+        import aristotle_cited as c
+        if not c.available():
+            self.skipTest("fetch the sources first (python3 tools/fetch_sources.py perseus-greek-aristotle first1k-aristotle glaux-aristotle)")
+        paras, head = c.read(c.WORK_BY_ID["ar003"])
+        refs = list(dict.fromkeys(p["ref"] for p in paras))
+        self.assertEqual((refs[0], refs[-1]), CITED["ar003"])
+        self.assertEqual(sorted({p["chapter"] for p in paras}), list(range(1, 70)))       # the fragments are left out
+        self.assertIn("42:1", refs)
+        self.assertEqual(head["date"], "1920")
+        paras, _ = c.read(c.WORK_BY_ID["ar011"])
+        self.assertEqual([p["ref"] for p in paras], [f"{n}:1" for n in range(1, 7)])
+        self.assertEqual(paras[5]["label"], "Letter 6: Ἀριστοτέλλης βασιλεῖ Ἀλεξάνδρῳ εὖ πράττειν")
+        paras, _ = c.read(c.WORK_BY_ID["ar048"])
+        refs = list(dict.fromkeys(p["ref"] for p in paras))
+        self.assertEqual(refs, [f"1:{n}" for n in range(1, 33)] + [f"2:{n}" for n in range(1, 70)])
+        # Diogenes' first division opens with his words on Aristotle, the source Mutschmann names before them left out.
+        self.assertTrue(paras[0]["text"].startswith("διῄρει δέ, φησὶν Ἀριστοτέλης"))
+        # Where the Marcianus has two divisions against one of Diogenes', each is its own section.
+        m63 = [p for p in paras if p["ref"] == "2:63"]
+        m51 = [p for p in paras if p["ref"] == "2:51"]
+        self.assertTrue(m63[0]["text"].startswith("διαιρεῖται ἡ ἀρχὴ εἰς μέρη πέντε"))
+        self.assertTrue(m51[0]["text"].startswith("διαιρεῖται ἡ ἀρχὴ εἰς τρία"))
+
+    def test_glaux_divisions_go_to_the_division_they_match(self):
+        import aristotle_cited as c
+        if not c.available():
+            self.skipTest("fetch the sources first")
+        w = c.WORK_BY_ID["ar048"]
+        paras, _ = c.read(w)
+        glaux, matched = c.glaux_for(w, paras)
+        self.assertGreaterEqual(len(matched), 19)
+        self.assertEqual(matched[1][0], (1, 1))        # GLAUx's first: Diogenes' division of the goods
+        self.assertEqual(len(set(k for k, _ in matched.values())), len(matched))
+
+    def test_the_reader_lists_and_cites_them(self):
+        js = (ROOT / "reader" / "aristotle.js").read_text(encoding="utf-8")
+        order = js[js.index("const AR_ORDER"):js.index("];", js.index("const AR_ORDER"))]
+        plain = js[js.index("const AR_PLAIN"):js.index("};", js.index("const AR_PLAIN"))]
+        cited = js[js.index("const AR_CITED"):js.index("};", js.index("const AR_CITED"))]
+        for wid in ("ar003", "ar011", "ar048", "ar045"):
+            self.assertIn(f'"{wid}"', order, wid)
+            self.assertIn(f"  {wid}: ", plain, wid)
+        for wid in CITED:
+            self.assertIn(f"  {wid}: ", cited, wid)
+
+
+@unittest.skipUnless(has_aristotle(), "build the library with Aristotle first (python3 tools/build_db.py)")
+class WorksNotOnBekkersPagesInTheLibrary(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.lib = serve.Library(build_db.DB_PATH)
+        if not cls.lib.work("ar003"):
+            raise unittest.SkipTest("the library was built before Aristotle milestone A8f")
+
+    def test_sections_and_pages(self):
+        for wid, (first, last) in CITED.items():
+            w = self.lib.work(wid)
+            self.assertEqual((w["sections"][0], w["sections"][-1]), (first, last), wid)
+        self.assertEqual(len(self.lib.work("ar003")["sections"]), 299)
+        self.assertEqual(len(self.lib.work("ar048")["sections"]), 101)
+        p = self.lib.page("ar003", 42)
+        self.assertEqual([s["ref"] for s in p["sections"]], ["42:1", "42:2", "42:3", "42:4", "42:5"])
+        self.assertEqual(p["sections"][0]["urn"], "urn:cts:greekLit:tlg0086.tlg003:42.1")
+        self.assertEqual((p["prev"], p["next"]), (41, 43))
+        d = self.lib.page("ar048", 2)
+        self.assertEqual(d["sections"][0]["ref"], "2:1")
+        self.assertEqual(d["prev"], 1)
+        self.assertIsNone(d["next"])
+
+    def test_virtues_and_vices_is_at_bekkers_columns_in_greek_only(self):
+        w = self.lib.work("ar045")
+        self.assertEqual(w["sections"], ["1249a", "1249b", "1250a", "1250b", "1251a", "1251b"])
+        self.assertEqual([e["lang"] for e in w["editions"]], ["grc"])
+        self.assertIn("Bekker", w["editions"][0]["responsible"])
+
+    def test_the_greek_is_tagged(self):
+        for wid, least in (("ar003", 0.9), ("ar011", 0.9), ("ar045", 0.9), ("ar048", 0.15)):
+            n, tagged, morph = self.lib.db.execute(
+                "SELECT count(*), count(DISTINCT g.token_id), count(t.morph_key) FROM token t JOIN edition e ON e.id = t.edition_id "
+                "LEFT JOIN tag g ON g.token_id = t.id AND g.part = 0 WHERE e.work_id = ? AND e.lang = 'grc'", (wid,)).fetchone()
+            self.assertGreater(n, 700, wid)
+            self.assertGreater(tagged / n, least, wid)
+            self.assertGreater(morph / n, 0.8, wid)
+
+    def test_kenyons_english_is_beside_the_greek(self):
+        db = self.lib.db
+        first = db.execute("SELECT section_ref, align_method, text FROM chunk WHERE edition_id = 'ar003.kenyon' ORDER BY seq").fetchall()
+        self.assertEqual(first[0][:2], ("1:1", "printed"))
+        starts = {r[0] for r in first if r[1] == "printed"}
+        self.assertEqual(starts, {f"{c}:1" for c in range(1, 70)})
+        # 42.1: the Constitution of Aristotle's day begins with who are citizens; Kenyon's "The present state of the constitution".
+        at42 = " ".join(r[2] for r in first if r[0] == "42:1")
+        self.assertIn("present state of the constitution", at42)
+        refs = [r[0] for r in first]
+        order = self.lib.work("ar003")["sections"]
+        self.assertEqual(refs, sorted(refs, key=order.index))
+
+    def test_famous_passages_are_at_their_sections(self):
+        db = self.lib.db
+        def refs(wid, words):
+            return {r[0] for r in db.execute("SELECT c.section_ref FROM chunk c JOIN edition e ON e.id = c.edition_id "
+                                             "WHERE e.work_id = ? AND e.lang = 'grc' AND c.text LIKE ?", (wid, f"%{words}%"))}
+        self.assertEqual(refs("ar003", "μετέχουσιν μὲν τῆς πολιτείας οἱ ἐξ ἀμφοτέρων"), {"42:1"})
+        self.assertEqual(refs("ar011", "ξυνετοὶ γάρ εἰσι μόνοις"), {"6:1"})
+        self.assertEqual(refs("ar048", "τῶν ἀγαθῶν ἔστι τὰ μὲν ἐν ψυχῇ"), {"1:1"})
+        self.assertEqual(refs("ar045", "τριμεροῦς δὲ τῆς ψυχῆς λαμβανομένης κατὰ Πλάτωνα"), {"1249a"})

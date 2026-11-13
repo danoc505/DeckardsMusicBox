@@ -67,13 +67,18 @@ const AR_PLAIN = {
   ar046: "The winds, by the quarters of the sky they blow from, with the names each people gives them. A short extract under Aristotle's name.",
   ar043: "How the breath (πνεῦμα) inborn in animals is kept up and fed, and how it bears on breathing, the pulse and digestion; many questions are raised and left open. From Aristotle's school.",
   ar054: "Book VII of the Physics as some manuscripts give it, in a version that differs throughout from the common text, printed by Ross beside it: everything moved is moved by something, and there must be a first mover.",
+  ar045: "The virtues and vices of each part of the soul, taken as three after Plato (reason, spirit, desire), each defined with what goes with it and follows from it. From Aristotle's school.",
+  ar003: "The history of Athens' constitution in eleven changes, from the kings and Draco through Solon, Pisistratus, Cleisthenes and the democracy to the restoration of 403 (chapters 1-41); then the constitution of Aristotle's own day, its citizens, council, magistrates and law courts (42-69). Found on a papyrus in 1890; Aristotle's or his school's.",
+  ar011: "Six short letters under Aristotle's name, to Philip, Alexander and Theophrastus, on kindness and the use of rule; the last, to Alexander, says his lectures are published and not published, for only his hearers understand them. Thought not to be his.",
+  ar048: "Divisions of the goods, friendship, constitutions, justice, the sciences, medicine, law, speech and more, each into its kinds, of the kind Plato practised in the Academy; Diogenes Laertius gives them as Aristotle's account of Plato's divisions. Two texts of them, Diogenes' and a manuscript's, side by side.",
   ar052: "Passages of Book II of On the Soul (on nutrition, and on the senses) as one manuscript (E) gives them, in a version that differs from the common text; printed by Ross. The passages are not continuous, so only the columns they fall in are here.",
 };
 // Works in Greek only (Aristotle milestone A8c): no English is in the Workshop yet. Where the margin of the edition has lost a
 // Bekker column, it is placed by length between the columns read either side (tools/aristotle_f1k.fill_gaps); listed here.
 const AR_GREEK_ONLY = new Set(["ar022", "ar013", "ar026", "ar030", "ar015", "ar021", "ar012",
   "ar041", "ar024", "ar042", "ar016", "ar008", "ar020", "ar018", "ar037",
-  "ar023", "ar019", "ar047", "ar007", "ar004", "ar032", "ar039", "ar027", "ar036", "ar046", "ar043", "ar054", "ar052"]);
+  "ar023", "ar019", "ar047", "ar007", "ar004", "ar032", "ar039", "ar027", "ar036", "ar046", "ar043", "ar054", "ar052",
+  "ar045", "ar011", "ar048"]);
 // Aristotle milestone A8e: the minor works GLAUx has not tagged. Their words carry Morpheus's possible parses only, not one chosen by machine.
 const AR_NO_GLAUX = new Set(["ar004", "ar019", "ar046"]);
 const AR_BY_LENGTH = {
@@ -93,6 +98,46 @@ const AR_BY_LENGTH = {
   ar037: ["471b", "474b", "475b", "477a", "477b", "478b", "479b"],
   ar014: ["522b", "604b", "607b", "608a", "614b", "634a", "634b", "635a", "635b", "636a", "636b", "637a", "637b", "638a", "638b"],
 };
+
+// Aristotle milestone A8f: the works not on Bekker's pages (he did not print them), each cited by its own numbers
+// (tools/aristotle_cited.py). A section is "chapter:number", as the New Testament's chapter and verse, and a page is the chapter:
+// the Constitution of the Athenians by chapter and section (42:1 is 42.1); the Letters by letter (3:1 is the third letter,
+// whole); the Divisions by Mutschmann's numbers in his two texts, Diogenes Laertius' (page 1) and the codex Marcianus' (page 2).
+const AR_CITED = {
+  ar003: { scheme: "chapter", page: (n) => `chapter ${n}`, ref: (a, b) => `${a}.${b}`,
+    about: "Cited by chapter and section, as every edition numbers them: 42.1 is chapter 42, section 1. Bekker's edition of Aristotle (1831) has no Bekker numbers for it: the papyrus it is known from was found in 1890." },
+  ar011: { scheme: "letter", page: (n) => `letter ${n}`, ref: (a) => `Letter ${a}`,
+    about: "Cited by letter, as Hercher numbers them (Epistolographi Graeci, 1873). They are not in Bekker's edition, so have no Bekker numbers." },
+  ar048: { scheme: "division", page: (n) => (n === 1 ? "Diogenes' text" : "the Marcianus' text"), ref: (a, b) => `${a === 1 ? "Diogenes" : "Marcianus"} ${b}`,
+    about: "Mutschmann (1906) prints two texts of the Divisions side by side and numbers the divisions of each: Diogenes Laertius' (Lives III 80-109), on the first page here, and the codex Marcianus', on the second. They are cited by his numbers: Diogenes 5, Marcianus 58. They are not in Bekker's edition, so have no Bekker numbers." },
+};
+const arCited = (w) => (w && AR_CITED[w.id]) || null;
+const arSplit = (ref) => String(ref).split(":").map(Number);
+function arRefLabel(w, ref) { const c = arCited(w); const [a, b] = arSplit(ref); return c ? c.ref(a, b) : ref; }
+function arPageName(w, n) { const c = arCited(w); const s = c ? c.page(+n) : `page ${n}`; return s.charAt(0).toUpperCase() + s.slice(1); }
+function arRefTitle(w, ref) {
+  const c = arCited(w);
+  const [a, b] = arSplit(ref);
+  const what = c.scheme === "chapter" ? `chapter ${a}, section ${b}` : c.scheme === "letter" ? `letter ${a}, whole` : `division ${b} of ${a === 1 ? "Diogenes Laertius'" : "the codex Marcianus'"} text, in Mutschmann's numbering`;
+  return `${w.title} ${arRefLabel(w, ref)}: ${what}`;
+}
+// The head of a page of such a work.
+function arCitedHead(w, d) {
+  const refs = d.sections.map((s) => s.ref);
+  const first = arRefLabel(w, refs[0]), last = arRefLabel(w, refs[refs.length - 1]);
+  const c = arCited(w);
+  const where = c.scheme === "chapter" ? `<span class="term" title="${esc(c.about)}">Chapter</span> ${d.page}, sections ${esc(first)}–${esc(last)}`
+    : c.scheme === "letter" ? `<span class="term" title="${esc(c.about)}">Letter</span> ${d.page} · <span lang="grc">${esc(arWhere(w, refs[0]).split(": ").slice(1).join(": "))}</span>`
+    : `<span class="term" title="${esc(c.about)}">${d.page === 1 ? "Diogenes Laertius' text" : "The codex Marcianus' text"}</span>, divisions ${esc(refs[0].split(":")[1])}–${esc(refs[refs.length - 1].split(":")[1])}`;
+  return where;
+}
+// The contents column's list of pages for such a work.
+function arCitedPages(w, pages) {
+  const c = arCited(w);
+  if (c.scheme === "division") return "";      // the two texts head their lists of divisions (renderTocAR)
+  return `<h3 title="${esc(c.about)}">${c.scheme === "chapter" ? "Chapters" : "Letters"}</h3><div class="pages">${pages.map((p) =>
+    `<a href="${placeHash(WORK, String(p))}" class="${p === state.page ? "here" : ""}">${p}</a>`).join("")}</div>`;
+}
 
 function arSources() {
   return `<p class="prov">Greek: Ross's Metaphysics (Oxford, 1924) and Bywater's Nicomachean Ethics (Oxford, 1894), as the Perseus Digital Library
@@ -115,7 +160,13 @@ function arSources() {
     and the Situations and Names of Winds, at the Berlin columns First1KGreek marks in it; the Problems (Ruelle, Knoellinger and Klek, Leipzig, 1922), the same;
     Jaeger's On Breath (Leipzig, 1913) and Ross's other versions of Physics VII and of passages of On the Soul II, with the columns in their margins
     (a column the margin has lost is placed by length, ≈). GLAUx has not tagged On Things Heard, On Indivisible Lines or the Winds; their words carry
-    Morpheus's parses. The Letters (Hercher's Epistolographi, 1873) and the Divisions (Mutschmann, 1906) are not on Bekker's pages and are not yet here.</p>
+    Morpheus's parses.</p>
+    <p class="prov">On Virtues and Vices, in Greek only: Bekker's text (Berlin, 1831) as the Perseus Digital Library encodes it (CC BY-SA 4.0), at his columns.
+    Not on Bekker's pages, each cited by its own numbers: the Constitution of the Athenians in Kenyon's Greek (Oxford Classical Texts, 1920), as Perseus
+    encodes it, by chapter and section, with Kenyon's English (first published 1891; Project Gutenberg's text), each chapter at its first section and the
+    sections within it shared out by length (≈); the four fragments of its lost beginning are left out. The Letters in Hercher's Greek (Epistolographi Graeci,
+    Paris, 1873) and the Divisions in Mutschmann's (Leipzig, 1906), both from First1KGreek (CC BY-SA 4.0), in Greek only: the Divisions in both his texts,
+    Diogenes Laertius' and the codex Marcianus', by his numbers. GLAUx tags all four; it has twenty-one of the Divisions, and the rest carry Morpheus's parses.</p>
     <p class="prov">The Parva Naturalia and the History of Animals: Bekker's own text, from First1KGreek (CC BY-SA 4.0), in his Oxford reprint (1837),
     which does not print the Berlin columns. For the Parva Naturalia they are carried over from the margin of Biehl's Greek (Leipzig: Teubner, 1898),
     whose words the Internet Archive's scan gives and the Workshop pairs one by one with Bekker's (≈, to the line); for the History of Animals, from
@@ -203,7 +254,7 @@ function arHead(w) {
       ${AR_BY_LENGTH[w.id].length === 1 ? "is" : "are"} not marked in this Greek's source: each is placed by the length of the text between the columns either side, and may be a few lines out (≈).` : ""}</p>` : ""}
     ${AR_NO_GLAUX.has(w.id) ? `<p class="meta">GLAUx has not tagged this work, so no one dictionary form and grammar is chosen for each word: the word box
       gives every parse Morpheus allows for the form, and the dictionary entries.</p>` : ""}
-    <p class="meta">Bekker's numbers: 980a is page 980 of Bekker's Berlin edition (1831), left column; every book on Aristotle cites him so.
+    <p class="meta">${arCited(w) ? esc(arCited(w).about) : "Bekker's numbers: 980a is page 980 of Bekker's Berlin edition (1831), left column; every book on Aristotle cites him so."}
       Tap a Greek word for its dictionary form and grammar (from GLAUx, by machine) and its dictionary entries. Underlined words are the
       Platonists' key terms: tap one to see where Plato uses it too. Choose the translations beside the Greek with <em>Reading</em>; Taylor's
       notes from the Greek commentators come with his.</p></div>`;
@@ -228,8 +279,17 @@ function renderTocAR(w) {
     if (!byBook.has(b)) byBook.set(b, []);
     byBook.get(b).push(c);
   }
-  let h = `<h3>Chapters</h3>`;
-  for (const [b, cs] of byBook) {
+  let h = arCited(w) || !(w.ar_chapters || []).length ? "" : `<h3>Chapters</h3>`;
+  if (arCited(w) && (w.ar_chapters || []).length) {
+    // The letters by their addressees, the divisions by their headings (Aristotle milestone A8f).
+    const lists = arCited(w).scheme === "division" ? [1, 2].map((p) => [arPageName(w, p), w.ar_chapters.filter((c) => arSplit(c.start_ref)[0] === p)])
+      : [["Letters", w.ar_chapters]];
+    for (const [title, cs] of lists) {
+      h += `<details class="ar-book"${cs.some(inside) ? " open" : ""}><summary>${esc(title)}</summary><ul class="books">${cs.map((c) =>
+        `<li class="${inside(c) ? "here" : ""}"><a href="${esc(placeHash(WORK, c.start_ref))}" title="${esc(c.basis)}"><span lang="grc">${esc(c.label.split(": ").slice(1).join(": "))}</span><span>${esc(arRefLabel(w, c.start_ref))}</span></a></li>`).join("")}</ul></details>`;
+    }
+  }
+  for (const [b, cs] of arCited(w) ? [] : byBook) {
     const open = cs.some(inside);
     h += `<details class="ar-book"${open ? " open" : ""}><summary>${esc(b)}</summary><ul class="books">${cs.map((c) =>
       `<li class="${inside(c) ? "here" : ""}"><a href="${esc(placeHash(WORK, c.start_ref))}" title="${esc(c.basis)}"><span>ch. ${esc((c.label.match(/chapter (\S+)$/i) || ["", ""])[1])}</span><span>${esc(c.start_ref)}–${esc(c.end_ref)}</span></a></li>`).join("")}</ul></details>`;
@@ -255,8 +315,8 @@ function arTermSection(t) {
     ${n.works.map((b) => {
       const refs = n.occurrences[b.work_id] || [];
       const cur = b.work_id === WORK && state.view === "read";
-      return `<details class="term-work${cur ? " here" : ""}"${cur ? " open" : ""}><summary><b>${esc(b.title)}</b> <span class="meta">${b.n.toLocaleString()} word${b.n === 1 ? "" : "s"} in ${refs.length} column${refs.length === 1 ? "" : "s"}</span></summary>
-        <p class="term-refs">${refs.map(([ref, k]) => `<a href="${esc(placeHash(b.work_id, ref))}" data-term-step="${esc(t.id)}" title="${k} word${k === 1 ? "" : "s"}">${esc(ref)}</a>`).join(" ")}</p></details>`;
+      return `<details class="term-work${cur ? " here" : ""}"${cur ? " open" : ""}><summary><b>${esc(b.title)}</b> <span class="meta">${b.n.toLocaleString()} word${b.n === 1 ? "" : "s"} in ${refs.length} ${arCited(workById(b.work_id)) ? "section" : "column"}${refs.length === 1 ? "" : "s"}</span></summary>
+        <p class="term-refs">${refs.map(([ref, k]) => `<a href="${esc(placeHash(b.work_id, ref))}" data-term-step="${esc(t.id)}" title="${k} word${k === 1 ? "" : "s"}">${esc(arRefLabel(workById(b.work_id), ref))}</a>`).join(" ")}</p></details>`;
     }).join("")}
     ${n.forms_marked.length ? `<p class="meta">Commonest forms there: <span lang="grc">${n.forms_marked.map((f) => `${esc(f.form)} ${f.n}`).join(", ")}</span></p>` : ""}</section>`;
 }
@@ -283,6 +343,8 @@ const AR_ORDER = [
     works: [["ar023", "Mechanics"], ["ar019", "On Indivisible Lines"]] },
   { step: "Theology", taylor: "theoretic: theological", note: "\"Those luminous beings, which have a supernatural subsistence\".",
     works: [["ar025", "Metaphysics"]] },
+  { step: "Beside the course", taylor: "", note: "Not named in Taylor's division of his works: letters under his name, and the divisions Diogenes Laertius gives as his account of Plato's.",
+    works: [["ar011", "Letters"], ["ar048", "Divisions"]] },
 ];
 
 // Each quotation as Taylor printed it, checked against the scan; "at" is words of the paragraph it is in, to open it there.
@@ -330,7 +392,7 @@ function showArStart() {
     ${arQuote("division")}
     ${arQuote("end")}
     <p>So the course runs as Marinus gives it, from logic to theology. The works of each step, in the Workshop where a link is given:</p>
-    <ol class="ar-order">${AR_ORDER.map((g) => `<li><b>${esc(g.step)}</b> <span class="meta">(Taylor's ${esc(g.taylor)})${g.note ? " " + esc(g.note) : ""}</span><br>
+    <ol class="ar-order">${AR_ORDER.map((g) => `<li><b>${esc(g.step)}</b> <span class="meta">${g.taylor ? `(Taylor's ${esc(g.taylor)})` : ""}${g.note ? " " + esc(g.note) : ""}</span><br>
       ${g.door ? `<a href="#taylor/${AR_ISAGOGE}">Porphyry's Introduction</a> <span class="meta">(Owen, 1853; the Greek is <a href="#neo/porphyry-isagoge">here</a>)</span> → ` : ""}${g.works.map(([id, title]) => have.has(id) ? `<a href="#${esc(have.get(id).slug)}">${esc(title)}</a>` : `<span class="ar-later" title="Not yet in the Workshop">${esc(title)}</span>`).join(" · ")}</li>`).join("")}
       <li><b>Plato</b> <span class="meta">The greater mysteries:</span> <a href="#start">Start here for Plato</a>, the dialogues in the order of Iamblichus.</li></ol>
     <h3 id="ar-way">How he writes</h3>

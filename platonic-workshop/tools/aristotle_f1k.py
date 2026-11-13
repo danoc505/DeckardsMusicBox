@@ -590,7 +590,38 @@ def build_greek(db, work, sources):
         cur = db.execute("INSERT INTO chunk (edition_id, work_id, section_ref, seq, para, speaker, label, text) VALUES (?,?,?,?,?,?,?,?)",
                          (ed, wid, col, seq, k, None, None, text))
         chunk_rows.append((cur.lastrowid, k, col, text))
-    # Tokens, paired with GLAUx chapter by chapter.
+    stats.update(tag_words(db, work, ed, chunk_rows, paras, glaux))
+    stats.update({"notes": 0, "english_sections": 0, "english_sections_missing": []})
+    # Pages, books and chapters.
+    pages = defaultdict(list)
+    for ref in order:
+        pages[build_db.steph_key(ref)[0]].append(ref)
+    for page, refs in pages.items():
+        db.execute("INSERT INTO division (work_id, kind, label, start_ref, end_ref, source_id, basis) VALUES (?,?,?,?,?,?,?)",
+                   (wid, "page", f"Bekker page {page}", refs[0], refs[-1], F1K_SRC, basis))
+    spans = {}
+    for k, a, b, col in pieces:
+        key = (paras[k]["book"], paras[k]["chapter"])
+        spans.setdefault(key, [col, col])[1] = col
+    books = {}
+    for (bk, ch), (a, b) in spans.items():
+        books.setdefault(bk, [a, b])[1] = b
+    for bk, (a, b) in books.items():
+        db.execute("INSERT INTO division (work_id, kind, label, start_ref, end_ref, source_id, basis) VALUES (?,?,?,?,?,?,?)",
+                   (wid, "book", f"Book {ROMAN[bk - 1]}" if bk else work["title"], a, b, F1K_SRC, "<div subtype=\"book\"> in the First1KGreek TEI"))
+    for (bk, ch), (a, b) in spans.items():
+        if ch is None:
+            continue
+        db.execute("INSERT INTO division (work_id, kind, label, start_ref, end_ref, source_id, basis) VALUES (?,?,?,?,?,?,?)",
+                   (wid, "ar-chapter", (f"Book {ROMAN[bk - 1]}, chapter {ch}" if bk else f"Chapter {ch}"), a, b, F1K_SRC,
+                    "<div subtype=\"chapter\"> in the First1KGreek TEI"))
+    stats["parts"] = len(spans)
+    return stats
+
+
+def tag_words(db, work, ed, chunk_rows, paras, glaux):
+    """The tokens of the Greek chunks [(chunk id, para index, section, text)], each paired with GLAUx's word (glaux:
+    {pair key: [words]}, paired by pair_key) where the two agree, with Morpheus's keys. Returns the counts."""
     toks = []   # (chunk id, start, end, form, column, (book, chapter))
     for cid, k, col, text in chunk_rows:
         for m in greek.WORD.finditer(text):
@@ -632,33 +663,7 @@ def build_greek(db, work, sources):
         for n, (lemma, gloss, parse) in enumerate(build_db.parse_morpheus(rest)):
             db.execute("INSERT OR IGNORE INTO morph VALUES (?,?,?,?,?,?,?)",
                        (key, n, lemma, greek.from_betacode(lemma), gloss, parse, "morpheus-analyses"))
-    stats.update({"tokens": n_tok, "tagged": n_tag, "tagged_by_position": n_pos, "tagged_split_word": n_split, "with_morpheus": n_morph,
-                  "notes": 0, "english_sections": 0, "english_sections_missing": []})
-    # Pages, books and chapters.
-    pages = defaultdict(list)
-    for ref in order:
-        pages[build_db.steph_key(ref)[0]].append(ref)
-    for page, refs in pages.items():
-        db.execute("INSERT INTO division (work_id, kind, label, start_ref, end_ref, source_id, basis) VALUES (?,?,?,?,?,?,?)",
-                   (wid, "page", f"Bekker page {page}", refs[0], refs[-1], F1K_SRC, basis))
-    spans = {}
-    for k, a, b, col in pieces:
-        key = (paras[k]["book"], paras[k]["chapter"])
-        spans.setdefault(key, [col, col])[1] = col
-    books = {}
-    for (bk, ch), (a, b) in spans.items():
-        books.setdefault(bk, [a, b])[1] = b
-    for bk, (a, b) in books.items():
-        db.execute("INSERT INTO division (work_id, kind, label, start_ref, end_ref, source_id, basis) VALUES (?,?,?,?,?,?,?)",
-                   (wid, "book", f"Book {ROMAN[bk - 1]}" if bk else work["title"], a, b, F1K_SRC, "<div subtype=\"book\"> in the First1KGreek TEI"))
-    for (bk, ch), (a, b) in spans.items():
-        if ch is None:
-            continue
-        db.execute("INSERT INTO division (work_id, kind, label, start_ref, end_ref, source_id, basis) VALUES (?,?,?,?,?,?,?)",
-                   (wid, "ar-chapter", (f"Book {ROMAN[bk - 1]}, chapter {ch}" if bk else f"Chapter {ch}"), a, b, F1K_SRC,
-                    "<div subtype=\"chapter\"> in the First1KGreek TEI"))
-    stats["parts"] = len(spans)
-    return stats
+    return {"tokens": n_tok, "tagged": n_tag, "tagged_by_position": n_pos, "tagged_split_word": n_split, "with_morpheus": n_morph}
 
 
 def lemmas():
