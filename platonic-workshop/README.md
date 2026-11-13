@@ -359,7 +359,7 @@ and Olympiodorus on the First Alcibiades, proofread first in the same way, then 
 
 ![Plotinus I.2.3 in modern English, with Taylor's words beside](docs/reader-m27-modern-neo.png)
 
-**Milestone 35, modern English of Aristotle: the Categories (35a) and On Interpretation (35b) done.** Aristotle is being put into plain modern English, in the
+**Milestone 35, modern English of Aristotle: the Categories (35a), On Interpretation (35b) and the Prior Analytics (35c) done.** Aristotle is being put into plain modern English, in the
 Platonists' order of reading, one work or group of works a session (the sub-milestones 35a to 35n are in the ROADMAP). Where
 public-domain English is on the shelf, the modern version modernises it, checked sentence by sentence against the Greek, and
 follows the Greek where they differ; where there is none, it is made fresh from the Greek. First, the **Categories**, the first work
@@ -379,7 +379,12 @@ chapters, 45 paragraphs, modernised from Edghill against Bekker's Greek (followi
 the OCR of Edghill's pages has lost a passage), with 11 flags: Taylor's "passions of the soul", "from compact", "illiterate sounds"
 and "energies"; Edghill's "actually true or actually false" in the sea battle chapter, where the Greek says "not yet true or false";
 his "every man is not" for "not every man is"; and his "primary substances" for the first, always actual substances of chapter 13.
-It opens at `#neo-modern/aristotle-on-interpretation`. Next: the Prior Analytics (35c).
+It opens at `#neo-modern/aristotle-on-interpretation`. Then the **Prior Analytics** (35c), the third: both
+books, all 73 chapters, 202 paragraphs, modernised from Jenkinson's Oxford English (1928) against Ross's Greek, with 18 flags, among
+them Jenkinson's "perfect" syllogism (the Greek says "complete") and "False cause" (the Greek says "not because of this"), and
+Taylor's "be present with", "an imbecile syllogism", "abduction" (for what is now called reduction) and "consentaneous" (for
+"likely"). Each chapter is headed by its book, and *Side by side* shows Taylor's own chapter, which in Book II is often numbered
+differently. It opens at `#neo-modern/aristotle-prior-analytics`. Next: the Posterior Analytics (35d).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,

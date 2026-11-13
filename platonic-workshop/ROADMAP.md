@@ -298,7 +298,7 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   Taylor's English exists; then Damascius and Hermias. Plotinus' other treatises have no Taylor to check against: check
   them against another public-domain translation, or label them so.
 
-## Milestone 35: modern English of Aristotle (35a and 35b done; next, ahead of further Proclus sessions; asked for by Daniel)
+## Milestone 35: modern English of Aristotle (35a, 35b and 35c done; next, ahead of further Proclus sessions; asked for by Daniel)
 
 - As milestone 27 did for the Neoplatonists, for Aristotle: a modern English version beside the Greek, with Modern /
   Side by side views, Taylor's words a tap away, each section with its gist, and Mark a sentence.
@@ -328,8 +328,18 @@ could do before. The school and curriculum ideas are left out as beyond the scop
     chapter 5 begins inside his chapter 4 in the scan, so chapter 5 shows both (`@taylor 4 5`). Words the shared check of key terms
     reads as ὁμοίωσις ("likeness") also match the adverb ὁμοίως ("likewise"): the modern version says "likewise" or "in like
     manner" there, which is right in any case.
-  - 35c: the Prior Analytics (Jenkinson 1928, Owen, Taylor), two sessions, one a book. Next.
-  - 35d: the Posterior Analytics (Mure 1928, Owen), two sessions.
+  - 35c: the Prior Analytics (Jenkinson 1928, Owen, Taylor), planned as two sessions, done in one. Done:
+    `sources/translations/modern/aristotle-prior-analytics.txt`, both books, 73 chapters (I.1-46, II.1-27), 202 paragraphs,
+    modernised from Jenkinson against Ross's Greek (First1KGreek), 18 flags (Jenkinson's "perfect" syllogism, "per impossibile and
+    by exposition", "cover unequal areas", "division into classes", "False cause"; Taylor's "be present with", "an imbecile
+    syllogism", "pedestrious", "ostensive demonstration", "begging the question", "elenchus", "abduction" and "consentaneous"), at
+    `#neo-modern/aristotle-prior-analytics`. The first work in books: `"books": True` in `TEXTS` keys Taylor's and the other
+    English chapters by (book, chapter), wants one `@treatise` per book (`APr.I`, `APr.II`), and the page heads each chapter
+    "Book I, chapter 5" (`nmChapterLabel` in `reader/neo.js`). Taylor folds I.27 into his 26 and I.38 into his 37, and numbers
+    Book II his own way (his 1 = II.1-2, 3 = II.3-4, 8 = II.8-9, 14 = II.14-16, then II.17-27 = his 15-25), set with `@taylor`.
+    The fixed renderings are in the master copy's header ("belong to" for Taylor's "be present with", "complete" for Jenkinson's
+    "perfect", "setting out" for ἔκθεσις, "reduction to the impossible"); II.24 says "pattern" for παράδειγμα beside "example".
+  - 35d: the Posterior Analytics (Mure 1928, Owen), two sessions. Next.
   - 35e: the Topics and the Sophistical Refutations (Pickard-Cambridge 1928, Owen), several sessions.
   - 35f: the Nicomachean Ethics (Taylor 1811, Chase 1847), several sessions.
   - 35g: the Eudemian Ethics, the Magna Moralia and On Virtues and Vices (fresh from the Greek, checked against the Loeb where Perseus has it).
