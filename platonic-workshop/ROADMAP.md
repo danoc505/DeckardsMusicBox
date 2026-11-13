@@ -312,7 +312,7 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   Taylor's English exists; then Damascius and Hermias. Plotinus' other treatises have no Taylor to check against: check
   them against another public-domain translation, or label them so.
 
-## Milestone 35: modern English of Aristotle (35a, 35b, 35c and 35m1 done; the current focus, ahead of everything else; asked for by Daniel)
+## Milestone 35: modern English of Aristotle (35a, 35b, 35c, 35m1 and 35m2 done; the current focus, ahead of everything else; asked for by Daniel)
 
 - As milestone 27 did for the Neoplatonists, for Aristotle: a modern English version beside the Greek, with Modern /
   Side by side views, Taylor's words a tap away, each section with its gist, and Mark a sentence.
@@ -372,9 +372,17 @@ could do before. The school and curriculum ideas are left out as beyond the scop
       (`nmChapterLabel` in `reader/neo.js`). `greek_chapters_perseus` in `tools/modern_ar.py` reads the Greek with the reader's
       own walker (`aristotle.BekkerWalker`), one Bekker column a piece.
     - 35m2: Books Β and Γ (III and IV), 14 chapters, 995a-1012b: the fourteen puzzles (aporiai); the science of being as
-      being, and the principle of non-contradiction defended. Next.
+      being, and the principle of non-contradiction defended. Done: 14 chapters, 67 paragraphs (33 in Β, 34 in Γ), 26 flags
+      (among them Ross's "probable premises" for ἔνδοξα, "unity" and "unity-itself" for the One, "mensuration", "the ABC", "mythologists"
+      for θεολόγοι, "of a low order", "hypostatize" for ἐκθέσθαι, "essence" for οὐσία in IV.2, "critical" for πειραστική,
+      "logic" for the Analytics, "negatively" for ἐλεγκτικῶς, "unqualified" for ἄκρατος; Taylor's "capacity or energy",
+      "formal cause", "dianoetic", "insane" of Hector, and a note of his from Syrianus read into III.2), with notes giving
+      where the later books answer each puzzle. `"done_books": [1, 2, 3, 4]`. Taylor's Book Γ has seven chapters: his 1 =
+      Bekker 1-2, his 2-7 = Bekker 3-8 (set with `@taylor`); in Book Β his chapters are Bekker's. The OCR of Ross has lost
+      lines in IV.3 (1005b13-17), IV.5 (1009a18-22) and IV.6 (1011a26-28): the modern version follows the Greek there.
+      The key-term check reads ὁμοίως as "like": say "likewise" (not "alike") where the Greek has it.
     - 35m3: Book Δ (V), 30 chapters, 1012b-1025a: the philosophical lexicon (principle, cause, element, nature, necessary,
-      one, being, substance ...). Short chapters; one thread.
+      one, being, substance ...). Short chapters; one thread. Next.
     - 35m4: Books Ε and Ζ (VI and VII), 21 chapters, 1025b-1041b: the divisions of theoretical science, being as accident
       and as true; substance as essence, the universal and the Forms (Ζ 13-16), substance as cause.
     - 35m5: Books Η and Θ (VIII and IX), 16 chapters, 1042a-1052a: matter and form, potency and actuality.
