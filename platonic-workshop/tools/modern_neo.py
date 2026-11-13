@@ -96,7 +96,9 @@ TEXTS = {
                  "and daemons in general and Socrates' own daemon (pages 185 to 232): the daemons allotted to us, the power of "
                  "Socrates' daemon, and why it now allowed the talk; "
                  "and the next words of the dialogue (103b to 104e, pages 232 to 289): how Alcibiades treated his lovers, his "
-                 "pride in his beauty, family, friends, Pericles and wealth, the right moment, and how Socrates opens his speech.",
+                 "pride in his beauty, family, friends, Pericles and wealth, the right moment, and how Socrates opens his speech; "
+                 "and \"if I saw you content with what is present\" (104e-105a, pages 289 to 297): the nature worth loving, the souls "
+                 "that come down from heaven, and ambition, the last tunic of the soul.",
     },
 }
 LINE = re.compile(r"^@(treatise|ch|p|greek|taylor)\b\s*(.*)$")

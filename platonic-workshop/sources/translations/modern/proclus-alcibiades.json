@@ -11,7 +11,7 @@
  "greek_text": "proclus-alcibiades",
  "taylor_work": "taylor-1804-alcibiades-intro",
  "taylor_source": "Thomas Taylor, Introduction and notes to the First Alcibiades (drawn from Proclus), in The Works of Plato, vol. I (London, 1804), from texts/taylor-1804/vol1/alcibiades-1.json",
- "about": "A modern English version of Proclus' commentary on the First Alcibiades, the dialogue the school read first, written for the Workshop. It is translated from the Greek of Cousin's edition (Paris, 1820), proofread first from the page images, and checked against the Introduction and notes to the First Alcibiades in Thomas Taylor's Works of Plato (1804), which Taylor drew from Proclus' commentary. Where the Greek says something Taylor's English does not, the modern version follows the Greek, and a flag shows Taylor's words and the difference. The sections, their short titles and summaries are the Workshop's. So far: Proclus' prologue (Cousin's pages 2 to 46): why knowing ourselves is the start of philosophy, the aim of the dialogue, and how it is divided; and his notes on the wording of the dialogue's opening words (pages 49 to 78): what the preface shows, why Socrates says \"I think\", why he calls Alcibiades by his father's name, and the three sciences of Socrates, love first among them; and his account of love (pages 78 to 101): how love turns all things to divine beauty, its ranks from the gods down to the souls of men, true love and its counterfeit, and the five marks that part the divine lover from the vulgar one; and why Socrates loved first and stays (pages 101 to 137): the lover as Alcibiades' good daemon, and as his intellect; why Alcibiades wonders, why the vulgar lovers keep the name of lover, and how Socrates shows himself the only lover; and the more secret account of love (pages 137 to 145): love between the beloved and the lovers, the triad of faith, truth and love among the gods, and love as the middle that binds; and the lovers who came \"in crowds\" (pages 145 to 162): the providence that stands apart, why Socrates began with silence, what a crowd is, and how Alcibiades was trained among the vulgar lovers; and \"not human, but a daemonic opposition\" (pages 162 to 182): why Socrates lays his silence to his daemon, and how love is itself a great daemon, in three ranks, in gods, daemons and souls; and daemons in general and Socrates' own daemon (pages 185 to 232): the daemons allotted to us, the power of Socrates' daemon, and why it now allowed the talk; and the next words of the dialogue (103b to 104e, pages 232 to 289): how Alcibiades treated his lovers, his pride in his beauty, family, friends, Pericles and wealth, the right moment, and how Socrates opens his speech.",
+ "about": "A modern English version of Proclus' commentary on the First Alcibiades, the dialogue the school read first, written for the Workshop. It is translated from the Greek of Cousin's edition (Paris, 1820), proofread first from the page images, and checked against the Introduction and notes to the First Alcibiades in Thomas Taylor's Works of Plato (1804), which Taylor drew from Proclus' commentary. Where the Greek says something Taylor's English does not, the modern version follows the Greek, and a flag shows Taylor's words and the difference. The sections, their short titles and summaries are the Workshop's. So far: Proclus' prologue (Cousin's pages 2 to 46): why knowing ourselves is the start of philosophy, the aim of the dialogue, and how it is divided; and his notes on the wording of the dialogue's opening words (pages 49 to 78): what the preface shows, why Socrates says \"I think\", why he calls Alcibiades by his father's name, and the three sciences of Socrates, love first among them; and his account of love (pages 78 to 101): how love turns all things to divine beauty, its ranks from the gods down to the souls of men, true love and its counterfeit, and the five marks that part the divine lover from the vulgar one; and why Socrates loved first and stays (pages 101 to 137): the lover as Alcibiades' good daemon, and as his intellect; why Alcibiades wonders, why the vulgar lovers keep the name of lover, and how Socrates shows himself the only lover; and the more secret account of love (pages 137 to 145): love between the beloved and the lovers, the triad of faith, truth and love among the gods, and love as the middle that binds; and the lovers who came \"in crowds\" (pages 145 to 162): the providence that stands apart, why Socrates began with silence, what a crowd is, and how Alcibiades was trained among the vulgar lovers; and \"not human, but a daemonic opposition\" (pages 162 to 182): why Socrates lays his silence to his daemon, and how love is itself a great daemon, in three ranks, in gods, daemons and souls; and daemons in general and Socrates' own daemon (pages 185 to 232): the daemons allotted to us, the power of Socrates' daemon, and why it now allowed the talk; and the next words of the dialogue (103b to 104e, pages 232 to 289): how Alcibiades treated his lovers, his pride in his beauty, family, friends, Pericles and wealth, the right moment, and how Socrates opens his speech; and \"if I saw you content with what is present\" (104e-105a, pages 289 to 297): the nature worth loving, the souls that come down from heaven, and ambition, the last tunic of the soul.",
  "source": "sources/translations/modern/proclus-alcibiades.txt",
  "proofread": "sources/neoplatonists/proofread/proclus-alcibiades.txt",
  "treatises": [
@@ -213,6 +213,16 @@
     "104d.1",
     "104d.2",
     "104e.1"
+   ]
+  },
+  {
+   "id": "104e-worthy",
+   "title": "\"If I saw you content with what is present\": the nature worth loving",
+   "summary": "Socrates says he would long ago have given up his love had he seen Alcibiades content with what he has. Proclus draws from this the elements of a nature worth loving: not to rest in what is present but to seek something greater. Souls keep echoes of the ruling life they saw among the gods and, without a knowing guide, chase its images in power and tyranny; the souls that come down from heaven choose lives of rule, and ambition, the first step down from the best life, is the last tunic shed on the way up. So the true lover must know souls, their lives and their images.",
+   "chapters": [
+    "104e.2",
+    "104e.3",
+    "104e.4"
    ]
   }
  ],
@@ -1017,6 +1027,30 @@
    "title": "\"Hard to approach one who is not mastered by his lovers\"",
    "summary": "This preamble holds in brief the causes of the whole meeting. Alcibiades, having mastered many lovers, is still imperfect as to the form of love, unable to tell its orders apart or what is against nature from what is by nature; had he been mastered by the many lovers, he would have lost all fitness, had he clear notions of the two loves, he would be most perfect: as it is, he is fit to receive knowledge. He has a middle power, natural virtues with unformed notions, which, as Plotinus says, have an imperfect eye and character. Socrates, full of the good, dares to come down to a lower activity, as all turning to the worse is daring for divine lovers, so that, like Heracles, he may lead the one he loves up out of Hades, to the intellectual life, where he will know himself and the divine.",
    "greek_unit": "ia-cousin-proclus-t2:314",
+   "taylor": []
+  },
+  {
+   "id": "104e.2",
+   "treatise": "104e-worthy",
+   "title": "\"If I saw you content\": the elements of a nature worth loving",
+   "summary": "As the Republic gives the elements of the philosophic nature, so these words give those of the nature worth loving: some visible, gifts of fate and nature such as beauty and stature; some hidden, seeds of the gods' providence, such as the ruling and lofty form of life. By the first Alcibiades masters the many lovers, by the second he is mastered by Socrates.",
+   "greek_unit": "ia-cousin-proclus-t2:316",
+   "taylor": []
+  },
+  {
+   "id": "104e.3",
+   "treatise": "104e-worthy",
+   "title": "Why not rest in what is present: the soul's three lives",
+   "summary": "Every soul has seen the things that are, and keeps echoes of the true ruling and commanding seated in the gods; forgetting them, it longs for power, pleasure or money without knowing why. Souls stay with the gods, go forth among images, and turn back by knowledge; the followers of Zeus long for the ruling life, and become either saved or tyrants, as they meet knowing guides or not.",
+   "greek_unit": "ia-cousin-proclus-t2:317",
+   "taylor": []
+  },
+  {
+   "id": "104e.4",
+   "treatise": "104e-worthy",
+   "title": "The souls from heaven, and ambition the last tunic",
+   "summary": "The souls that come down from heaven, having seen the gods' powers, choose lives of rule, ambitious or tyrannical; content with the present is a small nature from under the earth. Ambition, the first step down from the best life, is the last tunic shed on the way up, so this desire belongs to souls in the porch of reason, and the true lover must know souls, lives and images.",
+   "greek_unit": "ia-cousin-proclus-t2:321",
    "taylor": []
   }
  ],
@@ -4786,6 +4820,158 @@
    ],
    "notes": [
     "\"An imperfect eye and character\": Plotinus, Enneads I.3.6: \"natural virtue has both an imperfect eye and character, and the starting points are mostly the same for both\". Proclus does not say which story of Heracles in Hades he means."
+   ]
+  },
+  {
+   "seg": "104e.2.p1",
+   "chapter": "104e.2",
+   "modern": "\"For, Alcibiades, if I saw you content with the things I have just gone through, and thinking that you ought to live out your life among them, I would long ago have given up my love, so at least I persuade myself.\"",
+   "greek": "«Ἐγὼ γὰρ, ὦ Ἀλκιβιάδη, εἰ μέν σε ἑώρων ἃ νῦν δὴ διῆλθον ἀγαπῶντα, καὶ οἰόμενον δεῖν ἐν τούτοις καταβιῶναι, πάλαι ἂν ἀπηλλάγμην τοῦ ἔρωτος, ὥς γε δὴ ἐμαυτὸν πείθω».",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:316",
+     "label": "II p. 289"
+    }
+   ],
+   "notes": [
+    "These are the dialogue's next words (Alcibiades I, 104e-105a). \"I have just gone through\": Cousin's note says that the editions have διήλθομεν, \"we have gone through\", and the Venice manuscript διῆλθον, which he prints."
+   ]
+  },
+  {
+   "seg": "104e.2.p2",
+   "chapter": "104e.2",
+   "modern": "In these words Socrates shows clearly who is by nature worth loving. And as in the Republic he has handed down to us the elements of the philosophic nature, so here too, I think, he hands down certain elements of the nature worth loving. These are twofold: some are visible, others hidden; some appear about the body, others are seen within, as motions of the soul itself; some are gifts of fate and of nature, such as beauty and stature, others are seeds of the gods' providence, given to souls for their salvation, such as the ruling, the commanding, and the form of life that lifts itself on high. By the natural advantages, then, those that come from fate, Alcibiades has mastered the many lovers: for through the high-mindedness that goes with that nature he looked down on the discordant and disorderly pestering that came from them. But by the motions of providence and of the soul he is mastered by Socrates: for it is because of these that Socrates persuades him that he is worth his zeal more than anything. And here it is shown what the superiority of the inspired friend over the vulgar lover is, and how great. For the vulgar lover falls short even of the natural advantages; these come second to the motions of the soul; and these are perfected by the inspired lover alone. By much more, then, as the geometers would say, may the vulgar lover be said to be defeated by divine love. Be that as it may, as we were saying, Socrates begins his words, himself persuaded that he is worth everything to the one he loves, and trying to persuade him too, exactly as is said in the Timaeus: by intellect persuading necessity to follow towards the best, and making the good in the proper sense the guardian of life.",
+   "greek": "Τίς ἐστιν ὁ ἀξιέραστος κατὰ φύσιν δείκνυται διὰ τούτων ἐναργῶς παρὰ τοῦ Σωκράτους· καὶ ὥσπερ ἐν τῇ Πολιτείᾳ στοιχεῖα παραδέδωκεν ἡμῖν τῆς φιλοσόφου φύσεως, οὕτω μοι δοκεῖ καὶ ἐν τούτοις στοιχεῖά τινα τῆς ἀξιεράστου παραδιδόναι φύσεως. Διττὰ δὲ ταῦτα ἐστί· τὰ μὲν ἐμφανῆ, τὰ δὲ ἀφανῆ· καὶ τὰ μὲν περὶ τὸ σῶμα φανταζόμενα, τὰ δὲ ἔνδον ἐν αὐτῇ τῇ ψυχῇ κινήματα θεωρούμενα· καὶ τὰ μὲν, εἱμαρμένης δῶρα καὶ φύσεως, ὥσπερ τὸ κάλλος καὶ τὸ μέγεθος, τὰ δὲ, τῆς προνοίας τῶν θεῶν σπέρματα, πρὸς σωτηρίαν ἐνδιδόμενα ταῖς ψυχαῖς, ὥσπερ τὸ ἡγεμονικὸν, καὶ τὸ ἀρχικὸν, καὶ τὸ εἰς ὕψος ἐπαιρόμενον εἶδος τῆς ζωῆς. Κατὰ μὲν οὖν τὰ φυσικὰ καὶ τὰ εἱμαρμένα πλεονεκτήματα κεκράτηκε τῶν πολλῶν ὁ Ἀλκιβιάδης ἐραστῶν· διὰ γὰρ τὴν ἐπ’ αὐτῆς μεγαλοφροσύνην ὑπερεῖδε τῆς πλημμελοῦς καὶ ἀτάκτου παρ’ ἐκείνων ὀχλήσεως· κατὰ δὲ τὰ προνοητικὰ καὶ τὰ ψυχικὰ κινήματα κρατεῖται ὑπὸ τοῦ Σωκράτους· διὰ γὰρ ταῦτα πείθεται ὑπ’ αὐτοῦ ὅτι παντὸς μᾶλλον ἐστὶ σπουδῆς ἄξιος αὐτῷ. Κἀνταῦθα δείκνυται τίς ἐστιν ὑπεροχὴ καὶ ἡλίκη τοῦ ἐνθέου φίλου πρὸς τὸν πολὺν ἐραστήν. Ὁ μὲν γὰρ καὶ τῶν φυσικῶν πλεονεκτημάτων ἐστὶν ὑποδεέστερος· ταῦτα δὲ τῶν ψυχικῶν ἐστὶ δεύτερα κινημάτων· ταῦτα δὲ ὑπὸ τοῦ ἐνθέου τελειοῦνται μόνον ἐρωτικοῦ· πολλῷ ἄρα μειζόνως, φαῖεν ἂν οἱ γεωμέτραι, τοῦ θείου ἔρωτος ἡττᾶσθαι λέγοιτ’ ἂν ὁ φορτικός. Ἀλλ’ οὖν, ὅπερ ἐλέγομεν, ἄρχεται τῶν λόγων ὁ Σωκράτης, καὶ αὐτὸς πεπεισμένος ὅτι παντὸς ἄξιος τῷ ἐρωμένῳ, κἀκεῖνον πείθειν ἐπιχειρῶν, ἄντικρυς κατὰ τὸ ἐν Τιμαίῳ ῥηθὲν, καὶ τῷ νῷ πείθων τὴν ἀνάγκην πρὸς τὸ βέλτιστον ἀκολουθεῖν, καὶ κηδεμόνα ποιεῖσθαι τοῦ βίου τὸ κυρίως ἀγαθόν.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:316",
+     "label": "II p. 289"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:317",
+     "label": "II p. 290"
+    }
+   ],
+   "notes": [
+    "\"The elements of the philosophic nature\": the Republic, Book VI (485a-487a). \"With that nature\": Cousin prints ἐπ’ αὐτῆς, \"upon it\", a feminine; the English takes it to mean the nature worth loving. \"Intellect persuading necessity\": Timaeus 48a, \"intellect ruling necessity by persuading her to lead the most of what comes to be towards the best\"."
+   ]
+  },
+  {
+   "seg": "104e.3.p1",
+   "chapter": "104e.3",
+   "modern": "Why, then, is this an element of the nature worth loving: not to be content with what is present nor stay among it, but always to seek what is greater than what is present? Because, he will say, it belongs to a soul that holds everything vulgar in no honour and is persuaded that it is worth nothing, and longs only to see what is great and precious; a soul that does not know what it has undergone, but imagines, by its native notions, some other greatness and a true height. For every soul, says Plato, has by nature seen the things that are. So it saw there what is truly precious, and the ruling and the commanding, seated in the gods themselves; and having seen them it was struck with wonder at them, and keeps some echoes of what is within. But through forgetfulness and ignorance it does not know what it is that it wonders at, nor by what notions it longs for power and greatness and rule, or for pleasure, or for money. But to the man of knowledge, who has examined the things themselves and the imperfection of nature, it is shown what true power is; and he makes plain in what kind of life the commanding and the ruling are seen, and perfects the imperfect motion of that soul.",
+   "greek": "Τί δήποτ’ οὖν στοιχεῖον ἐστὶ τῆς ἀξιεράστου φύσεως τοῦτο, τὸ μὴ ἀγαπᾶν τὰ παρόντα καὶ καταμένειν ἐν αὐτοῖς, ἀλλ’ ἀεὶ τὸ μεῖζον τῶν παρόντων ἐπιζητεῖν; ὅτι δὴ, φήσει, ψυχῆς γε τοῦτο, τὸ πᾶν μὲν τὸ φορτικὸν ἀτιμαζούσης καὶ οὐδενὸς ἄξιος εἶναι πεπεισμένης, μόνον δέ που τὸ μέγα καὶ τίμιον ἰδεῖν ὀρεγομένης· τὸ μὲν πάθος ὃ πέπονθεν ἀγνοούσης, κατὰ δὲ τὰς αὐτοφυεῖς ἐννοίας ἄλλο τι μέγεθος καὶ ὕψος ἀληθινὸν φανταζομένης. Πᾶσα γὰρ ψυχὴ, φησὶν ὁ Πλάτων, φύσει τε θεᾶται τὰ ὄντα· εἶδεν οὖν ἐκεῖ τὸ ἀληθῶς τίμιον, καὶ τὸ ἡγεμονικὸν, καὶ τὸ ἀρχικὸν, ἐν αὐτοῖς ἱδρυμένα τοῖς θεοῖς· καὶ ἰδοῦσα τέθηπεν αὐτὰ, καὶ ἔχει τινὰ τῶν ἐντὸς ἀπηχήματα· διὰ δὲ τὴν λήθην αὖ καὶ τὴν ἄγνοιαν, οὐκ οἶδε τί ποτέ ἐστιν ὃ θαυμάζει, καὶ κατὰ ποίας ἐννοίας ὀρέγεται τῆς δυνάμεως καὶ τοῦ μεγέθους καὶ τῆς ἀρχῆς, ἢ τῆς ἡδονῆς, ἢ τῶν χρημάτων· ὁ δέ γε ἐπιστήμων, ὁ καὶ τὰ πράγματα ἐπεσκεμμένος καὶ τὸ τῆς φύσεως ἀτελὲς, δείκνυται μὲν αὐτῷ τὶς ἀληθὴς δύναμις· ἐκφαίνει δὲ τὸ ἀρχικὸν καὶ τὸ ἡγεμονικὸν, ἐν ποίᾳ θεωρεῖται ζωῇ· τελειοῖ δὲ τὸ ἀτελὲς αὐτοῦ κίνημα τῆς ψυχῆς.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:317",
+     "label": "II p. 290"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:318",
+     "label": "II p. 291"
+    }
+   ],
+   "notes": [
+    "\"Every soul... has by nature seen the things that are\": Phaedrus 249e. \"It is shown\": Cousin prints δείκνυται; one might expect δείκνυσι, \"he shows\", like the verbs that follow, but the English keeps the print."
+   ]
+  },
+  {
+   "seg": "104e.3.p2",
+   "chapter": "104e.3",
+   "modern": "For, in general, let us think of a threefold life of souls, if you like: one according to the activity that stays in the principles; one according to the activity that goes forth from them; and one according to the activity that turns back to them again. And we say that while souls stay with the gods they are active intellectually, and enjoy both the gods' good-like will and their unmixed giving; but going forth from there, through imagination and an indefinite motion, they meet with images of the things there, appearances instead of the true things; and beholding the likenesses and images of things, they dart wildly about them, longing for what they saw, but turned round towards what they do not long for. And turning back among these towards the principles, they pass again from the images to the original patterns, and here they need intellection and reason. For the ascent is through knowledge, and it is reason that carries the soul across to intellect, away from slipping and imagination. Now different souls are akin to different sights; so some run after some images, others after others: for of the things they saw there, they cherish the images and the shadows. But those who were followers of great Zeus, and went round with him as he holds the ruling rank among the twelve rulers of the universe, come here too after the form of their own god, and long for the ruling form of life; and they do not know what is really such, but chase after authority and power among appearances. If they meet guides who have knowledge, this fitness of theirs ends in their salvation and their leading up; but if they stay among the images, they become lovers of rule, are excited about apparent powers, and fill their lives with tyrannies and such evils.",
+   "greek": "Ὅλως γὰρ τριττήν τινα τῶν ψυχῶν ζωὴν νοήσομεν, εἰ βούλει· τὴν μὲν, κατὰ τὴν μόνιμον ἐν ταῖς ἀρχαῖς ἐνέργειαν· τὴν δὲ, κατὰ τὴν ἐκεῖθεν προϊοῦσαν· τὴν δὲ, κατὰ τὴν εἰς ἐκείνας πάλιν ἐπιστρεφομένην. Καὶ λέγομεν ὅτι, μένουσαι μὲν αἱ ψυχαὶ παρὰ τοῖς θεοῖς, νοερῶς ἐνεργοῦσι, καὶ τῆς τε ἀγαθοειδοῦς βουλήσεως τῶν θεῶν, καὶ τῆς εἰλικρινοῦς ἀπολαύουσι δόσεως· προϊοῦσαι δὲ ἐκεῖθεν, διὰ φαντασίας καὶ ἀορίστου τινὸς κινήσεως εἰδώλοις ἐντυγχάνουσι τῶν ἐκεῖ πραγμάτων, καὶ φαινομένοις ἀντὶ τῶν ἀληθινῶν, καὶ θεώμεναι τὰς εἰκόνας καὶ τὰ εἴδωλα τῶν πραγμάτων, παιφάσσουσι περὶ αὐτὰ καὶ ποθοῦσι μὲν ἃ εἶδον, ἀντιπεριάγονται δὲ εἰς ἃ μὴ ποθοῦσιν· ἐπιστρέφουσαι δὲ ἐν αὐτοῖς περὶ τὰς ἀρχὰς, μεταβαίνουσι πάλιν ἀπὸ τῶν εἰδώλων ἐπὶ τὰ πρωτουργῶν παραδείγματα, καὶ δέονται νοήσεως ἐνταῦθα καὶ λόγου. Δι’ ἐπιστήμης γὰρ ἡ ἄνοδος. Καὶ ὁ λόγος ἐστὶν ὁ διαβάλλων ἐπὶ νοῦν ἀπ’ ὀλισθήσεως καὶ φαντασίας. Ἄλλαι μὲν οὖν τῶν ψυχῶν ἄλλοις εἰσὶν οἰκεῖαι θεάμασι· διὸ καὶ αἱ μὲν ἄλλοις, αἱ δὲ ἄλλοις εἰδώλοις ἐπιτρέχουσιν· ὧν γὰρ ἴδον, ἐκεῖ τὰ εἴδωλα καὶ τὰς σκιὰς φιλοφρονοῦνται· ὅσοι δὲ αὖ τοῦ μεγάλου Διὸς ὀπαδοὶ γεγένηνται, καὶ συμπεριεπόλουν αὐτῷ τὴν ἡγεμονικὴν ἔχοντι τάξιν ἐν τοῖς δώδεκα τῶν ὅλων ἄρχουσι, κατὰ εἶδος τοῦ σφετέρου θεοῦ καὶ δεῦρο ἐλθοῦσαι, τὸ ἡγεμονικὸν εἶδος τῆς ζωῆς ποθοῦσι· καὶ τὸ μὲν ὄντως τοιοῦτον ἀγνοοῦσι, τὴν δὲ ἐν τοῖς φαινομένοις ἐξουσίαν καὶ δύναμιν ἐπιδιώκουσι· κἂν μὲν τύχωσιν ἐπιστημόνων τῶν καθηγουμένων, εἰς σωτηρίαν αὐταῖς καὶ ἀναγωγὴν ἡ ἐπιτηδειότης ἡ τοιαύτη τελευτᾷ· ἂν δὲ καταμένωσιν ἐν τοῖς εἰδώλοις, φίλαρχοι γίνονται, καὶ περὶ τὰς φαινομένας ἐπτόηνται δυνάμεις, καὶ τυραννίδων ἐμπιπλᾶσι τοὺς ἑαυτῶν βίους, καὶ τῶν τοιούτων κακῶν.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:318",
+     "label": "II p. 291"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:319",
+     "label": "II p. 292"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:320",
+     "label": "II p. 293"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:321",
+     "label": "II p. 294"
+    }
+   ],
+   "notes": [
+    "\"Of the things they saw\": Cousin's note says that the manuscript has ὧ γὰρ ἴδιον; he prints ὧν γὰρ ἴδον, which the English follows. The followers of Zeus: Phaedrus 246e-247a (Zeus, the great leader in heaven, with the army of gods and daemons in eleven companies behind him, the twelve gods in all) and 252e (those of Zeus seek one who is \"philosophic and ruling by nature\"). At the foot of these pages Cousin prints a Latin version signed M. F. (Marsilio Ficino), not transcribed here."
+   ]
+  },
+  {
+   "seg": "104e.4.p1",
+   "chapter": "104e.4",
+   "modern": "This, then, is one thing that can be said about souls: how this ruling and great-working quality makes them worth loving, and for what cause. But one may also give, I think, the account Socrates hands down in the Republic about the souls that come down from heaven: that all such souls run after powers above all, and pursue lives of rule and command. For having gone round with the heavenly gods, and seen their powers that master the universe, and the kingdoms that govern from above down to the last things, and the chains held up by them, they too aim at a like life, and want to rule over very many and to stand above other men, as those gods stand above becoming, and to steer the affairs of all, as those gods steer all lesser things. And longing for this they leap at tyrannies, powers and honours; and some of them choose the ambitious life, others the tyrannical. Socrates knows, then, that this love of rule and of honour belongs to those souls which once shared the heavenly going round, and came from there to the region about the earth. That is why here he says to the young man that he would long ago have given up his love if he had seen him content with what is present: for this belongs to a small and ignoble nature, one that has come from somewhere below, from the places under the earth, and so is fond of what is present, and does not look up to the whole and to what stands above, nor, through greatness in its works, prove worth loving.",
+   "greek": "Ἔστι μὲν οὖν καὶ ταῦτα λέγειν περὶ τῶν ψυχῶν, ὡς ἀξιεράστους αὐτὰς ποιεῖ τὸ ἡγεμονικὸν τοῦτο καὶ τὸ μεγαλουργικὸν, καὶ διὰ ποίαν αἰτίαν· ἔστι δὲ αὖ κἀκεῖνον λέγειν, οἶμαι, τὸν λόγον, ὃν ἐν Πολιτείᾳ Σωκράτης παραδίδωσι περὶ τῶν ἐξ οὐρανοῦ κατιουσῶν ψυχῶν· ὅτι ἄρα πᾶσαι αἱ τοιαῦται ταῖς δυνάμεσι διαφερόντως ἐπιτρέχουσαι, καὶ τοὺς ἀρχικοὺς βίους καὶ ἡγεμονικοὺς ἐπιδιώκουσι· συμπεριπολήσασαι γὰρ τοῖς οὐρανίοις θεοῖς, καὶ θεασάμεναι τὰς δυνάμεις αὐτῶν τὰς κρατητικὰς τῶν ὅλων, καὶ τὰς βασιλείας τὰς διοικούσας ἄνωθεν ἄχρι τῶν ἐσχάτων, καὶ τὰς σειρὰς τὰς ἀνεχομένας ὑπ’ αὐτῶν, ἐφίενται καὶ αὗται τῆς ὁμοίας ζωῆς, καὶ βούλονται πλείστων ἄρχειν, καὶ ὑπερανέχειν τῶν ἄλλων ἀνθρώπων, ὡς ἐκεῖνοι τῆς γενέσεως, καὶ κυβερνᾶν τὰ τῶν ὅλων, ὡς ἐκεῖνοι τὰ καταδεέστερα πάντα. Τούτου δὲ ὀρεγόμεναι, ταῖς τυραννίσι καὶ ταῖς δυνάμεσι καὶ ταῖς τιμαῖς ἐπιπηδῶσι. Καὶ αἱ μὲν αὐτῶν, φιλότιμον, αἱ δὲ, τυραννικὸν αἱροῦνται βίον. Οἶδεν οὖν ὁ Σωκράτης ὅτι τὸ φίλαρχον τοῦτο καὶ φιλότιμον ἐκείναις προσήκει ταῖς ψυχαῖς ταῖς οὐρανίας συμπεριπολήσεως ποτὲ τυχούσαις, κἀκεῖθεν εἰς τὸν περὶ γῆν τόπον ἀφικνουμέναις. Διὸ καὶ ἐν τούτοις πρὸς τὸν νεανίσκον φησὶν ὅτι πάλαι ἂν ἀπήλλακτο τοῦ ἔρωτος, εἰ ἑώρα αὐτὸν τὰ παρόντα ἀγαπῶντα· σμικρᾶς γὰρ τοῦτο καὶ ἀγενοῦς ἐστὶ φύσεως, καὶ κάτωθεν ποθὲν ἐκ τῶν ὑπὸ γῆν τόπων ἀφικνουμένης, καὶ διὰ τοῦτο στεργούσης τὸ παρὸν, πρὸς δὲ τὸ ὅλον καὶ ὑπερέχον οὐκ ἀναβλεπούσης οὐδὲ, διὰ μεγαλουργίας, ἀξιεράστου τυγχανούσης.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:321",
+     "label": "II p. 294"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:322",
+     "label": "II p. 295"
+    }
+   ],
+   "notes": [
+    "The souls that come down from heaven: the Republic's myth of Er (619b-d), where the first to choose, who had come from heaven, takes the greatest tyranny, and \"not the fewest\" of those so caught had come from heaven, untrained by toil; the souls from under the earth are at 614e-615a."
+   ]
+  },
+  {
+   "seg": "104e.4.p2",
+   "chapter": "104e.4",
+   "modern": "In the third place, let it be said also that after the constitution according to reason comes the ambitious and timocratic one: for it comes next after that one. And the departure from the best life goes first into this one, as Socrates says in the Republic, and in the ascent it is the last to be purified away.",
+   "greek": "Ἐκ δὴ τρίτων λεγέσθω καὶ ὅτι μετὰ τὴν κατὰ τὸν λόγον πολιτείαν, ἡ φιλότιμός ἐστι καὶ τιμοκρατική· προσεχῶς γὰρ αὕτη μετ’ ἐκείνην ὑφίσταται· Καὶ ἥτε ἔκβασις ἀπὸ ἀρίστης ζωῆς, εἰς ταύτην πρώτην πρόεισιν, ὥσπερ φησὶν ὁ ἐν τῇ Πολιτείᾳ Σωκράτης, καὶ εἰς ἄνοδον ἀπὸ ταύτης ἐσχάτης καθαίρεται.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:322",
+     "label": "II p. 295"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:323",
+     "label": "II p. 296"
+    }
+   ],
+   "notes": [
+    "The Republic, Book VIII (545a-c and 547c): timocracy, the ambitious constitution, is the first to come after the best one."
+   ]
+  },
+  {
+   "seg": "104e.4.p3",
+   "chapter": "104e.4",
+   "modern": "That is why Plato called ambition the last tunic of souls. For contempt for money and disdain for pleasure are found even in the more moderate souls; but by honours, glory and power many even of those who are thought to be clever have been defeated. So as we go up, and strip off the passions and the tunics we took on in coming down, the last tunic to be stripped off is that of ambition, so that, having become naked, as the oracle says, we may set ourselves firmly in the god, becoming pure and unmixed reasons, and leaving all the passions about the earth, where they were set, and making ourselves like the divine lives.",
+   "greek": "Διὸ καὶ ὁ Πλάτων ἔσχατον χιτῶνα τῶν ψυχῶν ἀπεκάλει τὴν φιλοτιμίαν· χρημάτων μὲν γὰρ ὑπεροψία, καὶ ἡδονῆς καταφρόνησις πάρεστι καὶ ταῖς μετριωτέραις τῶν ψυχῶν· τιμῶν δὲ καὶ δόξης καὶ δυνάμεως, πολλοὶ καὶ τῶν δεινῶν οἰομένων ὑπάρχειν, ἡττήθησαν· ἀνιοῦσιν οὖν ἡμῖν καὶ ἀποδυομένοις τὰ πάθη καὶ τοὺς χιτῶνας, οὓς κατιόντες προσειλήφαμεν, ἔσχατος χιτών ἐστι ἀποδυτέος ὁ τῆς φιλοτιμίας, ἵνα γυμνοί τε, ὥς φησι τὸ λόγιον, γεγονότες, ἑαυτοὺς τῷ θεῷ προσιδρύσωμεν, λόγος καθαρὸς καὶ εἰλικρινεῖς γενόμενοι· καὶ πάντα καταλιπόντες τὰ πάθη περὶ γῆν, ὅπουπερ ἐτάχθη, καὶ ταῖς θείαις ζωαῖς ἑαυτοὺς ἐξομοιώσαντες.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:323",
+     "label": "II p. 296"
+    }
+   ],
+   "notes": [
+    "\"The last tunic\": the saying is not in Plato's dialogues; Athenaeus (Deipnosophists XI, 507d) also reports it as Plato's. \"Naked, as the oracle says\": Proclus means the Chaldean Oracles, and gives no more. \"Pure and unmixed reasons\": Cousin prints the singular λόγος with the plural εἰλικρινεῖς, \"unmixed\"; the English reads λόγοι, \"reasons\"."
+   ]
+  },
+  {
+   "seg": "104e.4.p4",
+   "chapter": "104e.4",
+   "modern": "If, then, the first descent of souls is the ambitious life, it is clear that this desire is not one of souls that have fallen into the depth, but of souls that turn about in the porch of reason. That is why Socrates took such a character to be worth loving, as standing above becoming and more akin to reason: for our spirit is nearer to reason than desire is. For these causes, then, Socrates took the life that loves rule and honour to be worthy of a lover's care. And from this it is plain that one who is genuinely the lover of anyone must both know the nature of the soul and have examined the different choices of lives, and be a trustworthy judge of images, able to see of what things each bears the reflections, and by what roads each soul is fitted by nature to reach its own end. For one who has not seen all this together exactly misses the goods that come from the inspiration of love.",
+   "greek": "Εἰ τοίνυν ἡ πρώτη τῶν ψυχῶν κάθοδος ἡ φιλότιμός ἐστι ζωὴ, δῆλον ὡς οὐκ ἔστιν ἡ ἔφεσις αὕτη τῶν εἰς βάθος πεσόντων, ἀλλ’ ἐν προθύροις τοῦ λόγου στρεφομένων. Διὸ δὴ καὶ ὁ Σωκράτης ἀξιέραστον εἶναι τὸ τοιοῦτον ἦθος ὑπείληφεν, ὡς ὑπερανέχον τῆς γενέσεως καὶ τῷ λόγῳ συγγενέστερον· ἐγγυτέρω γάρ ἐστιν ὁ θυμὸς ἡμῶν, ἤπερ ἡ ἐπιθυμία. Διὰ ταύτας μὲν οὖν τὰς αἰτίας, τὴν φίλαρχον καὶ φιλότιμον ζωὴν ὁ Σωκράτης ἀξίαν ἐρωτικῆς ὑπέλαβεν εἶναι κηδεμονίας· ἐκ δὲ τούτων φανερὸν, ὅτι χρὴ τὸν γνησίως ἐραστήν τινος, καὶ ψυχῆς φύσιν εἰδέναι, καὶ τὰς διαφόρους αἱρέσεις τῶν βίων ἐπεσκέφθαι, καὶ τῶν εἰδώλων ἀξιόπιστον εἶναι κριτὴν, καὶ δυνάμενον ὁρᾶν τίνων ἐκφάσεις ἕκαστον ἔχει, καὶ διὰ ποίων ὁδῶν πέφυκεν ἑκάστη ψυχὴ τυγχάνειν τοῦ οἰκείου τέλους· ὁ γὰρ μὴ ταῦτα συνιδὼν ἀκριβῶς, ἀποτυγχάνει τῶν ἐκ τῆς ἐρωτικῆς ἐπιπνοίας ἀγαθῶν.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:323",
+     "label": "II p. 296"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:324",
+     "label": "II p. 297"
+    }
+   ],
+   "notes": [
+    "\"The reflections\": Cousin prints ἐκφάσεις, \"utterances\"; the sense seems to require ἐμφάσεις, \"reflections\", \"appearances\", and the English reads it so."
    ]
   }
  ],
