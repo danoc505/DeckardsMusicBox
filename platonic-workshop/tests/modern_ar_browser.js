@@ -136,7 +136,7 @@ async function run(b, viewport, touch, first) {
   check(await p.$$eval('#lib-ar a[href="#neo-modern/aristotle-metaphysics"]', (es) => es.length) === 1, `${tag}: the Aristotle shelf links to the Metaphysics in modern English`);
   await p.goto(base + "#neo-modern/aristotle-metaphysics/Metaph.I.9");
   await p.waitForSelector("#mc-Metaph\\.I\\.9");
-  check(await p.$$eval(".tg-mod", (es) => es.length) === 13 && /so far Books Α and α/.test(await p.$eval(".tg-read", (e) => e.innerText)), `${tag}: the Metaphysics, thirteen chapters so far, saying which books`);
+  check(await p.$$eval(".tg-mod", (es) => es.length) === 13 && /so far Books Α and α/.test(await p.$eval(".tg-read", (e) => e.textContent)), `${tag}: the Metaphysics, thirteen chapters so far, saying which books`);
   check(/Book Α \(I\), chapter 9\. Against the Forms/.test(await p.$eval("#mc-Metaph\\.I\\.9", (e) => e.textContent)) && /Book α \(II\), chapter 1\./.test(await p.$eval("#mc-Metaph\\.II\\.1", (e) => e.textContent)), `${tag}: chapters are headed by the book's letter`);
   check(/Ross, Oxford \(1908\): “so is the reason in our soul to the things”/.test(await p.$eval("#mp-Metaph\\.II\\.1\\.p1", (e) => e.textContent)), `${tag}: a flag on Ross's "reason" for νοῦς`);
   await p.click("#mp-Metaph\\.I\\.1\\.p1 .mp-greek summary");
