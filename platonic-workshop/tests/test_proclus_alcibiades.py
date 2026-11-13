@@ -120,7 +120,9 @@ class Proofreading(unittest.TestCase):
         self.assertIn("ἀδύνατα φησὶν ὁ Ἐλεάτης ξένος. Ταῦτα μὲν οὖν περὶ τούτων", g)
         self.assertIn("ποτὲ μὲν ἑαυτὸν δαίμονα προσαγορεύων, ποτὲ δὲ θεόν. Ἀλλὰ τούτου μὲν", g)
         self.assertIn("καὶ ποῖον τέλος ἐστὶ τῆς κατ’ ἀρετὴν ἐνεργείας. Τούτου δὲ τὸ αἴτιον γέγονεν οὐκ ἀνθρώπινον", g)
-        self.assertTrue(g.endswith("περὶ τὴν ἐρωτικὴν σπουδῇ."), g[-80:])
+        self.assertIn("περὶ τὴν ἐρωτικὴν σπουδῇ.", g)
+        self.assertIn("τὸ ὅλον δαιμόνιον ἡμῖν γνωσθήσησται φησὶν ὁ Σωκράτης. «Νῦν δὲ ἐπειδὴ οὐκ ἐναντιοῦται", g)
+        self.assertTrue(g.endswith("καὶ αἴτιον αὐτῶν προϋπάρχον."), g[-80:])
         # The supplied pages join the scan's pages on both sides: ἐπαγ-|γέλλεται is not split, nor p. 93 to p. 94.
         self.assertIn("ὁ δὲ αὐτάρκης ἐστὶ, καὶ δυνάμεως πλήρης", g)
         self.assertIn("ὁμοιούμενος τῷ ἐραστῷ, γίνεται δή που καὶ αὐτὸς ἄστατος", g)
@@ -211,9 +213,10 @@ class ModernEnglish(unittest.TestCase):
                 self.assertIn(modern_neo.norm(f["taylor"]), here, p["seg"])
         self.assertGreaterEqual(n, 28)
         # Taylor's paragraphs 2 to 6 and 8 are drawn from the prologue; 7 (Socrates' love) from his notes on the first
-        # words, and so is his first Additional Note (on the preface, 103a).
+        # words, and so is his first Additional Note (on the preface, 103a). His long footnote on 103a quotes Proclus on
+        # the daemons (n006), and two more footnotes draw on his notes on the young man's gifts (n009, n011).
         used = {x["n"] for c in d["chapters"] for x in c["taylor"]}
-        self.assertEqual(used, {2, 3, 4, 5, 6, 7, 8, "add001"})
+        self.assertEqual(used, {2, 3, 4, 5, 6, 7, 8, "add001", "n006", "n009", "n011"})
         labels = {x["n"]: x["label"] for c in d["chapters"] for x in c["taylor"]}
         self.assertEqual((labels[7], labels["add001"]), ("Introduction, paragraph 7", "Additional note on 103a"))
 
@@ -253,9 +256,9 @@ class ModernEnglish(unittest.TestCase):
         d = load()
         p = {x["seg"]: x for x in d["paragraphs"]}
         # Taylor draws nothing from these pages: no Taylor paragraphs named, and so no flags.
-        for c in d["chapters"][17:]:
+        for c in d["chapters"][17:45]:
             self.assertEqual(c["taylor"], [], c["id"])
-        self.assertFalse([f for x in p.values() if x["chapter"] in {c["id"] for c in d["chapters"][17:]} for f in x.get("flags", [])])
+        self.assertFalse([f for x in p.values() if x["chapter"] in {c["id"] for c in d["chapters"][17:45]} for f in x.get("flags", [])])
         # Love, the great daemon, is the middle between beauty and those it leads up.
         self.assertIn("δαίμονα μέγαν", p["103a.8.p2"]["greek"])
         self.assertIn("great daemon", p["103a.8.p2"]["modern"])
@@ -304,7 +307,7 @@ class ModernEnglish(unittest.TestCase):
         d = load()
         p = {x["seg"]: x for x in d["paragraphs"]}
         self.assertEqual({c["treatise"] for c in d["chapters"] if c["id"] in ("103a.26", "103a.30")}, {"103a-crowd"})
-        self.assertTrue(all(not c["taylor"] for c in d["chapters"][35:]))
+        self.assertTrue(all(not c["taylor"] for c in d["chapters"][35:45]))
         # The lemma is its own paragraph, as the dialogue's first words were.
         self.assertEqual(p["103a.26.p1"]["greek"], "Καὶ ὅτι οἱ μὲν ἄλλοι δι’ ὄχλου ἐγένοντό σοι διαλεγόμενοι, ἐγὼ δὲ τοσούτων ἐτῶν οὐδὲ προσεῖπον.")
         # Cousin's τῶν ὅλων is kept in the Greek; the English reads the dialogue's τῶν ἄλλων, and says so.

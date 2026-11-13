@@ -92,7 +92,11 @@ TEXTS = {
                  "and the lovers who came \"in crowds\" (pages 145 to 162): the providence that stands apart, why Socrates began with "
                  "silence, what a crowd is, and how Alcibiades was trained among the vulgar lovers; "
                  "and \"not human, but a daemonic opposition\" (pages 162 to 182): why Socrates lays his silence to his daemon, and how "
-                 "love is itself a great daemon, in three ranks, in gods, daemons and souls.",
+                 "love is itself a great daemon, in three ranks, in gods, daemons and souls; "
+                 "and daemons in general and Socrates' own daemon (pages 185 to 232): the daemons allotted to us, the power of "
+                 "Socrates' daemon, and why it now allowed the talk; "
+                 "and the next words of the dialogue (103b to 104e, pages 232 to 289): how Alcibiades treated his lovers, his "
+                 "pride in his beauty, family, friends, Pericles and wealth, the right moment, and how Socrates opens his speech.",
     },
 }
 LINE = re.compile(r"^@(treatise|ch|p|greek|taylor)\b\s*(.*)$")
