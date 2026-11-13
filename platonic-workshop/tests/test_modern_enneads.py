@@ -139,6 +139,22 @@ class Files(unittest.TestCase):
         self.assertTrue(any("wisdom" in f["why"] for f in flags["I.5.8.p1"]))
         self.assertGreaterEqual(sum(len(flags[s]) for s in flags if s.startswith(("I.4.", "I.5."))), 15)
 
+    def test_milestone_e3_on_beauty_and_the_first_good(self):
+        d = load()
+        self.assertEqual([t["id"] for t in d["treatises"]][:5], ["I.1", "I.4", "I.5", "I.6", "I.7"])
+        self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "I.6"], [f"I.6.{n}" for n in range(1, 10)])
+        self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "I.7"], [f"I.7.{n}" for n in range(1, 4)])
+        first = next(p for p in d["paragraphs"] if p["seg"] == "I.6.1.p1")
+        self.assertTrue(first["modern"].startswith("Beauty is found mostly in what we see"))
+        self.assertTrue(first["greek"].startswith("Τὸ καλόν ἐστι μὲν ἐν ὄψει"))
+        # The sculptor and his statue (I.6.9), and the light that is towards the sun (I.7.1).
+        self.assertIn("fashioning your own statue", next(p for p in d["paragraphs"] if p["seg"] == "I.6.9.p1")["modern"])
+        flags = {p["seg"]: p.get("flags", []) for p in d["paragraphs"]}
+        # MacKenna's "perfect goodness" is the Phaedrus' self-control on its holy pedestal.
+        self.assertTrue(any("Phaedrus" in f["why"] for f in flags["I.6.9.p1"]))
+        self.assertTrue(any("towards the sun" in f["why"] for f in flags["I.7.1.p3"]))
+        self.assertGreaterEqual(sum(len(flags[s]) for s in flags if s.startswith(("I.6.", "I.7."))), 20)
+
     def test_flags_quote_macKenna_word_for_word(self):
         d = load()
         older = mackenna.chapters()
@@ -155,7 +171,8 @@ class Files(unittest.TestCase):
     def test_notes_name_the_places_plotinus_uses(self):
         notes = " ".join(n for p in load()["paragraphs"] for n in p.get("notes", []))
         for place in ("408b11-15", "412b12", "588c-590b", "35a", "611c-612a", "Odyssey",
-                      "1100a5-9", "505a", "77e", "176a-b", "37d", "1153a14-15"):
+                      "1100a5-9", "505a", "77e", "176a-b", "37d", "1153a14-15",
+                      "69b-c", "211a-e", "254b", "508b", "1129b28-29", "Iliad (2.140", "1094a2-3"):
             self.assertIn(place, notes)
 
     def test_the_tool_finds_no_problems(self):
