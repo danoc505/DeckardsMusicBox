@@ -804,3 +804,47 @@ class TaylorWorksInTheLibrary(unittest.TestCase):
             n = self.lib.one("SELECT count(DISTINCT section_ref) AS n FROM chunk WHERE edition_id = ?", ed)["n"]
             self.assertGreaterEqual(n, least, ed)
         self.assertTrue(self.lib.rows("SELECT 1 FROM note WHERE edition_id = 'ar006.taylor1812' AND commentator LIKE 'Taylor (1812), from Simplicius%'"))
+
+
+class PerseusWorks(unittest.TestCase):
+    """Aristotle milestone A8: the other works Perseus has with a Loeb English (the Eudemian Ethics, Politics, Economics,
+    Rhetoric, Poetics), GLAUx-tagged, with Taylor's Rhetoric and Poetic (1811)."""
+    COLUMNS = {"ar009": 72, "ar035": 182, "ar029": 22, "ar038": 133, "ar034": 32}
+
+    @classmethod
+    def setUpClass(cls):
+        cls.lib = serve.Library(build_db.DB_PATH)
+        if not cls.lib.rows("SELECT 1 FROM work WHERE id = 'ar034'"):
+            raise unittest.SkipTest("built before A8")
+
+    def test_each_work_at_its_columns(self):
+        for wid, n in self.COLUMNS.items():
+            self.assertEqual(self.lib.one("SELECT count(*) AS n FROM section WHERE work_id = ?", wid)["n"], n, wid)
+
+    def test_the_greek_is_tagged(self):
+        # The Rhetoric and the Poetics: GLAUx gives their words by chapter, matched to the Perseus words (aristotle.glaux_resection).
+        for wid in self.COLUMNS:
+            r = self.lib.one("SELECT count(*) AS n, count(g.token_id) AS t FROM token t JOIN edition e ON e.id = t.edition_id "
+                             "LEFT JOIN (SELECT DISTINCT token_id FROM tag) g ON g.token_id = t.id WHERE e.work_id = ? AND e.lang = 'grc'", wid)
+            self.assertGreater(r["t"] / r["n"], 0.95, wid)
+
+    def test_the_loeb_and_taylor(self):
+        eds = {r["id"] for r in self.lib.rows("SELECT id FROM edition WHERE work_id IN ('ar009','ar035','ar029','ar038','ar034') AND lang = 'eng'")}
+        self.assertTrue({"ar009.perseus-eng2", "ar035.perseus-eng2", "ar038.perseus-eng2", "ar034.perseus-eng2", "ar029.perseus-eng2"} <= eds)
+        self.assertTrue({"ar038.taylor1811", "ar034.taylor1811"} <= eds)
+
+    def test_the_poetics_has_its_26_chapters(self):
+        n = self.lib.one("SELECT count(*) AS n FROM division WHERE work_id = 'ar034' AND kind = 'ar-chapter'")["n"]
+        self.assertEqual(n, 26)
+        self.assertTrue(self.lib.rows("SELECT 1 FROM division WHERE work_id = 'ar038' AND kind = 'ar-chapter' AND label = 'Book II, chapter 1'"))
+
+    def test_the_politics_has_rosss_chapters(self):
+        # Ross marks his chapters as milestones, numbered within each book: 13, 12, 18, 16, 12, 8, 17 and 7.
+        rows = self.lib.rows("SELECT label FROM division WHERE work_id = 'ar035' AND kind = 'ar-chapter'")
+        self.assertEqual(len(rows), 103)
+        self.assertIn("Book VIII, chapter 7", {r["label"] for r in rows})
+
+    def test_a_note_does_not_run_on_into_the_next_treatise(self):
+        # The Ethics' note on I 6 (the Platonists' doctrine of ideas) once ran on as the end of the Poetic's last note.
+        self.assertTrue(any("doctrine of ideas" in n["text"] for n in json.loads((ROOT / "texts/aristotle/nicomachean-ethics/taylor-1811.json").read_text())["notes"]))
+        self.assertFalse(any("doctrine of ideas" in n["text"] for n in json.loads((ROOT / "texts/aristotle/poetics/taylor-1811.json").read_text())["notes"]))

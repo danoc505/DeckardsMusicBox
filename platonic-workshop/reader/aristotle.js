@@ -30,6 +30,11 @@ const AR_PLAIN = {
   ar005: "The heavens: the fifth body that moves in a circle, ungenerated and eternal; the earth at the centre; the four elements and their weight and lightness.",
   ar002: "The soul as the first actuality of a natural body that has life: nutrition, sensation, imagination, and the intellect that makes all things, separable, impassive and unmixed (Book III, 5).",
   ar010: "The good for man, the virtues of character and of intellect, friendship, pleasure, and the life of contemplation as the most divine (Book X).",
+  ar009: "The other Ethics: happiness, the virtues of character, the voluntary, friendship, and in the end the measure of every choice, the contemplation and service of God (Book VIII 3).",
+  ar035: "The city, prior by nature to the household and the man; household rule and slavery; the constitutions, their kinds and changes; and the best city and the education of its citizens. Book II argues against Plato's Republic and Laws.",
+  ar029: "The management of the household: husband and wife, slaves, and property; and in Book II the finances of kings and cities.",
+  ar038: "Rhetoric, the counterpart of dialectic: the three kinds of oratory, proof by character, emotion and argument; the emotions one by one (Book II); style and the arrangement of a speech (Book III).",
+  ar034: "Poetry as imitation; tragedy, its plot, character and the purgation (κάθαρσις) of pity and fear; and epic. An answer, in part, to Plato's banishing of the poets from the Republic.",
 };
 
 function arSources() {
@@ -406,38 +411,31 @@ const AR_RECON = [
   { topic: "The rule: agreement in the sense, not the wording", id: "rule",
     items: [
       { who: "Simplicius", src: ["simplicius-categories", "7", 0], on: null, where: "the prologue to his commentary on the Categories, on what the reader of Aristotle needs",
-        grc: `δεῖ δὲ οἶμαι καὶ τῶν πρὸς Πλάτωνα λεγομένων αὐτῷ μὴ πρὸς τὴν λέξιν ἀποβλέποντα μόνον διαφωνίαν τῶν φιλοσόφων καταψηφίζεσθαι, ἀλλ᾿ εἰς τὸν νοῦν ἀφορῶντα τὴν ἐν τοῖς πλείστοις συμφωνίαν αὐτῶν ἀνιχνεύειν.`,
-        en: `And I think that, with what he says against Plato too, one must not look only to the wording and condemn the philosophers for disagreeing, but look to the sense and track down their agreement in most things.` },
+        grc: `δεῖ δὲ οἶμαι καὶ τῶν πρὸς Πλάτωνα λεγομένων αὐτῷ μὴ πρὸς τὴν λέξιν ἀποβλέποντα μόνον διαφωνίαν τῶν φιλοσόφων καταψηφίζεσθαι, ἀλλ᾿ εἰς τὸν νοῦν ἀφορῶντα τὴν ἐν τοῖς πλείστοις συμφωνίαν αὐτῶν ἀνιχνεύειν.`, en: `And I think that, with what he says against Plato too, one must not look only to the wording and condemn the philosophers for disagreeing, but look to the sense and track down their agreement in most things.` },
     ] },
   { topic: "The Forms", id: "forms",
     items: [
       { who: "Asclepius", src: ["asclepius-metaphysics", "75", 3], on: ["ar025", "990b"], where: "on the third man, Metaphysics Α 9",
-        grc: `ἀπολογούμεθα τοίνυν ἡμεῖς ὑπὲρ τοῦ Πλάτωνος τοῦτον τὸν τρόπον, φάσκοντες ὅτι ἡ ὁμοιότης ἐν τοῖς στοιχείοις θεωρεῖται, τουτέστιν ἐν τοῖς καθ’ ἕκαστα αἰσθητοῖς. ἡ γὰρ ἰδέα οὐκ ἔστιν ὁμοία τῷ αἰσθητῷ, εἴ γε τὸ μὲν αἰσθητόν ἐστι, τὸ δὲ λόγος ἐξῃρημένος τοῦ αἰσθητοῦ.`,
-        en: `We therefore defend Plato in this way, saying that likeness is seen in the elements, that is, in the particular things of sense. For the Form is not like the thing of sense, since the one is sensible and the other a reason-principle exempt from the sensible.` },
+        grc: `ἀπολογούμεθα τοίνυν ἡμεῖς ὑπὲρ τοῦ Πλάτωνος τοῦτον τὸν τρόπον, φάσκοντες ὅτι ἡ ὁμοιότης ἐν τοῖς στοιχείοις θεωρεῖται, τουτέστιν ἐν τοῖς καθ’ ἕκαστα αἰσθητοῖς. ἡ γὰρ ἰδέα οὐκ ἔστιν ὁμοία τῷ αἰσθητῷ, εἴ γε τὸ μὲν αἰσθητόν ἐστι, τὸ δὲ λόγος ἐξῃρημένος τοῦ αἰσθητοῦ.`, en: `We therefore defend Plato in this way, saying that likeness is seen in the elements, that is, in the particular things of sense. For the Form is not like the thing of sense, since the one is sensible and the other a reason-principle exempt from the sensible.` },
       { who: "Asclepius", src: ["asclepius-metaphysics", "88", 4], on: ["ar025", "991a"], lemma: ["asclepius-metaphysics", "87", "p. 991a20"], where: "on the Forms as \"paradigms\" and \"poetic metaphors\", Metaphysics Α 9 (the lemma 991a20, printed on p. 87)",
-        grc: `φαμὲν οὗν πρὸς τοῦτο ὅτι ὁ δημιουργὸς ἀποβλέπων πρὸς τὰς ἰδέας, καὶ ἡ φύσις οὕτως παράγει ἃ παράγει· … τὸ δὲ κεχρῆσθαι μεταφοραῖς καὶ κλεῖν αὐτὰ παραδείγματα οὐδέν ἐστιν ἄτοπον, ἐπειδὴ πρὸς αὐτὰ ἀποβλέπων ὁ δημιουργὸς οὕτως παράγει· ὥστε ἐκεῖ μὲν παραδείγματα, ἐνταῦθα δὲ εἰκόνες.`,
-        en: `To this we say that it is by looking to the Forms that the Demiurge, and so nature, brings forth what it brings forth … And there is nothing out of place in using metaphors and calling them paradigms, since it is by looking to them that the Demiurge brings forth; so that there they are paradigms, and here images.` },
+        grc: `φαμὲν οὗν πρὸς τοῦτο ὅτι ὁ δημιουργὸς ἀποβλέπων πρὸς τὰς ἰδέας, καὶ ἡ φύσις οὕτως παράγει ἃ παράγει· … τὸ δὲ κεχρῆσθαι μεταφοραῖς καὶ κλεῖν αὐτὰ παραδείγματα οὐδέν ἐστιν ἄτοπον, ἐπειδὴ πρὸς αὐτὰ ἀποβλέπων ὁ δημιουργὸς οὕτως παράγει· ὥστε ἐκεῖ μὲν παραδείγματα, ἐνταῦθα δὲ εἰκόνες.`, en: `To this we say that it is by looking to the Forms that the Demiurge, and so nature, brings forth what it brings forth … And there is nothing out of place in using metaphors and calling them paradigms, since it is by looking to them that the Demiurge brings forth; so that there they are paradigms, and here images.` },
       { who: "Asclepius", src: ["asclepius-metaphysics", "183", 10], on: ["ar025", "999a"], where: "on the separate principle, Metaphysics Β",
-        grc: `καὶ δεῖ σημειώσασθαι ὅτι φησὶ ῾δεῖ τὴν ἀρχὴν τὴν παρακτικὴν κεχωρίσθαι τῶν πραγμάτων, ὧν ἐστιν ἀρχή᾿· ὥστε οἶδε καὶ αὐτὸς τὰς ἰδέας καὶ τοὺς λόγους τοὺς δημιουργικοὺς τῶν πραγμάτων ἐξῃρημένους καὶ χωριστοὺς ὄντας.`,
-        en: `And one should note that he says "the principle that brings things forth must be separate from the things of which it is the principle"; so he too knows the Forms, and the demiurgic reason-principles of things, as exempt and separate.` },
+        grc: `καὶ δεῖ σημειώσασθαι ὅτι φησὶ ῾δεῖ τὴν ἀρχὴν τὴν παρακτικὴν κεχωρίσθαι τῶν πραγμάτων, ὧν ἐστιν ἀρχή᾿· ὥστε οἶδε καὶ αὐτὸς τὰς ἰδέας καὶ τοὺς λόγους τοὺς δημιουργικοὺς τῶν πραγμάτων ἐξῃρημένους καὶ χωριστοὺς ὄντας.`, en: `And one should note that he says "the principle that brings things forth must be separate from the things of which it is the principle"; so he too knows the Forms, and the demiurgic reason-principles of things, as exempt and separate.` },
     ] },
   { topic: "The soul", id: "soul",
     items: [
       { who: "Philoponus", src: ["philoponus-de-anima", "581", 30], on: ["ar002", "432b"], where: "on what moves the living thing in place, On the Soul III 9-10 (the third book is printed under Philoponus' name)",
-        grc: `ἰστέον δὲ ὅτι οὐ διαφωνεῖ Πλάτων Ἀριστοτέλει. ὁ μὲν γὰρ Πλάτων τὸ ποιητικὸν αἴτιον εἶπεν, ὁ δὲ Ἀριστοτέλης τὸ τελικόν, εἰπὼν τὴν ὄρεξιν.`,
-        en: `One should know that Plato does not disagree with Aristotle. For Plato named the efficient cause, and Aristotle the final, in naming desire.` },
+        grc: `ἰστέον δὲ ὅτι οὐ διαφωνεῖ Πλάτων Ἀριστοτέλει. ὁ μὲν γὰρ Πλάτων τὸ ποιητικὸν αἴτιον εἶπεν, ὁ δὲ Ἀριστοτέλης τὸ τελικόν, εἰπὼν τὴν ὄρεξιν.`, en: `One should know that Plato does not disagree with Aristotle. For Plato named the efficient cause, and Aristotle the final, in naming desire.` },
     ] },
   { topic: "The eternity of the world", id: "eternity",
     items: [
       { who: "Simplicius", src: ["simplicius-de-caelo", "296", 14], on: ["ar005", "279b"], where: "on those who make the world generated but indestructible, On the Heavens I 10 (\"among them the theologians and Plato, as Alexander says\")",
-        grc: `ἰστέον δέ, ὅτι ὁ μὲν Ἀριστοτέλης κατὰ παλαιὰν συνήθειαν πρὸς τὸ φαινόμενον ἐνίσταται πολλάκις, ὅταν τοῦτο προχειρότερον ἐκληφθὲν μὴ συμφωνῇ τῇ ἀληθείᾳ· ποιεῖ δὲ τοῦτο βοηθῶν τοῖς ἐπιπολαιότερον τῶν παλαιῶν λόγων ἀκροωμένοις … οὐχ οὕτως οὖν γενητὸν ὡς ἀπὸ χρόνου τινὸς γενόμενον·`,
-        en: `One should know that Aristotle, by an old custom, often objects to what a saying appears to mean, when that, taken too readily, does not agree with the truth; and he does this to help those who hear the ancients' words too superficially … [Plato calls the world] generated, then, not as having come to be from some point in time.` },
+        grc: `ἰστέον δέ, ὅτι ὁ μὲν Ἀριστοτέλης κατὰ παλαιὰν συνήθειαν πρὸς τὸ φαινόμενον ἐνίσταται πολλάκις, ὅταν τοῦτο προχειρότερον ἐκληφθὲν μὴ συμφωνῇ τῇ ἀληθείᾳ· ποιεῖ δὲ τοῦτο βοηθῶν τοῖς ἐπιπολαιότερον τῶν παλαιῶν λόγων ἀκροωμένοις … οὐχ οὕτως οὖν γενητὸν ὡς ἀπὸ χρόνου τινὸς γενόμενον·`, en: `One should know that Aristotle, by an old custom, often objects to what a saying appears to mean, when that, taken too readily, does not agree with the truth; and he does this to help those who hear the ancients' words too superficially … [Plato calls the world] generated, then, not as having come to be from some point in time.` },
     ] },
   { topic: "God as maker, and the unmoved mover", id: "mover",
     items: [
       { who: "Simplicius", src: ["simplicius-physics", "1363", 59], on: ["ar031", "267b"], lemma: ["simplicius-physics", "1357", "p. 267b17"], where: "at the end of the Physics (the lemma 267b17 to the end, printed on p. 1357)",
-        grc: `γέγραπται δὲ βιβλίον ὅλον Ἀμμωνίῳ τῷ ἐμῷ καθηγεμόνι, πολλὰς πίστεις παρεχόμενον τοῦ καὶ ποικτικὸν αἴτιον ἡγεῖσθαι τὸν θεὸν τοῦ παντὸς κόσμου τὸν Ἀριστοτέλη … εἰ δέ τις ζητεῖ, τί δήποτε ὁ Ἀριστοτέλης οὐχ οὕτως φανερῶς ποιητικὸν αἴτιον τὸν θεὸν εἶπεν ὡς τελικόν, τὸν περὶ τοῦ γενητοῦ ῥηθέντα πρότερον καὶ νῦν ἐρῶ λόγον.`,
-        en: `A whole book was written by Ammonius, my teacher, offering many proofs that Aristotle holds God to be the efficient cause [the file prints ποικτικὸν, for ποιητικὸν] of the whole world as well … And if anyone asks why Aristotle did not call God the efficient cause as plainly as the final, I shall give now the account given before about the generated.` },
+        grc: `γέγραπται δὲ βιβλίον ὅλον Ἀμμωνίῳ τῷ ἐμῷ καθηγεμόνι, πολλὰς πίστεις παρεχόμενον τοῦ καὶ ποικτικὸν αἴτιον ἡγεῖσθαι τὸν θεὸν τοῦ παντὸς κόσμου τὸν Ἀριστοτέλη … εἰ δέ τις ζητεῖ, τί δήποτε ὁ Ἀριστοτέλης οὐχ οὕτως φανερῶς ποιητικὸν αἴτιον τὸν θεὸν εἶπεν ὡς τελικόν, τὸν περὶ τοῦ γενητοῦ ῥηθέντα πρότερον καὶ νῦν ἐρῶ λόγον.`, en: `A whole book was written by Ammonius, my teacher, offering many proofs that Aristotle holds God to be the efficient cause [the file prints ποικτικὸν, for ποιητικὸν] of the whole world as well … And if anyone asks why Aristotle did not call God the efficient cause as plainly as the final, I shall give now the account given before about the generated.` },
     ] },
 ];
 

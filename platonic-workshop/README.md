@@ -417,7 +417,9 @@ Prior Analytics (Works of Aristotle, vol. I, 1812) and his Nicomachean Ethics (1
 (1812)* and *Taylor (1811)*, read from Google's scans in the Internet Archive by the rules that read his Metaphysics
 (`tools/aristotle_taylor.py`), with his notes from Simplicius, Ammonius and the other commentators under the text. They print
 no Bekker numbers, so the Organon is placed at the Oxford's columns carried over chapter by chapter, and the Ethics against
-the Loeb English (≈). OCR cleaned by rule, not proofread.
+the Loeb English (≈). OCR cleaned by rule, not proofread. Five more works come from Perseus with their Loeb English, each
+GLAUx-tagged: the Eudemian Ethics, Politics, Economics, Rhetoric and Poetics; Taylor's Rhetoric and Poetic (1811) are beside
+the last two.
 
 ## Running it
 
