@@ -465,11 +465,25 @@ Built by `tools/aristotle.py` (works of corpus `aristotle`, a Bekker column, 980
   stretch the Greek out of proportion is left out; Book X, which Thompson does not translate, by length). The rest by length
   (≈), named in the reader (`AR_BY_LENGTH`). Thompson's English is beside the Greek. Alexander on Sense is linked. The Oxford
   Parva Naturalia (Beare and Ross) was not used: its 1908 issue is not on the Archive, and the 1931 reprint is not yet free.
-- What is left of A8, for the next thread:
-  1. The spurious and minor works in Greek only: tlg004, 007, 011 (Letters), 019, 023, 027, 032, 036 (Problems), 039, 043,
-     046-048, 052, 054; check each TEI's margin for Bekker's columns first (GLAUx lacks 004, 019 and 046). Perseus has the
-     Constitution of the Athenians (tlg003, Kenyon) and On Virtues and Vices (tlg045) in Greek only.
-  2. Optional: Taylor's translation of Porphyry's Introduction and his Introductions to the Categories, On Interpretation and the
+- The minor and spurious works (A8e, done), in Greek only, from First1KGreek: Bekker's own text (Oxford, 1837) of the Mechanics,
+  On Indivisible Lines, On Melissus, Xenophanes and Gorgias, On Colours, On Things Heard, the Physiognomics, On Plants, On Marvellous
+  Things Heard and the Winds, at the Berlin columns First1KGreek marks in it as milestones (`<milestone unit="page" resp="Bekker">`,
+  read by `aristotle_f1k.read_tei`), every column present; the Problems (Ruelle, Knoellinger and Klek, 1922), the same; On Breath
+  (Jaeger, 1913), from its margin, two columns by length (≈); Ross's other versions of Physics VII and of passages of On the Soul II,
+  from his margin. On Plants is read without the Byzantine translator's prologue, which is not on Bekker's Berlin pages (its
+  milestones repeat the columns of the end of the Physiognomics). GLAUx-tagged, paired with our words by whole work or by chapter
+  where the two divide a work differently (`aristotle_f1k.pair_key`); GLAUx lacks On Things Heard, On Indivisible Lines and the
+  Winds, whose words carry Morpheus's parses only, as the reader says. The Mechanics and On Indivisible Lines are a new step in the
+  order of reading, *Mathematics*, from Taylor's division ("mathematical, such as his Mechanical Problems, and his treatise On
+  Indivisible Lines").
+- What is left of A8, for a later thread:
+  1. Not done in A8e, for want of Bekker's columns: the Letters (tlg011, Hercher, 1873) and the Divisions (tlg048, Mutschmann,
+     1906), which are not on Bekker's pages and would need a citation of their own (letter; Mutschmann's page); the Constitution
+     of the Athenians (tlg003, Kenyon, Perseus, cited by chapter and section). On Virtues and Vices (tlg045, 1249a-1251b) is in
+     Perseus's Greek only, and GLAUx has it: it needs `tools/aristotle.py` to accept a Perseus work with no English.
+  2. English for the minor works: the Oxford translation, vol. VI (Opuscula, 1913) and vol. VII (the Problems, Forster, 1927),
+     are public domain in the US; read from scans as Thompson's History of Animals, if wanted.
+  3. Optional: Taylor's translation of Porphyry's Introduction and his Introductions to the Categories, On Interpretation and the
      Prior Analytics (vol. I, leaves 59-72, 149-155, 205-212 of `ia-taylor-organon-1812`; already in `PARTS` in
      `tools/aristotle_taylor.py`, not yet written out as texts).
 - Then A6 (Daniel: "Do A7 and A8 first, A6 last").

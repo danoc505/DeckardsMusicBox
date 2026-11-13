@@ -423,7 +423,11 @@ the last two. Seven more are in Greek only, from First1KGreek, GLAUx-tagged, wit
 Generation and Corruption, Meteorology, and Parts, Progression, Movement and Generation of Animals. The Parva Naturalia (eight
 short treatises, from On Sense to On Respiration) are in Greek only too, Bekker's Oxford text, which prints no Berlin columns: these
 are carried over word by word from the margin of Biehl's Greek (Teubner, 1898). The History of Animals has D'Arcy Thompson's Oxford
-translation (1910) beside it, its columns carried over from his margin chapter by chapter (≈).
+translation (1910) beside it, its columns carried over from his margin chapter by chapter (≈). The minor and spurious works
+are in Greek only too (A8e): the Mechanics and On Indivisible Lines (the mathematical works, in Taylor's division), On Melissus,
+Xenophanes and Gorgias, On Colours, On Things Heard, the Physiognomics, On Plants, On Marvellous Things Heard, the Winds, the
+Problems, On Breath, and the other versions of Physics VII and of On the Soul II, at the Berlin columns First1KGreek marks in them.
+GLAUx tags all but On Things Heard, On Indivisible Lines and the Winds, whose words carry Morpheus's parses only.
 
 ## Running it
 

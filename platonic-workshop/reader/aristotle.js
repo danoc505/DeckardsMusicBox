@@ -55,11 +55,27 @@ const AR_PLAIN = {
   ar020: "Why some living things live longer than others: the long-lived are warm and moist, and the moist must not be easily dried.",
   ar018: "The nutritive soul has its seat in the heart, the source of natural heat; life is the keeping of that heat, and death its failing or its quenching.",
   ar037: "The earlier accounts of breathing (Anaxagoras, Diogenes, Democritus, Plato's Timaeus) examined; breathing, and the gills of fishes, are for cooling the heat about the heart.",
+  ar023: "Mechanical problems: why a small force moves a great weight with the lever, traced to the circle, in which contraries meet; then the balance, the oar, the rudder, the wedge and the pulley. From Aristotle's school.",
+  ar019: "Against the doctrine of the Academy that there are indivisible lines: its arguments set out and answered one by one from mathematics. From Aristotle's school.",
+  ar047: "Three arguments about being set out and examined: Melissus' that what is is one, ungenerated and unmoved; Xenophanes' on God; and Gorgias' that nothing is, or if it is cannot be known, or if known cannot be told. Bekker titles it On Xenophanes, Zeno and Gorgias. From Aristotle's school.",
+  ar007: "The simple colours of the elements, and the others as mixtures of them, of light and shade; the colours of plants, fruit, hair and feathers, and how they change as they grow. From Aristotle's school.",
+  ar004: "How voices and sounds arise from the blows of the breath on the air, and why they differ, clear or muffled, rough or smooth, in men, animals and instruments. An extract from a work of Aristotle's school.",
+  ar032: "How character is read from the body, since soul and body are affected together: from a man's likeness to an animal, from his people, and from the looks that go with each passion. From Aristotle's school.",
+  ar039: "Whether plants have soul, desire and sensation; then their parts, their kinds, and how they grow, flower and bear fruit. Not Aristotle's: the treatise of Nicolaus of Damascus, come back into Greek from Latin, by way of Arabic.",
+  ar027: "A collection of wonders, strange animals, springs, metals and peoples, from the far West to India, gathered from many writers in Aristotle's school and after it.",
+  ar036: "Questions asked and answered under thirty-eight heads, medicine, sweat, wine, the voice, music, mathematics, justice and wisdom among them; gathered in Aristotle's school over many generations. Book XXX 1 asks why all who have been outstanding in philosophy, politics, poetry or the arts are melancholic.",
+  ar046: "The winds, by the quarters of the sky they blow from, with the names each people gives them. A short extract under Aristotle's name.",
+  ar043: "How the breath (πνεῦμα) inborn in animals is kept up and fed, and how it bears on breathing, the pulse and digestion; many questions are raised and left open. From Aristotle's school.",
+  ar054: "Book VII of the Physics as some manuscripts give it, in a version that differs throughout from the common text, printed by Ross beside it: everything moved is moved by something, and there must be a first mover.",
+  ar052: "Passages of Book II of On the Soul (on nutrition, and on the senses) as one manuscript (E) gives them, in a version that differs from the common text; printed by Ross. The passages are not continuous, so only the columns they fall in are here.",
 };
 // Works in Greek only (Aristotle milestone A8c): no English is in the Workshop yet. Where the margin of the edition has lost a
 // Bekker column, it is placed by length between the columns read either side (tools/aristotle_f1k.fill_gaps); listed here.
 const AR_GREEK_ONLY = new Set(["ar022", "ar013", "ar026", "ar030", "ar015", "ar021", "ar012",
-  "ar041", "ar024", "ar042", "ar016", "ar008", "ar020", "ar018", "ar037"]);
+  "ar041", "ar024", "ar042", "ar016", "ar008", "ar020", "ar018", "ar037",
+  "ar023", "ar019", "ar047", "ar007", "ar004", "ar032", "ar039", "ar027", "ar036", "ar046", "ar043", "ar054", "ar052"]);
+// Aristotle milestone A8e: the minor works GLAUx has not tagged. Their words carry Morpheus's possible parses only, not one chosen by machine.
+const AR_NO_GLAUX = new Set(["ar004", "ar019", "ar046"]);
 const AR_BY_LENGTH = {
   ar022: ["1183a", "1187a", "1193b", "1197b", "1199b", "1203a", "1210a"],
   ar013: ["319b", "323a", "327b", "329a", "333a", "336b"],
@@ -73,6 +89,7 @@ const AR_BY_LENGTH = {
   ar008: ["463a", "464b"],
   ar020: ["465a", "465b"],
   ar018: ["468b"],
+  ar043: ["486a", "486b"],
   ar037: ["471b", "474b", "475b", "477a", "477b", "478b", "479b"],
   ar014: ["522b", "604b", "607b", "608a", "614b", "634a", "634b", "635a", "635b", "636a", "636b", "637a", "637b", "638a", "638b"],
 };
@@ -92,6 +109,13 @@ function arSources() {
     Generation and Corruption (Leipzig, 1881), Fobes's Meteorology (Cambridge, Mass., 1919), Jaeger's Progression and Movement of Animals (Leipzig,
     1913), with Bekker's columns read from their margins (a column the margin has lost is placed by length, ≈); Langkavel's Parts of Animals
     (Leipzig, 1868) and Bekker's Generation of Animals (Berlin, 1829), with Bekker's columns from GLAUx (where GLAUx marks none, placed by length, ≈).</p>
+    <p class="prov">The minor works, most of them written in Aristotle's school rather than by him, in Greek only, from First1KGreek (CC BY-SA 4.0), with no
+    English yet: Bekker's own text (Oxford, 1837) of the Mechanics, On Indivisible Lines, On Melissus, Xenophanes and Gorgias, On Colours, On Things Heard,
+    the Physiognomics, On Plants (without the prologue of its Byzantine translator, which is not on Bekker's Berlin pages) and On Marvellous Things Heard,
+    and the Situations and Names of Winds, at the Berlin columns First1KGreek marks in it; the Problems (Ruelle, Knoellinger and Klek, Leipzig, 1922), the same;
+    Jaeger's On Breath (Leipzig, 1913) and Ross's other versions of Physics VII and of passages of On the Soul II, with the columns in their margins
+    (a column the margin has lost is placed by length, ≈). GLAUx has not tagged On Things Heard, On Indivisible Lines or the Winds; their words carry
+    Morpheus's parses. The Letters (Hercher's Epistolographi, 1873) and the Divisions (Mutschmann, 1906) are not on Bekker's pages and are not yet here.</p>
     <p class="prov">The Parva Naturalia and the History of Animals: Bekker's own text, from First1KGreek (CC BY-SA 4.0), in his Oxford reprint (1837),
     which does not print the Berlin columns. For the Parva Naturalia they are carried over from the margin of Biehl's Greek (Leipzig: Teubner, 1898),
     whose words the Internet Archive's scan gives and the Workshop pairs one by one with Bekker's (≈, to the line); for the History of Animals, from
@@ -177,6 +201,8 @@ function arHead(w) {
     ${AR_GREEK_ONLY.has(w.id) ? `<p class="meta">The Greek only: no English translation of this work is in the Workshop yet. The word box gives every
       word's dictionary form, grammar and dictionary entries.${AR_BY_LENGTH[w.id] ? ` Bekker's column${AR_BY_LENGTH[w.id].length === 1 ? "" : "s"} ${esc(AR_BY_LENGTH[w.id].join(", "))}
       ${AR_BY_LENGTH[w.id].length === 1 ? "is" : "are"} not marked in this Greek's source: each is placed by the length of the text between the columns either side, and may be a few lines out (≈).` : ""}</p>` : ""}
+    ${AR_NO_GLAUX.has(w.id) ? `<p class="meta">GLAUx has not tagged this work, so no one dictionary form and grammar is chosen for each word: the word box
+      gives every parse Morpheus allows for the form, and the dictionary entries.</p>` : ""}
     <p class="meta">Bekker's numbers: 980a is page 980 of Bekker's Berlin edition (1831), left column; every book on Aristotle cites him so.
       Tap a Greek word for its dictionary form and grammar (from GLAUx, by machine) and its dictionary entries. Underlined words are the
       Platonists' key terms: tap one to see where Plato uses it too. Choose the translations beside the Greek with <em>Reading</em>; Taylor's
@@ -248,9 +274,13 @@ const AR_ORDER = [
   { step: "Politics", taylor: "practical: economical and political", note: "",
     works: [["ar035", "Politics"], ["ar029", "Economics"], ["ar003", "Constitution of the Athenians"]] },
   { step: "Physics", taylor: "theoretic: physical", note: "\"The knowledge of natural things\", ending in the soul and the short treatises on what is common to soul and body (the Parva Naturalia).",
-    works: [["ar031", "Physics"], ["ar005", "On the Heavens"], ["ar013", "On Generation and Corruption"], ["ar026", "Meteorology"], ["ar014", "History of Animals"], ["ar030", "Parts of Animals"], ["ar015", "Progression of Animals"], ["ar021", "Movement of Animals"], ["ar012", "Generation of Animals"], ["ar002", "On the Soul"],
+    works: [["ar031", "Physics"], ["ar054", "Physics VII, the other version"], ["ar047", "On Melissus, Xenophanes and Gorgias"], ["ar005", "On the Heavens"], ["ar013", "On Generation and Corruption"], ["ar026", "Meteorology"], ["ar014", "History of Animals"], ["ar030", "Parts of Animals"], ["ar015", "Progression of Animals"], ["ar021", "Movement of Animals"], ["ar012", "Generation of Animals"], ["ar002", "On the Soul"], ["ar052", "On the Soul II, the other version"],
       ["ar041", "On Sense"], ["ar024", "On Memory"], ["ar042", "On Sleep"], ["ar016", "On Dreams"], ["ar008", "On Divination in Sleep"],
-      ["ar020", "On Length of Life"], ["ar018", "On Youth and Old Age"], ["ar037", "On Respiration"]] },
+      ["ar020", "On Length of Life"], ["ar018", "On Youth and Old Age"], ["ar037", "On Respiration"], ["ar043", "On Breath"],
+      ["ar007", "On Colours"], ["ar004", "On Things Heard"], ["ar032", "Physiognomics"], ["ar039", "On Plants"], ["ar027", "On Marvellous Things Heard"],
+      ["ar046", "Situations and Names of Winds"], ["ar036", "Problems"]] },
+  { step: "Mathematics", taylor: "theoretic: mathematical", note: "\"Such as his Mechanical Problems, and his treatise On Indivisible Lines\".",
+    works: [["ar023", "Mechanics"], ["ar019", "On Indivisible Lines"]] },
   { step: "Theology", taylor: "theoretic: theological", note: "\"Those luminous beings, which have a supernatural subsistence\".",
     works: [["ar025", "Metaphysics"]] },
 ];
