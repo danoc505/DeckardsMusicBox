@@ -350,12 +350,12 @@ Written by `tools/modern_neo.py` from `sources/translations/modern/*.txt`. The W
 ## Proclus on the First Alcibiades in modern English
 
 - Made from: It is translated from the Greek of Cousin's edition (Paris, 1820), proofread first from the page images, and checked against the Introduction and notes to the First Alcibiades in Thomas Taylor's Works of Plato (1804), which Taylor drew from Proclus' commentary.
-- Treatises: Prologue Proclus' introduction to the dialogue, 103a On the opening words: what the preface shows, 103a-love On love: its orders, and the two kinds of lover, 103a-first Why Socrates loved first, and stays: the lover as a good daemon, 103a-secret The more secret account of love: faith, truth and love, 103a-crowd "In crowds", and not a word: the providence that stands apart, 103a-daemon "Not human, but a daemonic opposition": Socrates' daemon and love.
-- Sections: 45, each with a short title and a summary. The Greek: 91 pages proofread from the page images (`sources/neoplatonists/proofread/proclus-alcibiades.txt`), written into `sources/neoplatonists/corrections.json` as 1647 line corrections by `tools/proofread.py`.
-- Paragraphs: 108, each with its Greek.
-- Words: 14,925 modern, 12,355 Greek, 2,687 in Taylor's English of the same pages (his Introduction).
-- Sentences (each can be marked in the reader): 428.
-- Flags (where Taylor and the Greek differ, or the Greek is hard): 28.
+- Treatises: Prologue Proclus' introduction to the dialogue, 103a On the opening words: what the preface shows, 103a-love On love: its orders, and the two kinds of lover, 103a-first Why Socrates loved first, and stays: the lover as a good daemon, 103a-secret The more secret account of love: faith, truth and love, 103a-crowd "In crowds", and not a word: the providence that stands apart, 103a-daemon "Not human, but a daemonic opposition": Socrates' daemon and love, 103a-daemons Daemons in general, and the daemons allotted to us, 103a-socrates Socrates' own daemon, 103a-power "Whose power you will learn": why Socrates speaks of the daemon's power, 103a-hope "Now that it no longer opposes me": why the daemon allowed the talk, 103b "I have pretty well observed how you treated your lovers", 104a "You say you need no one": praise that is a hidden accusation, 104a-gifts Beauty, family, friends, Pericles and wealth, 104c "You have mastered your lovers": the divine lover and the vulgar, 104c-moment "You were just ahead of me": the right moment, and what the young man wonders at, 104d "Slow to begin, slow to stop": how Socrates opens his speech.
+- Sections: 81, each with a short title and a summary. The Greek: 191 pages proofread from the page images (`sources/neoplatonists/proofread/proclus-alcibiades.txt`), written into `sources/neoplatonists/corrections.json` as 3406 line corrections by `tools/proofread.py`.
+- Paragraphs: 199, each with its Greek.
+- Words: 31,166 modern, 25,709 Greek, 7,475 in Taylor's English of the same pages (his Introduction).
+- Sentences (each can be marked in the reader): 939.
+- Flags (where Taylor and the Greek differ, or the Greek is hard): 38.
 - Problems found: 0.
 
 ### Flags
@@ -390,6 +390,16 @@ Written by `tools/modern_neo.py` from `sources/translations/modern/*.txt`. The W
 | 103a.7.p2 | and proceeds as far as to a purification of the same opinions of Theætetus | The Greek says a purifying of the false opinions of Theaetetus; Taylor's "the same opinions" is a slip, in his English or in the copy of it here. |
 | 103a.7.p3 | elevating one through the amatory science | Taylor's "amatory science" is "the science of love" (erōtikē) in the modern version, which keeps "lover" for the one who practises it. |
 | 103a.7.p3 | by calling forth our latent reasons, we become wise in things of which we were ignorant | The Greek says each of us "is shown wise" in what he did not know, "bringing forth the accounts of the things that are within him". |
+| 103a.36.p2 | Hence they rejoice when they are called by the names of Jupiter, Apollo, and Hermes | The Greek has plurals: they are glad to be called "Apollos and Zeuses" and so on, many daemons under each god's name. |
+| 103a.39.p1 | To souls therefore who live as those that will shortly return to the intelligible world whence they came | The sense of the printed Greek word is not clear; Taylor's reading fits the sentence, but "shortly return to the intelligible world" is his gloss, not words in the Greek. |
+| 103a.42.p1 | but he every where calls a dæmon the inspector and guardian of mankind | "Every where" is not in the Greek, which says only that Plato calls the daemon the overseer and guardian of men; Taylor follows Cousin's Latin, "passim". |
+| 103a.43.p1 | for in the course of this dialogue he clearly says, ‘I have long been of opinion that the god did not as yet direct me to hold any conversation with you.’ | Proclus quotes a different place, 124c ("my guardian is better than Pericles... a god"); Taylor puts in the words of 105e instead. |
+| 103a.44.p1 | For this is asserted by him in the Theætetus and in the Phædrus | The Greek names the Theages, not the Theaetetus, and goes on to quote it. |
+| 103a.46.p2 | but the intellect of Socrates to Bacchus | The Greek says Socrates' reason (λόγος), not his intellect; Proclus goes on to name the intellect in us as Dionysus' offspring. |
+| 104a.6.p7 | one of the greatest arguments of being well born is a contempt of wealth | Proclus says Plato bears witness to contempt of money in those of good nature, and cites the Theaetetus first; Taylor leaves out the Theaetetus. |
+| 104a.7.p1 | For magnitude, according to Plato, considered as a divine idea, is that cause by which every where one thing transcends another. | Taylor's own addition; the Greek has nothing here about magnitude as an idea. |
+| 104a.7.p1 | Of those two great principles likewise, bound and infinity, which are next in dignity and power to the ineffable principle of things, | Taylor's gloss on limit and the unlimited; the Greek names them without it. |
+| 104a.7.p2 | thence is my race derived, whence thine: | Taylor quotes only the first line; Proclus quotes the second too, "and crooked-counselling Cronus begot me eldest". |
 
 ## The fixed renderings
 

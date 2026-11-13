@@ -2,7 +2,7 @@
 
 Written by `tools/neoplatonists.py` when the library is built (milestone 25); every figure is counted from the build.
 
-**15 texts, 5,027 units, 1,131,556 Greek words.** The TEI texts are First1KGreek's corrected text (CC BY-SA 4.0); the scans are the Internet Archive's OCR, shown as received. 1680 corrections are kept apart (`sources/neoplatonists/corrections.json`) and change 14,125 words in the corrected reading; the text shown is never changed.
+**15 texts, 5,027 units, 1,131,556 Greek words.** The TEI texts are First1KGreek's corrected text (CC BY-SA 4.0); the scans are the Internet Archive's OCR, shown as received. 3439 corrections are kept apart (`sources/neoplatonists/corrections.json`) and change 15,766 words in the corrected reading; the text shown is never changed.
 
 | Text | Edition | Kind | Contents | Units | Greek words |
 |---|---|---|---:|---:|---:|

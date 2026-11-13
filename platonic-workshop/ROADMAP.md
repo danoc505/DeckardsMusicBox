@@ -274,9 +274,19 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   Socrates names his daemon; why only the silence is laid to it; love as a great daemon (Symposium 212b, 202d,
   202e-203a; the Chaldean Oracles and the Orphic verses, cited from Hermann's Orphica); the three ranks of love answering
   to the three kinds of intellect; and why Socrates begins with love and ends with the daemon. Taylor draws nothing from
-  these pages. Next sessions, in this order: the rest of Proclus on the First Alcibiades, from daemons in general and
-  Socrates' daemon (II p. 185 on; Taylor's note on the daemon at 103a and his Additional Notes 2-19 to check against),
-  and Olympiodorus on it (Creuzer's OCR, proofread first); then On the Mysteries and the Elements, where
+  these pages.
+- Sessions 11-21 done: Cousin's vol. II pp. 185-289 (100 pages of Greek; pp. 187-188, 191-192 and 195 are Latin, and from
+  p. 196 Cousin prints his Latin at the foot of the Greek), proofread (191 pages, 3406 line corrections in all) and
+  translated as ten new parts, 36 sections: daemons in general and the daemons allotted to us; Socrates' own daemon; "whose
+  power you will learn"; "now that it no longer opposes me"; then the next lemmas of the dialogue, 103b to 104e: how
+  Alcibiades treated his lovers; praise that is a hidden accusation; beauty, family, friends, Pericles and wealth; the
+  divine lover and the vulgar; the right moment (the Pythagoreans' name for the first cause); and how Socrates opens his
+  speech. Each new lemma is its own paragraph, with a note naming its place in the dialogue. Checked against Taylor's
+  Introduction and Additional Notes (10 more flags, 38 in all: e.g. Proclus quotes 124c where Taylor puts 105e, and names
+  the Theages where Taylor has the Theaetetus); Cousin's misprints kept and noted. Session 22 next: the rest of the lemma
+  "Ἐγὼ γὰρ, ὦ Ἀλκιβιάδη" (104e-105a), from p. 289 on (a draft proofreading of pp. 289-296 is in the project files'
+  handoff folder). Next sessions, in this order: the rest of Proclus on the First Alcibiades (Taylor's Additional Notes
+  to check against), and Olympiodorus on it (Creuzer's OCR, proofread first); then On the Mysteries and the Elements, where
   Taylor's English exists; then Damascius and Hermias. Plotinus' other treatises have no Taylor to check against: check
   them against another public-domain translation, or label them so.
 

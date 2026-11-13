@@ -34,10 +34,10 @@ async function run(b, viewport, touch, first) {
   const head = await p.$eval(".tg-read", (e) => e.innerText);
   check(/Modern English, the Workshop's own/.test(head) && /machine-assisted/i.test(head) && /not yet checked by a scholar/.test(head), `${tag}: labelled as the Workshop's own and machine-assisted`);
   check(/proofread from the page images/.test(head), `${tag}: and as made from the proofread Greek`);
-  check(await p.$$eval(".tg-mod", (es) => es.length) === 45 && await p.$$eval(".tg-mod .ms-sum", (es) => es.length) === 45, `${tag}: forty-five sections, each with its gist`);
+  check(await p.$$eval(".tg-mod", (es) => es.length) === 81 && await p.$$eval(".tg-mod .ms-sum", (es) => es.length) === 81, `${tag}: eighty-one sections, each with its gist`);
   check(await p.$eval("#mp-Pr\\.1\\.p1 .mp-text", (e) => e.textContent.length > 100), `${tag}: the modern English of the first paragraph`);
   check(await p.$$eval(".tg-mod .mp-flag", (es) => es.length) >= 10, `${tag}: flags where Taylor and the Greek differ`);
-  check(/Your marks/.test(await p.$eval("#toc", (e) => e.textContent)) && await p.$$eval("#toc .mod-secs li", (es) => es.length) === 45, `${tag}: the contents column lists the sections`);
+  check(/Your marks/.test(await p.$eval("#toc", (e) => e.textContent)) && await p.$$eval("#toc .mod-secs li", (es) => es.length) === 81, `${tag}: the contents column lists the sections`);
   await wide("Proclus in modern English");
 
   // The Greek of a paragraph, with its pages and their scans.
@@ -54,7 +54,7 @@ async function run(b, viewport, touch, first) {
   // Side by side.
   await p.click('[data-nm-mode="both"]');
   await p.waitForSelector(".mod-both .tg-tcol");
-  check(await p.$$eval(".tg-tcol", (es) => es.length) === 45, `${tag}: side by side, Taylor beside every section`);
+  check(await p.$$eval(".tg-tcol", (es) => es.length) === 81, `${tag}: side by side, Taylor beside every section`);
   check(/draw nothing/.test(await p.$eval("#mc-Pr\\.9 .tg-tcol", (e) => e.textContent)), `${tag}: saying where he draws nothing`);
   check(/Additional note on 103a/.test(await p.$eval("#mc-103a\\.1 .tg-tcol", (e) => e.textContent)), `${tag}: Taylor's note on the preface beside the first lemma`);
   if (viewport.width >= 1024) {
