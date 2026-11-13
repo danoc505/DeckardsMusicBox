@@ -20,6 +20,13 @@ Written by `tools/build_db.py` (through `tools/aristotle.py`) each time the libr
 | Physics | 167 | 55,458 | 55,100 (99.35%) | 54,295 | 0 | 3,134 |
 | On the Heavens | 91 | 29,677 | 29,069 (97.95%) | 29,044 | 0 | 1,765 |
 | On the Soul | 64 | 20,936 | 20,699 (98.87%) | 20,665 | 0 | 1,656 |
+| Magna Moralia | 66 | 23,561 | 23,253 (98.69%) | 22,736 | 0 | 2,756 |
+| On Generation and Corruption | 50 | 16,523 | 16,384 (99.16%) | 16,088 | 0 | 889 |
+| Meteorology | 106 | 33,668 | 33,159 (98.49%) | 32,735 | 0 | 1,230 |
+| Parts of Animals | 118 | 36,814 | 36,300 (98.60%) | 35,378 | 0 | 1,404 |
+| Progression of Animals | 22 | 6,360 | 6,339 (99.67%) | 6,315 | 0 | 149 |
+| Movement of Animals | 14 | 4,116 | 4,106 (99.76%) | 4,079 | 0 | 257 |
+| Generation of Animals | 150 | 50,150 | 49,726 (99.15%) | 49,576 | 0 | 2,002 |
 
 ## The translations beside the Greek
 
@@ -63,5 +70,12 @@ Written by `tools/build_db.py` (through `tools/aristotle.py`) each time the libr
   - `ar005.stocks1922`: 205 paragraphs, 42,265 words, 291 pieces placed, 257 notes; 0 anchors found by tools/align.py. 67 Bekker columns read from Ross's margin and used as fixed points; 67 pieces begin at a column he prints.
 - **On the Soul**: the Greek from First1KGreek, its 64 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI (left out, out of Bekker's order: 440b, 402a, 420a, 420a, 420b, 430a).
   - `ar002.hicks1907`: 131 paragraphs, 30,627 words, 192 pieces placed, 0 notes; 0 anchors found by tools/align.py. 60 Bekker columns read from Ross's margin and used as fixed points; 60 pieces begin at a column he prints.
+- **Magna Moralia**: the Greek from First1KGreek, its 66 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI; where a column is lost (the margin does not print it, or the scan misread it), it is placed by the length of the text between the columns either side (≈): 1183a, 1187a, 1193b, 1197b, 1199b, 1203a, 1210a (left out, out of Bekker's order: 1188a).
+- **On Generation and Corruption**: the Greek from First1KGreek, its 50 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI; where a column is lost (the margin does not print it, or the scan misread it), it is placed by the length of the text between the columns either side (≈): 319b, 323a, 327b, 329a, 333a, 336b (left out, out of Bekker's order: 328a, 332a, 335b, 397b, 399a).
+- **Meteorology**: the Greek from First1KGreek, its 106 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI; where a column is lost (the margin does not print it, or the scan misread it), it is placed by the length of the text between the columns either side (≈): 360b, 364b, 370b, 389b, 390a (left out, out of Bekker's order: 354b, 339b).
+- **Parts of Animals**: the Greek from First1KGreek, its 118 Bekker columns from GLAUx's Bekker column of each word; where a column is lost (GLAUx gives no word of it), it is placed by the length of the text between the columns either side (≈): 692a, 692b, 693a, 693b, 694a, 694b, 695a.
+- **Progression of Animals**: the Greek from First1KGreek, its 22 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI (left out, out of Bekker's order: 716b).
+- **Movement of Animals**: the Greek from First1KGreek, its 14 Bekker columns from Bekker's pages and columns printed in the margin of the First1KGreek TEI; where a column is lost (the margin does not print it, or the scan misread it), it is placed by the length of the text between the columns either side (≈): 703a.
+- **Generation of Animals**: the Greek from First1KGreek, its 150 Bekker columns from GLAUx's Bekker column of each word.
 
 Every placement not printed in the book is marked ≈ in the reader. The OCR of Ross and Taylor is cleaned by rule (`tools/aristotle_ocr.py`) and not proofread; *Show the OCR* in the reader shows each paragraph as the scan reads it.

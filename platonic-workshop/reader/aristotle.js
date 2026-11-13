@@ -35,6 +35,23 @@ const AR_PLAIN = {
   ar029: "The management of the household: husband and wife, slaves, and property; and in Book II the finances of kings and cities.",
   ar038: "Rhetoric, the counterpart of dialectic: the three kinds of oratory, proof by character, emotion and argument; the emotions one by one (Book II); style and the arrangement of a speech (Book III).",
   ar034: "Poetry as imitation; tragedy, its plot, character and the purgation (κάθαρσις) of pity and fear; and epic. An answer, in part, to Plato's banishing of the poets from the Republic.",
+  ar022: "A shorter course of the ethics in two books, under Aristotle's name since antiquity: happiness, the virtues of character and of intellect, self-control, pleasure and friendship; whether it is his own or his school's is disputed.",
+  ar013: "Coming to be and passing away, distinguished from alteration and growth; contact, action and passion, mixture; the four elements from the hot, cold, wet and dry, and their change into one another; the cycle of generation kept going by the sun's motion along the ecliptic (Book II 10).",
+  ar026: "What happens in the region below the moon: shooting stars, comets and the Milky Way; rain, snow and dew; rivers and the sea, and why it is salt; winds, earthquakes, thunder, rainbows; and in Book IV the hot and the cold working on the homoeomerous bodies.",
+  ar030: "The method of the study of nature: the final cause before the necessary, and the dignity of studying even the humblest animals, since in all of them there is something natural and beautiful (Book I 5); then the parts of animals, uniform and non-uniform, and what each is for.",
+  ar015: "Why animals move as they do: the three dimensions of up and down, front and back, right and left, and why animals with blood walk on no more than four points; nature does nothing in vain.",
+  ar021: "The common cause of animal motion: an unmoved point within the animal and an unmoved mover outside, as the first mover of the heaven (chapters 1-4); desire and thought as the movers of the animal, and the practical syllogism.",
+  ar012: "How animals are generated: the male gives the form and the source of motion, the female the matter; the soul's powers in the embryo, and the intellect alone entering from outside (θύραθεν) as divine (Book II 3); then inheritance, and why offspring take after one parent or the other.",
+};
+// Works in Greek only (Aristotle milestone A8c): no English is in the Workshop yet. Where the margin of the edition has lost a
+// Bekker column, it is placed by length between the columns read either side (tools/aristotle_f1k.fill_gaps); listed here.
+const AR_GREEK_ONLY = new Set(["ar022", "ar013", "ar026", "ar030", "ar015", "ar021", "ar012"]);
+const AR_BY_LENGTH = {
+  ar022: ["1183a", "1187a", "1193b", "1197b", "1199b", "1203a", "1210a"],
+  ar013: ["319b", "323a", "327b", "329a", "333a", "336b"],
+  ar026: ["360b", "364b", "370b", "389b", "390a"],
+  ar030: ["692a", "692b", "693a", "693b", "694a", "694b", "695a"],
+  ar021: ["703a"],
 };
 
 function arSources() {
@@ -48,6 +65,10 @@ function arSources() {
     cleaned by rule and not proofread: Hardie and Gaye's Physics (Oxford, 1930) and Stocks's On the Heavens (Oxford, 1922), where they print
     Bekker's columns in the margin; Hicks's On the Soul (Cambridge, 1907), at the Bekker lines that head each page; between two printed
     columns the rest shared out by length (≈). Taylor's own versions of these three (1806–1808) have not been found as complete scans.</p>
+    <p class="prov">In Greek only, from First1KGreek (CC BY-SA 4.0), with no English yet: Susemihl's Magna Moralia (Leipzig, 1883), Prantl's
+    Generation and Corruption (Leipzig, 1881), Fobes's Meteorology (Cambridge, Mass., 1919), Jaeger's Progression and Movement of Animals (Leipzig,
+    1913), with Bekker's columns read from their margins (a column the margin has lost is placed by length, ≈); Langkavel's Parts of Animals
+    (Leipzig, 1868) and Bekker's Generation of Animals (Berlin, 1829), with Bekker's columns from GLAUx (where GLAUx marks none, placed by length, ≈).</p>
     <p class="prov">The Organon: the Greek of First1KGreek (CC BY-SA 4.0), Ross's Analytics (Oxford, 1964), with Bekker's columns in the margin, and
     Bekker's own text of the Categories, On Interpretation, Topics and Sophistical Refutations (in his Oxford reprint, 1837), which does not print
     the Berlin columns: these are carried over from the English, chapter by chapter (≈). English: the Oxford translation (1928; Edghill, Jenkinson,
@@ -118,6 +139,9 @@ function arHead(w) {
   return `<div class="nt-head page-note"><p><b>${esc(w.title)}.</b> ${esc(AR_PLAIN[w.id] || "")}</p>
     ${AR_CARRIED.has(w.id) ? `<p class="meta">This Greek (Bekker's text, in his Oxford reprint of 1837) does not print the Berlin columns: they are
       carried over from the margin of the Oxford translation (1928), chapter by chapter, and may be a few lines out (≈).</p>` : ""}
+    ${AR_GREEK_ONLY.has(w.id) ? `<p class="meta">The Greek only: no English translation of this work is in the Workshop yet. The word box gives every
+      word's dictionary form, grammar and dictionary entries.${AR_BY_LENGTH[w.id] ? ` Bekker's column${AR_BY_LENGTH[w.id].length === 1 ? "" : "s"} ${esc(AR_BY_LENGTH[w.id].join(", "))}
+      ${AR_BY_LENGTH[w.id].length === 1 ? "is" : "are"} not marked in this Greek's source: each is placed by the length of the text between the columns either side, and may be a few lines out (≈).` : ""}</p>` : ""}
     <p class="meta">Bekker's numbers: 980a is page 980 of Bekker's Berlin edition (1831), left column; every book on Aristotle cites him so.
       Tap a Greek word for its dictionary form and grammar (from GLAUx, by machine) and its dictionary entries. Underlined words are the
       Platonists' key terms: tap one to see where Plato uses it too. Choose the translations beside the Greek with <em>Reading</em>; Taylor's
@@ -189,7 +213,7 @@ const AR_ORDER = [
   { step: "Politics", taylor: "practical: economical and political", note: "",
     works: [["ar035", "Politics"], ["ar029", "Economics"], ["ar003", "Constitution of the Athenians"]] },
   { step: "Physics", taylor: "theoretic: physical", note: "\"The knowledge of natural things\", ending in the soul.",
-    works: [["ar031", "Physics"], ["ar005", "On the Heavens"], ["ar013", "On Generation and Corruption"], ["ar026", "Meteorology"], ["ar002", "On the Soul"]] },
+    works: [["ar031", "Physics"], ["ar005", "On the Heavens"], ["ar013", "On Generation and Corruption"], ["ar026", "Meteorology"], ["ar030", "Parts of Animals"], ["ar015", "Progression of Animals"], ["ar021", "Movement of Animals"], ["ar012", "Generation of Animals"], ["ar002", "On the Soul"]] },
   { step: "Theology", taylor: "theoretic: theological", note: "\"Those luminous beings, which have a supernatural subsistence\".",
     works: [["ar025", "Metaphysics"]] },
 ];

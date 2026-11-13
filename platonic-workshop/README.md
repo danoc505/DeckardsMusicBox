@@ -419,7 +419,8 @@ Prior Analytics (Works of Aristotle, vol. I, 1812) and his Nicomachean Ethics (1
 no Bekker numbers, so the Organon is placed at the Oxford's columns carried over chapter by chapter, and the Ethics against
 the Loeb English (≈). OCR cleaned by rule, not proofread. Five more works come from Perseus with their Loeb English, each
 GLAUx-tagged: the Eudemian Ethics, Politics, Economics, Rhetoric and Poetics; Taylor's Rhetoric and Poetic (1811) are beside
-the last two.
+the last two. Seven more are in Greek only, from First1KGreek, GLAUx-tagged, with no English yet: the Magna Moralia,
+Generation and Corruption, Meteorology, and Parts, Progression, Movement and Generation of Animals.
 
 ## Running it
 

@@ -939,7 +939,7 @@
     },
     {
       "id": "glaux-aristotle",
-      "title": "GLAUx corpus, Aristotle files (Metaphysics, Nicomachean Ethics, On the Soul, On the Heavens, Physics, the Organon, the Eudemian Ethics, Politics, Economics, Rhetoric and Poetics): lemma, morphology and syntax for every word",
+      "title": "GLAUx corpus, Aristotle files (Metaphysics, Nicomachean Ethics, On the Soul, On the Heavens, Physics, the Organon, the Eudemian Ethics, Politics, Economics, Rhetoric and Poetics; the Magna Moralia, Generation and Corruption, Meteorology, and Parts, Progression, Movement and Generation of Animals): lemma, morphology and syntax for every word",
       "kind": "git",
       "repo": "https://github.com/alekkeersmaekers/glaux.git",
       "commit": "b077d8f6ff429a5c7245954bc16bb7d1d7948823",
@@ -960,7 +960,14 @@
         "xml/0086-029.xml",
         "xml/0086-034.xml",
         "xml/0086-035.xml",
-        "xml/0086-038.xml"
+        "xml/0086-038.xml",
+        "xml/0086-022.xml",
+        "xml/0086-013.xml",
+        "xml/0086-026.xml",
+        "xml/0086-030.xml",
+        "xml/0086-015.xml",
+        "xml/0086-021.xml",
+        "xml/0086-012.xml"
       ],
       "layer": "lemma",
       "language": "grc",
@@ -971,7 +978,7 @@
     },
     {
       "id": "first1k-aristotle",
-      "title": "Aristotle in First1KGreek's TEI: the Organon (Bekker's text of 1837; Ross's Analytics, with Bekker's pages and columns in the margin), On the Soul (Ross), On the Heavens (Prantl, 1881), Physics (Ross); and Porphyry's Introduction (Busse, 1887)",
+      "title": "Aristotle in First1KGreek's TEI: the Organon (Bekker's text of 1837; Ross's Analytics, with Bekker's pages and columns in the margin), On the Soul (Ross), On the Heavens (Prantl, 1881), Physics (Ross); the Magna Moralia (Susemihl, 1883), Generation and Corruption (Prantl, 1881), Meteorology (Fobes, 1919), Parts of Animals (Langkavel, 1868), Progression and Movement of Animals (Jaeger, 1913), Generation of Animals (Bekker, 1829); and Porphyry's Introduction (Busse, 1887)",
       "kind": "git",
       "repo": "https://github.com/OpenGreekAndLatin/First1KGreek.git",
       "commit": "ed91552c52530c8f5a3ddf2dd767e899372a804c",
@@ -984,7 +991,14 @@
         "data/tlg0086/tlg017",
         "data/tlg0086/tlg031",
         "data/tlg0086/tlg040",
-        "data/tlg0086/tlg044"
+        "data/tlg0086/tlg044",
+        "data/tlg0086/tlg012",
+        "data/tlg0086/tlg013",
+        "data/tlg0086/tlg015",
+        "data/tlg0086/tlg021",
+        "data/tlg0086/tlg022",
+        "data/tlg0086/tlg026",
+        "data/tlg0086/tlg030"
       ],
       "layer": "text",
       "language": "grc",
