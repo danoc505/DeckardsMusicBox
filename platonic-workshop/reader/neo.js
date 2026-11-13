@@ -561,11 +561,17 @@ function nmTaylor(d, c) {
     ${c.taylor.map((x) => `<p><span class="meta">${esc(x.label || `Introduction, paragraph ${x.n}`)}.</span> ${esc(x.text)}</p>`).join("")}</div>`;
 }
 
+// An Aristotle chapter id is "Cat.5", or "APr.II.5" for a work in books.
+function nmChapterLabel(id) {
+  const p = id.split(".");
+  return p.length > 2 ? `Book ${esc(p[1])}, chapter ${esc(p[2])}` : `Chapter ${esc(p.pop())}`;
+}
+
 function nmSection(d, c, mode) {
   const paras = d.paragraphs.filter((p) => p.chapter === c.id);
   const tay = nmTaylor(d, c);
   return `<section class="tg-ch tg-mod tg-mode-${mode}" id="mc-${esc(c.id)}">
-    <h4 class="neo-unit-n">${d.kind === "aristotle" ? `Chapter ${esc(c.id.split(".").pop())}` : esc(c.id.replace(/^Pr\./, ""))}. ${esc(c.title)}</h4>
+    <h4 class="neo-unit-n">${d.kind === "aristotle" ? nmChapterLabel(c.id) : esc(c.id.replace(/^Pr\./, ""))}. ${esc(c.title)}</h4>
     <div class="ms-sum"><b>In short</b> ${esc(c.summary)}</div>
     <div class="tg-cols"><div class="tg-mcol">${paras.map(nmPara).join("")}</div>
       ${mode === "both" ? `<div class="tg-tcol">${tay}</div>` : ""}</div>

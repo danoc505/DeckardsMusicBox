@@ -12,7 +12,7 @@ const arWorks = () => state.works.filter((w) => w.imported && isAR(w)).sort((a, 
 // Works whose Greek (Bekker's own text, in his Oxford reprint of 1837) does not print the Berlin columns: carried over from
 // the Oxford translation's margin, chapter by chapter (tools/aristotle_organon.py).
 // Milestone 35: the works with the Workshop's modern English (tools/modern_ar.py), read at #neo-modern/<text>.
-const AR_MODERN = { ar006: "aristotle-categories", ar017: "aristotle-on-interpretation" };
+const AR_MODERN = { ar006: "aristotle-categories", ar017: "aristotle-on-interpretation", ar001: "aristotle-prior-analytics" };
 const AR_CARRIED = new Set(["ar006", "ar017", "ar044", "ar040"]);
 // Aristotle milestone A8d: the same Greek of the Parva Naturalia, its columns carried over word by word from the margin of Biehl's Greek
 // (tools/aristotle_biehl.py); and of the History of Animals, from the margin of Thompson's Oxford translation, chapter by chapter.

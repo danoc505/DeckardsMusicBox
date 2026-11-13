@@ -46,10 +46,18 @@ async function run(b, viewport, touch, first) {
   // The Greek of a paragraph, its words tappable.
   await p.click("#mp-I\\.2\\.1\\.p1 .mp-greek summary");
   check(await p.$eval("#mp-I\\.2\\.1\\.p1 .mp-greek", (e) => e.open && /Ἐπειδὴ τὰ κακὰ/.test(e.textContent)), `${tag}: one tap opens the Greek of the paragraph`);
-  const box = await p.$eval("#mp-I\\.2\\.1\\.p1 .mp-greek .neo-tei", (e) => { const r = e.getBoundingClientRect(); return { x: r.left + 20, y: r.top + 10 }; });
-  await p.mouse.click(box.x, box.y);
-  await p.waitForSelector(".gloss-pop", { timeout: 15000 }).then(() => check(true, `${tag}: a Greek word there opens its meaning`),
-    () => check(false, `${tag}: a Greek word there opens its meaning`));
+  // The box closes on any scroll, by design, so wait for the page to stop scrolling (a busy machine may still be
+  // finishing the scroll to the section) and measure the word just before the tap; try again if a late scroll closed it.
+  let glossed = false;
+  for (let i = 0; i < 3 && !glossed; i++) {
+    await p.$eval("#mp-I\\.2\\.1\\.p1 .mp-greek .neo-tei", (e) => e.scrollIntoView({ block: "center" }));
+    await p.evaluate(() => new Promise((ok) => { let last = -1, same = 0; const t = setInterval(() => {
+      same = window.scrollY === last ? same + 1 : 0; last = window.scrollY; if (same >= 3) { clearInterval(t); ok(); } }, 100); }));
+    const box = await p.$eval("#mp-I\\.2\\.1\\.p1 .mp-greek .neo-tei", (e) => { const r = e.getBoundingClientRect(); return { x: r.left + 20, y: r.top + 10 }; });
+    await p.mouse.click(box.x, box.y);
+    glossed = await p.waitForSelector(".gloss-pop", { timeout: 10000 }).then(() => true, () => false);
+  }
+  check(glossed, `${tag}: a Greek word there opens its meaning`);
   await p.keyboard.press("Escape");
 
   // Taylor's English of the chapter, one tap away.

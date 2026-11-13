@@ -109,6 +109,26 @@ async function run(b, viewport, touch, first) {
   await p.goto(base + "#on-interpretation/16a");
   await p.waitForSelector("#toc a[href=\"#neo-modern/aristotle-on-interpretation\"]", { state: "attached" });
   check(true, `${tag}: On Interpretation's contents column links to the modern English`);
+
+  // Milestone 35c: the Prior Analytics, in two books, with Taylor's own numbering of Book II.
+  await p.goto(base + "#library");
+  await p.waitForSelector("#lib-ar");
+  check(await p.$$eval('#lib-ar a[href="#neo-modern/aristotle-prior-analytics"]', (es) => es.length) === 1, `${tag}: the Aristotle shelf links to the Prior Analytics in modern English`);
+  await p.goto(base + "#neo-modern/aristotle-prior-analytics/APr.II.25");
+  await p.waitForSelector("#mc-APr\\.II\\.25");
+  check(await p.$$eval(".tg-mod", (es) => es.length) === 73 && /machine-assisted/i.test(await p.$eval(".tg-read", (e) => e.innerText)), `${tag}: the Prior Analytics, seventy-three chapters, labelled machine-assisted`);
+  check(/Book II, chapter 25\. Reduction/.test(await p.$eval("#mc-APr\\.II\\.25", (e) => e.textContent)) && /Book I, chapter 1\./.test(await p.$eval("#mc-APr\\.I\\.1", (e) => e.textContent)), `${tag}: chapters are headed by book`);
+  check(/Taylor \(1812\): “Abduction, however, is, when it is evident that the first”/.test(await p.$eval("#mp-APr\\.II\\.25\\.p1", (e) => e.textContent)), `${tag}: a flag on Taylor's "abduction"`);
+  await p.click("#mp-APr\\.I\\.1\\.p1 .mp-greek summary");
+  check(await p.$$eval('#mp-APr\\.I\\.1\\.p1 .mp-greek a[href="#prior-analytics/24a"]', (es) => es.length) === 1, `${tag}: the Greek of a paragraph links to its Bekker column`);
+  await p.click('[data-nm-mode="both"]');
+  await p.waitForSelector(".mod-both .tg-tcol");
+  check(/Taylor, The Prior Analytics \(1812\), book ii, chapter 1/.test(await p.$eval("#mc-APr\\.II\\.2 .tg-tcol", (e) => e.textContent)), `${tag}: side by side with Taylor's own chapter`);
+  await wide("Prior Analytics side by side");
+  await p.click('[data-nm-mode="modern"]');
+  await p.goto(base + "#prior-analytics/24a");
+  await p.waitForSelector("#toc a[href=\"#neo-modern/aristotle-prior-analytics\"]", { state: "attached" });
+  check(true, `${tag}: the Prior Analytics' contents column links to the modern English`);
   check(errors.length === 0, `${tag}: no script errors (${errors.join("; ")})`);
   await p.close();
 }

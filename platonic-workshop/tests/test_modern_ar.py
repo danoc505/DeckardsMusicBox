@@ -155,6 +155,60 @@ class OnInterpretation(unittest.TestCase):
         self.assertTrue(any(seg == "Int.9.p6" and "actually true" in f["taylor"] for seg, f in flags))
 
 
+class PriorAnalytics(unittest.TestCase):
+    """Milestone 35c: the Prior Analytics, the first work in two books, with Taylor's own numbering of Book II."""
+
+    def test_labelled_two_books_and_every_chapter_with_a_title_a_summary_and_taylor(self):
+        d = load("aristotle-prior-analytics")
+        self.assertEqual((d["by"], d["kind"], d["work"], d["work_slug"]), ("Workshop modern version", "aristotle", "ar001", "prior-analytics"))
+        self.assertIs(d["machine_assisted"], True)
+        self.assertIn("not yet checked", d["label"])
+        self.assertIn("modernises the public-domain English", d["about"])
+        self.assertEqual([t["id"] for t in d["treatises"]], ["APr.I", "APr.II"])
+        ids = [f"APr.I.{n}" for n in range(1, 47)] + [f"APr.II.{n}" for n in range(1, 28)]
+        self.assertEqual([c["id"] for c in d["chapters"]], ids)
+        for c in d["chapters"]:
+            self.assertTrue(c["title"] and c["summary"] and c["taylor"], c["id"])
+            self.assertEqual(c["treatise"], c["id"].rsplit(".", 1)[0])
+            self.assertTrue(any(p["chapter"] == c["id"] for p in d["paragraphs"]), c["id"])
+        tay = {c["id"]: [x["label"] for x in c["taylor"]] for c in d["chapters"]}
+        # Taylor folds I.27 into his 26, and numbers Book II his own way.
+        self.assertEqual(tay["APr.I.27"], ["Book I, Chapter 26"])
+        self.assertEqual(tay["APr.II.2"], ["Book II, Chapter 1"])
+        self.assertEqual(tay["APr.II.16"], ["Book II, Chapter 14"])
+        self.assertEqual(tay["APr.II.27"], ["Book II, Chapter 25"])
+
+    def test_paragraphs_have_their_greek_and_bekker_columns(self):
+        d = load("aristotle-prior-analytics")
+        cols = [c for p in d["paragraphs"] for c in p["cols"]]
+        self.assertEqual((cols[0], cols[-1]), ("24a", "70b"))
+        keys = [(int(c[:-1]), c[-1]) for c in cols]
+        self.assertEqual(keys, sorted(keys))
+        for p in d["paragraphs"]:
+            self.assertTrue(p["modern"] and p["greek"] and p["cols"], p["seg"])
+            self.assertTrue(modern.sentences(p["modern"]), p["seg"])
+        para = {p["seg"]: p for p in d["paragraphs"]}
+        self.assertIn("syllogism", para["APr.I.1.p2"]["modern"])
+        self.assertIn("induction", para["APr.II.23.p1"]["modern"])
+        self.assertIn("pattern", para["APr.II.24.p1"]["modern"])     # παράδειγμα
+        self.assertIn("justice", para["APr.II.25.p1"]["modern"])     # δικαιοσύνη
+
+    def test_flags_quote_an_older_english_word_for_word(self):
+        d = load("aristotle-prior-analytics")
+        eng = modern_ar.english(modern_ar.TEXTS["aristotle-prior-analytics"])
+        labels = {lab: whole for lab, _, whole, _ in eng.values()}
+        flags = [(p["seg"], f) for p in d["paragraphs"] for f in p.get("flags", [])]
+        self.assertGreaterEqual(len(flags), 15)
+        for seg, f in flags:
+            self.assertIn(norm(f["taylor"]), labels[f["in"]], seg)
+            self.assertTrue(f["why"], seg)
+        # Taylor's "abduction" for ἀπαγωγή (II.25), and his "consentaneous" for εἰκός (II.27).
+        self.assertTrue(any(seg == "APr.II.25.p1" and "Abduction" in f["taylor"] and f["in"].startswith("Taylor") for seg, f in flags))
+        self.assertTrue(any(seg == "APr.II.27.p1" and "consentaneous" in f["taylor"] for seg, f in flags))
+        # Jenkinson's "perfect" where this version says "complete" (I.1).
+        self.assertTrue(any(seg == "APr.I.1.p2" and "perfect syllogism" in f["taylor"] and f["in"].startswith("Jenkinson") for seg, f in flags))
+
+
 @unittest.skipUnless(FIRST1K.exists(), "run python3 tools/fetch_sources.py first")
 class AgainstTheGreek(unittest.TestCase):
     def test_built_with_no_problems_and_up_to_date(self):
@@ -214,6 +268,9 @@ class Server(unittest.TestCase):
         d = self.get("modern-neo/aristotle-on-interpretation")
         self.assertEqual((d["kind"], d["marks"], len(d["chapters"])), ("aristotle", [], 14))
         self.assertEqual(d["paragraphs"][0]["cols"], ["16a"])
+        d = self.get("modern-neo/aristotle-prior-analytics")
+        self.assertEqual((d["kind"], d["marks"], len(d["chapters"])), ("aristotle", [], 73))
+        self.assertEqual(d["paragraphs"][0]["cols"], ["24a", "24b"])
 
 
 @unittest.skipUnless(has_library() and shutil.which("node"), "needs the library and Node")

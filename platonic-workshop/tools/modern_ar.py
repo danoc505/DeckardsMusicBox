@@ -83,6 +83,24 @@ TEXTS = {
                  "summaries are the Workshop's. The Platonists read On Interpretation second, after the Categories: the Categories "
                  "is about simple words, this work about words joined into statements that are true or false.",
     },
+    "aristotle-prior-analytics": {
+        "work": "ar001",
+        "slug": "prior-analytics",
+        "books": True,
+        "title": "The Prior Analytics in modern English",
+        "english": {"taylor-1812": "Taylor (1812)", "oxford-1928": "Jenkinson, Oxford (1928)", "owen-1853": "Owen (1853)"},
+        "taylor_title": "Taylor, The Prior Analytics (1812)",
+        "about": "A modern English version of Aristotle's Prior Analytics, written for the Workshop. It modernises the public-domain "
+                 "English on the shelf, A. J. Jenkinson's in the Oxford translation (1928), checked sentence by sentence against "
+                 "the Greek, Ross's text (Oxford, 1964) as First1KGreek gives it; where the old English and the Greek differ, the "
+                 "modern version follows the Greek, and where the OCR of Jenkinson's pages has lost words, it follows the Greek "
+                 "with Owen (1853) and Taylor (1812) beside it. Where an older English says something the Greek does not, or "
+                 "the Greek is hard, a flag shows the older words and the difference. The books and chapters are Bekker's; the "
+                 "short titles and summaries are the Workshop's. Taylor numbers the chapters of Book II his own way, so each "
+                 "chapter names the chapters of his that hold it. The Platonists read the Prior Analytics third, after the "
+                 "Categories and On Interpretation: the Categories is about simple terms, On Interpretation about statements, "
+                 "and this work about statements joined into syllogisms.",
+    },
 }
 
 
@@ -191,7 +209,8 @@ def english(meta):
         d = json.loads((AR_TEXTS / meta["slug"] / f"{stem}.json").read_text(encoding="utf-8"))
         by_ch = {}
         for p in d["paragraphs"]:
-            by_ch.setdefault(p.get("chapter"), []).append(p["text"])
+            key = (p.get("book"), p.get("chapter")) if meta.get("books") else p.get("chapter")
+            by_ch.setdefault(key, []).append(p["text"])
         out[stem] = (label, {c: norm(" ".join(t)) for c, t in by_ch.items()},
                      norm(" ".join(p["text"] for p in d["paragraphs"])), {c: t for c, t in by_ch.items()})
     return out
@@ -206,8 +225,13 @@ def build(text_id, terms=None, greek_chs=None, eng=None):
     eng = eng if eng is not None else english(meta)
     taylor_stem = next(iter(meta["english"]))
     problems = []
-    if len(treatises) != 1:
-        problems.append(f"{text_id}: one @treatise, the work, is wanted")
+    books = sorted({k[0] for k in greek_chs}) if meta.get("books") else [None]
+    if len(treatises) != len(books):
+        problems.append(f"{text_id}: one @treatise for the work, or for each of its books, is wanted ({len(books)})")
+    for t in treatises:
+        for cid in t["chapters"]:
+            if meta.get("books") and not cid.startswith(t["id"] + "."):
+                problems.append(f"{text_id} {cid}: a chapter under the @treatise of another book ({t['id']})")
     # Every chapter of the Greek, once, in order.
     want = sorted(greek_chs, key=lambda k: (k[0] or 0, k[1] or 0))
     have = []
@@ -261,6 +285,11 @@ def build(text_id, terms=None, greek_chs=None, eng=None):
             cols[p["seg"]] = [x for i, x in enumerate(here) if x not in here[:i]]
     # Taylor's chapters for each chapter, and the flags.
     tay_label, tay_ch, _, tay_paras = eng[taylor_stem]
+
+    def tkey(c, n):
+        """Taylor's chapter n for the chapter c: in a work in books, his chapter n of the same book."""
+        return (chapter_key(c["id"])[0], n) if meta.get("books") else n
+
     for c in chapters:
         if "taylor" not in c:
             try:
@@ -268,7 +297,7 @@ def build(text_id, terms=None, greek_chs=None, eng=None):
             except (KeyError, ValueError, IndexError):
                 c["taylor"] = []
         for n in c["taylor"]:
-            if n not in tay_ch:
+            if tkey(c, n) not in tay_ch:
                 problems.append(f"{text_id} {c['id']}: Taylor has no chapter {n}")
         if not c["summary"] or not c["title"]:
             problems.append(f"{text_id} {c['id']}: a chapter needs a short title and a summary")
@@ -276,7 +305,8 @@ def build(text_id, terms=None, greek_chs=None, eng=None):
     for p in paras:
         if not p["modern"]:
             problems.append(f"{text_id} {p['seg']}: no modern text")
-        here = " ".join(tay_ch.get(n, "") for n in by_id[p["chapter"]]["taylor"])
+        c = by_id[p["chapter"]]
+        here = " ".join(tay_ch.get(tkey(c, n), "") for n in c["taylor"])
         for f in p["flags"]:
             if not f["why"]:
                 problems.append(f"{text_id} {p['seg']}: a flag with no reason")
@@ -295,6 +325,9 @@ def build(text_id, terms=None, greek_chs=None, eng=None):
         if not t["summary"]:
             problems.append(f"{text_id} {t['id']}: no summary")
     links = check_terms(text_id, paras, greek, terms, problems)
+    def tbook(c):
+        return f"Book {list(ROMAN)[chapter_key(c['id'])[0] - 1]}, " if meta.get("books") else ""
+
     import aristotle_f1k
     w = aristotle_f1k.WORK_BY_ID[meta["work"]]
     d = {
@@ -318,7 +351,8 @@ def build(text_id, terms=None, greek_chs=None, eng=None):
         "source": f"sources/translations/modern/{text_id}.txt",
         "treatises": [{"id": t["id"], "title": t["title"], "summary": t["summary"], "chapters": t["chapters"]} for t in treatises],
         "chapters": [{"id": c["id"], "treatise": c["treatise"], "title": c["title"], "summary": c["summary"],
-                      "taylor": [{"n": n, "label": f"Chapter {n}", "text": "\n\n".join(tay_paras.get(n, []))} for n in c["taylor"] if n in tay_paras]}
+                      "taylor": [{"n": n, "label": f"{tbook(c)}Chapter {n}", "text": "\n\n".join(tay_paras.get(tkey(c, n), []))}
+                                 for n in c["taylor"] if tkey(c, n) in tay_paras]}
                      for c in chapters],
         "paragraphs": [],
         "links": links,
