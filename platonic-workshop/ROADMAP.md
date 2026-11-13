@@ -15,6 +15,10 @@ so that each thread starts small.
 
 ## The current focus (November 13, 2026, asked for by Daniel): Aristotle, beginning with the Metaphysics
 
+**Paused (November 13, 2026, asked for by Daniel):** Daniel: "Ok lets put a pause to this and move over to the Enniads,
+translating it into modern english". The Aristotle work stops after 35m6 (Books Ι and Κ of the Metaphysics, done and merged);
+35m7 (Book Λ) onward keeps its plan, to take up again when Daniel asks. The new work is the Enneads in modern English.
+
 Daniel: "let's pause any work on Plato, move focus over to modernizing and correcting the texts of Aristotle, start with
 Metaphysics; we need to turn this into a milestone list so that new threads can be made to save tokens."
 
@@ -312,7 +316,7 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   Taylor's English exists; then Damascius and Hermias. Plotinus' other treatises have no Taylor to check against: check
   them against another public-domain translation, or label them so.
 
-## Milestone 35: modern English of Aristotle (35a, 35b, 35c and 35m1 to 35m6 done; the current focus, ahead of everything else; asked for by Daniel)
+## Milestone 35: modern English of Aristotle (35a, 35b, 35c and 35m1 to 35m6 done; paused after 35m6, November 2026; asked for by Daniel)
 
 - As milestone 27 did for the Neoplatonists, for Aristotle: a modern English version beside the Greek, with Modern /
   Side by side views, Taylor's words a tap away, each section with its gist, and Mark a sentence.
@@ -442,7 +446,7 @@ could do before. The school and curriculum ideas are left out as beyond the scop
       γένος and εἶδος "kind" and "form" in X.10, τὸ ἄπειρον "the infinite" in Book Κ, ὑποκείμενον "positive" in XI.11,
       πρὸς τόνδε "against this person", σύμφυσις "growing together".
     - 35m7: Book Λ (XII), 10 chapters, 1069a-1076a: the kinds of substance, the unmoved mover, the intellect that thinks
-      itself, the spheres, the good of the universe; the summit of the course for the Platonists. One thread for this book alone. Next.
+      itself, the spheres, the good of the universe; the summit of the course for the Platonists. One thread for this book alone. Next when the Aristotle work resumes (paused, November 2026).
     - 35m8: Books Μ and Ν (XIII and XIV), 16 chapters, 1076a-1093b: against the Forms and the Ideal Numbers, with a note on each
       chapter that Syrianus answers (his commentary on these books is on the commentators' shelf, A5; its English is A6, paused).
   - 35d: the Posterior Analytics (Mure 1928, Owen), two sessions. Next after the Metaphysics.
