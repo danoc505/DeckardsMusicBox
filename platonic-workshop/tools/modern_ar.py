@@ -107,19 +107,19 @@ TEXTS = {
         "work": "ar025",
         "slug": "metaphysics",
         "books": True,
-        "done_books": [1, 2, 3, 4, 5],  # 35m1 (I, II), 35m2 (III, IV), 35m3 (V); each later sub-milestone adds its books (ROADMAP, 35m4 to 35m8)
+        "done_books": [1, 2, 3, 4, 5, 6, 7],  # 35m1 (I, II), 35m2 (III, IV), 35m3 (V), 35m4 (VI, VII); each later sub-milestone adds its books (ROADMAP, 35m5 to 35m8)
         "title": "The Metaphysics in modern English",
         "english": {"taylor-1801": "Taylor (1801)", "ross-1908": "Ross, Oxford (1908)"},
         "taylor_title": "Taylor, The Metaphysics (1801)",
         "about": "A modern English version of Aristotle's Metaphysics, written for the Workshop, a few books at a time: so far "
-                 "Books Α, α, Β, Γ and Δ (I to V). It modernises the public-domain English on the shelf, W. D. Ross's in the Oxford "
+                 "Books Α, α, Β, Γ, Δ, Ε and Ζ (I to VII). It modernises the public-domain English on the shelf, W. D. Ross's in the Oxford "
                  "translation (1908), checked sentence by sentence against the Greek, Ross's own later text (Oxford, 1924) as "
                  "Perseus gives it; where the old English and the Greek differ, the modern version follows the Greek. It is "
                  "compared with Thomas Taylor's translation (1801), the English the Platonists' Workshop reads beside it: where "
                  "an older English says something the Greek does not, or the Greek is hard, a flag shows the older words and the "
                  "difference. The books and chapters are Bekker's; the short titles and summaries are the Workshop's. Taylor "
-                 "divides Book Α into seven chapters, not ten, and Book Γ into seven, not eight, so each chapter names the chapter "
-                 "of his that holds it. The "
+                 "divides Book Α into seven chapters, not ten, Book Γ into seven, not eight, Book Ε into three, not four, and Book Ζ "
+                 "into sixteen, not seventeen, so each chapter names the chapter of his that holds it. The "
                  "Platonists read the Metaphysics last of Aristotle's works, as the summit of the course: the science of the "
                  "first causes and principles, which Aristotle calls wisdom and theology.",
     },
