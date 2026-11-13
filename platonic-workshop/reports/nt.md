@@ -42,6 +42,6 @@ Sources: the SBL Greek New Testament (2010, CC BY 4.0) with MorphGNT's tagging (
 
 **Key terms.** 3,755 words of the New Testament are underlined as 66 of the Workshop's key terms, by MorphGNT's lemma and the term's own rule, as in Plato (and, as there, the terms only the Definitions define are found but not underlined: 7,846 words in all, of 138 terms). They are kept apart from Plato's (`nt_term_hit`). Most underlined: God 1,307, Reason and Logos 332, Name (onoma) 229, Eternal 191, Justice 170, Opinion 165, Life 135, Truth 135, Power (dynamis) 119, Soul (Psychē) 102, The Beautiful 101, The Good 101.
 
-**Words without a dictionary entry** (mostly names), the most frequent: Παῦλος, Ἰωάννης, Μωϋσῆς, Ἰερουσαλήμ, Ἀβραάμ, Ἰσραήλ, πρεσβύτερος, Ἱεροσόλυμα, Γαλιλαία, Δαυίδ, Πιλᾶτος, εὐαγγελίζω, οὐχί, Ἰουδαία, Ἰούδας, Ἡρῴδης, Ἰάκωβος, Σατανᾶς, παραγίνομαι, Ἰωσήφ.
+**Words without a dictionary entry** (mostly names), the most frequent: Παῦλος, Ἰωάννης, Μωϋσῆς, Ἰερουσαλήμ, Ἀβραάμ, Ἰσραήλ, πρεσβύτερος, Ἱεροσόλυμα, Γαλιλαία, Δαυίδ, Πιλᾶτος, εὐαγγελίζω, οὐχί, Ἰούδας, Ἰουδαία, Ἡρῴδης, Ἰάκωβος, Σατανᾶς, παραγίνομαι, Ἰωσήφ.
 
 **Not done.** Westcott and Hort's Greek (1881) as a second text: the roadmap offers it as optional, and no tagged copy with a licence to reuse it was found to pin; the SBLGNT apparatus (the variant readings its marks ⸀ ⸂ ⸃ point to) is not here, so the marks are left out of the text shown.
