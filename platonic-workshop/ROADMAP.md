@@ -292,11 +292,21 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   (Republic 619b-d), timocracy the first step down (545a-c), and ambition the last tunic (the Chaldean Oracles, named
   without a fragment number). 84 sections, 207 paragraphs in all. Taylor draws nothing from these pages (his Additional
   Note on 104c, add002, comes from an earlier, parallel passage), so no flags. Cousin's λόγος (for λόγοι) and ἐκφάσεις
-  (for ἐμφάσεις) kept and noted; the Latin at the foot of these pages is Ficino's (signed M. F.). Session 23 next: from
-  "Τοῦτο μὲν οὖν ὥσπερ πόρισμα" on p. 297 (leaf 324), the rest of the lemma's commentary. Next sessions, in this order: the rest of Proclus on the First Alcibiades (Taylor's Additional Notes
+  (for ἐμφάσεις) kept and noted; the Latin at the foot of these pages is Ficino's (signed M. F.). Session 23, after milestone 35
+  (next): from "Τοῦτο μὲν οὖν ὥσπερ πόρισμα" on p. 297 (leaf 324), the rest of the lemma's commentary. Next sessions, in this order: the rest of Proclus on the First Alcibiades (Taylor's Additional Notes
   to check against), and Olympiodorus on it (Creuzer's OCR, proofread first); then On the Mysteries and the Elements, where
   Taylor's English exists; then Damascius and Hermias. Plotinus' other treatises have no Taylor to check against: check
   them against another public-domain translation, or label them so.
+
+## Milestone 35: modern English of Aristotle (next, ahead of further Proclus sessions; asked for by Daniel)
+
+- As milestone 27 did for the Neoplatonists, for Aristotle: a modern English version beside the Greek, with Modern /
+  Side by side views, Taylor's words a tap away, each section with its gist, and Mark a sentence.
+- Made fresh from the Greek where no public-domain English exists; where it exists (Taylor, Thompson, Kenyon, and the
+  others already on the shelf), modernise that English, checked against the Greek, and flag where the old English and the
+  Greek differ. Labelled as the Workshop's own, machine-assisted, not yet checked by a scholar.
+- Begin with the works the Platonists read first (the order of milestone A2: logic, then ethics, politics, physics and
+  theology). Several sessions, one per thread.
 
 ## Milestone 28: the later readers
 
