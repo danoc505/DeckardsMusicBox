@@ -434,7 +434,7 @@ Built by `tools/aristotle.py` (works of corpus `aristotle`, a Bekker column, 980
   God as maker (Simplicius), with Simplicius' rule of reading, each quoted in their Greek from the page and checked by test against it
   and against the column it is linked to; the English is the Workshop's own and labelled so.
 
-### A8: the rest of Aristotle
+### A8: the rest of Aristotle (in part done)
 
 - Every other work in First1KGreek or Perseus Greek, GLAUx-tagged, with the Loeb English where Perseus has it
   (Politics, Rhetoric, Poetics, Eudemian Ethics) and Taylor's for the rest, in the Platonists' order.
@@ -442,8 +442,21 @@ Built by `tools/aristotle.py` (works of corpus `aristotle`, a Bekker column, 980
   (1811), from Google's scans (see A4), as translations beside the Greek (done): read by `tools/aristotle_taylor.py` with the
   rules of his Metaphysics, the page brought to that scan's scale, his notes from the commentators kept apart; the Organon at the
   Oxford's columns carried over chapter by chapter, as Owen's, and the Ethics placed against the Loeb English, as his Metaphysics.
-  Not yet read from the same volumes: his translation of Porphyry's Introduction and his Introductions to each treatise
-  (vol. I), the Rhetoric and the Poetic (1811), which wait for their Greek in the rest of A8.
+  His Rhetoric and Poetic (1811) are read the same way, beside the Greek of the next point (done). Not yet read: his translation of
+  Porphyry's Introduction and his Introductions to each treatise (vol. I).
+- The works Perseus has with a Loeb English (done): the Eudemian Ethics (Susemihl; Rackham), the Politics (Ross; Rackham),
+  the Economics (Armstrong), the Rhetoric (Ross; Freese) and the Poetics (Fyfe), at Bekker's columns as Perseus marks them,
+  GLAUx-tagged; for the Rhetoric and the Poetics, which GLAUx divides by chapter only, each GLAUx word takes the column of the
+  Perseus word it is matched to (`aristotle.glaux_resection`).
+- What is left of A8, for the next thread:
+  1. The works First1KGreek has in Greek only (no Loeb English in Perseus): tlg004, 007, 008, 011, 012, 013 (Generation and
+     Corruption), 014-016, 018-024, 026 (Meteorology), 027, 030, 032, 036, 037, 039, 041-043, 046-048, 052, 054; read through
+     `tools/aristotle_f1k.py` as the Organon is, GLAUx-tagged (GLAUx lacks 004, 019 and 046). Perseus has the Constitution of the
+     Athenians (tlg003, Kenyon) and On Virtues and Vices (tlg045) in Greek only. Order them as the Platonists did (A2).
+  2. Optional: Taylor's translation of Porphyry's Introduction and his Introductions to the Categories, On Interpretation and the
+     Prior Analytics (vol. I, leaves 59-72, 149-155, 205-212 of `ia-taylor-organon-1812`; already in `PARTS` in
+     `tools/aristotle_taylor.py`, not yet written out as texts).
+- Then A6 (Daniel: "Do A7 and A8 first, A6 last").
 
 ## Ideas noted, not yet planned
 

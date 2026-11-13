@@ -497,8 +497,9 @@ def build_work(db, work_id, sources, cfg=None):
     db.execute("UPDATE work SET imported = 1 WHERE id = ?", (work_id,))
     stats = {"work": work_id, "title": title}
 
-    grc_file = sorted(wdir.glob("*-grc*.xml"))[0]
-    eng_file = sorted(wdir.glob("*-eng*.xml"))[0]
+    # Perseus's own file first, where another project's is beside it (the Poetics has a digicorpus Greek too).
+    grc_file = sorted(wdir.glob("*-grc*.xml"), key=lambda f: ("perseus" not in f.name, f.name))[0]
+    eng_file = sorted(wdir.glob("*-eng*.xml"), key=lambda f: ("perseus" not in f.name, f.name))[0]
     g_root = ET.parse(grc_file).getroot()
     e_root = ET.parse(eng_file).getroot()
     W = cfg["walker"] or Walker
@@ -546,6 +547,9 @@ def build_work(db, work_id, sources, cfg=None):
 
     # Tokens, section by section, with GLAUx tags and Morpheus keys.
     glaux = glaux_words_by_section(num, cfg["glaux_file"](num), cfg["glaux_section"])
+    if cfg.get("glaux_resection") and glaux and not set(glaux) & set(g.order):
+        # Aristotle's Rhetoric and Poetics: GLAUx gives their words by chapter and section, not by Bekker column.
+        glaux = cfg["glaux_resection"]([w for ws in glaux.values() for w in ws], g)
     tokens_by_sec = defaultdict(list)  # ref -> [(chunk_id, start, end, form)]
     for cid, c in zip(g_chunk_ids, g.chunks):
         for m in greek.WORD.finditer(c["text"]):

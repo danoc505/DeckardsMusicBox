@@ -889,13 +889,18 @@
     },
     {
       "id": "perseus-greek-aristotle",
-      "title": "Aristotle, Greek text, Perseus TEI (Ross's Metaphysics, 1924; Bywater's Nicomachean Ethics, 1894)",
+      "title": "Aristotle, Greek text, Perseus TEI (Ross's Metaphysics, 1924; Bywater's Nicomachean Ethics, 1894; Susemihl's Eudemian Ethics, 1884; Armstrong's Economics, 1935; Ross's Politics, 1957, and Rhetoric, 1959; Kassel's Poetics, 1965)",
       "kind": "git",
       "repo": "https://github.com/PerseusDL/canonical-greekLit.git",
       "commit": "282e6f5a3ec12e6ca67e44cd4fa3487526e3b421",
       "paths": [
         "data/tlg0086/tlg025",
-        "data/tlg0086/tlg010"
+        "data/tlg0086/tlg010",
+        "data/tlg0086/tlg009",
+        "data/tlg0086/tlg029",
+        "data/tlg0086/tlg034",
+        "data/tlg0086/tlg035",
+        "data/tlg0086/tlg038"
       ],
       "include": [
         "*-grc*.xml"
@@ -903,19 +908,24 @@
       "layer": "text",
       "language": "grc",
       "citation_scheme": "Bekker page and column (980a), from <milestone unit='page' resp='Bekker'>; book and chapter from the TEI divisions",
-      "licence": "CC BY-SA 4.0 (Perseus encoding); the editions (Ross 1924, Bywater 1894) were printed before 1930 and are public domain in the US",
+      "licence": "CC BY-SA 4.0 (Perseus encoding). Ross 1924, Bywater 1894 and Susemihl 1884 are public domain; Armstrong's Economics (1935), Ross's Politics (1957) and Rhetoric (1959) and Kassel's Poetics (1965) are not, and are used under Perseus's CC BY-SA 4.0 licence as Perseus distributes them, on the same footing as the Loeb translations of the 1930s.",
       "provenance": "The same pinned Perseus commit as Plato's. The editor of each text is read from its TEI header (<editor>). Read by tools/aristotle.py (Aristotle milestone A1).",
       "status": "verified"
     },
     {
       "id": "perseus-english-aristotle",
-      "title": "Aristotle, English translations in the Loeb edition, Perseus TEI (Tredennick's Metaphysics, 1933-35; Rackham's Nicomachean Ethics, 1926)",
+      "title": "Aristotle, English translations in the Loeb edition, Perseus TEI (Tredennick's Metaphysics, 1933-35; Rackham's Nicomachean Ethics, 1926, Eudemian Ethics, 1935, and Politics, 1932; Armstrong's Economics, 1935; Freese's Rhetoric, 1926; Fyfe's Poetics, 1932)",
       "kind": "git",
       "repo": "https://github.com/PerseusDL/canonical-greekLit.git",
       "commit": "282e6f5a3ec12e6ca67e44cd4fa3487526e3b421",
       "paths": [
         "data/tlg0086/tlg025",
-        "data/tlg0086/tlg010"
+        "data/tlg0086/tlg010",
+        "data/tlg0086/tlg009",
+        "data/tlg0086/tlg029",
+        "data/tlg0086/tlg034",
+        "data/tlg0086/tlg035",
+        "data/tlg0086/tlg038"
       ],
       "include": [
         "*-eng*.xml"
@@ -923,13 +933,13 @@
       "layer": "translation",
       "language": "eng",
       "citation_scheme": "The same Bekker milestones as the Greek",
-      "licence": "CC BY-SA 4.0 (Perseus encoding). Rackham's Nicomachean Ethics (1926) is public domain in the US; Tredennick's Metaphysics (1933-35) is used on the same footing as the Loeb Plato translations of 1930-35 already in the Workshop (Shorey's Republic), as Perseus distributes it.",
+      "licence": "CC BY-SA 4.0 (Perseus encoding). Rackham's Nicomachean Ethics (1926) and Freese's Rhetoric (1926) are public domain in the US; the Loeb translations of 1932-35 (Tredennick, Rackham's Politics and Eudemian Ethics, Armstrong, Fyfe) are used on the same footing as the Loeb Plato translations of 1930-35 already in the Workshop (Shorey's Republic), as Perseus distributes them.",
       "provenance": "Translator read from each file's TEI header. Tredennick's and Rackham's footnotes are kept as notes (resp='Tredennick', resp='Rackham'). Read by tools/aristotle.py.",
       "status": "verified"
     },
     {
       "id": "glaux-aristotle",
-      "title": "GLAUx corpus, Aristotle files (Metaphysics, Nicomachean Ethics, On the Soul, On the Heavens, Physics, and the Organon): lemma, morphology and syntax for every word",
+      "title": "GLAUx corpus, Aristotle files (Metaphysics, Nicomachean Ethics, On the Soul, On the Heavens, Physics, the Organon, the Eudemian Ethics, Politics, Economics, Rhetoric and Poetics): lemma, morphology and syntax for every word",
       "kind": "git",
       "repo": "https://github.com/alekkeersmaekers/glaux.git",
       "commit": "b077d8f6ff429a5c7245954bc16bb7d1d7948823",
@@ -945,7 +955,12 @@
         "xml/0086-017.xml",
         "xml/0086-001.xml",
         "xml/0086-044.xml",
-        "xml/0086-040.xml"
+        "xml/0086-040.xml",
+        "xml/0086-009.xml",
+        "xml/0086-029.xml",
+        "xml/0086-034.xml",
+        "xml/0086-035.xml",
+        "xml/0086-038.xml"
       ],
       "layer": "lemma",
       "language": "grc",
@@ -1061,9 +1076,9 @@
       "sha256": "109e0af9d8fbb3701073b13ca3da5c90bc9be35724394e3a9af1dd798bb8baf1",
       "layer": "translation",
       "language": "eng",
-      "citation_scheme": "Taylor's book and chapter as printed; no Bekker numbers: placed by tools/align.py against the Loeb English, with the books as fixed points (≈)",
+      "citation_scheme": "Taylor's book and chapter as printed; no Bekker numbers: placed by tools/align.py against the Loeb English, with the books and chapters as fixed points where they agree (≈)",
       "licence": "Public domain (printed in 1811, before 1930)",
-      "provenance": "Internet Archive item rhetoricpoetica03arisgoog (Google's scan; public domain): its OCR with the place of every word (_djvu.xml), downloaded on 2026-11-12 and pinned by sha256. The OCR of the pages read (leaves 321-638: the Nicomachean Ethics) is committed in sources/aristotle/ocr/. Cleaned by rule (tools/aristotle_taylor.py, with the rules that read his Metaphysics); unproofread, every paragraph keeps its raw OCR.",
+      "provenance": "Internet Archive item rhetoricpoetica03arisgoog (Google's scan; public domain): its OCR with the place of every word (_djvu.xml), downloaded on 2026-11-12 and pinned by sha256. The OCR of the pages read (leaves 37-638: the Rhetoric, the Poetic and the Nicomachean Ethics) is committed in sources/aristotle/ocr/. Cleaned by rule (tools/aristotle_taylor.py, with the rules that read his Metaphysics); unproofread, every paragraph keeps its raw OCR.",
       "status": "verified"
     },
     {

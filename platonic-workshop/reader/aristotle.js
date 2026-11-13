@@ -30,6 +30,11 @@ const AR_PLAIN = {
   ar005: "The heavens: the fifth body that moves in a circle, ungenerated and eternal; the earth at the centre; the four elements and their weight and lightness.",
   ar002: "The soul as the first actuality of a natural body that has life: nutrition, sensation, imagination, and the intellect that makes all things, separable, impassive and unmixed (Book III, 5).",
   ar010: "The good for man, the virtues of character and of intellect, friendship, pleasure, and the life of contemplation as the most divine (Book X).",
+  ar009: "The other Ethics: happiness, the virtues of character, the voluntary, friendship, and in the end the measure of every choice, the contemplation and service of God (Book VIII 3).",
+  ar035: "The city, prior by nature to the household and the man; household rule and slavery; the constitutions, their kinds and changes; and the best city and the education of its citizens. Book II argues against Plato's Republic and Laws.",
+  ar029: "The management of the household: husband and wife, slaves, and property; and in Book II the finances of kings and cities.",
+  ar038: "Rhetoric, the counterpart of dialectic: the three kinds of oratory, proof by character, emotion and argument; the emotions one by one (Book II); style and the arrangement of a speech (Book III).",
+  ar034: "Poetry as imitation; tragedy, its plot, character and the purgation (κάθαρσις) of pity and fear; and epic. An answer, in part, to Plato's banishing of the poets from the Republic.",
 };
 
 function arSources() {
