@@ -59,7 +59,14 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   "last year's morality" for wisdom, and adds a sentence to close I.4.2). σπουδαῖος is "the good man" (MacKenna's "Sage"), with a
   note. Notes on Aristotle's Nicomachean Ethics (Priam, self-sufficiency, unhindered activity, the complete life), the Republic's
   greatest study, the Phaedo's child within, the Theaetetus' likeness to God, the Timaeus, Parmenides and the bull of Phalaris.
-- E3: I.6 On beauty, I.7 On the first good and the other goods (3,753).
+- **E3: I.6 On beauty, I.7 On the first good and the other goods (3,753) (done).** I.6 in 9 chapters, 30 paragraphs, 20 flags;
+  I.7 in 3 chapters, 6 paragraphs, 6 flags (e.g. MacKenna turns Thrasymachus' "self-control is foolishness" into "morality means
+  weakness of will", calls the "simple" beauty of colour "the outcome of a unification", reads "the perfect goodness" where the
+  Greek has the Phaedrus' self-control "on a holy pedestal", "God and Beauty" for the Good and the beautiful, "Supernals" for
+  daemons, and has the light "in" the sun where the Greek has it "towards" the sun). Notes on the Phaedo's purification and mire,
+  the Symposium's beauty itself, the Phaedrus (the pedestal, the statue, the sting of love), the Republic's sunlike eye, the
+  Good beyond being and Thrasymachus, Aristotle's evening and morning star and "what all things desire", Agamemnon's "dear
+  fatherland", Circe and Calypso, Narcissus, Heraclitus' hidden harmony and the Stoics' symmetry (Cicero).
 - E4: I.8 What evils are, and where they come from, I.9 On going out of life (4,533). MacKenna's I.8 has 12 chapters for
   Volkmann's 15: name his chapters with `@older`, and check that tools/mackenna.py reads his chapter numbers there.
 - E5: Porphyry's Life of Plotinus, chapters 1-12. Porphyry set it before the Enneads, and its English is in MacKenna's vol. I;
