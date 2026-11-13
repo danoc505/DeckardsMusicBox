@@ -123,6 +123,22 @@ class Files(unittest.TestCase):
         self.assertTrue(first["modern"].startswith("Pleasures and pains, fears and boldness"))
         self.assertTrue(first["greek"].startswith("Ἡδοναὶ καὶ λῦπαι"))
 
+    def test_milestone_e2_on_happiness_and_time(self):
+        d = load()
+        self.assertEqual([t["id"] for t in d["treatises"]][:3], ["I.1", "I.4", "I.5"])
+        self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "I.4"], [f"I.4.{n}" for n in range(1, 17)])
+        self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "I.5"], [f"I.5.{n}" for n in range(1, 11)])
+        first = next(p for p in d["paragraphs"] if p["seg"] == "I.4.1.p1")
+        self.assertTrue(first["modern"].startswith("If we take living well and being happy to be the same thing"))
+        self.assertTrue(first["greek"].startswith("Τὸ εὖ ζῆν καὶ τὸ εὐδαιμονεῖν"))
+        # The lantern in the storm (I.4.8), and time as the image of eternity (I.5.7, the Timaeus).
+        self.assertIn("like the light in a lantern", next(p for p in d["paragraphs"] if p["seg"] == "I.4.8.p1")["modern"])
+        flags = {p["seg"]: p.get("flags", []) for p in d["paragraphs"]}
+        self.assertIn("Timaeus", flags["I.5.7.p1"][0]["why"])
+        # MacKenna's "last year's morality" is the Greek's wisdom (φρόνησις).
+        self.assertTrue(any("wisdom" in f["why"] for f in flags["I.5.8.p1"]))
+        self.assertGreaterEqual(sum(len(flags[s]) for s in flags if s.startswith(("I.4.", "I.5."))), 15)
+
     def test_flags_quote_macKenna_word_for_word(self):
         d = load()
         older = mackenna.chapters()
@@ -138,7 +154,8 @@ class Files(unittest.TestCase):
 
     def test_notes_name_the_places_plotinus_uses(self):
         notes = " ".join(n for p in load()["paragraphs"] for n in p.get("notes", []))
-        for place in ("408b11-15", "412b12", "588c-590b", "35a", "611c-612a", "Odyssey"):
+        for place in ("408b11-15", "412b12", "588c-590b", "35a", "611c-612a", "Odyssey",
+                      "1100a5-9", "505a", "77e", "176a-b", "37d", "1153a14-15"):
             self.assertIn(place, notes)
 
     def test_the_tool_finds_no_problems(self):

@@ -163,3 +163,312 @@ Who made this inquiry: we, or the soul? We, by the soul, in so far as it is soul
 What has inquired into these things: is it we, or the soul? It is we, but by the soul. And how "by the soul"? Did we inquire by having it? No: by its being soul. Will it not be moved, then? Yes, but we must grant it such a movement as does not belong to bodies, and is its own life. And our thinking is like this too, because the soul is intellectual, and thinking is a higher life: both when the soul thinks and when intellect is active upon us. For intellect too is a part of us, and it is towards intellect that we go up.
 !flag Does this mean that the Soul reasons by possession (by contact with the matters of enquiry) ? | The Greek asks whether we inquired "by having" the soul; the words in brackets are MacKenna's guess, and not in the Greek.
 !flag Its Act subsists without movement | The Greek asks a question, "will it not, then, be moved?", and answers that we must grant the soul a movement that is not a body's: the soul is not said to be without movement.
+
+@treatise I.4 | On happiness
+Can animals and plants be happy? Plotinus goes through the answers of the schools, pleasure, freedom from disturbance, life according to nature, and the rational life, and finds that each points beyond itself to the perfect life, which is the life of intellect. A human being who has become that life, the good man, has everything good in himself and needs nothing else: pain, illness, the loss of friends and country, captivity and even the loss of consciousness do not take his happiness away, since it belongs to the man within, not to the compound of soul and body. He looks after his body as a musician looks after a lyre, as long as it can be used.
+
+@ch I.4.1 | Can the other animals be happy?
+If living well and being happy are the same, why not grant them to animals that live as their nature means them to, like the birds that sing? It seems low to bring happiness down to animals and even plants; but if the end is pleasure, or freedom from disturbance, or living according to nature, it is absurd to take living well away from the animals.
+
+@p
+If we take living well and being happy to be the same thing, shall we give a share of them to the other animals as well? If they can live their lives, as their nature is, without hindrance, what stops us from saying that they too live well? For whether one puts living well in feeling well, or in completing the work proper to oneself, on either account it will belong to the other animals too. They can feel well and also be at the work that is natural to them: the musical animals, for instance, which feel well in other ways and also sing as their nature is, and so find their life worth choosing. And if we set being happy in some end, which is the last thing that a nature reaches for, then on this account too we would give them a share of being happy when they reach that last point: when they come to it, the nature in them stops, having gone through the whole of its life and filled it out from beginning to end.
+
+@p
+@greek εἰ δέ τις δυσχεραίνει
+Someone may dislike bringing happiness down to the other animals. In that case, he says, we would be giving it even to the lowest of them; and we would be giving it to plants as well, since they too are alive and have a life that unfolds to an end. But in the first place, will he not seem absurd if he says that the other animals do not live well just because he thinks them of little worth? As for plants, he would not have to give them what he gives to all animals, since plants have no perception. Yet perhaps someone would give it even to plants, if they have life: one life can be good and another the opposite. Plants too can feel well or not, and bear fruit or not. Now if pleasure is the end, and living well lies in pleasure, whoever takes living well away from the other animals is absurd. It is the same if the end is freedom from disturbance, and the same if living well is said to be living according to nature.
+!note The three ends named here are those of the schools: pleasure (the Epicureans), freedom from disturbance (ἀταραξία, Epicurus and the Sceptics), and living according to nature (the Stoics). "The work proper to oneself" is Aristotle's argument from the function of a thing, in the Nicomachean Ethics I.7 (1097b24-1098a18).
+!flag it is impossible to deny the good of life to any order of living things | The Greek says that whoever takes living well away from "the other animals" is absurd; the plants have just been set aside, so it does not speak of every order of living things.
+
+@ch I.4.2 | Perception, and the rational life
+Those who refuse happiness to plants because they lack perception should refuse it to animals too: if the good is the state felt, perception adds nothing; if it is knowing that pleasure is the good, it belongs to a power above perception, reason, which cannot rank pleasure above itself. They are looking for something higher without knowing it. Those who put it in the rational life must say why: if reason is only a tool for getting the first things of nature, it is not worth choosing for itself.
+
+@p
+Yet those who refuse it to plants because they do not perceive run the risk of not giving it even to all the animals. If by perceiving they mean that the feeling does not go unnoticed, the feeling must be good before it is noticed: being in one's natural state, for example, even if it is not noticed, and being in what is one's own, even if it is not yet known to be one's own and to be pleasant; for it must be pleasant. So, if this is good and is present, what has it is already doing well. Why, then, add perception? Unless they give the good not to the feeling or the state that comes about, but to the knowing and perceiving of it. But in that case they will be saying that perception itself is the good, the activity of the perceiving life, and so whatever perceives anything at all will have it. If they say the good is made of both, perception of a state of this kind, how can they say that what is made of two things, each indifferent, is good? If the feeling is good, and living well is the condition in which one knows that the good is present to one, we must ask them whether one lives well by knowing that what is present is present, or whether one must know not only that it is pleasant but that it is the good. If one must know that it is the good, this is no longer the work of perception, but of another power, greater than perception. Then living well will belong not to those who feel pleasure, but to what can know that pleasure is the good. The cause of living well will not be pleasure, but what can judge that pleasure is good. And what judges is better than what feels: it is reason, or intellect, while pleasure is a feeling, and nowhere is the irrational stronger than reason. How, then, could reason set itself aside and declare something else, lying in the opposite kind, to be stronger than itself?
+!flag are really denying it to all living things | The Greek says they "run the risk" (κινδυνεύουσιν) of not granting it even to all the animals: the point is about the animals, and is put as a likelihood.
+
+@p
+@greek ἀλλὰ γὰρ ἐοίκασιν
+But it seems that both those who do not grant it to plants and those who put living well in a perception of this kind are looking, without noticing it, for something greater in living well, and placing what is better in a clearer life.
+
+@p
+@greek καὶ ὅσοι δὲ ἐν λογικῇ ζωῇ
+And those who say that it lies in the rational life, and not in life simply, nor even in the perceiving life, may well be right. But why they set being happy in this way only around the rational animal, we should ask them. "Do you add the rational because reason is resourceful, and can easily track down and secure the first things according to nature? Or would you add it even if it could not track them down or obtain them?" If it is because it can find them better, then being happy will belong also to beings without reason, if they obtain the first things according to nature by nature and without reason. Reason will become a servant, and will not be worth choosing for its own sake; nor will its completion, which we say is virtue. If you say that reason is not honoured because of the first things according to nature, but is to be welcomed for its own sake, you must say what other work it has, what its nature is, and what makes it complete. For it must be made complete not by its study of these things, but by something else: its completeness, and its nature, must be something other, and it must not be one of these first things according to nature, nor of what they come from, nor of this kind at all, but better than all of them. Otherwise I do not think they will be able to say why it is honoured. But until these people find a nature better than the things they now stop at, they must be left where they want to stay, at a loss as to how living well belongs to those who can have it.
+!note "The first things according to nature" (τὰ πρῶτα κατὰ φύσιν) is the Stoics' phrase for what a living being reaches for first: health, safety, what keeps it alive. The Stoics also called virtue the completion (τελείωσις) of reason.
+!flag Let us try basing it upon Life. | These words are not in the Greek of this chapter, which ends with the people who are at a loss. The next chapter begins "let us say from the beginning what we take being happy to be", and only then puts it in life.
+
+@ch I.4.3 | Happiness in the perfect life
+If happiness is in life, and "life" means one thing, every living being could be happy. But "life" is said in many ways, brighter and dimmer, and living well follows it, each an image of the one before. Happiness then belongs to what lives in the full, where the good is not brought in from outside: the perfect and true life, which is in intellect, the first life from which all the others come.
+
+@p
+Let us say from the beginning what we take being happy to be. Suppose we set being happy in life. If we used "living" in one and the same sense for all, we would grant that all living things can receive happiness, and that those actually live well that have present to them the one and the same thing that all living things were by nature able to receive. We would not grant this ability to the rational animal and deny it to the irrational: life was what they shared, and this was to be what received the same thing for being happy, if being happy lay in some kind of life. That is why, I think, those who say that being happy comes about in the rational life, not setting it in life as shared by all, did not notice that they were not supposing it to be life at all. They would be forced to say that the rational power, around which happiness is formed, is a quality. But what they take as the subject is the rational life: it is around this whole that happiness is formed, and so around another kind of life. I mean another kind not as set against it by a division, but as we say that one thing is prior and the other posterior.
+
+@p
+@greek πολλαχῶς τοίνυν τῆς ζωῆς
+Now life is said in many ways, with differences of first, second and next in order. "Living" is said of them in different senses, one way of a plant, another of an animal without reason, and they differ in clearness and dimness. Clearly, then, living well differs in the same proportion. And if one life is an image of another, clearly the living well of one is an image of the living well of the other. But if being happy belongs to that which has life in the full, which is what lacks nothing of life, then being happy would belong only to what lives in the full. To this would belong the best, too, if among the things that are the best is what really is in life, the perfect life. So the good would not be brought in from outside it, nor would some subject coming from elsewhere provide it with being in the good. For what could be added to the perfect life to make it the best?
+!flag If mere Being is insufficient | There is no such clause in the Greek, which says: "if being happy belongs to what has life in the full (ἄγαν), that is, to what lacks nothing of life".
+
+@p
+@greek εἰ δέ τις τὴν τοῦ ἀγαθοῦ φύσιν
+If someone answers "the nature of the Good", the account is close to us; but we are not looking for the cause, but for what is present within. That the perfect life, the true life and the real life, is in that intellectual nature, and that the other lives are incomplete, mere semblances of life, not perfectly or purely lives, and no more lives than their opposite, has been said many times. Let it be said briefly now as well: as long as all living things come from one source, but do not live equally, the source must be the first life and the most perfect.
+!flag The Good, as a Divine Hypostasis | The words in brackets are MacKenna's explanation; the Greek says only "the nature of the Good".
+
+@ch I.4.4 | The good man has the good in himself
+A human can have the perfect life: not only perception, but reasoning and true intellect. Every human has it, in potentiality or in act; the happy man is the one who has become it, and everything else is merely put around him. His good is himself, and the sign is that he seeks nothing more. What he seeks he seeks as necessary, for the body. He knows what death is, and the grief at the death of those close to him belongs not to him but to the part of him without intellect.
+
+@p
+If a human can have the perfect life, then a human who has this life is happy. If not, one would set happiness among the gods, if such a life is found among them alone. But since we say that happiness is found among humans too, we must look at how this is. I mean it like this. That a human has the perfect life, having not only the perceiving life but also reasoning and true intellect, is clear from other arguments too. But does he have it as one thing having another? Or is he not a human at all unless he has this too, in potentiality or in act, and then we say he is happy? Shall we say that this perfect kind of life is in him as a part of him? Or rather that the other man, who has it in potentiality, has it as a part; while the happy man, who is this in act, has crossed over to being this very thing? Everything else is now merely put around him, and one would not count it as parts of him, since it lies around him without his wanting it; it would be his if it were joined to him by his will.
+
+@p
+@greek μαρτύριον δὲ τοῦ τοῦτο
+What, then, is the good for such a man? He is his own good, by what he has. What is beyond is the cause of the good in him, and is good in another way, and present to him in another way. The evidence that this is so is that the one in this state seeks nothing else. What would he seek? Nothing worse than himself; and he is with the best. So the life of one who has life in this way is self-sufficient. If he is a good man, he is self-sufficient for happiness and for having the good, since there is no good that he does not have. What he seeks he seeks as necessary, and not for himself, but for something belonging to him: he seeks it for the body joined to him. And even if it is a living body, what he seeks is what belongs to the living body, not what belongs to a man like him. He knows these things, and gives what he gives without taking anything from his own life.
+!note "The good man" here and below is the σπουδαῖος, the serious or excellent man of Aristotle and the Stoics, the one who has virtue in full; MacKenna calls him "the Sage". "Self-sufficient" is Aristotle's mark of happiness, in the Nicomachean Ethics I.7 (1097b6-21).
+!flag for nothing is good that lies outside him | The Greek says "there is no good that he does not have" (οὐδὲν ... ἀγαθὸν ὃ μὴ ἔχει): it is about what he has, not about where goods lie.
+
+@p
+@greek ἐν τύχαις τοίνυν ἐναντίαις
+So even in adverse fortune he will not be made less happy, since such a life stays as it is. When relatives and friends die, he knows what death is, and so do those who die, if they are good. Even if the death of relatives and close friends brings grief, it grieves not him but what in him has no intellect, and he will not take on its griefs.
+!flag to that in him which stands apart from the Supreme | The Greek says "what in him does not have intellect" (τὸ ἐν αὐτῷ νοῦν οὐκ ἔχον): the part without intellect, not a part that stands apart from the Supreme.
+
+@ch I.4.5 | The objection from pain, illness and misfortune
+What of pains, illness, being out of one's mind from drugs or disease, poverty, obscurity, and the misfortunes of Priam? He may bear them, even easily, but would not choose them, and the happy life must be one we would choose. A human is not only a soul: his happiness must be looked for in the whole, body included, or else the body must be torn away.
+
+@p
+But what of pains, and illnesses, and whatever else stops one from being active? And what if he is not even aware of himself, as can happen from drugs and some diseases? How could living well and being happy be found in all these? Poverty and obscurity we may leave aside. Yet someone may look at these too and raise a question, and above all at the much-told fortunes of Priam. For even if he bore these, and bore them easily, they were not what he would have wished; and the happy life must be one we would wish for. For, they say, the good man is not a soul of a certain kind, with the nature of the body not counted in his being. They would readily grant this, as long as the body's experiences are referred to him, and his choosing and avoiding happen because of the body.
+!note The fortunes of Priam, king of Troy, who lost his sons and his city in old age, are Aristotle's example in the Nicomachean Ethics I.9-10 (1100a5-9, 1101a6-8): a good man so struck is not called happy. The objection in this chapter is the Peripatetics'.
+!flag misery and disgrace | The Greek names poverty (πενία) and obscurity, or lack of good name (ἀδοξία): not misery and disgrace.
+
+@p
+@greek ἡδονῆς δὲ συναριθμουμένης
+And if pleasure is counted in the happy life, how could one be happy who has grief because of misfortunes and pains, when these happen to him, even if he is good? Such a disposition is happy and self-sufficient for the gods; but humans, who have taken on an addition of the worse, must look for happiness in the whole of what has come to be, not in a part. For if one part is in a bad state, the other too would be forced to be hindered in its own work, because the first part's affairs are not going well. Otherwise one must tear away the body, or even the body's perception, and look in that way for self-sufficiency for being happy.
+
+@ch I.4.6 | Happiness is one end, and the rest only necessities
+If happiness meant not being in pain or misfortune, no one could be happy while these were present. But if it lies in having the true good, why look to other things? The end is one, not many: what the soul seeks to hold close. Health and painlessness show what they are: we despise them when we have them, and seek them only when their opposites hurt. They are necessary, not good, and the end must stay whole without them.
+
+@p
+If the argument had put being happy in not being in pain, not being ill, not having bad luck, and not falling into great disasters, no one could be happy while their opposites were present. But if it lies in having the true good, why must we leave this aside, and the looking to it by which we judge who is happy, and seek other things that are not counted in being happy? If happiness were a heap of goods and necessities, or even of things not necessary but also called goods, then we would have to seek that these too be present. But if the end must be one thing and not many, since otherwise one would be seeking not an end but ends, then we must take only that which is last and most honoured, and which the soul seeks to hold close within itself.
+
+@p
+@greek ἡ δὲ ζήτησις αὕτη
+This seeking and this wish are not for not being in these things. Reasoning avoids them, not by its nature, but only when they are present, managing them out of the way, or it even seeks to add them; but the soul's longing itself is for what is better than itself. When that has come into it, it is filled and at rest, and this is the life that is truly wished for. Having some necessity present would not be a wish, if one takes "wish" in its strict sense and does not misuse the word, as when we say we want these things present too. For in general we turn away from evils, and surely the turning away is not what we wish for: what we would wish for more is not even to need such a turning away.
+!note "Wish" (βούλησις) in the strict sense is the reasoned desire for the good, as in Aristotle's Nicomachean Ethics III.4 (1113a15-b2) and the Stoics; for Plotinus the soul's true wish is for what is above it.
+
+@p
+@greek μαρτυρεῖ δὲ καὶ αὐτά
+The things themselves show it when they are present, health, for example, and freedom from pain. Which of these is attractive? Health is despised when it is present, and so is not being in pain. What has nothing attractive when present, and adds nothing to being happy, but is sought when absent because of the presence of its painful opposites, may reasonably be called necessary, not good. So it must not be counted in the end; the end must be kept whole even when these are absent and their opposites present.
+
+@ch I.4.7 | Great misfortunes: cities, death, captivity
+The happy man wants these things for his being, and to be left with the best alone, not because they take his happiness away. Losing a child or a possession does not move him; nor do the great things, since he has gone above them: if kingdoms are nothing to him, the fall of his city is no great evil. Death is better than life with the body; sacrifice, lack of burial, captivity, even his children dragged away, he can foresee and bear, knowing the nature of the universe.
+
+@p
+Why, then, does the happy man want these things to be present and push their opposites away? We will say: not because they contribute some share to being happy, but rather to being. Their opposites tend either towards not being, or they are a nuisance to the end when present, not by taking it away, but because one who has the best wants to have it alone, and not something else with it, which, when present, does not take the best away, but is there all the same alongside it. In general, if the happy man does not want something and it is present, nothing is yet taken from his happiness; otherwise he would change, and fall out of happiness, every day: if he lost a child, for example, or any of his possessions. There would be countless things that turned out against his wishes without in the least moving the end that is present to him.
+!flag but they do serve towards the integrity of his being | The Greek says only that they contribute "to being" (πρὸς τὸ εἶναι), to his existing, as their opposites tend "towards not being".
+
+@p
+@greek ἀλλὰ τὰ μεγάλα, φασί
+But, they say, the great misfortunes, not the ordinary ones. What human thing could be so great as not to be despised by one who has climbed up to what is higher than all these, and no longer hangs on anything below? If he does not think good fortune, of whatever size, to be great, kingship, for example, and rule over cities and peoples, or the founding and building of cities, even if he did it himself, why will he think the loss of rule and the razing of his own city to be something great? And if he thought it a great evil, or an evil at all, he would be laughable in his teaching, and no longer good, if he thought wood and stones, and, by Zeus, the deaths of mortals, great things: he of whom we say that his teaching about death must be that it is better than life with the body.
+!flag or . . . Zeus ... by mortality among mortals | νὴ Δία is an oath, "by Zeus!": the Greek reads "who thinks wood and stones, and, by Zeus, the deaths of mortals, great things". The wood and stones are the razed city.
+
+@p
+@greek αὐτὸς δὲ εἰ τυθείη
+If he himself were sacrificed, will he think death an evil for himself because he died at the altars? If he is not buried, his body would surely rot anyway, whether laid above the earth or under it. If he has been buried without expense, nameless, and not thought worthy of a tall monument, that is pettiness. If he is led away captive, the way out is at hand, if he cannot be happy.
+!note "The way out" (ὁδὸς ἐξιέναι) is leaving life, the Stoics' "open door". Plotinus speaks of going out of life in I.9 and in I.4.8, below.
+!flag into his enemies' hands, into prison | The Greek says only "if he is led away captive" (αἰχμάλωτος), as a prisoner of war; and "the way out" is out of life, not an escape from prison.
+
+@p
+@greek εἰ δὲ οἰκεῖοι αὐτῷ αἰχμάλωτοι
+If those close to him are captives, sons and daughters dragged away, what then? we will say. Suppose he died without having seen any such thing: would he leave life believing that these things could not happen? Then he would be absurd. Would he not believe that his family could meet with such fortunes? And would he not be happy because he believed that it could happen? No: he is happy while believing this; so he is happy when it happens. He would reflect that the nature of this universe is such that it brings such things too, and we must follow. Many, too, will do better by becoming captives. And it is up to them, if they find it heavy, to leave. Either they stay with reason, and there is nothing terrible; or they stay without reason when they should not, and they are themselves to blame. For surely he will not be in evil because of the folly of others, even of his own family, nor will he hang on the good and bad fortunes of others.
+!note "We must follow" the nature of the universe is the Stoics' teaching, as in Cleanthes' prayer, "lead me, Zeus, and you, Destiny ... and I will follow without shrinking", quoted by Epictetus (Handbook 53).
+
+@ch I.4.8 | Pain, and the light in the lantern
+Severe pains he will bear while he can, and if they are too much they will carry him off; he is not to be pitied, since his light within burns like a lamp in a storm. If the pain goes on, he will decide what to do: his freedom is not taken away. Things do not reach his inside as they do others'. Grief at others' troubles is our weakness, to be removed, not indulged. Virtue raises our common nature above the many: like a great athlete, he knows these blows are frightening only to children.
+
+@p
+As for his own pains, when they are severe, he will bear them as long as he can; if they are too great, they will bear him away. He will not be pitiable in his pain: his own light burns within, like the light in a lantern while the wind blows hard outside in a great storm of winds and winter. But what if he is not aware of himself? Or if the pain is drawn out, rising so high that, even at its height, it does not kill? If it is drawn out, he will take counsel about what he must do, since his power over himself is not taken away in these things.
+!flag when he is put to torture he will plan what is to be done | The Greek says "if it is drawn out" (εἰ παρατείνοι), of the pain; no torture is named. He "will take counsel", keeping his power over himself (τὸ αὐτεξούσιον).
+
+@p
+@greek χρὴ δὲ εἰδέναι
+We must know that each thing will not look to the good man as it looks to others, and that neither other things, nor pains, nor griefs, go through to what is within, not even when the pains are someone else's: that would be a weakness of our soul. There is evidence of this when we think it a gain not to know of someone's suffering, and count it a gain if we die before it happens, considering not the other person's good but our own, so as not to be grieved. This is our own weakness, which we must remove, not allow, and so be afraid that the thing may happen.
+
+@p
+@greek εἰ δέ τις λέγοι οὕτως
+If someone says that we are so made by nature as to grieve at the misfortunes of those close to us, let him know that not everyone is so, and that it belongs to virtue to lead our common nature to what is better and finer than the many; and it is finer not to give way to what our common nature thinks terrible. We must not be like an ordinary man, but like a great athlete, ready to fight off the blows of fortune, knowing that to some natures these things are not welcome, but to his own nature they are bearable, not terrible, but frightening to children. Did he want them, then? No: but against what he does not want, when it is present, he has virtue, which makes the soul hard to move and hard to affect by these things.
+
+@ch I.4.9 | The good man out of his mind, or asleep
+If he is overwhelmed by disease or magic and is not aware of himself, he is still good, and so still happy, as he is when asleep. Being healthy or handsome does not depend on knowing it; why should being wise? Wisdom is not brought in from outside: it is in substance, the substance does not perish in sleep, and its activity goes on, unnoticed not by him but by a part of him, as the growth in us goes unnoticed. We are the activity of what thinks.
+
+@p
+But what if he is not aware of himself, drowned by disease or by the arts of magicians? If they keep him a good man while in this state, as if lying asleep, what stops him from being happy? They do not take happiness away from him in his sleep, nor do they count that time so as to deny that he is happy his whole life. If they say he is not good, they are no longer speaking about the good man. We suppose a good man, and ask whether he is happy as long as he is good. "Let him be good," they say, "but if he does not perceive or act according to virtue, how could he be happy?" But if he did not perceive that he was healthy, he would be healthy no less; and if he did not perceive that he was handsome, he would be no less handsome. If he did not perceive that he was wise, would he be any less wise? Unless, perhaps, someone says that in wisdom there must be perceiving, being aware of oneself; for happiness is present in wisdom in activity.
+!note "Happiness is an activity" of the soul according to virtue is Aristotle's definition, Nicomachean Ethics I.7 (1098a16-18) and X.7 (1177a12-18); the objection here, that the unconscious cannot be active, is drawn from it.
+
+@p
+@greek ἐπακτοῦ μὲν οὖν ὄντος
+If being wise and wisdom were brought in from outside, this argument might say something. But if the existence of wisdom lies in a substance, or rather in the substance, and this substance has not perished in one asleep, or in general in one who is said not to be aware of himself, and the activity of the substance is in him, an activity of this kind that does not sleep, then the good man, as such, would be active even then. This activity would go unnoticed not by the whole of him, but by a part of him. So it is when the power of growth is active: the grasp of such an activity does not come by perception to the rest of the man. If we were our power of growth, we would be the ones who are active. But we are not this; we are the activity of what thinks, so that when that is active, we are active.
+
+@ch I.4.10 | Awareness is a reflection in a mirror
+The thinking goes unnoticed because it is not about anything perceived. Intellect is active before any awareness; awareness comes when thought bends back, as an image in a mirror, when what in us reflects it is at rest. When that is broken by a disturbance in the body, intellect thinks without an image. Even awake, our best acts, reading or acting bravely, go on without our noticing them, and awareness may only make them dimmer.
+
+@p
+Perhaps it goes unnoticed because it is not about anything perceived. It is through perception, as through a middle, that one must be active about such things and on account of them. But why will intellect itself not be active, and the soul that is around it, the soul that is before perception and before any awareness at all? There must be an act prior to awareness, if thinking and being are the same. And awareness seems to exist and come about when the thought bends back, and when what is active in the soul's living is, as it were, pushed back again, as in a mirror an image forms on the smooth and bright surface when it is still.
+!note "Thinking and being are the same" is Parmenides' line (fragment 3), which Plotinus quotes often.
+!flag When the Intellect is in upward orientation | The Greek says that awareness comes about "when the thought bends back" (ἀνακάμπτοντος τοῦ νοήματος); nothing is said of intellect turned upwards, and the words in brackets that follow are MacKenna's.
+
+@p
+@greek ὡς οὖν ἐν τοῖς τοιούτοις
+So, as in these cases, when the mirror is there, the image comes into being, but when it is not there, or is not in that state, what would have made the image is still active; so too in the soul. When what in us receives the reflections of reasoning and of intellect is at rest, these are seen in it and known, as if by perception, together with the earlier knowing that intellect and reasoning are active. But when it is shattered because the body's harmony is disturbed, reasoning and intellect think without an image, and thinking then goes on without imagination. So one may also understand that thinking comes with imagination, though thinking is not imagination.
+
+@p
+@greek πολλὰς δ’ ἄν τις εὕροι
+And one could find many fine activities, contemplations and actions of people who are awake, when we contemplate and when we act, that do not have us aware of them. The reader need not be aware that he is reading, least of all when he reads with full attention; nor need the one who is acting bravely be aware that he is brave and acting by courage, while he is acting; and there are countless other cases. So awareness may well make the very activities it attends dimmer, and when they are alone they are pure, and more active, and more alive. And when good men are in such a state, their living is more, not poured out into perception, but gathered together in itself.
+
+@ch I.4.11 | His will is turned inward
+If anyone says such a man is not alive, his life and his happiness have escaped them. They must keep the man living and good, and not look for his happiness in outer acts or his wishes in outer things. He would wish all men well, but is happy even when they are not; and wishing evils away altogether would be unreasonable, so his wish is turned inward.
+
+@p
+If some say that such a man is not even alive, we will say that he is alive, but that his happiness escapes them, as his life does. If they are not persuaded, we will ask them to suppose a man living and good, and on that supposition to ask whether he is happy: not to shrink his life and then ask whether living well is present; not to take away the man and then ask about the happiness of a man; not to grant that the good man has turned inward and then look for him in his outer activities; nor, in general, to look for what he wishes in outer things. For in that way there would be no substance to happiness at all, if you said that outer things were what is wished for, and that the good man wishes for them. He would want all human beings to do well and no evil to come to anyone; but if it does not happen, he is happy all the same. And if someone says it would be unreasonable of him to wish this, since it is not possible for evils not to exist, it is clear that he will agree with us when we turn his will inward.
+
+@ch I.4.12 | His pleasure is at rest
+The pleasure asked of such a life cannot be bodily pleasure, or wild delight, but the pleasure that goes with the presence of goods: not a movement, not something coming to be, but at rest, since the goods are present and he is present to himself. He is always cheerful, and nothing called evil disturbs him.
+
+@p
+When they ask for pleasure in such a life, they will not ask that the pleasures of the licentious, or of the body, be present: these cannot be present, and would make happiness disappear. Nor transports of delight: why should they be? But the pleasures that go with the presence of goods, not in movements, and so not coming to be: for the goods are already present, and he is present to himself, and this pleasure and gladness stand still. The good man is always glad; his state is calm, and his disposition contented, and nothing of what are called evils disturbs it, if he is good. If someone looks for another kind of pleasure in the good life, it is not the good life that he is looking for.
+!note Pleasure that is not a movement but rests is Aristotle's thought in the Nicomachean Ethics VII.14 (1154b26-28), where God enjoys one simple pleasure always.
+!flag nor in any violent emotions | The Greek names περιχαρείας, transports of joy or wild delight: not violent emotions in general.
+
+@ch I.4.13 | Even in the bull of Phalaris
+His activities are not hindered by fortune, only changed by it, and are perhaps finer for the circumstances. The greatest study is always at hand, even in Phalaris' bull, where it is idly said to be pleasant: what cries out there is what suffers; the other part stays with itself and does not leave the sight of the whole good.
+
+@p
+Nor would his activities be hindered by fortune; rather, different ones would come about in different fortunes, all of them fine, and perhaps finer for meeting circumstances. As for his activities in contemplation, those about particulars he might bring out after searching and examining; but the greatest study is always at hand and with him, and all the more so even if he is in the so-called bull of Phalaris, which is idly said to be pleasant, though it is said twice or many times. There, what cried out is the very thing that is in pain; here, what is in pain is one thing, and the other is another, which, being with itself, as long as it is forced to be with that other, will not be left without the sight of the whole good.
+!note "The greatest study" (τὸ μέγιστον μάθημα) is Plato's name for the Form of the Good, in the Republic, book 6 (505a). The bull of Phalaris was a bronze bull in which the tyrant of Acragas roasted his victims; Epicurus was said to hold that the wise man would say even there, "how pleasant!" (Cicero, Tusculan Disputations II.17).
+!flag like a part of his being | The Greek says the greatest study is "always at hand and with him" (πρόχειρον ἀεὶ καὶ μετ’ αὐτοῦ); it does not call it a part of his being.
+
+@ch I.4.14 | The man is not the compound
+That a human, the good man most of all, is not the compound is shown by his separating himself from the body and despising its goods. Happiness is the soul's activity, not the plant-soul's: not bodily size or vigour, nor keen perception. The bodies of the good must be made less, so that the man within shows. He will give up rule, keep his health without wishing never to be ill, and meet pain with the power he has.
+
+@p
+That the human being, and the good man most of all, is not the compound of the two is shown by the separation from the body and by the contempt for the body's so-called goods. To think that happiness extends as far as the living being does is laughable, since happiness is living well, which is formed around the soul, and is an activity of the soul, and not of all of it: not of the soul of growth, so that it would touch the body. For being happy did not lie in the body's size and good condition; nor, again, in perceiving well, since the excess of these is likely to weigh a man down and carry him towards them. There must be a counterweight, as it were, on the other side, towards what is best, to lessen the bodies and make them worse, so that this man may be shown to be another than the things outside.
+!flag even a happy balance of temperament | The Greek has "nor, again, in perceiving well" (οὐδ’ αὖ ἐν τῷ αἰσθάνεσθαι εὖ): good senses, not good temperament.
+
+@p
+@greek ὁ δὲ τῶν τῇδε ἄνθρωπος
+Let the man of the things here be handsome and tall and rich, and the ruler of all men, as one who belongs to this place; and we must not envy him for these things that have deceived him. Around a wise man they might not come into being at all, to begin with; but if they do, he himself will make them less, if he cares for himself. He will lessen the body's excesses and let them wither by neglect, and he will lay rule aside.
+
+@p
+@greek σώματος δὲ ὑγίειαν
+While he guards the body's health, he will not want to be wholly without experience of illness, nor without experience of pain. Even if they do not come, he will want to learn them while young; but when he is old, he will want neither these nor pleasures to trouble him, nor anything of the things here, pleasant or the opposite, so that he does not look to the body. When he is in pain, he will set against it the power he has gathered for it, taking no addition to his happiness from pleasures and health and freedom from toil, nor any subtraction or lessening of it from their opposites. For if one opposite adds nothing to a thing, how could the other opposite take anything away?
+
+@ch I.4.15 | Two wise men; the child within
+Two equally wise men, one with every natural advantage and one with the opposite, are equally happy: beauty and the rest do not help even a flute-player. We look at the happy man with our own fears. He must be fearless, or he is only half virtuous; a fear that comes before judgement he will quiet, like a child, with a look. This does not make him unfriendly: he is the best of friends.
+
+@p
+But if there were two wise men, and one had everything that is called natural, and the other the opposite, shall we say that they are equally happy? We shall, if they are equally wise. If one is handsome in body and has everything else that does not lead to wisdom, nor at all to virtue and the sight of the best, and to being the best, what would this matter? Not even the one who has these things will pride himself on being happier than the one who does not; for an abundance of them would not help even towards the end of flute-playing.
+
+@p
+@greek ἀλλὰ γὰρ θεωροῦμεν
+But we look at the happy man with our own weakness, thinking terrible and frightening what the happy man would not think so. Or else he would not yet be either wise or happy, if he had not changed all his imaginings about these things and become, as it were, wholly another, trusting himself that he will never have any evil. In this way he will be without fear about everything; if he is afraid of something, he will not be complete in virtue, but a kind of half-man.
+
+@p
+@greek ἐπεὶ καὶ τὸ ἀπροαίρετον
+For if a fear that he did not choose, one that comes before judgement, ever comes to him while his mind is on other things, the wise man will come and drive it off, and will calm the child in him that has been stirred towards griefs, either by a threat or by reason; but by a threat without passion, as if a child were struck dumb just by a stern look. Not that such a man is therefore unfriendly or unfeeling: he is the same towards himself and in his own affairs. So, giving to his friends all that he gives himself, he would be the best of friends, all the more because he has intellect.
+!note The child within us, who must be calmed when he is afraid of death, is from Plato's Phaedo (77e).
+!flag it is to himself and in his own great concern that he is the Sage | The Greek says "he is such towards himself too, and in his own affairs" (τοιοῦτος γὰρ καὶ περὶ αὑτὸν καὶ ἐν τοῖς ἑαυτοῦ): the sternness is not kept for others; he is the same with himself.
+
+@ch I.4.16 | The musician and his lyre
+Whoever drags the good man down to fortune keeps not a good man but a decent, mixed one, who would not deserve to be called happy. Plato rightly takes the good from above, and the one who would be wise and happy must look there, become like it, and live by it. All else is like a change of place; the body he looks after as a musician looks after his lyre, and when it is useless he changes it, or lets it lie and sings without an instrument.
+
+@p
+If someone does not set the good man high, in this intellect, but brings him down to fortune and will fear that it may come upon him, he will not keep him a good man, as we think he is, but will give us a decent man, mixed of good and evil, and will grant such a man a mixed life of some good and evil; and such a man is not easy to find. Even if he were found, he would not deserve to be called happy, not having what is great, either in the worth of wisdom or in the purity of the good. So it is not in the common life that one lives happily.
+
+@p
+@greek ὀρθῶς γὰρ καὶ Πλάτων
+Plato rightly thinks that the good is to be taken from there, from above, and that whoever is to be wise and happy must look to it, become like it, and live by it. This alone, then, he must hold for the end. The rest he will treat as he would a change of place, getting nothing added to his happiness from the places, but taking thought for the other things around him, as whether he will lie down here or there. He gives the body what it needs and what he can, but he himself is another, not prevented from letting it go; and he will let it go at nature's due time, being himself master of deciding about it.
+!note Becoming like God by looking to him, and the flight from here to there, are from Plato's Theaetetus (176a-b); the good taken "from above" recalls the Republic, book 6 (508e-509b).
+
+@p
+@greek ὥστε αὐτῷ τὰ ἔργα
+So some of his works will tend to happiness, while others will not be for the sake of the end, and in general not for his own sake but for what is yoked to him. He will care for it and put up with it as long as he can, as a musician cares for his lyre as long as it can be used. If not, he will change it for another, or he will give up using lyres and refrain from playing the lyre, having another work without a lyre; and he will leave it lying by him and sing without instruments. And it was not given to him in vain at the beginning: he has used it many times already.
+
+@treatise I.5 | Whether happiness grows with time
+Does a longer happiness make a man happier? Plotinus answers no. Happiness is a present state, an activity of life, and a longer stretch of time adds only what no longer exists. Misery seems to grow with time only because the evil itself grows; memory of past pleasures or past wisdom adds nothing; and many fine actions add nothing either, since happiness lies in the soul's inner disposition, not in deeds. The life that is best is measured not by time but by eternity, whole and all at once.
+
+@ch I.5.1 | Happiness is always present
+Happiness is taken in the present: remembering having been happy adds nothing, nor does saying so. It lies in being disposed in a certain way, and that disposition is present, as the activity of life is.
+
+@p
+Does being happy increase with time, when being happy is always taken in the present? The memory of having been happy would not do anything, nor would being happy lie in saying so; it lies in being disposed in a certain way. And the disposition is in being present, as is the activity of life.
+
+@ch I.5.2 | Our desire is for what is present
+If it is because we always long to live and be active, then tomorrow's happiness would be greater than today's, happiness would no longer be measured by virtue, and the gods would never be perfectly happy. But longing, once it gets what it seeks, has the present; and the longing to live, which seeks being, seeks what is present now.
+
+@p
+If someone says that, since we always long to live and to be active, getting this is being happier, then in the first place tomorrow's happiness will be greater, and each next one always greater than the one before, and being happy will no longer be measured by virtue. Then the gods too will be happier now than before, and not yet perfectly happy, and never perfectly. Then again, longing, when it gets what it seeks, has got what is present, and always seeks what is present, until it has being happy. The longing to live, which seeks being, would be for the present, if being is in the present. And if it wants the future and what comes next, it wants what it has and what it is, not what is past or what is to come, but for what already is to be: not seeking the forever, but that the present should already be, now.
+!flag at once time supplants moral excellence as the measure of felicity | The Greek says only that happiness "will no longer be measured by virtue" (τῇ ἀρετῇ); that time takes its place is MacKenna's gloss.
+
+@ch I.5.3 | Seeing the same thing longer
+What if he was happy for longer, and saw the same thing for longer? If he saw it more exactly, time did something for him; if he saw it the same throughout, one look gives as much.
+
+@p
+What then? Suppose he was happy for a longer time, and looked at the same thing with his eyes for a longer time. If in the longer time he saw it more exactly, time would have done something more for him. But if he saw it in a like manner throughout, the one who looked once has as much.
+
+@ch I.5.4 | Longer pleasure
+One man had pleasure for longer; but pleasure is not rightly counted in happiness. If pleasure means unhindered activity, it is the same as what we are asking about; and even more pleasure has only the present, its past is gone.
+
+@p
+But the other man had pleasure for longer. This, however, would not rightly be counted towards being happy. And if someone calls pleasure unhindered activity, he is saying the same as what we are looking for. And even the greater pleasure always has only the present; its past is gone.
+!note "Unhindered activity" (ἐνέργεια ἀνεμπόδιστος) is Aristotle's account of pleasure, Nicomachean Ethics VII.12-13 (1153a14-15, 1153b9-12).
+
+@ch I.5.5 | Happy from the start, or only at the end
+If one man was happy from beginning to end, another only later, and a third only earlier, are they equal? The comparison is not among the happy, but of the unhappy, when they were unhappy, with the happy: the happy man's advantage is in the present.
+
+@p
+What then? If one man was happy from the beginning to the end, another in the later time, and another was happy earlier and then changed, do they have equal shares? Here the comparison has been made not among all who are happy, but of those who were not happy, at the time when they were not, with one who is happy. If he has something more, then, he has as much as a happy man has over those who are not happy; and he has this advantage over them by what is present.
+
+@ch I.5.6 | Does misery grow with time?
+Is not the miserable man more miserable for longer, as long pains are worse? There time adds something only because the illness becomes a settled state and the body worsens; misery grows by becoming more, not by lasting longer. Happiness has a limit and a bound, and is always the same; if it increases, it is with greater virtue, not with more years.
+
+@p
+What, then, of the unhappy man? Is he not more unhappy for a longer time? And do not other hardships, long pains, griefs, and everything of that kind, give greater misfortune over a longer time? But if these things increase the evil in this way with time, why not their opposites too, and being happy, in the same way? With griefs and pains, one could say that time gives an addition, as when an illness persists: it becomes a settled state, and the body gets worse with time. For if it stayed the same and the harm were no greater, here too what is painful would always be what is present; unless one counts in what is past, looking at what has come about and remains; and, in the unhappy state, the evil is stretched out over the longer time, as the vice grows by persisting. At any rate it is by the addition of more, not by the longer time, that being more unhappy comes about.
+
+@p
+@greek τὸ δὲ πλεῖον ἴσως
+But the longer is perhaps not all at once, and one must not call it longer at all, counting what no longer is together with what is. Happiness has a limit and a bound, and is always the same. If there is an increase here too beyond the longer time, so that one who advances to greater virtue is happier, it is not the happiness of many years that one is counting up and praising, but the happiness that has become greater at the time when it is greater.
+!flag true happiness is not vague and fluid | The Greek says positively that happiness "has a limit and a bound" (ὅρον τε καὶ πέρας) and is always the same.
+
+@ch I.5.7 | Time, and the life of eternity
+We count past time with the present, and call it more; but it is absurd to call happiness that no longer exists more than present happiness. Time scatters what is one in the present: it is the image of eternity, and dissolves what stays there. The best life is that of real being, measured not by time but by eternity, which is neither more nor less, without extension, whole and all at once.
+
+@p
+But why, if we must look only at what is present and not count it in with what has been, do we not do the same with time, but count the past time in with the present and call it more? Why, then, shall we not say that the happiness is as great as the time? And we would divide happiness by the divisions of time too; for, again, measuring it by the present, we shall make it indivisible. Rather, it is not absurd to count time that no longer is, since we could make a count of things that came to be and no longer are, the dead, for example. But it is absurd to say that a happiness that no longer is is present, and more than the present one. For being happy is something we hold to have come about, while the time beyond the present is what no longer is. And in general, the more of time means a scattering of something that is one in the present. That is why it is fittingly called an image of eternity, an image that wants to make what stays in eternity disappear in its own scattering. So if it takes from eternity what stayed in it and makes it its own, it has destroyed it: it was kept safe, in a way, for a while, by eternity, but destroyed if it all came to be in time.
+!note Time as "an image of eternity" is from Plato's Timaeus (37d), where the maker makes "a moving image of eternity". Plotinus treats time and eternity at length in III.7, done beside Taylor.
+!flag a mimic of eternity | The Greek says εἰκὼν αἰῶνος, "an image of eternity", Plato's words in the Timaeus (37d): an image, not a mimic.
+
+@p
+@greek εἴπερ οὖν τὸ εὐδαιμονεῖν κατὰ ζωὴν
+If, then, being happy is a matter of good life, clearly we must place it in the life of what really is, for that is the best. So it must not be counted by time, but by eternity. And eternity is neither more nor less, nor of any length, but is this "this" itself, without extension and not in time. So we must not join what is to what is not, nor time to eternity, nor what is everlasting in time to what is eternal, nor stretch out what has no extension. We must take it all as a whole, if ever you take it, taking not the undivided of time, but the life of eternity, not made of many times, but all of it together, from all time.
+!note "Not made of many times, but all of it together" (πᾶσαν ὁμοῦ) recalls Parmenides' being, "all together, one, continuous" (fragment 8.5), as Plotinus reads it in III.7.
+
+@ch I.5.8 | The memory of past pleasures
+Does the memory of the past make the longer happiness greater? Memory of wisdom would make him wiser, which changes the question; memory of pleasure would mean he needs much delight. What is pleasant in remembering a good dinner yesterday, or ten years ago, or being wise last year?
+
+@p
+If someone were to say that the memory of the past, staying in the present, gives the more to one who has been happy for a longer time, what would he mean by memory? Either memory of wisdom that came before, and then he would be speaking of one who is wiser, and would not keep to the supposition; or memory of pleasure, as if the happy man needed much delight and were not content with what is present. And what pleasure could there be in remembering something pleasant? It would be like remembering that yesterday one enjoyed a fine dish; and if it were ten years ago, it would be more laughable still. And so with wisdom: remembering that last year I was wise.
+!flag last year's morality | The Greek is τὸ δὲ τῆς φρονήσεως, ὅτι πέρυσιν ἐφρόνουν, "and of wisdom, that last year I was wise": wisdom, not morality.
+
+@ch I.5.9 | The memory of fine things
+Would memory of fine things count for something? That belongs to a man who lacks fine things now and seeks, for want of them, the memory of the past.
+
+@p
+But if the memory were of fine things, would something not be said for it here? No: that belongs to a man who is lacking in fine things in the present, and who, because he does not have them now, seeks the memory of what has been.
+
+@ch I.5.10 | Many fine actions
+A long time gives many fine actions. But that makes happiness out of things past and one thing present. A man can be happy without actions at all, and more so; actions do not give the good of themselves: the disposition makes them fine, and the wise man enjoys the good from what he has. The happy man's pleasure comes from his settled state; to put happiness in actions is to put it outside virtue and the soul.
+
+@p
+But a long time makes many fine actions, which the one who is happy only for a short while has no share in, if we should call happy at all one who is not so through many fine actions. Rather, whoever says that being happy comes from many times and actions forms it out of what no longer is but has passed, together with one thing that is present. That is why we placed being happy in the present, and then asked whether to have been happy for longer is to be happier. So we must ask this: whether happiness over a long time has the advantage by its greater number of actions.
+
+@p
+@greek πρῶτον μὲν οὖν ἔστι
+In the first place, it is possible to be happy without having been engaged in actions at all, and not less, but more so than one who has acted. Then, actions do not give well-being of themselves: it is dispositions that make actions fine as well, and the wise man enjoys the good even when he acts, not because he acts, nor from what happens, but from what he has. For the saving of one's country could come even from a bad man, and the pleasure at the saving of one's country could come to him even if another had done it. So it is not this that makes the happy man's pleasure, but his settled state, which makes his happiness, and any pleasure that comes through it. To put being happy in actions is to put it in things outside virtue and outside the soul. For the activity of the soul lies in being wise and in being active in this way within itself. And this is being happy.
+!note The chapter answers Aristotle, who held in the Nicomachean Ethics I.7 (1098a18-20) that happiness needs "a complete life", since one swallow does not make a spring.
+!flag the good of the act is for all alike, no matter whose was the saving hand | The Greek says that "the pleasure at the saving of one's country could come to him even if another did it": it is about the good man's own pleasure, not a good shared by all.

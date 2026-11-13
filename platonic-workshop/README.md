@@ -440,7 +440,7 @@ and his note that Aristotle "cannot be serious" against the Forms in X.10. The n
 Proclus on the One beyond being, Proclus on the Form as cause, not one more member of its species). Taylor's chapters are
 Bekker's. Next, when the Aristotle work resumes: Book Λ (35m7).
 
-**The Enneads in modern English (milestones E1 to E34): I.1 done; the current focus (November 2026).** The rest of Plotinus,
+**The Enneads in modern English (milestones E1 to E34): I.1, I.4 and I.5 done; the current focus (November 2026).** The rest of Plotinus,
 the thirty-nine treatises Taylor did not translate, is being put into plain modern English a treatise or two at a time, in
 Porphyry's order, as milestone 27 did for Taylor's fifteen: made from Volkmann's Greek, chapter by chapter, every idea kept,
 and checked against the older English beside it, here **Stephen MacKenna's** (1917-1930, made from the same Greek; public
@@ -449,7 +449,13 @@ domain in the United States). Where MacKenna adds to the Greek or misses it, a f
 "soul that weaves" put in Plato, where Plotinus quotes Aristotle (On the Soul 408b), God "contained in" the intelligible, where
 the Greek has him "riding upon" it, "sense-knowledge" for opinions, "easily reconciled" where Plotinus says only that perhaps
 the two accounts can be, and the "expiator" for what is punished; the notes give Aristotle's On the Soul, the Timaeus (35a), the
-Republic's lion and many-coloured beast (588c-590b) and Glaucus (611c-612a), and Homer's Heracles (Odyssey 11). It opens at
+Republic's lion and many-coloured beast (588c-590b) and Glaucus (611c-612a), and Homer's Heracles (Odyssey 11).
+**I.4, On happiness** and **I.5, Whether happiness grows with time** (E2): 16 and 10 chapters, 40 and 13 paragraphs, 17 and 5
+flags, among them his "torture" where the Greek says only that the pain is drawn out, "misery and disgrace" for poverty and
+obscurity, "a mimic of eternity" for Plato's "image of eternity", "last year's morality" for wisdom, and a closing sentence of
+I.4.2 that is not in the Greek; the notes give Aristotle's Priam (Nicomachean Ethics 1100a5-9), his unhindered activity
+(1153a14-15) and his "complete life", the Republic's greatest study (505a), the Phaedo's child within (77e), the Theaetetus'
+likeness to God (176a-b), the Timaeus' image of eternity (37d), and the bull of Phalaris. It opens at
 `#neo-modern/enneads` (from the Neoplatonists' shelf, under Plotinus, and from each chapter of the Greek): each treatise and
 chapter with a short title and a summary, the Greek of every paragraph one tap away (linking to its chapter in Volkmann's
 text), MacKenna's chapter one tap away (*MacKenna's words*, with his page) or beside it (*Side by side*), and *Mark a sentence*.
@@ -463,7 +469,7 @@ hyphened terms such as "Sense-Perception" kept; not proofread). The master copy 
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: I.4 and I.5 (E2).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: I.6 and I.7 (E3).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,
