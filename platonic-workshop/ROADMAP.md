@@ -283,9 +283,17 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   divine lover and the vulgar; the right moment (the Pythagoreans' name for the first cause); and how Socrates opens his
   speech. Each new lemma is its own paragraph, with a note naming its place in the dialogue. Checked against Taylor's
   Introduction and Additional Notes (10 more flags, 38 in all: e.g. Proclus quotes 124c where Taylor puts 105e, and names
-  the Theages where Taylor has the Theaetetus); Cousin's misprints kept and noted. Session 22 next: the rest of the lemma
-  "Ἐγὼ γὰρ, ὦ Ἀλκιβιάδη" (104e-105a), from p. 289 on (a draft proofreading of pp. 289-296 is in the project files'
-  handoff folder). Next sessions, in this order: the rest of Proclus on the First Alcibiades (Taylor's Additional Notes
+  the Theages where Taylor has the Theaetetus); Cousin's misprints kept and noted.
+- Session 22 done: the lemma "Ἐγὼ γὰρ, ὦ Ἀλκιβιάδη" (104e-105a), Cousin's vol. II pp. 289-297 down to "...τῆς ἐρωτικῆς
+  ἐπιπνοίας ἀγαθῶν." (the rest of p. 297 is still the OCR), proofread (199 pages, 3573 line corrections in all) and
+  translated as a new part, "If I saw you content with what is present": the nature worth loving, in three sections: the
+  elements of a nature worth loving (Republic VI, Timaeus 48a); the soul's three lives, its echoes of the ruling life seen
+  among the gods, and the followers of Zeus (Phaedrus 249e, 246e-247a, 252e); and the souls that come down from heaven
+  (Republic 619b-d), timocracy the first step down (545a-c), and ambition the last tunic (the Chaldean Oracles, named
+  without a fragment number). 84 sections, 207 paragraphs in all. Taylor draws nothing from these pages (his Additional
+  Note on 104c, add002, comes from an earlier, parallel passage), so no flags. Cousin's λόγος (for λόγοι) and ἐκφάσεις
+  (for ἐμφάσεις) kept and noted; the Latin at the foot of these pages is Ficino's (signed M. F.). Session 23 next: from
+  "Τοῦτο μὲν οὖν ὥσπερ πόρισμα" on p. 297 (leaf 324), the rest of the lemma's commentary. Next sessions, in this order: the rest of Proclus on the First Alcibiades (Taylor's Additional Notes
   to check against), and Olympiodorus on it (Creuzer's OCR, proofread first); then On the Mysteries and the Elements, where
   Taylor's English exists; then Damascius and Hermias. Plotinus' other treatises have no Taylor to check against: check
   them against another public-domain translation, or label them so.

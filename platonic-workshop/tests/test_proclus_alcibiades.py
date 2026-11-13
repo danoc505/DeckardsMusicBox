@@ -79,6 +79,9 @@ PLATO = [
     ("104c.5.p4", "tlg034", ["709b"], "709b", "τυχη γαρ, φησι, και καιροσ τα ανθρωπινα διακυβερνωσι συμπαντα", "τυχη και καιροσ, τανθρωπινα διακυβερνωσι συμπαντα"),
     ("104c.6.p1", "tlg031", ["30a"], "30a", "βουληθεισ γαρ, φησιν, ο θεοσ αγαθα παντα ειναι κατα δυναμιν", "βουληθεισ γαρ ο θεοσ αγαθα μεν παντα"),
     ("104d.1.p2", "tlg030", ["510b"], "510b", "ανυποθετου", "ανυποθετον"),
+    ("104e.2.p2", "tlg031", ["48a"], "Timaeus 48a", "τω νω πειθων την αναγκην", "πειθειν αυτην"),
+    ("104e.3.p1", "tlg012", ["249e"], "Phaedrus 249e", "φυσει τε θεαται τα οντα", "φυσει τεθεαται τα οντα"),
+    ("104e.3.p2", "tlg012", ["246e"], "Phaedrus 246e-247a", "του μεγαλου διοσ", "μεγασ ηγεμων εν ουρανω ζευσ"),
 ]
 
 
@@ -89,14 +92,14 @@ def load():
 class Proofreading(unittest.TestCase):
     def test_the_pages_in_order(self):
         pages = proofread.parse(TID)
-        self.assertEqual(len(pages), 191)
+        self.assertEqual(len(pages), 199)
         self.assertEqual(pages[0]["label"], "II p. 2")
-        self.assertEqual(pages[-1]["label"], "II p. 289")
+        self.assertEqual(pages[-1]["label"], "II p. 297")
         nums = [int(p["label"].rsplit(" ", 1)[1]) for p in pages]
         # Cousin prints two pages of Greek, then two of his Latin: the Greek runs on from page to page (p. 47 and 48
-        # are Latin, and the first lemma starts p. 49). Proclus on love runs on from p. 78, on Socrates as a good daemon and the only lover to p. 137, the more secret account of love to p. 145, the crowd and Socrates' silence to p. 162, and the daemonic opposition to p. 182. Pp. 187-188, 191-192 and 195 are still Latin; from p. 196 Cousin prints his Latin at the foot of the Greek, so the Greek runs on from page to page: the daemons, Socrates' daemon and the young man's pride to p. 269, the right moment to p. 281, and Socrates' slow beginning to p. 289.
+        # are Latin, and the first lemma starts p. 49). Proclus on love runs on from p. 78, on Socrates as a good daemon and the only lover to p. 137, the more secret account of love to p. 145, the crowd and Socrates' silence to p. 162, and the daemonic opposition to p. 182. Pp. 187-188, 191-192 and 195 are still Latin; from p. 196 Cousin prints his Latin at the foot of the Greek, so the Greek runs on from page to page: the daemons, Socrates' daemon and the young man's pride to p. 269, the right moment to p. 281, Socrates' slow beginning to p. 289, and the nature worth loving to p. 297.
         self.assertEqual(nums, [2] + [n for k in range(5, 46, 4) for n in (k, k + 1)] + [n for k in range(49, 182, 4) for n in (k, k + 1)]
-                         + [185, 186, 189, 190, 193, 194] + list(range(196, 290)))
+                         + [185, 186, 189, 190, 193, 194] + list(range(196, 298)))
         # Three pages are blank leaves in this scan, and are proofread from the other scan of the same volume.
         supplied = {p["label"]: p["supplied"] for p in pages if p.get("supplied")}
         self.assertEqual(sorted(supplied), ["II p. 158", "II p. 81", "II p. 94"])
@@ -122,7 +125,7 @@ class Proofreading(unittest.TestCase):
         self.assertIn("καὶ ποῖον τέλος ἐστὶ τῆς κατ’ ἀρετὴν ἐνεργείας. Τούτου δὲ τὸ αἴτιον γέγονεν οὐκ ἀνθρώπινον", g)
         self.assertIn("περὶ τὴν ἐρωτικὴν σπουδῇ.", g)
         self.assertIn("τὸ ὅλον δαιμόνιον ἡμῖν γνωσθήσησται φησὶν ὁ Σωκράτης. «Νῦν δὲ ἐπειδὴ οὐκ ἐναντιοῦται", g)
-        self.assertTrue(g.endswith("καὶ αἴτιον αὐτῶν προϋπάρχον."), g[-80:])
+        self.assertTrue(g.endswith("τῶν ἐκ τῆς ἐρωτικῆς ἐπιπνοίας ἀγαθῶν."), g[-80:])
         # The supplied pages join the scan's pages on both sides: ἐπαγ-|γέλλεται is not split, nor p. 93 to p. 94.
         self.assertIn("ὁ δὲ αὐτάρκης ἐστὶ, καὶ δυνάμεως πλήρης", g)
         self.assertIn("ὁμοιούμενος τῷ ἐραστῷ, γίνεται δή που καὶ αὐτὸς ἄστατος", g)
@@ -182,10 +185,10 @@ class ModernEnglish(unittest.TestCase):
         d = load()
         self.assertEqual([t["id"] for t in d["treatises"]], ["Prologue", "103a", "103a-love", "103a-first", "103a-secret", "103a-crowd", "103a-daemon",
                                                          "103a-daemons", "103a-socrates", "103a-power", "103a-hope", "103b", "104a", "104a-gifts",
-                                                         "104c", "104c-moment", "104d"])
+                                                         "104c", "104c-moment", "104d", "104e-worthy"])
         self.assertEqual([c["id"] for c in d["chapters"]], [f"Pr.{n}" for n in range(1, 11)] + [f"103a.{n}" for n in range(1, 52)]
                          + ["103b.1", "103b.2", "103b.3"] + [f"104a.{n}" for n in range(1, 9)] + [f"104c.{n}" for n in range(1, 7)]
-                         + ["104d.1", "104d.2", "104e.1"])
+                         + ["104d.1", "104d.2"] + [f"104e.{n}" for n in range(1, 5)])
         self.assertEqual({c["treatise"] for c in d["chapters"] if c["id"] in ("103a.8", "103a.13")}, {"103a-love"})
         for c in d["treatises"] + d["chapters"]:
             self.assertGreater(len(c["summary"].split()), 15, c["id"])
@@ -351,6 +354,28 @@ class ModernEnglish(unittest.TestCase):
         self.assertIn("Enneads I.3.6", " ".join(p["104e.1.p3"]["notes"]))
         self.assertTrue(p["104e.1.p3"]["greek"].endswith("καὶ αἴτιον αὐτῶν προϋπάρχον."))
 
+    def test_the_nature_worth_loving_follows_the_greek(self):
+        d = load()
+        p = {x["seg"]: x for x in d["paragraphs"]}
+        chs = {c["id"]: c for c in d["chapters"]}
+        self.assertEqual({chs[f"104e.{n}"]["treatise"] for n in (2, 3, 4)}, {"104e-worthy"})
+        self.assertTrue(all(not chs[f"104e.{n}"]["taylor"] for n in (2, 3, 4)))
+        # The lemma is its own paragraph, with Cousin's guillemet, and the note names its place in the dialogue.
+        self.assertTrue(p["104e.2.p1"]["greek"].startswith("«Ἐγὼ γὰρ, ὦ Ἀλκιβιάδη"))
+        self.assertTrue(any("next words" in n and "104e-105a" in n for n in p["104e.2.p1"]["notes"]))
+        # Ambition, the last tunic; the oracle named without a fragment number; Cousin's misprints kept and noted.
+        self.assertIn("ἔσχατον χιτῶνα", p["104e.4.p3"]["greek"])
+        self.assertIn("last tunic", p["104e.4.p3"]["modern"])
+        self.assertTrue(any("Chaldean Oracles" in n for n in p["104e.4.p3"]["notes"]))
+        self.assertIn("λόγος καθαρὸς", p["104e.4.p3"]["greek"])
+        self.assertTrue(any("λόγοι" in n for n in p["104e.4.p3"]["notes"]))
+        self.assertIn("ἐκφάσεις", p["104e.4.p4"]["greek"])
+        self.assertTrue(any("ἐμφάσεις" in n for n in p["104e.4.p4"]["notes"]))
+        self.assertIn("II p. 297", [x["label"] for x in p["104e.4.p4"]["pages"]])
+        for x in d["paragraphs"]:
+            if x["seg"].startswith(("104e.2", "104e.3", "104e.4")):
+                self.assertNotRegex(x["modern"], r"(?i)essence|energy|subsist|felicity", x["seg"])
+
     def test_sentences_can_be_marked(self):
         with tempfile.TemporaryDirectory() as tmp:
             lib = sqlite3.connect(":memory:")
@@ -415,7 +440,7 @@ class Server(unittest.TestCase):
 
     def test_the_shelf_and_the_scan_link_to_it(self):
         t = next(t for t in self.get("neo")["texts"] if t["id"] == TID)
-        self.assertEqual((t["modern"]["text"], t["modern"]["pages"]), (TID, 191))
+        self.assertEqual((t["modern"]["text"], t["modern"]["pages"]), (TID, 199))
         part = self.get(f"neo/{TID}/0")
         u = next(u for u in part["units"] if u["label"] == "II p. 2")
         self.assertEqual(u["modern_section"], {"text": TID, "id": "Pr.1"})
