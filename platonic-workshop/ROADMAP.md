@@ -78,11 +78,24 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   non-being (258b), the Timaeus (47e-48a, 41a-b, 52b), the Statesman's ancient nature and place of unlikeness (273b-d), the
   Phaedo's mud and guard post (69c, 61c-62c), the Republic's sleep in Hades (534c-d), the Phaedrus' wings (246b-c),
   Sophocles' holy grove, Aristotle on contraries, privation, induction and substance, and the Chaldaean oracle that opens I.9.
-- E5: Porphyry's Life of Plotinus, chapters 1-12. Porphyry set it before the Enneads, and its English is in MacKenna's vol. I;
-  but its Greek is not yet in the Workshop (First1KGreek has no Vita Plotini): bring in Volkmann's vol. I (1883), which opens with the
-  Life (check this in the scan), as an Internet Archive scan on the Neoplatonists' shelf, and proofread its pages as Proclus' commentary was
-  (`tools/proofread.py`), then translate. Placed after Ennead I because of that extra work; Daniel may move it first, or drop it.
-- E6: Porphyry's Life of Plotinus, chapters 13-26 (Porphyry's account of the order of the treatises, and his edition).
+- **E5: Porphyry's Life of Plotinus, chapters 1-12 (3,364) (done).** Volkmann's vol. I (1883) opens with the Life (checked
+  in the scan: pp. 1-36, its 26 chapters numbered); brought in as the Internet Archive scan `volkmann-enneades-gr-v.-1-1883`
+  (`ia-volkmann-t1` in `sources/manifest.json`, its OCR kept in `sources/neoplatonists/ocr/`), on the Neoplatonists' shelf as
+  `porphyry-life-plotinus`. Chapters 1-12 (pp. 3-18, 16 pages) proofread from the page images
+  (`sources/neoplatonists/proofread/porphyry-life-plotinus.txt`, 345 line corrections; `tools/proofread.py` now names the
+  editor of each text); pp. 19-36 stay the OCR as received until E6. `tools/mackenna.py` reads MacKenna's Life (26 chapters,
+  vol. I pp. 1-28); `tools/modern_enneads.py` splits the proofread Greek at Volkmann's chapter numbers and puts the Life first,
+  before Ennead I. 12 chapters, 37 paragraphs, 19 flags, 20 notes. Porphyry's list of the books gives each its place in the
+  Enneads in square brackets, the Workshop's addition (Workshop numbering: IV.1 the short "intelligible world" book, IV.2 "the
+  being of the soul"). E.g. MacKenna has "At twenty" for the twenty-eighth year, "malign diphtheria" for the "dog-choke",
+  "one meal a day" for eating every other day, "the Supreme" for intellect, "early manhood" for Plotinus' fifties, and wrong
+  Ennead places (II.2 for III.4, II.4-5 for VI.4-5, III.5 for III.6, I.8 for I.7). Notes on the Republic's image of an image
+  (597e-598b), the Phaedo's allotted daemon (107d) and guard post, the Timaeus' daemon (90a) and Atlantis, the Laws and the
+  philosopher kings (473c-d), Plato's and Socrates' birthdays in Thargelion, Ammonius, the two Origens, Numenius, and the dates.
+  The reader lists the Life "Before the Enneads"; each paragraph's Greek links to its proofread page, and each page to its chapter.
+- E6: Porphyry's Life of Plotinus, chapters 13-26 (Porphyry's account of the order of the treatises, and his edition); first proofread
+  the rest of p. 18 and pp. 19-36 of Volkmann's vol. I (leaves 48-66 of the scan) into `porphyry-life-plotinus.txt`. MacKenna's
+  chapter 22 is the oracle's verse, its lines kept as he set them.
 - E7: II.1 On the heaven, II.2 On the movement of the heaven (3,747); MacKenna's vol. II (1921).
 - E8: II.3 Whether the stars are causes (4,489).
 - E9: II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On

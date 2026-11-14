@@ -54,6 +54,8 @@ MODERN_NEO = ("plotinus", "proclus-alcibiades", "aristotle-categories", "aristot
               "aristotle-metaphysics", "enneads")
 # The Enneads milestones (E1 onward): the rest of Plotinus in modern English, beside MacKenna's (tools/modern_enneads.py).
 MODERN_ENNEADS = "enneads"
+# Milestone E5: Porphyry's Life of Plotinus, proofread from Volkmann's scan, comes first in it.
+MODERN_ENNEADS_LIFE = "porphyry-life-plotinus"
 # Milestone 35: the Workshop's modern English of Aristotle (tools/modern_ar.py), read with the same page as Proclus'.
 # Milestone 15: English for the Greek texts, the Workshop's own or a printed one paired with it.
 TRANSLATIONS = ROOT / "sources" / "translations"
@@ -940,6 +942,13 @@ class Library:
                 t["modern"] = {"text": enn["text"], "kind": "enneads", "title": enn["title"],
                                "treatises": [{"id": x["id"], "title": x["title"]} for x in enn["treatises"]],
                                "beside_taylor": sum(1 for c in enn["contents"] if c["status"] == "taylor")}
+            elif enn and t["id"] == MODERN_ENNEADS_LIFE:
+                # Milestone E5: the Life, proofread from the scan, and in modern English at the head of the Enneads.
+                life = [c for c in enn["chapters"] if c.get("greek_text") == t["id"]]
+                if life:
+                    t["modern"] = {"text": enn["text"], "title": enn["title"], "first": life[0]["id"],
+                                   "treatises": [{"id": x["id"], "title": x["title"]} for x in enn["treatises"] if x["id"] == life[0]["treatise"]],
+                                   "pages": len({pg for c in life for pg in c.get("greek_pages", [])})}
         stats = self.one("SELECT value FROM build WHERE key = 'neo_stats'")
         return {"texts": texts, "stats": json.loads(stats["value"]) if stats else None}
 
@@ -1010,6 +1019,16 @@ class Library:
             for u in units:
                 if u["label"] in have:
                     u["modern_enneads"] = {"text": enn["text"], "id": u["label"]}
+        elif enn and text_id == MODERN_ENNEADS_LIFE:
+            # Milestone E5: each proofread page of the Life links to the first chapter of the modern English on it.
+            on = {}
+            for c in enn["chapters"]:
+                if c.get("greek_text") == text_id:
+                    for pg in c.get("greek_pages", []):
+                        on.setdefault(pg, c["id"])
+            for u in units:
+                if u["n"] in on:
+                    u["modern_section"] = {"text": enn["text"], "id": on[u["n"]]}
         return {"text": t, "part": p, "units": units, "corrections": corr,
                 "prev": self.one("SELECT seq, label FROM neo_part WHERE text_id = ? AND seq = ?", text_id, part - 1),
                 "next": self.one("SELECT seq, label FROM neo_part WHERE text_id = ? AND seq = ?", text_id, part + 1) if part + 1 < n_parts else None}

@@ -45,14 +45,19 @@ VOLUMES = {
         "enneads": [1],
         # where the treatises end: the translator's notes follow the Ninth Tractate
         "end": "BIBLIOGRAPHY  AND  EXPLANATORY  MATTER",
+        # Porphyry's Life of Plotinus comes first (Enneads milestone E5): read as the treatise "Life", its 26 chapters
+        # numbered as Volkmann numbers them, from its first chapter number (after MacKenna's note on the dates)
+        "life": {"heading": r"PORPHYRY:\s+ON\s+THE\s+LIFE\s+OF\s+PLOTINUS\s+AND",
+                 "title": "Porphyry: On the Life of Plotinus and the Arrangement of his Work"},
     },
 }
 
 NUM = r"[0-9ioIlO]{1,3}"     # a page number, as the OCR reads it ("io8", "IOI")
 HEAD_EVEN = re.compile(rf"^({NUM})[\s:.,]+PLOTINUS\s*$")
+HEAD_LIFE = re.compile(rf"^PORPHYRY\s+({NUM})\s*$")       # the odd pages of Porphyry's Life
 HEAD_ODD = re.compile(rf"^[^\]\s][^\]]{{0,14}}\]\s+([^a-z0-9]+?)\s+({NUM})\s*$")    # the title in capitals, then the page
 FOOT_NUM = re.compile(r"^(\d{1,3})\s*$")
-CHAPTER = re.compile(r"^([0-9ilI]{1,3})\s*[.\-]\s*$")
+CHAPTER = re.compile(r"^([0-9ilI]{1,3}|[1i][o0])\s*[.\-]\s*$")    # "io." is 10 in the Life
 STOPS = tuple('.?!:;"\')—]')
 
 
@@ -65,6 +70,9 @@ def page_of_head(line):
     m = HEAD_EVEN.match(line)
     if m:
         return as_number(m.group(1))
+    m = HEAD_LIFE.match(line)
+    if m:
+        return as_number(m.group(1))
     m = HEAD_ODD.match(line)
     return as_number(m.group(2)) if m and re.search(r"[A-Z]{3}", m.group(1)) else None
 
@@ -73,7 +81,7 @@ def chapter_number(line):
     m = CHAPTER.match(line.strip())
     if not m:
         return None
-    s = re.sub(r"[ilI]", "1", m.group(1))
+    s = re.sub(r"[ilI]", "1", m.group(1)).replace("o", "0")
     return int(s) if s.isdigit() else None
 
 
@@ -123,7 +131,18 @@ def read_volume(vid):
         t["chapters"].append(cur_ch)
 
     i = start
+    if v.get("life"):
+        # Porphyry's Life, before the treatises: from its first chapter number to the first Ennead.
+        h = next(k for k, ln in enumerate(lines) if re.match(v["life"]["heading"], ln.strip()))
+        i = next(k for k in range(h, start) if chapter_number(lines[k]) == 1)
+        treatises.append({"id": "Life", "title": v["life"]["title"], "page": None, "chapters": []})
+        new_chapter(1)
+        i += 1
     while i < end:
+        if i == start and treatises:
+            # the treatises begin: the Life's pages are not theirs
+            close_para()
+            page = None
         raw = lines[i]
         s = raw.strip()
         i += 1
@@ -185,7 +204,7 @@ def read_volume(vid):
         para.append(raw)
     close_para()
     for t in treatises:
-        if t["page"] is None and t["chapters"]:
+        if (t["page"] is None or t["id"] == "Life") and t["chapters"]:
             t["page"] = t["chapters"][0]["page"]
         for c in t["chapters"]:
             c["paras"], c["notes"] = mend(c.pop("_paras"))

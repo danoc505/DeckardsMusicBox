@@ -440,7 +440,7 @@ and his note that Aristotle "cannot be serious" against the Forms in X.10. The n
 Proclus on the One beyond being, Proclus on the Form as cause, not one more member of its species). Taylor's chapters are
 Bekker's. Next, when the Aristotle work resumes: Book Λ (35m7).
 
-**The Enneads in modern English (milestones E1 to E34): I.1 and I.4 to I.9 done; the current focus (November 2026).** The rest of Plotinus,
+**The Enneads in modern English (milestones E1 to E34): I.1, I.4 to I.9, and Porphyry's Life of Plotinus 1-12 done; the current focus (November 2026).** The rest of Plotinus,
 the thirty-nine treatises Taylor did not translate, is being put into plain modern English a treatise or two at a time, in
 Porphyry's order, as milestone 27 did for Taylor's fifteen: made from Volkmann's Greek, chapter by chapter, every idea kept,
 and checked against the older English beside it, here **Stephen MacKenna's** (1917-1930, made from the same Greek; public
@@ -468,7 +468,18 @@ paragraphs, 31 and 3 flags, among them his "First Act" given to the Good where t
 "unlawful" where the Greek says only "one must do nothing"; MacKenna's I.8 has 12 chapters for Volkmann's 15, named for each
 Greek chapter with `@older`. The notes give the Theaetetus' flight (176a-b), the Second Letter's king of all (312e), the
 Statesman's place of unlikeness (273d), the Republic's sleep in Hades (534c-d), the Phaedo's guard post (61c-62c), and
-Sophocles' holy grove (Oedipus at Colonus 54). It opens at
+Sophocles' holy grove (Oedipus at Colonus 54).
+**Porphyry's Life of Plotinus, chapters 1-12** (E5), which Porphyry set at the head of his edition and which comes first here:
+12 chapters, 37 paragraphs, 19 flags. Its Greek is not in First1KGreek, so it was brought in as Volkmann's own text (vol. I,
+Leipzig 1883, pp. 1-36), the Internet Archive scan `volkmann-enneades-gr-v.-1-1883`, on the Neoplatonists' shelf as
+`porphyry-life-plotinus`, and its chapters 1-12 (pp. 3-18, 16 pages) were proofread from the page images as Proclus'
+commentary was (`sources/neoplatonists/proofread/porphyry-life-plotinus.txt`, `tools/proofread.py`: 345 line corrections).
+`tools/mackenna.py` now reads MacKenna's Life too (26 chapters, from p. 1 of vol. I). Porphyry's list of the fifty-four
+books, in the order they were written, gives each its place in the Enneads in square brackets, the Workshop's addition.
+The flags include MacKenna's "At twenty" for Plotinus' twenty-eighth year, "malign diphtheria" for the "dog-choke", "one meal
+a day" for eating every other day, "the Supreme" for intellect, and Ennead places that are wrong (II.2 for III.4, II.4-5 for
+VI.4-5); the notes give the Republic's image of an image (597e-598b), the Phaedo's allotted daemon (107d), the Timaeus'
+daemon (90a) and Atlantis, Plato's birthday in Thargelion, and the dates. It opens at
 `#neo-modern/enneads` (from the Neoplatonists' shelf, under Plotinus, and from each chapter of the Greek): each treatise and
 chapter with a short title and a summary, the Greek of every paragraph one tap away (linking to its chapter in Volkmann's
 text), MacKenna's chapter one tap away (*MacKenna's words*, with his page) or beside it (*Side by side*), and *Mark a sentence*.
@@ -482,7 +493,7 @@ hyphened terms such as "Sense-Perception" kept; not proofread). The master copy 
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: Porphyry's Life of Plotinus, chapters 1-12 (E5).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: Porphyry's Life of Plotinus, chapters 13-26 (E6).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,

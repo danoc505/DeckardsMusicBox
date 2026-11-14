@@ -2,11 +2,12 @@
 
 Written by `tools/neoplatonists.py` when the library is built (milestone 25); every figure is counted from the build.
 
-**15 texts, 5,027 units, 1,131,556 Greek words.** The TEI texts are First1KGreek's corrected text (CC BY-SA 4.0); the scans are the Internet Archive's OCR, shown as received. 3606 corrections are kept apart (`sources/neoplatonists/corrections.json`) and change 15,922 words in the corrected reading; the text shown is never changed.
+**16 texts, 5,063 units, 1,138,928 Greek words.** The TEI texts are First1KGreek's corrected text (CC BY-SA 4.0); the scans are the Internet Archive's OCR, shown as received. 3951 corrections are kept apart (`sources/neoplatonists/corrections.json`) and change 16,267 words in the corrected reading; the text shown is never changed.
 
 | Text | Edition | Kind | Contents | Units | Greek words |
 |---|---|---|---:|---:|---:|
 | Plotinus, Enneads (`plotinus-enneads`) | Plotini Enneades, ed. Richard Volkmann, 2 vols (Leipzig: Teubner, 1883-1884) | TEI | 54 | 653 | 213,705 |
+| Porphyry, Life of Plotinus, and the order of his books (`porphyry-life-plotinus`) | Plotini Enneades, ed. Richard Volkmann, vol. I (Leipzig: Teubner, 1883), pp. 1-36 | scan | 4 | 36 | 7,372 |
 | Porphyry, Introduction (Isagoge) (`porphyry-isagoge`) | Porphyrii Isagoge et in Aristotelis Categorias commentarium, ed. Adolf Busse, Commentaria in Aristotelem Graeca IV.1 (Berlin: Reimer, 1887) | TEI | 1 | 22 | 5,759 |
 | Proclus, Commentary on the First Alcibiades (`proclus-alcibiades`) | Procli philosophi Platonici opera, ed. Victor Cousin, vols II-III (Paris, 1820-1821) | scan | 57 | 567 | 62,159 |
 | Proclus, Elements of Theology (`proclus-elements`) | Initia philosophiae ac theologiae ex Platonicis fontibus ducta, ed. Friedrich Creuzer, part III (Frankfurt: Broenner, 1822) | scan | 32 | 317 | 31,993 |
@@ -26,6 +27,7 @@ Written by `tools/neoplatonists.py` when the library is built (milestone 25); ev
 
 | Text | Pages | Number read | Counted | By image | Latin pages | Lines hidden as specks |
 |---|---:|---:|---:|---:|---:|---:|
+| Porphyry, Life of Plotinus, and the order of his books | 36 | 17 | 19 | 0 | 1 | 105 of 1,202 |
 | Proclus, Commentary on the First Alcibiades | 567 | 342 | 225 | 0 | 105 | 3,095 of 16,763 |
 | Proclus, Elements of Theology | 317 | 60 | 240 | 17 | 160 | 2,255 of 13,041 |
 | Proclus, Commentary on the Cratylus (excerpts) | 113 | 72 | 41 | 0 | 0 | 515 of 4,351 |

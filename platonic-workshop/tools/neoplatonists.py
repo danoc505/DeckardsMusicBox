@@ -91,6 +91,12 @@ TEXTS = [
      "edition": "Plotini Enneades, ed. Richard Volkmann, 2 vols (Leipzig: Teubner, 1883-1884)", "editor": "Richard Volkmann", "year": 1883,
      "unit": "chapter", "about": "The 54 treatises of Plotinus (3rd century), arranged by his pupil Porphyry in six groups of nine; the founding text of Neoplatonism. "
      "Cited by Ennead, treatise and chapter: I.6.9 is the ninth chapter of the sixth treatise of the first Ennead (On Beauty)."},
+    {"id": "porphyry-life-plotinus", "group": "Porphyry", "author": "Porphyry", "title": "Life of Plotinus, and the order of his books", "greek": "Περὶ τοῦ Πλωτίνου βίου καὶ τῆς τάξεως τῶν βιβλίων αὐτοῦ",
+     "cite": "Vit. Plot.", "head": r"^(\d{1,3})\s+Porphyrius|Plotini[.,]?\s+(\d{1,3})\W{0,2}$", "kind": "ocr", "ranges": [("ia-volkmann-t1", 31, 66)],
+     "edition": "Plotini Enneades, ed. Richard Volkmann, vol. I (Leipzig: Teubner, 1883), pp. 1-36", "editor": "Richard Volkmann", "year": 1883,
+     "about": "Porphyry's life of his teacher, written about 301 and set before his edition of the Enneads: Plotinus' habits, his teachers "
+     "and pupils, the order in which the treatises were written, and why Porphyry arranged them in six sets of nine. "
+     "Volkmann numbers its 26 chapters; chapters 1-12 are proofread and in modern English (Enneads milestone E5)."},
     {"id": "porphyry-isagoge", "group": "Porphyry", "author": "Porphyry", "title": "Introduction (Isagoge)", "greek": "Εἰσαγωγή",
      "cite": "Isag.", "kind": "tei", "source": "first1k-neoplatonists", "file": "tlg2034/tlg006/tlg2034.tlg006.opp-grc1.xml", "unit": "page",
      "edition": "Porphyrii Isagoge et in Aristotelis Categorias commentarium, ed. Adolf Busse, Commentaria in Aristotelem Graeca IV.1 (Berlin: Reimer, 1887)", "editor": "Adolf Busse", "year": 1887,

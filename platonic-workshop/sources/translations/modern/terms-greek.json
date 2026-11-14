@@ -33,6 +33,9 @@
   {"term": "the-beautiful", "link": ["beauty"]}
  ],
  "exceptions": {
+  "enneads": {
+    "Life.8.p1:intellect": "μόνου δὲ τοῦ νοῦ εἴχετο: Plotinus held only to the sense of what he wrote, not its letters and spelling; νοῦς here is the meaning, not intellect"
+  },
   "plotinus": {
    "II.4.4.p1:intellect": "τῷ νῷ here is 'in thought', 'in your mind', not intellect (the flag says so)"
   },
