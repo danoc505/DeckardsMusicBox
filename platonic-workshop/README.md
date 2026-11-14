@@ -540,6 +540,18 @@ animals), peoples and places (Airs, waters, places), the identity of indiscernib
 (Cicero, Orator), the knowledge that is not other in another (Phaedrus 247d-e), Lynceus, Justice beside Zeus, the
 Egyptians' signs, the craftsman who admired his work (Timaeus 37c-d), Zeus' procession (Phaedrus 246e-247a), and Hesiod's
 Ouranos, Kronos and Zeus read as the One, intellect and soul.
+**VI.1, On the kinds of being, first part, chapters 1-15** (E22), beside MacKenna's vol. V (1930, the Sixth Ennead), brought
+in for it: 15 of the treatise's 30 chapters (the rest are E23's), 76 paragraphs, 31 flags. The volume's own Acknowledgements
+say that B. S. Page translated VI.1 to VI.3 for it, so the older English here is Page's, and the flags say so. Among them
+"the Supreme" for the intelligibles, the things that most are; numbers that measure from outside where the Greek finds it
+strange that they measure from inside; "the total figure" for the multitude the soul counts; "posterior" and "prior" for the
+relatives named second and first; "depraved" for ugly; "Quantities" for qualities; "experience" for affection; and "Date"
+for the when. The scan's OCR is rough, so `tools/mackenna.py` reads this volume with four more rules (loose running heads,
+short stray lines out, and lists of the chapter numbers the OCR misread or lost), which find all 30 of VI.1's chapters on
+their pages. The notes give Aristotle's Categories throughout, the survey of predecessors (Physics I.2), no common kind over
+prior and posterior (Metaphysics B.3), the Heraclids and "from one" (Metaphysics Γ.2), voice as a blow (On the soul II.8),
+the Phaedo's causes, the soul's three parts, Delphi the navel, the senses of "in" (Physics IV.3), and motion among the
+Sophist's greatest kinds.
 **III.8, On nature, contemplation and the One, and III.9, Various considerations** (E14), beside MacKenna's vol. II: 14
 chapters, 41 paragraphs, 70 flags, among them his "the Highest" for intellect that began as one and unrolled itself,
 "pregnant" for weighed down, the living principle "brother ... to that which gives mere shape" where it is brother to
@@ -619,14 +631,14 @@ link to their chapters, Taylor's fifteen to his English with the modern beside i
 them. Labelled as the Workshop's own and machine-assisted, not yet checked by a scholar. MacKenna's English is the Internet
 Archive's OCR of his volumes, kept as received in `sources/mackenna-plotinus-1917/`, `sources/mackenna-plotinus-1921/`
 (vol. II, the Third Ennead and then the Second) `sources/mackenna-plotinus-1924/` (vol. III, the Fourth Ennead) and `sources/mackenna-plotinus-1926/` (vol. IV, the Fifth
-Ennead), and read by rule by `tools/mackenna.py` into `texts/plotinus/mackenna-1917.json`, `mackenna-1921.json`,
-`mackenna-1924.json` and `mackenna-1926.json` (running heads and page numbers out, broken words and paragraphs joined, his
+Ennead) and `sources/mackenna-plotinus-1930/` (vol. V, the Sixth Ennead, with B. S. Page), and read by rule by `tools/mackenna.py` into `texts/plotinus/mackenna-1917.json`, `mackenna-1921.json`,
+`mackenna-1924.json`, `mackenna-1926.json` and `mackenna-1930.json` (running heads and page numbers out, broken words and paragraphs joined, his
 hyphened terms such as "Sense-Perception" kept; not proofread). The master copy is
 `sources/translations/modern/enneads.txt`; `tools/modern_enneads.py` checks it (Porphyry's order and none of Taylor's
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: VI.1 On the kinds of being, first part, chapters 1-15, beside MacKenna's vol. V (E22).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: VI.1 On the kinds of being, first part, chapters 16-30, beside vol. V (E23).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,

@@ -408,11 +408,37 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   undescended soul (IV.8.8), Phaedo's true earth, nectar (Symposium 203b, VI.7.35), possession (Phaedrus, Ion), VI.9.10-11,
   co-perception (V.4.2), I.4.10, Hesiod's Kronos (Theogony), the Timaeus' "was" and "will be", Aphrodite as soul (III.5),
   Alcibiades I, and the intelligible place (Republic VI-VII); the summaries place both in Life 4 and 5.
-- E22: VI.1 On the kinds of being, first part, chapters 1-15 (about 4,900); MacKenna's vol. V (1930). Next. Bring in
-  MacKenna's vol. V (the Sixth Ennead) as vol. IV was brought in for E20 (an Internet Archive OCR, a manifest entry,
-  sources/mackenna-plotinus-1930/, tools/mackenna.py, texts/plotinus/mackenna-1930.json), and check his chapters against
-  the Greek; VI.1 has 30 chapters in the Greek and is done over E22 and E23.
-- E23: VI.1 chapters 16-30 (about 4,900).
+- **E22: VI.1 On the kinds of being, first part, chapters 1-15 (4,866) (done).** 15 chapters, 76 paragraphs, 31 flags, 34
+  notes; VI.1 is marked "chapters 1-15 of 30 so far". MacKenna's vol. V (1930, the Sixth Ennead) brought in: the Internet
+  Archive's own scan (plotinusononegoo0005step; no Toronto copy is online), kept as received in
+  sources/mackenna-plotinus-1930/ (manifest entry, fetched.json), read into texts/plotinus/mackenna-1930.json (the 1917 to
+  1926 files unchanged). Its OCR is rougher than the others, so its VOLUMES entry turns on four rules of its own: odd running
+  heads are any line of capitals ending in a page number ("VIS ON THE KINDS OF BEING 3"), with an unreadable or out-of-order
+  number taken as the next page; the numbers at the foot of first pages are not read, and a line of five characters or fewer
+  standing alone (signatures "B", "Cc", scan noise) is taken out; chapter numbers the OCR misread are listed as read ("on" for
+  3, "a." for 7, "Q." for 9, "ids" for 11, "z2." for 12, "oy" for 15 ...); chapter numbers it lost altogether (2 and 5) are
+  listed by their first words. With these, all 30 of VI.1's chapters are found, on the right pages, and his chapters are the
+  Greek's (no @older). The other treatises of vol. V are not yet read right (VI.2 to VI.9 show one or a few chapters each,
+  and VI.7's "SEVEN:EH, TRACTATE" heading is missed): each milestone that needs one adds its misread and lost numbers to the
+  lists. The volume's Acknowledgements say B. S. Page translated VI.1 to VI.3 and revised the rest, so the volume's
+  translator is "Stephen MacKenna and B. S. Page", the flags' whys in VI.1 name Page, and a note on VI.1.1 says so; the
+  reader still labels the flags "MacKenna". E.g. Page has "the Supreme" for the things that most are, has the numbers in
+  things measure as outside, not inside, makes the measured things quantities where the Greek says they are not, adds
+  "verbal suggestion", "the total figure" for the soul's multitude, "posterior" and "prior" for the relatives named second
+  and first, "victims of words" for speaking falsely, gives father and son the life that belongs to agent and patient,
+  "depraved" for ugly, "Quantities" for qualities, "a natural possession of the mature human being" for what virtue
+  acquires, "Being" for substance, "experience" for affection, "emotion" for the spirited part, "Date" for the when, "acts"
+  for putting one thing in another, and drops the chapter heading "where, as in the Lyceum". Notes on Aristotle's ten
+  (Categories 4) and the Stoics' four, his survey of predecessors (Physics I.2), no common kind over prior and posterior
+  (Metaphysics B.3), homonyms and synonyms (Categories 1), first and second substance, "said of" and "in" a subject,
+  "receives contraries" (Categories 5), the Heraclids and pros hen (Metaphysics Γ.2), quantity, speech, equal and unequal
+  (Categories 6), voice as a blow (On the soul II.8), time and soul (Physics IV.11, IV.14), relatives (Categories 7), the
+  Phaedo's causes, the four species of quality (Categories 8), II.6 on heat, the dropped "not" in 11 (rare and dense), the
+  soul's three parts (Republic IV), Delphi the navel (Republic IV 427c), the senses of "in" (Physics IV.3), acting (Categories
+  9) and motion among the greatest kinds (Sophist 254d). The terms check needed "like"/"likewise" for ὁμοίως.
+- E23: VI.1 chapters 16-30 (about 4,900). Next. Being acted on, having, lying (16-24) and the Stoics' four kinds (25-30).
+  MacKenna's vol. V is in: his VI.1 chapters 16-30 are already read (pages 21-38), so only the modern English, the
+  tests (VI.1 complete, no chapters_done; the E22 test's chapters_done check goes) and the docs remain.
 - E24: VI.2 On the kinds of being, second part (7,442).
 - E25: VI.3 On the kinds of being, third part, chapters 1-14 (about 4,700).
 - E26: VI.3 chapters 15-28 (about 4,700).

@@ -2,16 +2,16 @@
 
 Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.txt`. The Workshop's modern English, machine-assisted: drafted with an AI model (Claude) from the Greek and not yet checked by a scholar. The Greek of each paragraph, and MacKenna's English of each chapter, are one tap away.
 
-- Made from: Volkmann's Greek (Leipzig, 1883-1884), as First1KGreek gives it; checked against MacKenna's English (1917, 1921, 1924, 1926; the Internet Archive's OCR of the printed volumes, read by rule (tools/mackenna.py), not proofread).
+- Made from: Volkmann's Greek (Leipzig, 1883-1884), as First1KGreek gives it; checked against MacKenna's English (1917, 1921, 1924, 1926, 1930; the Internet Archive's OCR of the printed volumes, read by rule (tools/mackenna.py), not proofread).
 - Porphyry's Life of Plotinus: Volkmann's own Greek (vol. I, 1883), proofread from the scan (`sources/neoplatonists/proofread/porphyry-life-plotinus.txt`).
-- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny, III.2 On providence, first part, III.3 On providence, second part, III.4 On the daemon allotted to us, III.5 On love, III.8 On nature, contemplation and the One, III.9 Various considerations, IV.1 On the being of the soul, first part, IV.4 On difficulties about the soul, second part, IV.5 On difficulties about the soul, third part, or on sight, IV.6 On perception and memory, IV.8 On the descent of the soul into bodies, IV.9 Whether all souls are one, V.4 How what comes after the first comes from it, and on the One, V.5 That the intelligibles are not outside intellect, and on the Good, V.7 Whether there are forms of individuals, V.8 On intelligible beauty.
-- The whole Enneads: 32 treatises here, 15 beside Taylor (milestone 27), 8 to come.
-- Chapters: 300, each with a short title and a summary.
-- Paragraphs: 909, each with its Greek.
-- Words: 121,867 modern, 91,850 Greek, 154,588 in MacKenna's English of the same chapters.
-- Sentences (each can be marked in the reader): 4,243.
-- Flags (where MacKenna and the Greek differ, or the Greek is hard): 835.
-- Notes (Plato's, Aristotle's and Homer's places, hard readings): 587.
+- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny, III.2 On providence, first part, III.3 On providence, second part, III.4 On the daemon allotted to us, III.5 On love, III.8 On nature, contemplation and the One, III.9 Various considerations, IV.1 On the being of the soul, first part, IV.4 On difficulties about the soul, second part, IV.5 On difficulties about the soul, third part, or on sight, IV.6 On perception and memory, IV.8 On the descent of the soul into bodies, IV.9 Whether all souls are one, V.4 How what comes after the first comes from it, and on the One, V.5 That the intelligibles are not outside intellect, and on the Good, V.7 Whether there are forms of individuals, V.8 On intelligible beauty, VI.1 On the kinds of being, first part.
+- The whole Enneads: 33 treatises here, 15 beside Taylor (milestone 27), 7 to come.
+- Chapters: 315, each with a short title and a summary.
+- Paragraphs: 985, each with its Greek.
+- Words: 128,587 modern, 96,976 Greek, 161,979 in MacKenna's English of the same chapters.
+- Sentences (each can be marked in the reader): 4,514.
+- Flags (where MacKenna and the Greek differ, or the Greek is hard): 866.
+- Notes (Plato's, Aristotle's and Homer's places, hard readings): 621.
 - Problems found: 0.
 
 ## Flags
@@ -853,6 +853,37 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | V.8.13.p1 | The God fettered (as in the Kronos Myth) to an unchanging identity | MacKenna's chapter 12 runs on here without a break: the Greek's chapter 13 begins with these words (the OCR lost his number 13). |
 | V.8.13.p1 | by that which keeps him apart from the link between himself and the lower | The Greek says he is held up, away from what comes after him, by "the bond" (τῷ ἀνέχοντι ... δεσμοῦ): the bond itself holds him apart; MacKenna keeps him apart from the link. |
 | V.8.13.p2 | Soul also has beauty, but is less beautiful than Intellect as being its image | The Greek says soul is "a trace" (ἴχνος) of intellect, a weaker word than image. |
+| VI.1.1.p1 | Philosophy at a very early stage investigated | The Greek says that "the very ancient" thinkers (οἱ πάνυ παλαιοί) inquired into it; the next sentences turn to the later ones who examined them. |
+| VI.1.1.p2 | others less, others no doubt more | The Greek only allows that "there might be some" (εἶεν δ’ ἄν τινες) who said more; it names no one. |
+| VI.1.1.p4 | the Supreme they overlooked | The Greek says they "have left out the things that most are" (τὰ μάλιστα ὄντα), in the plural: the intelligibles, not the One alone. |
+| VI.1.2.p1 | But are we really obliged to posit the existence of such genera | The Greek begins "again, then" (πάλιν οὖν): the question goes back to the start, whether there are kinds at all. |
+| VI.1.4.p1 | number together with all continuous magnitude, space and time | The Greek has "place" (τόπον), Aristotle's word for a quantity, and the word the next chapters keep. |
+| VI.1.4.p2 | they become known as quantities only when they are rated by number—two yards, three yards | The Greek has "two cubits, three cubits" (δίπηχυ ἢ τρίπηχυ), Aristotle's own example of quantity (Categories 4, 1b28-29); the cubit is about a foot and a half. |
+| VI.1.4.p4 | yet as standing outside the objects they have no measuring power, as do rulers and scales | The Greek finds it strange that such numbers measure "by being in" the things (ἐνυπάρχουσιν) "and not by being outside, as rulers and measures measure"; Page turns the comparison round. |
+| VI.1.4.p5 | the objects will be quantities only to the extent of participating in Quantity | The Greek says the things measured will not be quantities at all (οὔτε ἐκεῖνα ποσά), "since they do not share in quantity". |
+| VI.1.4.p5 | they find their place under the influence of verbal suggestion | The Greek says only that "they will be what they are called" (τοῦτο, ὃ λέγονται, ἔσονται), quantities; there is no "verbal suggestion". |
+| VI.1.4.p6 | the mind measures by availing itself of the total figure | The Greek says "the soul" (ἡ ψυχή) "measures the multitude" (τὸ πλῆθος) by using number; "the total figure" is Page's. |
+| VI.1.5.p1 | we may define speech as an impact (made upon the outer air by the breath) | The Greek says only that "the blow is rather speech" (ἡ δὲ πληγὴ μᾶλλον λόγος); the breath and the outer air are Page's. |
+| VI.1.6.p1 | Has it, perhaps, actuality in some cases only, as for instance in what is termed | The Greek asks whether the relation is real "in those named second" (ἐπὶ τοῦ ὕστερον λεχθέντος), double and half, but "in those named first" (right and left) is nothing; Page reads the two as the relatives "posterior" and "prior". |
+| VI.1.6.p3 | this is superior to that | The Greek says "this one rules that one" (οὗτος κρατεῖ τούτου), the relation of master and slave in the list above. |
+| VI.1.7.p1 | but are victims of words | The Greek says "we speak falsely" (ψευδόμεθα) when we speak of relations. |
+| VI.1.7.p3 | Our task, thus, is to give full value to this elusive character of Relation | The Greek says only "having noted this" (τοῦτ’ οὖν ἐπισημηναμένους), the three cases just listed. |
+| VI.1.8.p3 | though here both producer and product have a sort of actuality, which we call life | The Greek says this of what acts and what is acted on (τὸ ποιητικὸν δὲ καὶ τὸ παθητικόν), the next pair: they have "as it were a life and an act"; the father and son are the example before. |
+| VI.1.8.p4 | we are overlooking the equivocation involved | The Greek proposes that we "must call homonymous" (λεκτέον ὁμώνυμον) the relation that makes and the one that does not: the two share only the name. Nothing is said of overlooking. |
+| VI.1.9.p1 | the Act and the Reason-Principle in the Act must be assumed to be real | "Reason-Principle", the term of MacKenna's volumes, which Page kept, renders λόγος, the forming principle, as the Workshop calls it throughout. |
+| VI.1.9.p2 | we are bound to seek their causes in that higher sphere | The Greek speaks of "sharings in forms" as "causes" (εἰδῶν μεταλήψεις αἰτίας), and gives the double itself as the cause of being double; there is no "higher sphere" in the sentence. |
+| VI.1.9.p3 | whether sharing in the same Form could make one man depraved and another more depraved | The Greek says "ugly" and "uglier" (αἰσχρός, αἰσχίων): the example is of looks, a form that has not mastered the matter, not of vice. |
+| VI.1.10.p3 | but a natural possession of the mature human being | The Greek says that what is a quality is rather "what one might acquire from virtue" (ὃ ἐξ ἀρετῆς κτήσαιτο ἄν τις), being reasonable, as against the rational that belongs to man as man. |
+| VI.1.10.p4 | that is, excellences and imperfections whether of soul or of body | The Greek says "beauties and uglinesses" (κάλλη καὶ αἴσχη), the words of the next sentences. |
+| VI.1.10.p6 | restricting the term Quantities to Ideal-Forms and powers | The Greek speaks of "qualities" (ποιότητας) in forms and powers; "Quantities" is a slip. |
+| VI.1.10.p7 | Whatever is seen to apply alike to Being and to non-Being | The Greek says "to substance and to what is not substance" (εἰς οὐσίαν καὶ εἰς μὴ οὐσίαν): the heat that is part of what fire is, and the heat it gives to other things. |
+| VI.1.10.p8 | modified in proportion to its success in shaping that object | The Greek says the triangle is a quality "in so far as it has shaped" its subject (καθ’ ὅσον ἐμόρφωσεν); and Page leaves out the last sentence, that humanity too shapes, or rather makes a substance, and so is no quality. |
+| VI.1.11.p3 | Whether some qualities as distinguished from others are derived from experience is immaterial | The Greek says "from an affection" (ἐκ πάθους), Aristotle's affective qualities, such as pallor from fear; not from experience. |
+| VI.1.12.p2 | allotted to appetite, emotion, reason | The Greek names Plato's three parts of the soul: the desiring, the spirited (θυμοειδοῦς) and the reasoning; "emotion" is Page's word for the spirited part. |
+| VI.1.13.p1 | With regard to Date | The Greek names the category "the when" (τὸ ποτέ); Aristotle's examples are "yesterday, last year" (Categories 4, 2a2). |
+| VI.1.13.p6 | as in this case something acts in time | The Greek speaks of "making one thing be in another" (τῷ ἕτερον ἐν ἑτέρῳ ποιεῖν), putting it there, not of acting: the next chapter lists the many ways of being "in". |
+| VI.1.14.p1 | The Academy and the Lyceum are places, and parts of Place | Page leaves out the chapter's first words, "where, as in the Lyceum and in the Academy", the category and its example as the school gives them. |
+| VI.1.15.p2 | But Motion is a distinct genus | The Greek says "motion is one kind of the things that are" (ἓν γένος ἡ κίνησις τῶν ὄντων), one of the kinds of being, as in Plato's Sophist. |
 
 ## The plan, in Porphyry's order
 
@@ -904,7 +935,7 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | V.7 | Whether there are forms of individuals | done here |
 | V.8 | On intelligible beauty | done here |
 | V.9 | On intellect, the forms and being | done beside Taylor (milestone 27) |
-| VI.1 | On the kinds of being, first part | to come (E22-E23) |
+| VI.1 | On the kinds of being, first part | done here, chapters 1-15 of 30 |
 | VI.2 | On the kinds of being, second part | to come (E24) |
 | VI.3 | On the kinds of being, third part | to come (E25-E26) |
 | VI.4 | That being, one and the same, is everywhere whole, first part | to come (E27) |

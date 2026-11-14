@@ -1,0 +1,18 @@
+{
+  "plotinusononegoo0005step_djvu.txt": {
+    "url": "https://archive.org/download/plotinusononegoo0005step/plotinusononegoo0005step_djvu.txt",
+    "fetched_at": "2026-11-14T22:56:58+00:00",
+    "http_status": 200,
+    "content_type": "text/plain; charset=utf-8",
+    "bytes": 557579,
+    "sha256": "85d390151e7c3b8d571f2efd939f5b39cd2cc1d51568978839916cfe63dcd53a"
+  },
+  "plotinusononegoo0005step_metadata.json": {
+    "url": "https://archive.org/metadata/plotinusononegoo0005step/metadata",
+    "fetched_at": "2026-11-14T22:56:59+00:00",
+    "http_status": 200,
+    "content_type": "application/json",
+    "bytes": 1876,
+    "sha256": "b6b817f7b575d7cefeb1a3a989f20cba8e0c8ab3557287e3e882901fbfeb4e46"
+  }
+}
