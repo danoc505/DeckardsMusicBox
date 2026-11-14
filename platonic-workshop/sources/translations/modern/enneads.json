@@ -25,6 +25,10 @@
    {
     "file": "texts/plotinus/mackenna-1924.json",
     "year": 1924
+   },
+   {
+    "file": "texts/plotinus/mackenna-1926.json",
+    "year": 1926
    }
   ],
   "how": "the Internet Archive's OCR of the printed volumes, read by rule (tools/mackenna.py), not proofread"
@@ -263,14 +267,14 @@
   {
    "id": "V.4",
    "title": "How what comes after the first comes from it, and on the One",
-   "status": "to come",
-   "milestone": "E20"
+   "status": "here",
+   "first": "V.4.1"
   },
   {
    "id": "V.5",
    "title": "That the intelligibles are not outside intellect, and on the Good",
-   "status": "to come",
-   "milestone": "E20"
+   "status": "here",
+   "first": "V.5.1"
   },
   {
    "id": "V.6",
@@ -812,6 +816,35 @@
     "IV.9.3",
     "IV.9.4",
     "IV.9.5"
+   ]
+  },
+  {
+   "id": "V.4",
+   "title": "How what comes after the first comes from it, and on the One",
+   "summary": "A short early treatise, the seventh in Porphyry's list of the order of writing (Life 4). Whatever comes after the first must come from it, and the first must be simple, one, prior to all, and beyond being. Everything that is perfect produces: fire warms, snow chills, and the most perfect cannot stay in itself as if it grudged or could not. What it produces is intellect, which thinks and so is two. Plotinus explains how something can come from what stays as it is by the double activity of each thing: the activity that is its substance, and the activity that goes out from it, as the heat that makes fire fire and the heat that spreads from it. The One is the power of all things; intellect is all things, and is the same as being.",
+   "chapters": [
+    "V.4.1",
+    "V.4.2"
+   ]
+  },
+  {
+   "id": "V.5",
+   "title": "That the intelligibles are not outside intellect, and on the Good",
+   "summary": "Written just after Porphyry came to Plotinus, as the thirty-second in the order of writing (Life 5), and the last part of a long work that Porphyry divided into four treatises (III.8, V.8, V.5, II.9). Porphyry had argued that the intelligible exists outside intellect, and was answered by Amelius (Life 18); here Plotinus argues that true intellect cannot be deceived and cannot have its objects outside it, as perception does, for then it would hold only images and imprints of them, and no truth. So the intelligibles are in intellect, which is the seat of the beings and of truth, a second god before whom beauty goes as before a great king. Then he turns to what is beyond intellect: the purely one, which numbers imitate; the trace of the one in each being; the One beyond being, without form, whose name is a denial of the many; the light the eye sees within itself, as intellect sees the One, which comes without coming and is everywhere because it is nowhere; and the Good, prior to beauty, which nothing can be added to.",
+   "chapters": [
+    "V.5.1",
+    "V.5.2",
+    "V.5.3",
+    "V.5.4",
+    "V.5.5",
+    "V.5.6",
+    "V.5.7",
+    "V.5.8",
+    "V.5.9",
+    "V.5.10",
+    "V.5.11",
+    "V.5.12",
+    "V.5.13"
    ]
   }
  ],
@@ -5570,6 +5603,261 @@
      "page": 157,
      "year": 1924,
      "text": "How then can a multitude of essential beings be really one ?\n\nObviously either the one essence will be entire in all, or the many will rise from a one which remains unaltered and yet includes the one-many in virtue of giving itself, without self-abandonment, to its own multipli cation.\n\nIt is competent thus to give and remain, because while it penetrates all things it can never itself be sundered : this is an identity in variety.\n\nThere is no reason for dismissing this explanation : we may think of a science with its constituents standing as one total, the source of all those various elements : again, there is the seed, a whole, producing those new parts in which it comes to its division ; each of the new growths is a whole while the whole remains undiminished : only the material element is under the mode of part, and all the multiplicity remains an entire identity still.\n\nIt may be objected that in the case of science the constituents are not each the whole.\n\nBut even in the science, while the constituent selected for handling to meet a particular need is present actually and takes the lead, still all the other constituents accompany it in a potential presence, so that the whole is in every part : only in this sense (of particular attention) is the whole science distinguished from the part : all, we may say, is here simultaneously effected : each part is at your disposal as you choose to take it ; the part invites the immediate interest, but its value consists in its approach to the whole.\n\nThe detail cannot be considered as something separate from the entire body of speculation : so treated it would have no technical or scientific value ; it would be childish divagation. The one detail, when it is matter of science, potentially includes all. Grasping one such constituent of his science, the expert deduces the rest by force of sequence.\n\n(As a further illustration of unity in plurality) the geometrician, in his analysis, shows that the single proposition includes all the items that go to constitute it and all the propositions which can be developed from it.\n\nIt is our feebleness that leads to doubt in these matters ; the body obscures the truth, but There all stands out clear and separate."
+    }
+   ]
+  },
+  {
+   "id": "V.4.1",
+   "treatise": "V.4",
+   "title": "Why the first must produce",
+   "summary": "What comes after the first comes from it, directly or through intermediaries. The first must be simple, one, beyond being, self-sufficient, and only one; what comes after it is one-many. It comes from the first because everything that reaches perfection produces, imitating the first, and the first, the power of all things, cannot stay in itself as if it grudged; what it produces must be the best after it.",
+   "greek_unit": "5.4.1",
+   "greek_part": 39,
+   "older": [
+    {
+     "n": 1,
+     "label": "V.4, chapter 1",
+     "page": 43,
+     "year": 1926,
+     "text": "Anything existing after The First must necessarily arise from that First, whether immediately or as tracing back to it through intervenients ; there must be an order of secondaries and tertiaries, in which any second is to be referred to The First, any third to the second.\n\nStanding before all things, there must exist a Simplex, differing from all its sequel, self-gathered not interblended with the forms that rise from it, and yet able in some mode of its own to be present to those others : it must be authentically a unity, not merely something elabor ated into unity and so in reality no more than unity's counterfeit ; it will debar all telling and knowing except that it may be described as tran scending Being — for if there were nothing outside all alliance and com promise, nothing authentically one, there would be no Source. Un touched by multiplicity, it will be wholly self-sufficing, an absolute First, whereas any not-first demands its earlier, and any non-simplex needs the simplicities within itself as the very foundations of its composite existence.\n\nThere can be only one such being : if there were another, the two (as indiscernible) would resolve into one, for we are not dealing with two corporal entities.\n\nOur One-First is not a body : a body is not simplex and, as a thing of process cannot be a First, the Source cannot be a thing of generation : only a principle outside of body, and utterly untouched by multiplicity, could be The First.\n\nAny unity, then, later than The First must be no longer simplex ; it can be no more than a unity in diversity.\n\nWhence must such a sequent arise ? %, It must be an offspring of The First ; for suppose it the product of chance, that First ceases to be the Principle of All.\n\nBut how does it arise from The First ?\n\nIf The First is perfect, utterly perfect above all, and is the beginning of all power, it must be the most powerful of all that is, and all other powers must act in some partial imitation of it. Now other beings, coming to perfection, are observed to generate ; they are unable to remain self-closed ; they produce : and this is true not merely of beings endowed with will, but of growing things where there is no will ; even lifeless objects impart something of themselves, as far as they may ; fire warms, snow chills, drugs have their own outgoing efficacy ; all things to the utmost of their power imitate the Source in some operation tending to eternity and to service.\n\nHow then could the most perfect remain self-set — the First Good, the Power towards all, how could it grudge or be powerless to give of itself, and how at that would it still be the Source ?\n\nIf things other than itself are to exist, things dependent upon it for their reality, it must produce since there is no other source. And further this engendering principle must be the very highest in worth ; and its immediate offspring, its secondary, must be the best of all that follows."
+    }
+   ]
+  },
+  {
+   "id": "V.4.2",
+   "treatise": "V.4",
+   "title": "The double activity",
+   "summary": "The begetter is beyond intellect, so the begotten is intellect: thinking, indefinite like sight until the intelligible defines it, and so two. The first, the intelligible here, stays in itself, aware of itself by a kind of co-perception; what comes from it while it stays is thinking, which becomes intellect. Every thing has an activity that is its substance and one that goes out from it, as the fire's heat; so the first's outgoing activity came into being and substance. The One is the power of all things, intellect is all things, and intellect is the same as being.",
+   "greek_unit": "5.4.2",
+   "greek_part": 39,
+   "older": [
+    {
+     "n": 2,
+     "label": "V.4, chapter 2",
+     "page": 45,
+     "year": 1926,
+     "text": "If the Intellectual-Principle were the engendering Source, then the engendered secondary, while less perfect than the Intellectual-Principle, would be close to it and similar to it : but since the engendering Source is above the Intellectual-Principle, the secondary can only be that principle.\n\nBut why is the Intellectual-Principle not the generating source ?\n\nBecause (it is not a self-sufficing simplex) : the Act of the Intellectual-Principle is intellection, which means that, seeing the intellectual object towards which it has turned, it is consummated, so to speak, by that object, being in itself indeterminate like sight (a vague readiness for any and every vision) and determined by the intellectual object. This is why it has been said that \" out of the indeterminate dyad and The One arise the Ideas and the numbers \" : for the dyad is the Intellectual-Principle.\n\nThus it is not a simplex ; it is manifold ; it exhibits a certain com posite quality— within the Intellectual or divine order, of course— as the principle that sees the manifold. It is, further, itself simultaneously object and agent of intellection and is on that count also a duality : and it possesses besides another object of intellection in the Order following upon itself.\n\nBut how can the Intellectual-Principle be a product of the Intellectual Object ?\n\nIn this way : the intellectual object is self-gathered (self-compact) and is not deficient as the seeing and knowing principle must be— deficient, I mean, as needing an object— it is therefore no unconscious thing : all its content and accompaniment are its possession ; it is self-distinguishing throughout ; it is the seat of life as of all things ; it is, itself, that selfintellection which takes place in eternal repose, that is to say, in a mode other than that of the Intellectual-Principle.\n\nBut if something comes to being within an entity which in no way looks outside itself — and especially within a being which is the sum of being — that entity must be the source of the new thing : stable in its own identity, it produces ; but the product is that of an unchanged being : the producer is unchangeably the intellectual object, the product is produced as the Intellectual Act, an Act taking intellection of its source — the only object that exists for it — and so becoming Intellectual-Principle, that is to say, becoming another intellectual being, resembling its source, a reproduction and image of that.\n\nBut how from amid perfect rest can an Act arise ?\n\nThere is in everything the Act of the Essence and the Act going out from the Essence : the first Act is the thing itself in its realised identity, the second Act is an inevitably following outgo from the first, an emana tion distinct from the thing itself.\n\nThus even in fire there is the warmth comported by its essential nature and there is the warmth going instantaneously outward from that characterising heat by the fact that the fire, remaining unchange ably fire, utters the Act native to its essential reality.\n\nSo it is in the divine also : or rather we have there the earlier form of the double act : the divine remains in its own unchanging being, but from its perfection and from the Act included in its nature there emanates the secondary or issuing Act which — as the output of a mighty power, the mightiest there is — attains to Real Being as second to that which stands above all Being. That transcendent was the potentiality of the All ; this secondary is the All made actual.\n\nAnd if this is all things, that must be above and outside of all, and, so, must transcend real being. And again, if that secondary is all things, and if above its multiplicity there is a unity not ranking among those things, once more this unity transcends Real Being and therefore tran scends the Intellectual-Principle as well. There is thus something tran scending Intellectual-Principle, for we must remember that real being is no corpse, the negation of life and of intellection, but is in fact identical with the Intellectual-Principle. The Intellectual-Principle is not some thing taking cognisance of things as sensation deals with sense objects existing independently of sense : on the contrary, it actually is the things it knows: the ideas constituting them it has not borrowed: whence could it have taken them ? No : it exists here together with the things of the universe, identical with them, making a unity with them ; and the collective knowledge (in the divine mind) of the immaterial is the universe of things."
+    }
+   ]
+  },
+  {
+   "id": "V.5.1",
+   "treatise": "V.5",
+   "title": "Can intellect be deceived?",
+   "summary": "True intellect is never false: it knows always, and not by guessing, hearing or demonstration. Perception does not grasp its object but an image of it, which stays outside. If the intelligibles were outside intellect, how would intellect meet them, and how would it know it had? Its thoughts would be imprints, and the principles of judgement outside it. If the intelligibles were lifeless they would be propositions or statues; and an intellect that looked at them outside would have only their images, and no truth, nor be intellect at all.",
+   "greek_unit": "5.5.1",
+   "greek_part": 40,
+   "older": [
+    {
+     "n": 1,
+     "label": "V.5, chapter 1",
+     "page": 47,
+     "year": 1926,
+     "text": "The Intellectual Principle, the veritably and essentially intellective, can this be conceived as ever falling into error, ever failing to think reality ?\n\nAssuredly no : it would no longer be intelligent and therefore no longer Intellectual- Principle : it must know unceasingly and never forget ; and its knowledge can be no guess-work, no hesitating assent, no accept ance of an alien report. Nor can it call on demonstration or, if we are told it may at times act by this method, at least there must be something patent to it in virtue of its own nature. In actual fact reason tells us that all its knowledge is thus inherent to it, for there is no means by which to distinguish between the spontaneous knowledge and the other. But, in any case, some knowledge, it is conceded, is inherent to it. Whence are we to understand the certainty of this knowledge to come to it or how do its objects carry the conviction of their reality ?\n\nConsider sense-knowledge : its objects seem most patently certified, yet the doubt returns whether the apparent reality may not lie in the states of the percipient rather than in the material before him ; the decision demands intelligence or reasoning. Besides, even granting that what the senses grasp is really contained in the objects, none the less what is thus known by the senses is an image : sense can never grasp the thing itself ; this remains for ever outside.\n\nNow, if the Intellectual-Principle in its act — that is in knowing the intellectual — is to know these its objects as alien, we have to explain how it makes contact with them : obviously it might never come upon them, and so might never know them ; or it might know them only upon the meeting : its knowing, at that, would not be an enduring condition. If we are told that the Intellectual- Principle and the Intellectual Objects are linked in a standing unity, we demand the description of this unity.\n\nNext, the intellections would be impressions, that is to say not native act but violence from without : now how is such impressing possible and what shape could the impressions bear ?\n\nIntellection, aga4n, becomes at this a mere handling of the external, exactly like sense-perception. What then distinguishes it unless that it deals with objects of less extension ? And what certitude can it have that its knowledge is true ? Or what enables it to pronounce that the object is good, beautiful, or just, when each of these ideas is to stand apart from itself ? The very principles of judgement, by which it must be guided, would be (as Ideas) excluded : with objects and canons alike outside it, so is truth.\n\nAgain ; either the objects of the Intellectual- Principle are senseless and devoid of life and intellect or they are in possession of Intellect.\n\nNow, if they are in possession of Intellect, that realm is a union of both, and is Truth. This combined Intellectual realm will be the Primal Intellect : we have only then to examine how this reality, conjoint of Intellectual- Principle and its object, is to be understood, whether as combining self-united identity with yet duality and difference, or what other relation holds between them.\n\nIf on the contrary the objects of Intellectual- Principle are without intelligence and life, what are they ? They cannot be premises, axioms or predicates : as predicates they would not have real existence ; they would be affirmations linking separate entities, as when we affirm that justice is good though justice and good are distinct realities.\n\nIf we are told that they are self-standing entities — the distinct beings Justice and Good— then (supposing them to be outside) the Intellectual Realm will not be a unity nor be included in any unity : all V. 5-2] THE NATURE OF THE GOOD is sundered individuality. Where, then, are they and what spatial distinction keeps them apart ? How does the Intellectual-Principle come to meet with them as it travels round ; what keeps each true to its character ; what gives them enduring identity ; what conceivable shape or character can they have ? They are being presented to us as some collection of figures, in gold or some other material substance, the work of some unknown sculptor or graver : but at once the Intellectual-Principle which contemplates them becomes sense-perception ; and there still remains the question how one of them comes to be Justice and another something else.\n\nBut the great argument is that if we are to allow that these objects of Intellection are in the strict sense outside the Intellectual- Principle which therefore must see them as external, then inevitably it cannot possess the truth of them.\n\nIn all it looks upon, it sees falsely ; for those objects must be the authentic things ; yet it looks upon them without containing them and in such knowledge holds only their images ; that is to say, not containing the authentic, adopting phantasms of the true, it holds the false ; it never possesses reality. If it knows that it possesses the false, it must confess itself excluded from the truth ; if it fails of this knowledge also, imagining itself to possess the truth which has eluded it, then the doubled falsity puts it the deeper into error.\n\nIt is thus, I suppose, that in sense-perception we have belief instead of truth ; belief is our lief ; we satisfy ourselves with something very different from the original which is the occasion of perception.\n\nIn fine, there would be on the hypothesis no truth in the Intellectual-Principle. But such an Intellectual-Principle would not be truth, nor truly an Intellectual- Principle. There would be no Intellectual- Principle at all (no Divine Mind) : yet elsewhere truth cannot be."
+    }
+   ]
+  },
+  {
+   "id": "V.5.2",
+   "treatise": "V.5",
+   "title": "Truth agrees with itself",
+   "summary": "So we must not look for the intelligibles outside, nor put imprints of them in intellect, but give all things to true intellect. Then it knows truly, never forgets or searches, and is the seat of the beings; it needs no demonstration, being evident to itself, and its truth agrees not with another but with itself, so that nothing truer can refute it.",
+   "greek_unit": "5.5.2",
+   "greek_part": 40,
+   "older": [
+    {
+     "n": 2,
+     "label": "V.5, chapter 2",
+     "page": 48,
+     "year": 1926,
+     "text": "Thus we may not look for the Intellectual objects (the Ideas) outside of the Intellectual-Principle, treating them as impressions of reality upon it : we cannot strip it of truth and so make its objects unknowable and non-existent and in the end annul the Intellectual-Principle itself. We must provide for knowledge and for truth ; we must secure reality ; being must become knowable essentially and not merely in that know ledge of quality which could give us a mere image or vestige of the reality in lieu of possession, intimate association, absorption.\n\nThe only way to this is to leave nothing outside of the veritable In tellectual-Principle which thus has knowledge in the true knowing (that of identification with the object), cannot forget, need not go wandering in search. At once truth is there, this is the seat of the authentic Existents, it becomes living and intellective : these are the essentials of that most lofty Principle ; and, failing them, where is its worth, its grandeur ?\n\nOnly thus (by this inherence of the Ideas) is it dispensed from demonstration and from acts of faith in the truth of its knowledge : it is its entire self, self-perspicuous : it knows a prior by recognising its own source ; it knows a sequent to that prior by its self-identity ; of the reality of this sequent, of the fact that it is present and has authentic existence, no outer entity can bring it surer conviction.\n\nThus veritable truth is not accordance with an external ; it is selfaccordance ; it affirms and is nothing other than itself and is nothing other ; it is at once existence and self-affirmation. What external, then, can call it to the question and from what source of truth could the refuta tion be brought ? Any counter affirmation (of truth) must fall into identity with the truth which first uttered itself ; brought forward as new it has to appear before the Principle which made the earlier statement and to show itself identical with that : for there is no finding anything truer than the true."
+    }
+   ]
+  },
+  {
+   "id": "V.5.3",
+   "treatise": "V.5",
+   "title": "The great king's procession",
+   "summary": "Intellect, all the beings and truth are one nature, a great god, a second god, which shows itself before the first is seen. The first sits above it as on a beautiful base: as before a great king the lesser come first, then the greater, and at last the king himself appears. But the king there rules not over strangers but over his own offspring, king of kings and father of gods, whom Zeus imitates.",
+   "greek_unit": "5.5.3",
+   "greek_part": 40,
+   "older": [
+    {
+     "n": 3,
+     "label": "V.5, chapter 3",
+     "page": 50,
+     "year": 1926,
+     "text": "Thus we have here one identical Principle, the Intellect, which is the universe of authentic beings, the Truth : as such it is a great god or, better, not a god among gods but the Godhead entire. It is a god, a secondary god manifesting before there is any vision of that other, the Supreme which rests over all, enthroned in transcendence upon that splendid pediment, the Nature following close upon it.\n\nThe Supreme in its progress could never be borne forward upon some soulless vehicle nor even directly upon the soul : it will be heralded by some ineffable beauty : before the great King in his progress there comes first the minor train, then rank by rank the greater and more exalted, closer to the King the kinglier ; next his own honoured company until, last among all these grandeurs, suddenly appears the Supreme Monarch himself, and all— unless indeed for those who have contented themselves with the spectacle before his coming and gone away —prostrate themselves and hail him.\n\nIn that royal progress the King is of another order from those that go before him, but the King in the Supreme is no ruler over externs ; he holds that most just of governances, rooted in nature, the veritable king ship, for he is King of Truth, holding sway by all reason over a dense offspring his own, a host that shares his divinity, King over a king and over kings and even more justly called father of Gods.\n\n[Interpolation : —Zeus (Universal Soul) is in this a symbol of him, Zeus who is not content with the contemplation of his father (Kronos, divine Intellect) but looks to that father's father (to Ouranos, the Tran scendent) as what may be called the divine energy working to the estab lishment of real being.]"
+    }
+   ]
+  },
+  {
+   "id": "V.5.4",
+   "treatise": "V.5",
+   "title": "The purely one and the one in numbers",
+   "summary": "We must go back to what is truly one, not one by sharing in one. To see it we must stand still and not go forward into two; it will not be counted with anything, since it is the measure. Not even substantial number belongs to it, let alone the number of quantity. The monad before the dyad stays itself, and the units share in it in different ways, as an army and a house are not one in the same way.",
+   "greek_unit": "5.5.4",
+   "greek_part": 40,
+   "older": [
+    {
+     "n": 4,
+     "label": "V.5, chapter 4",
+     "page": 51,
+     "year": 1926,
+     "text": "We have said that all must be brought back to a unity : this must be an authentic unity, not belonging to the order in which multiplicity is unified by participation in what is truly a One ; we need a unity inde pendent of participation, not a combination in which multiplicity holds an equal place : we have exhibited, also, the Intellectual Realm and the Intellectual-Principle as more closely a unity than the rest of things, so that there is nothing closer to The One. Yet even this is not The purely One.\n\nThis purely One, essentially a unity untouched by the multiple, this we now desire to penetrate if in any way we may.\n\nOnly by a leap can we reach to this One which is to be pure of all else, halting sharp in fear of slipping ever so little aside and impinging on the dual : for if we fail of the centre, we are in a duality which does not even include The authentic One but belongs, on both sides, to the later order. The One does not bear to be numbered in with anything else, with a one or a two or any such quantity ; it refuses to take number because it is measure and not the measured ; it is no peer of other entities to be found among them ; for thus, it and they alike would be included in some container and this would be its prior, the prior it cannot have. Not even essential (ideal or abstract) number can belong to The One and certainly not the still later number applying to quantities ; for essential number first appears as providing duration to the divine Intellection, while quantitative number is that (still later and lower) which furnishes the Quantity found in conjunction with other things or which provides for Quantity independent of things, if this is to be thought of as number at all. The Principle which in objects having quantitative number looks to the unity from which they spring is a copy (or lower phase) of the Principle which in the earlier order of number (in essential or ideal number) looks to the veritable One ; and it attains its existence without in the least degree dissipating or shattering that prior unity : the dyad has come into being, but the precedent monad still stands ; and this monad is quite distinct within the dyad from either of the two constituent unities, since there is nothing to make it one rather than the other : being neither, but simply that thing apart, it is present without being inherent.\n\nBut how are the two unities distinct and how is the dyad a unity,, and is this unity the same as the unity by which each of the constituents is one thing ?\n\nOur answer must be that the unity is that of a participation in the primal unity with the participants remaining distinct from that in which they partake ; the dyad, in so far as it is one thing, has this participation, but in a certain degree only ; the unity of an army is not that of a single building ; the dyad, as a thing of extension, is not strictly a unit either quantitatively or in manner of being.\n\nAre we then to take it that the monads in the pentad and decad differ while the unity in the pentad is the same as that in the decad ?\n\nYes, in the sense in which, big and little, ship is one with ship, army with army, city with city ; otherwise, no. But certain difficulties in this matter will be dealt with later."
+    }
+   ]
+  },
+  {
+   "id": "V.5.5",
+   "treatise": "V.5",
+   "title": "Being as a trace of the One",
+   "summary": "The first stays the same while others come from it, as the one stays in numbers; it is enough by itself to beget the beings. Each thing after it has something of it, a trace of the one that gives it substance, so that being is a trace of the one. Being went out a little, turned back and stood, and became substance and hearth; and the words for one, being, substance and hearth sound out its birth.",
+   "greek_unit": "5.5.5",
+   "greek_part": 40,
+   "older": [
+    {
+     "n": 5,
+     "label": "V.5, chapter 5",
+     "page": 53,
+     "year": 1926,
+     "text": "We return to our statement that The First remains intact even when other entities spring from it.\n\nIn the case of numbers the unit remains intact while something else produces, and thus number arises in dependence on the unit : much more then does the unit, The One, remain intact in the principle which is before all beings ; especially since the entities produced in its likeness, while it thus remains intact, owe their existence to no other, but to its own allsufficient power.\n\nAnd just as there is, primarily or secondarily, some form or idea from the monad in each of the successive numbers— the later still partici pating, though unequally, in the unit— so the series of Beings following upon The First bear, each, some form or idea derived from that source. In Number the participation establishes Quantity ; in the realm of Being, the trace of The One establishes reality : existence is a trace of The One— our word for entity may probably be connected with that for unity.\n\nWhat we know as Being, the first sequent upon The One, advanced a little outward, so to speak, then chose to go no further, turned inward again and comes to rest and is now the reality and hearth (ousia and hestia) of the universe. Pressing (with the rough breathing) on the word for Being (on) we have the word hen (one), an indication that in our very form of speech we tell, as far as may be, that Being (the weaker) is that which proceeds from (the stronger), The One. Thus both the thing that comes to be and Being itself are carriers of a copy, since they are outflows from the power of The primal One : this power sees and in its emotion tries to represent what it sees and breaks into speech \" On ; einai ; ousia, hestia \" (Existent : Existence : Essence : Hestia or Hearth), sounds which labour to express the essential nature of the universe produced by the travail of the utterer and so to represent, as far as sounds may, the origin of reality."
+    }
+   ]
+  },
+  {
+   "id": "V.5.6",
+   "treatise": "V.5",
+   "title": "Beyond being, and the name \"one\"",
+   "summary": "What came from the first is form, the form of all things, so the first is formless, and so not a substance, not a \"this\", but beyond being. \"Beyond being\" names nothing; we see it by letting go of all the intelligible. What it is like is \"not like\". We struggle to say what cannot be said; \"one\" may be a denial of the many, as the Pythagoreans' Apollo, and in the end even it must be denied, since the One is not heard but, if at all, seen, and not as a form.",
+   "greek_unit": "5.5.6",
+   "greek_part": 40,
+   "older": [
+    {
+     "n": 6,
+     "label": "V.5, chapter 6",
+     "page": 54,
+     "year": 1926,
+     "text": "All this, however, we may leave to individual judgement : to proceed : —\n\nThis produced reality is an Ideal form — for certainly nothing spring ing from the Supreme can be less — and it is not a particular form but the form of all, beside which there is no other ; it follows that The First must be without form, and, if without form, then it is no Being ; Being must have some definition and therefore be limited ; but the First cannot be thought of as having definition and limit, for thus it would be not the Source but the particular item indicated by the definition assigned to it. If all things belong to the produced, which of them can be thought of as the Supreme ? Not included among them, this can be described only as transcending them : but they are Being and the Beings ; it therefore transcends Being.\n\nNote that the phrase \" transcending Being \" assigns no character, makes no assertion, allots no name, carries only the denial of particular being ; and in this there is no attempt to circumscribe it : to seek to throw a line about that illimitable Nature would be folly, and anyone thinking to do so cuts himself off from any slightest and most momentary approach to its least vestige.\n\nAs one wishing to contemplate the Intellectual N ature will lay aside all the representations of sense and so may see what transcends the senserealm, in the same way one wishing to contemplate what transcends the Intellectual attains by putting away all that is of the intellect, taught by the intellect, no doubt, that the Transcendent exists but never seeking to define it.\n\nIts definition, in fact, could be only \" the indefinable \" : what is not a thing is not some definite thing. We are in agony for a true expression ; we are talking of the untenable ; we name, only to indicate for our own use as best we may. And this name, The One, contains really no more than the negation of plurality : under the same pressure the Pythagoreans found their indication in the symbol \"Apollo \" (a=not ; pollon=of many) with its repudiation of the multiple. If we are led to think positively of The One, name and thing, there would be more truth in silence : the designation, a mere aid to enquiry, was never intended for more than a preliminary affirmation of absolute simplicity to be followed by the rejection of even that statement : it was the best that offered, but remains inadequate to express the Nature indicated. For this is a principle not to be conveyed by any sound ; it cannot be known on any hearing but, if at all, by vision ; and to hope in that vision to see a form is to fail of even that."
+    }
+   ]
+  },
+  {
+   "id": "V.5.7",
+   "treatise": "V.5",
+   "title": "The light the eye sees in itself",
+   "summary": "Seeing is double: the form seen and the light through which it is seen, which the eye sees only with the form, unless it is alone. So intellect sees the intelligibles by the light of the first, and if it lets them go it sees the light itself. As the eye sometimes sees a light of its own, in the dark, with closed lids, or when pressed, and then most truly sees, so intellect, veiling itself from the rest and drawing inward, will see a light that suddenly appears, pure and by itself.",
+   "greek_unit": "5.5.7",
+   "greek_part": 40,
+   "older": [
+    {
+     "n": 7,
+     "label": "V.5, chapter 7",
+     "page": 55,
+     "year": 1926,
+     "text": "Consider the act of ocular vision : —\n\nThere are two elements here ; there is the form perceptible to the sense and there is the medium by which the eye sees that form. This medium is itself perceptible to the eye, distinct from the form to be seen, but the cause of the seeing ; it is perceived at the one stroke in that form and on it and hence is not distinguished from it, the eye being held entirely by the illuminated object. When on the contrary this medium presents itself alone it is seen directly— though even then actual sight demands some solid base ; there must be something besides the medium which unless embracing some object eludes perception ; thus the light inherent to the sun would not be perceived but for the solidity of the mass. If it is objected that the sun is light entire, this would only be a proof of our assertion : no other visible form will contain light which must, then, have no other property than that of visibility, and in fact all other visible objects are something more than light alone.\n\nSo it is with the act of vision in the Intellectual Principle.\n\nThis vision sees, by another light, the objects illuminated by the ; First Principle : setting itself among them, it sees veritably ; declining towards the lower Nature, that upon which the light from above rests, it has less of that vision. Passing over the visible and looking to the medium by which it sees, then it holds the Light and the source of Light.\n\nBut since the Intellectual-Principle is not to see this light as some thing external we return to our analogy ; the eye is not wholly dependent upon an outside and alien light ; there is an earlier light within itself, a more brilliant, which it sees sometimes in a momentary flash. At night . 56 PLOTINUS in the darkness a gleam leaps from within the eye : or again we make no effort to see anything ; the eyelids close ; yet a light flashes before us ; or we rub the eye and it sees the light it contains. This is sight without the act, but it is the truest seeing, for it sees light whereas its other objects were the lit not the light.\n\nIt is certainly thus that the Intellectual- Principle, hiding itself from all the outer, withdrawing to the inmost, seeing nothing, must have its vision— not of some other light in some other thing but of the light within itself, unmingled, pure, suddenly gleaming before it ;"
+    }
+   ]
+  },
+  {
+   "id": "V.5.8",
+   "treatise": "V.5",
+   "title": "It comes without coming",
+   "summary": "So that one does not know where it came from. We must not ask from where, nor chase it, but wait quietly, as the eye waits for the sun to rise. It rises above intellect itself, which stands still looking at the beautiful; it did not come, but was present before all things. Intellect comes and goes, not knowing where to stay; if it could stay nowhere, it would always see the One, or rather be one with it; as it is, it sees it with what in it is not intellect. It is a wonder that it is present without coming, and everywhere because it is nowhere; to one who knows, the opposite would be the wonder.",
+   "greek_unit": "5.5.8",
+   "greek_part": 40,
+   "older": [
+    {
+     "n": 8,
+     "label": "V.5, chapter 8",
+     "page": 55,
+     "year": 1926,
+     "text": "so that we are left wondering whence it came, from within or with out ; and when it has gone, we say, \" It was here. Yet no ; it was beyond I \" But we ought not to question whence ; there is no whence, no coming or going in place ; now it is seen and now not seen. We must not run after it, but fit ourselves for the vision and then wait tranquilly for its appearance, as the eye waits on the rising of the sun, which in its own time appears above the horizon — out of the ocean, as the poets say — and gives itself to our sight.\n\nThis Principle, of which the sun is an image, where has it its dawning, what horizon does it surmount to appear ?\n\nIt stands immediately above the contemplating Intellect which has held itself at rest towards the vision, looking to nothing else than the good and beautiful, setting its entire being to that in a perfect surrender, and now tranquilly filled with power and taking a new beauty to itself, gleaming in the light of that presence.\n\nThis advent, still, is not by expectation : it is a coming without approach ; the vision is not of something that must enter but of some thing present before all else, before the Intellect itself made any move ment. Yet it is the Intellect that must move, to come and to go — going because it has not known where it should stay and where that presence stays, the nowhere contained.\n\nAnd if the Intellect, too, could hold itself in that nowhere — not that it is ever in place ; it too is uncontained, utterly unplaced — it would remain for ever in the vision of its prior, or, indeed, not in vision but in identity, all duality annulled. But it is Intellect (having a sphere of its own) and when it is to see it must see by that in it which is not Intellect (by its divinest power) .\n\nNo doubt it is wonderful that The First should thus be present with out any coming, and that, while it is nowhere, nowhere is it not : but wonderful though this be in itself, the contrary would be more wonderful to those who know. Of course neither this contrary nor the wonder at it can be entertained. But we must explain : —"
+    }
+   ]
+  },
+  {
+   "id": "V.5.9",
+   "treatise": "V.5",
+   "title": "Nowhere, and so everywhere",
+   "summary": "What is made by another is in its maker or in another, up to the first principle, which has nothing to be in and so holds all the rest, not held by them; it is not hindered from being anywhere, or it would be bounded and a slave to what comes after it. So, being nowhere, it is everywhere, whole. The cosmos is in soul, soul in intellect, intellect in it; it is in nothing, and all are in it, and it is the good of all because all hang from it.",
+   "greek_unit": "5.5.9",
+   "greek_part": 40,
+   "older": [
+    {
+     "n": 9,
+     "label": "V.5, chapter 9",
+     "page": 57,
+     "year": 1926,
+     "text": "Everything brought into being under some principle not itself is contained either within its maker or, if there is any intermediate, within that : having a prior essential to its being, it needs that prior always, otherwise it would not be contained at all. It is the order of nature : — The last in the immediately preceding lasts, things of the order of the Firsts within their prior-firsts, and so thing within thing up to the very pinnacle of source.\n\nThat Source, having no prior, cannot be contained : uncontained by any of those other forms of being, each held within the series of priors, it is orbed round all, but so as not to be pointed off to hold them part for part ; it possesses but is not possessed. Holding all— though itself no where held— it is omnipresent, for where its presence failed something would elude its hold. At the same time, in the sense that it is nowhere held it is not present : thus it is both present and not present ; not present as not being circumscribed by anything ; yet, as being utterly unattached, not inhibited from presence at any point. That inhibition would mean that the First was determined by some other being ; the later series, then, would be without part in the Supreme ; God has His limit and is no longer self-governed but mastered by inferiors.\n\nWhile the contained must be where its container is, what is un contained by place is not debarred from any : for, imagine a place where it is not and evidently some other place retains it ; at once it is contained and there is an end of its placelessness.\n\nBut if the \" nowhere \" is to stand and the ascription of a \" where,\" implying station in the extern, is to fall, then nothing can be left void ; and at once — nothing void, yet no point containing — God is sovranly present through all. We cannot think of something of God here and something else there, nor of all God gathered at some one spot : there is an instantaneous presence everywhere, nothing containing and nothing left void, everything therefore fully held by the divine.\n\nConsider our universe. There is none before it and therefore it is not, itself, in a universe or in any place — what place was there before the universe came to be ? — its linked members form and occupy the whole. But Soul is not in the universe, on the contrary the universe is in the Soul ; bodily substance is not a place to the Soul ; Soul is contained in Intellectual-Principle and is the container of body. The Intellectual-Principle in turn is contained in something else ; but that prior principle has nothing in which to be : the First is therefore in nothing, and, there fore, nowhere. But all the rest must be somewhere ; and where but in the First ?\n\nThis can mean only that the First is neither remote from things nor directly within them ; there is nothing containing it ; it contains all. It is The Good to the universe if only in this way, that towards it all things have their being, all dependent upon it, each in its mode, so that thing rises above thing in goodness according to its fuller possession of authentic being."
+    }
+   ]
+  },
+  {
+   "id": "V.5.10",
+   "treatise": "V.5",
+   "title": "Look at the Good, not through others",
+   "summary": "Do not look at the Good through other things, or you will see a trace. No one can grasp its power all at once; if you try to tell it whole you will be thinking, and it will escape you. When you see, see the whole; whatever you remember, think that it is the Good. It causes life and intellect, being and substance, because it is one and simple; from it come motion and rest, though it neither moves nor stands; it is not limited, nor unlimited as a magnitude, but its power is unlimited.",
+   "greek_unit": "5.5.10",
+   "greek_part": 40,
+   "older": [
+    {
+     "n": 10,
+     "label": "V.5, chapter 10",
+     "page": 58,
+     "year": 1926,
+     "text": "Still, do not, I urge you, look for The Good through any of these other things ; if you do, you will see not itself but its trace : you must form the idea of that which is to be grasped cleanly standing to itself not in any combination, the unheld in which all have hold : for no other is such, yet one such there must be.\n\nNow it is clear that we cannot possess ourselves of the power of this principle in its concentrated fulness : so to do one must be identical with it : but some partial attainment is within our reach.\n\nYou who make the venture will throw forward all your being but you will never tell it entire— for that, you must yourself be the divine Intellect in Act— and at your utmost success it will still pass from you or, rather, you from it. In ordinary vision you may think to see the object entire : in this intellective act, all, less or more, that you can take to mind you may set down as The Good.\n\nIt is The Good since, being a power (being effective outwardly), it is the cause of the intelligent and intellective life as of life and intellect : for these grow from it as from the source of essence and of existence, the Source as being One (where all else has duality), simplex and first because before it was nothing. All derives from this : it is the origin of the primal movement which it does not possess and of the repose which is but its absence of need ; for neither rest nor movement can belong to that which has no place in which either could occur ; centre, object, ground, all are alike unknown to it, for it is before all. Yet its Being is not limited ; what is there to set bounds to it ? Nor, on the other hand, is it infinite in the sense of magnitude ; what place can there be to which it must extend, or why should there be movement where there is no lacking ? All its infinitude resides in its power : it does not change and will not fail ; and in it all that is unfailing finds duration."
+    }
+   ]
+  },
+  {
+   "id": "V.5.11",
+   "treatise": "V.5",
+   "title": "Not with mortal eyes",
+   "summary": "The One is unlimited because it is only one, unmeasured and uncounted, without parts, shape or form. Do not look for it with mortal eyes: those who take the perceptible for what most is are like the gluttons at festivals who fill themselves with what may not be taken in to the gods, and miss the god; or like sleepers who trust their dreams and, woken, go back to sleep.",
+   "greek_unit": "5.5.11",
+   "greek_part": 40,
+   "older": [
+    {
+     "n": 11,
+     "label": "V.5, chapter 11",
+     "page": 59,
+     "year": 1926,
+     "text": "It is infinite also by right of being a pure unity with nothing towards which to direct any partial content. Absolutely One, it has never known measure and stands outside of number, and so is under no limit either in regard to any extern or within itself ; for any such determination would bring something of the dual into it. And having no constituent parts it accepts no pattern, forms no shape.\n\nReason recognising it as such a nature, you may not hope to see it with mortal eyes, nor in any way that would be imagined by those who make sense the test of reality and so annul the supremely real. For what passes for the most truly existent is most truly non-existent —the thing of extension least real of all— while this unseen First is the source and principle of Being and sovran over Reality.\n\nYou must turn appearances about or you will be left void of God.\n\nYou will be like those at the festivals who in their gluttony cram them selves with things which none going to the gods may touch ; they hold these goods to be more real than the vision of the God who is to be honoured and they go away having had no share in the sanctities of the shrine.\n\nIn these celebrations of which we speak, the unseen god leaves those in doubt of his existence who think nothing patent but what may be known to the flesh : it happens as if a man slept a life through and took the dream world in perfect trust ; wake him, and he would refuse belief to the report of his open eyes and settle down to sleep again."
+    }
+   ]
+  },
+  {
+   "id": "V.5.12",
+   "treatise": "V.5",
+   "title": "The Good before beauty",
+   "summary": "Each thing is known by its own power, and intellect sees what eyes and ears do not. All things long for the Good by nature, even asleep, without amazement; beauty comes later, with amazement and pain, to those who are awake. All want the real Good, while seeming beautiful is enough; beauty and the Good both come from the one, but the Good needs nothing, and is gentle, while beauty draws the ignorant away. The Good is older in truth and has all power; it did not need what it made, and did not grudge, and, being above all things, could make them and let them be.",
+   "greek_unit": "5.5.12",
+   "greek_part": 40,
+   "older": [
+    {
+     "n": 12,
+     "label": "V.5, chapter 12",
+     "page": 60,
+     "year": 1926,
+     "text": "Knowing demands the organ fitted to the object ; eyes for one kind, ears for another : similarly some things, we must believe, are to be known by the Intellectual-Principle in us. We must not confuse intellection with hearing or seeing ; this would be trying to look with the ears or denying sound because it is not seen. Certain people, we must keep in mind, have forgotten that to which from the beginning onwards, their longing and effort are pointed : for all that exists desires and aspires towards the Supreme by a compulsion of nature, as if all had received the oracle that without it they cannot be.\n\nThe perception of Beauty and the awe and the stirring of passion towards it are for those already in some degree knowing and awakened : but the Good, as possessed long since and setting up a natural tendency, is inherently present to even those asleep and brings them no wonder when some day they see it, since it is no occasional reminiscence but is always with them though in their drowse they are not aware of it : the love of Beauty on the contrary sets up pain when it appears, for those that have seen it must pursue. This love of Beauty then is later than the love of Good and comes with a more sophisticated understanding ; hence we know that Beauty is a secondary : the more primal appetition, not patent to sense, our movement towards our good, gives witness that The Good is the earlier, the prior.\n\nAgain ; all that have possessed themselves of The Good feel it sufficient ; they have attained the end : but Beauty not all have known and those that have judge it to exist for itself and not for them, as in the charm of this world the beauty belongs only to its possessor.\n\nThen, too, it is thought enough to appear loveable whether one is so or not : but no one wants his Good in semblance only. All are seeking The First as something ranking before aught else, but they struggle venomously for beauty as something secondary like themselves : thus some minor personage may perhaps challenge equal honour with the King's right-hand man on pretext of similar dependence, forgetting that, while both owe their standing to the monarch, the other holds the higher rank.\n\nThe source of the error is that while both The Good and The Beautiful : participate in the common source, The One precedes both ; and that, in the Supreme also, The Good has no need of The Beautiful, while the Beautiful does need The Good.\n\nThe Good is gentle and friendly and tender, and we have it present when we but will. Beauty is all violence and stupefaction ; its pleasure is spoiled with pain, and it even draws the thoughtless away from The Good as some attraction will lure the child from the father's side : these things tell of youth. The Good is the older— not in time but by degree of reality— and it has the higher and earlier power, all power in fact, for the sequent holds only a power subordinate and delegated of which the prior remains sovereign.\n\nNot that God has any need of His derivatives : He ignores all that produced realm, never necessary to Him, and remains identically what He was before He brought it into being. So too, had the secondary never existed, He would have been unconcerned, exactly as He would not have grudged existence to any other universe that might spring into being from Him, were any such possible ; of course no other such could be since there is nothing that has not existence once the All exists.\n\nBut God never was the All ; that would make Him dependent upon the universe : transcending all, He was able at once to make all things and to leave them to their own being, He above."
+    }
+   ]
+  },
+  {
+   "id": "V.5.13",
+   "treatise": "V.5",
+   "title": "Nothing can be added to the Good",
+   "summary": "The Good has nothing in itself, neither good nor not good, and by having nothing it is the Good. To add substance, intellect or beauty to it is to take away its being the Good: we must take everything away, and say only \"is\", as those who praise without knowledge lower what they praise. If the Good were one of all things, it would be good by a difference from another, sharing in what is good first; so the first Good is above all beings, unmixed, the cause of all.",
+   "greek_unit": "5.5.13",
+   "greek_part": 40,
+   "older": [
+    {
+     "n": 13,
+     "label": "V.5, chapter 13",
+     "page": 62,
+     "year": 1926,
+     "text": "The Supreme, as the Absolute Good and not merely a good being or thing, can contain nothing, since there is nothing that could be its good.\n\nAnything it could contain must be either good to it or not good ; but in the supremely and primally Good there can be nothing not good ; nor can the Absolute Good be a container to the Good : containing, then, neither the good nor the not good it contains nothing and, containing nothing, it is alone : it is void of all but itself.\n\nIf the rest of being either is good — without being the absolute good — or is not good while on the other hand the Supreme contains neither what is good nor what is not good, then, containing nothing, it is The Good by that very absence of content.\n\nThus we rob it of its very being as The Absolute Good if we ascribe anything to it, existence or intellect or goodness. The only way is to make every denial and no assertion, to feign no quality or content there but to permit only the \" It is \" in which we pretend to no affirmation of non-existent attribute : there is an ignorant praise which, missing the true description, drags in qualities beneath the real worth and so abases ; philosophy must guard against attaching to the Supreme what is later and lower : moving above ah1 that order, it is the cause and source of all these, and is none of them.\n\nFor, once more, the nature of the Good is not such as to make it all things or a thing among all : that would range it under the same classifi cation with them all and it would differ, thus, only by its individual quality, some speciality, some addition. At once it becomes not a unity but a duality ; there is one common element not good and another element that is good ; but a combination so made up of good and not good cannot be the purely good, the primarily good ; the primarily good must be that principle in which the better element has more effectively participated and so attained its goodness. Any good thing has become so by communion ; but that in which it has communion is not a thing among the things of the all ; therefore the Good is not a thing of the All.\n\nSince there is this Good in any good thing — the specific difference by which the combination becomes good — it must enter from elsewhere than the world of things : that source must be a Good absolute and isolated.\n\nThus is revealed to us the Primarily existent, the Good, above all that has being, good unalloyed, containing nothing in itself, utterly unmingling, all-transcending, cause of all.\n\nCertainly neither Being nor Beauty springs from evil or from the neutral ; the maker, as the more consummate, must surpass the made."
     }
    ]
   }
@@ -16497,6 +16785,794 @@
      "in": "MacKenna",
      "why": "The Greek says \"all things are clear, and each\" (φανὰ πάντα καὶ ἕκαστον); \"separate\" is MacKenna's."
     }
+   ]
+  },
+  {
+   "seg": "V.4.1.p1",
+   "chapter": "V.4.1",
+   "modern": "If there is anything after the first, it must come from that one, either directly, or by being traced back up to it through what lies between; and there must be an order of seconds and thirds, the second traced back to the first, and the third to the second.",
+   "greek": "Εἴ τι ἔστι μετὰ τὸ πρῶτον, ἀνάγκη ἐξ ἐκείνου εἶναι ἢ εὐθύς, ἢ τὴν ἀναγωγὴν ἐπ’ ἐκεῖνο διὰ τῶν μεταξὺ ἔχειν, καὶ τάξιν εἶναι δευτέρων καὶ τρίτων, τοῦ μὲν ἐπὶ τὸ πρῶτον ἀναγομένου, τοῦ δὲ τρίτου ἐπὶ τὸ δεύτερον.",
+   "notes": [
+    "\"The first\" (τὸ πρῶτον) is the One, which Plotinus here sets out to prove must exist and must be simple. Porphyry lists this treatise seventh in the order of writing, among the early ones written before he came to Plotinus (Life 4)."
+   ]
+  },
+  {
+   "seg": "V.4.1.p2",
+   "chapter": "V.4.1",
+   "modern": "For there must be something before all things, something simple, and other than all that come after it, being by itself, not mixed with what comes from it, and yet able to be present to the others in another way; being really one, not something else first and then one; of which it is false even to say that it is one; of which there is no account or knowledge; which is indeed said to be beyond being. For if it is not simple, outside all coming together and composition, and really one, it would not be a principle. And it is most self-sufficient by being simple, and first of all things: for what is not first needs what is before it, and what is not simple needs the simple things in it, so as to be made of them. Such a thing must be only one: for if there were another such, the two would be one. For we are not speaking of two bodies, or saying that the one is the first body. For no body is simple, and a body comes to be, and is not a principle; but the principle is unbegotten; and, not being bodily, but really one, it would be that first.",
+   "greek": "δεῖ μὲν γάρ τι πρὸ πάντων εἶναι ἁπλοῦν τοῦτο καὶ πάντων ἕτερον τῶν μετ’ αὐτό, ἐφ̓ ἑαυτοῦ ὄν, οὐ μεμιγμένον τοῖς ἀπ’ αὐτοῦ, καὶ πάλιν ἕτερον τρόπον τοῖς ἄλλοις παρεῖναι δυνάμενον, ὂν ὄντως ἕν, οὐχ ἕτερον ὄν, εἶτα ἕν, καθ̓ οὗ ψεῦδος καὶ τὸ ἓν εἶναι, οὗ μὴ λόγος μηδὲ ἐπιστήμη, ὃ δὴ καὶ ἐπέκεινα λέγεται εἶναι οὐσίας — εἰ γὰρ μὴ ἁπλοῦν ἔσται συμβάσεως ἔξω πάσης καὶ συνθέσεως καὶ ὄντως ἕν, οὐκ ἂν ἀρχὴ εἴη — αὐταρκέστατόν τε τῷ ἁπλοῦν εἶναι καὶ πρῶτον ἁπάντων: τὸ γὰρ μὴ πρῶτον ἐνδεὲς τοῦ πρὸ αὐτοῦ, τό τε μὴ ἁπλοῦν τῶν ἐν αὐτῷ ἁπλῶν δεόμενον, ἵν’ ᾖ ἐξ ἐκείνων. τὸ δὴ τοιοῦτον ἓν μόνον δεῖ εἶναι: ἄλλο γὰρ εἰ εἴη τοιοῦτον, οὐχ ἓν ἂν εἴη τὰ ἄμφω. οὐ γὰρ δὴ σώματα λέγομεν δύο, ἢ τὸ ἓν πρῶτον σῶμα. οὐδὲν γὰρ ἁπλοῦν σῶμα, γινόμενόν τε τὸ σῶμα, ἀλλ’ οὐκ ἀρχή: ἡ δὲ ἀρχὴ ἀγέννητος: μὴ σωματικὴ δὲ οὖσα, ἀλλ’ ὄντως μία, ἐκεῖνο ἂν εἴη τὸ πρῶτον.",
+   "flags": [
+    {
+     "taylor": "it will debar all telling and knowing except that it may be described as",
+     "in": "MacKenna",
+     "why": "The Greek says that it is false even to say of it that it is one (καθ’ οὗ ψεῦδος καὶ τὸ ἓν εἶναι), and that there is no account or knowledge of it; \"beyond being\" is what is said of it, not an exception to it, as MacKenna's \"except\" makes it."
+    },
+    {
+     "taylor": "nothing authentically one, there would be no Source",
+     "in": "MacKenna",
+     "why": "The Greek says that the first, if it were not simple and really one, would not be a principle: a step about the first, not about whether such a thing exists."
+    }
+   ],
+   "notes": [
+    "\"Beyond being\" (ἐπέκεινα τῆς οὐσίας): Plato's Republic VI (509b), of the Good. \"No account or knowledge\": the first hypothesis of Plato's Parmenides (142a), that of the one there is no name, account, knowledge, perception or opinion."
+   ]
+  },
+  {
+   "seg": "V.4.1.p3",
+   "chapter": "V.4.1",
+   "modern": "If, then, there were something other after the first, it would no longer be simple: it will be a one-many. Where, then, does it come from? From the first: for if it came by chance, that one would no longer be the principle of all things.",
+   "greek": "εἰ ἄρα ἕτερόν τι μετὰ τὸ πρῶτον εἴη, οὐκ ἂν ἔτι ἁπλοῦν εἴη: ἓν ἄρα πολλὰ ἔσται. πόθεν οὖν τοῦτο; ἀπὸ τοῦ πρώτου: εἰ γὰρ δὴ κατὰ συντυχίαν, οὐδ’ ἂν ἔτι ἐκεῖνο πάντων ἀρχή.",
+   "notes": [
+    "\"One-many\" (ἓν πολλά): Plotinus' name for intellect, from the second hypothesis of the Parmenides (144e-145a; V.1.8)."
+   ]
+  },
+  {
+   "seg": "V.4.1.p4",
+   "chapter": "V.4.1",
+   "modern": "How, then, from the first? If the first is perfect, the most perfect of all, and the first power, it must be the most powerful of all beings, and the other powers must imitate it as far as they can. Whatever else comes to its perfection, we see it beget, and not bear to stay by itself, but make something else: not only whatever has choice, but also what grows without choice; and even lifeless things give of themselves as far as they can: fire warms, snow chills, and drugs work on something else; all things imitating the principle, as far as they can, in everlastingness and goodness. How, then, could the most perfect, the first good, stand still in itself as if it grudged itself, or were powerless, it that is the power of all things? How would it still be a principle? Something must come to be from it too, if there is to be anything else at all that has its existence from it: for that things come from it is necessary. And what begets must be the most honourable, and what is begotten second to it, and better than the others.",
+   "greek": "πῶς οὖν ἀπὸ τοῦ πρώτου; ἢ εἰ τέλειόν ἐστι τὸ πρῶτον καὶ πάντων τελειότατον καὶ δύναμις ἡ πρώτη, δεῖ πάντων τῶν ὄντων δυνατώτατον εἶναι, καὶ τὰς ἄλλας δυνάμεις καθ̓ ὅσον δύνανται μιμεῖσθαι ἐκεῖνο. ὅ τι δ’ ἂν τῶν ἄλλων εἰς τελείωσιν ἴῃ, ὁρῶμεν γεννῶν καὶ οὐκ ἀνεχόμενον ἐφ̓ ἑαυτοῦ μένειν, ἀλλ’ ἕτερον ποιοῦν, οὐ μόνον ὅ τι ἂν προαίρεσιν ἔχῃ, ἀλλὰ καὶ ὅσα φύει ἄνευ προαιρέσεως, καὶ τὰ ἄψυχα δὲ μεταδιδόντα ἑαυτῶν καθ̓ ὅσον δύνανται: οἷον τὸ πῦρ θερμαίνει, καὶ ψύχει ἡ χιών, καὶ τὰ φάρμακα δὲ εἰς ἄλλο ἐργάζεται, οἷον αὖ τὰ πάντα τὴν ἀρχὴν κατὰ δύναμιν ἀπομιμούμενα εἰς ἀιδιότητά τε καὶ ἀγαθότητα. πῶς ἂν οὖν τὸ τελειότατον καὶ τὸ πρῶτον ἀγαθὸν ἐν αὑτῷ σταίη ὥσπερ φθονῆσαν ἑαυτοῦ ἢ ἀδυνατῆσαν, ἡ πάντων δύναμις; πῶς δ’ ἂν ἔτι ἀρχὴ εἴη; δεῖ δή τι καὶ ἀπ’ αὐτοῦ γενέσθαι, εἴπερ ἔσται τι καὶ τῶν ἄλλων παῤ αὐτοῦ γε ὑποστάντων: ὅτι μὲν γὰρ ἀπ’ αὐτοῦ, ἀνάγκη. δεῖ δὴ καὶ τιμιώτατον εἶναι τὸ γεννῶν, τὸ δὲ γεννώμενον καὶ δεύτερον ἐκείνου τῶν ἄλλων ἄμεινον εἶναι.",
+   "flags": [
+    {
+     "taylor": "tending to eternity and to service",
+     "in": "MacKenna",
+     "why": "The Greek says \"towards everlastingness and goodness\" (εἰς ἀιδιότητά τε καὶ ἀγαθότητα): things imitate the first by lasting and by being good, not by \"service\"."
+    },
+    {
+     "taylor": "the Power towards all",
+     "in": "MacKenna",
+     "why": "The Greek ἡ πάντων δύναμις is \"the power of all things\", as in V.4.2 (δύναμις πάντων): the power that is all things before they are, not a power directed towards them."
+    }
+   ],
+   "notes": [
+    "\"As if it grudged\": the maker of Plato's Timaeus is good, and \"in the good no grudging ever arises\" (29e). That the perfect begets: Aristotle, On the soul II.4 (415a26-b7), where the most natural work of a living thing, once complete, is to make another like itself, to share in the everlasting."
+   ]
+  },
+  {
+   "seg": "V.4.2.p1",
+   "chapter": "V.4.2",
+   "modern": "If, then, the begetter were intellect itself, what comes next would have to be less than intellect, but nearer to intellect and like it; but since the begetter is beyond intellect, it must be intellect. And why is the begetter not intellect? Because the activity of intellect is thinking; and thinking, seeing the intelligible and turned towards it, and being made perfect, as it were, by it, is itself indefinite, like sight, and defined by the intelligible. That is why it is said that the forms and the numbers come from the indefinite dyad and the one: for this is intellect. So it is not simple, but many, showing a composition, though an intelligible one, and already seeing many things. It is itself intelligible, but it is also thinking: so it is already two. But there is also another intelligible, the one it comes after.",
+   "greek": "εἰ μὲν οὖν αὐτονοῦς ἦν τὸ γεννῶν, τὸ ἐφεξῆς νοῦ ἐνδεέστερον, προσεχέστερον δὲ νῷ καὶ ὅμοιον ἔδει εἶναι: ἐπεὶ δὲ ἐπέκεινα νοῦ τὸ γεννῶν, νοῦν εἶναι ἀνάγκη. διὰ τί δὲ οὐ νοῦς; ὅτι νοῦ ἐνέργειά ἐστι νόησις: νόησις δὲ τὸ νοητὸν ὁρῶσα καὶ πρὸς τοῦτο ἐπιστραφεῖσα καὶ ἀπ’ ἐκείνου οἷον ἀποτελειουμένη ἀόριστος μὲν αὐτὴ ὥσπερ ὄψις, ὁριζομένη δὲ ὑπὸ τοῦ νοητοῦ. διὸ καὶ εἴρηται ἐκ τῆς ἀορίστου δυάδος καὶ τοῦ ἑνὸς τὰ εἴδη καὶ οἱ ἀριθμοί: τοῦτο γὰρ ὁ νοῦς. διὸ οὐχ ἁπλοῦς, ἀλλὰ πολλά, σύνθεσίν τε ἐμφαίνων, νοητὴν μέντοι, καὶ πολλὰ ὁρῶν ἤδη. ἔστι μὲν οὖν καὶ αὐτὸς νοητόν, ἀλλὰ καὶ νοῶν: διὸ δύο ἤδη. ἔστι δὲ καὶ ἄλλο τὸ μετ’ αὐτὸ νοητόν.",
+   "flags": [
+    {
+     "taylor": "for the dyad is the Intellectual-Principle",
+     "in": "MacKenna",
+     "why": "The Greek says \"for this is intellect\" (τοῦτο γὰρ ὁ νοῦς): the whole that comes from the dyad and the one, the forms and numbers, not the dyad alone."
+    },
+    {
+     "taylor": "and it possesses besides another object of intellection in the Order following upon itself",
+     "in": "MacKenna",
+     "why": "The Greek says there is another intelligible \"after which\" intellect comes (τὸ μετ’ αὐτὸ νοητόν): the first, which the next sentence calls \"this intelligible\", from which intellect comes. MacKenna puts the other intelligible below intellect."
+    }
+   ],
+   "notes": [
+    "\"From the indefinite dyad and the one\": Aristotle's report of Plato's unwritten teaching (Metaphysics A.6, 987b18-25); Plotinus reads it of intellect in V.1.5.",
+    "In this early treatise Plotinus calls the first \"the intelligible\" (τὸ νοητόν) and gives it a kind of thinking of its own; later (V.6, VI.7.37-41) he denies that the One thinks at all."
+   ]
+  },
+  {
+   "seg": "V.4.2.p2",
+   "chapter": "V.4.2",
+   "modern": "But how does intellect come from this intelligible? In this way. The intelligible, staying by itself, and not lacking, as what sees and thinks lacks (I call what thinks lacking in relation to that one), is not as if unaware: all that is its own is in it and with it, it wholly discerns itself, life is in it and all things are in it, and its understanding of itself is itself, by a kind of co-perception, in everlasting rest, and a thinking other than the thinking of intellect. If, then, something comes to be while it stays in itself, it comes to be from it, when it is most of all what it is. So while it stays in its own way of being, what comes to be comes from it, but comes to be while it stays. Since, then, that one stays intelligible, what comes to be becomes thinking; and being thinking, and thinking that from which it came (for it has nothing else), it becomes intellect: another intelligible, as it were, and as it were that one, an imitation and image of it.",
+   "greek": "ἀλλὰ πῶς ἀπὸ τούτου τοῦ νοητοῦ ὁ νοῦς; οὕτως: τὸ νοητὸν ἐφ̓ ἑαυτοῦ μένον καὶ οὐκ ὂν ἐνδεές, ὥσπερ τὸ ὁρῶν καὶ τὸ νοοῦν — ἐνδεὲς δὲ λέγω τὸ νοοῦν ὡς πρὸς ἐκεῖνο — οὐκ ἔστιν οἷον ἀναίσθητον, ἀλλ’ ἔστιν αὐτοῦ πάντα ἐν αὐτῷ καὶ σὺν αὐτῷ, πάντη διακριτικὸν ἑαυτοῦ, ζωὴ ἐν αὑτῷ καὶ πάντα ἐν αὑτῷ, καὶ ἡ κατανόησις αὐτοῦ αὐτὸ οἱονεὶ συναισθήσει οὖσα ἐν στάσει ἀιδίῳ καὶ νοήσει ἑτέρως ἢ κατὰ τὴν νοῦ νόησιν. εἴ τι οὖν μένοντος αὐτοῦ ἐν αὑτῷ γίνεται, ἀπ’ αὐτοῦ τοῦτο γίνεται, ὅταν ἐκεῖνο μάλιστα ᾖ ὃ ἔστι. μένοντος οὖν αὐτοῦ ἐν τῷ οἰκείῳ ἤθει ἐξ αὐτοῦ μὲν τὸ γινόμενον γίνεται, μένοντος δὲ γίνεται. ἐπεὶ οὖν ἐκεῖνο μένει νοητόν, τὸ γινόμενον γίνεται νόησις: νόησις δὲ οὖσα καὶ νοοῦσα ἀφ̓ οὗ ἐγένετο — ἄλλο γὰρ οὐκ ἔχει — νοῦς γίγνεται, ἄλλο οἷον νοητὸν καὶ οἷον ἐκεῖνο καὶ μίμημα καὶ εἴδωλον ἐκείνου.",
+   "flags": [
+    {
+     "taylor": "and especially within a being which is the sum of being",
+     "in": "MacKenna",
+     "why": "The Greek says that something comes to be from the first \"when it is most of all what it is\" (ὅταν ἐκεῖνο μάλιστα ᾖ ὃ ἔστι), while it stays in itself; it does not call the first \"the sum of being\", which it is beyond, nor say that the thing comes to be within it."
+    }
+   ],
+   "notes": [
+    "\"Co-perception\" (συναίσθησις): a word for awareness of oneself, which Plotinus gives the first here; in V.3.13 he grants the One no more than this, if anything."
+   ]
+  },
+  {
+   "seg": "V.4.2.p3",
+   "chapter": "V.4.2",
+   "modern": "But how does an activity come to be while that one stays? There is an activity of the substance, and an activity from the substance of each thing. The activity of the substance is each thing itself in act; the activity from it must follow everything of necessity, being other than the thing itself. So in fire too there is a heat that fills up its substance, and a heat that comes to be from that one, as the fire acts with the activity native to its substance, by staying fire. So it is there too; and much before, there, while it stays in its own way of being, from the perfection in it and the activity that is with it, the activity begotten took on existence, since it came from a great power, the greatest of all, and came to being and substance: for that one was beyond substance. And that one is the power of all things, and this is already all things.",
+   "greek": "ἀλλὰ πῶς μένοντος ἐκείνου γίνεται ἐνέργεια; ἢ ἡ μέν ἐστι τῆς οὐσίας, ἡ δ’ ἐκ τῆς οὐσίας ἑκάστου: καὶ ἡ μὲν τῆς οὐσίας αὐτό ἐστιν ἐνεργείᾳ ἕκαστον, ἡ δὲ ἀπ’ ἐκείνης, ἣν δεῖ παντὶ ἕπεσθαι ἐξ ἀνάγκης ἑτέραν οὖσαν αὐτοῦ: οἷον καὶ ἐπὶ τοῦ πυρὸς ἡ μέν τίς ἐστι συμπληροῦσα τὴν οὐσίαν θερμότης, ἡ δὲ ἀπ’ ἐκείνης ἤδη γινομένη ἐνεργοῦντος ἐκείνου τὴν σύμφυτον τῇ οὐσίᾳ ἐνέργειαν ἐν τῷ μένειν πῦρ. οὕτω δὴ κἀκεῖ: καὶ πολὺ πρότερον ἐκεῖ μένοντος αὐτοῦ ἐν τῷ οἰκείῳ ἤθει ἐκ τῆς ἐν αὐτῷ τελειότητος καὶ συνούσης ἐνεργείας ἡ γεννηθεῖσα ἐνέργεια ὑπόστασιν λαβοῦσα, ἅτε ἐκ μεγάλης δυνάμεως, μεγίστης μὲν οὖν ἁπασῶν, εἰς τὸ εἶναι καὶ οὐσίαν ἦλθεν: ἐκεῖνο γὰρ ἐπέκεινα οὐσίας ἦν. καὶ ἐκεῖνο μὲν δύναμις πάντων, τὸ δὲ ἤδη τὰ πάντα.",
+   "flags": [
+    {
+     "taylor": "That transcendent was the potentiality of the All",
+     "in": "MacKenna",
+     "why": "The Greek says \"power of all things\" (δύναμις πάντων): the power that makes all things, not a \"potentiality\" in Aristotle's sense, a matter waiting to be made actual, which Plotinus denies of the first."
+    }
+   ],
+   "notes": [
+    "The double activity, of a thing and from it, is Plotinus' answer to how the first can make without changing or spending itself; he uses it again in V.1.6, V.3.12 and IV.5.7, and the image of fire and its heat in V.1.3 and V.1.6."
+   ]
+  },
+  {
+   "seg": "V.4.2.p4",
+   "chapter": "V.4.2",
+   "modern": "If this is all things, that one is beyond all things: beyond substance, therefore. And if this is all things, and before all things is the one, which is not on the same footing as all things, in this way too it must be beyond substance. And this is intellect: so there is something beyond intellect. For being is not a corpse, nor without life, nor without thinking: intellect and being are the same. For intellect is not of things as perception is of perceptibles that are there before it; intellect itself is the things, if it does not bring in forms of them from somewhere. For from where? But here it is with the things, and the same as them, and one: and all the knowledge of things without matter is the things.",
+   "greek": "εἰ δὲ τοῦτο τὰ πάντα, ἐκεῖνο ἐπέκεινα τῶν πάντων: ἐπέκεινα ἄρα οὐσίας: καὶ εἰ τὰ πάντα, πρὸ δὲ πάντων τὸ ἓν οὐ τὸ ἴσον ἔχον τοῖς πᾶσι, καὶ ταύτῃ δεῖ ἐπέκεινα εἶναι τῆς οὐσίας. τοῦτο δὲ καὶ νοῦ: ἐπέκεινα ἄρα τι νοῦ. τὸ γὰρ ὂν οὐ νεκρὸν οὐδὲ οὐ ζωὴ οὐδὲ οὐ νοοῦν: νοῦς δὴ καὶ ὂν ταὐτόν. οὐ γὰρ τῶν πραγμάτων ὁ νοῦς, ὥσπερ ἡ αἴσθησις τῶν αἰσθητῶν προόντων, ἀλλ’ αὐτὸς ὁ νοῦς τὰ πράγματα, εἴπερ μὴ εἴδη αὐτῶν κομίζεται. πόθεν γάρ; ἀλλ’ ἐνταῦθα μετὰ τῶν πραγμάτων καὶ ταὐτὸν αὐτοῖς καὶ ἕν: καὶ ἡ ἐπιστήμη δὲ ὅλη τῶν ἄνευ ὕλης τὰ πράγματα.",
+   "flags": [
+    {
+     "taylor": "it exists here together with the things of the universe",
+     "in": "MacKenna",
+     "why": "The Greek says \"here\", in intellect's case, it is with the things (ἐνταῦθα μετὰ τῶν πραγμάτων): with the things it knows, not with \"the things of the universe\"."
+    },
+    {
+     "taylor": "and the collective knowledge (in the divine mind) of the immaterial is the universe of things",
+     "in": "MacKenna",
+     "why": "The Greek says that all knowledge of things without matter is the things (ἡ ἐπιστήμη δὲ ὅλη τῶν ἄνευ ὕλης τὰ πράγματα): the knowledge is the same as what it knows, not \"the universe of things\"."
+    }
+   ],
+   "notes": [
+    "\"Being is not a corpse\": Plato's Sophist (248e-249a), where the Stranger will not let real being be without motion, life, soul and thought. \"The knowledge of things without matter is the things\": Aristotle, On the soul III.4 (430a2-5) and III.7 (431a1-2)."
+   ]
+  },
+  {
+   "seg": "V.5.1.p1",
+   "chapter": "V.5.1",
+   "modern": "Would anyone say that intellect, the true and real intellect, will ever be deceived and believe what is not? Not at all. For how would it still be intellect, if it were without understanding? It must, then, always know, and never forget anything; and its knowing must not be that of one who guesses, nor doubtful, nor again as if it had heard from another. Nor, then, is it through demonstration. For even if someone says that it knows some things through demonstration, still something must be evident to it immediately, of itself; and yet the argument says that all things are. For how will anyone mark off what is immediate from what is not? But in any case, of the things they grant are immediate, where will they say their evidence comes to it from? Where will it get the assurance that they are so?",
+   "greek": "Τὸν νοῦν, τὸν ἀληθῆ νοῦν καὶ ὄντως, ἆῤ ἄν τις φαίη ψεύσεσθαί ποτε καὶ μὴ τὰ ὄντα δοξάσειν; οὐδαμῶς. πῶς γὰρ ἂν ἔτι νοῦς ἀνοηταίνων εἴη; δεῖ ἄρα αὐτὸν ἀεὶ εἰδέναι καὶ μηδ’ ἂν ἐπιλαθέσθαι ποτέ, τὴν δὲ εἴδησιν αὐτῷ μήτε εἰκάζοντι εἶναι μήτε ἀμφίβολον μηδ’ αὖ παῤ ἄλλου οἷον ἀκούσαντι. οὐ τοίνυν οὐδὲ δἰ ἀποδείξεως. καὶ γὰρ εἴ τινά τις φαίη δἰ ἀποδείξεως, ἀλλ’ οὖν αὐτόθεν αὐτῷ ἐναργές τι εἶναι: καίτοι ὁ λόγος φησὶ πάντα. πῶς γὰρ καὶ διοριεῖ τις τά τε αὐτόθεν τά τε μή; ἀλλ’ οὖν, ἃ συγχωροῦσιν αὐτόθεν, πόθεν φήσουσι τούτων τὸ ἐναργὲς αὐτῷ παρεῖναι; πόθεν δὲ αὐτῷ πίστιν, ὅτι οὕτως ἔχει, παρέξεται;",
+   "notes": [
+    "Porphyry tells how, when he first came to Plotinus, he wrote against him to show that the intelligible exists outside intellect; Amelius answered him, and he changed his mind (Life 18). This treatise is Plotinus' own answer. That not all knowledge can be by demonstration, but there must be first things known directly: Aristotle, Posterior Analytics I.3 (72b18-25) and II.19."
+   ]
+  },
+  {
+   "seg": "V.5.1.p2",
+   "chapter": "V.5.1",
+   "modern": "For even the things of perception, which seem to carry the most evident assurance, are distrusted, in case what seems to be their existence lies not in the underlying things but in the affections; and intellect or discursive thought is needed to judge. For even if it is granted that they are in the underlying perceptible things, which perception will grasp, what is known through perception is an image of the thing, and perception does not take the thing itself: for that stays outside.",
+   "greek": "ἐπεὶ καὶ τὰ ἐπὶ τῆς αἰσθήσεως, ἃ δὴ δοκεῖ πίστιν ἔχειν ἐναργεστάτην, ἀπιστεῖται, μή ποτε οὐκ ἐν τοῖς ὑποκειμένοις, ἀλλ’ ἐν τοῖς πάθεσιν ἔχῃ τὴν δοκοῦσαν ὑπόστασιν, καὶ νοῦ δεῖ ἢ διανοίας τῶν κρινούντων: ἐπεὶ καὶ συγκεχωρημένου ἐν τοῖς ὑποκειμένοις εἶναι αἰσθητοῖς, ὧν ἀντίληψιν ἡ αἴσθησις ποιήσεται, τό γε γιγνωσκόμενον δἰ αἰσθήσεως τοῦ πράγματος εἴδωλόν ἐστι, καὶ οὐκ αὐτὸ τὸ πρᾶγμα ἡ αἴσθησις λαμβάνει: μένει γὰρ ἐκεῖνο ἔξω.",
+   "notes": [
+    "Whether what we perceive is in the things or only in our affections (πάθη) was the sceptics' question; the Cyrenaics held that only the affections are known (Sextus Empiricus, Against the Logicians I.191-200)."
+   ]
+  },
+  {
+   "seg": "V.5.1.p3",
+   "chapter": "V.5.1",
+   "modern": "Intellect, then, knowing, and knowing the intelligibles: if it knows them as being other than itself, how would it meet them? It might not: so it might not know them, or know them only when it met them, and would not always have the knowledge. If they say that they are yoked together, what is this yoking? Then the thoughts will be imprints: and if so, brought in from outside, and blows. And how will it be imprinted, and what is the shape of such things? And thinking will be of what is outside, as perception is. And how will it differ, except by grasping smaller things? And how will it know that it has really grasped them? And how that this is good, or beautiful, or just? For each of these is other than itself, and the principles of judgement, which it would trust, are not in it, but these too are outside, and the truth is there.",
+   "greek": "ὁ δὴ νοῦς γινώσκων καὶ τὰ νοητὰ γινώσκων, εἰ μὲν ἕτερα ὄντα γινώσκει, πῶς ἂν συντύχοι αὐτοῖς; ἐνδέχεται γὰρ μή, ὥστε ἐνδέχεται μὴ γινώσκειν ἢ τότε ὅτε συνέτυχε, καὶ οὐκ ἀεὶ ἕξει τὴν γνῶσιν. εἰ δὲ συνεζεῦχθαι φήσουσι, τί τὸ συνεζεῦχθαι τοῦτο; ἔπειτα καὶ αἱ νοήσεις τύποι ἔσονται: εἰ δὲ τοῦτο, καὶ ἐπακτοὶ καὶ πληγαί. πῶς δὲ καὶ τυπώσεται, ἢ τίς τῶν τοιούτων ἡ μορφή; καὶ ἡ νόησις τοῦ ἔξω, ὥσπερ καὶ ἡ αἴσθησις. καὶ τί διοίσει ἢ τῷ σμικροτέρων ἀντιλαμβάνεσθαι; πῶς δὲ καὶ γνώσεται, ὅτι ἀντελάβετο ὄντως; πῶς δέ, ὅτι ἀγαθὸν τοῦτο ἢ ὅτι καλὸν ἢ δίκαιον; ἕκαστον γὰρ τούτων ἄλλο αὐτοῦ, καὶ οὐκ ἐν αὐτῷ αἱ τῆς κρίσεως ἀρχαί, αἷς πιστεύσει, ἀλλὰ καὶ αὗται ἔξω, καὶ ἡ ἀλήθεια ἐκεῖ.",
+   "flags": [
+    {
+     "taylor": "the intellections would be impressions, that is to say not native act but violence from without",
+     "in": "MacKenna",
+     "why": "The Greek says the thoughts would be imprints \"brought in from outside, and blows\" (ἐπακτοὶ καὶ πληγαί), the words of the theories of perception Plotinus is turning against intellect; \"not native act\" and \"violence\" are MacKenna's gloss."
+    }
+   ],
+   "notes": [
+    "The imprint (τύπος) and the blow (πληγή): the Stoics made perception an imprint on the soul (Diogenes Laertius VII.45-46, 50), and the Epicureans spoke of the blows of images; Plotinus rejects imprints even for perception in IV.6.1-3."
+   ]
+  },
+  {
+   "seg": "V.5.1.p4",
+   "chapter": "V.5.1",
+   "modern": "Then, too, those things are either without perception and with no share in life and intellect, or they have intellect. And if they have intellect, both are here together, and the truth is here, and this is the first intellect; and about it we shall ask how the truth here, and the intelligible, and intellect, are: whether they are in the same and together, and yet two and different, or how.",
+   "greek": "εἶτα κἀκεῖνα ἀναίσθητα καὶ ἄμοιρα ζωῆς καὶ νοῦ, ἢ νοῦν ἔχει. καὶ εἰ νοῦν ἔχει, ἅμα ἐνταῦθα ἄμφω, καὶ τὸ ἀληθὲς ὡδί, καὶ ὁ πρῶτος νοῦς οὗτος, καὶ ἐπὶ τούτου ζητήσομεν, πῶς ἔχει ἡ ἐνταῦθα ἀλήθεια καὶ τὸ νοητὸν καὶ ὁ νοῦς, εἰ ἐν τῷ αὐτῷ μὲν καὶ ἅμα, δύο δὲ καὶ ἕτερα ἢ πῶς;"
+  },
+  {
+   "seg": "V.5.1.p5",
+   "chapter": "V.5.1",
+   "modern": "But if they are without intellect and without life, what are they? For they are certainly not propositions, nor axioms, nor sayables: for then they would themselves say something about other things, and would not be the beings themselves; as \"the just is beautiful\", when the just and the beautiful are something else. And if they say they are simple, justice apart and beauty apart, first, the intelligible will not be one thing, nor in one, but each torn apart. And where, and in what places, are they torn apart? And how will intellect meet them, running round? And how will it stay? Or how will it stay in the same? And what shape or imprint at all will they have? Unless they are like statues set up, made of gold or some other material by some sculptor or painter. But if so, the intellect that looks at them will be perception. And why is one of them justice, and another something else?",
+   "greek": "εἰ δ’ ἀνόητα καὶ ἄνευ ζωῆς, τί ὄντα; οὐ γὰρ δὴ προτάσεις οὐδὲ ἀξιώματα οὐδὲ λεκτά: ἤδη γὰρ ἂν καὶ αὐτὰ περὶ ἑτέρων λέγοι, καὶ οὐκ αὐτὰ τὰ ὄντα εἴη, οἷον τὸ δίκαιον καλόν, ἄλλου τοῦ δικαίου καὶ τοῦ καλοῦ ὄντος. εἰ δ’ ἁπλᾶ φήσουσι; δίκαιον χωρὶς καὶ καλόν, πρῶτον μὲν οὐχ ἕν τι οὐδ’ ἐν ἑνὶ τὸ νοητὸν ἔσται, ἀλλὰ διεσπασμένον ἕκαστον. καὶ ποῦ καὶ κατὰ τίνας διέσπασται τόπους; πῶς δὲ αὐτοῖς συντεύξεται ὁ νοῦς περιθέων; πῶς δὲ μενεῖ; ἢ ἐν τῷ αὐτῷ πῶς μενεῖ; τίνα δ’ ὅλως μορφὴν ἢ τύπον ἕξει; εἰ μὴ ὥσπερ ἀγάλματα ἐγκείμενα χρυσᾶ ἢ ἄλλης τινὸς ὕλης ὑπό τινος πλάστου ἢ γραφέως πεποιημένα. ἀλλ’ εἰ τοῦτο, ὁ θεωρῶν νοῦς αἴσθησις ἔσται. διὰ τί δὲ τὸ μέν ἐστι τῶν τοιούτων δικαιοσύνη, τὸ δ’ ἄλλο τι;",
+   "flags": [
+    {
+     "taylor": "They cannot be premises, axioms or predicates",
+     "in": "MacKenna",
+     "why": "The Greek λεκτά are the Stoics' \"sayables\", what a sentence says, not \"predicates\"; and Plotinus' reason is that they would say something about other things, not be the beings themselves."
+    },
+    {
+     "taylor": "the work of some unknown sculptor or graver",
+     "in": "MacKenna",
+     "why": "The Greek says \"by some sculptor or painter\" (ὑπό τινος πλάστου ἢ γραφέως); \"unknown\" is MacKenna's, and a painter is not a graver."
+    }
+   ],
+   "notes": [
+    "Propositions (προτάσεις), axioms (ἀξιώματα) and sayables (λεκτά): the Stoics' terms for what is said, which they held to be incorporeal but not real beings (Diogenes Laertius VII.63-66; Sextus Empiricus, Against the Logicians II.70)."
+   ]
+  },
+  {
+   "seg": "V.5.1.p6",
+   "chapter": "V.5.1",
+   "modern": "But the greatest point of all is this. Even if one granted, as fully as one could, that these things are outside, and that intellect looks at them as they are, it must neither have their truth, and be deceived in all it looks at. For those would be the true things: so it will look at them without having them, taking images of them in such knowledge. Not having the true, then, but taking images of the true into itself, it will have falsehoods, and nothing true. If, then, it knows that it has falsehoods, it will admit that it has no share in truth; but if it does not know this either, and thinks it has the truth when it has not, the falsehood, doubled in it, will set it far from the truth. That, I think, is why there is no truth in the senses, but opinion: because, being receptive, and being opinion because of this, it receives something other, while that from which it has what it receives is other. If, then, there is no truth in intellect, such an intellect will be neither truth, nor intellect in truth, nor intellect at all. But neither will truth be anywhere else.",
+   "greek": "μέγιστον δὲ πάντων ἐκεῖνο: εἰ γὰρ καὶ ὅτι μάλιστα δοίη τις ταῦτα ἔξω εἶναι, καὶ τὸν νοῦν αὐτὰ οὕτως ἔχοντα θεωρεῖν, ἀναγκαῖον αὐτῷ μήτε τὸ ἀληθὲς αὐτῶν ἔχειν διεψεῦσθαί τε ἐν ἅπασιν οἷς θεωρεῖ. τὰ μὲν γὰρ ἀληθινὰ ἂν εἴη ἐκεῖνα: θεωρήσει τοίνυν αὐτὰ οὐκ ἔχων αὐτά, εἴδωλα δὲ αὐτῶν ἐν τῇ γνώσει τῇ τοιαύτῃ λαβών. τὸ τοίνυν ἀληθινὸν οὐκ ἔχων, εἴδωλα δὲ τοῦ ἀληθοῦς παῤ αὑτῷ λαβών, τὰ ψευδῆ ἕξει καὶ οὐδὲν ἀληθές. εἰ μὲν οὖν εἰδήσει, ὅτι τὰ ψευδῆ ἔχει, ὁμολογήσει ἄμοιρος ἀληθείας εἶναι: εἰ δὲ καὶ τοῦτο ἀγνοήσει, καὶ οἰήσεται τὸ ἀληθὲς ἔχειν οὐκ ἔχων, διπλάσιον ἐν αὐτῷ τὸ ψεῦδος γενόμενον πολὺ τῆς ἀληθείας αὐτὸν ἀποστήσει. διὰ τοῦτο γὰρ καὶ ἐν ταῖς αἰσθήσεσιν, οἶμαι, οὐκ ἔνεστιν ἀλήθεια, ἀλλὰ δόξα, ὅτι παραδεχομένη καὶ διὰ τοῦτο δόξα οὖσα ἄλλο παραδέχεται ἄλλου ὄντος ἐκείνου, ἐξ οὗ τοῦτο ὃ παραδέχεται ἔχει. εἰ οὖν μὴ ἀλήθεια ἐν τῷ νῷ, οὗτος μὲν ὁ τοιοῦτος νοῦς οὔτε ἀλήθεια ἔσται, οὔτε ἀληθείᾳ νοῦς, οὔτε ὅλως νοῦς ἔσται. ἀλλ’ οὐδὲ ἄλλοθί που ἡ ἀλήθεια ἔσται.",
+   "flags": [
+    {
+     "taylor": "belief is our lief",
+     "in": "MacKenna",
+     "why": "The Greek gives a reason, not a pun: opinion is \"receptive\" (παραδεχομένη), and receives one thing while the thing it comes from is another."
+    }
+   ],
+   "notes": [
+    "The doubled falsehood, of being wrong and not knowing it, is Socrates' \"double ignorance\" (Plato, Sophist 229c; Laws IX 863c)."
+   ]
+  },
+  {
+   "seg": "V.5.2.p1",
+   "chapter": "V.5.2",
+   "modern": "We must not, then, look for the intelligibles outside, nor say that there are imprints of the beings in intellect, nor, by robbing it of truth, make the intelligibles unknown and non-existent, and, further, abolish intellect itself. But if we must bring in knowledge and truth, and keep the beings safe, and the knowledge of what each thing is, and not of what quality each thing is (which would hold an image and a trace of it, and not have the things, and be with them and blended with them), all things must be given to true intellect.",
+   "greek": "οὐ τοίνυν δεῖ οὔτε ἔξω τὰ νοητὰ ζητεῖν, οὔτε τύπους ἐν τῷ νῷ τῶν ὄντων λέγειν εἶναι, οὔτε τῆς ἀληθείας ἀποστεροῦντας αὐτὸν ἀγνωσίαν τε τῶν νοητῶν ποιεῖν καὶ ἀνυπαρξίαν καὶ ἔτι αὐτὸν τὸν νοῦν ἀναιρεῖν: ἀλλ’ εἴπερ καὶ γνῶσιν δεῖ καὶ ἀλήθειαν εἰσάγειν καὶ τὰ ὄντα τηρεῖν καὶ γνῶσιν τοῦ τί ἕκαστόν ἐστιν, ἀλλὰ μὴ τοῦ ποῖόν τι ἕκαστον, ἅτε εἴδωλον αὐτοῦ καὶ ἴχνος ἴσχοντας, ἀλλὰ μὴ αὐτὰ ἔχοντας καὶ συνόντας καὶ συγκραθέντας αὐτοῖς, τῷ ἀληθινῷ νῷ δοτέον τὰ πάντα.",
+   "notes": [
+    "The knowledge of \"what each thing is\" (τί ἐστι), against that of \"what quality\" (ποῖόν τι): Plato's Seventh Letter (343b-c) and Meno (71b)."
+   ]
+  },
+  {
+   "seg": "V.5.2.p2",
+   "chapter": "V.5.2",
+   "modern": "For so it would know, and know truly, and would not forget nor go round searching; and truth will be in it, and it will be the seat of the beings, and they will live and think. All this must belong to the most blessed nature: else where will what is honourable and august be?",
+   "greek": "οὕτω γὰρ ἂν καὶ εἰδείη, καὶ ἀληθινῶς εἰδείη, καὶ οὐδ’ ἂν ἐπιλάθοιτο οὐδ’ ἂν περιέλθοι ζητῶν, καὶ ἡ ἀλήθεια ἐν αὐτῷ καὶ ἕδρα ἔσται τοῖς οὖσι καὶ ζήσεται καὶ νοήσει. ἃ δὴ πάντα περὶ τὴν μακαριωτάτην φύσιν δεῖ ὑπάρχειν: ἢ ποῦ τὸ τίμιον καὶ σεμνὸν ἔσται;",
+   "notes": [
+    "Plato's Sophist asks whether being can be \"august and holy\" (σεμνὸν καὶ ἅγιον) without intellect, life and soul (249a)."
+   ]
+  },
+  {
+   "seg": "V.5.2.p3",
+   "chapter": "V.5.2",
+   "modern": "And so, again, it needs no demonstration, nor assurance that it is so: for it is itself so, and evident to itself; and if there is something before it, it is evident to it that it comes from that; and if anything after that, that it is itself; and no one is more to be trusted by it about itself; and that it is there, and really. So the real truth too agrees not with another, but with itself; and it says nothing besides itself, and it is, and what it is, that it also says. Who, then, could refute it? And from where will he bring the refutation? For the refutation brought comes to the same as what was said first; and even if he brings it as something else, it is carried back to the one who spoke in the beginning, and is one: for he could not find anything truer than the true.",
+   "greek": "καὶ γὰρ αὖ οὕτως οὐδ’ ἀποδείξεως δεῖ οὐδὲ πίστεως, ὅτι οὕτως: αὐτὸς γὰρ οὕτως καὶ ἐναργὴς αὐτὸς αὑτῷ, καὶ εἴ τι πρὸ αὐτοῦ, ὅτι ἐξ αὐτοῦ, καὶ εἴ τι μετ’ ἐκεῖνο, ὅτι αὐτός, καὶ οὐδεὶς πιστότερος αὐτῷ περὶ αὐτοῦ, καὶ ὅτι ἐκεῖ τοῦτο καὶ ὄντως. ὥστε καὶ ἡ ὄντως ἀλήθεια οὐ συμφωνοῦσα ἄλλῳ, ἀλλ’ ἑαυτῇ, καὶ οὐδὲν παῤ αὑτὴν ἄλλο λέγει καὶ ἔστι καὶ ὃ ἔστι τοῦτο καὶ λέγει. τίς ἂν οὖν ἐλέγξειε; καὶ πόθεν οἴσει τὸν ἔλεγχον; εἰς γὰρ ταὐτὸν ὁ φερόμενος ἔλεγχος τῷ προειπόντι, κἂν κομίσῃ ὡς ἄλλο, φέρεται εἰς τὸν ἐξ ἀρχῆς εἰπόντα καὶ ἕν ἐστιν: οὐ γὰρ ἄλλο ἀληθέστερον ἂν εὕροι τοῦ ἀληθοῦς.",
+   "flags": [
+    {
+     "taylor": "Thus veritable truth is not accordance with an external ; it is selfaccordance",
+     "in": "MacKenna",
+     "why": "The Greek says it \"agrees not with another, but with itself\" (οὐ συμφωνοῦσα ἄλλῳ, ἀλλ’ ἑαυτῇ); a fair sense, but MacKenna's \"it affirms and is nothing other than itself and is nothing other\" doubles the Greek, which says it \"says nothing besides itself, and is, and says what it is\"."
+    }
+   ],
+   "notes": [
+    "Truth that agrees with itself (συμφωνεῖν): Socrates in the Phaedo tests what \"agrees\" with his hypothesis (100a); for Plotinus the agreement is intellect's with itself, not a thought's with a thing outside."
+   ]
+  },
+  {
+   "seg": "V.5.3.p1",
+   "chapter": "V.5.3",
+   "modern": "One nature, then, is this for us: intellect, all the beings, the truth. If so, it is a great god; or rather, not some god, but it thinks fit to be all these. And this nature is a god, a second god, showing itself before one sees that one. And that one sits above, and is set above it, as on a base so beautiful, which hangs from him. For as he went, he must not step on something without soul, nor straight away on soul, but there must be an immense beauty going before him; as before a great king, in his processions, the lesser go first, and always the greater and more august after them, and those about the king already more kingly, then those honoured after him; and after all these the great king himself suddenly appears, and they pray and bow down, all who did not go away before, content with what they saw before the king.",
+   "greek": "μία τοίνυν φύσις αὕτη ἡμῖν ʽνοῦσ̓, τὰ ὄντα πάντα ʽἡ ἀλήθειἀ: εἰ δέ, θεός τις μέγας: μᾶλλον δὲ οὐ τίς, ἀλλὰ πᾶς ἀξιοῖ ταῦτα εἶναι. καὶ θεὸς αὕτη ἡ φύσις, καὶ θεὸς δεύτερος προφαίνων ἑαυτὸν πρὶν ὁρᾶν ἐκεῖνον: ὁ δὲ ὑπερκάθηται καὶ ὑπερίδρυται ἐπὶ καλῆς οὕτως οἷον κρηπῖδος, ἣ ἐξ αὐτοῦ ἐξήρτηται. ἔδει γὰρ ἐκεῖνον βαίνοντα μὴ ἐπ’ ἀψύχου τινὸς μηδ’ αὖ ἐπὶ ψυχῆς εὐθὺς βεβηκέναι, ἀλλ’ εἶναι αὐτῷ κάλλος ἀμήχανον πρὸ αὐτοῦ προιόν, οἷον πρὸ μεγάλου βασιλέως πρόεισι μὲν πρῶτα ἐν ταῖς προόδοις τὰ ἐλάττω, ἀεὶ δὲ τὰ μείζω καὶ τὰ σεμνότερα ἐπ’ αὐτοῖς, καὶ τὰ περὶ βασιλέα ἤδη μᾶλλον βασιλικώτερα, εἶτα τὰ μετ’ αὐτὸν τίμια: ἐφ̓ ἅπασι δὲ τούτοις βασιλεὺς προφαίνεται ἐξαίφνης αὐτὸς ὁ μέγας, οἱ δ’ εὔχονται καὶ προσκυνοῦσιν, ὅσοι μὴ προαπῆλθον ἀρκεσθέντες τοῖς πρὸ τοῦ βασιλέως ὀφθεῖσιν.",
+   "flags": [
+    {
+     "taylor": "but the Godhead entire",
+     "in": "MacKenna",
+     "why": "The Greek says it is \"not some god, but thinks fit to be all these\" (οὐ τίς, ἀλλὰ πᾶς ἀξιοῖ ταῦτα εἶναι): all the beings, the truth, intellect, not \"the Godhead\"."
+    },
+    {
+     "taylor": "it will be heralded by some ineffable beauty",
+     "in": "MacKenna",
+     "why": "The Greek says an immense beauty (κάλλος ἀμήχανον) must \"go before him\"; \"ineffable\" belongs to the One, not to the beauty of intellect that goes before it."
+    }
+   ],
+   "notes": [
+    "\"An immense beauty\" (ἀμήχανον κάλλος): Plato's words for the Good in the Republic (VI 509a). The procession of the great king is the Persian king's, which the treatise On the cosmos ascribed to Aristotle also uses of god (398a10-b6)."
+   ]
+  },
+  {
+   "seg": "V.5.3.p2",
+   "chapter": "V.5.3",
+   "modern": "There, the king is one thing, and those who go before him other things. But the king there does not rule over strangers, but has the most just rule, and by nature, and the true kingship, since he is king of truth, and by nature lord of his own offspring all together, and of a divine company; king of kings, and father of gods, as he might more justly be called; whom Zeus imitated in this too, not putting up with the contemplation of his own father, but turning to his grandfather's activity, as it were, towards the existence of substance.",
+   "greek": "ἐκεῖ μὲν οὖν ὁ βασιλεὺς ἄλλος, οἵ τε πρὸ αὐτοῦ προιόντες ἄλλοι αὐτοῦ: ὁ δὲ ἐκεῖ βασιλεὺς οὐκ ἀλλοτρίων ἄρχων, ἀλλ’ ἔχων τὴν δικαιοτάτην καὶ φύσει ἀρχὴν καὶ τὴν ἀληθῆ βασιλείαν, ἅτε τῆς ἀληθείας βασιλεὺς καὶ ὢν κατὰ φύσιν κύριος τοῦ αὑτοῦ ἀθρόου γεννήματος καὶ θείου συντάγματος, βασιλεὺς βασιλέων καὶ πατὴρ δικαιότερον ἂν κληθεὶς θεῶν, ὃν ὁ Ζεὺς καὶ ταύτῃ ἐμιμήσατο, τὴν τοῦ ἑαυτοῦ πατρὸς οὐκ ἀνασχόμενος θεωρίαν, ἀλλὰ τὴν τοῦ προπάτορος οἷον ἐνέργειαν εἰς ὑπόστασιν οὐσίας.",
+   "flags": [
+    {
+     "taylor": "holding sway by all reason over a dense offspring his own",
+     "in": "MacKenna",
+     "why": "The Greek says he is \"by nature lord\" (κατὰ φύσιν κύριος) of his own offspring gathered together; \"by all reason\" and \"dense\" are not in it."
+    },
+    {
+     "taylor": "[Interpolation : —Zeus",
+     "in": "MacKenna",
+     "why": "MacKenna sets the sentence on Zeus apart as an interpolation; Volkmann's Greek, the Workshop's, prints it as part of Plotinus' sentence, and the modern version keeps it there."
+    }
+   ],
+   "notes": [
+    "Plotinus reads Hesiod's gods as his hypostases: Ouranos the One, Kronos intellect, Zeus soul (V.1.7, V.8.12-13), with Plato's Cratylus on their names (396b-c). \"King of all\" and \"father\": Plato's Second Letter (312e) and Sixth (323d)."
+   ]
+  },
+  {
+   "seg": "V.5.4.p1",
+   "chapter": "V.5.4",
+   "modern": "That we must make the ascent to one, and truly one, not one as the other things are, which, being many, are one by sharing in one; that we must take what is not one by sharing, nor what is no more one than many; and that the intelligible world and intellect are more one than the others, and nothing is nearer to the one itself, and yet it is not the purely one: this has been said.",
+   "greek": "ὅτι μὲν οὖν δεῖ τὴν ἀναγωγὴν ποιήσασθαι εἰς ἓν καὶ ἀληθῶς ἕν, ἀλλὰ μὴ ὥσπερ τὰ ἄλλα ἕν, ἃ πολλὰ ὄντα μετοχῇ ἑνὸς ἕν: δεῖ δὲ τὸ μὴ μετοχῇ ἓν λαβεῖν μηδὲ τὸ οὐ μᾶλλον ἓν ἢ πολλά: καὶ ὅτι ὁ μὲν νοητὸς κόσμος καὶ ὁ νοῦς μᾶλλον ἕν τῶν ἄλλων, καὶ οὐδὲν ἐγγυτέρω αὐτοῦ τοῦ ἑνός, οὐ μὴν τὸ καθαρῶς ἕν, εἴρηται."
+  },
+  {
+   "seg": "V.5.4.p2",
+   "chapter": "V.5.4",
+   "modern": "But what the purely one is, and really, and not one by reference to something else, we long now to see, if in any way we can. Here, then, one must dart towards one, and add nothing more to it, but stand altogether still, afraid to stand off from it even the least, or to go forward into two. If not, you have two: not ones among which is the one, but both of them later. For it does not want to be counted along with another, whether one or any number at all, nor to be counted at all: for it is the measure and not measured, and not equal to the others, so as to be with them; else there will be something common to it and to the things counted with it, and that will be before it; but there must be nothing.",
+   "greek": "τί δὲ τὸ καθαρῶς ἓν καὶ ὄντως καὶ οὐ κατ’ ἄλλο, νῦν θεάσασθαι ποθοῦμεν, εἴ πῃ δυνατόν. χρὴ τοίνυν ἐνταῦθα ἀίξαι πρὸς ἕν, καὶ μηδὲν αὐτῷ ἔτι προσθεῖναι, ἀλλὰ στῆναι παντελῶς δεδιότα αὐτοῦ ἀποστατῆσαι μηδὲ τοὐλάχιστον μηδὲ εἰς δύο προελθεῖν. εἰ δὲ μή, ἔσχες δύο, οὐκ ἐν οἷς τὸ ἕν, ἀλλ’ ἄμφω ὕστερα. οὐ γὰρ θέλει μετ’ ἄλλου οὔτε ἑνὸς οὔτε ὁποσουοῦν συναριθμεῖσθαι, οὐδ’ ὅλως ἀριθμεῖσθαι: μέτρον γὰρ αὐτὸ καὶ οὐ μετρούμενον, καὶ τοῖς ἄλλοις δὲ οὐκ ἴσον, ἵνα σὺν αὐτοῖς ᾖ: εἰ δὲ μή, κοινόν τι ἔσται ἐπ’ αὐτοῦ καὶ τῶν συναριθμουμένων, κἀκεῖνο πρὸ αὐτοῦ: δεῖ δὲ μηδέν.",
+   "flags": [
+    {
+     "taylor": "for if we fail of the centre",
+     "in": "MacKenna",
+     "why": "The Greek says only \"if not, you have two\" (εἰ δὲ μή, ἔσχες δύο); the centre is MacKenna's image."
+    }
+   ],
+   "notes": [
+    "\"Measure and not measured\": in Plato's Laws god is \"the measure of all things\" (IV 716c), against Protagoras' man."
+   ]
+  },
+  {
+   "seg": "V.5.4.p3",
+   "chapter": "V.5.4",
+   "modern": "For not even substantial number is said of it, nor indeed the number after this, the number of quantity. Substantial number is the one that always gives being to thinking; the number of quantity is the one that gives the quantity, with other things or without other things, if this is number. For the nature in the things of the number of quantity, looking to the one, their principle, imitates the nature in the prior numbers, which looks to the really one; it does not spend the one, nor cut it into coins, to have its existence; but when a dyad has come to be, there is the monad before the dyad, and it is not either of the units in the dyad, nor the other one. For why that one rather than the other? If, then, it is neither of them, but that one, it both stays and does not stay.",
+   "greek": "οὐδὲ γὰρ οὐδ’ ὁ οὐσιώδης ἀριθμὸς κατ’ αὐτοῦ, οὐδέ γε ὁ ὕστερος τούτου, ὁ τοῦ ποσοῦ: οὐσιώδης μὲν ὁ τῷ νοεῖν εἶναι ἀεὶ παρέχων, τοῦ δὲ ποσοῦ ὁ τὸ ποσὸν μετ’ ἄλλων ἢ ὅ τι μὴ μετ’ ἄλλων, εἴπερ ἀριθμὸς τοῦτο. ἐπεὶ καὶ ἡ ἐν τοῖς τοῦ ποσοῦ ἀριθμοῦ πρὸς τὸ ἓν τὴν ἀρχὴν αὐτῶν ἀπομιμουμένη τὴν ἐν τοῖς προτέροις ἀριθμοῖς φύσις πρὸς τὸ ὄντως ἓν οὐκ ἀναλίσκουσα τὸ ἓν οὐδὲ κερματίζουσα τὴν ὑπόστασιν ἔχει, ἀλλὰ δυάδος γενομένης ἔστι μονὰς ἡ πρὸ τῆς δυάδος, καὶ οὐχ ἡ ἐν τῇ δυάδι μονὰς ἑκατέρα οὐδ’ ἑτέρα ἐκείνη. τί γὰρ μᾶλλον ὁποτεραοῦν; εἰ οὖν μηδετέρα αὐτῶν ἀλλ’ ἐκείνη, καὶ μένουσα οὐ μένει.",
+   "flags": [
+    {
+     "taylor": "essential number first appears as providing duration to the divine Intellection",
+     "in": "MacKenna",
+     "why": "The Greek phrase (ὁ τῷ νοεῖν εἶναι ἀεὶ παρέχων) is hard, and MacKenna's \"first appears\" and \"divine\" are his; it says that substantial number always gives being to thinking, or to the intelligibles in intellect's thinking."
+    }
+   ],
+   "notes": [
+    "Substantial number (οὐσιώδης ἀριθμός), the number that is in the forms and makes them many, against the number we count with: VI.6.9 and 16. \"Cut into coins\" (κερματίζουσα): the word Plato's Socrates uses of those who would cut the one into small change (Republic VII 525e)."
+   ]
+  },
+  {
+   "seg": "V.5.4.p4",
+   "chapter": "V.5.4",
+   "modern": "How, then, are those two different? And how is the dyad one? And is it the same one that is in each of the two it contains? Or we must say that they share in the first, but are other than what they share in; and that the dyad too shares, in so far as it is one, but not in the same way: for an army and a house are not one in like manner. And the dyad is not one as a continuous thing is, either in the way it is one or in its quantity.",
+   "greek": "πῶς οὖν ἕτεραι ἐκεῖναι; καὶ πῶς ἡ δυὰς ἕν; καὶ εἰ ταὐτὸ ἕν, ὅπερ ἐν ἑκατέρᾳ τῇ περιεχομένῃ; ἢ μετέχειν τῆς πρώτης φατέον, ἄλλας δὲ ἧς μετέχουσι, καὶ τὴν δυάδα δέ, καθ̓ ὃ ἕν, μετέχειν, οὐχ ὡσαύτως δέ: ἐπεὶ οὐδὲ ὁμοίως στρατὸς ἓν καὶ οἰκία. καὶ αὕτη πρὸς τὸ συνεχὲς οὔτε κατὰ τὸ ὡς εἶναι ἕν, οὔτε κατὰ τὸ ποσὸν ἕν.",
+   "flags": [
+    {
+     "taylor": "the dyad, as a thing of extension, is not strictly a unit",
+     "in": "MacKenna",
+     "why": "The Greek compares the dyad with the continuous (πρὸς τὸ συνεχές) and says it is not one as the continuous is; it does not make the dyad a thing of extension."
+    }
+   ]
+  },
+  {
+   "seg": "V.5.4.p5",
+   "chapter": "V.5.4",
+   "modern": "Are the units in the five and in the ten, then, different, while the one in the five is the same as the one in the ten? Or, if every ship is one in relation to every ship, the small to the large, and city to city, and army to army, the one is the same here too; and if not there, not here either. But if there are some difficulties about these things, later.",
+   "greek": "ἆῤ οὖν αἱ μὲν μονάδες ἄλλως αἱ ἐν πεντάδι καὶ δεκάδι, τὸ δὲ ἓν τὸ ἐν τῇ πεντάδι πρὸς τὸ ἓν τὸ ἐπὶ τῆς δεκάδος τὸ αὐτό; ἤ, εἰ ναῦς πᾶσα πρὸς πᾶσαν, μικρὰ πρὸς μεγάλην, καὶ πόλις πρὸς πόλιν, καὶ στρατὸς πρὸς στρατόν, ταὐτὸ ἓν καὶ ἐνταῦθα. εἰ δὲ μηδ’ ἐκεῖ, οὐδ’ ἐνταῦθα: εἰ γάρ τινες περὶ τούτων ἀπορίαι, ὕστερον.",
+   "notes": [
+    "Whether the units of different numbers are the same or \"incomparable\" was argued in the Academy; Aristotle sets out the views in Metaphysics M.6-8 (1080a15-1083a17)."
+   ]
+  },
+  {
+   "seg": "V.5.5.p1",
+   "chapter": "V.5.5",
+   "modern": "But we must go back to what we were saying, that the first stays the same even if other things come to be from it. In numbers, then, while the one stays, and something else makes, number comes to be according to the one; but in what is before the beings, the one stays much more; and while it stays, it is not something else that makes the beings according to it, but it is enough itself to beget the beings.",
+   "greek": "ἀλλ’ ἐπ’ ἐκεῖνο ἐπανιτέον λέγουσιν, ὅτι μένει τὸ πρῶτον τὸ αὐτό, κἂν ἐξ αὐτοῦ γίνηται ἕτερα. ἐν μὲν οὖν τοῖς ἀριθμοῖς μένοντος μὲν τοῦ ἕν, ποιοῦντος δὲ ἄλλου, ὁ ἀριθμὸς γίνεται κατ’ αὐτὸ τὸ ἕν, ἐν δὲ τῷ ὅ ἐστι πρὸ τῶν ὄντων μένει μὲν πολὺ μᾶλλον τὸ ἕν: μένοντος δὲ αὐτοῦ οὐκ ἄλλο ποιεῖ κατ’ αὐτὸ τὰ ὄντα, ἀλλ’ ἀρκεῖ αὐτὸ γεννῆσαι τὰ ὄντα."
+  },
+  {
+   "seg": "V.5.5.p2",
+   "chapter": "V.5.5",
+   "modern": "And as there, in numbers, the form of the monad was on them all, first and second, and the numbers after it did not each share in it equally, so here too each of the things after the first has something of it in itself, like a form. And there the sharing gave them their quantity, but here the trace of the one gave them their substance, so that being is a trace of the one. And if someone said that this word \"being\" (einai) came from \"one\" (hen), he would perhaps hit on the truth.",
+   "greek": "καὶ ὥσπερ ἐκεῖ ἐπὶ τῶν ἀριθμῶν ἦν τῆς μονάδος ἐπὶ πᾶσιν εἶδος πρώτως καὶ δευτέρως, καὶ οὐκ ἐπ’ ἴσης ἑκάστου μεταλαμβάνοντος τῶν ὑστέρων αὐτῆς, οὕτω καὶ ἐνταῦθα ἕκαστον μὲν τῶν μετὰ τὸ πρῶτον ἔχει τι ἐκείνου οἷον εἶδος ἐν αὑτῷ. κἀκεῖ μὲν ἡ μετάληψις τὸ ποσὸν ὑπέστησεν αὐτῶν, ἐνταῦθα δὲ τὸ ἴχνος τοῦ ἑνὸς τὴν οὐσίαν αὐτοῖς ὑπεστήσατο, ὥστ̓ εἶναι τὸ εἶναι ἴχνος ἑνός. καὶ τὸ εἶναι δὲ τοῦτο ἀπὸ τοῦ ἓν εἴ τις λέγοι γεγονέναι, τάχα ἂν τύχοι τοῦ ἀληθοῦς.",
+   "notes": [
+    "The wordplay, einai from hen, and below on and hen, ousia and hestia, follows Plato's Cratylus, where ousia (\"substance\") is said to have been called essia or ōsia, near hestia (\"hearth\"), so that the hearth is the substance of things (401c-d)."
+   ]
+  },
+  {
+   "seg": "V.5.5.p3",
+   "chapter": "V.5.5",
+   "modern": "For this, what is called being, first came out from there, advanced a little, as it were, and did not want to go further, but turned inward and stood, and became the substance and the hearth of all things: as when a speaker presses hard on the sound, \"hen\" is produced, showing what comes from the one, while \"on\" signifies what uttered it, as best it can. So what came to be, and being, have an imitation, since they have flowed from its power; and the soul that saw, and was moved by the sight, imitating what it saw, broke out with the sounds \"on\", \"einai\", \"ousia\" and \"hestia\". For these sounds want to signify the existence of what was begotten by the birth-pangs of the one that utters them, imitating, as far as they can, the coming to be of being.",
+   "greek": "τὸ γάρ τοι λεγόμενον ὂν τοῦτο πρῶτον ἐκεῖθεν οἷον ὀλίγον προβεβηκὸς οὐκ ἠθέλησεν ἔτι πρόσω ἐλθεῖν, μεταστραφὲν δὲ εἰς τὸ εἴσω ἔστη, καὶ ἐγένετο οὐσία καὶ ἑστία ἁπάντων: οἷον ἐναπερείσαντος ἐν φθόγγῳ αὑτὸν τοῦ φωνοῦντος ὑφίσταται τὸ ἓν δηλοῦν τὸ ἀπὸ τοῦ ἑνὸς καὶ τὸ ὂν σημαῖνον τὸ φθεγξάμενον, ὡς δύναται. οὕτω τοι τὸ μὲν γενόμενον καὶ τὸ εἶναι μίμησιν ἔχοντα ἐκ τῆς δυνάμεως αὐτοῦ ῥυέντα: ἡ δὲ ἰδοῦσα καὶ ἐπικινηθεῖσα τῷ θεάματι μιμουμένη ὃ εἶδεν ἔρρηξε φωνὴν τὸ ὂν καὶ τὸ εἶναι καὶ οὐσίαν καὶ ἑστίαν. οὗτοι γὰρ οἱ φθόγγοι θέλουσι σημῆναι τὴν ὑπόστασιν τοῦ γεννηθέντος ὠδῖνι τοῦ φθεγγομένου ἀπομιμούμενοι, ὡς οἷόν τε αὐτοῖς, τὴν γένεσιν τοῦ ὄντος.",
+   "flags": [
+    {
+     "taylor": "sounds which labour to express the essential nature of the universe",
+     "in": "MacKenna",
+     "why": "The Greek says the sounds signify \"the existence of what was begotten\" (τὴν ὑπόστασιν τοῦ γεννηθέντος), being, not \"the universe\"."
+    },
+    {
+     "taylor": "that Being (the weaker) is that which proceeds from (the stronger), The One",
+     "in": "MacKenna",
+     "why": "\"The weaker\" and \"the stronger\" are MacKenna's; the Greek's point is the breathing: on, pressed hard with the rough breathing, sounds hen, so that being shows it came from the one."
+    }
+   ],
+   "notes": [
+    "In Greek ὄν (\"being\") and ἕν (\"one\") differ in the breathing, the sound h, and in the vowel; pressing on the sound turns the one into the other."
+   ]
+  },
+  {
+   "seg": "V.5.6.p1",
+   "chapter": "V.5.6",
+   "modern": "But let these things be said as one wishes. Since the substance that came to be is form (for one would not say that what came from there is anything else), and form not of something but of all, so as to leave nothing else out, that one must be formless. And being formless, it is not a substance: for a substance must be a \"this\", and this is defined; but that one cannot be taken as a \"this\": for then it would not be the principle, but only that which you have called \"this\". If, then, all things are in what came to be, which of the things in it will you say that one is? Being none of them, it could only be said to be beyond them. But these are the beings, and being: so it is beyond being.",
+   "greek": "ἀλλὰ ταῦτα μέν, ὥς τις ἐθέλει, λελέχθω. τῆς δὲ γενομένης οὐσίας εἴδους οὔσης — οὐ γὰρ δή τι ἄλλο ἅν τις εἴποι τὸ ἐκεῖθεν γενόμενον — καὶ εἴδους οὐ τινός, ἀλλὰ παντός, ὡς μὴ ἂν ὑπολιπεῖν τι ἄλλο, ἀνάγκη ἀνείδεον ἐκεῖνο εἶναι. ἀνείδεον δὲ ὂν οὐκ οὐσία: τόδε γάρ τι δεῖ τὴν οὐσίαν εἶναι: τοῦτο δὲ ὡρισμένον: τὸ δὲ οὐκ ἔστι λαβεῖν ὡς τόδε: ἤδη γὰρ οὐκ ἀρχή, ἀλλ’ ἐκεῖνο μόνον, ὃ τόδε εἴρηκας εἶναι. εἰ οὖν τὰ πάντα ἐν τῷ γενομένῳ, τί τῶν ἐν τούτῳ ἐκεῖνο ἐρεῖς; οὐδὲν δὲ τούτων ὂν μόνον ἂν λέγοιτο ἐπέκεινα τούτων. ταῦτα δὲ τὰ ὄντα καὶ τὸ ὄν: ἐπέκεινα ἄρα ὄντος.",
+   "notes": [
+    "A \"this\" (τόδε τι), Aristotle's mark of a substance (Categories 5, 3b10-13; Metaphysics Z.3, 1029a27-28)."
+   ]
+  },
+  {
+   "seg": "V.5.6.p2",
+   "chapter": "V.5.6",
+   "modern": "For \"beyond being\" does not say \"this\", for it does not posit, nor does it say its name, but brings only \"not this\". And doing this, it nowhere encompasses it: for it is ridiculous to seek to encompass that boundless nature; whoever wants to do this has cut himself off from going in any way, even a little, on its trace. But as one who wants to see the intelligible nature will see what is beyond the perceptible by having no image of the perceptible, so one who wants to see what is beyond the intelligible will see it by letting the whole intelligible go, learning through it that it is, but letting it go to see what it is like.",
+   "greek": "τὸ γὰρ ἐπέκεινα ὄντος οὐ τόδε λέγει — οὐ γὰρ τίθησιν — οὐδὲ ὄνομα αὐτοῦ λέγει, ἀλλὰ φέρει μόνον τὸ οὐ τοῦτο. τοῦτο δὲ ποιοῦν οὐδαμοῦ αὐτὸ περιλαμβάνει: γελοῖον γὰρ ζητεῖν ἐκείνην τὴν ἄπλετον φύσιν περιλαμβάνειν: ὁ γὰρ τοῦτο βουλόμενος ποιεῖν ἀπέστησεν αὑτὸν καὶ τοῦ ὁπωσοῦν καὶ κατὰ βραχὺ εἰς ἴχνος αὐτοῦ ἰέναι: ἀλλ’ ὥσπερ ὁ τὴν νοητὴν φύσιν βουλόμενος ἰδεῖν οὐδεμίαν φαντασίαν αἰσθητοῦ ἔχων θεάσεται ὅ ἐστιν ἐπέκεινα τοῦ αἰσθητοῦ, οὕτω καὶ ὁ θεάσασθαι θέλων τὸ ἐπέκεινα τοῦ νοητοῦ τὸ νοητὸν πᾶν ἀφεὶς θεάσεται, ὅτι μὲν ἔστι διὰ τούτου μαθών, οἷον δὲ ἔστι τοῦτο ἀφείς.",
+   "flags": [
+    {
+     "taylor": "but never seeking to define it",
+     "in": "MacKenna",
+     "why": "The Greek says one learns \"what it is like\" (οἷον δὲ ἔστι) by letting the intelligible go: MacKenna makes this a refusal to define it, where the Greek gives the way to see it."
+    }
+   ]
+  },
+  {
+   "seg": "V.5.6.p3",
+   "chapter": "V.5.6",
+   "modern": "But \"what it is like\" would signify \"not like\": for there is no \"what like\" in that which has no \"what\". But we, in our birth-pangs, are at a loss what we should say, and we speak of what cannot be spoken, and give it names, wanting to signify it to ourselves as best we can. Perhaps this name \"one\", too, contains a denial of the many. That is why the Pythagoreans signified it symbolically to one another as Apollo, by denial of the many.",
+   "greek": "τὸ δὲ οἷον σημαίνοι ἂν τὸ οὐχ οἷον: οὐ γὰρ ἔνι οὐδὲ τὸ οἷον, ὅτῳ μηδὲ τὸ τί. ἀλλὰ ἡμεῖς ταῖς ἡμετέραις ὠδῖσιν ἀποροῦμεν, ὅ τι χρὴ λέγειν, καὶ λέγομεν περὶ οὐ ῥητοῦ, καὶ ὀνομάζομεν σημαίνειν ἑαυτοῖς θέλοντες ὡς δυνάμεθα. τάχα δὲ καὶ τὸ ἓν ὄνομα τοῦτο ἄρσιν ἔχει πρὸς τὰ πολλά. ὅθεν καὶ Ἀπόλλωνα οἱ Πυθαγορικοὶ συμβολικῶς πρὸς ἀλλήλους ἐσήμαινον ἀποφάσει τῶν πολλῶν.",
+   "flags": [
+    {
+     "taylor": "we are talking of the untenable",
+     "in": "MacKenna",
+     "why": "The Greek says \"we speak of what cannot be spoken\" (λέγομεν περὶ οὐ ῥητοῦ): what is beyond speech, not what cannot be held."
+    }
+   ],
+   "notes": [
+    "Apollo read as a-pollōn, \"not of many\": Plutarch, On the E at Delphi (393b-c) and On Isis and Osiris (381f). \"Birth-pangs\" (ὠδῖνες): the soul's labour in Plato's Symposium (206d-e) and Theaetetus (148e-151b)."
+   ]
+  },
+  {
+   "seg": "V.5.6.p4",
+   "chapter": "V.5.6",
+   "modern": "If \"one\" were a positing, both the name and what it shows, it would be less clear than if one gave it no name at all. Perhaps it was said so that the seeker, starting from what most of all signifies simplicity, should end by denying this too, as posited as well as it could be by the one who posited it, but not worthy, not even this, to show that nature: because that is not something heard, nor must it be understood by one who hears, but, if by anyone, by one who sees. But if the one who sees seeks to look at a form, he will not know even this.",
+   "greek": "εἰ δὲ θέσις τις τὸ ἕν, τό τε ὄνομα τό τε δηλούμενον, ἀσαφέστερον ἂν γίγνοιτο τοῦ εἰ μή τις ὄνομα ἔλεγεν αὐτοῦ: τάχα γὰρ τοῦτο ἐλέγετο, ἵνα ὁ ζητήσας ἀρξάμενος ἀπὸ τοῦ ὃ πάντων μάλιστα ἁπλότητός ἐστι σημαντικὸν ἀποφήσῃ τελευτῶν καὶ τοῦτο, ὡς τεθὲν μὲν ὅσον οἷόν τε καλῶς τῷ θεμένῳ, οὐκ ἄξιον μὴν οὐδὲ τοῦτο εἰς δήλωσιν τῆς φύσεως ἐκείνης, ὅτι μηδὲ ἀκουστὸν ἐκεῖνο, μηδὲ τῷ ἀκούοντι δεῖ συνετὸν εἶναι, ἀλλ’ εἴπερ τινί, τῷ ὁρῶντι. ἀλλ’ εἰ τὸ ὁρῶν εἶδος ζητεῖ βλέπειν, οὐδὲ τοῦτο εἴσεται.",
+   "flags": [
+    {
+     "taylor": "there would be more truth in silence",
+     "in": "MacKenna",
+     "why": "The Greek says it \"would be less clear than if one gave it no name\" (ἀσαφέστερον ... τοῦ εἰ μή τις ὄνομα ἔλεγεν αὐτοῦ): a comparison of clearness, not of truth."
+    }
+   ]
+  },
+  {
+   "seg": "V.5.7.p1",
+   "chapter": "V.5.7",
+   "modern": "Or, since seeing in act is double too, as with the eye: for one thing is what it sees, the form of the perceptible; and another that through which it sees the form, which is itself perceptible to it, other than the form, but the cause of the form's being seen; seen together in the form and on the form, so that it does not then give a clear perception of itself, since the eye is turned to what is lit up; but when there is nothing else beside it, it sees it with a single glance, though even then it saw it resting on something else; alone by itself, and not on another, perception cannot grasp it. For even the light in the sun itself would perhaps escape perception, if a more solid mass did not lie under it. But if someone said the sun is all light, one could take this to make plain what is being said: for it will be light in no form of the other things seen, and perhaps only visible: for the other visible things are not light only.",
+   "greek": "ἢ ἐπειδὴ διττὸν καὶ τὸ ἐνεργείᾳ βλέπειν, οἷον ἐπὶ ὀφθαλμοῦ — τὸ μὲν γάρ ἐστιν ὅραμα αὐτῷ τὸ εἶδος τὸ τοῦ αἰσθητοῦ, τὸ δὲ δἰ οὗ ὁρᾷ τὸ εἶδος αὐτοῦ, ὃ καὶ αὐτὸ αἰσθητόν ἐστιν αὐτῷ, ἕτερον ὂν τοῦ εἴδους, αἴτιον δὲ τῷ εἴδει τοῦ ὁρᾶσθαι, ἐν μὲν τῷ εἴδει καὶ ἐπὶ τοῦ εἴδους συνορώμενον: διὸ οὐκ ἐναργῆ τότε δίδωσι τὴν αἴσθησιν αὑτοῦ, ἅτε τοῦ ὄμματος τετραμμένου πρὸς τὸ πεφωτισμένον: ὅταν δὲ μηδὲν ἄλλο ᾖ παῤ αὐτό, ἀθρόᾳ εἶδε προσβολῇ, καίτοι καὶ τότε εἶδεν ἐπερειδόμενον ἄλλῳ, μόνον δὲ αὐτὸ γενόμενον, μὴ πρὸς ἑτέρῳ, οὐ δύναται ἡ αἴσθησις λαβεῖν: ἐπεὶ καὶ τοῦ ἡλίου τὸ φῶς τὸ ἐν αὐτῷ τάχ̓ ἂν τὴν αἴσθησιν ἐξέφυγεν, εἰ μὴ ὄγκος ἐπέκειτο αὐτῷ στερεώτερος. εἰ δέ τις φῶς πᾶν εἶναι αὐτὸν λέγοι, τοῦτο ἄν τις λάβοι πρὸς δήλωσιν τοῦ λεγομένου: ἔσται γὰρ φῶς ἐν οὐδενὶ εἴδει τῶν ἄλλων ὁρωμένων, καὶ ἴσως ὁρατὸν μόνον: τὰ γὰρ ἄλλα ὁρατὰ οὐ φῶς μόνον.",
+   "notes": [
+    "The light by which the eye sees, a third thing between the eye and the seen: Plato's Republic VI (507d-508a); Aristotle, On the soul II.7 (418b4-20)."
+   ]
+  },
+  {
+   "seg": "V.5.7.p2",
+   "chapter": "V.5.7",
+   "modern": "So too the sight of intellect: it sees, itself, through another light the things lit up by that first nature, and it really sees in them; but inclining to the nature of the things lit up, it sees that light less. If it lets go of the things seen, and looks at that through which it saw, it would see light, and the source of light.",
+   "greek": "οὕτω τοίνυν καὶ ἡ τοῦ νοῦ ὄψις ὁρᾷ μὲν καὶ αὐτὴ δἰ ἄλλου φωτὸς τὰ πεφωτισμένα ἐκείνῃ τῇ πρώτῃ φύσει καὶ ἐν ἐκείνοις ὄντως ὁρᾷ, νεύουσα μέντοι πρὸς τὴν τῶν καταλαμπομένων φύσιν ἧττον αὐτὸ ὁρᾷ. εἰ δ’ ἀφήσει τὰ ὁρώμενα καὶ δἰ οὗ εἶδεν εἰς αὐτὸ βλέπει, φῶς ἂν καὶ φωτὸς ἀρχὴν ἂν βλέποι.",
+   "flags": [
+    {
+     "taylor": "declining towards the lower Nature, that upon which the light from above rests",
+     "in": "MacKenna",
+     "why": "The Greek says intellect inclines \"to the nature of the things lit up\" (πρὸς τὴν τῶν καταλαμπομένων φύσιν): the intelligibles it sees, not a \"lower Nature\"."
+    }
+   ]
+  },
+  {
+   "seg": "V.5.7.p3",
+   "chapter": "V.5.7",
+   "modern": "But since intellect must not see this light as something outside, we must go back to the eye, which itself sometimes will know not the outside light, nor an alien one, but before the outside one sees, in an instant, a light of its own, and more brilliant: either at night in the dark, when it leaps out from it in front of it; or when, not wanting to see any of the other things, it puts the lids before itself, and still brings forth the light; or when its owner presses it, and it sees the light in itself. For then, not seeing, it sees, and then most of all it sees: for it sees light; the other things were light-like, but were not light. So too intellect, veiling itself from the others and drawing itself inward, seeing nothing, will see a light, not another light in another thing, but itself by itself, alone, pure, on its own, appearing suddenly,",
+   "greek": "ἀλλ’ ἐπεὶ μὴ ὡς ἔξω ὂν δεῖ τὸν νοῦν τοῦτο τὸ φῶς βλέπειν, πάλιν ἐπὶ τὸν ὀφθαλμὸν ἰτέον, ὅς ποτε καὶ αὐτὸς οὐ τὸ ἔξω φῶς οὐδὲ τὸ ἀλλότριον εἴσεται, ἀλλὰ πρὸ τοῦ ἔξω οἰκεῖόν τι καὶ μᾶλλον στιλπνότερον ἐν ἀκαρεῖ θεᾶται, ἢ νύκτωρ ἐν σκότῳ πρὸ αὐτοῦ ἐξ αὐτοῦ προπηδήσαντος ἢ ὅταν μηδὲν ἐθελήσας τῶν ἄλλων βλέπειν προβάλληται πρὸ αὑτοῦ τὴν τῶν βλεφάρων φύσιν τὸ φῶς ὅμως προφέρων, ἢ καὶ πιέσαντος τοῦ ἔχοντος τὸ ἐν αὑτῷ φῶς ἴδῃ: τότε γὰρ οὐχ ὁρῶν ὁρᾷ καὶ μάλιστα τότε ὁρᾷ: φῶς γὰρ ὁρᾷ: τὰ δ’ ἄλλα φωτοειδῆ μὲν ἦν, φῶς δὲ οὐκ ἦν. οὕτω δὴ καὶ νοῦς αὑτὸν ἀπὸ τῶν ἄλλων καλύψας καὶ συναγαγὼν εἰς τὸ εἴσω μηδὲν ὁρῶν θεάσεται οὐκ ἄλλο ἐν ἄλλῳ φῶς, ἀλλ’ αὐτὸ καθ̓ αὑτὸ μόνον καθαρὸν ἐφ̓ ἑαυτοῦ ἐξαίφνης φανέν.",
+   "notes": [
+    "The light that appears when the eye is pressed and moved: Aristotle, On sense and the sensible 2 (437a23-26), and the fire within the eye in Plato's Timaeus (45b-c). \"Suddenly\" (ἐξαίφνης): the sudden sight of beauty in Plato's Symposium (210e) and of the light kindled in the soul in the Seventh Letter (341c-d)."
+   ]
+  },
+  {
+   "seg": "V.5.8.p1",
+   "chapter": "V.5.8",
+   "modern": "so that one is at a loss where it appeared from, from outside or within; and when it has gone, one says: \"So it was within; and yet again it was not within.\" Or we should not ask from where: for there is no from where. For it neither comes nor goes away anywhere, but appears and does not appear. So one must not chase it, but stay quietly until it appears, having made oneself ready to be a spectator, as the eye waits for the rising of the sun; and the sun, appearing over the horizon (\"from Ocean\", the poets say), gives itself to the eyes to see.",
+   "greek": "ὥστε ἀπορεῖν, ὅθεν ἐφάνη, ἔξωθεν ἢ ἔνδον, καὶ ἀπελθόντος εἰπεῖν ʽἔνδον ἄρα ἦν καὶ οὐκ ἔνδον αὖ. ἢ οὐ δεῖ ζητεῖν πόθεν: οὐ γάρ ἐστι τὸ πόθεν: οὔτε γὰρ ἔρχεται οὔτε ἄπεισιν οὐδαμοῦ, ἀλλὰ φαίνεταί τε καὶ οὐ φαίνεται: διὸ οὐ χρὴ διώκειν, ἀλλ’ ἡσυχῇ μένειν, ἕως ἂν φανῇ, παρασκευάσαντα ἑαυτὸν θεατὴν εἶναι, ὥσπερ ὀφθαλμὸς ἀνατολὰς ἡλίου περιμένει: ὁ δὲ ὑπερφανεὶς τοῦ ὁρίζοντος — ἐξ ὠκεανοῦ φασιν οἱ ποιηταί — ἔδωκεν ἑαυτὸν θεάσασθαι τοῖς ὄμμασιν.",
+   "flags": [
+    {
+     "taylor": "It was here. Yet no",
+     "in": "MacKenna",
+     "why": "The Greek says \"so it was within, and again not within\" (ἔνδον ἄρα ἦν καὶ οὐκ ἔνδον αὖ): the question was whether the light came from outside or within; MacKenna's \"here\" and \"beyond\" lose it."
+    }
+   ],
+   "notes": [
+    "The sun rising \"from Ocean\": Homer, Iliad VII.421-422. Waiting for the vision without chasing it: I.6.9 and VI.7.34."
+   ]
+  },
+  {
+   "seg": "V.5.8.p2",
+   "chapter": "V.5.8",
+   "modern": "But this one, whom the sun imitates, over what will he rise? And passing above what will he appear? Above the very intellect that contemplates. For intellect will stand still for the sight, looking at nothing else than the beautiful, turning itself wholly there and giving itself; and standing, and filled, as it were, with strength, it first saw itself become more beautiful and shining, as if he were near. But he did not come, as one expected, but came as not coming: for he was seen not as having come, but as present before all things, even before intellect came.",
+   "greek": "οὑτοσὶ δέ, ὃν μιμεῖται ὁ ἥλιος, ὑπερσχήσει πόθεν; καὶ τί ὑπερβαλὼν φανήσεται; ἢ αὐτὸν ὑπερσχὼν τὸν νοῦν τὸν θεώμενον: ἑστήξεται μὲν γὰρ ὁ νοῦς πρὸς τὴν θέαν εἰς οὐδὲν ἄλλο ἢ πρὸς τὸ καλὸν βλέπων, ἐκεῖ ἑαυτὸν πᾶς τρέπων καὶ διδούς, στὰς δὲ καὶ οἷον πληρωθεὶς μένους εἶδε μὲν τὰ πρῶτα καλλίω γενόμενον ἑαυτὸν καὶ ἐπιστίλβοντα, ὡς ἐγγὺς ὄντος αὐτοῦ. ὁ δὲ οὐκ ᾔει, ὥς τις προσεδόκα, ἀλλ’ ἦλθεν ὡς οὐκ ἐλθών: ὤφθη γὰρ ὡς οὐκ ἐλθών, ἀλλὰ πρὸ ἁπάντων παρών, πρὶν καὶ τὸν νοῦν ἐλθεῖν.",
+   "flags": [
+    {
+     "taylor": "gleaming in the light of that presence",
+     "in": "MacKenna",
+     "why": "The Greek says intellect \"saw itself\" become more beautiful and shining (εἶδε ... καλλίω γενόμενον ἑαυτὸν καὶ ἐπιστίλβοντα); MacKenna drops that it sees itself."
+    }
+   ],
+   "notes": [
+    "\"Filled with strength\" (πληρωθεὶς μένους): Homer's words for the hero filled with might (Iliad I.103-104, XVII.499)."
+   ]
+  },
+  {
+   "seg": "V.5.8.p3",
+   "chapter": "V.5.8",
+   "modern": "It must be intellect that came, and intellect too that goes away, because it does not know where it must stay, and where he stays, which is in nothing. And if it were possible for intellect too to stay nowhere (not that it is in a place, for it too is not in a place, but nowhere at all), it would always be seeing him; or rather not seeing, but being one with him, and not two. But as it is, because it is intellect, it sees in this way, when it sees, by what of it is not intellect.",
+   "greek": "εἶναι δὲ δεῖ τὸν νοῦν τὸν ἐλθόντα καὶ τοῦτον εἶναι καὶ τὸν ἀπιόντα, ὅτι μὴ οἶδε ποῦ μένειν δεῖ καὶ ποῦ ἐκεῖνος μένει, ὅτι ἐν οὐδενί. καὶ εἰ οἷόν τε ἦν καὶ αὐτῷ τῷ νῷ μένειν μηδαμοῦ, οὐχ ὅτι ἐν τόπῳ: οὐδὲ γὰρ οὐδ’ αὐτὸς ἐν τόπῳ, ἀλλ’ ὅλως οὐδαμοῦ: ἦν ἂν ἀεὶ ἐκεῖνον βλέπων: καίτοι οὐδὲ βλέπων, ἀλλ’ ἓν ἐκείνῳ ὢν καὶ οὐ δύο. νῦν δέ, ὅτι ἐστὶ νοῦς, οὕτω βλέπει, ὅτε βλέπει, τῷ ἑαυτοῦ μὴ νῷ.",
+   "flags": [
+    {
+     "taylor": "(by its divinest power)",
+     "in": "MacKenna",
+     "why": "The Greek says only that intellect sees \"by what of it is not intellect\" (τῷ ἑαυτοῦ μὴ νῷ); MacKenna's bracket names it, and \"(having a sphere of its own)\" before it is his too."
+    }
+   ],
+   "notes": [
+    "Intellect has two powers, one to think what is in it, and one by which it sees what is beyond it, \"intellect in love\": VI.7.35."
+   ]
+  },
+  {
+   "seg": "V.5.8.p4",
+   "chapter": "V.5.8",
+   "modern": "It is a wonder, then, how he is present without coming, and how, being nowhere, there is nowhere he is not. One may wonder at it so, at first sight; but to one who knows, the opposite, if it were so, would be the wonder; or rather it could not even be, for anyone to wonder at. It is like this.",
+   "greek": "θαῦμα δή, πῶς οὐκ ἐλθὼν πάρεστι, καὶ πῶς οὐκ ὢν οὐδαμοῦ οὐκ ἔστιν ὅπου μὴ ἔστιν. ἔστι μὲν οὖν οὑτωσὶ αὐτόθεν θαυμάσαι, τῷ δὲ γνόντι, τὸ ἐναντίον εἴπερ ἦν, θαυμάσαι: μᾶλλον δὲ οὐδὲ δυνατὸν εἶναι, ἵνα τις καὶ θαυμάσῃ. ἔχει δὲ ὧδε."
+  },
+  {
+   "seg": "V.5.9.p1",
+   "chapter": "V.5.9",
+   "modern": "Everything that comes to be by another is either in that which made it, or in another, if there is something after what made it: for since it came to be by another and needed another for its coming to be, it needs another everywhere; and so it is in another. It is the nature of things, then, that the last things are in the last of those before them, and the things among the first in the prior things, one in another, up to the first principle.",
+   "greek": "πᾶν τὸ γενόμενον ὑπ’ ἄλλου ἢ ἐν ἐκείνῳ ἐστὶ τῷ πεποιηκότι, ἢ ἐν ἄλλῳ, εἴπερ εἴη τι μετὰ τὸ ποιῆσαν αὐτό: ἅτε γὰρ γενόμενον ὑπ’ ἄλλου καὶ πρὸς τὴν γένεσιν δεηθὲν ἄλλου, ἄλλου δεῖται πανταχοῦ: διόπερ καὶ ἐν ἄλλῳ. πέφυκεν οὖν τὰ μὲν ὕστατα ἐν τοῖς πρὸ αὐτῶν ὑστάτοις, τὰ δ’ ἐν πρώτοις ἐν τοῖς προτέροις καὶ ἄλλο ἐν ἄλλῳ, ἕως εἰς τὸ πρῶτον ἀρχῆς.",
+   "flags": [
+    {
+     "taylor": "otherwise it would not be contained at all",
+     "in": "MacKenna",
+     "why": "The Greek says that what needed another to come to be \"needs another everywhere\" (ἄλλου δεῖται πανταχοῦ), and so is in another; MacKenna's \"otherwise\" is not in it."
+    }
+   ]
+  },
+  {
+   "seg": "V.5.9.p2",
+   "chapter": "V.5.9",
+   "modern": "But the principle, since it has nothing before it, has nothing other to be in; and having nothing to be in, while the others are in those before them, it itself encompasses all the others; and encompassing them, it was not scattered into them, and it holds without being held. Holding, then, and not held, there is nowhere it is not: for if it is not somewhere, it does not hold there. And if it is not held, it is not anywhere: so it is and it is not; it is not, by not being encompassed, and, by being free of everything, it is not hindered from being anywhere. For if it were hindered, it would be bounded by another, and the things after it would have no share in it, and the god would go only so far, and would no longer be by himself, but a slave to those after him.",
+   "greek": "ἀρχὴ δέ, ἅτε μηδὲν ἔχουσα πρὸ αὑτῆς, οὐκ ἔχει ἐν ὅτῳ ἄλλῳ: μὴ ἔχουσα δ’ ἐν ὅτῳ αὕτη τῶν ἄλλων ὄντων ἐν τοῖς πρὸ αὐτῶν τὰ ἄλλα περιείληφε πάντα αὐτή: περιλαβοῦσα δὲ οὔτ’ ἐσκεδάσθη εἰς αὐτὰ καὶ ἔχει οὐκ ἐχομένη. ἔχουσα δὴ καὶ αὐτὴ οὐκ ἐχομένη οὐκ ἔστιν ὅπου μὴ ἔστιν: εἰ γὰρ μὴ ἔστιν, οὐκ ἔχει. εἰ δὲ μὴ ἔχεται, οὐκ ἔστιν: ὥστε ἔστι καὶ οὐκ ἔστι, τῷ μὲν μὴ περιέχεσθαι οὐκ οὖσα, τῷ δ’ εἶναι παντὸς ἐλευθέρα οὐδαμοῦ κωλυομένη εἶναι: εἰ γὰρ αὖ κεκώλυται, ὥρισται ὑπ’ ἄλλου καὶ τὰ ἐφεξῆς ἄμοιρα αὐτοῦ καὶ μέχρι τούτου ὁ θεὸς καὶ οὐδ’ ἂν ἔτι ἐφ̓ ἑαυτοῦ, ἀλλὰ δουλεύων τοῖς μετ’ αὐτόν.",
+   "flags": [
+    {
+     "taylor": "but so as not to be pointed off to hold them part for part",
+     "in": "MacKenna",
+     "why": "The Greek says it \"was not scattered into them\" (οὔτ’ ἐσκεδάσθη εἰς αὐτά): it holds them without being dispersed among them."
+    }
+   ]
+  },
+  {
+   "seg": "V.5.9.p3",
+   "chapter": "V.5.9",
+   "modern": "The things that are in something, then, are there where they are; but what is not somewhere, there is nowhere it is not. For if it is not here, clearly another place holds it, and if it is here, it is in another: so the \"not somewhere\" is false. If, then, the \"not somewhere\" is true, and the \"somewhere\" false, so that it is not in another, it would stand off from nothing. And if it stands off from nothing, being nowhere, it will be everywhere, by itself. For not one part of it here, and another there; nor yet is the whole here: so the whole is everywhere, nothing having it, nor again not having it: everything whatever, then, is held by it.",
+   "greek": "τὰ μὲν οὖν ἔν τινι ἐκεῖ ἔστιν, οὗ ἔστιν: ὅσα δὲ μὴ ποῦ, οὐκ ἔστιν ὅπου μή. εἰ γὰρ μὴ ἐνθαδί, δῆλον ὅτι ἄλλος αὐτὸν κατέχει τόπος, καὶ εἰ ἐνθαδί, ἐν ἄλλῳ: ὥστε ψεῦδος τὸ οὐ ποῦ. εἰ οὖν ἀληθὲς τὸ οὐ ποῦ καὶ ψεῦδος τὸ ποῦ, ἵνα μὴ ἐν ἄλλῳ, οὐδενὸς ἂν ἀποστατοῖ. εἰ δὲ μηδενὸς ἀποστατεῖ οὐ ποῦ ὤν, πανταχοῦ ἔσται ἐφ̓ ἑαυτοῦ. οὐδὲ γὰρ τὸ μέν τι αὐτοῦ ὡδί, τὸ δὲ ὡδί: οὐ μὴν οὐδ’ ὅλον ὡδί: ὥστε ὅλον πανταχοῦ οὐδενὸς ἔχοντος αὐτὸ οὐδ’ αὖ μὴ ἔχοντος: ἐχομένου ἄρα ὁτουοῦν.",
+   "flags": [
+    {
+     "taylor": "God is sovranly present through all",
+     "in": "MacKenna",
+     "why": "The Greek says \"it will be everywhere by itself\" (πανταχοῦ ἔσται ἐφ’ ἑαυτοῦ); \"God\", here and in the next sentence, is MacKenna's, as is \"sovranly\"."
+    }
+   ]
+  },
+  {
+   "seg": "V.5.9.p4",
+   "chapter": "V.5.9",
+   "modern": "Look at the cosmos too: since there is no cosmos before it, it is not in a cosmos, nor again in a place: for what place was there before there was a cosmos? Its parts hang from it, and are in it. But soul is not in the cosmos; the cosmos is in soul: for body is not a place for soul, but soul is in intellect, and body in soul, and intellect in another; and there is nothing other than this, for it to be in: so it is not in anything whatever. In this way, then, it is nowhere. Where, then, are the others? In it. So it neither stands apart from the others, nor is it in them, nor is there anything that has it, but it has all things. That is why, in this way too, it is the good of all things: because it is, and all things hang from it, each in its own way. That is why some things are better than others: because some are more than others.",
+   "greek": "ὅρα δὲ καὶ τὸν κόσμον, ὅτι, ἐπεὶ μηδεὶς κόσμος πρὸ αὐτοῦ, οὐκ ἐν κόσμῳ αὐτὸς οὐδ’ αὖ ἐν τόπῳ: τίς γὰρ τόπος πρὶν κόσμον εἶναι; τὰ δὲ μέρη ἀνηρτημένα εἰς αὐτὸν καὶ ἐν ἐκείνῳ. ψυχὴ δὲ οὐκ ἐν ἐκείνῳ, ἀλλ’ ἐκεῖνος ἐν αὐτῇ: οὐδὲ γὰρ τόπος τὸ σῶμα τῇ ψυχῇ, ἀλλὰ ψυχὴ μὲν ἐν νῷ, σῶμα δὲ ἐν ψυχῇ, νοῦς δὲ ἐν ἄλλῳ: τούτου δὲ οὐκέτι ἄλλο, ἵν’ ἂν ἦν ἐν αὐτῷ: οὐκ ὲν ὁτῳοῦν ἄρα. ταύτῃ οὖν οὐδαμοῦ. ποῦ οὖν τὰ ἄλλα; ἐν αὐτῷ. οὔτε ἄρα ἀφέστηκε τῶν ἄλλων οὔτε αὐτὸς ἐν αὐτοῖς ἐστιν οὐδὲ ἔστιν οὐδὲν ἔχον αὐτό, ἀλλ’ αὐτὸ ἔχει τὰ πάντα. διὸ καὶ ταύτῃ ἀγαθὸν τῶν πάντων, ὅτι καὶ ἔστι καὶ ἀνήρτηται πάντα εἰς αὐτὸ ἄλλο ἄλλως. διὸ καὶ ἀγαθώτερα ἕτερα ἑτέρων, ὅτι καὶ μᾶλλον ὄντα ἕτερα ἑτέρων.",
+   "flags": [
+    {
+     "taylor": "its linked members form and occupy the whole",
+     "in": "MacKenna",
+     "why": "The Greek says the cosmos' parts \"hang from it and are in it\" (ἀνηρτημένα εἰς αὐτὸν καὶ ἐν ἐκείνῳ): they depend on the whole."
+    }
+   ],
+   "notes": [
+    "The cosmos in soul, not soul in body: Plato's Timaeus, where soul is woven through the heaven and wraps it round from outside (36d-e); IV.3.9 and 22."
+   ]
+  },
+  {
+   "seg": "V.5.10.p1",
+   "chapter": "V.5.10",
+   "modern": "But do not, please, look at it through other things: else you would see a trace, not it. But think what this might be that one can take as being by itself, pure, mixed with nothing, all things sharing in it and nothing having it. For nothing else is such, but there must be something such.",
+   "greek": "ἀλλὰ σὺ μή μοι δἰ ἑτέρων αὐτὸ ὅρα: εἰ δὲ μή, ἴχνος ἂν ἴδοις, οὐκ αὐτό: ἀλλ’ ἐννόει, τί ἂν εἴη τοῦτο, ὃ ἔστι λαβεῖν ἐφ̓ ἑαυτοῦ ὂν καθαρὸν οὐδενὶ μιγνύμενον, μετεχόντων ἁπάντων αὐτοῦ μηδενὸς ἔχοντος αὐτό: ἄλλο μὲν γὰρ οὐδὲν τοιοῦτον, δεῖ δέ τι τοιοῦτον εἶναι."
+  },
+  {
+   "seg": "V.5.10.p2",
+   "chapter": "V.5.10",
+   "modern": "Who, then, could grasp its power all together? For if one grasped it all together, how would one differ from it? So, part by part. But you who apply yourself to it will apply yourself all at once, though you will not report the whole: else you will be an intellect thinking, and, even if you reach it, it will escape you, or rather you will escape it. But when you see, look at the whole; and when you think, whatever you remember of it, think that it is the Good.",
+   "greek": "τίς ἂν οὖν τὴν δύναμιν αὐτοῦ ἕλοι ὁμοῦ πᾶσαν; εἰ γὰρ ὁμοῦ πᾶσαν, τί ἄν τις αὐτοῦ διαφέροι; κατὰ μέρος ἄρα. ἀλλὰ προσβαλεῖς μὲν ἀθρόως ὁ προσβάλλων, ὅλον δὲ οὐκ ἀπαγγελεῖς: εἰ δὲ μή, νοῦς νοῶν ἔσῃ, κἂν τύχῃς, ἐκεῖνός σε ἐκφεύξεται, μᾶλλον δὲ σὺ αὐτόν. ἀλλ’ ὅταν μὲν ὁρᾷς, ὅλον βλέπε: ὅταν δὲ νοῇς, ὅ τι ἂν μνημονεύσῃς αὐτοῦ, νόει ὅτι τἀγαθόν.",
+   "flags": [
+    {
+     "taylor": "for that, you must yourself be the divine Intellect in Act",
+     "in": "MacKenna",
+     "why": "The Greek says the opposite of this: \"else\", if you try to report the whole, \"you will be an intellect thinking\" (νοῦς νοῶν ἔσῃ), and it will escape you. Thinking it is what loses it."
+    },
+    {
+     "taylor": "In ordinary vision you may think to see the object entire",
+     "in": "MacKenna",
+     "why": "The Greek is a command: \"when you see, look at the whole\" (ὅταν μὲν ὁρᾷς, ὅλον βλέπε), of the seeing of the One, not ordinary vision."
+    }
+   ]
+  },
+  {
+   "seg": "V.5.10.p3",
+   "chapter": "V.5.10",
+   "modern": "For it is a power that causes thoughtful and intellectual life, from which come life and intellect; it causes these because it causes substance and being; and that, because it is one; for it is simple and first; and that, because it is the principle. For all things are from it: from it the first motion, not in it; from it rest, because it itself did not need it: for it neither moves nor stands still: for it had nothing in which it will stand still, nor in which it will be moved: around what, or towards what, or in what? For it is first. But it is not limited either: by what? Nor is it unlimited as a magnitude: where would it have had to go forward to? Or so that what would come to it, when it needs nothing? But its power has the unlimited: for it could never be otherwise, nor will it fail, where even the things that do not fail do not fail because of it.",
+   "greek": "ζωῆς γὰρ ἔμφρονος καὶ νοερᾶς αἴτιος δύναμις ὤν, ἀφ̓ οὗ ζωὴ καὶ νοῦς, ὅτι οὐσίας καὶ τοῦ ὄντος, ὅτι ἕν: ἁπλοῦν γὰρ καὶ πρῶτον, ὅτι ἀρχή. ἀπ’ αὐτοῦ γὰρ πάντα: ἀπ’ αὐτοῦ κίνησις ἡ πρώτη, οὐκ ἐν αὐτῷ, ἀπ’ αὐτοῦ στάσις, ὅτι αὐτὸς μὴ ἐδεῖτο: οὐ γὰρ κινεῖται οὐδ’ ἕστηκεν: οὐδὲ γὰρ εἶχεν οὔτε ἐν ᾧ στήσεται, οὔτε ἐν ᾧ κινηθήσεται: περὶ τί γὰρ ἢ πρὸς τί ἢ ἐν τίνι; πρῶτος γὰρ αὐτός. ἀλλ’ οὐδὲ πεπερασμένος εἶναι: ὑπὸ τίνος γάρ; ἀλλ’ οὐδ’ ἄπειρος, ὡς μέγεθος: ποῖ γὰρ ἔδει προελθεῖν αὐτόν; ἢ ἵνα τί γένηται αὐτῷ οὐδενὸς δεομένῳ; τὸ δ’ ἄπειρον ἡ δύναμις ἔχει: οὐ γὰρ ἄλλως ποτὲ οὐδ’ ἐπιλείψει, ὅπου καὶ τὰ μὴ ἐπιλείποντα δἰ αὐτόν.",
+   "flags": [
+    {
+     "taylor": "Yet its Being is not limited",
+     "in": "MacKenna",
+     "why": "The Greek says \"he is not limited\" (οὐδὲ πεπερασμένος εἶναι); \"its Being\" gives being to what the treatise has just put beyond being."
+    }
+   ],
+   "notes": [
+    "That the one neither moves nor stands, has no limit and is in nothing: the first hypothesis of Plato's Parmenides (137d-139b). Motion and rest as the first kinds after being: Sophist (254d), read in VI.2.7-8."
+   ]
+  },
+  {
+   "seg": "V.5.11.p1",
+   "chapter": "V.5.11",
+   "modern": "And this unlimitedness belongs to it by its being no more than one, and having nothing in relation to which it will bound anything of its own: for by being one it is not measured, nor does it come into number. It is bounded, then, neither in relation to another nor in relation to itself: for then it would also be two. Nor, then, has it a shape, since it has no parts, nor a form.",
+   "greek": "καὶ τὸ ἄπειρον τοῦτο τῷ μὴ πλέον ἑνὸς εἶναι μηδὲ ἔχειν πρὸς ὃ ὁριεῖ τι τῶν ἑαυτοῦ: τῷ γὰρ ἓν εἶναι οὐ μεμέτρηται οὐδ’ εἰς ἀριθμὸν ἥκει. οὔτ’ οὖν πρὸς ἄλλο οὔτε πρὸς αὑτὸ πεπέρανται: ἐπεὶ οὕτως ἂν εἴη καὶ δύο. οὐδὲ σχῆμα τοίνυν, ὅτι μηδὲ μέρη, οὐδὲ μορφή."
+  },
+  {
+   "seg": "V.5.11.p2",
+   "chapter": "V.5.11",
+   "modern": "Do not, then, look for it with mortal eyes, such as the argument says it is, nor think that it can be seen in the way one would expect who takes all things to be perceptible, and so abolishes what most of all is. For the things one thinks most of all are, these most of all are not: \"and the great is less\". But the first is the principle of being, and again more sovereign than substance. So one must turn the opinion round: else you will be left bereft of god, like those at the festivals who in their gluttony fill themselves with the things that those going in to the gods may not take, thinking these more evident than the sight of the god for whom the festival is to be kept; they had no share in the rites there.",
+   "greek": "μὴ τοίνυν ζήτει θνητοῖς ὄμμασι τοῦτο, οἷόν φησιν ὁ λόγος, μηδ’ ὅτι οὕτως ἔστιν ἰδεῖν, ὡς ἄν τις ἀξιώσειεν, ὃς πάντα αἰσθητὰ ὑπολαμβάνων τὸ μάλιστα πάντων ἀναιρεῖ. ἃ γὰρ ἡγεῖταί τις εἶναι μάλιστα, ταῦτα μάλιστα οὐκ ἔστι: ʽτὸ δὲ μέγα ἧττον ἐστἴ: τό δὲ πρῶτον ἀρχὴ τοῦ εἶναι καὶ κυριώτερον αὖ τῆς οὐσίας: ὥστε ἀντιστρεπτέον τὴν δόξαν: εἰ δὲ μή, καταλελείψῃ ἔρημος θεοῦ, οἷον οἱ ἐν ταῖς ἑορταῖς ὑπὸ γαστριμαργίας πλήσαντες ἑαυτούς, ὧν οὐ θέμις λαβεῖν τοὺς εἰσίοντας πρὸς τοὺς θεούς, νομίσαντες μᾶλλον ἐκεῖνα ἐναργέστερα εἶναι τῆς θέας τοῦ θεοῦ, ᾧ ἑορτάζειν προσήκει, οὐ μετέσχον τῶν ἐκεῖ ἱερῶν.",
+   "flags": [
+    {
+     "taylor": "the thing of extension least real of all",
+     "in": "MacKenna",
+     "why": "The Greek quotes a saying, \"and the great is less\" (τὸ δὲ μέγα ἧττον ἐστί), of what is large in bulk: MacKenna turns it into his own words."
+    }
+   ],
+   "notes": [
+    "The festivals: some rites forbade certain foods to those who would enter the shrine, and some sacrificial meat had to be eaten on the spot; Plotinus' gluttons fill themselves and miss the god."
+   ]
+  },
+  {
+   "seg": "V.5.11.p3",
+   "chapter": "V.5.11",
+   "modern": "For in these rites too the god, not being seen, makes those who think evident only what they would see with the flesh disbelieve that he exists: as if some people, asleep all their lives, should think what is in their dreams trustworthy and evident, and if someone woke them, should disbelieve what they saw with open eyes and fall asleep again.",
+   "greek": "καὶ γὰρ ἐν τούτοις τοῖς ἱεροῖς ὁ θεὸς οὐχ ὁρώμενος ἀπιστεῖσθαι ποιεῖ ὡς οὐκ ὢν τοῖς ἐναργὲς νομίζουσι μόνον, ὃ τῇ σαρκὶ μόνον ἴδοιεν: οἷον εἴ τινες διὰ βίου κοιμώμενοι ταῦτα μὲν πιστὰ καὶ ἐναργῆ νομίζοιεν τὰ ἐν τοῖς ὀνείρασιν, εἰ δέ τις αὐτοὺς ἐξεγείρειεν, ἀπιστήσαντες τοῖς διὰ τῶν ὀφθαλμῶν ἀνεῳγότων ὀφθεῖσι πάλιν καταδαρθάνοιεν.",
+   "notes": [
+    "The dreamer who takes the likeness for the thing: Plato's Republic V (476c-d) and VII (533b-c)."
+   ]
+  },
+  {
+   "seg": "V.5.12.p1",
+   "chapter": "V.5.12",
+   "modern": "One must look at each thing with that by which it must be perceived, some things with the eyes, others with the ears, and the rest in the same way; and trust that intellect sees other things, and not think that thinking is hearing or seeing, as if one ordered the ears to look, and said that sounds do not exist because they are not seen. But one must bear in mind that they have forgotten what, from the beginning until now, they long for and desire. For all things reach for that one and desire it by a necessity of nature, as if they had divined that without it they cannot be.",
+   "greek": "χρὴ δὲ βλέπειν ᾧ ἕκαστα δεῖ αἰσθάνεσθαι, ὀφθαλμοῖς μὲν ἄλλα, ὠσὶ δὲ ἕτερα, καὶ τὰ ἄλλα ὡσαύτως: καὶ τῷ νῷ πιστεύειν ἄλλα ὁρᾶν, καὶ μὴ τὸ νοεῖν ἀκούειν νομίζειν ἢ ὁρᾶν, ὥσπερ ἂν εἰ τοῖς ὠσὶν ἐπιτάττοιεν βλέπειν, καὶ τὰς φωνὰς οὐκ εἶναι, ὅτι μὴ ὁρῶνται. χρὴ δὲ ἐννοεῖν, ὡς εἰσὶν ἐπιλελησμένοι οὗ καὶ ἐξ ἀρχῆς εἰς νῦν ποθοῦσι καὶ ἐφίενται αὐτοῦ. πάντα γὰρ ὀρέγεται ἐκείνου καὶ ἐφίεται αὐτοῦ φύσεως ἀνάγκῃ, ὥσπερ ἀπομεμαντευμένα, ὡς ἄνευ αὐτοῦ οὐ δύναται εἶναι.",
+   "notes": [
+    "\"Divined\" (ἀπομεμαντευμένα): every soul pursues the good, Plato's Socrates says, \"divining that it is something\" but at a loss what (Republic VI 505d-e)."
+   ]
+  },
+  {
+   "seg": "V.5.12.p2",
+   "chapter": "V.5.12",
+   "modern": "The grasp of beauty, and the amazement, and the waking of love belong to those who, as it were, already know and are awake; but the Good, since it has long been present for an inborn desire, is present even to those who sleep, and does not amaze them when at some time they see it, because it is always with them, and the recollection of it is never at some one time. Yet they do not see it, because it is present to them asleep. Love of beauty, when it is present, gives pains, because those who have seen must desire. This love, then, being second, and of those who already understand more, shows that beauty is second; but the older desire, which is not perceived, says that the Good is older too, and prior to beauty.",
+   "greek": "καὶ τοῦ μὲν καλοῦ ἤδη οἷον εἰδόσι καὶ ἐγρηγορόστν ἡ ἀντίληψις καὶ τὸ θάμβος καὶ τοῦ ἔρωτος ἡ ἔγερσις, τὸ δ’ ἀγαθὸν ἅτε πάλαι παρὸν εἰς ἔφεσιν σύμφυτον καὶ κοιμωμένοις πάρεστι καὶ οὐ θαμβεῖ ποτε ἰδόντας, ὅτι σύνεστιν ἀεὶ καὶ οὐ ποτὲ ἡ ἀνάμνησις: οὐ μὴν ὁρῶσιν αὐτό, ὅτι κοιμωμένοις πάρεστι. τοῦ δὲ καλοῦ ὁ ἔρως, ὅταν παρῇ, ὀδύνας δίδωσιν, ὅτι δεῖ ἰδόντας ἐφίεσθαι. δεύτερος οὖν ὢν οὗτος ὁ ἔρως καὶ ἤδη συνιέντων μᾶλλον δεύτερον μηνύει τὸ καλὸν εἶναι: ἡ δὲ ἀρχαιοτέρα τούτου καὶ ἀναίσθητος ἔφεσις ἀρχαιότερόν φησι καὶ τἀγαθὸν εἶναι καὶ πρότερον τούτου.",
+   "flags": [
+    {
+     "taylor": "This love of Beauty then is later than the love of Good and comes with a more sophisticated understanding",
+     "in": "MacKenna",
+     "why": "The Greek says this love is \"second\" and of those \"who already understand more\" (ἤδη συνιέντων μᾶλλον); \"sophisticated\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "The pains of love at the sight of beauty, and the soul's wings: Plato's Phaedrus (251a-252b)."
+   ]
+  },
+  {
+   "seg": "V.5.12.p3",
+   "chapter": "V.5.12",
+   "modern": "And all think, when they have got the Good, that it is enough for them: for they have reached the end. But not all have seen beauty, and when it has come they think it is beautiful for itself and not for them, as the beauty here is: for it is the beauty of the one who has it. And it is enough to seem beautiful, even if they are not; but no one wants to have the Good in seeming. For they lay claim most of all to the first, and rival and quarrel with beauty, as if it too had come to be as they have: as if someone lower down from the king wished to rise to an equal rank with the one next after the king, as having come from one and the same as he, not knowing that he too hangs from the king, but that the other is before him.",
+   "greek": "καὶ οἴονται δὲ τἀγαθὸν λαβόντες ἀρκεῖν αὑτοῖς ἅπαντες: εἰς γὰρ τὸ τέλος ἀφῖχθαι: τὸ δὲ καλὸν οὔτε πάντες εἶδον, γενόμενόν τε αὑτῷ οἴονται εἶναι, ἀλλ’ οὐκ αὐτοῖς, οἷα καὶ τὸ τῇδε κάλλος: τοῦ γὰρ ἔχοντος τὸ κάλλος εἶναι. καὶ καλοῖς εἶναι δοκεῖν ἀρκεῖ, κἂν μὴ ὦσι: τὸ δ’ ἀγαθὸν οὐ δόξῃ ἐθέλουσιν ἔχειν. ἀντιποιοῦνται γὰρ μάλιστα τοῦ πρώτου καὶ φιλονεικοῦσι καὶ ἐρίζουσι τῷ καλῷ, ὡς καὶ αὐτῷ γεγονότι ὥσπερ αὐτοί: οἷον εἴ τις ὕστερος ἀπὸ βασιλέως τῷ μετὰ βασιλέα εἰς ἀξίωσιν ἴσην βούλοιτο ἰέναι, ὡς ἀφ̓ ἑνὸς καὶ τοῦ αὐτοῦ ἐκείνῳ γεγενημένος, ἀγνοῶν ὡς ἀνήρτηται μὲν καὶ αὐτὸς εἰς βασιλέα, ἔστι δὲ ἐκεῖνος πρὸ αὐτοῦ.",
+   "flags": [
+    {
+     "taylor": "they struggle venomously for beauty as something secondary like themselves",
+     "in": "MacKenna",
+     "why": "The Greek says they \"rival and quarrel with\" beauty (φιλονεικοῦσι καὶ ἐρίζουσι τῷ καλῷ), as a rival that they think has come to be as they have, not that they fight \"for\" it; \"venomously\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "No one is content with seeming good, though many are content to seem just and beautiful: Plato's Republic VI (505d)."
+   ]
+  },
+  {
+   "seg": "V.5.12.p4",
+   "chapter": "V.5.12",
+   "modern": "The cause of the error, then, is that both share in the same, and that the one is prior to both; and that there too the Good itself does not need beauty, but beauty needs the Good. And the Good is gentle and kindly and softer, and present to one whenever one wishes; but beauty has amazement and shock, and pleasure mixed with pain.",
+   "greek": "ἀλλ’ οὖν ἡ τῆς πλάνης αἰτία τὸ μετέχειν ἄμφω τοῦ αὐτοῦ καὶ πρότερον τὸ ἓν ἀμφοτέρων εἶναι, καὶ ὅτι κἀκεῖ τὸ μὲν ἀγαθὸν αὐτὸ οὐ δεῖται τοῦ καλοῦ, τὸ δὲ καλὸν ἐκείνου. καὶ ἔστι δὲ τὸ μὲν ἤπιον καὶ προσηνὲς καὶ ἁβρότερον καί, ὡς ἐθέλει τις, παρὸν αὐτῷ: τὸ δὲ θάμβος ἔχει καὶ ἔκπληξιν καὶ συμμιγῆ τῷ ἀλγύνοντι τὴν ἡδονήν.",
+   "flags": [
+    {
+     "taylor": "Beauty is all violence and stupefaction",
+     "in": "MacKenna",
+     "why": "The Greek says beauty has \"amazement and shock\" (θάμβος ... καὶ ἔκπληξιν); \"violence\" and \"all\" are MacKenna's."
+    }
+   ]
+  },
+  {
+   "seg": "V.5.12.p5",
+   "chapter": "V.5.12",
+   "modern": "For it draws away from the Good those who do not know, as the beloved draws one from the father: for it is younger; but the Good is older, not in time but in truth, and it has the prior power: for it has all power; what comes after it has not all, but as much as is after it and from it; so that it is master of this power too, and does not need what has come from it, but has let all that came to be go, wholly, because it needed nothing of it, but is the same as it was before it begot it.",
+   "greek": "καὶ γὰρ αὖ καὶ ἕλκει ἀπὸ τοῦ ἀγαθοῦ τοὺς οὐκ εἰδότας, ὥσπερ ἀπὸ πατρὸς τὸ ἐρώμενον: νεώτερον γάρ: τὸ δὲ πρεσβύτερον οὐ χρόνῳ, ἀλλὰ τῷ ἀληθεῖ, ὃ καὶ τὴν δύναμιν προτέραν ἔχει: πᾶσαν γὰρ ἔχει: τὸ γὰρ μετ’ αὐτὸ οὐ πᾶσαν, ἀλλ’ ὅση μετ’ αὐτὸν καὶ ἀπ’ αὐτοῦ, ὥστε ἐκεῖνος καὶ ταύτης κύριος, οὐ δεηθεὶς οὗτος τῶν ἐξ αὐτοῦ γενομένων, ἀλλὰ πᾶν καὶ ὅλον ἀφεὶς τὸ γενόμενον, ὅτι μὴ ἐδεῖτο μηδὲν αὐτοῦ, ἀλλ’ ἔστιν ὁ αὐτός, οἷος καὶ πρὶν τοῦτο γεννῆσαι.",
+   "flags": [
+    {
+     "taylor": "as some attraction will lure the child from the father's side",
+     "in": "MacKenna",
+     "why": "The Greek says \"as the beloved\" (τὸ ἐρώμενον) draws one from the father: love of another draws the son from his father's house; MacKenna's \"some attraction\" and \"the child\" lose the beloved."
+    }
+   ]
+  },
+  {
+   "seg": "V.5.12.p6",
+   "chapter": "V.5.12",
+   "modern": "For it would not have cared if it had not come to be; nor, if it had been possible for something else to come to be from it, would it have grudged it; but as it is, there is nothing else that can come to be: there is nothing that has not come to be, now that all things have come to be. And it was not all things, so as to need them; but, transcending all things, it was able both to make them and to let them be by themselves, being above them.",
+   "greek": "ἐπεὶ οὐδ’ ἂν ἐμέλησεν αὐτῷ μὴ γενομένου: ἐπεὶ οὐδ’ εἰ ἄλλῳ δυνατὸν ἦν γενέσθαι ἐξ αὐτοῦ, ἐφθόνησεν ἄν: νῦν δὲ οὐκ ἔστιν οὐδὲν γενέσθαι: οὐδὲν γάρ ἐστιν ὃ μὴ γέγονε γενομένων τῶν πάντων. αὐτὸς δὲ οὐκ ἦν τὰ πάντα, ἵν’ ἂν ἐδεήθη αὐτῶν, ὑπερβεβηκὼς δὲ τὰ πάντα οἷός τε ἦν καὶ ποιεῖν αὐτὰ καὶ ἐφ̓ ἑαυτῶν ἐᾶσαι εἶναι αὐτὸς ὑπὲρ αὐτὰ ὤν.",
+   "flags": [
+    {
+     "taylor": "exactly as He would not have grudged existence to any other universe",
+     "in": "MacKenna",
+     "why": "The Greek says \"if it had been possible for something else (ἄλλῳ) to come to be from it\": not \"any other universe\"."
+    }
+   ],
+   "notes": [
+    "No grudging: Timaeus 29e. That nothing more can come to be because all things have: the one cosmos, which leaves nothing out (Timaeus 31a-b, 32c-33a)."
+   ]
+  },
+  {
+   "seg": "V.5.13.p1",
+   "chapter": "V.5.13",
+   "modern": "The Good, being the Good itself and not a good, must have nothing in itself, since it has not even good. For whatever it will have, it has either as good or as not good; but in what is properly and first good there is not the not good, nor does the Good have the good. If, then, it has neither the not good nor the good, it has nothing; and if it has nothing, it is alone and bare of the others. If, then, the others are either good things, and not the Good, or not good, and it has neither of these, having nothing, by having nothing it is the Good.",
+   "greek": "ἔδει δὲ καὶ τἀγαθὸν αὐτὸν ὄντα καὶ μὴ ἀγαθὸν μὴ ἔχειν ἐν ἑαυτῷ μηδέν, ἐπεὶ μηδὲ ἀγαθόν. ὃ γὰρ ἕξει, ἢ ἀγαθὸν ἔχει ἢ οὐκ ἀγαθόν: ἀλλ’ οὔτε ἐν τῷ ἀγαθῷ τῷ κυρίως καὶ πρώτως ἀγαθῷ τὸ μὴ ἀγαθόν, οὔτε τὸ ἀγαθὸν ἔχει τὸ ἀγαθόν. εἰ οὖν μήτε τὸ οὐκ ἀγαθὸν μήτε τὸ ἀγαθὸν ἔχει, οὐδὲν ἔχει: εἰ δὲ οὐδὲν ἔχει, μόνον καὶ ἔρημον τῶν ἄλλων ἐστίν. εἰ οὖν τὰ ἄλλα ἢ ἀγαθά ἐστι καὶ οὐ τἀγαθὸν ἢ οὐκ ἀγαθά ἐστιν, οὐδέτερα δὲ τούτων ἔχει, οὐδὲν ἔχων τῷ μηδὲν ἔχειν ἐστὶ τὸ ἀγαθόν."
+  },
+  {
+   "seg": "V.5.13.p2",
+   "chapter": "V.5.13",
+   "modern": "If, then, someone adds anything at all to it, substance or intellect or beauty, by the addition he takes from it its being the Good. So he who takes everything away and says nothing about it, and tells no lie that anything is with it, lets the \"is\" stand, bearing no false witness of what is not there; like those who make praises without knowledge, who lessen the glory of those they praise by adding to them what is below their worth, at a loss to say true words about the persons before them. So we too must add nothing of what is later and less, but say that he, going above these, is their cause, but is not himself these.",
+   "greek": "εἰ δ’ ἄρα τις ὁτιοῦν αὐτῷ προστίθησιν, ἢ οὐσίαν ἢ νοῦν ἢ καλόν, τῇ προσθήκῃ ἀφαιρεῖται αὐτοῦ τἀγαθὸν εἶναι. πάντα ἄρα ἀφελὼν καὶ οὐδὲν περὶ αὐτοῦ εἰπὼν οὐδέ τι ψευσάμενος, ὡς ἔστι παῤ αὐτῷ, εἴασε τὸ ἔστιν οὐδὲν καταμαρτυρήσας τῶν οὐ παρόντων, οἷον οἱ μὴ ἐπιστήμῃ τοὺς ἐπαίνους ποιούμενοι, οἳ ἐλαττοῦσι τὴν τῶν ἐπαινουμένων δόξαν προστιθέντες αὐτοῖς ἃ τῆς ἀξίας αὐτῶν ἐστιν ἐλάττω, ἀποροῦντες ἀληθεῖς εἰπεῖν περὶ τῶν ὑποκειμένων προσώπων τοὺς λόγους. καὶ οὖν καὶ ἡμεῖς μηδὲν τῶν ὑστέρων καὶ τῶν ἐλαττόνων προστιθῶμεν, ἀλλ’ ὡς ὑπὲρ ταῦτα ἰὼν ἐκεῖνος τούτων αἴτιος ᾖ, ἀλλὰ μὴ αὐτὸς ταῦτα.",
+   "flags": [
+    {
+     "taylor": "existence or intellect or goodness",
+     "in": "MacKenna",
+     "why": "The Greek says \"substance or intellect or beauty\" (οὐσίαν ἢ νοῦν ἢ καλόν): Plotinus' point is that even beauty must not be added to the Good, as V.5.12 put beauty second."
+    },
+    {
+     "taylor": "philosophy must guard against attaching to the Supreme what is later and lower",
+     "in": "MacKenna",
+     "why": "The Greek says \"we too must add nothing\" (καὶ ἡμεῖς μηδὲν ... προστιθῶμεν); \"philosophy\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "Praise that adds what is fine whether true or not: Socrates on Agathon's speech in Plato's Symposium (198d-199a)."
+   ]
+  },
+  {
+   "seg": "V.5.13.p3",
+   "chapter": "V.5.13",
+   "modern": "For the nature of the Good, again, is not to be all things, nor yet one of all things: for then it would come under one and the same kind as all of them, and, being under the same as all, it would differ only by its peculiarity, a difference and an addition. So it will be two, not one, of which one, the common, is not good, and the other good: so it will be mixed of good and not good; so not purely good, nor first; but that would be first by sharing in which, beside the common, it has become good. By sharing, then, it is good, but what it shared in is none of all things: so the Good is none of all things.",
+   "greek": "καὶ γὰρ αὖ φύσις ἀγαθοῦ οὐ πάντα εἶναι οὐδ’ αὖ ἕν τι τῶν πάντων: εἴη γὰρ ἂν ὑπὸ ἓν καὶ ταὐτὸν τοῖς ἅπασιν, ὑπὸ δὲ ταὐτὸν ὂν τοῖς πᾶσι διαφέροι ἂν τῷ ἰδίῳ μόνον καὶ διαφορᾷ καὶ προσθήκῃ. ἔσται τοίνυν δύο, οὐχ ἕν, ὧν τὸ μὲν οὐκ ἀγαθόν, τὸ κοινόν, τὸ δὲ ἀγαθόν: μικτὸν ἄρα ἔσται ἐξ ἀγαθοῦ καὶ οὐκ ἀγαθοῦ: οὐκ ἄρα καθαρῶς ἀγαθὸν οὐδὲ πρώτως, ἀλλ’ ἐκεῖνο ἂν εἴη πρώτως, οὗ μετέχον παρὰ τὸ κοινὸν γεγένηται ἀγαθόν. μεταλήψει μὲν δὴ αὐτὸ ἀγαθόν, οὗ δὲ μετέλαβεν οὐδὲν τῶν πάντων: οὐδὲν ἄρα τῶν πάντων τὸ ἀγαθόν.",
+   "flags": [
+    {
+     "taylor": "the primarily good must be that principle in which the better element has more effectively participated",
+     "in": "MacKenna",
+     "why": "The Greek says that what is first good is \"that by sharing in which\", beside the common element, the compound has become good: the compound shares in the first, the first does not share."
+    }
+   ],
+   "notes": [
+    "A kind divided by a difference: the definition by genus and differentia of Aristotle's Topics (VI.6, 143a29-b10) and Metaphysics Z.12."
+   ]
+  },
+  {
+   "seg": "V.5.13.p4",
+   "chapter": "V.5.13",
+   "modern": "But if this good is in it, the difference by which this compound was good, it must come from another; but that was simple and only good: much more, then, is that from which it comes only good. So the first, the Good, has appeared to us above all beings, only good, and having nothing in itself, but unmixed with all, above all, and cause of all. For neither beauty nor the beings come from evil, nor again from what is indifferent: for what makes is better than what is made; for it is more perfect.",
+   "greek": "ἀλλ’ εἰ ἐν αὐτῷ τοῦτο τὸ ἀγαθόν — διαφορὰ γάρ, καθ̓ ἣν τοῦτο τὸ σύνθετον ἦν ἀγαθόν — δεῖ αὐτὸ παῤ ἄλλου εἶναι: ἦν δὲ αὐτὸ ἁπλοῦν καὶ μόνον ἀγαθόν: πολλῷ ἄρα μᾶλλον τὸ ἀφ̓ οὗ μόνον ἀγαθόν. τὸ ἄρα πρώτως καὶ τἀγαθὸν ὑπέρ τε πάντα τὰ ὄντα ἀναπέφανται ἡμῖν καὶ μόνον ἀγαθὸν καὶ οὐδὲν ἔχον ἐν ἑαυτῷ, ἀλλὰ ἀμιγὲς πάντων καὶ ὑπὲρ πάντα καὶ αἴτιον τῶν πάντων. οὐ γὰρ δὴ ἐκ κακοῦ τὸ καλὸν οὐδὲ τὰ ὄντα οὐδ’ αὖ ἐξ ἀδιαφόρων: κρεῖττον γὰρ τὸ ποιοῦν τοῦ ποιουμένου: τελειότερον γάρ.",
+   "flags": [
+    {
+     "taylor": "Thus is revealed to us the Primarily existent",
+     "in": "MacKenna",
+     "why": "The Greek says \"the first, the Good\" (τὸ ἄρα πρώτως καὶ τἀγαθόν) has appeared \"above all beings\": not \"the Primarily existent\"."
+    }
+   ],
+   "notes": [
+    "\"Indifferent\" (ἀδιάφορα): the Stoics' word for what is neither good nor bad (Diogenes Laertius VII.102-104). That the maker is better than the made: V.4.1, where what begets must be the most honourable."
    ]
   }
  ],

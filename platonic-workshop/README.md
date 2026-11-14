@@ -516,6 +516,17 @@ that soul is a body turned into a supposition to grant. MacKenna's chapters are 
 unions (Life 23), Heraclitus and Empedocles, the custody of the secret rites (Phaedo 62b), the cave (Republic VII), the
 wings (Phaedrus 246c), the second mixing bowl (Timaeus 41d-42a), the undescended soul that Proclus rejected (Elements of
 Theology 211), art that does not deliberate (Physics II.8) and the geometer's analysis (Pappus).
+**V.4, How what comes after the first comes from it, and V.5, That the intelligibles are not outside intellect** (E20),
+beside MacKenna's vol. IV (1926, the Fifth Ennead), brought in for them: 15 chapters, 58 paragraphs, 48 flags, among them
+his "beyond being" as the one thing said of the first where the Greek says even "one" is false of it, "service" for
+goodness, the other intelligible put below intellect where the Greek means the first it comes after, "the sum of being" and
+"potentiality" for the first, "belief is our lief" for opinion that receives, thinking that would reach the One where the
+Greek says thinking loses it, "its Being" for the One beyond being, and "goodness" where the Greek forbids adding beauty to
+the Good. MacKenna's chapters are the Greek's. The notes give Porphyry's argument that the intelligible is outside intellect
+(Life 18), the Good beyond being (Republic VI 509b), the Parmenides' first hypothesis, the indefinite dyad (Metaphysics A.6),
+being that is not a corpse (Sophist 248e-249a), the Stoics' sayables, the great king's procession, the Cratylus' ousia and
+hestia, the Pythagoreans' Apollo, the pressed eye (On sense 2), the sun from Ocean (Iliad VII), and the soul that divines the
+good (Republic VI 505d-e).
 **III.8, On nature, contemplation and the One, and III.9, Various considerations** (E14), beside MacKenna's vol. II: 14
 chapters, 41 paragraphs, 70 flags, among them his "the Highest" for intellect that began as one and unrolled itself,
 "pregnant" for weighed down, the living principle "brother ... to that which gives mere shape" where it is brother to
@@ -594,14 +605,15 @@ The page and its contents column also list **the whole Enneads**, all fifty-four
 link to their chapters, Taylor's fifteen to his English with the modern beside it, and the rest say which milestone will do
 them. Labelled as the Workshop's own and machine-assisted, not yet checked by a scholar. MacKenna's English is the Internet
 Archive's OCR of his volumes, kept as received in `sources/mackenna-plotinus-1917/`, `sources/mackenna-plotinus-1921/`
-(vol. II, the Third Ennead and then the Second) and `sources/mackenna-plotinus-1924/` (vol. III, the Fourth Ennead), and read by
-rule by `tools/mackenna.py` into `texts/plotinus/mackenna-1917.json`, `mackenna-1921.json` and `mackenna-1924.json` (running heads and page numbers out, broken words and paragraphs joined, his
+(vol. II, the Third Ennead and then the Second) `sources/mackenna-plotinus-1924/` (vol. III, the Fourth Ennead) and `sources/mackenna-plotinus-1926/` (vol. IV, the Fifth
+Ennead), and read by rule by `tools/mackenna.py` into `texts/plotinus/mackenna-1917.json`, `mackenna-1921.json`,
+`mackenna-1924.json` and `mackenna-1926.json` (running heads and page numbers out, broken words and paragraphs joined, his
 hyphened terms such as "Sense-Perception" kept; not proofread). The master copy is
 `sources/translations/modern/enneads.txt`; `tools/modern_enneads.py` checks it (Porphyry's order and none of Taylor's
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: V.4 How what comes after the first comes from it and V.5 That the intelligibles are not outside intellect (E20).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: V.7 Whether there are forms of individuals and V.8 On intelligible beauty (E21).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,

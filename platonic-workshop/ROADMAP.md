@@ -343,9 +343,41 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   (Timaeus 29e), matter (II.4, III.6), the undescended soul against Proclus (Elements of Theology 211), art that does not
   deliberate (Physics II.8), the divided and undivided (Timaeus 35a), magic (IV.4.40-44), the ring (On the soul II.12), and
   geometrical analysis (Pappus, Nicomachean Ethics III.3).
-- E20: V.4 How what comes after the first comes from it, V.5 That the intelligibles are not outside intellect (5,314);
-  MacKenna's vol. IV (1926). Next. Check MacKenna's chapters against the Greek.
-- E21: V.7 Whether there are forms of individuals, V.8 On intelligible beauty (5,221).
+- **E20: V.4 How what comes after the first comes from it, V.5 That the intelligibles are not outside intellect (5,314)
+  (done).** 15 chapters, 58 paragraphs, 48 flags, 42 notes. MacKenna's vol. IV (1926, the Fifth Ennead) brought in: the
+  Internet Archive's OCR of the Toronto copy (plotinustranslat04plotuoft), kept as received in
+  sources/mackenna-plotinus-1926/, read by tools/mackenna.py, which now reads a treatise title over two or three lines and
+  "THE NINTH TRACTATE" (the 1917, 1921 and 1924 files are unchanged). MacKenna's chapters are the Greek's in both treatises
+  (2 and 13). E.g. MacKenna makes "beyond being" the one thing said of the first where the Greek says even "one" is false
+  of it, drops the condition that the first is simple and one, reads "service" for goodness, "the Power towards all" for
+  the power of all things, the dyad alone for intellect, the other intelligible "following upon" intellect for the first
+  it comes after, "the sum of being" for the first when it is most what it is, "potentiality" for power, "the universe of
+  things" for knowledge that is its objects, "predicates" for the Stoics' sayables, an "unknown sculptor or graver",
+  "belief is our lief" for opinion that receives, a doubled truth, "the Godhead entire" for all the beings, an "ineffable"
+  beauty before the king, "by all reason" for by nature, the Zeus sentence as an interpolation, "the centre", "providing
+  duration", the dyad as extension, "the universe" for what was begotten, "(the weaker)" and "(the stronger)", a refusal
+  to define for the way to see, "the untenable" for the unspeakable, "silence" for clearness, a "lower Nature" for the lit
+  intelligibles, "here ... beyond" for within and not within, intellect's self-sight dropped, "(by its divinest power)",
+  "otherwise" in the containment, "pointed off" for scattered, "God" for the One everywhere, "linked members" for hanging
+  parts, thinking that reaches the One where the Greek says it loses it, ordinary vision for a command, "its Being" for the
+  One beyond being, "the thing of extension" for a quoted saying, "sophisticated", struggling "venomously for" beauty for
+  rivalling it, "violence" for amazement, "the child" for the beloved, "any other universe", "goodness" for beauty in what
+  must not be added, "philosophy" for we, the better element that "participated", and "the Primarily existent" for the
+  Good above beings. Notes on Life 4, 5 and 18 (Porphyry's argument that the intelligible is outside intellect), the
+  Republic's beyond being and immense beauty (509a-b), the Parmenides' hypotheses (137d-145a), the ungrudging maker
+  (Timaeus 29e), On the soul II.4 and III.4-7, the indefinite dyad (Metaphysics A.6), co-perception, double activity, the
+  Sophist (248e-249a, 254d), Posterior Analytics, the sceptics, the Stoics' imprints and sayables, double ignorance, the
+  Seventh Letter (341c-d, 343b-c), the Persian king (On the cosmos), Hesiod's gods, the Second and Sixth Letters, the
+  Laws' measure (716c), substantial number (VI.6), the small change (Republic VII 525e), comparable units (Metaphysics
+  M.6-8), the Cratylus' ousia and hestia (401c-d), the Pythagoreans' Apollo (Plutarch), birth-pangs, a "this" (Categories
+  5), light (Republic VI 507d-508a, On the soul II.7), the pressed eye (On sense 2, Timaeus 45b-c), the sudden sight
+  (Symposium 210e), Ocean (Iliad VII.421-422), Homer's might, intellect in love (VI.7.35), the cosmos in soul (Timaeus
+  36d-e), the Parmenides' one that neither moves nor stands, dreamers (Republic V 476c-d), divining the good and seeming
+  good (Republic VI 505d-e), the Phaedrus' pains of love, Agathon's praise (Symposium 198d-199a), genus and difference
+  (Topics VI.6), and the Stoics' indifferents.
+- E21: V.7 Whether there are forms of individuals, V.8 On intelligible beauty (5,221). Next. MacKenna's vol. IV is in;
+  his V.7 has 3 chapters, as the Greek, but his V.8 has 12 to the Greek's 13 (and its first page reads 75 where his
+  contents say 73): check his chapters against the Greek and use @older where they differ.
 - E22: VI.1 On the kinds of being, first part, chapters 1-15 (about 4,900); MacKenna's vol. V (1930).
 - E23: VI.1 chapters 16-30 (about 4,900).
 - E24: VI.2 On the kinds of being, second part (7,442).

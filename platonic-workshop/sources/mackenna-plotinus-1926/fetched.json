@@ -1,0 +1,18 @@
+{
+  "plotinustranslat04plotuoft_djvu.txt": {
+    "url": "https://archive.org/download/plotinustranslat04plotuoft/plotinustranslat04plotuoft_djvu.txt",
+    "fetched_at": "2026-11-14T20:24:07+00:00",
+    "http_status": 200,
+    "content_type": "text/plain; charset=utf-8",
+    "bytes": 258228,
+    "sha256": "6a6185f70243421400666de6ffa6ebf4fc6c0b1571688332bb6705b260a0cd43"
+  },
+  "plotinustranslat04plotuoft_metadata.json": {
+    "url": "https://archive.org/metadata/plotinustranslat04plotuoft/metadata",
+    "fetched_at": "2026-11-14T20:24:07+00:00",
+    "http_status": 200,
+    "content_type": "application/json",
+    "bytes": 2033,
+    "sha256": "382fde610e88db7534c4c1f618c6b29fdf3f50a6d8594b1e1615211db7c49288"
+  }
+}
