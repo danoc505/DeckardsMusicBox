@@ -14,6 +14,8 @@ The OCR is kept as received in sources/<volume>/; this tool reads it by rule, an
     kept, since MacKenna joins his terms with hyphens ("Sense- / Perception" is "Sense-Perception");
   * a paragraph cut by a page break (it ends without a stop) is joined to the next again;
   * a line that is only a chapter number ("2.", "3-", the OCR's "i." for 1) begins a chapter, when it is the next number;
+  * where the OCR lost a chapter number (a volume's "lost" list), the number after it begins a chapter, and the lost
+    chapter's text stays with the one before;
   * a footnote (a paragraph beginning with "*") is kept apart, with its chapter.
 
 Each volume is added when the milestone that first needs it is done (workshop ROADMAP, "The Enneads in modern English").
@@ -60,6 +62,20 @@ VOLUMES = {
         "enneads": [3, 2],
         # where the treatises end: MacKenna's note on the order of the tractates follows II.9
         "end": "NOTE  ON  THE  ORDER  OF  THE  TRACTATES  OF  THE",
+    },
+    # vol. III (Enneads milestone E15): the Fourth Ennead
+    "mackenna-1924": {
+        "source": "mackenna-plotinus-1924",
+        "file": "plotinustranslat03burkuoft_djvu.txt",
+        "item": "plotinustranslat03burkuoft",
+        "title": "Plotinus on the Nature of the Soul, being the Fourth Ennead",
+        "year": 1924,
+        "enneads": [4],
+        # where the treatises end: MacKenna's acknowledgement follows IV.9
+        "end": "ACKNOWLEDGEMENT",
+        # chapter numbers the OCR lost (a blank line where the scan prints "15."): the next number begins its chapter,
+        # and the lost chapter's text stays with the one before it (the modern English names both with @older)
+        "lost": ["IV.4.15", "IV.4.17", "IV.4.31", "IV.4.38", "IV.4.41"],
     },
 }
 
@@ -216,7 +232,8 @@ def read_volume(vid):
                 after_title = False
                 close_para()
                 continue
-            if n == t["chapters"][-1]["n"] + 1:
+            last = t["chapters"][-1]["n"]
+            if n == last + 1 or (n == last + 2 and f"{t['id']}.{last + 1}" in v.get("lost", ())):
                 after_title = False
                 new_chapter(n)
                 continue

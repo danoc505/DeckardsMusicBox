@@ -419,6 +419,21 @@
       "status": "local"
     },
     {
+      "id": "mackenna-plotinus-1924",
+      "title": "Plotinus on the Nature of the Soul, being the Fourth Ennead, translated from the Greek by Stephen MacKenna (London: the Medici Society, 1924), OCR text",
+      "kind": "local",
+      "path": "sources/mackenna-plotinus-1924",
+      "urls": [
+        "https://archive.org/details/plotinustranslat03burkuoft"
+      ],
+      "layer": "later platonist",
+      "language": "eng",
+      "citation_scheme": "Ennead, treatise and chapter (MacKenna mostly numbers the chapters as Volkmann does); page of the 1924 edition",
+      "licence": "Public domain in the United States (published 1924); the Internet Archive marks the scan NOT_IN_COPYRIGHT",
+      "provenance": "Internet Archive 'djvu.txt' OCR of the University of Toronto's copy (Emmanuel College), downloaded on 2026-11-14 and kept as received; fetched.json records the URL, time and sha256 of each file. Unproofread. Read into texts/plotinus/mackenna-1924.json by tools/mackenna.py, the older English beside the Workshop's modern English of the Enneads (tools/modern_enneads.py), from milestone E15.",
+      "status": "local"
+    },
+    {
       "id": "taylor-proclus-theology-1816",
       "title": "The Six Books of Proclus on the Theology of Plato, translated from the Greek by Thomas Taylor, 2 vols (London, 1816), OCR text",
       "kind": "local",
