@@ -527,6 +527,19 @@ the Good. MacKenna's chapters are the Greek's. The notes give Porphyry's argumen
 being that is not a corpse (Sophist 248e-249a), the Stoics' sayables, the great king's procession, the Cratylus' ousia and
 hestia, the Pythagoreans' Apollo, the pressed eye (On sense 2), the sun from Ocean (Iliad VII), and the soul that divines the
 good (Republic VI 505d-e).
+**V.7, Whether there are forms of individuals, and V.8, On intelligible beauty** (E21), beside MacKenna's vol. IV: 16
+chapters, 63 paragraphs, 54 flags, among them his "soul-period" for the world's whole period, an infinity "having nothing to
+do with number" where the Greek says it is in what has no parts, "evil" for ugliness, a model for the craftsman who makes
+two alike, "the realm of magnitudes" for two blocks of stone, the craftsman's hands where the Greek says art mastered the
+stone, "remember" for recollect, "Moral Wisdom" for self-control, "demigods" for daemons, "distinction by state" for rest
+without distance, the human maker who makes nothing where the Greek says he makes another form, and soul as intellect's
+image where the Greek says its trace. His chapters are the Greek's, except that the OCR lost his number 13 of V.8, whose
+text runs on in his 12; the reader now also takes out vol. IV's running heads misread "PLOT1NUS". The notes give Socrates
+himself (Metaphysics B.2), the Stoics' return of the same world (Nemesius), the parents' principles (Generation of
+animals), peoples and places (Airs, waters, places), the identity of indiscernibles (Leibniz), Zeuxis' Helen, Phidias' Zeus
+(Cicero, Orator), the knowledge that is not other in another (Phaedrus 247d-e), Lynceus, Justice beside Zeus, the
+Egyptians' signs, the craftsman who admired his work (Timaeus 37c-d), Zeus' procession (Phaedrus 246e-247a), and Hesiod's
+Ouranos, Kronos and Zeus read as the One, intellect and soul.
 **III.8, On nature, contemplation and the One, and III.9, Various considerations** (E14), beside MacKenna's vol. II: 14
 chapters, 41 paragraphs, 70 flags, among them his "the Highest" for intellect that began as one and unrolled itself,
 "pregnant" for weighed down, the living principle "brother ... to that which gives mere shape" where it is brother to
@@ -613,7 +626,7 @@ hyphened terms such as "Sense-Perception" kept; not proofread). The master copy 
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: V.7 Whether there are forms of individuals and V.8 On intelligible beauty (E21).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: VI.1 On the kinds of being, first part, chapters 1-15, beside MacKenna's vol. V (E22).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,

@@ -4,14 +4,14 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 
 - Made from: Volkmann's Greek (Leipzig, 1883-1884), as First1KGreek gives it; checked against MacKenna's English (1917, 1921, 1924, 1926; the Internet Archive's OCR of the printed volumes, read by rule (tools/mackenna.py), not proofread).
 - Porphyry's Life of Plotinus: Volkmann's own Greek (vol. I, 1883), proofread from the scan (`sources/neoplatonists/proofread/porphyry-life-plotinus.txt`).
-- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny, III.2 On providence, first part, III.3 On providence, second part, III.4 On the daemon allotted to us, III.5 On love, III.8 On nature, contemplation and the One, III.9 Various considerations, IV.1 On the being of the soul, first part, IV.4 On difficulties about the soul, second part, IV.5 On difficulties about the soul, third part, or on sight, IV.6 On perception and memory, IV.8 On the descent of the soul into bodies, IV.9 Whether all souls are one, V.4 How what comes after the first comes from it, and on the One, V.5 That the intelligibles are not outside intellect, and on the Good.
-- The whole Enneads: 30 treatises here, 15 beside Taylor (milestone 27), 10 to come.
-- Chapters: 284, each with a short title and a summary.
-- Paragraphs: 846, each with its Greek.
-- Words: 114,869 modern, 86,642 Greek, 146,236 in MacKenna's English of the same chapters.
-- Sentences (each can be marked in the reader): 3,999.
-- Flags (where MacKenna and the Greek differ, or the Greek is hard): 781.
-- Notes (Plato's, Aristotle's and Homer's places, hard readings): 527.
+- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny, III.2 On providence, first part, III.3 On providence, second part, III.4 On the daemon allotted to us, III.5 On love, III.8 On nature, contemplation and the One, III.9 Various considerations, IV.1 On the being of the soul, first part, IV.4 On difficulties about the soul, second part, IV.5 On difficulties about the soul, third part, or on sight, IV.6 On perception and memory, IV.8 On the descent of the soul into bodies, IV.9 Whether all souls are one, V.4 How what comes after the first comes from it, and on the One, V.5 That the intelligibles are not outside intellect, and on the Good, V.7 Whether there are forms of individuals, V.8 On intelligible beauty.
+- The whole Enneads: 32 treatises here, 15 beside Taylor (milestone 27), 8 to come.
+- Chapters: 300, each with a short title and a summary.
+- Paragraphs: 909, each with its Greek.
+- Words: 121,867 modern, 91,850 Greek, 154,588 in MacKenna's English of the same chapters.
+- Sentences (each can be marked in the reader): 4,243.
+- Flags (where MacKenna and the Greek differ, or the Greek is hard): 835.
+- Notes (Plato's, Aristotle's and Homer's places, hard readings): 587.
 - Problems found: 0.
 
 ## Flags
@@ -799,6 +799,60 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | V.5.13.p2 | philosophy must guard against attaching to the Supreme what is later and lower | The Greek says "we too must add nothing" (καὶ ἡμεῖς μηδὲν ... προστιθῶμεν); "philosophy" is MacKenna's. |
 | V.5.13.p3 | the primarily good must be that principle in which the better element has more effectively participated | The Greek says that what is first good is "that by sharing in which", beside the common element, the compound has become good: the compound shares in the first, the first does not share. |
 | V.5.13.p4 | Thus is revealed to us the Primarily existent | The Greek says "the first, the Good" (τὸ ἄρα πρώτως καὶ τἀγαθόν) has appeared "above all beings": not "the Primarily existent". |
+| V.7.1.p4 | The entire soul-period conveys with it all the requisite Reason-Principles | The Greek says "the whole period" (ἡ πᾶσα περίοδος), the world's whole cycle, holds all the principles; "soul-period" is MacKenna's. |
+| V.7.1.p4 | it is an infinitude having nothing to do with number or part | The Greek says that all the infinity is "in what has no parts" (ἐν ἀμερεῖ), in intellect, which holds it undivided; it says nothing of number. |
+| V.7.2.p1 | one of the parents —the male let us say — is the source | The Greek says that each of the two (ἑκάτερος) begetting, the male for instance, would make by one principle only; it does not make one parent the only source. |
+| V.7.2.p3 | Difference everywhere is a good, and so there must be differing archetypes | The Greek says that what differs is "beautiful in many places" (πολλαχοῦ καλόν), and so the form is not one: an observation, which MacKenna makes a rule ("everywhere a good"). |
+| V.7.2.p3 | though only to evil could we attribute any power in Matter to thwart nature | The Greek says "ugliness" (αἶσχος): only where a thing is ugly is the matter to be blamed for mastering the principles; it does not speak of evil. |
+| V.7.3.p2 | A craftsman even in constructing an object identical with a model | The Greek says the craftsman makes things that do not differ from each other (ἀδιάφορα), two alike; there is no model in it. |
+| V.7.3.p3 | If production is undetermined in regard to Quantity, each thing has its distinct Reason-Principle | The Greek says that if the making leaves the number to chance (τὸ εἰκῆ τοῦ ὁποσαοῦν), "that is another account" (ἄλλος λόγος): another explanation would be needed. It does not say that each thing then has its own principle. |
+| V.7.3.p4 | the Beings there are unfailing | The Greek ends with the principles "ready to hand there" (τῶν ἐκεῖ προχείρων), the word V.7.2 uses of the principles a parent has ready at different times; "unfailing" is not in it. |
+| V.8.1.p1 | will be able also to come to understand the Father and Transcendent of that Divine Being | The Greek says he will be able "to bring into mind" (εἰς ἔννοιαν βαλέσθαι) the father, "who is beyond intellect" (τὸν ἐπέκεινα νοῦ): to form some notion of him, not to understand him, since he is beyond what intellect grasps. |
+| V.8.1.p2 | Let us go to the realm of magnitudes | The Greek has only "two stones in bulk" (δύο λίθων ἐν ὄγκῳ), two blocks of stone; MacKenna makes the phrase a heading of its own. |
+| V.8.1.p2 | the other has been minutely wrought by the craftsman's hands | The Greek says the stone has been "mastered by art" (τέχνῃ κεκρατημένου); the craftsman's hands are what the next sentences say the form does not belong to. |
+| V.8.1.p3 | and so the art exhibited in the material work derives from an art yet higher | The Greek speaks still of music: the music in the perceptible (τὴν ἐν αἰσθητῷ) is made by the music before it; MacKenna widens it to all art. |
+| V.8.2.p1 | as it were the mere Matter of beauty | The Greek says that the shape of blood and menses is "like what holds something simple, as matter does" (οἷα ὕλη); "of beauty" is MacKenna's. |
+| V.8.2.p3 | but by an elaboration upon the presented form | The Greek says the size comes in "having become large in form" (εἴδει γενόμενον μέγα): the size itself becomes form; there is no "elaboration" upon it. |
+| V.8.2.p5 | catching only at the inner comeliness, the truly personal | The Greek says "his inner beauty" (τὸ εἴσω κάλλος αὐτοῦ); "the truly personal" is MacKenna's. |
+| V.8.2.p5 | you, if you are conscious of beauty within, remember | The Greek says "if you too have seen yourself beautiful, recollect" (εἰ δὲ καὶ σὺ εἶδες σαυτὸν καλόν, ἀναμνήσθητι): a beauty once seen, to be recollected, as Plato's souls recollect the forms. |
+| V.8.3.p1 | In the proficient soul this is brighter | The Greek says "a good soul" (σπουδαία ψυχή), the word of Aristotle and the Stoics for the good man; "proficient" makes it a soul's skill. |
+| V.8.3.p3 | Intellect operating within them (the divine sun and stars) to visibility | The Greek speaks of all the gods, and says intellect is more active in them "so that it is seen" (ὥστε ὁρᾶσθαι); MacKenna's parenthesis makes them the heavenly bodies, though the next sentence tells apart the gods who have bodies from those who do not. |
+| V.8.3.p4 | see and know in virtue of their omnipresence to it | The Greek says only that they dwell in all of that heaven (ἐν παντὶ οἰκοῦντες τῷ ἐκεῖ οὐρανῷ); "see and know" is MacKenna's. |
+| V.8.4.p1 | every being is lucid to every other, in breadth and depth | The Greek says each is clear to each "to the inside" (εἰς τὸ εἴσω), seen through and through; "in breadth and depth" is MacKenna's. |
+| V.8.4.p2 | though of course this is really produced by the stars | The Greek has only the image: as if one were to think of the visible heaven, which is like light, as the light that grows from it, so that ground and what stands on it are one; the correction about the stars is MacKenna's own. |
+| V.8.4.p4 | and of course all There are unchangeable | The Greek says the things there are "unwearying" (ἄτρυτα), they do not wear out; "unchangeable" says something else. |
+| V.8.4.p6 | if we boast ourselves worthy of the discussion | The Greek says "if we say we are worthy of the name" (εἴπερ ἄξιοι τῆς προσηγορίας φαμὲν εἶναι), of the name of philosophers who seek; "the discussion" is MacKenna's. |
+| V.8.5.p1 | to that wisdom in Nature which is embodied in himself | The Greek says the craftsman goes back to the wisdom of nature "by which he has come to be" (καθ’ ἣν γεγένηται): the wisdom that made him, not one he embodies. |
+| V.8.5.p2 | but if (as we assume) we are referred to the Intellectual-Principle | The Greek says "if they come to intellect" (εἰ δὲ εἰς νοῦν ἥξουσιν): a step of those who answer, not "as we assume". |
+| V.8.5.p4 | need look to our apparatus of science | The Greek says the gods there do not look at "propositions" (ἀξιώματα), statements such as our sciences set out one after another; MacKenna widens it. |
+| V.8.6.p1 | not an aggregate of discursive reasoning and detailed willing | The Greek says each image is "not discursive thought or deliberation" (οὐ διανόησις οὐδὲ βούλευσις); deliberation is the weighing of what to do, not "willing", and there is no "aggregate". |
+| V.8.6.p2 | This excellence, whose necessity is scarcely or not at all manifest to search, exists, if we could but find it out | In the Greek the condition "if one were to find it" (εἴπερ τις ἐξεύροι) belongs to the search: what search would find with difficulty, if at all, is there before search; MacKenna puts the condition on its existing. |
+| V.8.7.p1 | how could the plan for a universe come to one that had never looked outward | The Greek asks where the plan would come from to one "who had never yet seen" (οὐπώποτε ἑωρακότι) anything; "looked outward" is MacKenna's. |
+| V.8.7.p2 | since there is no obstacle, all being continuous within the realm of reality | The Greek says that nothing is between (οὐδενὸς μεταξὺ ὄντος) and speaks of nearness (γειτονεία); "no obstacle" and "all being continuous" are MacKenna's. |
+| V.8.7.p4 | as man now stands, he does not produce in his work a true image of himself | The Greek says the human being does make a form (δημιουργεῖ εἶδος), but one other than what he has become; MacKenna turns the sentence into a denial. |
+| V.8.7.p5 | we can say only that because the All is what it is, therefore there is a total of good | The Greek says that because it is as it is, "these things" (ταῦτα), the things here, are well; MacKenna's "total of good" is not in it. |
+| V.8.8.p1 | Certainly it cannot be anything (be, for example, Beauty) without being wholly that thing | The Greek says that what falls short of beauty is what has only a part of it, or none; MacKenna's parenthesis makes a general rule about being anything wholly. |
+| V.8.8.p2 | the Beauty sprung from this world is, itself, a copy from That | The Greek says that what came to be from the pattern is beautiful, and is itself an image of it (καὶ αὐτὸ ὡς εἰκόνα ἐκείνου): the world is the image; there is no "Beauty sprung from this world". |
+| V.8.9.p1 | cast out your inborn sense of Matter | The Greek says "take away the picture of matter in you" (τὸ τῆς ὕλης ἐν σοὶ φάντασμα): the image of matter in your imagining, not an inborn sense. |
+| V.8.9.p2 | It is distinction by state without interval | The Greek says each is apart "in a rest without distance" (ἐν στάσει ἀδιαστάτῳ): they stand still, apart without being spread out; "distinction by state" takes rest (στάσις) for a state. |
+| V.8.9.p3 | it is through their failure in the true power | The Greek ἀπειρίᾳ δυνάμεως ἀληθινῆς is most naturally "through inexperience of true power": we picture their powers as great because we do not know the true one; MacKenna makes it the bodies' own failure. |
+| V.8.9.p4 | The very figment of Being needs some imposed image of Beauty to make it passable | The Greek says the false substance needs a brought-in image of beauty "so that it may look beautiful" (ἵνα καὶ καλὸν φαίνηται) and be at all; "passable" weakens it. |
+| V.8.10.p1 | followed by gods and demigods | The Greek says "daemons" (δαίμονες), as Plato's Phaedrus (246e) has it; "demigods" are heroes, another order. |
+| V.8.10.p2 | another is filled with the sight of Moral Wisdom | The Greek has σωφροσύνη, self-control, which Plato's Phaedrus (247d) names beside justice; "Moral Wisdom" hides it. |
+| V.8.10.p4 | or rather all There is light and beauty, through and through | The Greek says "all is colour and beauty from the depth" (πᾶν χρόα καὶ κάλλος ἐκ βάθους); "light" is MacKenna's, in place of colour. |
+| V.8.10.p5 | it is but finding the strength to see divinity within | The Greek puts it as a condition, "if he had the power to see the god in himself" (εἰ δύναμιν ἔχοι ἐν αὑτῷ θεὸν βλέπειν); MacKenna's "it is but" makes it easy. |
+| V.8.11.p1 | at once he forms a multiple unity with the God silently present | The Greek says he is "one, all together" (ἓν ὁμοῦ πάντα) with the god; "multiple unity" is MacKenna's. |
+| V.8.11.p1 | still he is pure and remains very near to the God | The Greek makes it a condition: "being pure" (καθαρὸς μὲν ὤν), he stays next to the god; MacKenna's "still he is pure" says it of whoever turns back. |
+| V.8.11.p2 | he puts sense away behind him in dread of the separated life | The Greek says he leaves perception behind "for fear of being other" (τοῦ ἕτερος εἶναι φόβῳ), of being other than what he sees; "the separated life" is MacKenna's. |
+| V.8.11.p3 | be no longer the seer, but, as that place has made him, the seen | The Greek says he becomes the sight "of another who contemplates" (ἑτέρου θεωμένου), shining with the thoughts that come from there; MacKenna leaves out the other. |
+| V.8.11.p4 | Still, we will be told, one cannot be in beauty and yet fail to see it | The Greek asks a question, "how will one be in beauty without seeing it?" (πῶς οὖν ἔσται τις ἐν καλῷ μὴ ὁρῶν αὐτό;), which Plotinus answers by saying that seeing it as other is not yet being in it; MacKenna makes it an objection put to him. |
+| V.8.11.p5 | we are most completely aware of ourselves when we are most completely identified with the object of our knowledge | The Greek says we understand ourselves best when we have made "our knowledge and ourselves" one (τὴν ἐπιστήμην ἡμῶν καὶ ἡμᾶς ἓν πεποιηκότες): knowledge and knower, not knower and object. |
+| V.8.11.p6 | by intellection, we are aware of none | The Greek says "we seem not to know" (ἀγνοεῖν δοκοῦμεν): a seeming, because perception has nothing to report, not an awareness of nothing. |
+| V.8.12.p1 | God engendering a universe within himself in a painless labour | The Greek says he begot "all things" (πάντα) in himself; "a universe" is MacKenna's. |
+| V.8.12.p2 | the Supreme has existed for ever and for ever will exist | The Greek's "it was always and will be" (ἦν δ’ ἀεὶ καὶ ἔσται) may go on with "these" (ταῦτα), the things here, whose plural takes a singular verb in Greek: the world always was and will be. MacKenna makes it the Supreme. |
+| V.8.13.p1 | The God fettered (as in the Kronos Myth) to an unchanging identity | MacKenna's chapter 12 runs on here without a break: the Greek's chapter 13 begins with these words (the OCR lost his number 13). |
+| V.8.13.p1 | by that which keeps him apart from the link between himself and the lower | The Greek says he is held up, away from what comes after him, by "the bond" (τῷ ἀνέχοντι ... δεσμοῦ): the bond itself holds him apart; MacKenna keeps him apart from the link. |
+| V.8.13.p2 | Soul also has beauty, but is less beautiful than Intellect as being its image | The Greek says soul is "a trace" (ἴχνος) of intellect, a weaker word than image. |
 
 ## The plan, in Porphyry's order
 
@@ -847,8 +901,8 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | V.4 | How what comes after the first comes from it, and on the One | done here |
 | V.5 | That the intelligibles are not outside intellect, and on the Good | done here |
 | V.6 | That what is beyond being does not think | done beside Taylor (milestone 27) |
-| V.7 | Whether there are forms of individuals | to come (E21) |
-| V.8 | On intelligible beauty | to come (E21) |
+| V.7 | Whether there are forms of individuals | done here |
+| V.8 | On intelligible beauty | done here |
 | V.9 | On intellect, the forms and being | done beside Taylor (milestone 27) |
 | VI.1 | On the kinds of being, first part | to come (E22-E23) |
 | VI.2 | On the kinds of being, second part | to come (E24) |

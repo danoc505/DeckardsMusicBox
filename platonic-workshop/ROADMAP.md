@@ -375,10 +375,43 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   36d-e), the Parmenides' one that neither moves nor stands, dreamers (Republic V 476c-d), divining the good and seeming
   good (Republic VI 505d-e), the Phaedrus' pains of love, Agathon's praise (Symposium 198d-199a), genus and difference
   (Topics VI.6), and the Stoics' indifferents.
-- E21: V.7 Whether there are forms of individuals, V.8 On intelligible beauty (5,221). Next. MacKenna's vol. IV is in;
-  his V.7 has 3 chapters, as the Greek, but his V.8 has 12 to the Greek's 13 (and its first page reads 75 where his
-  contents say 73): check his chapters against the Greek and use @older where they differ.
-- E22: VI.1 On the kinds of being, first part, chapters 1-15 (about 4,900); MacKenna's vol. V (1930).
+- **E21: V.7 Whether there are forms of individuals, V.8 On intelligible beauty (5,221) (done).** 16 chapters, 63
+  paragraphs, 54 flags, 60 notes. MacKenna's chapters are the Greek's in V.7 (3) and in V.8 from 1 to 12; the OCR of his
+  vol. IV lost his number 13 of V.8 (two blank lines where the scan prints it), so its text runs on in his 12 (@older 12,
+  and "V.8.13" in vol. IV's "lost" list in tools/mackenna.py). The first page read 75 because the OCR set p. 73's running
+  head before the treatise's title and misread the next head as "74 PLOT1NUS"; tools/mackenna.py now takes "PLOT1NUS" as a
+  running head, which puts V.8 on p. 73 and takes six stray heads out of MacKenna's V.1, V.2, V.3 and V.8 (the 1917, 1921
+  and 1924 files are unchanged). E.g. MacKenna makes the world's period a "soul-period", denies number to the infinity
+  that the Greek puts in what has no parts, makes one parent "the source", turns an observation into "Difference
+  everywhere is a good", reads "evil" for ugliness, gives the craftsman a model, makes the number left to chance give
+  each its principle, adds "unfailing"; in V.8 the "Father" to be understood where the Greek says brought to mind, "the
+  realm of magnitudes", the craftsman's hands, all art for music, "the Matter of beauty", an "elaboration upon the
+  presented form", "the truly personal", "remember" for recollect, "proficient" for good, the gods as sun and stars,
+  "see and know", "in breadth and depth", a correction about the stars, "unchangeable" for unwearying, "the discussion" for
+  the name, a wisdom the craftsman embodies, "as we assume", "our apparatus of science" for propositions, "detailed
+  willing", a condition put on existing, "looked outward", "no obstacle", a maker who makes nothing, "a total of good",
+  being anything wholly, a "Beauty sprung from this world", "inborn sense of Matter", "distinction by state", the bodies'
+  failure for our inexperience, "passable", "demigods", "Moral Wisdom", "light" for colour, "it is but", "multiple unity",
+  "still he is pure", "the separated life", the other seer dropped, a question made an objection, knowledge and its object
+  for knowledge and knower, "aware of none", "a universe" for all things, "the Supreme" for what always was, the link and
+  the bond, and "image" for trace. Notes on Socrates himself (Metaphysics B.2), Pythagoras' lives, the
+  Stoics' return (Nemesius 38), specific differences (Topics VI.6), Generation of animals, Airs, waters, places, the
+  Academics' twins (Academica II), Leibniz, the Stoic unrolling, Letter VI, Zeuxis (On invention II), Metaphysics Z.7-9,
+  Republic X and Physics II.2, Phidias (Orator 8-9), Iliad III, the pupil (II.8, IV.5), Narcissus (I.6.8), the ladder and
+  Socrates' Silenus (Symposium), recollection (Phaedrus 249c-250d), soul as matter (V.9.3), beauty beyond words (Republic
+  VI 509a), the gods' round (Phaedrus 247-248), Homer's easy-living gods, movement and rest (Sophist), Lynceus, Kronos and
+  koros (Cratylus 396b), Justice beside Zeus (Hesiod, Laws IV), the statues, the knowledge not other in another (Phaedrus
+  247d-e), the forms as beings, the Egyptians' signs (Plutarch, Clement), the Timaeus' planning maker, the sudden sight
+  (Symposium 210e), matter as last form (II.4, III.8.4), the soul that travels on high (Phaedrus 246b-c), the ecliptic and
+  unproved principles, the Good beyond beauty (I.6.9), the admiring craftsman (Timaeus 37c-d), the Gnostics (II.9), the
+  sphere and the prayer (Timaeus), being and beauty (I.6.6), Zeus' procession (Phaedrus 246e-247a), the cave, the
+  undescended soul (IV.8.8), Phaedo's true earth, nectar (Symposium 203b, VI.7.35), possession (Phaedrus, Ion), VI.9.10-11,
+  co-perception (V.4.2), I.4.10, Hesiod's Kronos (Theogony), the Timaeus' "was" and "will be", Aphrodite as soul (III.5),
+  Alcibiades I, and the intelligible place (Republic VI-VII); the summaries place both in Life 4 and 5.
+- E22: VI.1 On the kinds of being, first part, chapters 1-15 (about 4,900); MacKenna's vol. V (1930). Next. Bring in
+  MacKenna's vol. V (the Sixth Ennead) as vol. IV was brought in for E20 (an Internet Archive OCR, a manifest entry,
+  sources/mackenna-plotinus-1930/, tools/mackenna.py, texts/plotinus/mackenna-1930.json), and check his chapters against
+  the Greek; VI.1 has 30 chapters in the Greek and is done over E22 and E23.
 - E23: VI.1 chapters 16-30 (about 4,900).
 - E24: VI.2 On the kinds of being, second part (7,442).
 - E25: VI.3 On the kinds of being, third part, chapters 1-14 (about 4,700).
