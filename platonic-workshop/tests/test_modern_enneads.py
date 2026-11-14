@@ -155,13 +155,35 @@ class Files(unittest.TestCase):
         self.assertTrue(any("towards the sun" in f["why"] for f in flags["I.7.1.p3"]))
         self.assertGreaterEqual(sum(len(flags[s]) for s in flags if s.startswith(("I.6.", "I.7."))), 20)
 
+    def test_milestone_e4_evils_and_going_out_of_life(self):
+        d = load()
+        self.assertEqual([t["id"] for t in d["treatises"]][:7], ["I.1", "I.4", "I.5", "I.6", "I.7", "I.8", "I.9"])
+        self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "I.8"], [f"I.8.{n}" for n in range(1, 16)])
+        self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "I.9"], ["I.9.1"])
+        # MacKenna's I.8 has 12 chapters for Volkmann's 15: his 10 holds 10 to 13, his 11 and 12 are 14 and 15.
+        older = {c["id"]: [o["n"] for o in c["older"]] for c in d["chapters"] if c["treatise"] == "I.8"}
+        self.assertEqual([older[f"I.8.{n}"] for n in range(9, 16)], [[9], [10], [10], [10], [10], [11], [12]])
+        first = next(p for p in d["paragraphs"] if p["seg"] == "I.8.1.p1")
+        self.assertTrue(first["modern"].startswith("Those who ask where evils come from"))
+        self.assertTrue(first["greek"].startswith("Οἱ ζητοῦντες πόθεν τὰ κακά"))
+        # The golden chains (I.8.15), and the oracle that opens I.9.
+        self.assertIn("bound in gold", next(p for p in d["paragraphs"] if p["seg"] == "I.8.15.p3")["modern"])
+        self.assertTrue(next(p for p in d["paragraphs"] if p["seg"] == "I.9.1.p1")["modern"].startswith('"You shall not lead it out'))
+        flags = {p["seg"]: p.get("flags", []) for p in d["paragraphs"]}
+        # MacKenna gives the first activity to the Good; the Greek gives it to intellect.
+        self.assertTrue(any("intellect" in f["why"] for f in flags["I.8.2.p2"]))
+        self.assertTrue(any("assents" in f["why"] for f in flags["I.8.14.p1"]))
+        self.assertGreaterEqual(sum(len(flags[s]) for s in flags if s.startswith(("I.8.", "I.9."))), 25)
+
     def test_flags_quote_macKenna_word_for_word(self):
         d = load()
         older = mackenna.chapters()
+        # MacKenna's chapters shown with each chapter (in I.8 his numbers are not Volkmann's).
+        shown = {c["id"]: " ".join(older[f"{c['treatise']}.{o['n']}"]["text"] for o in c["older"]) for c in d["chapters"]}
         flags = [(p, f) for p in d["paragraphs"] for f in p.get("flags", [])]
         self.assertGreaterEqual(len(flags), 10)
         for p, f in flags:
-            self.assertIn(modern_neo.norm(f["taylor"]), older[p["chapter"]]["text"], p["seg"])
+            self.assertIn(modern_neo.norm(f["taylor"]), shown[p["chapter"]], p["seg"])
             self.assertEqual(f["in"], "MacKenna")
             self.assertTrue(f["why"])
         # MacKenna puts the soul that weaves in Plato; it is Aristotle's (On the Soul 408b).
@@ -172,7 +194,8 @@ class Files(unittest.TestCase):
         notes = " ".join(n for p in load()["paragraphs"] for n in p.get("notes", []))
         for place in ("408b11-15", "412b12", "588c-590b", "35a", "611c-612a", "Odyssey",
                       "1100a5-9", "505a", "77e", "176a-b", "37d", "1153a14-15",
-                      "69b-c", "211a-e", "254b", "508b", "1129b28-29", "Iliad (2.140", "1094a2-3"):
+                      "69b-c", "211a-e", "254b", "508b", "1129b28-29", "Iliad (2.140", "1094a2-3",
+                      "176a-b", "312e", "258b", "47e-48a", "273d", "534c-d", "246b-c", "Oedipus at Colonus", "61c-62c"):
             self.assertIn(place, notes)
 
     def test_the_tool_finds_no_problems(self):

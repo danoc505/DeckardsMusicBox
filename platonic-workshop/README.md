@@ -440,7 +440,7 @@ and his note that Aristotle "cannot be serious" against the Forms in X.10. The n
 Proclus on the One beyond being, Proclus on the Form as cause, not one more member of its species). Taylor's chapters are
 Bekker's. Next, when the Aristotle work resumes: Book Λ (35m7).
 
-**The Enneads in modern English (milestones E1 to E34): I.1 and I.4 to I.7 done; the current focus (November 2026).** The rest of Plotinus,
+**The Enneads in modern English (milestones E1 to E34): I.1 and I.4 to I.9 done; the current focus (November 2026).** The rest of Plotinus,
 the thirty-nine treatises Taylor did not translate, is being put into plain modern English a treatise or two at a time, in
 Porphyry's order, as milestone 27 did for Taylor's fifteen: made from Volkmann's Greek, chapter by chapter, every idea kept,
 and checked against the older English beside it, here **Stephen MacKenna's** (1917-1930, made from the same Greek; public
@@ -461,7 +461,14 @@ flags, among them his "morality means weakness of will" for Thrasymachus' "self-
 for the Phaedrus' self-control "on a holy pedestal", "God and Beauty" for the Good and the beautiful, and the light "in" the sun
 where the Greek has it "towards" the sun; the notes give the Phaedo's purification and mire (69b-c), the Symposium's beauty
 itself (211a-e), the Phaedrus' pedestal and statue (254b, 252d), the Republic's sunlike eye (508b), Aristotle's evening and
-morning star (1129b28-29), Agamemnon's "dear fatherland" (Iliad 2.140), and Narcissus. It opens at
+morning star (1129b28-29), Agamemnon's "dear fatherland" (Iliad 2.140), and Narcissus.
+**I.8, What evils are, and where they come from** and **I.9, On going out of life** (E4): 15 and 1 chapters, 42 and 3
+paragraphs, 31 and 3 flags, among them his "First Act" given to the Good where the Greek gives it to intellect, non-being
+"utterly different" from being where the Greek says "only other", "hasty to compromises" for "rash in its assents", and
+"unlawful" where the Greek says only "one must do nothing"; MacKenna's I.8 has 12 chapters for Volkmann's 15, named for each
+Greek chapter with `@older`. The notes give the Theaetetus' flight (176a-b), the Second Letter's king of all (312e), the
+Statesman's place of unlikeness (273d), the Republic's sleep in Hades (534c-d), the Phaedo's guard post (61c-62c), and
+Sophocles' holy grove (Oedipus at Colonus 54). It opens at
 `#neo-modern/enneads` (from the Neoplatonists' shelf, under Plotinus, and from each chapter of the Greek): each treatise and
 chapter with a short title and a summary, the Greek of every paragraph one tap away (linking to its chapter in Volkmann's
 text), MacKenna's chapter one tap away (*MacKenna's words*, with his page) or beside it (*Side by side*), and *Mark a sentence*.
@@ -475,7 +482,7 @@ hyphened terms such as "Sense-Perception" kept; not proofread). The master copy 
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: I.8 and I.9 (E4).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: Porphyry's Life of Plotinus, chapters 1-12 (E5).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,

@@ -3,14 +3,14 @@
 Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.txt`. The Workshop's modern English, machine-assisted: drafted with an AI model (Claude) from the Greek and not yet checked by a scholar. The Greek of each paragraph, and MacKenna's English of each chapter, are one tap away.
 
 - Made from: Volkmann's Greek (Leipzig, 1883-1884), as First1KGreek gives it; checked against MacKenna's English (1917; the Internet Archive's OCR of the printed volumes, read by rule (tools/mackenna.py), not proofread).
-- Treatises done here: I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods.
-- The whole Enneads: 5 treatises here, 15 beside Taylor (milestone 27), 34 to come.
-- Chapters: 51, each with a short title and a summary.
-- Paragraphs: 114, each with its Greek.
-- Words: 16,054 modern, 11,971 Greek, 18,094 in MacKenna's English of the same chapters.
-- Sentences (each can be marked in the reader): 632.
-- Flags (where MacKenna and the Greek differ, or the Greek is hard): 59.
-- Notes (Plato's, Aristotle's and Homer's places, hard readings): 41.
+- Treatises done here: I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life.
+- The whole Enneads: 7 treatises here, 15 beside Taylor (milestone 27), 32 to come.
+- Chapters: 67, each with a short title and a summary.
+- Paragraphs: 159, each with its Greek.
+- Words: 21,931 modern, 16,494 Greek, 27,334 in MacKenna's English of the same chapters.
+- Sentences (each can be marked in the reader): 833.
+- Flags (where MacKenna and the Greek differ, or the Greek is hard): 93.
+- Notes (Plato's, Aristotle's and Homer's places, hard readings): 71.
 - Problems found: 0.
 
 ## Flags
@@ -76,6 +76,40 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | I.7.2.p1 | are no more than images of the Ideal-Form | The Greek says that what each thing shares in are "images of being and of the one, and the form likewise" (εἴδωλα ὄντος καὶ ἑνός, καὶ τὸ εἶδος ὡσαύτως): images of being and the one, not of the Ideal-Form. |
 | I.7.3.p1 | the misfortune is still life, a life of a definite character | The Greek says only that life is evil there too, "since it is not life alone" (ὅτι μὴ ζωὴ μόνον): it is life with something added, the punishment; "a life of a definite character" is MacKenna's. |
 | I.7.3.p2 | feel itself at home | The Greek says the soul "will be able to receive both" (ἀμφοτέρων δεκτική), life and death: it can be in either state, not that it feels at home in both. |
+| I.8.1.p2 | are nearer to Non-Being | The Greek says the worse are "rather a privation" (στέρησις μᾶλλον), the lack of a form, Aristotle's word; MacKenna's "nearer to Non-Being" says something else. Where the question comes back, he has "utter Lack" for the same word. |
+| I.8.2.p2 | And the First Act is the Act of The Good stationary within Itself, and the First Existence is the self-contained Existence of The Good | In the Greek it is intellect that "is the first activity of that one and its first being" (πρώτη ἐνέργεια ἐκείνου καὶ πρώτη οὐσία), while the Good "stays in itself": the Good does not itself act or exist as intellect does. MacKenna gives the first activity and the first existence to the Good. |
+| I.8.2.p3 | circles around the Intellectual-Principle | The Greek says the soul "dances" round it (χορεύουσα), as a chorus round an altar: Plotinus' image for the soul's ordered life about what it loves. |
+| I.8.3.p1 | of an utterly different order from Authentic-Being | The Greek says non-being here is "only other than being" (ἕτερον μόνον τοῦ ὄντος), Plato's sense of non-being in the Sophist; MacKenna makes it "utterly different". |
+| I.8.3.p1 | there is no question here of movement or position with regard to Being | The Greek says this non-being is not like "motion and rest, which are about being" (ὡς κίνησις καὶ στάσις ἡ περὶ τὸ ὄν): two of the Sophist's greatest kinds, which are "not being" only because they are other than it. MacKenna's "position" is rest (στάσις). |
+| I.8.3.p2 | that part is all lawless void | The Greek says only "that too is all of these" (καὶ αὐτὸ πάντα ταῦτα): the whole list of what evil is. "Lawless void" is MacKenna's. |
+| I.8.3.p3 | become a cause of evil by consecration to this Absolute | The Greek says such a thing is evil "by looking towards it" (βλέπον πρὸς αὐτό), or "makes things such" (ποιητικόν): there is no "consecration". |
+| I.8.4.p1 | Soul, on the contrary, since not every Soul is evil, is not an evil Kind | The Greek has two claims: the soul "in itself is not evil" (καθ’ ἑαυτὴν μὲν οὐ κακή), and "nor is every soul evil"; MacKenna leaves out "in itself" and makes the second the reason for a conclusion of his own. |
+| I.8.4.p1 | all the states, foreign to the true nature | The Greek calls them "involuntary affections" (ἀκούσια παθήματα): the soul does not choose them. |
+| I.8.4.p1 | not by their true value but by the mere test of like and dislike | The Greek says the false opinions make the soul "think evil and good the things it flees and pursues": it mistakes what it avoids and seeks for evil and good. There is no "true value" or "like and dislike". |
+| I.8.5.p3 | the Evil which holds men down binds them against their will | The Greek speaks of the evils (ἃ δ’ ἂν ἀνθρώπους κατάσχῃ) "that take hold of men", in the plural; it means the evils, not "the Evil". |
+| I.8.6.p1 | with justice and piety in the light of philosophy | The Greek, quoting Plato, says "just and holy with wisdom" (μετὰ φρονήσεως): practical wisdom, not philosophy. |
+| I.8.6.p2 | The Good in the Supernal | The Greek says only "that Good" (ἐκείνῳ τῷ ἀγαθῷ). |
+| I.8.6.p2 | the good thing by which Matter is brought to order | The Greek says virtue is "a good, which makes us master matter" (ὃ κρατεῖν τῆς ὕλης ποιεῖ): mastering, not ordering. |
+| I.8.6.p2 | established by practical proof | The Greek says "shown by induction" (τῇ ἐπαγωγῇ δεδειγμένον), by going through the cases one by one: Aristotle's argument in the Categories. |
+| I.8.7.p2 | Since you possess only a derivative being | The Greek of the Timaeus says "since you have come into being" (ἐπείπερ ἐγένεσθε); MacKenna's words of introduction, "in which the Father of Gods addresses the Divinities of the lower sphere", are his own explanation. |
+| I.8.8.p1 | not in the concrete signification but in the presence or absence of just such forms | The Greek says "fillings, emptyings, and not fillings simply, but fillings with such and such things" (πληρώσεις τοιῶνδε): being full of this food or that. There is nothing about concrete significations or the absence of forms. |
+| I.8.8.p3 | the incoming Idea should have been able to conquer the Matter | The Greek says only "but one should master it, someone might say" (ἀλλὰ κρατεῖν ἔδει): it is we, or the reason in us, who should master the body's desires; "the incoming Idea" is MacKenna's. |
+| I.8.8.p3 | in times of stress, we are not the same | The Greek speaks of being "full" and "empty" (πλήρεις, κενοί), filled with this or with that: our desires and thoughts change with what we have eaten and drunk, not with stress and peace. |
+| I.8.9.p1 | by means of the philosophic habit | The Greek says "by intellect itself and by wisdom" (νῷ αὐτῷ καὶ φρονήσει), and gives the reason MacKenna leaves out: "for it knows itself". |
+| I.8.9.p2 | an ugly appearance in Matter | The Greek has "an ugly face" (αἰσχρόν τι πρόσωπον), an example taken from life. |
+| I.8.10.p1 | give it Quality and in its very Evil it would almost be a Form | The Greek says matter is evil not by having a quality, "so that perhaps it is not evil as being a form" (ἵνα μὴ ᾖ ἴσως κακὴ εἶδος οὖσα), but as a nature contrary to form; MacKenna's "give it Quality" and "almost" are his reading. |
+| I.8.11.p1 | This objection may be answered by applying the principle to the case of Evil in the Soul | In the Greek the objection goes on: if evil is privation, it is in the soul, as its vice, and "nothing outside"; there is no answer until the next paragraph ("But if privation..."). MacKenna makes the objector's conclusion into an answer. |
+| I.8.11.p2 | it has much good in it | The Greek says the soul "has something good" (ἔχουσά τι ἀγαθόν), "a trace of intellect": the argument needs only some good, not much. |
+| I.8.13.p2 | where, fallen from all our resemblance to the Divine, we lie in gloom and mud | The Greek says "sinking into it, one will have fallen into dark mud" (εἰς βόρβορον σκοτεινόν): "fallen from all our resemblance to the Divine" is MacKenna's gloss on "the place of unlikeness". |
+| I.8.13.p2 | And the death of Soul is twofold | The Greek says only "its death": "while still in the body" to be sunk in matter, "and when it has gone out" to lie there. The two times are there, but "twofold" is MacKenna's. |
+| I.8.14.p1 | as hasty to compromises | The Greek says the evil soul is "rash in its assents" (προπετῆ εἰς συγκαταθέσεις): quick to agree to impressions, the Stoics' word for judgement, not "compromises". |
+| I.8.14.p1 | burned away by every heat | The Greek says such weak things are "easily carried about" (ῥᾳδίαν τὴν φοράν) by winds and the heat of the sun: carried about, not burned away. |
+| I.8.14.p3 | for the Soul cannot lift up this foreign thing close by, since the evil of it makes it invisible | The Greek says the source of light "does not bear with" matter (οὐ γὰρ ἀνέχεται αὐτήν), though matter is present, "because matter does not see" it, by its badness: it is matter that cannot see, not matter that is invisible, and nothing is "lifted up". |
+| I.8.15.p2 | within that place of its choice | The Greek says the soul must be "with intellect alone, settled in it" (ἐν αὐτῷ ἱδρυμένην): "that place of its choice" is MacKenna's. |
+| I.8.15.p3 | not destitute of Images of the Good and Beautiful | The Greek has "images of the beautiful" (εἰδώλοις τοῦ καλοῦ): "the Good" is added. |
+| I.9.1.p1 | For wheresoever it go, it will be in some definite condition | The Greek says "it will go out having something" (ἔχουσά τι), something of the body, "if it goes out at all": the reason for the opening command, not a condition it will be in. |
+| I.9.1.p2 | movements which it is unlawful to indulge | The Greek says only "but one must do nothing" (δεῖ δὲ μηδὲν πράττειν): nothing is done that would come from these feelings. There is no law in the Greek. |
+| I.9.1.p2 | That is not likely in the Sage | The Greek's σπουδαῖος is "the good man", serious about virtue, as elsewhere in the Workshop (see I.4); MacKenna's "Sage" makes him a Stoic figure. |
 
 ## The plan, in Porphyry's order
 
@@ -88,8 +122,8 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | I.5 | Whether happiness grows with time | done here |
 | I.6 | On beauty | done here |
 | I.7 | On the first good and the other goods | done here |
-| I.8 | What evils are, and where they come from | to come (E4) |
-| I.9 | On going out of life | to come (E4) |
+| I.8 | What evils are, and where they come from | done here |
+| I.9 | On going out of life | done here |
 | II.1 | On the heaven | to come (E7) |
 | II.2 | On the movement of the heaven | to come (E7) |
 | II.3 | Whether the stars are causes | to come (E8) |

@@ -688,3 +688,290 @@ If life is a good, does this belong to everything that lives? No: life limps in 
 But if life is the coming together of soul and body, and death their parting, the soul will be able to receive both. But if life is good, how is death not an evil? Life is good for those for whom it is good, not in so far as it is a coming together, but because it wards off evil through virtue; and death is the greater good. Or we must say that life in the body is in itself an evil, but that by virtue the soul comes to be in the good, not living by the compound, but already separating itself.
 !flag feel itself at home | The Greek says the soul "will be able to receive both" (ἀμφοτέρων δεκτική), life and death: it can be in either state, not that it feels at home in both.
 !note Death as the soul's being apart from the body, and the philosopher's practice of dying, are the Phaedo's (64c-67e).
+
+@treatise I.8 | What evils are, and where they come from
+To know what evil is, we must first know the Good: what all things hang on and desire, needing nothing, the measure and limit of all, which gives intellect, being, soul and life. Evil cannot be among the beings or beyond them; if it exists, it is among the things that are not, as an image of being. It is what is unmeasured, unlimited, formless and always in need, not as an attribute but as its very nature: matter, the first evil, evil in itself. Bodies are evil in so far as they share in matter, and the soul's vice is a second evil, in so far as the soul looks to matter, is mixed with it, or falls into it. Evil exists of necessity, as Plato says, because the Good is not alone: going out from it, things must come to a last, after which nothing more can come to be, and that is matter. Vice is not evil itself, as virtue is not the Good itself; the weakness of the soul is matter's presence in it. To deny evil is to deny the Good; and evil, of necessity, is bound in beautiful chains, like a prisoner in golden fetters, so that the gods need not see it, and men may see images of beauty even in it.
+
+@ch I.8.1 | To know evil, first know the Good
+Those who ask where evils come from should first ask what evil is. But with what power could we know it, if we know by likeness, and evil is not a form but the absence of every good? If the same knowledge covers contraries, we must first see clearly what the Good is; though how good and evil are contrary is a question for later.
+
+@p
+Those who ask where evils come from, whether they have come into the beings or into some kind of beings, would make a fitting beginning for their inquiry if they first laid down what evil is, and what the nature of evil is. For so it would be known where it has come from, where it has its seat and to what it belongs as an attribute; and, in general, it would be agreed whether it exists among the beings at all. But with what power in us could we know the nature of evil? That would be hard to say, since knowledge of each thing comes about by likeness. Intellect and soul, being forms, would know forms and would have their desire for them; but how could anyone imagine evil as a form, when it shows itself in the absence of every good?
+!note Knowledge by likeness, like known by like, is an old principle: Aristotle reports it of Empedocles and of Plato's Timaeus (On the Soul I.2, 404b13-18).
+
+@p
+@greek ἀλλ’ εἰ, ὅτι τῶν ἐναντίων
+But if, since the same knowledge is of contraries, and evil is contrary to the good, the knowledge of the good will also be the knowledge of evil, then those who are going to know evils must look closely at the Good, since the better things come before the worse and are forms, while the worse are not, but are rather a privation. It is still a question, though, how the good is contrary to the evil: unless it is as beginning to end, or as form to privation. But that will come later.
+!flag are nearer to Non-Being | The Greek says the worse are "rather a privation" (στέρησις μᾶλλον), the lack of a form, Aristotle's word; MacKenna's "nearer to Non-Being" says something else. Where the question comes back, he has "utter Lack" for the same word.
+!note "The same knowledge is of contraries" is Aristotle's principle (for instance Metaphysics IV.2, 1004a9-10; Prior Analytics I.1, 24a21). The question is taken up in chapter 6.
+
+@ch I.8.2 | The Good, intellect, and the soul that dances round it
+What the Good is: what all things hang on and desire, needing nothing, the measure and limit of all, giving intellect, being, soul and life. Intellect there is not like ours, which learns from premises: it has all things and is all things, each whole and distinct. The soul dances round it and through it sees God. This is the life of the gods, without evil: the first, second and third goods round the king of all.
+
+@p
+For now, let us say what the nature of the Good is, as far as the present argument requires. It is that on which all things hang, and which all beings desire, having it as their principle and needing it. It lacks nothing, is sufficient to itself, needs nothing; it is the measure and limit of all things, and gives from itself intellect and being, soul and life, and the activity about intellect. And up to this point all things are beautiful. For it is itself beyond beauty, and reigns beyond the best things in the intelligible world; and the intellect there is not an intellect like those one might suppose, by comparison with what we call intellects here: those filled out from premises, able to understand what is said, reasoning, studying what follows from what, and seeing the beings by following the steps, as if they did not have them before, but were empty until they learned, intellects though they are.
+!note "What all things desire" is Aristotle's definition of the good (Nicomachean Ethics I.1, 1094a2-3); the Good as "beyond beauty" and as king of the intelligible world recalls the Republic's Good, beyond being in rank and power (509b), "a beauty beyond telling" (509a).
+
+@p
+@greek οὐ δὴ ἐκεῖνος ὁ νοῦς τοιοῦτος
+That intellect is not like this. It has all things and is all things, and is with them by being with itself, and has all things without having them. For they are not other than it, and it something else; nor is each of the things in it apart. Each is the whole, and is everything everywhere, and they are not confused, but are again apart: at any rate, what shares in it does not share in all of them at once, but in whatever it can. And intellect is the first activity of the Good and its first being, while the Good stays in itself; intellect is active about it, as if living about it.
+!flag And the First Act is the Act of The Good stationary within Itself, and the First Existence is the self-contained Existence of The Good | In the Greek it is intellect that "is the first activity of that one and its first being" (πρώτη ἐνέργεια ἐκείνου καὶ πρώτη οὐσία), while the Good "stays in itself": the Good does not itself act or exist as intellect does. MacKenna gives the first activity and the first existence to the Good.
+
+@p
+@greek ἡ δὲ ἔξωθεν περὶ τοῦτον χορεύουσα
+And the soul, dancing round intellect from outside, looking at it and contemplating what is within it, sees God through it. And this is the life of the gods, "without sorrow and blessed"; and evil is nowhere here, and if things had stopped here, there would be no evil, but first, second and third goods. "All things are around the king of all, and he is the cause of all beautiful things, and all things are his; and the second around the second, and the third around the third."
+!flag circles around the Intellectual-Principle | The Greek says the soul "dances" round it (χορεύουσα), as a chorus round an altar: Plotinus' image for the soul's ordered life about what it loves.
+!note The closing words are a quotation of the Second Letter ascribed to Plato (312e), which the Platonists read as a teaching of three principles: the Good, intellect and soul. "Without sorrow and blessed" (ἀπήμων καὶ μακάριος) has a ring of Homer's untroubled gods.
+
+@ch I.8.3 | Evil is among the things that are not: matter
+Evil cannot be among the beings or beyond them, for they are good. It must be among the things that are not: not what does not exist at all, but an image of being, or something still further from it. It is measurelessness against measure, unlimited against limit, formless, always in need, never at rest, utter poverty; and these are not attributes of it but its very being. What lies under shapes, forms and limits, decked with an order not its own, an image of the beings: that is the first evil, evil in itself.
+
+@p
+If the beings, and what is beyond the beings, are such as this, then evil cannot be among the beings, nor in what is beyond the beings, for these are good. It remains, then, if evil exists, that it is among the things that are not, as a kind of form of non-being, and that it has to do with something mixed with non-being, or sharing in non-being in some way. Non-being, here, is not what wholly is not, but only something other than being: not non-being in the way that motion and rest are, which are about being, but as an image of being, or something still more non-being than that. And this is the whole world of sense, and all that sensible things undergo; or something later than these, an attribute of them; or their principle; or one of the things that make this up, being such as this.
+!flag of an utterly different order from Authentic-Being | The Greek says non-being here is "only other than being" (ἕτερον μόνον τοῦ ὄντος), Plato's sense of non-being in the Sophist; MacKenna makes it "utterly different".
+!flag there is no question here of movement or position with regard to Being | The Greek says this non-being is not like "motion and rest, which are about being" (ὡς κίνησις καὶ στάσις ἡ περὶ τὸ ὄν): two of the Sophist's greatest kinds, which are "not being" only because they are other than it. MacKenna's "position" is rest (στάσις).
+!note Non-being as "other than being", and motion and rest as kinds that are other than being, are from the Sophist (254d-259b; 258b for non-being as "the other").
+
+@p
+@greek ἤδη γὰρ ἄν τις εἰς ἔννοιαν
+For one might now come to some notion of it as measurelessness against measure, unlimited against limit, formless against what gives form, always needy against the self-sufficient: always undefined, never standing still, open to every affection, insatiable, utter poverty. And these are not attributes of it, but are, as it were, its very being; and whatever part of it you see, that too is all of these. The other things, those that share in it and become like it, become evil, but are not what evil is.
+!flag that part is all lawless void | The Greek says only "that too is all of these" (καὶ αὐτὸ πάντα ταῦτα): the whole list of what evil is. "Lawless void" is MacKenna's.
+!note "Utter poverty" (πενία παντελής) recalls Poverty in Diotima's story of the birth of Eros (Symposium 203b-c), which Plotinus reads as matter in III.5; measure, limit and the unlimited are the Philebus' (23c-26d).
+
+@p
+@greek τίνι οὖν ὑποστάσει
+To what reality, then, do these belong, not as things other than it, but as itself? For if evil happens to something else, it must first be something itself, even if it is not a substance. As there is the good itself and the good that belongs to something, so there is evil itself, and the evil that, depending on it, belongs to something else. What, then, is measurelessness, if not in what is unmeasured? What is measure, if not in what is measured? But just as there is measure not in what is measured, so there is measurelessness not in what is unmeasured. For if it were in something else, it would be either in what is unmeasured, but that has no need of measurelessness, being unmeasured itself; or in what is measured, but what is measured cannot have measurelessness in the respect in which it has been measured. There must, then, be something unlimited in itself, and formless in itself, and the other things listed before, which marked out the nature of evil; and if there is anything after it of this kind, either it has this mixed in it, or it is such by looking towards it, or it makes things such.
+!flag become a cause of evil by consecration to this Absolute | The Greek says such a thing is evil "by looking towards it" (βλέπον πρὸς αὐτό), or "makes things such" (ποιητικόν): there is no "consecration".
+
+@p
+@greek τὴν δὴ ὑποκειμένην σχήμασι
+So what underlies shapes and forms, and figures and measures and limits, and is decked with an order not its own, having nothing good of itself, an image compared with the beings, the being of evil, if there can be a being of evil: this the argument finds to be the first evil, evil in itself.
+!note What "underlies" (ὑποκειμένη) is matter, Aristotle's substrate; Plotinus does not name it until chapter 4, but the description is his account of matter in II.4.
+
+@ch I.8.4 | Bodies, and the evil soul
+Bodies are evil in so far as they share in matter: their form is not true, they are without life, they destroy one another, they hinder the soul and are always flowing away. The soul in itself is not evil; the evil soul is the one enslaved to what is evil in it, mixed with measurelessness through the body, its reason darkened by matter. The perfect soul, turned to intellect, stays pure; the soul that goes out from itself is filled with indefiniteness and sees darkness.
+
+@p
+The nature of bodies, then, in so far as it shares in matter, would be an evil. For bodies have a form that is not true, are deprived of life, destroy one another by their disorderly motion, are hindrances to the soul in its own activity, and flee from being, always flowing. But the soul in itself is not evil, nor again is every soul evil. Which soul, then, is evil? The one, as Plato says, "enslaved to that in which the vice of the soul naturally arises", since it is the irrational form of the soul that receives evil: measurelessness and excess and deficiency, from which come licentiousness and cowardice and the rest of the soul's vice, involuntary affections, which produce false opinions, making it think evil and good the things it flees and pursues.
+!flag Soul, on the contrary, since not every Soul is evil, is not an evil Kind | The Greek has two claims: the soul "in itself is not evil" (καθ’ ἑαυτὴν μὲν οὐ κακή), and "nor is every soul evil"; MacKenna leaves out "in itself" and makes the second the reason for a conclusion of his own.
+!flag all the states, foreign to the true nature | The Greek calls them "involuntary affections" (ἀκούσια παθήματα): the soul does not choose them.
+!flag not by their true value but by the mere test of like and dislike | The Greek says the false opinions make the soul "think evil and good the things it flees and pursues": it mistakes what it avoids and seeks for evil and good. There is no "true value" or "like and dislike".
+!note "Enslaved to that in which the vice of the soul arises" turns round the Phaedrus (256b), where the lovers who live in philosophy have "enslaved that in which the vice of the soul arose, and freed that in which virtue arose".
+
+@p
+@greek ἀλλὰ τί τὸ πεποιηκὸς
+But what made this vice, and how will you trace it back to that principle and cause? First, such a soul is not outside matter, nor by itself. So it is mixed with measurelessness and has no share in the form that orders it and brings it to measure, since it is blended with a body that has matter. Then, too, the reasoning part, if it is harmed, is kept from seeing, by the affections, by being darkened by matter, by inclining towards matter, and, in general, by looking not towards being but towards becoming, whose principle is the nature of matter; and matter is so evil that it fills with its own evil even what is not yet in it, but has only looked at it. For being wholly without a share in good, a privation of it and unmixed lack, it makes like itself whatever touches it in any way.
+
+@p
+@greek ἡ μὲν οὖν τελεία
+The soul that is perfect, then, and inclines towards intellect, is always pure: it has turned away from matter, and neither sees nor approaches anything undefined, unmeasured or evil. So it stays pure, wholly bounded by intellect. But the soul that does not stay so, but goes out from itself, by being not perfect, not first, a kind of phantom of that soul by its deficiency, in so far as it fell short, is filled with indefiniteness and sees darkness, and already has matter, looking at what it does not see, in the way that we are said to see darkness too.
+!note Seeing darkness as a kind of not-seeing is Aristotle's (On the Soul II.10, 422a20-21; III.2, 425b20-22).
+
+@ch I.8.5 | Evil is total lack; evils outside the soul
+Is evil, then, the soul's lack of good, and darkness only second? No: not any lack, but total lack is evil, and that is matter, which does not even have being except in name. Evil must be thought of not as this or that evil, but as what all the particular evils are forms of. Disease, ugliness and poverty also go back to matter. So we are not the source of evils: they are before us, and hold men against their will; those who can, escape them.
+
+@p
+But if the lack of good is the cause of seeing darkness and being with it, evil would be in the soul's lack, and first there, with the darkness second; and the nature of evil would no longer be in matter, but before matter. Or rather, evil is not in any lack whatever, but in total lack. What falls a little short of the good is not evil, since it can even be perfect for its own nature. But when it lacks wholly, as matter does, this is real evil, with no share in good. For matter does not even have being, so as to share in good in that way: being belongs to it only in name, so that it is true to say that it is not. Lack, then, has not-being-good; total lack has being evil; and greater lack has being able to fall into evil, and is evil already.
+!note "Only in name" (ὁμώνυμον) is Aristotle's term for things that share a name but not its meaning (Categories 1, 1a1-6).
+
+@p
+@greek τῷ χρὴ τὸ κακὸν νοεῖσθαι
+So we must think of evil not as this or that evil, such as injustice or some other vice, but as that which is none of these yet, while these are, as it were, forms of it, made specific by additions: as in the soul there is wickedness, and its forms in turn, distinguished either by the matter it concerns, or by the parts of the soul, or by one being like seeing, another like impulse or being affected.
+
+@p
+@greek εἰ δέ τις θεῖτο καὶ τὰ ἔξω
+But if someone holds that the things outside the soul are evils too, such as disease, ugliness and poverty, how will he trace them back to that nature? Disease is the lack and excess of material bodies that do not bear order and measure; ugliness is matter not mastered by form; poverty is want and privation of the things we need because of the matter to which we are yoked, whose nature is to be need itself. If this is rightly said, we must not suppose that we are a principle of evils, being evil of ourselves: evils are before us, and those that take hold of men hold them against their will; there is an escape from the evils in the soul for those who are able, though not all are able. The position, then, is this: since matter is present in sensible things, evil is not the vice that men have, because it is not even in all men. Some master it (and better still are those in whom it is not present at all), and they master it by what in them is not in matter.
+!flag the Evil which holds men down binds them against their will | The Greek speaks of the evils (ἃ δ’ ἂν ἀνθρώπους κατάσχῃ) "that take hold of men", in the plural; it means the evils, not "the Evil".
+!note "Need itself" (χρησμοσύνη) is the word for Poverty's want in the Symposium's story (203b-c).
+
+@ch I.8.6 | Why evils must exist: Plato's Theaetetus, and contraries
+Plato says that evils can never perish, but exist of necessity, haunting mortal nature and this place. This does not mean the earth, for the flight he speaks of is becoming just and holy with wisdom while on earth. But how is vice contrary to the Good, and is there anything contrary to substance? There is: to the nature of the Good the nature of evil, the two principles farthest apart, limit against unlimitedness, true being against false. Contraries are what are most separate.
+
+@p
+We must also consider how it is said that evils could not perish, but exist of necessity; that they are not among the gods, but haunt mortal nature and this place for ever. Is it said in this sense, that heaven is pure of evils, always going in order and carried round in an ordered way, with no injustice there, nor any other vice, nor things wronging one another, but carried round in order, while injustice and disorder are on earth? For this is "mortal nature" and "this place". But the saying that we must flee from here is no longer said of what is on earth. For flight, he says, is not going away from earth, but being just and holy with wisdom, while on earth; so what is meant is that we must flee from vice, and for him evils are vice and what comes from vice. And when the man talking with Socrates says that evils would be done away with, if he could persuade men of what he says, Socrates says that this cannot happen: "For evils must exist of necessity, since there must always be something contrary to the good."
+!flag with justice and piety in the light of philosophy | The Greek, quoting Plato, says "just and holy with wisdom" (μετὰ φρονήσεως): practical wisdom, not philosophy.
+!note The passage is the Theaetetus (176a-b): "evils can neither perish, Theodorus, for there must always be something contrary to the good, nor have their seat among the gods, but of necessity they haunt mortal nature and this place. So we must try to flee from here to there as quickly as we can; and flight is becoming like God, as far as possible; and to become like him is to become just and holy with wisdom."
+
+@p
+@greek τὴν μὲν οὖν κακίαν τὴν περὶ ἄνθρωπον
+How, then, can the vice in man be contrary to that Good? It is contrary to virtue, and virtue is not the Good, but a good, which makes us master matter. And how could anything be contrary to that Good? It is not a quality. Then, what necessity is there everywhere that, if one of two contraries exists, so does the other? Let it be possible, and even granted, that the contrary exists when its contrary does, as when there is health there can also be disease; but not of necessity. Or perhaps he does not need to be saying that this is true of every contrary, but has said it of the Good. But if the Good is substance, or beyond substance, how can there be anything contrary to it? That nothing is contrary to substance is credible in the case of particular substances, shown by induction; but it has not been shown in general.
+!flag The Good in the Supernal | The Greek says only "that Good" (ἐκείνῳ τῷ ἀγαθῷ).
+!flag the good thing by which Matter is brought to order | The Greek says virtue is "a good, which makes us master matter" (ὃ κρατεῖν τῆς ὕλης ποιεῖ): mastering, not ordering.
+!flag established by practical proof | The Greek says "shown by induction" (τῇ ἐπαγωγῇ δεδειγμένον), by going through the cases one by one: Aristotle's argument in the Categories.
+!note "Nothing is contrary to substance" is Aristotle's (Categories 5, 3b24-27); he shows it from cases ("for what would be contrary to a particular man?").
+
+@p
+@greek ἀλλὰ τί τῇ καθόλου οὐσίᾳ
+But what will be contrary to substance in general, and in general to the first things? To substance, non-substance; to the nature of the Good, whatever is the nature and principle of evil. For both are principles, one of evils, the other of goods; and all the things in each nature are contrary to those in the other, so that the wholes are contrary too, and more contrary than the other contraries. For the other contraries are either in the same species or the same genus, and share something common in what they are in. But things that are wholly apart, where what completes the being of one has its contraries in the other, how would they not be most contrary of all, if contraries are what stand furthest from one another? To limit, then, and measure and all the other things in the divine nature, unlimitedness and measurelessness and all the other things the evil nature has are contrary; so that the whole is contrary to the whole. And this one has a false being, and is first and really a lie; the other has true being: so that, as falsehood to truth, what it has instead of substance is contrary to their substance.
+!note Contraries as "what stand furthest from one another" is Aristotle's definition: "things furthest apart in the same genus" (Categories 6, 6a17-18; Metaphysics X.4, 1055a3-10). Plotinus drops "in the same genus".
+
+@p
+@greek ὥστε ἡμῖν ἀναπέφανται
+So it has come to light that it is not true everywhere that nothing is contrary to substance. Even with fire and water, we would have granted that they are contraries, if matter were not common to them, in which the hot and dry, the wet and cold, came about as attributes. If these alone were in them, making up their substance without a common substrate, then here too substance would be contrary to substance. Things, then, that are wholly separate, have nothing in common, and stand at the greatest distance in their nature, are contraries; since contrariety does not belong to them as qualities, nor as any kind of being at all, but as things most separate from each other, made of opposites, and doing contrary things.
+!note Fire as hot and dry, water as wet and cold, with matter underlying them, is Aristotle's account of the elements (On Generation and Corruption II.3, 330a30-b7).
+
+@ch I.8.7 | Matter is necessary, and so is evil
+Why must there be evil, if there is the Good? Because the universe must have matter, and is a mixture of intellect and necessity, as the Timaeus says: the goods from God, the evils from the "ancient nature". "Mortal nature" is the world that came to be. The escape is not by place, but by virtue and separation from the body. And evil is necessary in another way: going down from the Good, there must be a last thing, after which nothing more can come to be; that is matter, with nothing of the Good left in it.
+
+@p
+But how, then, is there of necessity evil, if there is the Good? Is it in this way, that there must be matter in the universe? For this universe is of necessity made of contraries; or rather, it would not exist at all if there were no matter. "The nature of this cosmos is mixed from intellect and necessity", and whatever comes into it from God is good, while the evils come "from the ancient nature": he means the underlying matter, not yet ordered by forms.
+!note Plato's Timaeus: the cosmos was born "mixed, from the union of necessity and intellect" (47e-48a); and the Statesman, where the cosmos has all its good from its maker, and its harsh and unjust things from "its former state" and "its ancient nature" (273b-c). Plotinus reads both as matter.
+
+@p
+@greek ἀλλὰ πῶς θνητὴν φύσιν
+But how does "mortal nature" fit? Let "this place" mean the universe. As for "mortal", the answer is the saying: "since you have come into being, you are not immortal, yet you shall not be undone, by my will." If so, it would rightly be said that evils could not perish. How, then, will one escape? Not by place, he says, but by acquiring virtue and separating oneself from the body; for that is separating oneself from matter too, since whoever is with the body is with matter. He himself somewhere makes clear what it is to separate oneself or not; and "to be among the gods" is to be among the intelligibles, for these are immortal.
+!flag Since you possess only a derivative being | The Greek of the Timaeus says "since you have come into being" (ἐπείπερ ἐγένεσθε); MacKenna's words of introduction, "in which the Father of Gods addresses the Divinities of the lower sphere", are his own explanation.
+!note The saying is from the Timaeus (41a-b), the maker's words to the gods he has made; the separation of soul from body is the Phaedo's (67c-d), and "among the gods" the Theaetetus' (176a).
+
+@p
+@greek ἔστι δὲ τοῦ κακοῦ λαβεῖν
+One can also grasp the necessity of evil in this way. Since the Good is not alone, then, by the going out from it, or, if one prefers to say so, by the continual going down and going away, there must be a last, after which nothing more could come to be: and this is evil. And of necessity there is what comes after the first, and so also the last; and this is matter, which has nothing of the first any more. And this is the necessity of evil.
+
+@ch I.8.8 | It is matter, not form, that makes us evil
+Some say we are made bad not by matter but by the forms in it: heat, cold, bitterness, fullness and emptiness. But forms in matter act only with matter, as the shape of an axe cuts only in iron; and in matter they are corrupted, as food becomes dog. Bodies, through their blending, make desires violent and judgement dull; and our states change with them. The unmeasured is evil first; vice, as ignorance and measurelessness in the soul, is evil second, as virtue is good by likeness to the Good.
+
+@p
+But someone might say that it is not because of matter that we become evil, since neither ignorance nor wicked desires are due to matter. Even if the bad constitution of the body brings about our vice, he would say, it is not the matter that does this, but the form: heat and cold, bitter and salt, and all the forms of flavour; and again fillings and emptyings, and not fillings simply, but fillings with this or that; and, in general, it is being of such and such a kind that makes the differences of desires, and, if you like, of mistaken opinions; so that the form, rather than the matter, is the evil. Even so, he will be forced to grant no less that matter is the evil.
+!flag not in the concrete signification but in the presence or absence of just such forms | The Greek says "fillings, emptyings, and not fillings simply, but fillings with such and such things" (πληρώσεις τοιῶνδε): being full of this food or that. There is nothing about concrete significations or the absence of forms.
+
+@p
+@greek ἅ τε γὰρ ποιεῖ ἡ ἐν ὕλῃ ποιότης
+For what the quality in matter does, it does not do apart from matter, just as the shape of the axe does not cut without the iron. Then too, the forms in matter are not the same as they would be if they existed by themselves: they are forming principles in matter, corrupted in matter, and filled with its nature. Fire itself does not burn, nor does any of the things that exist by themselves do what they are said to do when they come to be in matter. For matter, becoming master of what is reflected in it, corrupts it and destroys it, setting its own nature, which is contrary, beside it: not bringing cold to the hot, but bringing its own formlessness to the form of the hot, its shapelessness to the shape, its excess and deficiency to what is measured, until it has made it matter's own and no longer its own; as in the feeding of animals, what is taken in is no longer what it was when it came, but becomes dog's blood and everything dog, and all the juices become like whatever received them. If, then, body is the cause of evils, matter would be the cause of evils in this way too.
+!note The shape of the axe, which cuts only in iron, is Aristotle's example of soul and body (On the Soul II.1, 412b11-15), used already in I.1.4.
+
+@p
+@greek ἀλλὰ κρατεῖν ἔδει
+"But one should master it", someone might say. But what is able to master it is not pure, unless it flees. And desires are more violent with a certain blending of bodies, some with one and some with another, so that what is in each person does not master them; and people are duller in judging, chilled and hampered by the badness of their bodies, while the opposite blendings make them light and without ballast. Our passing states bear witness to this too: when full, we are different in our desires and in our thoughts from when empty, and different again when filled with one thing or with another.
+!flag the incoming Idea should have been able to conquer the Matter | The Greek says only "but one should master it, someone might say" (ἀλλὰ κρατεῖν ἔδει): it is we, or the reason in us, who should master the body's desires; "the incoming Idea" is MacKenna's.
+!flag in times of stress, we are not the same | The Greek speaks of being "full" and "empty" (πλήρεις, κενοί), filled with this or with that: our desires and thoughts change with what we have eaten and drunk, not with stress and peace.
+
+@p
+@greek ἔστω δὴ πρώτως μὲν
+Let it be, then, that the unmeasured is evil first, and what has come to be in measurelessness, by being made like it or by sharing in it, is evil second, because measurelessness belongs to it as an attribute; first the darkness, and in the same way, second, what has been darkened. Vice, then, being ignorance and measurelessness in the soul, is evil second, and not evil itself; for virtue is not the first good either, but is good because it has been made like the Good or has a share in it.
+
+@ch I.8.9 | How we know vice, and how we know matter
+We know virtue by intellect itself and wisdom; vice we know as a ruler shows what is not straight, by what it lacks. Total vice we know by taking away; ugliness in matter we see where form has not mastered it. Matter, which has no form at all, we know by taking away every form and receiving formlessness into ourselves: an intellect that is not intellect, like an eye that leaves the light to see darkness.
+
+@p
+With what, then, did we come to know these things? And first, with what did we know vice? Virtue we know by intellect itself and by wisdom, for wisdom knows itself; but vice, how? As with a ruler we know what is straight and what is not, so too do we know what does not fit virtue? Do we know it by seeing it, or by not seeing it, vice I mean? Total vice we know by not seeing it, for it is unlimited: by taking away, then, we know what is nowhere; and vice that is not total, by its falling short of this. Seeing part, then, and grasping by the part that is present the part that is absent, which is in the whole form but is missing there, we call it vice, leaving what has been deprived in the undefined.
+!flag by means of the philosophic habit | The Greek says "by intellect itself and by wisdom" (νῷ αὐτῷ καὶ φρονήσει), and gives the reason MacKenna leaves out: "for it knows itself".
+!note The ruler that shows both straight and crooked was a saying of the schools (Aristotle, On the Soul I.5, 411a5-7: "by the straight we know both itself and the crooked").
+
+@p
+@greek καὶ δὴ ἐπὶ τῆς ὕλης
+So too with matter: seeing, for instance, an ugly face, where the forming principle has not mastered it so as to hide the ugliness of matter, we imagine ugliness by the lack of form. But what has had no form at all, how do we know that? By taking away every form altogether, we call what has none of it present matter, and we too take formlessness into ourselves in taking away every form, if we are going to look at matter. So this is another intellect, not intellect, that has dared to see what is not its own.
+!flag an ugly appearance in Matter | The Greek has "an ugly face" (αἰσχρόν τι πρόσωπον), an example taken from life.
+!note Plato's Timaeus says the receptacle, matter for Plotinus, is grasped "by a kind of bastard reasoning, without perception, and hardly to be believed" (52b): Plotinus' "another intellect, not intellect".
+
+@p
+@greek ὥσπερ ὄμμα ἀποστῆσαν
+As an eye withdraws itself from light, so as to see darkness, and so does not see, because it has left the light without which it could not see darkness; nor could it see without the light, but only not see, so that it may see darkness as far as it could be seen: so intellect too, leaving its own light within itself and going out, as it were, from itself into what is not its own, not bringing its own light with it, is affected in the way contrary to what it is, so as to see what is contrary to it.
+
+@ch I.8.10 | How can what has no quality be evil?
+Matter is called "without quality" because it has of itself none of the qualities it receives, not because it has no nature. Quality is an attribute in something else; matter is the substrate. So matter is rightly called both without quality and evil: evil not by having quality, but by not having it, a nature contrary to form.
+
+@p
+So much for this. But if matter is without quality, how is it evil? It is called without quality because it has of itself none of the qualities it will receive and that will be in it as in a substrate, but not because it has no nature. If it has some nature, what prevents this nature from being evil, though not evil as a quality? For a quality is that by which something else is said to be qualified. Quality, then, is an attribute, and in something else; but matter is not in something else: it is the substrate, and the attribute is about it. So, since quality has the nature of an attribute, and matter does not have this, it is called without quality. If, then, quality itself is without quality, how could matter, which has not received quality, be called qualified? So it is rightly said to be both without quality and evil: it is not called evil by having quality, but rather by not having it, so that perhaps it might not be evil by being a form, but as a nature contrary to form.
+!flag give it Quality and in its very Evil it would almost be a Form | The Greek says matter is evil not by having a quality, "so that perhaps it is not evil as being a form" (ἵνα μὴ ᾖ ἴσως κακὴ εἶδος οὖσα), but as a nature contrary to form; MacKenna's "give it Quality" and "almost" are his reading.
+
+@ch I.8.11 | Is evil only a privation in the soul?
+@older 10
+An objection: what is contrary to form is privation, and privation is always in something else; so evil would be in the soul, as its vice, and nowhere outside, and matter would be needless. The reply: if the soul were deprived of good, it would be deprived of life and not be soul. But the soul has life of its own nature, a trace of intellect, so it is not evil of itself, nor is the first evil in it.
+
+@p
+But the nature contrary to every form is privation; and privation is always in something else, and is not a reality by itself; so that if evil is in privation, evil will be in what is deprived of form, and so it will not exist by itself. If, then, there is evil in the soul, the privation in it will be the evil and the vice, and nothing outside. For other arguments too think fit to do away with matter altogether, and others say that matter, though it exists, is not evil. So we need not look for evil elsewhere, but put it in the soul, and put it there as the absence of good.
+!flag This objection may be answered by applying the principle to the case of Evil in the Soul | In the Greek the objection goes on: if evil is privation, it is in the soul, as its vice, and "nothing outside"; there is no answer until the next paragraph ("But if privation..."). MacKenna makes the objector's conclusion into an answer.
+!note "Privation" (στέρησις), the lack of a form in what should have it, is Aristotle's (Physics I.7-9; Metaphysics V.22). Plotinus argues in II.4 that matter itself is privation, against Aristotle, who kept them apart (Physics I.9, 192a3-6).
+
+@p
+@greek ἀλλ’ εἰ ἡ στέρησις ἐπιβάλλοντός
+But if privation is the absence of a form that ought to be present, if there is privation of good in the soul, and the soul makes vice in itself by its own nature, then the soul has nothing good: so it has not even life, though it is soul. The soul will then be soulless, if it has not even life; so that, being soul, it will not be soul. It has life, then, by its own nature, and so it does not have the privation of good of itself. So it is like the good, having something good, a trace of intellect, and is not evil of itself. Nor, then, is it the first evil, nor is the first evil an attribute of it, since not all the good is absent from it.
+!flag it has much good in it | The Greek says the soul "has something good" (ἔχουσά τι ἀγαθόν), "a trace of intellect": the argument needs only some good, not much.
+
+@ch I.8.12 | A partial privation?
+@older 10
+If vice were only a partial privation of good, the soul would be mixed, and its evil not unmixed: we would not yet have found the first, unmixed evil, and the soul would have good as its substance and evil as an attribute.
+
+@p
+What, then, if someone said that vice, the evil in the soul, is not a total privation of good, but some privation of good? But if so, having some good and deprived of some, it will have a mixed disposition, and the evil will not be unmixed; and the first, unmixed evil has not yet been found. And the soul will have the good in its substance, and evil as an attribute.
+!note "Disposition": Volkmann prints αἴσθησιν, "perception", which makes no sense here; editors since have read διάθεσιν, "disposition", and MacKenna's "a mingled nature" reads it so too.
+
+@ch I.8.13 | Vice is a hindrance; going down to evil itself
+@older 10
+Perhaps vice is evil as a hindrance, as for the eye; but then it is a cause of evil, not evil itself. As virtue is not the beautiful or the good itself, but shares in what is before and beyond it, so going down from vice one comes to evil itself, and becomes evil by sharing in it, in the place of unlikeness, fallen into dark mud. A soul wholly given to vice has changed into a worse nature, and dies, as a soul can die: sunk in matter, and after the body lying in the mud, asleep in Hades.
+
+@p
+Unless, perhaps, vice is evil to the soul in this way, as a hindrance, as something is to the eye for seeing. But then evil would be what makes evil for it, and makes it as something other than evil itself. If, then, vice is a hindrance to the soul, it makes evil, but vice will not be evil itself; and virtue is not the Good either, except as a fellow-worker; so that if virtue is not the Good, neither is vice the evil. Then, too, virtue is not the beautiful itself, nor the good itself; and so neither is vice the ugly itself, nor evil itself.
+
+@p
+@greek ἔφαμεν δὲ τὴν ἀρετὴν
+We said that virtue is not beauty itself nor the good itself, because before it and beyond it are beauty itself and the good itself, and it is good and beautiful by sharing in them in some way. So, as one going up from virtue comes to the beautiful and the good, so one going down from vice comes to evil itself, starting from vice: seeing it, in so far as this is seeing evil itself, and becoming it, in so far as this is sharing in it. For one comes to be wholly in "the place of unlikeness", where, sinking into it, one will have fallen into dark mud. For if the soul went wholly into total vice, it no longer has vice, but has changed into another nature, the worse; for vice is still something human, mixed with something contrary to it. So it dies, as a soul could die; and its death, while it is still in the body, is to be sunk in matter and filled with it, and, when it has gone out, to lie there, until it runs back up and somehow lifts its sight out of the mud. And this is "going to Hades and falling asleep there".
+!flag where, fallen from all our resemblance to the Divine, we lie in gloom and mud | The Greek says "sinking into it, one will have fallen into dark mud" (εἰς βόρβορον σκοτεινόν): "fallen from all our resemblance to the Divine" is MacKenna's gloss on "the place of unlikeness".
+!flag And the death of Soul is twofold | The Greek says only "its death": "while still in the body" to be sunk in matter, "and when it has gone out" to lie there. The two times are there, but "twofold" is MacKenna's.
+!note "The place of unlikeness" is from the Statesman (273d), where the world, left to itself, is in danger of sinking into "the boundless place (or sea) of unlikeness"; the mud is the Phaedo's (69c), where the uninitiated "lie in mud" in Hades; and "going to Hades and falling asleep there" is the Republic's (534c-d), said of the man who cannot give an account of the Good.
+
+@ch I.8.14 | The weakness of the soul is matter's presence
+@older 11
+If vice is the soul's weakness, easily moved by desire, anger, rash assent and dim imaginings, where does the weakness come from? Not as in bodies, but by analogy, unless matter is the cause in both. Not in souls apart from matter, which are pure and winged, but in fallen souls, by the presence of something foreign. Matter and soul are in one place; matter begs at the soul, presses in, is lit up but cannot see its source, darkens the light, and keeps the soul's powers from acting. So matter is the cause of the soul's weakness and of its vice: matter is evil first, the first evil.
+
+@p
+But if someone says that vice is a weakness of the soul (the evil soul is, at any rate, easily affected and easily moved, carried from every evil into every evil, easily moved to desires, easily provoked to anger, rash in its assents, readily yielding to dim imaginings, like the weakest things made by art or nature, which are easily carried about by winds and by the heat of the sun), it would be worth asking what this weakness of the soul is, and where it comes from. For weakness is not in the soul as it is in bodies: but as there it is the inability to work and being easily affected, so here too the soul received the name of weakness by analogy; unless in this way matter is the same cause of weakness in both. But we must come closer, by argument, to the cause of what is called the weakness of the soul. For it is not densities or rarities, nor again thinness or thickness, nor a disease, such as a fever, that have made the soul weak.
+!flag as hasty to compromises | The Greek says the evil soul is "rash in its assents" (προπετῆ εἰς συγκαταθέσεις): quick to agree to impressions, the Stoics' word for judgement, not "compromises".
+!flag burned away by every heat | The Greek says such weak things are "easily carried about" (ῥᾳδίαν τὴν φοράν) by winds and the heat of the sun: carried about, not burned away.
+
+@p
+@greek ἀνάγκη δὴ τὴν τοιαύτην
+This weakness of soul must be either in the souls wholly separate, or in those in matter, or in both. If it is not in those without matter (for these are all pure, and, as the saying is, winged and perfect, and their work is unhindered), it remains that the weakness is in the fallen souls, not pure and not purified; and their weakness would not be the taking away of something, but the presence of something foreign, like phlegm or bile in a body. If we grasp more clearly, and as we ought, the cause of the soul's fall, what we are looking for will become plain.
+!note The "winged and perfect" soul is the Phaedrus' (246b-c): "when it is perfect and winged, it travels on high and governs the whole cosmos; but the soul that has shed its wings is carried along until it lays hold of something solid".
+
+@p
+@greek ἔστιν οὖν ἐν τοῖς οὖσιν ὕλη
+There is, then, among the things that are, matter, and there is soul too, and, so to speak, one place. For there is not one place for matter and another for soul, as if matter's were on earth and soul's in the air: the soul's place is apart by not being in matter; and this is by not being united with matter; and this by not becoming one thing made from soul and matter; and this by not coming to be in matter as in a substrate: and this is being apart. But the powers of the soul are many, and the soul has a beginning, middles and ends; and matter, being present, begs, and as it were pesters, and wants to come inside. "But the whole place is holy", and there is nothing without a share in soul. So matter, laying itself under, is lit up, but cannot grasp that by which it is lit up; for that does not bear with it, though it is present, because matter cannot see it, owing to its badness. But matter darkened the illumination, the light from there, by the mixture, and made it weak, itself providing the coming to be, and the reason for coming into it; for the soul would not have come to what was not present. And this is the fall of the soul, to come in this way into matter; and it is weakened, because not all its powers are present for activity, since matter keeps them from being present, by taking up the place that matter holds, and making the soul, as it were, contract; and what it has taken, as if by theft, it makes evil, until the soul is able to run back up.
+!flag for the Soul cannot lift up this foreign thing close by, since the evil of it makes it invisible | The Greek says the source of light "does not bear with" matter (οὐ γὰρ ἀνέχεται αὐτήν), though matter is present, "because matter does not see" it, by its badness: it is matter that cannot see, not matter that is invisible, and nothing is "lifted up".
+!note "The whole place is holy" is a line of Sophocles (Oedipus at Colonus 54), said of the grove of the Eumenides at Colonus. Matter "begging" (προσαιτεῖ) recalls Poverty begging at the gods' feast in the Symposium (203b).
+
+@p
+@greek ὕλη τοίνυν καὶ ἀσθενείας
+Matter, then, is the cause of the soul's weakness and the cause of its vice. So matter is evil before it, and is the first evil. For even if the soul itself, being affected, generated for matter, and if it had to do with matter and became evil, matter is the cause by being present; for the soul would not have come into it, if it had not taken its coming to be from matter's presence.
+
+@ch I.8.15 | To deny evil is to deny the Good; the golden chains
+@older 12
+If anyone denies that matter exists, the treatise on matter shows that it must. To deny evil is to deny the Good, and with it desire, aversion and wisdom. There is the unmixed good, the mixed, and the wholly evil. The soul has evil only by touching the worse nature: desires, griefs, fears and false opinions belong to the compound. But evil is never evil alone: by the power of the Good it is bound in beautiful chains, like prisoners in gold, hidden so that the gods need not see it, and men may have images of beauty for recollection.
+
+@p
+If anyone says that matter does not exist, we must show him the necessity of its existence from the discussion of matter, where this has been dealt with at more length. But if someone says that evil does not exist at all among the things that are, he must also do away with the good, and say that there is nothing to be desired: so no desire either, nor aversion, nor thought. For desire is of the good, aversion of evil, and thought and wisdom are of good and evil, and wisdom is itself one of the goods. There must be, then, both the good, unmixed good, and what is already mixed of evil and good; and what has a greater share of evil has already contributed itself to that which is wholly evil, while what has less, in so far as the evil is less, contributes to the good.
+!note The discussion of matter is II.4 (On the two kinds of matter), an earlier treatise in Porphyry's order of writing (number 12) than this one (number 51).
+
+@p
+@greek ἐπεὶ καὶ ψυχῇ τί ἂν εἴη
+For what would evil be to the soul? Or to what soul would it belong, if it had not touched the worse nature? For there would be no desires, nor again griefs, nor angers, nor fears: fears belong to the compound, lest it be broken up, and griefs and pains to it as it is breaking up; and desires belong to it when something troubles its make-up, or when it looks ahead to a remedy so that nothing troubles it. Imagination is the blow of something irrational from outside; and the soul receives the blow through what is not without parts. And false opinions come to it when it has gone outside its truth; and it goes outside by not being pure. But the desire for intellect is something else: for the soul must be with intellect alone, settled in it, not inclining towards the worse.
+!flag within that place of its choice | The Greek says the soul must be "with intellect alone, settled in it" (ἐν αὐτῷ ἱδρυμένην): "that place of its choice" is MacKenna's.
+
+@p
+@greek τὸ δὲ κακὸν οὐ μόνον
+But evil is not evil alone, because of the power and nature of the Good; for it has appeared, of necessity, wrapped in beautiful bonds, as some prisoners are bound in gold, and is hidden by them, so that, being evil, it may not be seen by the gods, and men may not always have to look at evil, but, even when they do look at it, may be with images of beauty for recollection.
+!flag not destitute of Images of the Good and Beautiful | The Greek has "images of the beautiful" (εἰδώλοις τοῦ καλοῦ): "the Good" is added.
+!note Recollection (ἀνάμνησις), set off by the images of beauty here, is the Phaedrus' (249c-250d): beauty alone, of the Forms, shines clearly through its images in this world.
+
+@treatise I.9 | On going out of life
+A short treatise, perhaps notes, on suicide. The soul should not be forced out of the body, for it would go out with something of the body, and that is to move to another place. It should wait for the body to let it go. To free oneself by force is not to be unaffected, but to act in disgust, grief or anger. If madness comes, it may be among the necessary things, but it is unlikely in the good man; and if each soul's rank hereafter depends on how it leaves, one should not leave while progress is still possible.
+
+@ch I.9.1 | Do not lead the soul out
+"You shall not lead it out, lest it go out having something": a soul forced out goes with something, and going out means moving to another place. Let it wait until the body leaves it wholly. Freeing oneself by force is done in disgust, grief or anger. Madness may make it necessary, but not chosen for its own sake; drugs do not suit the soul; and if our time is fated, or our rank hereafter depends on how we leave, one should not go before the time, while progress is possible.
+
+@p
+"You shall not lead it out, lest it go out having something." For it will go out having something, if it goes out at all; and going out is passing to another place. Rather, it will wait for the body to stand apart from it wholly, when it does not need to move elsewhere, but is wholly outside. How, then, does the body stand apart? When nothing of the soul is bound to it any longer, since the body can no longer bind it, its harmony, by having which it had the soul, being no longer there.
+!flag For wheresoever it go, it will be in some definite condition | The Greek says "it will go out having something" (ἔχουσά τι), something of the body, "if it goes out at all": the reason for the opening command, not a condition it will be in.
+!note The opening words are quoted in later antiquity as an oracle (Psellus gives them among the Chaldaean Oracles, fragment 166 in des Places' edition). The prohibition of suicide is the Phaedo's (61c-62c): we are in a kind of guard post, and must not release ourselves. The harmony of the body is the Phaedo's too (85e-86d), though there it is the soul that Simmias calls a harmony.
+
+@p
+@greek τί οὖν, εἰ μηχανήσαιτό
+What, then, if someone contrived that the body be undone? He used force, and stood apart himself; the body did not let the soul go. And when he undoes it, he is not unaffected: there is disgust, or grief, or anger; but one must do nothing. What, then, if he perceives the beginning of madness? Perhaps that does not happen to the good man; but if it did, this would be ranked among the necessary things, chosen because of circumstances, not chosen simply. For taking drugs to send the soul out is perhaps not suitable to the soul either.
+!flag movements which it is unlawful to indulge | The Greek says only "but one must do nothing" (δεῖ δὲ μηδὲν πράττειν): nothing is done that would come from these feelings. There is no law in the Greek.
+!flag That is not likely in the Sage | The Greek's σπουδαῖος is "the good man", serious about virtue, as elsewhere in the Workshop (see I.4); MacKenna's "Sage" makes him a Stoic figure.
+!note "Chosen because of circumstances" (ἐκ περιστάσεως αἱρετοῖς) is Stoic language: the Stoics allowed a "reasonable exit" from life in some circumstances (Diogenes Laertius VII.130), and ranked it among things chosen not for themselves.
+
+@p
+@greek καὶ εἰ εἱμαρμένος χρόνος
+And if the time given to each is fated, it is not well to go before it, unless, as we say, it is necessary. And if each holds a rank there according to the state in which he goes out, one must not lead the soul out while there is still room to make progress.
+!note "There": in the other world. That the soul's lot after death follows the state in which it leaves is the Phaedo's teaching (107c-108c, 113d-114c), and the Republic's myth of Er (614b-621b).
