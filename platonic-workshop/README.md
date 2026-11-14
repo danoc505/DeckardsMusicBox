@@ -483,10 +483,20 @@ paragraphs, 26 flags, among them his making the body we sink into "the true man"
 for grey-eyed, flesh and blood given to the earth where the Greek denies them to the stars, the earth as the moving region
 seen by the "stationary" where the fixed stars see the planets, "the spiritual order" for pneuma, "some law" for Democritus'
 convention, and a memory given to Demeter and Hestia that the Greek never gave them. MacKenna's chapter 30 runs on through
-the Greek's 31, which is shown with it. The reader marks IV.4 as chapters 1-31 of 45 so far. The notes give the earth as the
+the Greek's 31, which is shown with it. The reader marked IV.4 as chapters 1-31 of 45 until E17. The notes give the earth as the
 eldest god within the heaven (Timaeus 40c), the proportional mean (Timaeus 31c-32a), the All that needed no eyes (Timaeus
 33c), Hestia (Phaedrus 247a), the spirited part (Republic IV), heart and liver (Timaeus 70a-71b), Aristotle's two
 definitions of anger (On the soul I.1) and co-ordinate division (Categories 13).
+**IV.4, On difficulties about the soul, second part, chapters 32-45** (E17), beside MacKenna's vol. III, which completes the
+treatise: 14 chapters, 48 paragraphs, 53 flags, among them his keeping a figure the same when its members change where the
+Greek makes it another, "not necessarily accompanied by reason" where the Greek says "in proportion" (ἀνάλογον, read as
+ἄλογον), "attention" for turning, attractions and repulsions for Empedocles' love and strife, "no necessity" where the Greek
+says justice follows the one who takes what he should not, "the misfortune" for the premises of the affection, Plato's next
+words added to the line on Erechtheus, and the pure soul coming down where the Greek has it go up. MacKenna's 37 runs on
+through the Greek's 38 and his 40 through the Greek's 41, which are shown with them. The notes give the parts made for the
+whole (Laws X 903b-d), the mark of being (Sophist 247d-e), virtue without a master (Republic X 617e), Empedocles' love and
+strife, Olympius' spells (Life 10), the people of Erechtheus (Alcibiades I 132a), Euripides' soundless path (Trojan Women
+887-888), the puppet's cords (Laws I) and punishment as medicine (Gorgias 478d-480b).
 **III.8, On nature, contemplation and the One, and III.9, Various considerations** (E14), beside MacKenna's vol. II: 14
 chapters, 41 paragraphs, 70 flags, among them his "the Highest" for intellect that began as one and unrolled itself,
 "pregnant" for weighed down, the living principle "brother ... to that which gives mere shape" where it is brother to
@@ -572,7 +582,7 @@ hyphened terms such as "Sense-Perception" kept; not proofread). The master copy 
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: IV.4 chapters 32-45 (E17).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: IV.5 On sight and IV.6 On perception and memory (E18).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,
