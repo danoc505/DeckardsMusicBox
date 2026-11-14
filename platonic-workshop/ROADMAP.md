@@ -161,8 +161,20 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   Categories 8), the fifth body, the Timaeus' metals as water (58d-59c) and visual ray (45b-d), the Sophist's greatest kinds
   (254b-255e) and non-being (257b, 258b), the Stoics' complete blending (Diogenes Laertius VII.151; Plutarch 1078e),
   Aristotle's drop of wine (On Generation and Corruption I.10, 328a23-28), Alexander's On mixture, and Euclid's Optics.
-- E10: III.1 On destiny (2,648). Next.
-- E11: III.2 On providence, first part (6,582).
+- **E10: III.1 On destiny (2,648) (done).** 10 chapters, 23 paragraphs, 27 flags, 11 notes, beside MacKenna's vol. II
+  (pp. 1-10), which prints the Third Ennead first; his chapters are Volkmann's. E.g. MacKenna has "this compromise between
+  evil and accidental circumstance" where the Greek blends choice (προαίρεσις) with chance, "the philosophic life" for being
+  wise, stars that "wreak vengeance, as for a wrong" where they are "afflicted", "personal action becomes a mere word" for
+  "what is up to us" becoming a name, "the augur" for those who know the stars' grammar, "unwarranted slantings" hiding
+  Epicurus' swerve, "Real Being" for the things that are, the soul set "at the crest of the world of beings", "bodiless and
+  therefore supreme" where the soul is master of itself while it is without a body, "a future husband" where husbands and
+  wives are married, "intellectual" labour where the Greek has labour or craft, and a "special organic aptitude" said to be
+  "more immediately" where the Greek has "a little further off". Notes on Epicurus' swerve (Lucretius II.216-293; Cicero, On
+  fate), the Stoics' destiny, chain, ruling part, management and seed-principles (Stobaeus, Aetius, Diogenes Laertius), the
+  astrologers' centres and the Airs, waters, places, impressions and impulse (Chrysippus' cylinder, On fate 42-43),
+  Aristotle's voluntary and "up to us" (Nicomachean Ethics III.1-5), and "the alone" of VI.9.11.
+- E11: III.2 On providence, first part (6,582). Next. 18 chapters; MacKenna's tool also finds 18 (vol. II,
+  pp. 11-35), so no @older is expected, but compare his chapter openings with the Greek before translating.
 - E12: III.3 On providence, second part, III.4 On the daemon allotted to us (4,044).
 - E13: III.5 On love (3,531).
 - E14: III.8 On nature, contemplation and the One, III.9 Various considerations (5,035).

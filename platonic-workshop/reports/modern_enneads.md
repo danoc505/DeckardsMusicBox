@@ -4,14 +4,14 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 
 - Made from: Volkmann's Greek (Leipzig, 1883-1884), as First1KGreek gives it; checked against MacKenna's English (1917, 1921; the Internet Archive's OCR of the printed volumes, read by rule (tools/mackenna.py), not proofread).
 - Porphyry's Life of Plotinus: Volkmann's own Greek (vol. I, 1883), proofread from the scan (`sources/neoplatonists/proofread/porphyry-life-plotinus.txt`).
-- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small.
-- The whole Enneads: 15 treatises here, 15 beside Taylor (milestone 27), 25 to come.
-- Chapters: 135, each with a short title and a summary.
-- Paragraphs: 351, each with its Greek.
-- Words: 48,187 modern, 36,545 Greek, 57,047 in MacKenna's English of the same chapters.
-- Sentences (each can be marked in the reader): 1,842.
-- Flags (where MacKenna and the Greek differ, or the Greek is hard): 264.
-- Notes (Plato's, Aristotle's and Homer's places, hard readings): 204.
+- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny.
+- The whole Enneads: 16 treatises here, 15 beside Taylor (milestone 27), 24 to come.
+- Chapters: 145, each with a short title and a summary.
+- Paragraphs: 374, each with its Greek.
+- Words: 51,597 modern, 39,191 Greek, 60,849 in MacKenna's English of the same chapters.
+- Sentences (each can be marked in the reader): 1,957.
+- Flags (where MacKenna and the Greek differ, or the Greek is hard): 291.
+- Notes (Plato's, Aristotle's and Homer's places, hard readings): 215.
 - Problems found: 0.
 
 ## Flags
@@ -282,6 +282,33 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | II.8.1.p3 | It was the detail that prevented a near object deceiving | The Greek says only that "how great the near is does not escape us, for the same reasons" (διὰ τὰ αὐτά): seeing the forms of its parts. |
 | II.8.2.p1 | No part of the eye is unoccupied | The Greek speaks of the sight (ἡ ὄψις) that the mountain leaves nothing of, not the eye. |
 | II.8.2.p1 | the eye directed to it could not cover so vast an expanse | The Greek says the sight could not "be poured out" (χυθῆναι) so far, "stretching up to it": sight goes out from the eye, as in Plato's Timaeus. |
+| III.1.1.p2 | we can make no place here for unwarranted | The Greek says "empty swerves" (παρεγκλίσεσι κεναῖς): the swerve of Epicurus' atoms, named by its own word; MacKenna's "unwarranted slantings" hides whose doctrine is meant. |
+| III.1.1.p3 | by manual or intellectual labour | The Greek says "from labours or a craft" (ἐκ πόνων ἢ τέχνης); "intellectual" is MacKenna's. |
+| III.1.1.p3 | or, more immediately, a special organic aptitude | The Greek says "a little further off" (ὀλίγῳ προσώτερα), not more immediately, and names "a good flow towards begetting" (εὔροια εἰς παιδοποιίαν), not an aptitude of the organs. |
+| III.1.2.p1 | even upon Real Being | The Greek says only "into the things that are" (εἰς τὰ ὄντα), the things of this world; MacKenna's capitals make it the intelligible world. |
+| III.1.2.p2 | the leading principle which animal life presupposes | The Greek says "the ruling part in each animal" (τοῦ ἡγεμονοῦντος ἐν ἑκάστῳ τῶν ζῴων), the Stoics' word for the commanding part of the soul; "which animal life presupposes" is MacKenna's. |
+| III.1.2.p3 | Of this last opinion we will have something to say | The Greek says "we shall speak about these" (λεχθήσεται δὲ περὶ τούτων), "but now we must go to the first" (ἐπὶ τοὺς πρώτους), "then look at the others in order": the first named, the atoms, are taken first, in chapter 3. |
+| III.1.3.p1 | A good deal of truth has resulted | The Greek says "many true arguments have been given about these" (πολλοὶ εἴρηνται λόγοι ἀληθεῖς), that is, against the atoms; MacKenna makes the theory itself yield truth. |
+| III.1.3.p1 | admitting a down and an up | The Greek has only "let there be a down" (ἔστω γάρ τι κάτω); the "up", and MacKenna's words in brackets on the universe, are his. |
+| III.1.3.p1 | this Universe, when it achieves existence, is all order | The Greek says "what has come to be, when it has come to be, is wholly so" (τὸ δὲ γενόμενον τοῦτο, ὅτε γέγονε, πάντως): it is settled only after the event, which is why nothing can be foretold. Nothing is said of the universe or of order. |
+| III.1.3.p2 | lead a third to the philosophic life | The Greek says "another will be wise" (ὁ δὲ σοφὸς ἔσται): wisdom, not a way of life. |
+| III.1.4.p2 | dictated by the mind and will | The Greek says the parts move "as the ruling part" moves them (κατὰ τὸ ἡγεμονοῦν), the Stoics' word; nothing is said of mind or will. |
+| III.1.4.p2 | the mind itself (and not destiny) is the prime mover | The Greek says "what first moved the leg is that" (ἐκεῖνό ἐστι πρῶτον τὸ κινῆσαν τὸ σκέλος): the ruling part both gives and is the movement, and what receives it is the leg, not the mind, as MacKenna has it. |
+| III.1.5.p1 | show a different produce according to their situation | The Greek says the places on earth "differ from one another" (διαφέροντας ἀλλήλων εἶναι) by their relation to the universe and the sun; the "produce" is MacKenna's. |
+| III.1.5.p2 | our entire personality | The Greek has "our vices and impulses" (κακίας τε καὶ ὁρμάς); "our entire personality" is MacKenna's. |
+| III.1.5.p2 | A further confirmation is found in the efforts we make to correct | The Greek speaks of "the struggles against the blends of the bodies and the desires" (αἱ ... ἐναντιώσεις): resisting them, not correcting them. |
+| III.1.5.p3 | a girl's fate includes that of a future husband | The Greek says "from wives what concerns their husbands, and the other way round" (ἐκ γυναικῶν τὰ περὶ τοὺς ἄνδρας): husbands and wives already married; the "future" husband is MacKenna's. |
+| III.1.5.p4 | this implies that ugliness and beauty are so caused | The Greek says the astrologers themselves say that likeness, "and beauty and ugliness", come from home (οἴκοθέν φασι καὶ κάλλος καὶ αἶσχος ἰέναι); it is their own word, not an inference. |
+| III.1.6.p1 | wreak vengeance, as for a wrong | The Greek says the stars give evils "when afflicted" (κακούμενοι), the astrologers' word for a planet in a bad place; vengeance and wrong are MacKenna's. |
+| III.1.6.p2 | on which the augur, acquainted with that alphabet | The Greek says "those who know such a grammar" (τοὺς τὴν τοιαύτην γραμματικὴν εἰδότας), readers of the stars; the augur, who reads birds, comes only in the comparison. |
+| III.1.7.p2 | personal action becomes a mere word | The Greek says "what is up to us will be only a name" (ὄνομά τε μόνον τὸ ἐφ̓ ἡμῖν ἔσται): "what is up to us" is the standing term for freedom in Aristotle and the Stoics. |
+| III.1.7.p2 | we seek for other explanations of our action | The Greek says "everyone sees this and does not dispute it, but looking for other causes of this impulse, they do not stop" at it as at a principle (τῆς ὁρμῆς ταύτης ἄλλας αἰτίας ζητοῦντες): all men look past impulse for its causes. |
+| III.1.8.p1 | we must place at the crest of the world of beings | The Greek says we must "bring in soul into the things that are, as another principle" (ἀρχὴν οὖσαν ἄλλην ἐπεισφέροντας εἰς τὰ ὄντα); the "crest" is MacKenna's. |
+| III.1.8.p1 | bodiless and therefore supreme over itself | The Greek says "being without body, it is most master of itself" (ἄνευ μὲν οὖν σώματος οὖσα): while it is without a body, set against when it is brought into one; MacKenna makes it a soul that is bodiless. |
+| III.1.8.p2 | largely led by secondary causes | The Greek says "chances" (τύχαι), "all the things around it": what it happens to meet, not secondary causes; MacKenna gives the right word only in brackets. |
+| III.1.9.p1 | this compromise between evil and accidental circumstance | The Greek says "choice and chances blended" (προαιρέσει καὶ τύχαις κραθέντα): choice (προαίρεσις), Aristotle's word for deliberate decision, not evil. |
+| III.1.10.p1 | Unwisdom, then, is not due to the Soul | The Greek says "the causes of not being wise are other things" (τοῦ μὲν μὴ φρονεῖν ἄλλα αἴτια εἶναι): the things around, which hinder the soul. |
+| III.1.10.p1 | when the passions are in abeyance | The Greek says only "insofar as they are let breathe again" (καθ̓ ὅσον ἄν ἀναπνεύσωσι συγχωρηθέντες); the passions are MacKenna's. |
 
 ## The plan, in Porphyry's order
 
@@ -306,7 +333,7 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | II.7 | On complete blending | done here |
 | II.8 | On sight, or why distant things look small | done here |
 | II.9 | Against the Gnostics | done beside Taylor (milestone 27) |
-| III.1 | On destiny | to come (E10) |
+| III.1 | On destiny | done here |
 | III.2 | On providence, first part | to come (E11) |
 | III.3 | On providence, second part | to come (E12) |
 | III.4 | On the daemon allotted to us | to come (E12) |

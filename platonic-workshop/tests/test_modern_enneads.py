@@ -331,7 +331,7 @@ class Files(unittest.TestCase):
 
     def test_milestone_e9_potential_quality_blending_and_sight(self):
         d = load()
-        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][9:], ["II.3", "II.5", "II.6", "II.7", "II.8"])
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][9:14], ["II.3", "II.5", "II.6", "II.7", "II.8"])
         for t, n in (("II.5", 5), ("II.6", 3), ("II.7", 3), ("II.8", 2)):
             self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == t], [f"{t}.{k}" for k in range(1, n + 1)])
         ch = {c["id"]: c for c in d["chapters"]}
@@ -359,6 +359,34 @@ class Files(unittest.TestCase):
                          for n in p.get("notes", []))
         for place in ("Timaeus (58d-59c)", "Metaphysics XII.7, 1072b26-30", "Sophist (254b-255e)", "Categories 8, 8b26-9a13",
                       "Diogenes Laertius VII.151", "On Generation and Corruption I.10, 328a23-28", "Euclid's Optics"):
+            self.assertIn(place, notes)
+
+    def test_milestone_e10_on_destiny(self):
+        d = load()
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][13:], ["II.8", "III.1"])
+        self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "III.1"], [f"III.1.{k}" for k in range(1, 11)])
+        ch = {c["id"]: c for c in d["chapters"]}
+        # MacKenna's vol. II prints the Third Ennead first; his chapters of III.1 are Volkmann's.
+        self.assertEqual([(o["n"], o["year"], o["page"]) for o in ch["III.1.1"]["older"]], [(1, 1921, 1)])
+        self.assertEqual([(o["n"], o["page"]) for o in ch["III.1.10"]["older"]], [(10, 10)])
+        para = {p["seg"]: p for p in d["paragraphs"]}
+        self.assertTrue(para["III.1.1.p1"]["greek"].startswith("Ἅπαντα τὰ γινόμενα"))
+        self.assertTrue(para["III.1.10.p1"]["greek"].endswith("μόνον δὲ οὐ κωλυθέντας."))
+        self.assertIn("empty swerves", para["III.1.1.p2"]["modern"])
+        self.assertIn("\"what is up to us\" will be only a name", para["III.1.7.p2"]["modern"])
+        self.assertIn("we are of this nature when we are alone", para["III.1.10.p1"]["modern"])
+        flags = {s: p.get("flags", []) for s, p in para.items()}
+        # MacKenna has "evil" where the Greek has choice blended with chance; "the philosophic life" for being wise;
+        # vengeance for a star "afflicted"; a "personal action" for what is up to us; the augur for the star-readers.
+        self.assertTrue(any("choice" in f["why"] and "not evil" in f["why"] for f in flags["III.1.9.p1"]))
+        self.assertTrue(any("another will be wise" in f["why"] for f in flags["III.1.3.p2"]))
+        self.assertTrue(any("afflicted" in f["why"] for f in flags["III.1.6.p1"]))
+        self.assertTrue(any("what is up to us" in f["why"] for f in flags["III.1.7.p2"]))
+        self.assertTrue(any("grammar" in f["why"] for f in flags["III.1.6.p2"]))
+        self.assertGreaterEqual(sum(len(flags[s]) for s in flags if s.startswith("III.1.")), 25)
+        notes = " ".join(n for p in d["paragraphs"] if p["chapter"].startswith("III.1.") for n in p.get("notes", []))
+        for place in ("On the nature of things II.216-293", "Aetius I.28.4", "Diogenes Laertius VII.136",
+                      "Airs, waters, places 12-24", "On fate 42-43", "Nicomachean Ethics III.1-5", "VI.9.11"):
             self.assertIn(place, notes)
 
     def test_the_life_greek_is_proofread(self):
