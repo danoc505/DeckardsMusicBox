@@ -507,6 +507,15 @@ chapters are the Greek's. The notes give Aristotle's transparent and the coloure
 the torpedo (Meno 80a-c), the Stoics' staff (Diogenes Laertius VII.157), the atomists' images, the pushing round (Physics
 IV.8), the back of the heaven (Phaedrus 247b-c), the All that needs no eyes (Timaeus 33c), double activity (V.4.2), the wax
 block (Theaetetus 191c-196c) and Aristotle's slow memories and quick recollectors (On memory 449b6-8).
+**IV.8, On the descent of the soul into bodies, and IV.9, Whether all souls are one** (E19), beside MacKenna's vol. III: 13
+chapters, 45 paragraphs, 35 flags, among them his Plotinus "Lifted out of the body" where the Greek has him wake out of it,
+Empedocles "in slavery" to strife where he trusts in it, the soul "remaining ... an Intellectual-Principle" where the Greek
+says it did not remain intellect, "both spheres" for the souls that are amphibians, an "external" law of nature for an
+everlasting one, the soul's "Tolma" brought in from V.1.1, "individual choice" for discursive thought, and the hypothesis
+that soul is a body turned into a supposition to grant. MacKenna's chapters are the Greek's. The notes give Porphyry's four
+unions (Life 23), Heraclitus and Empedocles, the custody of the secret rites (Phaedo 62b), the cave (Republic VII), the
+wings (Phaedrus 246c), the second mixing bowl (Timaeus 41d-42a), the undescended soul that Proclus rejected (Elements of
+Theology 211), art that does not deliberate (Physics II.8) and the geometer's analysis (Pappus).
 **III.8, On nature, contemplation and the One, and III.9, Various considerations** (E14), beside MacKenna's vol. II: 14
 chapters, 41 paragraphs, 70 flags, among them his "the Highest" for intellect that began as one and unrolled itself,
 "pregnant" for weighed down, the living principle "brother ... to that which gives mere shape" where it is brother to
@@ -592,7 +601,7 @@ hyphened terms such as "Sense-Perception" kept; not proofread). The master copy 
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: IV.8 On the descent of the soul into bodies and IV.9 Whether all souls are one (E19).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: V.4 How what comes after the first comes from it and V.5 That the intelligibles are not outside intellect (E20).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,

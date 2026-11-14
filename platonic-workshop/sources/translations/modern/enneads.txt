@@ -4847,3 +4847,272 @@ Again, since perceptions are not imprints, how can memories be the holding of wh
 @greek καὶ τὸ τῆς ψυχῆς δὲ ἀμέγεθες
 And the soul's having no size bears witness that soul is a power. And, in general, it is no wonder that all that concerns the soul is otherwise than men have supposed for want of examining it, or than the first impressions that come to them from sensibles, deceiving by likenesses, lead them to think: they think of perceiving and remembering as of letters written on boards or tablets; and neither those who take the soul for a body see how many impossible things follow for their hypothesis, nor those who take it as bodiless.
 !note The Greek of the first sentence has "and in general" in Volkmann's brackets, repeated in the next. That the soul has no size, and so cannot hold imprints as a body does, is argued in IV.7.6-8 against the Stoics. The tablet is Plato's (Theaetetus 191c) and Aristotle's, for whom intellect is like a writing tablet on which nothing is yet written (On the soul III.4, 429b31-430a2). Those who take the soul as bodiless, and still speak of imprints, are the Platonists and Peripatetics who follow the wax block.
+
+@treatise IV.8 | On the descent of the soul into bodies
+Plotinus begins with his own experience: often he wakes out of the body into himself, sees a wonderful beauty, and is one with the divine; then he comes down into reasoning and asks how the soul ever came into a body. Heraclitus and Empedocles speak in riddles; Plato blames the body as bond, tomb and cave, yet in the Timaeus praises the cosmos and says soul was sent by a good god to make it complete. The soul of the All governs its body by command, without labour and without sinking into it, and the star-souls likewise; the particular souls, tired of the whole, withdraw each to a part, sink into a body, shed their wings, and live by turns the life there and the life here. The sowing and the fall, necessity and choice, all agree: the soul goes down by its own inclination and by the law of nature, and if it comes back quickly it is not harmed, having brought its powers into act and learned evil. Everything must go forth from the One to the last, so that nothing is left without a share in the good; the soul holds the middle rank. Last, Plotinus dares to say against the others that not all of our soul comes down: something of it is always in the intelligible, though we do not perceive what it beholds.
+
+@ch IV.8.1 | Waking out of the body
+Often Plotinus wakes out of the body into himself and becomes one with the divine; then, coming down into reasoning, he asks how the soul ever came into the body. Heraclitus and Empedocles speak darkly; Plato blames the body as bond, tomb and cave, and in the Phaedrus speaks of the loss of wings, yet in the Timaeus he praises the cosmos and says the soul was sent by the good craftsman to make it intelligent and complete.
+
+@p
+Often I wake up out of the body into myself, and come to be outside all other things and inside myself. I see a beauty wonderful beyond telling, and then above all I trust that I belong to the better portion. I have lived the best life, and come to be one with the divine, and been set firm in it, having come to that activity and set myself above everything else in the intelligible. Then, after this rest in the divine, I come down from intellect into reasoning, and I am at a loss: how is it that I am coming down even now, and how did my soul ever come to be inside the body, being what it showed itself to be by itself, even while it is in a body?
+!flag Lifted out of the body into myself | The Greek says "waking up" (ἐγειρόμενος) out of the body into myself: the life in the body is the sleep, and the vision is the waking.
+!note Porphyry says that Plotinus reached this union four times while he was with him (Life 23). The "better portion" (ἡ κρείττων μοῖρα) is the divine lot; "intellect" and "reasoning" (λογισμός) are the two levels of thought that this treatise keeps apart.
+
+@p
+@greek ὁ μὲν γὰρ Ἡράκλειτος
+Heraclitus, who urges us to search for this, lays down necessary exchanges out of opposites, speaks of a way up and down, and says "changing, it rests" and "it is weariness to toil at the same things and to be ruled". He seems to speak in likenesses, careless of making his account clear to us, as if, perhaps, we ought to search within ourselves, as he himself searched and found. Empedocles says that it is a law for souls that go wrong to fall here, and that he himself came here "an exile from the gods, trusting in raging strife". He unveiled as much, I think, as Pythagoras and those after him hinted in riddles about this and many other things; and in his case his poetry also made him unclear.
+!flag always beginning again | The Greek ἄρχεσθαι is most naturally "to be ruled" (toiling for the same masters), not "to begin": Heraclitus' fragment speaks of the weariness of serving.
+!flag in slavery to a raving discord | The Greek says "trusting in raging strife" (πίσυνος μαινομένῳ νείκει): Empedocles put his faith in Strife; there is no slavery.
+!note Heraclitus: the exchanges of opposites and the way up and down (fragments B60, B90), "changing, it rests" and the weariness of toil (B84a-b), "I searched myself" (B101). Empedocles: the exile from the gods (B115). Pythagoras' followers taught in riddling sayings (symbola).
+
+@p
+@greek λείπεται δὴ ἡμῖν
+There remains for us the divine Plato, who said many fine things about the soul, and spoke in many places in his works about its coming here, so that we may hope to get something clear from him. What, then, does this philosopher say? He will not be found saying the same thing everywhere, so that one could easily see what he meant. But everywhere he disparages all that is perceived, and blames the soul's partnership with the body, and says the soul is in bonds and buried in it; and he says that the saying spoken in the secret rites is a great one, that the soul is in custody. And his cave, like Empedocles' cavern, seems to me to mean this universe, since he says that the release from the bonds and the ascent from the cave is the soul's journey to the intelligible. In the Phaedrus he makes the shedding of the wings the cause of its coming here; and for him periods bring it back here once it has gone up, and judgements send others down here, and lots and fortunes and necessities.
+!note The body as bond and tomb: Cratylus 400c and Phaedo 82e; the soul "in custody" (ἐν φρουρᾷ), from the secret rites: Phaedo 62b. The cave and the ascent from it: Republic VII 514a-517b; Empedocles' "roofed cavern" (B120). The shedding of wings: Phaedrus 246c, 248c; the periods of a thousand years and the judgements: Phaedrus 248e-249b; the lots and necessities: Republic X 617d-620e.
+
+@p
+@greek καὶ ἐν τούτοις ἅπασι
+And in all these he blames the soul's coming to the body. But in the Timaeus, speaking of this All, he praises the cosmos and calls it a blessed god, and says that the soul was given by the good craftsman so that this All might be intelligent, since it had to be intelligent, and without soul this could not come about. So the soul of the All was sent into it by the god for this reason, and the soul of each of us, so that it might be complete: since all the kinds of living beings that are in the intelligible world had to be in the perceptible world too.
+!note Timaeus 29e-30c (the good craftsman and the intelligent cosmos), 34b (a blessed god), 39e and 41b-c (the kinds of living beings, so that the All may be complete).
+
+@ch IV.8.2 | The soul of the All rules without labour
+Asking about our soul means asking about soul in general, the cosmos, and its maker. Particular bodies need anxious care and a soul that sinks into them; the body of the All is complete and needs only a word of command. Care is twofold: kingly command over the whole, and hands-on making for the particular. The soul of the All, and the star-souls, govern in the first way, untouched by the hindrance to thought and the pleasures and fears that make the body's company a burden.
+
+@p
+So, in asking about our own soul, we find that we must learn from him and look into soul in general too: how it is of a nature to share with a body; and into the nature of the cosmos, what sort of thing we must suppose it to be, in which soul lives, whether willingly or forced or in some other way; and about the maker, whether he did rightly, or as perhaps our souls do, which, governing worse bodies, had to sink far inside them if they were to master them. For each of these bodies would scatter and be carried off to its own place (while in the All everything lies by nature in its own place), and they need much troublesome forethought, since many foreign things fall on them, and they are always held in need, and require every help, as in great difficulty.
+!flag though in all cases appropriately placed within the universe | The Greek says each particular body, left to itself, would scatter and be carried to its own place, while "in the All everything lies by nature in its own place": a contrast between the two, not a concession about the particular body.
+!note The sentence about the maker is compressed in the Greek ("whether rightly or as our souls..."): the question is whether the maker made the cosmos rightly, or as our souls make, sinking into what they govern.
+
+@p
+@greek τὸ δὲ τέλειόν τε ὂν
+But what is complete, sufficient and self-sufficient, and has nothing in it against its nature, needs only a short word of command, as it were; and as soul is of a nature to wish, so it always is, having no desires and suffering nothing: for nothing goes from it and nothing comes to it. That is why he says that our soul too, if it comes to be with that complete soul, is made complete itself and "travels on high and governs the whole cosmos". When it does not withdraw so as to be inside bodies, nor belong to any one, then it too, like the soul of the All, will help govern the All with ease. For it is no evil at all for soul to give body the power to be, when its forethought for the worse does not take away its staying in the best.
+!note "Travels on high and governs the whole cosmos": Phaedrus 246c, of the soul that is complete and winged.
+
+@p
+@greek διττὴ γὰρ ἐπιμέλεια
+For there are two ways of caring for anything: for the whole, ordering it by command, with a kingly oversight that does no labour; for the particular, by a making that does the work itself, in which the doer, by its contact with what is done, is filled with the nature of what is done. Since the divine soul is said always to govern the whole heaven in the first way, rising above it with its better part and sending its last power inward, the god could no longer be said to be to blame for having put the soul of the All in something worse; and the soul is not robbed of what is natural to it, having it from eternity and always going to have it, which cannot be against its nature for it: it belongs to it always, without a break, never having begun.
+!flag in the second kind of care the agent absorbs much of the nature of its object | The Greek says the doer is "filled" (ἀναπιμπλᾶσα), even tainted, with the nature of what it does, by contact with it: not much of it, but its nature.
+
+@p
+@greek τάς τε τῶν ἀστέρων ψυχὰς
+And saying that the souls of the stars stand to their bodies in the same way as the All (for he places their bodies too in the circuits of the soul), he would keep for them too the happiness that befits them. For there are two reasons why the soul's partnership with bodies is disliked: that it becomes a hindrance to thinking, and that it fills the soul with pleasures, desires and pains. Neither of these could happen to a soul that has not sunk inside the body, and does not belong to anyone, nor become the body's, but the body has become its; and the body is such as to need nothing and lack nothing, so that the soul is not filled with desires or fears either. For it will never expect anything terrible about such a body, nor is there any business that makes it incline downward and draws it away from the better and blessed vision; but it is always with those things, ordering this All with a power that does no labour.
+!flag bringing about a veritable descent | The Greek says no business "makes it incline downward" (νεῦσιν ποιοῦσα κάτω): an inclination, not a descent.
+!note The star-bodies set in the circuits of the soul: Timaeus 36d-e, 38c, 40a-b. The body as a hindrance to thought and a source of pleasures, desires and fears: Phaedo 65a-66d.
+
+@ch IV.8.3 | One soul and many, as one intellect and many
+The human soul, bound and buried in the body, has its own reasons for its descent. As intellect is one and many, holding the particular intellects as a great living being holds its parts, so there must be one soul and many, from the one as species from a genus, like a city with a soul of its own containing other ensouled beings, or small fires from the fire of the All. Soul thinks, but also has a work of its own: looking up it thinks, looking to itself it keeps itself, looking down it orders and rules.
+
+@p
+Now let us say what view he takes of the human soul, which is said to suffer every ill in the body and to be wretched, coming to be among griefs, desires, fears and the other evils, for which the body is a bond and a tomb, and the cosmos a cave and a cavern: a view not at odds with the other, since the causes of its descent are not the same.
+
+@p
+@greek ὄντος τοίνυν παντὸς νοῦ
+Since, then, all intellect is in the place of thinking, whole and all, which we call the intelligible cosmos, and since there are also the intellectual powers contained in it and the particular intellects (for intellect is not one only, but one and many), there had to be many souls and one, and from the one the many, different, as from one genus species, some better, some worse, some more intellectual, some less so in act. For there, in intellect, too, there is intellect containing the others potentially, like a great living being, and the others, each in act, which the one contained potentially. It is as if a city were ensouled and contained other ensouled beings: the city's soul would be more complete and more powerful, but nothing would prevent the others from being of the same nature. Or as if, from the fire of the All, there were one great fire and other small ones: the whole being is that of the fire of the All, or rather that from which the fire of the All comes too.
+!note "The place of thinking" recalls Plato's intelligible place (Republic VI 508c, VII 517b). Intellect as "a great living being" is the Timaeus' intelligible Living Being (30c-31a), which holds all the living beings in it.
+
+@p
+@greek ψυχῆς δὲ ἔργον
+The work of the more rational soul is to think, but not to think only: else how would it differ from intellect? For having taken on, besides being intellectual, something else by which it has its own existence, it did not remain intellect; and it too has a work, as has everything that is among the things that are. Looking to what is before it, it thinks; looking to itself, it keeps itself; looking to what comes after it, it orders, governs and rules it. For it was not possible for all things to stop in the intelligible, when something else could come next, less, but necessary to be, if what is before it is.
+!flag remaining, therefore, an Intellectual-Principle | The Greek says the opposite: having taken on something else, "it did not remain intellect" (νοῦς οὐκ ἔμεινεν).
+
+@ch IV.8.4 | Tired of the whole, the soul falls into a part
+The particular souls turn back to their source in intellectual longing, but have a power toward what is below, like light hanging from the sun. With the whole soul they govern without harm, like kings beside the king of all; but, tired of being with another, each withdraws to a part, fastens on one body battered by everything, sheds its wings, and is bound and buried, acting by perception. Turning to thinking, it is set free; souls are amphibians, living by turns the life above and below. Plato's sowing of souls by the god is a way of telling what always is.
+
+@p
+The particular souls, then, use an intellectual longing in their turning back to that from which they came, but they have a power also toward what is here, like light that hangs from the sun above but does not grudge its supply to what comes after it. They must be free of harm while they stay with the whole soul in the intelligible, and in heaven, with the whole, govern along with it, as kings who are with the ruler of all govern with him, without coming down themselves from the royal places: for then they are together in the same place. But changing from the whole to being parts and their own, and as if tired of being with another, they each withdraw to what is their own.
+!flag the appetite for the divine Intel lect urges them to return to their source | The Greek says they "use an intellectual longing" (ὀρέξει νοερᾷ) in turning back to their source: the longing is intellectual, not a longing for intellect.
+!note "Tired" (κάμνουσαι) answers Heraclitus' weariness in IV.8.1.
+
+@p
+@greek ὅταν δὴ τοῦτο διὰ χρόνων
+When a soul does this over time, fleeing the All and standing apart by its separation, and not looking to the intelligible, it becomes a part, and is isolated and weak, and busy with many things, and looks to a part. By its separation from the whole it lands on one particular thing and flees all the rest; it comes to that one thing, which is battered by all things together, and turns to it, and has left the whole; and it governs the particular with difficulty, now touching and tending what is outside, and present to it, and sunk far into its inside.
+!flag by an actual presence, it administers the particular | The Greek says it governs the particular "with difficulty" (μετὰ περιστάσεως), amid troubles; its presence comes after, "present to it, and sunk into it".
+
+@p
+@greek ἔνθα καὶ συμβαίνει
+Here it happens to it, as is said, to shed its wings and come to be in the bonds of the body, having missed the freedom from harm that it had in governing the better, beside the whole soul; what came before was altogether better, to run back to. So it is caught, having fallen, and is at the bond, and acts by perception, because it is hindered from acting by intellect at first; and it is said to be buried and to be in a cave, but, turned to thinking, to be loosed from its bonds and to go up, when it takes from recollection the start of beholding the things that are. For it always has, none the less, something that rises above.
+!flag the soul has lost that innocency of conducting the higher | The Greek says it has missed "the freedom from harm" (τοῦ ἀβλαβοῦς) that it had in governing the better: harmlessness, not innocence.
+!flag when only it makes its memories the starting point of a new vision | The Greek says "recollection" (ἀναμνήσεως), Plato's recollection of the forms, not the soul's memories.
+!note The shedding of wings: Phaedrus 246c, 248c. Recollection: Phaedo 72e-76e, Phaedrus 249b-c. "Something that rises above" looks ahead to IV.8.8, where part of the soul never comes down.
+
+@p
+@greek γίγνονται οὖν οἷον ἀμφίβιοι
+They become, then, amphibians, as it were, of necessity, living by turns the life there and the life here: more the life there, those able to be with intellect more; more the life here, those for whom the opposite was the case, by nature or by fortune. Plato hints at this quietly when he divides them out of the second mixing bowl and makes them parts; then he also says that they must come into becoming, since they have become such parts. And if he says that the god sowed them, it must be heard as when he makes the god speak, and as it were address an assembly: for what is in the nature of the whole, the account generates and makes, bringing forward in order, to show it, what always comes to be and is so.
+!flag have place in both spheres | The Greek says they become "amphibians, as it were" (οἷον ἀμφίβιοι), living in two elements, like a frog in water and on land.
+!note The second mixing bowl, the parts, and the necessary birth: Timaeus 41d-42a; the sowing: 41e-42d; the god's speech to the younger gods: 41a-d. That the Timaeus' account of making in time is a way of teaching what always is was the reading of Xenocrates and the Platonists after him.
+
+@ch IV.8.5 | Necessity and choice agree
+The sowing and the descent, judgement and the cave, necessity and choice, Empedocles' exile and Heraclitus' rest: none of them disagree. The soul goes to the worse unwillingly, yet by its own motion, and so pays the penalty; yet it also comes down by an eternal law, to serve what is below, so one may say the god sent it. Its first fault is the descent, punished by what it suffers there; its faults here are punished by other bodies, or worse. If it comes back quickly, it is not harmed: it has learned evil and brought its powers into act, which would otherwise have stayed hidden.
+
+@p
+So these do not disagree with each other: the sowing into becoming and the descent for the completion of the All; the judgement and the cave; necessity and the voluntary, since the necessity holds the voluntary; and being in the body as in an evil. Nor do Empedocles' flight from the god and his wandering disagree, nor the sin on which the judgement follows, nor Heraclitus' rest in the flight; nor, in general, the voluntary and again the involuntary in the descent.
+!flag a voluntary descent aiming at the completion of the universe | The Greek speaks only of "the descent for the completion of the All" (ἡ εἰς τελείωσιν κάθοδος τοῦ παντός); that it is voluntary is MacKenna's.
+
+@p
+@greek πᾶν μὲν γὰρ ἰὸν
+For all that goes to the worse goes unwillingly; but going by its own motion, and suffering the worse, it is said to pay the penalty for what it did. But when it is necessary to do and suffer these things by an everlasting law of nature, and what happens, coming down from what is above it, meets in its going forth the need of something else, then if someone were to say that a god sent it down, he would not be out of tune either with the truth or with himself. For the last things too, even if there are many in between, are referred to the principle from which each comes.
+!flag determined by an external law of nature | The Greek says "an everlasting law" (ἀιδίῳ νόμῳ), not an external one.
+
+@p
+@greek διττῆς δὲ τῆς ἁμαρτίας
+The sin being twofold, one lying in the cause of its coming down, the other in its doing evil once it has come to be here, the penalty of the first is the very thing it has suffered by coming down; of the second, the lesser penalty is to enter other bodies and come out again quickly, by a judgement according to desert (that it happens by a divine ordinance is made clear by the name of judgement); but the measureless kind of wickedness is held to deserve a greater penalty too, under the oversight of punishing daemons.
+!flag its audacity, its Tolma | Not in the Greek of this chapter, which says only "the cause of its coming down"; the soul's "audacity" (τόλμα) is in V.1.1, and MacKenna brings it here.
+!note The judgement and the penalties: Phaedrus 249a-b, Republic X 615a-616a, Phaedo 113d-114c.
+
+@p
+@greek οὕτω τοι καίπερ
+So, although it is divine and from the places above, the soul comes to be inside the body; and, being a god, the later one, it comes here by a self-determined inclination, and because of its power and its ordering of what comes after it. If it flees quickly, it has taken no harm, having gained knowledge of evil and known the nature of wickedness, and brought its powers into the open, and shown works and makings which, resting in the bodiless, would have been in vain, never going into act, and would have escaped the soul itself, which would not have known what it had, since they were never shown and had no going forth. For everywhere activity has shown the power, which would otherwise have been hidden altogether and as it were made invisible, and would not be, never truly being. As it is, each one marvels at what is within through the variety of what is without, at what it is, from its having done these refined things.
+!flag coming to understand what sin is | The Greek says "the nature of wickedness" (φύσιν κακίας), vice, not sin.
+!note "A self-determined inclination" (ῥοπῇ αὐτεξουσίῳ): the soul's own leaning, which MacKenna gives as "a voluntary plunge". Power shown by activity is Aristotle's potency and act (Metaphysics IX.8-9).
+
+@ch IV.8.6 | All goes forth, so nothing lacks the good
+There cannot be one alone, or all would stay hidden and shapeless in it; so too there cannot be souls alone without what comes to be through them. Each nature makes what comes after it, unfolding as from a seed, the prior staying in its seat, by an unspeakable power that must not stop out of grudging but go to the last. Matter too, whether eternal or come to be, must share in the good. The beauty of the perceptible shows the power and goodness of the intelligible.
+
+@p
+If, then, there must not be one thing alone (for then all things would have been hidden, having no shape in that one, and none of the things that are would exist if that one had stood still in itself; nor would there be the multitude of these beings born from the One, if the things after them, which have the rank of souls, had not taken the going forth), in the same way there must not be souls alone either, without the things that come to be through them appearing. For in each nature there is this: to make what comes after it, and to unfold, as from a seed, from a partless principle, going to the perceptible as its end, the prior always staying in its own seat, and what comes after it being as it were born from an unspeakable power, as great as was in that one, which it should not have stopped, as if fencing it round out of grudging, but which must always go on, until all things come to the last, as far as is possible, because of an immense power sending from itself over all things and unable to let any be without a share in it.
+!flag native to soul as it exists in the Supreme | The Greek says the power is "as great as was in that one" (ὅση ἦν ἐν ἐκείνῳ), in the prior; nothing is said here of soul in the Supreme.
+!note The One that does not grudge: Timaeus 29e ("he was good, and in the good no grudging ever arises"), Phaedrus 247a.
+
+@p
+@greek οὐ γὰρ δὴ ἦν ὃ ἐκώλυεν
+For there was nothing to prevent anything from having a share in the nature of the good, as far as each was able to partake. So if the nature of matter always was, it could not, being, fail to share in what supplies the good to all, as far as each can take it; and if its coming to be followed of necessity on the causes before it, not even so must it be apart, as though what gave it being, as a kind of gift, had stopped from want of power before it reached it.
+!note Whether matter always was, or came to be from the causes before it, Plotinus leaves open here; on matter see II.4 and III.6.
+
+@p
+@greek δεῖξις οὖν τῶν ἀρίστων
+The most beautiful thing in the perceptible, then, is a showing of the best in the intelligibles, of their power and their goodness; and all things hold together for ever, those that are intelligibly and those that are perceptibly: the first being of themselves, the others taking their being for ever by sharing in them, imitating the intelligible nature as far as they can.
+
+@ch IV.8.7 | The middle rank
+It is better for soul to be in the intelligible, but its nature puts it at the border, giving to the perceptible and taking from it if it sinks in too eagerly. It can come up again, having learned by contrast what it is to be there: the experience of evil teaches the good to those too weak to know evil before it. As intellect goes out as far as soul, so soul acts toward what is below and beholds what is above; particular souls do this by turns, the soul of the All both at once, never sinking.
+
+@p
+This nature being twofold, the intelligible and the perceptible, it is better for soul to be in the intelligible; but, having such a nature, it must of necessity partake of the perceptible too. And it should not be indignant if it is not the better in all respects, having taken a middle rank among the things that are: being of divine portion, but at the last of the intelligible, and bordering on the perceptible nature, it gives something of its own to it, and takes something from it in return, if it does not order it while keeping its own safety, but with greater eagerness sinks inside, not staying whole with the whole; especially since it can come up again, having gained the story of what it saw and suffered here, and learned what it is to be there, and having learned the better more clearly by setting it beside what is, as it were, its opposite.
+!flag the greatness of rest in the Supreme | The Greek says it learns "what it is to be there" (οἷον ἄρα ἐστὶν ἐκεῖ εἶναι); "rest" is MacKenna's.
+
+@p
+@greek γνῶσις γὰρ ἐναργεστέρα
+For the experience of evil is a clearer knowledge of the good for those whose power is too weak to know evil by knowledge before experience. And as the going out of intellect is a descent to the last, the worse (for it cannot go up to what is beyond, but, acting out of itself and unable to stay by itself, it must, by the necessity and law of nature, come as far as soul: for this is its end; and to soul it hands on what comes next, and itself runs back up), so too is soul's activity: what comes after it is the things here, and what is before it is the beholding of the things that are.
+!flag Where the faculty is incapable of knowing without contact | The Greek says "too weak to know evil by knowledge before experience" (ἐπιστήμῃ πρὸ πείρας).
+
+@p
+@greek ταῖς μὲν παρὰ μέρος
+For some souls this comes in turn and in time, and the turning to the better comes about in the worse; but for the soul that is called the soul of the All, it is not to have come to be in the worse work, but, being free of evils, to grasp by contemplation what is below it, and to hang always from what is before it; it can do both at once, taking from there and supplying here at the same time, since it was impossible for it, being soul, not to touch these things too.
+!flag has the property of knowing its lower by inspection | The Greek says it grasps what is below it "by contemplation" (θεωρίᾳ), the word for the soul's beholding of intellect.
+
+@ch IV.8.8 | Not all of our soul comes down
+Plotinus dares to say, against the others, that not all of our soul has sunk: something of it is always in the intelligible, but we perceive what it beholds only when it comes down into perception, as a desire is known only when we grasp it. Every soul has a lower part toward the body and a higher toward intellect; the soul of the All orders the whole without toil, by intellect as art does not deliberate; particular souls are taken up with perception and its troubles and pleasures, yet the part above takes no pleasure in passing pleasures.
+
+@p
+And if one must dare, against the opinion of others, to say more clearly what seems so: not even our soul has sunk entire, but something of it is always in the intelligible; but the part in the perceptible, if it masters, or rather if it is mastered and thrown into confusion, does not let us perceive what the upper part of the soul beholds. For what is thought comes to us when it comes down into perception: for we do not know all that happens about any part of the soul until it comes to the whole soul; as desire, staying in the desiring part, is not known to us, but only when we grasp it by the inner power of perception, or by the power of discursive thought, or both.
+!flag or by the individual choice or by both at once | The Greek says "by the power of discursive thought" (διανοητικῇ): the reasoning power, not choice.
+!note That part of the human soul never comes down is Plotinus' own teaching, and he says so; later Platonists, Iamblichus and Proclus among them, rejected it (Proclus, Elements of Theology 211). On perception as the meeting point of what we are aware of, see IV.3.30 and I.4.10.
+
+@p
+@greek πᾶσα γὰρ ψυχὴ ἔχει
+For every soul has something of the lower, toward the body, and something of the upper, toward intellect. The soul that is whole and of the whole orders the whole with its part toward the body, rising above it without toil, since it does not do so by reasoning, as we do, but by intellect, as art does not deliberate, its lower part ordering the whole.
+!flag as in the execution of an artistic conception | The Greek says "as art does not deliberate" (ὡς ἡ τέχνη οὐ βουλεύεται): the point is that it acts without deliberating.
+!note "Art does not deliberate": Aristotle, Physics II.8, 199b28.
+
+@p
+@greek ἐν μέρει γινόμεναι καὶ μέρους
+The souls that come to be in a part and of a part also have the part that rises above, but they are taken up with perception, and by their grasping grasp many things against nature that grieve and trouble them, since what they care for is a part, and lacking, and has many foreign things around it, and many it longs for; and it feels pleasure, and pleasure deceives it. But there is also the part that takes no pleasure in pleasures of the moment; and its way of life is like that of the part above.
+!flag that pleasure which is its lure | The Greek says "pleasure deceives it" (ἡδονὴ ἠπάτησε): a deception, not only a lure.
+
+@treatise IV.9 | Whether all souls are one
+A short inquiry. If the soul of each of us is one because it is whole everywhere in the body, are mine and yours, and all souls, one? It seems absurd: then I would feel what you feel. But one and the same thing can have different affections in different places, as a man moves in me and stands in you; even in one body one hand does not feel the other's pain, and large bodies miss what happens in their parts. Sympathy at a distance, love, and magic show that souls are one; and the different powers, rational, perceptive and growing, are powers of one soul, as a seed has many powers. How one? Not as a body divided, but as one soul that gives itself to many and stays whole, as a science is whole in each of its theorems, and a seed in each of its parts.
+
+@ch IV.9.1 | Are all souls one?
+As the soul of each of us is one because it is whole everywhere in the body, are mine and yours and all souls one, and the soul of the All one? If ours come from it, or both from one, they must be. But then I would perceive what you perceive, and the rational and irrational would be one; and yet, if not, the All will not be one, nor will there be one principle of souls.
+
+@p
+Is it the case that, as we say the soul of each one is one because it is present whole everywhere in the body, and is truly one in this way, not having one part of itself here and another there in the body (in the beings that perceive, the perceptive soul is so, and in growing things too the soul is whole everywhere in each part), so too mine and yours are one, and all souls are one? And in the All, is the soul in all things one, not divided like a bulk, but the same everywhere?
+!flag That the Soul of every individual is one thing we deduce from the fact | The Greek is one long question ("Is it the case that, as we say..."), which MacKenna turns into statements.
+
+@p
+@greek διὰ τί γὰρ ἡ ἐν ἐμοὶ
+For why should the soul in me be one, and the soul in the All not one? There is no bulk there either, nor body. If, then, mine and yours come from the soul of the All, and it is one, these too must be one. And if both the soul of the All and mine come from one soul, again all are one. What, then, is this one?
+!flag and yours, and mine, belongs to it | The Greek says ours "come from" (ἐκ) the soul of the All.
+
+@p
+@greek ἀλλὰ πρότερον λεκτέον
+But first we must say whether it is rightly said that all are one, as the soul of each one is. For it is absurd if mine and anyone else's are one: for when I perceived, another would have to perceive, and when I was good, he would have to be good, and when I desired, desire; and in general we would have to feel together with one another and with the All, so that when I was affected the All would perceive it with me. And how, if it is one, is one rational and another irrational, and one in animals, another in plants? But again, if we do not set it down that way, the All will not be one, and no one principle of souls will be found.
+
+@ch IV.9.2 | The same in me and in you
+That the soul is one does not make the compounds of soul and body the same: one thing in two places has different affections, as man moves in me and stands in you. Even in one body one hand does not feel the other's pain; to share all feeling we would have to be one body, and large bodies miss what happens in their parts. So we may feel with each other without perceiving each other's imprints. Soul is one and many, sharing in the divided and the undivided nature.
+
+@p
+First, then, if my soul and another's are one, it does not follow that the compound of soul and body is the same as the other compound. For a thing that is the same in this and in that will not have the same affections in each, as the man in me, when I move, and in you, when you do not, will be moving in me and standing in you. And it is neither absurd nor too strange that what is in me and in you is the same, nor necessary, when I perceive, that another have altogether the same affection. For not even in one body did one hand perceive the affection of the other, but the soul in the whole did. If you had to know what is mine too, the two of us would have to be one body, joined together: for so joined, each would perceive the same.
+!flag the distress is felt not in the other but in the hand as represented in the centralising unity | The Greek says the other hand does not perceive it, "but the soul in the whole" does (ἀλλ’ ἡ ἐν τῷ ὅλῳ); MacKenna's "centralising unity" stands for this.
+!note "The man in me": the one form, man, is the same in both, as a universal is in its instances.
+
+@p
+@greek ἐνθυμεῖσθαι δὲ προσήκει
+One should bear in mind too that many things escape the whole even among those that happen in one and the same body, and the more so the larger the body is, as is said of great sea-monsters, in which, when some affection is at a part, no perception of it reaches the whole, because the motion is small. So it is not necessary, when one thing is affected, that the perception reach the whole and all of it, distinct in its imprint. To be affected together is not absurd, nor to be denied; but a perceptual imprint need not come about.
+!flag some transmission of the experience may be expected | The Greek says that "to be affected together" (συμπάσχειν), sympathy, is not absurd; Plotinus' word for the bond of the All.
+
+@p
+@greek ἀρετὴν δὲ ἐν ἐμοὶ
+That it has virtue in me and vice in another is not absurd, if it is not impossible for the same thing to be moving in one and standing in another. For we do not say it is one in the sense of having no share in multitude at all (that must be granted to the better nature); but we say it is one and multitude, and shares in the nature that becomes divided about bodies, and in the undivided too, so that again it is one. And as in me the affection that comes about at a part need not master the whole, while what happens at the more sovereign part carries something to the part, so what comes from the All to each is clearer, since we are affected in many ways together with the whole, while it is unclear whether what comes from us contributes to the whole.
+!flag an identical thing may be active here and inactive there | The Greek says "moving in one and standing in another" (κινεῖσθαι ... ἑστάναι), as with the man in me and in you above.
+!note The nature divided about bodies and the undivided: Timaeus 35a, read in IV.2.1-2.
+
+@ch IV.9.3 | Sympathy, magic and the powers of one soul
+On the other side, sympathy shows that souls are one: we grieve at the sight of grief, and are drawn to love; spells act at a distance, and a quiet word is heard far off. The rational, perceptive and growing souls are powers of one soul, as a seed has many powers and is one. Not all powers act everywhere even in one body; the power of nourishing comes to our bodies from the whole, while the judging perception is our own.
+
+@p
+And yet, from the opposite side, the argument says that we feel with one another, grieving with others from seeing them, and melting, and drawn by nature to love: perhaps that is why there is love. And if incantations and magic in general draw people together and make them feel together from afar, it is surely through one soul. A word spoken quietly has affected what is far off, and made what stands an immense distance away hear it: from which one can learn the unity of all things, since the soul is one.
+!flag and all this can be due only to some unity among us | The Greek says "perhaps that is why there is love" (μήποτε γὰρ τὸ φιλεῖν διὰ τοῦτο): feeling with one another may be the cause of love.
+!note On magic as working through the sympathy of the All: IV.4.40-44.
+
+@p
+@greek πῶς οὖν, εἰ ψυχὴ μία
+How, then, if soul is one, is one soul rational, another irrational, and another a growth soul? Or the undivided part of it must be placed in the rational, which is not divided in bodies; the part divided about bodies, which is itself one too, but divided about bodies and supplying perception everywhere, must be set down as another power of it; and the part of it that shapes and makes bodies as another power. But it is not because the powers are several that it is not one. For in the seed, too, there are several powers, and it is one, and from this one come many, which are one.
+
+@p
+@greek διὰ τί οὖν οὐ πανταχοῦ
+Why, then, are not all the powers everywhere? For in the one soul too, which is said to be everywhere, perception is not alike in all the parts, nor is reason in the whole, and the growing power is also where there is no perception; and yet it runs back into one when it leaves the body. And the nourishing power, if it has it from the whole, it has from that soul too. Why, then, does the nourishing power not come from our soul as well? Because what is nourished is a part of the whole, and it also perceives in a passive way; but perception that judges each thing with intellect belongs to us, and it had no need to shape what has its shaping from the whole. It would have done it itself, if it had not had to be in this whole.
+!flag which itself has sensation passively | The Greek says it is the part that is nourished (ὃ καὶ παθητικῶς αἰσθητικόν), the body, that perceives passively, not the All.
+
+@ch IV.9.4 | How one soul makes many
+How are all one: as coming from one, divided or staying whole? There must first be one, if there are many. If soul were a body, the many would be pieces, other in bulk; if they were souls by their form, they would be one in form, an image in many places of the one in one, as many waxes take the imprint of one ring. But soul is bodiless and a being.
+
+@p
+This has been said so that we should not wonder at the leading back to one. But the argument asks: how one? Are all one as coming from one? And if from one, is that one divided, or does it stay whole and none the less make many from itself? And how could a being that stays make many from itself?
+
+@p
+@greek λέγωμεν οὖν συλλήπτορα
+Let us say, then, having called on god to help us, that there must first be one, if there are many, and the many must come from it. If it were a body, the many would have to come about by its being divided, each becoming a wholly different being; and if it were of like parts, they would all be of one form, each bearing one and the same form whole, but differing in their bulks. And if they had their being souls from the bulks beneath them, they would be other than one another; but if from the form, souls would be one in form.
+!flag Let us suppose, even, the first soul to be corporeal | The Greek says "if it were a body" (εἰ μὲν οὖν σῶμα εἴη): a hypothesis to be refuted, which MacKenna turns into a supposition to grant.
+
+@p
+@greek τοῦτο δέ ἐστι τὸ μίαν
+But this is to say that one and the same soul is in many bodies, and that before this one in many there is another, not in many, from which the one in many comes, being as it were an image, carried in many places, of the one in one: as if many waxes took the same imprint from one ring and bore it.
+!note The ring and the waxes: Plato's wax block (Theaetetus 191c-d), and Aristotle's ring (On the soul II.12, 424a17-24), here an image of one form in many.
+
+@p
+@greek ἐκείνως μὲν οὖν ἀνηλίσκετο
+In the first way the soul would be spent into many impressions; in the second, the soul turned out to be bodiless. And if it were an affection, there would be nothing wonderful in one quality, coming from one thing, being in many; and if the soul were in the compound, nothing wonderful either. But as it is, we set it down as bodiless and a being.
+!flag the soul is a unit broken up into a variety of points | The Greek says it "would be spent" or used up (ἀνηλίσκετο) into many marks: consumed by being divided, as a body is.
+
+@ch IV.9.5 | Whole in each, as a science in its theorems
+One being is in many by giving itself to all and staying one, entering all at once and not cut off from any. So a science is whole and its parts come from it, and a seed is whole in each of its parts. Each theorem has the others in potency, as the geometer's analysis shows; we doubt it from weakness and the body's darkness, but there all is clear.
+
+@p
+How, then, is one being in many? Either the one is whole in all, or the many come from one whole while it stays. That one, then, is one, and the many go back to it as to one that has given itself to multitude and not given itself: for it is able to give itself to all and remain one; it enters into all at once, and is not altogether cut off from any. So it is the same thing in many.
+!flag includes the one-many in virtue of giving itself | The Greek says the many go back "to it" (εἰς ταύτην) as to one that has given itself to multitude and not given itself; there is no "one-many" that it includes.
+
+@p
+@greek μὴ δή τις ἀπιστείτω
+Let no one disbelieve it: for knowledge too is whole, and its parts are such that the whole stays and the parts come from it; and the seed is whole, and from it come the parts into which it naturally divides, and each is whole, and the whole stays whole, not lessened; matter divided it; and all are one.
+
+@p
+@greek ἀλλ’ ἐν τῇ ἐπιστήμῃ
+But in knowledge, someone might say, the part is not the whole. Or there too the part that has been brought forward because it is needed is in act, and it is set in front; but the others follow, unnoticed, in potency, and all are in the part. And perhaps in this way the one is called the whole and the other the part: there all are, as it were, in act at once, so that each one you wish to bring forward is ready; in the part, it is what is ready; and it is empowered, as it were, by coming near the whole. It must not be thought of as bare of the other theorems: else it will no longer be a matter of art or knowledge, but as if a child were saying it. If, then, it is a matter of knowledge, it has all the others too in potency. The knower, at any rate, having attended to it, brings in the others as by a kind of sequence; and the geometer shows in his analysis that the one has in it all that comes before it, through which the analysis goes, and also what comes next, which is generated from it.
+!flag its value consists in its approach to the whole | The Greek says it "is empowered" (ἐνδυναμοῦται) by coming near the whole: it gains power, not value.
+!note Geometrical analysis works back from what is sought to what is given, then synthesis goes forward again (Pappus, Collection VII); Aristotle compares deliberation to it (Nicomachean Ethics III.3, 1112b20-24).
+
+@p
+@greek ἀλλὰ ταῦτα διὰ τὴν ἡμετέραν
+But these things are disbelieved because of our weakness, and are darkened because of the body; but there all things are clear, and each.
+!flag There all stands out clear and separate | The Greek says "all things are clear, and each" (φανὰ πάντα καὶ ἕκαστον); "separate" is MacKenna's.
