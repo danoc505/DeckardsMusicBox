@@ -132,9 +132,24 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   "hang from him" (1072b13-14) and the Sophist (248e-249d). For later milestones: MacKenna's vol. II as the tool reads it
   has other chapter counts than Volkmann's in III.3 (4 for 7), III.5 (10 for 9), III.8 (10 for 11) and II.9 (10 for 18, for
   E34); each milestone checks its treatises in the scan and names his chapters with `@older` where they are not Volkmann's.
-- E8: II.3 Whether the stars are causes (4,489). Next.
+- **E8: II.3 Whether the stars are causes (4,489) (done).** 18 chapters, 46 paragraphs, 47 flags, 34 notes, beside MacKenna's
+  vol. II (pp. 159-177), whose eighteen chapters are Volkmann's. E.g. MacKenna has the cold star in opposition "to the cold"
+  where the Greek says to the hot, "zeniths" for the astrologers' four centres, "periods" for the years the risings count,
+  "virtue the unconquerable" for Plato's virtue with no master (Republic 617e), a "mighty spirit" for the Symposium's great
+  daemon (202d-e), the star's will "transmitted" through the body where the Greek has it look to the best, the "Thought of
+  the First Principle" and "the Idea which belongs to a Principle" for the soul's standing as a principle, "a powerful inner
+  impulse" for the soul's capacity to be affected, a gap in the text ("ambition ... in love . . .") where Volkmann has none,
+  "the extreme of wickedness" for knavery, "hindering its own life" for discontented with it, a clash of principles for
+  matter shaken (Timaeus 52e-53a), and "Thought-Forms" for the forming principles that chapter 17 says are not thoughts.
+  Hard places flagged: the fiery star's sufficiency (II.3.5) and what "it" is that the other things follow (II.3.9). Notes on
+  the astrologers' centres, aspects, houses, sects and risings (Ptolemy, Tetrabiblos I.4-7, III.10), the planets' Greek
+  names, the myth of Er (Republic 611c-612a, 616c-620e), the Timaeus (28a-29a, 37d, 41c-d, 42a, 69c-d, 70a-71b), the
+  Theaetetus (176a-b), the Symposium, the Phaedrus (246a-b, 246e-247a, 248a), the Critias (109b-c), the Phaedo (109c), the
+  Menexenus (246e-247a), the Hippocratic On nourishment (23), Aristotle's Physics (194b13) and Metaphysics (1072b14), Homer
+  (Iliad 5.302-304, 8.556; Odyssey 8.266-366) and Chrysippus' bedbugs (Plutarch, Stoic self-contradictions 1044d). The
+  Workshop's Greek of II.3.18 has a damaged word ("δἑ??ʼ" for δεῖ), noted on its paragraph.
 - E9: II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On
-  sight (4,430).
+  sight (4,430). Next. MacKenna's chapters are Volkmann's (5, 3, 3, 2; vol. II pp. 196-213).
 - E10: III.1 On destiny (2,648).
 - E11: III.2 On providence, first part (6,582).
 - E12: III.3 On providence, second part, III.4 On the daemon allotted to us (4,044).

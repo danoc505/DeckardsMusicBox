@@ -101,8 +101,8 @@
   {
    "id": "II.3",
    "title": "Whether the stars are causes",
-   "status": "to come",
-   "milestone": "E8"
+   "status": "here",
+   "first": "II.3.1"
   },
   {
    "id": "II.4",
@@ -517,6 +517,31 @@
     "II.2.1",
     "II.2.2",
     "II.2.3"
+   ]
+  },
+  {
+   "id": "II.3",
+   "title": "Whether the stars are causes",
+   "summary": "The astrologers say that the planets make everything, wealth and poverty, beauty and ugliness, even vices and virtues, and that they are glad or angry by their places and figures and as they see one another. Plotinus takes these claims apart: soulless stars could give only heat, and ensouled ones, divine and happy, have no reason to harm us, nor do places and aspects change their minds. The stars do signify, as letters written in the sky, because the All is one living being whose parts all answer to each other; they act only in what they plainly do. Soul is double in us and in the All: the soul that has been separated is free, and only the composite lives under destiny. Then what comes from the stars changes on its way down; the outside world adds a quality, it does not make the thing; and each event has its own cause, in us, in others or in the All. Last, soul governs the All by forming principles, its lowest power makes things as a figure is made in water, and evils too have their use: the cosmos is an image always being imaged.",
+   "chapters": [
+    "II.3.1",
+    "II.3.2",
+    "II.3.3",
+    "II.3.4",
+    "II.3.5",
+    "II.3.6",
+    "II.3.7",
+    "II.3.8",
+    "II.3.9",
+    "II.3.10",
+    "II.3.11",
+    "II.3.12",
+    "II.3.13",
+    "II.3.14",
+    "II.3.15",
+    "II.3.16",
+    "II.3.17",
+    "II.3.18"
    ]
   }
  ],
@@ -2456,6 +2481,312 @@
      "page": 158,
      "year": 1921,
      "text": "The truth may be resumed in this way : —\n\nThere is a lowest power of the Soul, a nearest to earth, and this is interwoven throughout the entire universe : another phase possesses sensation, while yet another includes the Reason which is concerned with the objects of sensation : this higher phase holds itself to the spheres, poised towards the Above but hovering over the lesser Soul and giving forth to it an effluence which makes it more intensely vital.\n\nThe lower Soul is moved by the higher which, besides encircling and supporting it, actually resides in whatsoever part of it has thrust upwards and attained the spheres. The lower then, ringed round by the higher and answering its call, turns and tends towards it ; and this upward tension communicates motion to the material frame in which it is involved : for if a single point in a spheric mass is in any degree moved, without being drawn away from the rest, it moves the whole, and the sphere is set in motion. Something of the same kind happens in the case of our bodies : the unspatial movement of the Soul — in happiness, for instance, or at the idea of some pleasant event — sets up a spatial movement in the body : the Soul, attaining in its own region some good which increases its sense of life, moves towards what pleases it ; and so, by force of the union established in the order of nature, it moves the body, in the body's region, that is in space.\n\nAs for that phase of the Soul in which sensation is vested, it, too, (like the higher) takes its good from the Supreme above itself and moves, rejoicingly, in quest of it : and since the object of its desire is everywhere, it too ranges always through the entire scope of the universe.\n\nThe Intellectual-Principle has no such progress in any region ; its movement is a stationary act, for it turns upon itself.\n\nAnd this is why the All, circling as it does, is at the same time at rest."
+    }
+   ]
+  },
+  {
+   "id": "II.3.1",
+   "treatise": "II.3",
+   "title": "What the astrologers claim",
+   "summary": "That the stars signify what will happen but do not do everything has been said before; it must now be said more exactly. The astrologers say that the planets make not only wealth and health but beauty, vices, virtues and the acts that come from them, as if they were angry with us; that they are glad or troubled by their places, good or bad by turns, changed by seeing one another and by the figure in which they see; and that all together make a blend unlike any one of them.",
+   "greek_unit": "2.3.1",
+   "greek_part": 11,
+   "older": [
+    {
+     "n": 1,
+     "label": "II.3, chapter 1",
+     "page": 159,
+     "year": 1921,
+     "text": "That the circuit of the stars indicates definite events to come but without being the cause direct (as the general opinion holds) of all that happens, has been elsewhere affirmed, and proved by some modicum of argument : but the subject demands more precise and detailed investigation for to take the one view rather than the other is of no small moment.\n\nThe belief is that the planets in their courses actually produce not merely such conditions as poverty, wealth, health and sickness but even ugliness and beauty and, gravest of all, vices and virtue and the very acts that spring from these qualities, the definite doings of each moment of virtue or vice. We are to suppose the stars to be annoyed with men — and upon matters in which men, moulded to what they are by the stars themselves, can surely do them no wrong.\n\nThey will be distributing what pass for their good gifts, not out of kindness towards the recipients but as they themselves are affected pleasantly or disagreeably at the various points of their course ; so that they must be supposed to change their plans as they stand at their zeniths or are declining.\n\nMore absurdly still, some of them are supposed to be malicious and others to be helpful, and yet the evil stars will (in certain positions) bestow favours and the benevolent act harshly : further, their action alters as they see each other or not, so that, after all, they possess no definite nature but vary according to their angles of aspect ; a star is kindly when it sees one of its fellows but changes at sight of another : and there is even a distinction to be made in the seeing as it occurs in this figure or in that. Lastly, all acting together, the fused influence is different again from that of each single star, just as the blending of distinct fluids gives a mixture unlike any of them.\n\nSince these opinions and others of the same order are prevalent, it will be well to examine them carefully one by one, beginning with the fundamental question : —"
+    }
+   ]
+  },
+  {
+   "id": "II.3.2",
+   "treatise": "II.3",
+   "title": "Soulless, or ensouled?",
+   "summary": "Are the stars soulless or ensouled? If soulless, they can give only heat and cold, bodily things, which mix on earth into one and differ only by nearness; and how could heat make some men scholars and others orators, rich or poor, or give a man such a brother or father, or make him a king? If ensouled and acting by choice, what wrong have we done them, that they should harm us? They are divine, and nothing that makes men bad is in them, and our fortunes do them no good or ill.",
+   "greek_unit": "2.3.2",
+   "greek_part": 11,
+   "older": [
+    {
+     "n": 2,
+     "label": "II.3, chapter 2",
+     "page": 160,
+     "year": 1921,
+     "text": "Are these planets to be thought of as soulless or unsouled ?\n\nSuppose them, first, to be without Soul.\n\nIn that case they can purvey only heat or cold — if cold from the stars can be thought of — that is to say, any communication from them will affect only our bodily nature, since all they have to communicate to us is merely corporeal. This implies that no considerable change can be caused in the bodies affected since emanations merely corporeal cannot differ greatly from star to star, and must, moreover, blend upon earth into one collective resultant : at most the differences would be such as depend upon local position, upon nearness or farness with regard to the centre of influence. This reasoning, of course, is as valid of any cold emanation there may be as of the warm.\n\nNow, what is there in such corporeal action to account for the various classes and kinds of men, learned and illiterate, scholars as against orators, musicians as against people of other professions ? Can a power merely physical make rich or poor ? Can it bring about such conditions as in no sense depend upon the interaction of corporeal elements ? Could it, for example, bring a man such and such a brother, father, son, or wife, give him a stroke of good fortune at a particular moment, or make him generalissimo or king ?\n\nNext, suppose the stars to have life and mind and to be effective by deliberate purpose.\n\nIn that case, what have they suffered from us that they should, in free will, do us hurt, they who are established in a divine place, themselves divine ? There is nothing in their nature of what makes men base, nor can our weal or woe bring them the slightest good or ill."
+    }
+   ]
+  },
+  {
+   "id": "II.3.3",
+   "treatise": "II.3",
+   "title": "Places and risings cannot change a star's mood",
+   "summary": "If the stars act under compulsion of their places, the same places should make them all do the same. A star is not in the signs but far below them, and always in the heaven; it is absurd that it should change as it passes each sign, or be glad at a centre and sad as it declines, since each star is at a centre for some places and declining for others at once. The stars are always serene, glad in the good they have and in what they see; their life is their own, not turned towards us. Like birds, they signify incidentally.",
+   "greek_unit": "2.3.3",
+   "greek_part": 11,
+   "older": [
+    {
+     "n": 3,
+     "label": "II.3, chapter 3",
+     "page": 161,
+     "year": 1921,
+     "text": "Possibly, however, they act not by choice but under stress of their several positions and collective figures ?\n\nBut if position and figure determined their action each several one would necessarily cause identical effects with every other on entering any given place or pattern.\n\nAnd that raises the question what effect for good or bad can be produced upon any one of them by its transit in the parallel of this or that section of the Zodiac circle — for they are not in the Zodiacal figure itself but considerably beneath it — especially since, whatever point they touch, they are always in the heavens.\n\nIt is absurd to think that the particular grouping under which a star passes can modify either its character or its earthward influences. And can we imagine it altered by its own progression as it rises, stands at centre, declines ? Exultant when at centre ; dejected or enfeebled in declension ; some raging as they rise and growing benignant as they set, while declension brings out the best in one among them ; surely this cannot be ?\n\nWe must not forget that invariably every star, considered in itself, is at centre with regard to some one given group and in decline with regard to another and vice versa ; and, very certainly, it is not at once happy and sad, angry and kindly. There is no reasonable escape in representing some of them as glad in their setting, others in their rising : they would still be grieving and glad at one and the same time.\n\nFurther, why should any distress of theirs work harm to us ?\n\nNo : we cannot think of them as grieving at all or as being cheerful upon occasions : they must be continuously serene, happy in the good they enjoy and the Vision before them. Each lives its own free life ; each finds its Good in its own Act ; and this Act is not directed towards us.\n\nLike the birds of augury, the living beings of the heavens, having no lot or part with us, may serve incidentally to foreshow the future, but they have absolutely no main function in our regard."
+    }
+   ]
+  },
+  {
+   "id": "II.3.4",
+   "treatise": "II.3",
+   "title": "Aspects, enmities, and how they could act at all",
+   "summary": "Why should one star be glad to see another and another be vexed? What enmity can there be among them? Why should the trine, the square and the opposition differ, and why should a star not see one that is nearer, in the next sign? How could they act each alone, or all together? They do not bargain with one another, nor force one another, nor give way; and to say that one is glad in the other's houses and the other the reverse is like supposing two friends of whom one loves and the other hates.",
+   "greek_unit": "2.3.4",
+   "greek_part": 11,
+   "older": [
+    {
+     "n": 4,
+     "label": "II.3, chapter 4",
+     "page": 162,
+     "year": 1921,
+     "text": "It is again not in reason that a particular star should be gladdened by seeing this or that other while, in a second couple, such an aspect is distressing : what enmities can affect such beings ? what causes of enmity can there be among them ?\n\nAnd why should there be any difference as a given star sees certain others from the corner of a triangle or in opposition or at the angle of a square ?\n\nWhy, again, should it see its fellow from some one given position and yet, in the next Zodiacal figure, not see it, though the two are actually nearer ?\n\nAnd, the cardinal question ; by what conceivable process could they affect what is attributed to them ? How explain either the action of any single star independently or, still more perplexing, the effect of their combined intentions ?\n\nWe cannot think of them entering into compromises, each renouncing something of its efficiency and their final action in our regard amounting to a concerted plan.\n\nNo one star would suppress the contribution of another, nor would star yield to star and shape its conduct under suasion.\n\nAs for the fancy that while one is glad when it enters another's region, the second is vexed when in its turn it occupies the place of the first, surely this is like starting with the supposition of two friends and then going on to talk of one being attracted to the other who, however, abhors the first."
+    }
+   ]
+  },
+  {
+   "id": "II.3.5",
+   "treatise": "II.3",
+   "title": "Cold and hot stars, the moon, and the stars as parts of one living being",
+   "summary": "The astrologers' cold star should be good to us in the opposite signs; cold and hot in opposition should blend, not both grow dangerous; it is always day for the stars, and night cannot reach them. Their moon is good when full and bad when waning, but towards the planet above her it would be the other way round. In fact what comes from the stars is warm, more or less, never cold. Yet all of them serve the whole and stand to one another as the whole needs, like the parts of one living being, the gall among them; and so by analogy they are signs.",
+   "greek_unit": "2.3.5",
+   "greek_part": 11,
+   "older": [
+    {
+     "n": 5,
+     "label": "II.3, chapter 5",
+     "page": 162,
+     "year": 1921,
+     "text": "When they tell us that a certain cold star is more benevolent to us in proportion as it is further away, they clearly make its harmful influence depend upon the coldness of its nature ; and yet it ought (by this reasoning) to be beneficent to us when it is in the opposed Zodiacal figures.\n\nWhen the cold planet, we are told, is in opposition to the cold, both become menacing : but the natural effect would be a compromise.\n\nAnd we are asked to believe that one of them is happy by day and grows kindly under the warmth, while another, of a fiery nature, is most cheerful by night — as if it were not always day to them, light to them, and as if the first one could be darkened by night at that great distance above the earth's shadow.\n\nThen there is the notion that the moon, in conjunction with a certain star, is softened at her full but is malignant in the same conjunction when her light has waned ; yet, if anything of this order could be admitted, the very opposite would be the case. For when she is full to us she must be dark on the further hemisphere, that is to that star which stands above her ; and when dark to us she is full to that other star, upon which only then, on the contrary, does she look with her light. To the moon itself, in fact, it can make no difference in what aspect she stands, for she is always lit on the upper or on the under half : to the other star, the warmth from the moon, of which they speak, might make a difference ; but that warmth would reach it precisely when the moon is without light to us ; at its darkest to us it is full to that other, and therefore (by the theory) beneficent. The darkness of the moon to us is of moment to the earth, but brings no trouble to the planet above. That planet, it is alleged, can give no help on account of its remoteness and therefore seems less well disposed ; but the moon at its full suffices to the lower realm so that the distance of the other is of no importance. When the moon, though dark to us, is in aspect with the Fiery Star she is held to be favourable : the reason alleged is that the force of Mars is all-sufficient since it contains more fire than it needs.\n\nThe truth is that while the material emanations from the living beings of the heavenly system are of various degrees of warmth — planet differing from planet in this respect — no cold comes from them : the nature of the space in which they have their being is voucher for that.\n\nThe star known as Jupiter includes a due measure of fire (and warmth), in this resembling the Morning-star and therefore seeming to be in alliance with it. In aspect with what is known as the Fiery Star, Jupiter is beneficent by virtue of the mixing of influences : in aspect with Saturn unfriendly by dint of distance. Mercury, it would seem, is (in itself) indifferent whatever stars it be in aspect with ; for it adopts any and every character.\n\nBut (again, the truth is that) all the stars are serviceable to the Universe, and therefore can stand to each other only as the service of the Universe demands, in a harmony like that observed in the members of any one animal form. They exist essentially for the purpose of the Universe, just as the gall exists for the purposes of the body as a whole not less than for its own immediate function : it is to be the inciter of the animal spirits but without allowing the entire organism and its own especial region to run riot. Some such balance of function was indispensable in the All — bitter with sweet. There must be differentiation — eyes and so forth — but all the members will be in sympathy with the entire animal frame to which they belong. Only so can there be a unity and a total harmony.\n\nAnd in such a total, analogy will make every part a Sign."
+    }
+   ]
+  },
+  {
+   "id": "II.3.6",
+   "treatise": "II.3",
+   "title": "Mars, Aphrodite, and too much work for the stars",
+   "summary": "That Mars and Venus should cause adulteries to satisfy their own desires is absurd, and so is their endless pleasure in seeing each other. How could the stars see to every one of countless living beings, wait for the risings of the signs, count degrees as years on their fingers? To give the government of all to them, and not to one who presides, from whom the All hangs, is to dissolve the cosmos and not to know its nature.",
+   "greek_unit": "2.3.6",
+   "greek_part": 11,
+   "older": [
+    {
+     "n": 6,
+     "label": "II.3, chapter 6",
+     "page": 164,
+     "year": 1921,
+     "text": "But that this same Mars, or Aphrodite, in certain aspects should cause adulteries — as if they could thus, through the agency of human incontinence, satisfy their own mutual desires — is not such a notion the height of unreason ? And who could accept the fancy that their happiness comes from their seeing each other in this or that relative position and not from their own settled nature ?\n\nAgain : countless myriads of living beings are born and continue to be : to minister continuously to every separate one of these ; to make them famous, rich, poor, lascivious ; to shape the active tendencies of every single one — what kind of life is this for the stars, how could they possibly handle a task so huge ?\n\nThey are to watch, we must suppose, the rising of each several constellation and upon that signal to act ; such a one, they see, has risen by so many degrees, representing so many of the periods of its upward path ; they reckon on their fingers at what moment they must take the action which, executed prematurely, would be out of order : and in the sum, there is no One Being controlling the entire scheme ; all is made over to the stars singly, as if there were no Sovereign Unity, standing as source of all the forms of Being in subordinate association with it, and delegating to the separate members, in their appropriate Kinds, the task of accomplishing its purposes and bringing its latent potentiality into act.\n\nThis is a separatist theory, tenable only by minds ignorant of the nature of a Universe which has a ruling principle and a first cause operative downwards through every member."
+    }
+   ]
+  },
+  {
+   "id": "II.3.7",
+   "treatise": "II.3",
+   "title": "Signs, like letters written in the sky",
+   "summary": "If the stars signify, what is the cause, and what the order? Let them be like letters written in the sky, doing their own work, with signifying following on it, as one part of a living being tells of another: the eyes tell character, dangers and safety. All things are full of signs, and the wise man reads one from another. There must be one ordering: all things are bound together, one breathing together, more in the All than in any one living being, and each part does its own work, contributing to the others, not at random but by nature.",
+   "greek_unit": "2.3.7",
+   "greek_part": 11,
+   "older": [
+    {
+     "n": 7,
+     "label": "II.3, chapter 7",
+     "page": 165,
+     "year": 1921,
+     "text": "But, if the stars announce the future — as we hold of many other things also — what explanation of the cause have we to offer ? What explains the purposeful arrangement thus implied ? Obviously, unless the particular is included under some general principle of order, there can be no signification.\n\nWe may think of the stars as letters perpetually being inscribed on the heavens or inscribed once for all and yet moving as they pursue the other tasks allotted to them : upon these main tasks will follow the quality of signifying, just as the one principle underlying any living unit enables us to reason from member to member, so that for example we may judge of character and even of perils and safeguards by indications in the eyes or in some other part of the body. If these parts of us are members of a whole, so are we : in different ways the one law applies.\n\nAll teems with symbol ; the wise man is the man who in any one thing can read another, a process familiar to all of us in not a few examples of everyday experience.\n\nBut what is the comprehensive principle of co-ordination ? Establish this and we have a reasonable basis for the divination, not only by stars but also by birds and other animals, from which we derive guidance in our varied concerns.\n\nAll things must be enchained ; and the sympathy and correspondence obtaining in any one closely knit organism must exist, first, and most intensely, in the All. There must be one principle constituting this unit of many forms of life and enclosing the several members within the unity, while at the same time, precisely as in each thing of detail the parts too have each a definite function, so in the All (the higher All) each several member must have its own task — but more markedly so since in this case the parts are not merely members but themselves Alls, members of the loftier Kind.\n\nThus each entity takes its origin from one Principle and, therefore, while executing its own function, works in with every other member of that All from which its distinct task has by no means cut it off : each performs its act, each receives something from the others, every one at its own moment bringing its touch of sweet or bitter. And there is nothing undesigned, nothing of chance, in all the process : all is one scheme of differentiation, starting from the Firsts and working itself out in a continuous progression of Kinds."
+    }
+   ]
+  },
+  {
+   "id": "II.3.8",
+   "treatise": "II.3",
+   "title": "Soul's work, justice, and what the stars do",
+   "summary": "Soul makes all things, and whether it goes straight or goes astray, justice follows what is done in the All, which lasts because the whole is kept upright. The stars, no small parts of the heaven, work with it, splendid for the whole and good for signifying: they signify everything, but do only what they plainly do. We do the works of soul by nature, until we slip in the multitude of the All, and then the slip is our penalty. Wealth and poverty come from meeting outside things; virtue from what is ancient in the soul, vice from its meeting with what is outside.",
+   "greek_unit": "2.3.8",
+   "greek_part": 11,
+   "older": [
+    {
+     "n": 8,
+     "label": "II.3, chapter 8",
+     "page": 166,
+     "year": 1921,
+     "text": "Soul, then, in the same way, is intent upon a task of its own ; alike in its direct course (its tendence towards the divine ?) and in its divagation (its activity towards the lower ?) it is the cause of all by its possession of the Thought of the First Principle : thus a Law of Justice goes with all that exists in the Universe which, otherwise, would be dissolved, and is perdurable because the entire fabric is guided as much by the orderliness as by the power of the controlling force. And in this order the stars, as being no minor members of the heavenly system, are co-operators contributing at once to its stately beauty and to its symbolic quality. Their symbolic power extends to the entire realm of sense, their efficacy only to what they patently do.\n\nFor our part, nature keeps us upon the work of the Soul as long as we are not wrecked in the multiplicity of the Universe : once thus sunk and held we pay the penalty, which consists both in the fall itself and in the lower rank thus entailed upon us : riches and poverty are caused (not by the stars but) by the combinations of external fact.\n\nAnd what of virtue and vice ?\n\nThat question has been amply discussed elsewhere : in a word, virtue is ours by the ancient staple of the Soul ; vice is due to the commerce of a Soul with the outer world."
+    }
+   ]
+  },
+  {
+   "id": "II.3.9",
+   "treatise": "II.3",
+   "title": "The spindle, the Timaeus, and the two selves",
+   "summary": "In Plato the Fates turn the spindle at each birth; in the Timaeus the god gives the principle of the soul, and the gods that move give the passions and the lower soul. So what is left that is we? What we truly are, who can master the passions: God gave us virtue that has no master. We must flee from here and not be the ensouled body; the other soul, outside, goes upward to the divine, and whoever is bereft of it lives under destiny, a part carried along by the whole. Each of us is double, and the All too, and the sun: the pure soul gets nothing bad from the stars, and what comes from them is given by body to body, while the star's soul looks to the best. Without its separable soul the All is a great daemon.",
+   "greek_unit": "2.3.9",
+   "greek_part": 11,
+   "older": [
+    {
+     "n": 9,
+     "label": "II.3, chapter 9",
+     "page": 167,
+     "year": 1921,
+     "text": "This brings us to the Spindle-destiny, spun according to the ancients by the Fates. To Plato the Spindle represents the co-operation of the moving and the stable elements of the kosmic circuit : the Fates with Necessity, Mother of the Fates, manipulate it and spin at the birth of every being, so that all comes into existence through Necessity.\n\nIn the Timaeus, the creating God bestows the essential of the Soul, but it is the divinities moving in the kosmos (the stars) that infuse the powerful affections holding from Necessity — our impulse and our desire, our sense of pleasure and of pain — and that lower phase of the Soul in which such experiences originate. By this statement our personality is bound up with the stars, whence our Soul (as total of Principle and affections) takes shape ; and we are set under necessity at our very entrance into the world : our temperament will be of the stars' ordering, and so, therefore, the actions which derive from temperament, and all the experiences of a nature shaped to impressions.\n\nWhat, after all this, remains to stand for the \" We \" ?\n\nThe \" We \" is the actual resultant of a Being whose nature includes, with certain sensibilities, the power of governing them. Cut off as we are by the nature of the body, God has yet given us, in the midst of all this evil, virtue the unconquerable, meaningless in a state of tranquil safety but everything where its absence would be peril of fall.\n\nOur task, then, is to work for our liberation from this sphere, severing ourselves from all that has gathered about us ; the total man is to be something better than a body ensouled — the bodily element dominant with a trace of Soul running through it and a resultant life-course mainly of the body — for in such a combination all is, in fact, bodily. There is another life, emancipated, whose quality is progression towards the higher realm, towards the good and divine, towards that Principle which no one possesses except by deliberate usage but so may appropriate, becoming, each personally, the higher, the beautiful, the Godlike, and living, remote, in and by It — unless one choose to go bereaved of that higher Soul and therefore, to live fate-bound, no longer profiting, merely, by the significance of the sidereal system but becoming as it were a part sunken in it and dragged along with the whole thus adopted.\n\nFor every human Being is of twofold character ; there is that compromise-total and there is the Authentic Man : and it is so with the Kosmos as a whole ; it is in the one phase a conjunction of body with a certain form of the Soul bound up in body ; in the other phase it is the Universal Soul, that which is not itself embodied but flashes down its rays into the embodied Soul : and the same twofold quality belongs to the Sun and the other members of the heavenly system.\n\nTo the remoter Soul, the pure, sun and stars communicate no baseness. In their efficacy upon the (material) All, they act as parts of it, as ensouled bodies within it ; and they act only upon what is partial ; body is the agent while, at the same time, it becomes the vehicle through which is transmitted something of the star's will and of that authentic Soul in it which is steadfastly in contemplation of the Highest.\n\nBut (with every allowance to the lower forces) all follows either upon that Highest or rather upon the Beings about It — we may think of the Divine as a fire whose outgoing warmth pervades the Universe — or upon whatsoever is transmitted by the one Soul (the divine first Soul) to the other, its Kin (the Soul of any particular being) . All that is graceless is admixture. For the Universe is in truth a thing of blend, and if we separate from it that separable Soul, the residue is little. The All is a God when the divine Soul is counted in with it ; \"the rest,\" we read, \" is a mighty spirit and its ways are subdivine.\""
+    }
+   ]
+  },
+  {
+   "id": "II.3.10",
+   "treatise": "II.3",
+   "title": "What to grant the stars, the soul and the revolution",
+   "summary": "So the stars signify, but they act only in what are affections of the All and in their lower part. The soul brings something of its own before it is born: it would not come into a body unless it were open to being much affected. It meets chance as it enters at a moment of the revolution; and the revolution itself acts, working with the All and filling up what the All must do, each thing in it having the rank of a part.",
+   "greek_unit": "2.3.10",
+   "greek_part": 11,
+   "older": [
+    {
+     "n": 10,
+     "label": "II.3, chapter 10",
+     "page": 168,
+     "year": 1921,
+     "text": "If all this be true, we must at once admit signification, though, neither singly nor collectively, can we ascribe to the stars any efficacy except in what concerns the (material) All and in what is of their own function.\n\nWe must admit that the Soul before entering into birth presents itself bearing with it something of its own, for it could never touch body except under stress of a powerful inner impulse ; we must admit some element of chance around it from its very entry, since the moment and conditions are determined by the kosmic circuit : and we must admit some effective power in that circuit itself ; it is co-operative, and completes of its own act the task that belongs to the All of which everything in the circuit takes the rank and function of a part."
+    }
+   ]
+  },
+  {
+   "id": "II.3.11",
+   "treatise": "II.3",
+   "title": "What comes from above changes on the way down",
+   "summary": "What comes from the stars does not arrive as it left them: fire grows dim; friendliness grows weak and makes an unlovely love; spirit, not taken in measure, makes a quick temper or faint-heartedness instead of courage; the love of honour makes a desire for what only seems beautiful; and the outflow of intellect becomes knavery, which wants to be intellect and cannot. These things are not bad there, and what comes is changed again by mixing with bodies, matter and each other.",
+   "greek_unit": "2.3.11",
+   "greek_part": 11,
+   "older": [
+    {
+     "n": 11,
+     "label": "II.3, chapter 11",
+     "page": 169,
+     "year": 1921,
+     "text": "And we must remember that what comes from the supernals does not enter into the recipients as it left the source ; fire, for instance, will be duller ; the loving instinct will degenerate and issue in ugly forms of the passion ; the vital energy in a subject not so balanced as to display the mean of manly courage, will come out as either ferocity or faintheartedness ; and ambition ... in love . . . ; and the instinct towards good sets up the pursuit of semblant beauty ; intellectual power at its lowest produces the extreme of wickedness, for wickedness is a miscalculating effort towards Intelligence (=towards the highest principle in the man).\n\nAny such quality, modified at best from its supreme form, deteriorates again within itself : things of any kind that approach from above, altered by merely leaving their source change further still by their blending with bodies, with Matter, with each other."
+    }
+   ]
+  },
+  {
+   "id": "II.3.12",
+   "treatise": "II.3",
+   "title": "The outflow adds a quality; it does not make the thing",
+   "summary": "All that comes from above falls together into one, and each thing that comes to be takes something from the mixture, to be what it is and of some quality. It does not make the horse: horse comes from horse and man from man, with the sun working with them; man comes from the forming principle of man. Outside things help or harm, as the father may, but they do not drive a thing out of its nature, though sometimes matter wins and the form is overcome.",
+   "greek_unit": "2.3.12",
+   "greek_part": 11,
+   "older": [
+    {
+     "n": 12,
+     "label": "II.3, chapter 12",
+     "page": 169,
+     "year": 1921,
+     "text": "All that thus proceeds from the supernal combines into a unity (in the subject concerned) and every existing entity takes something from this blended infusion so that the result is the thing itself plus some quality. The effluence does not make the horse but adds something to it ; for horse comes by horse, and man by man : the sun plays its part no doubt in the shaping, but the man has his origin in the Human-Principle. Outer things have their effect, sometimes to hurt and sometimes to help ; like a father, they often contribute to good but sometimes also to harm ; but they do not wrench the human being from the foundations of its nature ; though sometimes Matter is the dominant, and the human principle takes the second place so that there is a failure to achieve perfection ; the Ideal has been attenuated."
+    }
+   ]
+  },
+  {
+   "id": "II.3.13",
+   "treatise": "II.3",
+   "title": "Where each thing comes from: the All as one living being",
+   "summary": "To sort out what comes from the revolution and what does not, begin from this: soul governs the All by a forming principle, as the principle in a living being shapes its parts and orders them to the whole. The soulless things are tools; animals move at random, like horses before the charioteer sets their course; the rational living being has its charioteer within. Some parts act more, some are acted on, some do both; the best follow, like soldiers following Zeus to the intelligible. No part can change the forming principles, though one can make another better or worse: by weakening the body, by making the soul that sympathizes with it worse, or by being a badly tuned lyre.",
+   "greek_unit": "2.3.13",
+   "greek_part": 11,
+   "older": [
+    {
+     "n": 13,
+     "label": "II.3, chapter 13",
+     "page": 170,
+     "year": 1921,
+     "text": "Of phenomena of this sphere some derive from the Kosmic Circuit and some not : we must take them singly and mark them off, assigning to each its origin.\n\nThe gist of the whole matter lies in the consideration that Soul governs this All by the plan contained in the Reason-Principle and plays in the All exactly the part of the particular principle which in every living-thing forms the members of the organism and adjusts them to the unity of which they are portions ; the entire force of the Soul is represented in the All but, in the parts, Soul is present only in proportion to the degree of essential reality held by each of such partial objects. Surrounding every separate entity there are other entities, whose approach will sometimes be hostile and sometimes helpful to the purpose of its nature ; but to the All taken in its length and breadth each and every separate existent is an adjusted part, holding its own characteristic and yet contributing by its own native tendency to the entire life-history of the Universe.\n\nThe soulless parts of the All are merely instruments ; all their action is effected, so to speak, under a compulsion from outside themselves.\n\nThe ensouled fall into two classes. The one kind has a motion of its own, but haphazard like that of horses between the shafts but before their driver sets the course ; they are set right by the whip. In the Living-Being possessed of Reason, the nature-principle includes the driver ; where the driver is intelligent, it takes in the main a straight path to a set end. But both classes are members of the All and co-operate towards the general purpose.\n\nThe greater and most valuable among them have an important operation over a wide range : their contribution towards the life of the whole consists in acting, not in being acted upon ; others, but feebly equipped for action, are almost wholly passive ; there is an intermediate order whose members contain within themselves a principle of productivity and activity and make themselves very effective in many spheres or ways and yet serve also by their passivity.\n\nThus the All stands as one all-complete Life, whose members, to the measure in which each contains within itself the Highest, effect all that is high and noble : and the entire scheme must be subordinate to its Dirigeant as an army to its general, \" following upon Zeus \" — it has been said — \" as he proceeds towards the Intelligible Kind/'\n\nSecondary in the All are those of its parts which possess a less exalted nature just as in us the members rank lower than the Soul ; and so all through, there is a general analogy between the things of the All and our own members — none of quite equal rank.\n\nAll living things, then — all in the heavens and all elsewhere — fall under the general Reason-Principle of the All — they have been made parts with a view to the whole : not one of these parts, however exalted, has power to effect any alteration of these Reason-Principles or of things shaped by them and to them ; some modification one part may work upon another, whether for better or for worse ; but there is no power that can wrest anything outside of its distinct nature.\n\nThe part effecting such a modification for the worse may act in several ways.\n\nIt may set up some weakness restricted to the material frame. Or it may carry the weakness through to the sympathetic Soul which by the medium of the material frame, become a power to debasement, has been delivered over, though never in its essence, to the inferior order of being. Or, in the case of a material frame ill-organised, it may check all such action (of the Soul) upon the material frame as demands a certain collaboration in the part acted upon : thus a lyre may be so ill-strung as to be incapable of the melodic exactitude necessary to musical effect."
+    }
+   ]
+  },
+  {
+   "id": "II.3.14",
+   "treatise": "II.3",
+   "title": "Wealth, fame, office, marriage, birth: their real causes",
+   "summary": "Inherited wealth the stars only signify, as they signify noble birth. Wealth won by one's own deeds goes back to the body's strength, and so to the parents and the place, or to virtue alone; wealth given goes back to the givers, good or bad; wealth from farming to the farmer, with the weather; treasure found to the All, and so it is signified. Losses go to the robber or the sea; fame and office to the deeds or to the injustice of those who give them; marriage to choice or chance; and a child's form to its forming principle, or to some hindrance within or around the mother.",
+   "greek_unit": "2.3.14",
+   "greek_part": 11,
+   "older": [
+    {
+     "n": 14,
+     "label": "II.3, chapter 14",
+     "page": 171,
+     "year": 1921,
+     "text": "What of poverty and riches, glory and power ? * In the case of inherited fortune, the stars merely announce a rich man, exactly as they announce the high social standing of the child born to a distinguished house.\n\nWealth may be due to personal activity : in this case if the body has contributed, part of the effect is due to whatever has contributed towards the physical powers, first the parents and then, if place has had its influence, sky and earth ; if the body has borne no part of the burden, then the success, and all the splendid accompaniments added by the Recompensers, must be attributed to virtue exclusively. If fortune has come by gift from the good then the source of the wealth is, again, virtue : if by gift from the evil, but to a meritorious recipient, then the credit must be given to the action of the best in them : if the recipient is himself unprincipled, the wealth must be attributed primarily to the very wickedness and to whatsoever is responsible for the wickedness, while the givers bear an equal share in the wrong.\n\nWhen the success is due to labour, tillage for example, it must be put down to the tiller, with all his environment as contributory. In the case of treasure trove, something from the All has entered into action ; and if this be so, it will be foreshown — since all things make a chain, so that we can speak of things universally. Money is lost : if by robbery, the blame lies with the robber and the native principle guiding him : if by shipwreck, the cause is the chain of events. As for good fame, it is either deserved and then is due to the services done and to the merit of those appraising them, or it is undeserved, and then must be attributed to the injustice of those making the award. And the same principle holds as regards power — for this also may be rightly or unrightly placed — it depends either upon the merit of the dispensers of place or upon the man himself who has effected his purpose by the organisation of supporters or in many other possible ways. Marriages, similarly, are brought about either by choice or by chance interplay of circumstance. And births are determined by marriages : the child is moulded true to type when all goes well ; otherwise it is marred by some inner detriment, something due to the mother personally or to an environment unfavourable to that particular conception."
+    }
+   ]
+  },
+  {
+   "id": "II.3.15",
+   "treatise": "II.3",
+   "title": "Plato's lots, the Fates, and those who rise above them",
+   "summary": "In Plato the lots and choices come before the spindle turns; then the stars in the spindle help to fulfil what was chosen, and the daemon too. The lots are the state of the All when we enter the body: this body, these parents, this place. Clotho spins it all together, Lachesis gives the lots, Atropos brings on what has fallen out. Some people are bewitched by the outside and are little themselves; others rise above it, head first, and keep the soul's ancient being. For the soul has a nature of its own, with its own powers and desires; once separated, it does its own works and sees that the body's passions are not its own.",
+   "greek_unit": "2.3.15",
+   "greek_part": 11,
+   "older": [
+    {
+     "n": 15,
+     "label": "II.3, chapter 15",
+     "page": 173,
+     "year": 1921,
+     "text": "According to Plato lots and choice play a part (in the determination of human conditions) before the §pindle of Necessity is turned ; that once done, only the Spindle-destiny is valid ; it fixes the chosen conditions irretrievably since the elected guardian-spirit becomes accessory to their accomplishment.\n\nBut what is the significance of the Lots ?\n\nBy the Lots (implying the unchosen element) we are to understand birth into the conditions actually existent in the All at the particular moment of each entry into body, birth into such and such a physical frame, from such and such parents, in this or that place, and generally all that in our phraseology is the External.\n\nFor Particulars and Universals alike it is established that to the first of those known as the Fates, to Clotho the Spinner, must be due the unity and as it were interweaving of all that exists : Lachesis (the Apportioner) presides over the Lots : to Atropos (the Inflexible) must necessarily belong the conduct of mundane events.\n\nOf men, some enter into life as fragments of the All, bound to that which is external to themselves : they are victims of a sort of fascination, and are hardly, or not at all, themselves : but others mastering all this — straining, so to speak, by the head towards the Higher, to what is outside even the Soul — preserve still the nobility and the ancient privilege of the Soul's essential being.\n\n!For certainly we cannot think of the Soul as a thing whose nature is just a sum of impressions from outside — as if it, alone, of all that exists, had no native character.\n\nNo : much more than all else, the Soul, possessing the Idea which belongs to a Principle, must have as its native wealth many powers serving to the activities of its Kind. It is an Essential-Existent and with this Existence must go desire and act and the tendency towards some good.\n\nWhile body and soul stand one combined thing, there is a joint nature, a definite entity having definite functions and employments ; but as soon as any Soul is detached, its employments are kept apart, its very own : it ceases to take the body's concerns to itself : it has vision now : body and soul stand widely apart."
+    }
+   ]
+  },
+  {
+   "id": "II.3.16",
+   "treatise": "II.3",
+   "title": "How soul governs the All: the farmer, and the worse things",
+   "summary": "What is mixed in us and what is separable must be asked later. Does soul make each thing in a line and then only watch them clash, or is it the cause of what follows too? The forming principle holds what each thing must do or suffer, of necessity: the principles do not make it, but the soul that has them knows what follows and strings it together, and so things grow worse, as men did. Is soul a farmer for ever mending what storms have spoiled? If not, ruin and vice lie in the forming principles, though art holds no error. Yet the worse has its use, and contraries make the cosmos: the better things the principle makes, the worse are matter's, shaken by the principles; and so one thing comes from all.",
+   "greek_unit": "2.3.16",
+   "greek_part": 11,
+   "older": [
+    {
+     "n": 16,
+     "label": "II.3, chapter 16",
+     "page": 174,
+     "year": 1921,
+     "text": "The question arises what phase of the Soul enters into the union for the period of embodiment and what phase remains distinct, what is separable and what necessarily interlinked, and in general what the Living-Being is.\n\nOn all this there has been a conflict of teaching : the matter must be examined later on from quite other considerations than occupy us here. For the present let us explain in what sense we have described the All as the expressed idea of the Governing Soul.\n\nOne theory might be that the Soul creates the particular entities in succession — man followed by horse and other animals domestic or wild : fire and earth, though, first of all — that it watches these creations acting upon each other whether to help or to harm, observes, and no more, the tangled web formed of all these strands, and their unfailing sequences ; and that it makes no concern of the result beyond securing the reproduction of the primal living-beings, leaving them for the rest to act upon each other according to their definite natures.\n\nAnother view makes the soul answerable for all that thus comes about, since its first creations have set up the entire enchainment.\n\nNo doubt the Reason-Principle (conveyed by the Soul) covers all the action and experience of this realm : nothing happens, even here, by any form of haphazard ; all follows a necessary order.\n\nIs everything, then, to be attributed to the act of the Reason-Principles ?\n\nTo their existence, no doubt, but not to their effective action ; they exist and they know ; or better, the Soul, which contains the engendering Reason-Principle, knows the results of all it has brought to pass. For whensoever similar factors meet and act in relation to each other, similar consequences must inevitably ensue : the Soul adopting or foreplanning the given conditions accomplishes the due outcome and links all into a total.\n\nAll, then, is antecedent and resultant, each sequent becoming in turn an antecedent once it has taken its place among things. And perhaps this is a cause of progressive deterioration : men, for instance, are not as they were of old ; by dint of interval and of the inevitable law, the Reason-Principles (constituting man) have ceded something to the characteristics of the Matter.\n\nBut:—\n\nThe Soul watches the ceaselessly changing universe and follows all the fate of all its works : this is its life, and it knows no respite from this care, but is ever labouring to bring about perfection, planning to lead all to an unending state of excellence — like a farmer, first sowing and planting and then constantly setting to rights where rainstorms and long frosts and high gales have played havoc.\n\nIf such a conception of Soul be rejected as untenable we are obliged to think that the Reason-Principles themselves foreknew or even contained the ruin and all the consequences of flaw.\n\nBut then we would be imputing the creation of evil to the Reason-Principles, though (we ought to be saved from this by reflecting that) the arts and their guiding principle do not include blundering, do not cover the inartistic, the destruction of the work of art.\n\nAnd here it will be objected that in All there is nothing contrary to nature, nothing evil.\n\nStill, by the side of the better there exists also what is less good.\n\nWell, perhaps even the less good has its contributory value in the All. Perhaps there is no need that everything be good. Contraries may co-operate ; and without opposites there could be no ordered Universe : all living-beings of the partial realm include contraries. The better elements are compelled into existence and moulded to their function by the Reason-Principle directly ; the less good are potentially present in the Reason-Principles, actually present in the phenomena themselves ; the Soul's power had reached its limit, and failed to bring the Reason-Principles into complete actuality since, amid the clash of these antecedent Principles, Matter had already from its own stock produced the less good.\n\nYet, with all this, Matter is continuously overruled towards the better ; so that out of the total of things — modified by Soul on the one hand and by Matter on the other hand, and on neither hand as sound as in the Reason-Principles — there is, in the end, a Unity."
+    }
+   ]
+  },
+  {
+   "id": "II.3.17",
+   "treatise": "II.3",
+   "title": "Are the forming principles thoughts? The figure in water",
+   "summary": "If the forming principles are thoughts, how do they make? What makes in matter does not think or see: it is a power that turns matter, as a figure is made in water when something else starts it. So the leading part of the soul makes by turning the soul in matter; not by reasoning, but by what holds the forming principles, and so by forms. Intellect gives to the soul of the All, that soul to the one after it, and this one makes as if under orders, sometimes hindered. Since its principles are not the first, something of its own comes in, worse: a living thing, but discontented, savage, made of matter that is the bitter sediment of what went before.",
+   "greek_unit": "2.3.17",
+   "greek_part": 11,
+   "older": [
+    {
+     "n": 17,
+     "label": "II.3, chapter 17",
+     "page": 176,
+     "year": 1921,
+     "text": "But these Reason-Principles, contained in the Soul, are they Thoughts ?\n\nAnd if so, by what process does the Soul create in accordance with these Thoughts ?\n\nIt is upon Matter that this act of the Reason is exercised ; and what acts physically is not an intellectual operation or a vision, but a power modifying matter, not conscious of it but merely acting upon it : the Reason-Principle, in other words, acts much like a force producing a figure or pattern upon water — that of a circle, suppose, where the formation of the ring is conditioned by something distinct from that force itself (i.e. by the existence and nature of the water) .\n\nIf this is so, the prior puissance of the Soul (that which conveys the Reason-Principles) must act (not directly but) by manipulating the other Soul, that which is united with Matter and has the generative function.\n\nBut is this handling the result of calculation ?\n\nCalculation implies reference. Reference, then, to something outside or to something contained within itself ? If to its own content, there is no need of reasoning, which could not itself perform the act of creation ; creation is the operation of that phase of the Soul which contains Ideal-Principles ; for that is its stronger puissance, its creative part.\n\nIt creates, then, on the model of the Ideas ; for, what it has received from the Intellectual-Principle it must pass on in turn.\n\nIn sum, then, the Intellectual-Principle gives from itself to the Soul of the All which follows immediately upon it : this again gives forth from itself to its next, illuminated and imprinted by it ; and that secondary Soul at once begins to create, as under order, unhindered in some of its creations, striving in others against the repugnance of Matter.\n\nIt has a creative power, derived ; it is stored with Reason-Principles not the very originals : therefore it creates, but not in full accordance with the Principles from which it has been endowed : something enters from itself ; and, plainly, this is inferior. The issue then is something living, yes ; but imperfect, hindering its own life, something very poor and reluctant and crude, formed in a Matter that is the fallen sediment of the Higher Order, bitter and embittering. This is the Soul's contribution to the All."
+    }
+   ]
+  },
+  {
+   "id": "II.3.18",
+   "treatise": "II.3",
+   "title": "Why evils are needed; an image always being imaged",
+   "summary": "Evils are needed not only because they follow on what came before, but because without them the All would be incomplete: most have uses, like the poisons of snakes, and vice itself makes beautiful things and wakes us to wisdom. The soul of the All contemplates the best and, filled to overflowing, sends out an image, its lowest part, which makes; above it the soul filled from intellect; above all intellect the craftsman. So the cosmos is an image always being imaged, and the forming principles will flow as long as intellect and soul are, as light from the sun.",
+   "greek_unit": "2.3.18",
+   "greek_part": 11,
+   "older": [
+    {
+     "n": 18,
+     "label": "II.3, chapter 18",
+     "page": 177,
+     "year": 1921,
+     "text": "Are the evils in the Universe necessary because it is of later origin than the Higher Sphere ?\n\nPerhaps rather because without evil the All would be incomplete. For most or even all forms of evil serve the Universe — much as the poisonous snake has its use — though in most cases their function is unknown. Vice itself has many useful sides : it brings about much that is beautiful, in artistic creations for example, and it stirs us to thoughtful living, not allowing us to drowse in security.\n\nIf all this is so, then (the secret of creation is that) the Soul of the All abides in contemplation of the Highest and Best, ceaselessly striving towards the Intelligible Kind and towards God : but, thus absorbing and filled full, it overflows — so to speak — and the image it gives forth, its last utterance towards the lower, will be the creative puissance.\n\nThis ultimate phase, then, is the Maker, secondary to that aspect of the Soul which is primarily saturated from the Divine Intelligence. But the Creator above all is the Intellectual-Principle, as giver, to the Soul that follows it, of those gifts whose traces exist in the Third Kind.\n\nRightly, therefore, is this Kosmos described as an image continuously being imaged, the First and the Second Principles immobile, the Third, too, immobile essentially, but, accidentally and in Matter, having motion.\n\nFor as long as divine Mind and Soul exist, the divine Thought-Forms will pour forth into that phase of the Soul : as long as there is a sun all that streams from it will be some form of Light.\n\n2 A"
     }
    ]
   }
@@ -5717,6 +6048,691 @@
    "greek": "καὶ γὰρ ἐπὶ τῶν σωμάτων τῶν ἡμετέρων τῆς ψυχῆς ἄλλως κινουμένης, οἷον ἐν χαραῖς καὶ τῷ φανέντι ἀγαθῷ, τοῦ σώματος ἡ κίνησις καὶ τοπικὴ γίνεται. ἐκεῖ δὴ ἐν ἀγαθῷ γινομένη ψυχὴ καὶ αἰσθητικωτέρα γενομένη κινεῖται πρὸς τὸ ἀγαθὸν καὶ σείει ὡς πέφυκεν ἐκεῖ τοπικῶς τὸ σῶμα. ἥ τε αἰσθητικὴ ἀπὸ τοῦ ἄνω αὖ καὶ αὐτὴ τὸ ἀγαθὸν λαβοῦσα καὶ τὰ αὑτῆς ἡσθεῖσα διώκουσα αὐτὸ ὂν πανταχοῦ πρὸς τὸ πανταχοῦ συμφέρεται. ὁ δὲ νοῦς οὔπω κινεῖται: ἕστηκε γὰρ καὶ κινεῖται: περὶ αὑτὸν γάρ. οὕτως οὖν καὶ τὸ πᾶν τῷ κύκλῳ κινεῖσθαι ἅμα καὶ ἕστηκεν.",
    "notes": [
     "\"Stands still and moves\": Plato's Sophist (248e-249d, 254d-255b) gives motion and rest together to what fully is. The text has οὔπω (\"not yet\", \"in no way\"), which the modern version takes as \"not in this way\"."
+   ]
+  },
+  {
+   "seg": "II.3.1.p1",
+   "chapter": "II.3.1",
+   "modern": "That the movement of the stars signifies what will happen to each thing, but does not itself do everything, as most people believe, has been said before elsewhere, and the argument gave some proofs of it. But it must be said now more exactly and at greater length; for it is no small thing to hold one opinion about it or the other.",
+   "greek": "Ὅτι ἡ τῶν ἄστρων φορὰ σημαίνει περὶ ἕκαστον τὰ ἐσόμενα, ἀλλ’ οὐκ αὐτὴ πάντα ποιεῖ, ὡς τοῖς πολλοῖς δοξάζεται, εἴρηται μὲν πρότερον ἐν ἄλλοις, καὶ πίστεις τινὰς παρείχετο ὁ λόγος, λεκτέον δὲ καὶ νῦν ἀκριβέστερον διὰ πλειόνων: οὐ γὰρ μικρὸν τὸ ἢ ὧδε ἢ ὧδε ἔχειν δοξάζειν.",
+   "notes": [
+    "\"Said before elsewhere\": in On destiny (III.1.5-6), one of Plotinus' first treatises. This one is among his last: Porphyry counts it fifty-second of the fifty-four, written in the months before his death (Life, chapter 6)."
+   ]
+  },
+  {
+   "seg": "II.3.1.p2",
+   "chapter": "II.3.1",
+   "modern": "They say that the planets, as they move, make not only the other things, poverty and wealth, health and sickness, but also ugliness and beauty, and, what is most serious, vices and virtues too, and even the actions that come from them, one by one, each on its occasion: as if the planets were angry with human beings over things in which human beings do them no wrong, since it is by the planets that they have been made as they are. And they say that the planets give what are called goods, not because they are pleased with those who receive them, but because they themselves are badly off in some places of their course and well off in others; and that they change their minds, being one way when they are on the centres and another when they are declining.",
+   "greek": "τοὺς δὴ πλανήτας φερομένους ποιεῖν λέγουσιν οὐ μόνον τὰ ἄλλα, πενίας καὶ πλούτους καὶ ὑγιείας καὶ νόσους, ἀλλὰ καὶ αἴσχη καὶ κάλλη αὖ, καὶ δὴ τὸ μέγιστον, καὶ κακίας καὶ ἀρετὰς καὶ δὴ καὶ τὰς ἀπὸ τούτων πράξεις καθ̓ ἕκαστα ἐπὶ καιρῶν ἑκάστων, ὥσπερ θυμουμένους εἰς ἀνθρώπους, ἐφ̓ οἷς μηδὲν αὐτοὶ οἱ ἄνθρωποι ἀδικοῦσιν οὕτω παῤ αὐτῶν κατεσκευασμένοι, ὡς ἔχουσι: καὶ τὰ λεγόμενα ἀγαθὰ διδόναι οὐκ ἀγασθέντας τῶν λαμβανόντων, ἀλλ’ αὐτοὺς ἢ κακουμένους κατὰ τοὺς τόπους τῆς φορᾶς ἢ αὖ εὐπαθοῦντας καὶ αὖ ἄλλους αὐτοὺς ταῖς διανοίαις γιγνομένους ὅταν τε ἐπὶ κέντρων ὦσι καὶ ἀποκλίνοντας ἄλλους:",
+   "flags": [
+    {
+     "taylor": "so that they must be supposed to change their plans as they stand at their zeniths or are declining",
+     "in": "MacKenna",
+     "why": "The Greek says \"on the centres\" (ἐπὶ κέντρων), the astrologers' four cardinal points of the sky: where a star rises, culminates, sets, and is lowest under the earth. The zenith is only one of them."
+    }
+   ],
+   "notes": [
+    "\"Centres\" (κέντρα) and \"declining\" (ἀποκλίνειν) are words of the astrologers' craft: a planet is strongest on one of the four cardinal points and weaker as it moves away from it. Ptolemy sets them out in his Tetrabiblos (III.10)."
+   ]
+  },
+  {
+   "seg": "II.3.1.p3",
+   "chapter": "II.3.1",
+   "modern": "And the greatest thing: they say that some of them are bad and others good, and yet that the ones they call bad give goods, and the good ones become harmful. Further, that when they see one another they make some things, and when they do not see one another, others, as if they were not themselves, but one kind when they see and another when they do not; that this one is good when it sees that one, but changes if it sees another; and that it sees in one way if its sight is along this figure, in another if along that. And that all of them together make a blend that is different again, as a mixture made from different liquids is different from the things mixed. Since they hold these opinions and others like them, we must examine each and speak about it. A fitting beginning would be this.",
+   "greek": "τὸ δὲ μέγιστον, τοὺς μὲν κακοὺς αὐτῶν λέγοντες, τοὺς δ’ ἀγαθοὺς εἶναι, ὅμως καὶ τοὺς κακοὺς αὐτῶν λεγομένους ἀγαθὰ διδόναι, τοὺς δὲ ἀγαθοὺς φαύλους γίνεσθαι: ἔτι δὲ ἀλλήλους ἰδόντας ποιεῖν ἕτερα, μὴ ἰδόντας δὲ ἄλλα, ὥσπερ οὐχ αὑτῶν ὄντας ἰδόντας μὲν ἄλλους, μὴ ἰδόντας δὲ ἑτέρους: καὶ τόνδε μὲν ἰδόντα ἀγαθὸν εἶναι, εἰ δ’ ἄλλον ἴδοι, ἀλλοιοῦσθαι: καὶ ἄλλως μὲν ὁρᾶν, εἰ κατὰ σχῆμα τόδε ἡ ὄψις, ἄλλως δέ, εἰ κατὰ τόδε: ὁμοῦ τε πάντων τὴν κρᾶσιν ἑτέραν γίγνεσθαι, ὥσπερ ἐξ ὑγρῶν διαφόρων τὸ κρᾶμα ἕτερον παρὰ τὰ μεμιγμένα. ταῦτα οὖν καὶ τὰ τοιαῦτα δοξαζόντων περὶ ἑκάστου λέγειν ἐπισκοπουμένους προσήκει. ἀρχὴ δ’ ἂν εἴη προσήκουσα αὕτη:",
+   "flags": [
+    {
+     "taylor": "so that, after all, they possess no definite nature but vary according to their angles of aspect",
+     "in": "MacKenna",
+     "why": "The Greek says only \"as if they were not themselves\" (ὥσπερ οὐχ αὑτῶν ὄντας), but one kind when they see and another when they do not; \"no definite nature\" and \"angles of aspect\" are MacKenna's."
+    }
+   ],
+   "notes": [
+    "\"Seeing\" one another is the astrologers' word for the aspects, the angles between two planets on the zodiac (chapter 4)."
+   ]
+  },
+  {
+   "seg": "II.3.2.p1",
+   "chapter": "II.3.2",
+   "modern": "Are we to think that these moving bodies are ensouled, or soulless? If they are soulless, they give nothing but heat and cold (if we are to say that some of the stars are cold at all); and so they will confine what they give to the nature of our bodies, since what comes from them to us is plainly a bodily stream. So the change in our bodies would not be great either, since the outflow from each of them is the same, and besides they are mixed together into one on earth; so the only differences would be by place, from being near the stream or far from it. And the cold gives in the same way as the heat.",
+   "greek": "πότερα ἔμψυχα νομιστέον ἢ ἄψυχα ταῦτα τὰ φερόμενα; εἰ μὲν γὰρ ἄψυχα, οὐδὲν ἀλλ’ ἢ θερμὰ καὶ ψυχρὰ παρεχόμενα, εἰ δὴ καὶ ψυχρὰ ἄττα τῶν ἄστρων φήσομεν, ἀλλ’ οὖν ἐν τῇ τῶν σωμάτων ἡμῶν φύσει στήσουσι τὴν δόσιν φορᾶς δηλονότι σωματικῆς εἰς ἡμᾶς γινομένης, ὡς μηδὲ πολλὴν τὴν παραλλαγὴν τῶν σωμάτων γίγνεσθαι τῆς τ̓ ἀπορροῆς ἑκάστων τῆς αὐτῆς οὔσης καὶ δὴ ὁμοῦ εἰς ἓν ἐπὶ γῆς μιγνυμένων, ὡς μόνον κατὰ τοὺς τόπους τὰς διαφορὰς γίγνεσθαι ἐκ τοῦ ἐγγύθεν καὶ πόρρωθεν πρὸς τὴν φοράν, διδόντος καὶ τοῦ ψυχροῦ ὡσαύτως.",
+   "flags": [
+    {
+     "taylor": "emanations merely corporeal cannot differ greatly from star to star",
+     "in": "MacKenna",
+     "why": "The Greek says the outflow from each is \"the same\" (τῆς ἀπορροῆς ἑκάστων τῆς αὐτῆς οὔσης), not that it cannot differ greatly."
+    }
+   ]
+  },
+  {
+   "seg": "II.3.2.p2",
+   "chapter": "II.3.2",
+   "modern": "But how do they make some men wise and others ignorant, some teachers of letters, others orators, others lyre-players, and those of the other arts, and some rich and others poor? And the other things whose coming to be has its cause in something other than a blend of bodies? For instance, to have such a brother, and father, and son, and wife, to have good fortune at this moment, to become a general or a king?",
+   "greek": "σοφοὺς δὲ καὶ ἀμαθεῖς καὶ γραμματικοὺς ἄλλους, τοὺς δὲ ῥήτορας, τοὺς δὲ κιθαριστὰς καὶ τὰς ἄλλας τέχνας, ἔτι δὲ πλουσίους καὶ πένητας, πῶς; καὶ τὰ ἄλλα, ὅσα μὴ ἐκ σωμάτων κράσεως τὴν αἰτίαν ἔχει τοῦ γίγνεσθαι; οἷον καὶ ἀδελφὸν τοιόνδε καὶ πατέρα καὶ υἱὸν γυναῖκά τε καὶ τὸ νῦν εὐτυχῆσαι καὶ στρατηγὸν καὶ βασιλέα γενέσθαι."
+  },
+  {
+   "seg": "II.3.2.p3",
+   "chapter": "II.3.2",
+   "modern": "If, being ensouled, they act by choice, what wrong have they suffered from us that they should do us harm of their own will, and that when they are set in a divine place and are divine themselves? For what makes human beings bad does not belong to them; nor does anything good or bad come to them at all from our faring well or suffering ill.",
+   "greek": "εἰ δ’ ἔμψυχα ὄντα προαιρέσει ποιεῖ, τί παῤ ἡμῶν παθόντα κακὰ ἡμᾶς ποιεῖ ἑκόντα, καὶ ταῦτα ἐν θείῳ τόπῳ ἱδρυμένα καὶ αὐτὰ θεῖα ὄντα; οὐδὲ γάρ, δἰ ἃ ἄνθρωποι γίνονται κακοί, ταῦτα ἐκείνοις ὑπάρχει, οὐδέ γε ὅλως γίνεται ἢ ἀγαθὸν ἢ κακὸν αὐτοῖς ἡμῶν ἢ εὐπαθούντων ἢ κακὰ πασχόντων.",
+   "flags": [
+    {
+     "taylor": "suppose the stars to have life and mind and to be effective by deliberate purpose",
+     "in": "MacKenna",
+     "why": "The Greek says only \"being ensouled\" (ἔμψυχα ὄντα), acting \"by choice\"; \"mind\" is MacKenna's."
+    }
+   ]
+  },
+  {
+   "seg": "II.3.3.p1",
+   "chapter": "II.3.3",
+   "modern": "But, they say, the stars do these things not of their own will but compelled by their places and figures. But if they are compelled, then surely all of them ought to do the same things when they come into the same places and figures. As it is, what different thing has this planet undergone in passing this segment of the circle of the zodiac, and then that one? For it does not even come into the sign of the zodiac itself, but passes far below it; and whatever sign it comes under, it is in the heaven. For it is absurd that, as it passes each of them, it should become different and give different things. And how is it different when it rises, when it has come to a centre, and when it declines?",
+   "greek": "ἀλλ’ οὐχ ἑκόντες ταῦτα, ἀλλ’ ἠναγκασμένοι τοῖς τόποις καὶ τοῖς σχήμασιν. ἀλλ’ εἰ ἠναγκασμένοι, τὰ αὐτὰ δήπουθεν ἐχρῆν ἅπαντας ποιεῖν ἐπὶ τῶν αὐτῶν τόπων καὶ σχημάτων γιγνομένους. νῦν δὲ τί διάφορον πέπονθεν ὅδε τόδε τὸ τμῆμα τοῦ τῶν ζῳδίων κύκλου παριὼν καὶ αὖ τόδε; οὐ γὰρ δὴ οὐδ’ ἐν αὐτῷ τῷ ζῳδίῳ γίγνεται, ἀλλ’ ὑπ’ αὐτὸ πλεῖστον ἀπέχων, καὶ καθ̓ ὁποῖον ἂν γίγνηται κατὰ τὸν οὐρανὸν ὤν. γελοῖον γὰρ καθ̓ἕκαστον ὧν τις παρέρχεται ἄλλον καὶ ἄλλον γίγνεσθαι καὶ διδόναι ἄλλα καὶ ἄλλα: ἀνατέλλων δὲ καὶ ἐπὶ κέντρου γεγονὼς καὶ ἀποκλίνας πῶς ἄλλος;",
+   "notes": [
+    "\"Far below it\": the zodiac is a band of the sphere of the fixed stars, the outermost; each planet turns in its own sphere below it, and only seems to pass through the signs."
+   ]
+  },
+  {
+   "seg": "II.3.3.p2",
+   "chapter": "II.3.3",
+   "modern": "For surely it is not glad at one time, when it is on the centre, and grieved at another, when it declines, or idle; nor is another angry when it has risen and gentle when it declines, while one of them is even better when it declines. For each one is always at a centre for some and declining for others, and declining for some while at a centre for others; and surely it is not glad and grieved, angry and gentle, at the same time. And to say that some of them are glad when setting and others when rising, how is that not unreasonable? For so too it follows that they are grieved and glad at the same time. Then why will their grief do us harm?",
+   "greek": "οὐ γὰρ δὴ τοτὲ μὲν ἥδεται ἐπὶ τοῦ κέντρου ὤν, τοτὲ δὲ λυπεῖται ἀποκλίνας ἢ ἀργὸς γίνεται, οὐδ’ αὖ θυμοῦται ἀνατείλας ἄλλος, πραΰνεται δὲ ἀποκλίνας, εἷς δέ τις αὐτῶν καὶ ἀποκλίνας ἀμείνων. ἔστι γὰρ ἀεὶ ἕκαστος καὶ ἐπίκεντρος ἄλλοις ἀποκλίνας ἄλλοις καὶ ἀποκλίνας ἑτέροις ἐπίκεντρος ἄλλοις: καὶ οὐ δήπου κατὰ τὸν αὐτὸν χρόνον χαίρει τε καὶ λυπεῖται καὶ θυμοῦται καὶ πρᾷός ἐστι. τὸ δὲ τοὺς μὲν αὐτῶν χαίρειν λέγειν δύνοντας, τοὺς δὲ ἐν ἀνατολαῖς ὄντας, πῶς οὐκ ἄλογον; καὶ γὰρ οὕτω συμβαίνει ἅμα τε λυπεῖσθαι καὶ χαίρειν. εἶτα διὰ τί ἡ ἐκείνων λύπη ἡμᾶς κακώσει;"
+  },
+  {
+   "seg": "II.3.3.p3",
+   "chapter": "II.3.3",
+   "modern": "In general we must not grant that they are grieved, or glad on occasion, but that they are always gracious, glad in the goods they have and in what they see. For each has its own life by itself, and its well-being in its own activity; and this is not directed towards us. And above all, with living beings that have no fellowship with us, their work towards us is incidental, not their main work, not at all, if, as with birds, signifying is incidental to them.",
+   "greek": "ὅλως δὲ οὐδὲ λυπεῖσθαι οὐδ’ ἐπὶ καιροῦ χαίρειν αὐτοῖς δοτέον, ἀλλ’ ἀεὶ τὸ ἵλεων ἔχειν χαίροντας ἐφ̓ οἷς ἀγαθοῖς ἔχουσι καὶ ἐφ̓ οἷς ὁρῶσι. βίος γὰρ ἑκάστου ἐφ̓ αὑτοῦ ἑκάστῳ καὶ ἐν τῇ ἐνεργείᾳ τὸ εὖ: τὸ δὲ οὐ πρὸς ἡμᾶς. καὶ μάλιστα τοῖς οὐ κοινωνοῦσιν ἡμῖν ζῴοις κατὰ συμβεβηκός, οὐ προηγούμενον δὲ οὐδὲ ὅλως, τὸ ἔργον πρὸς ἡμᾶς, εἰ ὥσπερ ὄρνισι κατὰ συμβεβηκὸς τὸ σημαίνειν.",
+   "flags": [
+    {
+     "taylor": "Like the birds of augury, the living beings of the heavens, having no lot or part with us, may serve incidentally to foreshow the future",
+     "in": "MacKenna",
+     "why": "The Greek puts it as a condition: their work towards us is incidental \"if, as with birds, signifying is incidental\" to them (εἰ ὥσπερ ὄρνισι κατὰ συμβεβηκὸς τὸ σημαίνειν). MacKenna makes it a statement."
+    }
+   ],
+   "notes": [
+    "The birds are those of augury, read by their flight and cries; Plotinus comes back to them in chapter 7."
+   ]
+  },
+  {
+   "seg": "II.3.4.p1",
+   "chapter": "II.3.4",
+   "modern": "And this too is unreasonable, that one should be glad seeing this one, and another, seeing another, the opposite. For what enmity have they, or about what? And why does a star see in one way when it is in trine, and in another when it is in opposition or in square? And why does it see when it stands in this figure, and does not see in the next sign, though it is nearer? And in general, what will be the way in which they do what they are said to do? How does each do it apart, and further, how do all of them together make something else, out of all of them?",
+   "greek": "κἀκεῖνο δὲ ἄλογον, τόνδε μὲν τόνδε ὁρῶντα χαίρειν, τόνδε δὲ τόνδε τοὐναντίον: τίς γὰρ αὐτοῖς ἔχθρα ἢ περὶ τίνων; διὰ τί δὲ τρίγωνος μὲν ὁρῶν ἄλλως, ἐξ ἐναντίας δὲ ἢ τετράγωνος ἄλλως; διὰ τί δὲ ὡδὶ μὲν ἐσχηματισμένος ὁρᾷ, κατὰ δὲ τὸ ἑξῆς ζῴδιον ἐγγυτέρω ὢν μᾶλλον οὐχ ὁρᾷ; ὅλως δὲ τίς καὶ ὁ τρόπος ἔσται τοῦ ποιεῖν ἃ λέγονται ποιεῖν; πῶς τε χωρὶς ἕκαστος καὶ ἔτι πῶς ὁμοῦ πάντες ἄλλο ἐκ πάντων;",
+   "notes": [
+    "The aspects: two planets a third of the circle apart (120°) are \"in trine\", a quarter apart (90°) \"in square\", half (180°) \"in opposition\"; planets in neighbouring signs (30°) were held not to see each other at all, though they are nearer."
+   ]
+  },
+  {
+   "seg": "II.3.4.p2",
+   "chapter": "II.3.4",
+   "modern": "For surely they do not come to an agreement with one another and so do to us what they have decided, each giving up something of its own; nor did one prevent the other's gift by force, nor did the other give way to it, persuaded to let it act. And to say that this one is glad when it is in the other's places, and the other, the other way round, when it is in the first one's: how is this not as if someone supposed two who love each other, and then said that the one loves the other, but the other, the other way round, hates the first?",
+   "greek": "οὐ γὰρ δὴ συνθέμενοι πρὸς ἀλλήλους οὕτω ποιοῦσιν εἰς ἡμᾶς τὰ δόξαντα ὑφεὶς ἕκαστός τι τῶν ἀφ̓ αὑτοῦ, οὐδ’ αὖ ἄλλος ἐκώλυσε τὴν τοῦ ἑτέρου δόσιν γενέσθαι βιασάμενος, οὐδ’ αὖ ὁ ἕτερος παρεχώρησε τῷ ἑτέρῳ πεισθεὶς αὐτῷ πράττειν. τὸ δὲ τόνδε μὲν χαίρειν ἐν τοῖς τοῦδε γενόμενον, ἀνάπαλιν δὲ τὸν ἕτερον ἐν τοῖς τοῦ ἑτέρου γενόμενον, πῶς οὐχ ὅμοιον, ὥσπερ ἂν εἴ τις ὑποθέμενος δύο φιλοῦντας ἀλλήλους ἔπειτα λέγοι τὸν μὲν ἕτερον φιλεῖν τὸν ἕτερον, ἀνάπαλιν δὲ θάτερον μισεῖν θάτερον;",
+   "notes": [
+    "\"In the other's places\" (ἐν τοῖς τοῦδε): the astrologers' \"houses\", the signs where each planet is at home and strongest."
+   ]
+  },
+  {
+   "seg": "II.3.5.p1",
+   "chapter": "II.3.5",
+   "modern": "They say that one of them is cold, and that it is better for us the farther it is from us, putting its harm to us in its coldness; and yet it ought to be good for us in the opposite signs. And that when the cold one is in opposition to the hot, both become dangerous; and yet there ought to be a blend. And that this one is glad in the daytime and becomes good when it is warmed, and that one, being fiery, is glad at night: as if it were not always day for them, I mean light, or as if the second could be overtaken by night, when it is far above the shadow of the earth.",
+   "greek": "λέγοντες δὲ ψυχρόν τινα αὐτῶν εἶναι, ἔτι πόρρω γινόμενον ἀφ̓ ἡμῶν μᾶλλον ἡμῖν ἀγαθὸν εἶναι, ἐν τῷ ψυχρῷ τὸ κακὸν αὐτοῦ εἰς ἡμᾶς τιθέμενοι: καίτοι ἔδει ἐν τοῖς ἀντικειμένοις ζῳδίοις ἀγαθὸν ἡμῖν εἶναι: καὶ ἐναντίους γινομένους τὸν ψυχρὸν τῷ θερμῷ δεινοὺς ἀμφοτέρους γίνεσθαι: καίτοι ἔδει κρᾶσιν εἶναι: καὶ τόνδε μὲν χαίρειν τῇ ἡμέρᾳ καὶ ἀγαθὸν γίνεσθαι θερμαινόμενον, τόνδε δὲ τῇ νυκτὶ χαίρειν πυρώδη ὄντα, ὥσπερ οὐκ ἀεὶ ἡμέρας αὐτοῖς οὔσης, λέγω δὲ φωτός, ἢ τοῦ ἑτέρου καταλαμβανομένου ὑπὸ νυκτὸς πολὺ ὑπεράνω τῆς σκιᾶς τῆς γῆς ὄντος.",
+   "flags": [
+    {
+     "taylor": "When the cold planet, we are told, is in opposition to the cold, both become menacing",
+     "in": "MacKenna",
+     "why": "The Greek says the cold one in opposition \"to the hot\" (τὸν ψυχρὸν τῷ θερμῷ), which is why Plotinus says they ought rather to blend."
+    },
+    {
+     "taylor": "as if the first one could be darkened by night",
+     "in": "MacKenna",
+     "why": "The Greek says \"the other\" (τοῦ ἑτέρου), the fiery star that is glad at night; MacKenna makes it the first."
+    }
+   ],
+   "notes": [
+    "The astrologers divided the planets into those of the day and those of the night. The cold star is Saturn (Kronos), a planet of the day, tempered by the day's warmth; the fiery one, glad at night, is Mars (Ptolemy, Tetrabiblos I.4-7). The earth's shadow, a cone, reaches only a little beyond the moon, so the planets above it are always in sunlight."
+   ]
+  },
+  {
+   "seg": "II.3.5.p2",
+   "chapter": "II.3.5",
+   "modern": "And they say that the moon is good when it is full and meets this planet, and bad when it is waning; but it would be the other way round, if we are to grant this at all. For when it is full towards us, it would be unlit, on its other half, towards that planet, which is above it; and when it is waning for us, it would be full for that one; so that, when waning, it ought to do the opposite, since it then looks at that planet with its light. To the moon itself, however it stands, it would make no difference, since half of it is always lit; to the other planet perhaps it would make a difference, being warmed, as they say. But that one would be warmed if the moon were unlit towards us; and towards the other planet the moon, being good to it, is full towards it in its unlit phase. The moon's being unlit towards us concerns the things on earth; it does not grieve what is above. And because that planet gives no help, being far away, the moon seems to be worse; but when it is full, it is enough for what is below, even if the other is far away. And towards the fiery one, the moon when unlit towards us was thought to be good: for that one's fire is enough, since it is more fiery than it needs to be.",
+   "greek": "τὸ δὲ τὴν σελήνην πλησίφωτον μὲν οὖσαν ἀγαθὴν εἶναι τῷδε συνερχομενην, λείπουσαν δὲ κακήν, ἀνάπαλιν, εἴπερ δοτέον. πλήρης γὰρ οὖσα πρὸς ἡμᾶς ἐκείνῳ τῷ ὑπεράνω ὄντι ἀφώτιστος ἂν εἴη τῷ ἑτέρῳ ἡμισφαιρίῳ, λείπουσα δὲ ἡμῖν ἐκείνῳ πλησίφωτος: ὥστε τὰ ἐναντία ποιεῖν ἔδει λείπουσαν ἐκεῖνον μετὰ φωτὸς ὁρῶσαν. αὐτῇ μὲν οὖν ὅπως ἐχούσῃ οὐδὲ διαφέροι ἂν τὸ ἥμισυ ἀεὶ φωτιζομένῃ: τῷ δ’ ἴσως διαφέροι ἂν θερμαινομένῳ, ὡς λέγουσιν. ἀλλὰ θερμαίνοιτο ἄν, εἰ ἀφώτιστος πρὸς ἡμᾶς ἡ σελήνη εἴη: πρὸς δὲ τὸν ἕτερον ἀγαθὴ οὖσα ἐν τῷ ἀφωτίστῳ πλήρης ἐστὶ πρὸς αὐτόν. τὸ δὲ πρὸς ἡμας τῆς σελήνης ἀφώτιστόν ἐστι πρὸς τὰ ἐπὶ γῆς, οὐ τὸ ἄνω λυπεῖ. οὐκ ἐπικουροῦντος δὲ ἐκείνου τῷ πόρρω χεῖρον εἶναι δοκεῖ: ὅταν δὲ πλήρης ᾖ, ἀρκεῖ τῷ κάτω, κἂν ἐκεῖνος πόρρωθεν ᾖ. πρὸς δὲ τὸν πυρώδη ἀφώτιστος οὖσα πρὸς ἡμᾶς ἔδοξεν εἶναι ἀγαθή: αὐταρκεῖ γὰρ τὸ ἐκείνου πυρωδεστέρου ἢ πρὸς ἐκεῖνον ὄντος.",
+   "flags": [
+    {
+     "taylor": "the reason alleged is that the force of Mars is all-sufficient since it contains more fire than it needs",
+     "in": "MacKenna",
+     "why": "A hard place: the Greek says only \"for that one's is enough, being more fiery than towards that one\" (αὐταρκεῖ γὰρ τὸ ἐκείνου πυρωδεστέρου ἢ πρὸς ἐκεῖνον ὄντος), which is probably damaged; \"than it needs\" is MacKenna's reading, and the modern version's. He names Mars where the Greek says \"the fiery one\"."
+    }
+   ],
+   "notes": [
+    "The moon is always half lit by the sun: when its lit half faces the earth, its dark half faces the planets above it, and the other way round. So, Plotinus argues, if the moon's light helped a planet, it would help it most at the new moon."
+   ]
+  },
+  {
+   "seg": "II.3.5.p3",
+   "chapter": "II.3.5",
+   "modern": "The bodies of the ensouled beings that come from there are warmer, some more and some less than others, but none is cold: their place bears witness to it. The one they call Zeus is well tempered with fire, and so is the Morning Star; and so they seem to be in harmony, through likeness. With the one called the Fiery, Zeus is helpful through the blend; with Kronos he is alien, through distance. Hermes is indifferent towards them all, it seems, since he becomes like each.",
+   "greek": "τὰ δὲ ἰόντα ἐκεῖθεν σώματα ἐμψύχων ἄλλα ἄλλων ἐπὶ τὸ μᾶλλον καὶ ἧττον θερμά, ψυχρὸν δὲ οὐδέν: μαρτυρεῖ δὲ ὁ τόπος. Δία δὲ ὃν λέγουσιν, εὔκρατος πυρί: καὶ ὁ Ἑῷος οὕτως: διὸ καὶ σύμφωνοι δοκοῦσιν ὁμοιότητι: πρὸς δὲ τὸν Πυρόεντα καλούμενον σύμφορος τῇ κράσει, πρὸς δὲ Κρόνον ἀλλότριος τῷ πόρρω: Ἑρμῆς δ’ ἀδιάφορος πρὸς ἅπαντας, ὡς δοκεῖ, ὁμοιούμενος.",
+   "notes": [
+    "The planets by their Greek names: Zeus is Jupiter, the Morning Star (Heōsphoros) is Venus, the Fiery (Pyroeis) is Mars, Kronos is Saturn, and Hermes is Mercury. \"Their place bears witness\": the stars are in the upper region of fire (II.1.7)."
+   ]
+  },
+  {
+   "seg": "II.3.5.p4",
+   "chapter": "II.3.5",
+   "modern": "But all of them are helpful to the whole; so they stand towards one another as is helpful to the whole, as each of the parts is seen to in one living being. For it is above all for the sake of this that they are, as the gall is there both for the whole and for its neighbourhood: for it had to rouse spirit, and yet keep both the whole and its neighbourhood from running wild. So in the All too there had to be something of this kind, something unpleasant joined to the pleasant. And some parts had to be eyes; and all are in sympathy through what is without reason in them: for so there is one thing and one harmony. How then would they not be signs, by analogy?",
+   "greek": "πάντες δὲ πρὸς το ὅλον σύμφοροι: ὥστε πρὸς ἀλλήλους οὕτως, ὡς τῷ ὅλῳ συμφέρει, ὡς ἐφ̓ ἑνὸς ζῴου ἕκαστα τῶν μερῶν ὁρᾶται. τούτου γὰρ χάριν μάλιστα, οἷον χολὴ καὶ τῷ ὅλῳ καὶ πρὸς τὸ ἐγγύς: καὶ γὰρ ἔδει καὶ θυμὸν ἐγείρειν καὶ τὸ πᾶν καὶ τὸ πλησίον μὴ ἐᾶν ὑβρίζειν. καὶ δὴ καὶ ἐν τῷ παντὶ ἔδει τινὸς τοιούτου καί τινος ἀηδοῦς πρὸς τὸ ἡδὺ ἀνημμένου. τὰ δὲ ὀφθαλμοὺς εἶναι, συμπαθῆ δὲ πάντα τῷ ἀλόγῳ αὐτῶν εἶναι: οὕτω γὰρ ἓν καὶ μία ἁρμονία: ταῦτ̓ οὖν πῶς οὐ σημεῖα ἐξ ἀναλογίας εἴη ἄν;",
+   "flags": [
+    {
+     "taylor": "it is to be the inciter of the animal spirits",
+     "in": "MacKenna",
+     "why": "The Greek says the gall had to \"rouse spirit\" (θυμὸν ἐγείρειν), the part of the soul that is angry; \"animal spirits\" is MacKenna's."
+    },
+    {
+     "taylor": "but all the members will be in sympathy with the entire animal frame to which they belong",
+     "in": "MacKenna",
+     "why": "The Greek says all are in sympathy \"through what is without reason in them\" (τῷ ἀλόγῳ αὐτῶν): the sympathy of the All works in its irrational life, not in reason."
+    }
+   ],
+   "notes": [
+    "In Greek medicine bile, or gall (χολή), is bound up with anger: the word for a quick temper in chapter 11, ἀκροχολία, is made from it. In the Timaeus (70a-71b) the liver and its bile serve the spirited part."
+   ]
+  },
+  {
+   "seg": "II.3.6.p1",
+   "chapter": "II.3.6",
+   "modern": "And to suppose that Ares here, or Aphrodite, make adulteries if they stand in this way, as if they filled themselves, out of the licentiousness of human beings, with what they want from each other: how is this not quite unreasonable? And that they find the sight of each other pleasant, if they see each other in this way, and that there is no limit for them: how could anyone accept it?",
+   "greek": "Ἄρεα δὲ τόνδε ἢ Ἀφροδίτην θεμένους μοιχείας ποιεῖν, εἰ ὡδὶ εἶεν, ὥσπερ ἐκ τῆς ἀνθρώπων ἀκολασίας αὑτοὺς ἐμπιπλάντας ὧν πρὸς ἀλλήλους δέονται, πῶς οὐ πολλὴν ἀλογίαν ἔχει; καὶ τὴν μὲν θέαν αὐτοῖς τὴν πρὸς ἀλλήλους, εἰ οὑτωσὶ θεῷντο, ἡδεῖαν εἶναι, πέρας δὲ αὐτοῖς μηδὲν εἶναι, πῶς ἄν τις παραδέξαιτο;",
+   "flags": [
+    {
+     "taylor": "And who could accept the fancy that their happiness comes from their seeing each other in this or that relative position and not from their own settled nature ?",
+     "in": "MacKenna",
+     "why": "The Greek says \"and that there is no limit (πέρας) for them\": no end to their desire. Nothing is said of their settled nature."
+    }
+   ],
+   "notes": [
+    "Ares and Aphrodite are the planets Mars and Venus, named for the lovers of Homer's song of Demodocus (Odyssey 8.266-366), caught in adultery by Hephaestus' net."
+   ]
+  },
+  {
+   "seg": "II.3.6.p2",
+   "chapter": "II.3.6",
+   "modern": "When countless myriads of living beings are born and exist, to accomplish for each of them always: to give them fame, to make them rich, poor, licentious, and to accomplish the activities of each themselves: what sort of life is that for them? Or how is it possible to do so much? And to wait for the risings of the signs, and act then; and that as many degrees as each sign rises in, so many are the years of its rising; and to reckon, as it were on their fingers, when they will act, and not to be allowed to do so before those times: and in general to give no one the sovereignty of the government, but to give all things to them, as if there were not one who presides, from whom the All hangs, who gives to each to accomplish its own according to its nature and to do its own work, ordered together with him: this is to dissolve the cosmos and not to know its nature, a cosmos that has a principle and a first cause that goes to all things.",
+   "greek": "μυριάδων δὲ ζῴων ἀναριθμήτων γινομένων καὶ οὐσῶν ἑκάστῳ τελεῖν ἀεὶ τό τε δόξαν αὐτοῖς διδόναι, πλουτεῖν ποιεῖν, πένητας, ἀκολάστους, καὶ τὰς ἐνεργείας ἑκάστων αὐτοὺς τελεῖν, τίς αὐτοῖς ἐστιν ὁ βίος; ἢ πῶς δυνατὸν τοσαῦτα ποιεῖν; τὸ δὲ ἀναφορὰς ζῳδίων ἀναμένειν καὶ τότε τελεῖν, καὶ ὅσαις μοίραις ἀνατέλλει ἕκαστον, ἐνιαυτοὺς εἶναι τοσούτους τῆς ἀναφορᾶς, καὶ οἷον ἐπὶ δακτύλων τίθεσθαι, ὅτε ποιήσουσι, μὴ ἐξεῖναι δ’ αὐτοῖς πρὸ τούτων τῶν χρόνων, ὅλως δὲ μηδενὶ ἑνὶ τὸ κύριον τῆς διοικήσεως διδόναι. τούτοις δὲ τὰ πάντα διδόναι, ὥσπερ οὐκ ἐπιστατοῦντος ἑνός, ἀφ̓ οὗ διηρτῆσθαι τὸ πᾶν ἑκάστῳ διδόντος κατὰ φύσιν τὸ αὑτοῦ περαίνειν καὶ ἐνεργεῖν τὰ αὑτοῦ συντεταγμένον αὖ μετ’ αὐτοῦ, λύοντός ἐστι καὶ ἀγνοοῦντος κόσμου φύσιν ἀρχὴν ἔχοντος καὶ αἰτίαν πρώτην ἐπὶ πάντα ἰοῦσαν.",
+   "flags": [
+    {
+     "taylor": "such a one, they see, has risen by so many degrees, representing so many of the periods of its upward path",
+     "in": "MacKenna",
+     "why": "The Greek says that as many degrees as each sign rises in, \"so many years\" (ἐνιαυτοὺς τοσούτους) of the rising: the astrologers' way of reckoning the length of a life. \"Periods\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "\"Risings\" (ἀναφοραί): the time each sign of the zodiac takes to rise above the horizon, counted in degrees of the equator; the astrologers turned degrees into years to foretell how long a man would live (Ptolemy, Tetrabiblos III.10). \"From whom the All hangs\" echoes Aristotle (Metaphysics XII.7, 1072b14), as in II.2.2."
+   ]
+  },
+  {
+   "seg": "II.3.7.p1",
+   "chapter": "II.3.7",
+   "modern": "But if they signify what will be, as we say many other things too are signs of what will be, what would be the cause? And how is there an order? For there would be no signifying in an ordered way if things did not each come about in order. Let them be, then, like letters always being written in the heaven, or written once and moving, doing indeed another work as well; and let their signifying follow on this, as in one living being, from one principle, one could learn one thing from another part. For one could know a man's character, and his dangers and ways of safety too, by looking at his eyes or some other part of his body. So they are parts, and we are parts too: different things, then, for different things. All things are full of signs, and wise is he who has learned one thing from another. Many things are known to all by now from long habit.",
+   "greek": "ἀλλ’ εἰ σημαίνουσιν οὗτοι τὰ ἐσόμενα, ὥσπερ φαμὲν πολλὰ καὶ ἄλλα σημαντικὰ εἶναι τῶν ἐσομένων, τί ἂν τὸ ποιοῦν εἴη; καὶ ἡ τάξις πῶς; οὐ γὰρ ἂν ἐσημαίνετο τεταγμένως μὴ ἑκάστων γινομένων. ἔστω τοίνυν ὥσπερ γράμματα ἐν οὐρανῷ γραφόμενα ἀεὶ ἢ γεγραμμένα καὶ κινούμενα, ποιοῦντα μέντοι ἔργον καὶ ἄλλο: ἐπακολουθείτω δὲ τῷδε ἡ παῤ αὐτῶν σημασία, ὡς ἀπὸ μιᾶς ἀρχῆς ἐν ἑνὶ ζῴῳ παῤ ἄλλου μέρους ἄλλο ἄν τις μάθοι. καὶ γὰρ καὶ ἦθος ἄν τις γνοίη εἰς ὀφθαλμούς τινος ἰδὼν ἤ τι ἄλλο μέρος τοῦ σώματος καὶ κινδύνους καὶ σωτηρίας. καὶ οὖν μέρη μὲν ἐκεῖνα, μέρη δὲ καὶ ἡμεῖς: ἄλλα οὖν ἄλλοις. μεστὰ δὲ πάντα σημείων καὶ σοφός τις ὁ μαθὼν ἐξ ἄλλου ἄλλο. πολλὰ δὲ ἤδη συνηθείᾳ γιγνόμενα γινώσκεται πᾶσι.",
+   "flags": [
+    {
+     "taylor": "Obviously, unless the particular is included under some general principle of order, there can be no signification.",
+     "in": "MacKenna",
+     "why": "The Greek says \"for there would be no signifying in an ordered way if each thing did not come about\" in order (οὐ γὰρ ἂν ἐσημαίνετο τεταγμένως μὴ ἑκάστων γινομένων): the order is in the events, not a general principle above them."
+    }
+   ],
+   "notes": [
+    "Reading character from the eyes and the body is physiognomy, as in the Physiognomonica handed down under Aristotle's name."
+   ]
+  },
+  {
+   "seg": "II.3.7.p2",
+   "chapter": "II.3.7",
+   "modern": "What, then, is the one ordering of them all together? For so the signs taken from birds are reasonable too, and from the other animals, by which we are given signs of each thing. All things must be bound together with one another; and not only in one of the individual things, if it is well knit, is there one breathing together, but much more, and first, in the All. And one principle must make one living being of many, and one out of all; and as in each one thing each of the parts has taken one work, so the things in the All must each have their works, and more than those parts, inasmuch as they are not only parts but also wholes, and greater.",
+   "greek": "τίς οὖν ἡ σύνταξις ἡ μία; οὕτω γὰρ καὶ τὸ κατὰ τοὺς ὄρνεις εὔλογον καὶ τὰ ἄλλα ζῷα, ἀφ̓ ὧν σημαινόμεθα ἕκαστα. συνηρτῆσθαι δὴ δεῖ ἀλλήλοις τὰ πάντα, καὶ μὴ μόνον ἐν ἑνὶ τῶν καθ̓ ἕκαστα τοῦ εὖ εἰρομένου σύμπνοια μία, ἀλλὰ πολὺ μᾶλλον καὶ πρότερον ἐν τῷ παντί: καὶ μίαν ἀρχὴν δεῖ ἓν πολύζῳον ποιῆσαι καὶ ἐκ πάντων ἕν, καὶ ὡς ἐν ἑνὶ ἑκάστῳ τὰ μέρη ἕν τι ἔργον ἕκαστον εἴληφεν, οὕτω καὶ τὰ ἐν τῷ παντὶ ἕκαστα ἔργα ἕκαστον ἔχειν καὶ μᾶλλον ἢ ταῦτα, ὅσον μὴ μόνον μέρη, ἀλλὰ καὶ ὅλα καὶ μείζω.",
+   "flags": [
+    {
+     "taylor": "but more markedly so since in this case the parts are not merely members but themselves Alls, members of the loftier Kind",
+     "in": "MacKenna",
+     "why": "The Greek says only that they are \"not only parts but also wholes, and greater\" (μὴ μόνον μέρη, ἀλλὰ καὶ ὅλα καὶ μείζω); \"members of the loftier Kind\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "\"One breathing together\" (σύμπνοια μία) is a phrase of the Hippocratic book On nourishment (23): \"one flowing together, one breathing together, all things in sympathy\". The Stoics took it up for the sympathy of the cosmos."
+   ]
+  },
+  {
+   "seg": "II.3.7.p3",
+   "chapter": "II.3.7",
+   "modern": "So each goes forth from one principle, doing its own work, and one contributes to another, for none has been cut off from the whole; and each acts, and is acted on by others, and another in turn came near and grieved or pleased it. But it goes forth not at random, nor by chance: for something else comes from these too, and next, by nature, another.",
+   "greek": "πρόεισι μὲν δὴ ἕκαστον ἀπὸ μιᾶς ἀρχῆς τὸ αὑτοῦ πρᾶττον, συμβάλλει δὲ ἄλλο ἄλλῳ: οὐ γὰρ ἀπήλλακται τοῦ ὅλου: καὶ δὴ καὶ ποιεῖ καὶ πάσχει ὑπ’ ἄλλων καὶ ἄλλο αὖ προσῆλθε καὶ ἐλύπησεν ἢ ἧσε. πρόεισι δὲ οὐκ εἰκῇ οὐδὲ κατ’ ἐπιτυχίαν: καὶ γὰρ ἄλλο τι καὶ ἐκ τούτων καὶ ἐφεξῆς κατὰ φύσιν ἄλλο.",
+   "flags": [
+    {
+     "taylor": "all is one scheme of differentiation, starting from the Firsts and working itself out in a continuous progression of Kinds",
+     "in": "MacKenna",
+     "why": "The Greek says only \"for something else comes from these too, and next, by nature, another\" (ἄλλο τι καὶ ἐκ τούτων καὶ ἐφεξῆς κατὰ φύσιν ἄλλο); the Firsts and the Kinds are MacKenna's."
+    }
+   ]
+  },
+  {
+   "seg": "II.3.8.p1",
+   "chapter": "II.3.8",
+   "modern": "And soul too, set on doing its own work (for soul makes all things, having the standing of a principle), whether it goes straight or is again thrown into disorder: justice follows on what is done in the All, if the All is not to be dissolved. And it lasts for ever, the whole being kept upright by the order and the power of what rules it. And the stars too, as parts of the heaven that are by no means small, work together with it, being splendid in the whole and good for signifying. So they signify everything that is in the perceptible world, but they make other things, those that they plainly make.",
+   "greek": "καὶ δὴ καὶ ψυχὴ τὸ αὑτῆς ἔργον ποιεῖν ὡρμημένη — ψυχὴ γὰρ πάντα ποιεῖ ἀρχῆς ἔχουσα λόγον — κἂν εὐθυποροῖ καὶ ταράττοιτο αὖ, καὶ ἕπεται τοῖς δρωμένοις ἐν τῷ παντὶ δίκη, εἴπερ μὴ λυθήσεται. μένει δ’ ἀεὶ ὀρθουμένου τοῦ ὅλου τάξει καὶ δυνάμει τοῦ κρατοῦντος: συνεργοῦντα δὲ καὶ τὰ ἄστρα ὡς ἂν μόρια οὐ σμικρὰ ὄντα τοῦ οὐρανοῦ πρὸς τὸ ὅλον ἀριπρεπῆ καὶ πρὸς τὸ σημαίνειν ἐστί. σημαίνει μὲν οὖν πάντα, ὅσα ἐν αἰσθητῷ, ποιεῖ δὲ ἄλλα, ὅσα φανερῶς ποιεῖ.",
+   "flags": [
+    {
+     "taylor": "alike in its direct course (its tendence towards the divine ?) and in its divagation (its activity towards the lower ?)",
+     "in": "MacKenna",
+     "why": "The Greek says \"whether it goes straight or is thrown into disorder\" (κἂν εὐθυποροῖ καὶ ταράττοιτο αὖ): the soul's acting rightly or wrongly, which justice then follows. MacKenna's guesses in brackets are his."
+    },
+    {
+     "taylor": "it is the cause of all by its possession of the Thought of the First Principle",
+     "in": "MacKenna",
+     "why": "The Greek says soul makes all things \"having the standing of a principle\" (ἀρχῆς ἔχουσα λόγον): it is itself a principle. Nothing is said of the First Principle or its thought."
+    }
+   ],
+   "notes": [
+    "\"Splendid\" (ἀριπρεπής) is a word of Homer's for the stars (Iliad 8.556)."
+   ]
+  },
+  {
+   "seg": "II.3.8.p2",
+   "chapter": "II.3.8",
+   "modern": "We do the works of soul according to nature, as long as we have not slipped in the multitude of the All; and when we have slipped, we have our penalty: both the slip itself, and a worse lot afterwards. Riches and poverty, then, come by a chance meeting with things outside; and virtues and vices, how? Virtues through what is ancient in the soul, vices through the soul's chance meeting with what is outside. But of these things we have spoken elsewhere.",
+   "greek": "ἡμεῖς δὲ ψυχῆς ἔργα κατὰ φύσιν ποιοῦμεν, ἕως μὴ ἐσφάλημεν ἐν τῷ πλήθει τοῦ παντός: σφαλέντες δὲ ἔχομεν δίκην καὶ τὸ σφάλμα αὐτὸ καὶ τὸ ἐν χείρονι μοίρᾳ εἰς ὕστερον. πλοῦτοι μὲν οὖν καὶ πενίαι συντυχίᾳ τῶν ἔξω: ἀρεταὶ δὲ καὶ κακίαι πῶς; ἀρεταὶ μὲν διὰ τὸ ἀρχαῖον τῆς ψυχῆς, κακίαι δὲ συντυχίᾳ ψυχῆς πρὸς τὰ ἔξω. ἀλλὰ περὶ μὲν τούτων ἐν ἄλλοις εἴρηται.",
+   "flags": [
+    {
+     "taylor": "For our part, nature keeps us upon the work of the Soul",
+     "in": "MacKenna",
+     "why": "The Greek says \"we do the works of soul according to nature\" (ψυχῆς ἔργα κατὰ φύσιν ποιοῦμεν): nature is how we do them, not what keeps us on them."
+    }
+   ],
+   "notes": [
+    "\"What is ancient in the soul\": its ancient nature (ἀρχαία φύσις), which Plato's sea-god Glaucus, crusted with shells and weed, hides from sight (Republic X, 611c-612a). \"Elsewhere\": in On destiny (III.1.8-10)."
+   ]
+  },
+  {
+   "seg": "II.3.9.p1",
+   "chapter": "II.3.9",
+   "modern": "Now let us recall the spindle, which for the ancients the Fates spin, while for Plato the spindle is what wanders and what does not wander in the revolution of the heaven; and the Fates and Necessity, their mother, turn it, and spin at the birth of each one, and through Necessity what is born comes to birth. And in the Timaeus the god who made the cosmos gives the principle of the soul, while the gods that are carried round give the terrible and necessary passions, angers and desires, pleasures and pains, and another kind of soul, from which these experiences come. For these words bind us to the stars, from which we bring a soul with us, and subject us to necessity as we come here; and so our characters come from them, and according to our characters our actions and passions, coming from a disposition that is open to passion. So what is left that is we?",
+   "greek": "νῦν δὲ ἀναμνησθέντες τοῦ ἀτράκτου, ὃν τοῖς μὲν πρόπαλαι αἱ Μοῖραι ἐπικλώθουσι, Πλάτωνι δὲ ὁ ἄτρακτός ἐστι τό τε πλανώμενον καὶ τὸ ἀπλανὲς τῆς περιφορᾶς, καὶ αἱ Μοῖραι δὲ καὶ ἡ Ἀνάγκη μήτηρ οὖσα στρέφουσι καὶ ἐν τῇ γενέσει ἑκάστου ἐπικλώθουσι καὶ δἰ αὐτῆς εἶσιν εἰς γένεσιν τὰ γεννώμενα. ἐν δὲ Τιμαίῳ θεὸς μὲν ὁ ποιήσας τὴν ἀρχὴν τῆς ψυχῆς δίδωσιν, οἱ δὲ φερόμενοι θεοὶ τὰ δεινὰ καὶ ἀναγκαῖα πάθη, θυμοὺς καὶ ἐπιθυμίας καὶ ἡδονὰς καὶ λύπας αὖ, καὶ ψυχῆς ἄλλο εἶδος, ἀφ̓ οὗ τὰ παθήματα ταυτί. οὗτοι γὰρ οἱ λόγοι συνδέουσιν ἡμᾶς τοῖς ἄστροις παῤ αὐτῶν ψυχὴν κομιζομένους καὶ ὑποτάττουσι τῇ ἀνάγκῃ ἐνταῦθα ἰόντας: καὶ ἤθη τοίνυν παῤ αὐτῶν καὶ κατὰ τὰ ἤθη πράξεις καὶ πάθη ἀπὸ ἕξεως παθητικῆς οὔσης: ὥστε τί λοιπὸν ἡμεῖς;",
+   "flags": [
+    {
+     "taylor": "To Plato the Spindle represents the co-operation of the moving and the stable elements of the kosmic circuit",
+     "in": "MacKenna",
+     "why": "The Greek says the spindle is \"what wanders and what does not wander\" (τό τε πλανώμενον καὶ τὸ ἀπλανὲς) in the revolution: the planets and the fixed stars. \"Co-operation\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "The spindle of Necessity is in the myth of Er (Republic X, 616c-617d): its whorls are the spheres of the fixed stars and of the planets, and the three Fates, Lachesis, Clotho and Atropos, daughters of Necessity, turn it. The gods who give the lower soul are in the Timaeus (41c-d, 42a), and \"the terrible and necessary passions\" are its words (69c-d)."
+   ]
+  },
+  {
+   "seg": "II.3.9.p2",
+   "chapter": "II.3.9",
+   "modern": "Or rather, what we truly are: we, to whom nature has given the power to master the passions. For all the same, among these evils, fenced in as we are by the nature of the body, God gave us virtue, which has no master. For it is not when we are at peace that we need virtue, but when there is a danger of being among evils if virtue is not present. So we must flee from here, and separate ourselves from what has grown onto us, and not be the composite, an ensouled body, in which the nature of body has the mastery, having taken a trace of soul, so that the common life is more the body's: for everything that belongs to this life is bodily.",
+   "greek": "ἢ ὅπερ ἐσμὲν κατ’ ἀλήθειαν ἡμεῖς, οἷς καὶ κρατεῖν τῶν παθῶν ἔδωκεν ἡ φύσις. καὶ γὰρ ὅμως ἐν τούτοις τοῖς κακοῖς διὰ τὴν τοῦ σώματος φύσιν ἀπειλημμένοις ἀδέσποτον ἀρετὴν θεὸς ἔδωκεν. οὐ γὰρ ἐν ἡσύχῳ οὖσιν ἀρετῆς δεῖ ἡμῖν, ἀλλ’ ὅταν κίνδυνος ἐν κακοῖς εἶναι ἀρετῆς οὐ παρούσης. διὸ καὶ φεύγειν ἐντεῦθεν δεῖ καὶ χωρίζειν αὑτοὺς ἀπὸ τῶν προσγεγενημένων καὶ μὴ τὸ σύνθετον εἶναι σῶμα ἐψυχωμένον, ἐν ᾧ κρατεῖ μᾶλλον ἡ σώματος φύσις ψυχῆς τι ἴχνος λαβοῦσα, ὡς τὴν ζωὴν τὴν κοινὴν μᾶλλον τοῦ σώματος εἶναι: πάντα γὰρ σωματικά, ὅσα ταύτης.",
+   "flags": [
+    {
+     "taylor": "The \" We \" is the actual resultant of a Being whose nature includes, with certain sensibilities, the power of governing them.",
+     "in": "MacKenna",
+     "why": "The Greek says \"what we truly are\" (ὅπερ ἐσμὲν κατ’ ἀλήθειαν ἡμεῖς), to whom nature gave the power to master the passions. For MacKenna the \"We\" is a \"resultant\"; for Plotinus it is the true self, not the composite."
+    },
+    {
+     "taylor": "virtue the unconquerable",
+     "in": "MacKenna",
+     "why": "The Greek ἀδέσποτον is \"with no master over it\", Plato's word: the herald of the myth of Er says that \"virtue has no master\", and each will have more or less of it as he honours it (Republic X, 617e)."
+    }
+   ],
+   "notes": [
+    "\"We must flee from here\": Plato's Theaetetus (176a-b), where to flee from here is to become like God, as far as one can."
+   ]
+  },
+  {
+   "seg": "II.3.9.p3",
+   "chapter": "II.3.9",
+   "modern": "To the other soul, the one outside, belong the carrying upward, and the beautiful, and the divine, over which no one is master: one either makes use of them, so as to be that, and lives by it, withdrawn; or, bereft of this soul, one lives in destiny, and then the stars do not only signify for him, but he becomes himself a kind of part, and is carried along with the whole of which he is a part.",
+   "greek": "τῆς δὲ ἑτέρας τῆς ἔξω ἡ πρὸς τὸ ἄνω φορὰ καὶ τὸ καλὸν καὶ τὸ θεῖον, ὧν: οὐδεὶς κρατεῖ, ἀλλ’ ἢ προσχρῆται, ἵν’ ᾖ ἐκεῖνο καὶ κατὰ τοῦτο ζῇ ἀναχωρήσας: ἢ ἔρημος ταύτης τῆς ψυχῆς γενόμενος ζῇ ἐν εἱμαρμένῃ, καὶ ἐνταῦθα τὰ ἄστρα αὐτῷ οὐ μόνον σημαίνει, ἀλλὰ γίνεται αὐτὸς οἷον μέρος καὶ τῷ ὅλῳ συνέπεται, οὗ μέρος.",
+   "flags": [
+    {
+     "taylor": "no longer profiting, merely, by the significance of the sidereal system",
+     "in": "MacKenna",
+     "why": "The Greek says that for one who lives in destiny the stars \"do not only signify\" (οὐ μόνον σημαίνει) for him: they act on him as well. Nothing is said of profiting."
+    }
+   ]
+  },
+  {
+   "seg": "II.3.9.p4",
+   "chapter": "II.3.9",
+   "modern": "For each of us is double: one is a kind of composite of the two, the other is himself. And the whole cosmos too: one is what is made of body and a soul bound to body, the other is the soul of the All, which is not in body, but shines traces of itself into the soul that is in body. And the sun and the other stars are double in this way too. To the other soul, the pure one, they give nothing bad; and what comes to the All from them, inasmuch as they are parts of the All and an ensouled body, the body gives, a part to a part, while the star's choice, and its soul that truly is, look to the best.",
+   "greek": "διττὸς γὰρ ἕκαστος, ὁ μὲν τὸ συναμφότερόν τι, ὁ δὲ αὐτός: καὶ πᾶς ὁ κόσμος δὲ ὁ μὲν τὸ ἐκ σώματος καὶ ψυχῆς τινος δεθείσης σώματι, ὁ δὲ ἡ τοῦ παντὸς ψυχὴ ἡ μὴ ἐν σώματι, ἐλλάμπουσα δὲ ἴχνη τῇ ἐν σώματι: καὶ ἥλιος δὴ καὶ τὰ ἄλλα διττὰ οὕτω. καὶ τῇ μὲν ἑτέρᾳ ψυχῇ τῇ καθαρᾷ οὐδὲν φαῦλον δίδωσιν, ἃ δὲ γίνεται εἰς τὸ πᾶν παῤ αὐτῶν, καθ̓ ὃ μέρος εἰσὶ τοῦ παντὸς καὶ σῶμα ἐψυχωμένον, τὸ σῶμα μέρος μέρει δίδωσι προαιρέσεως τοῦ ἄστρου καὶ ψυχῆς τῆς ὄντως αὐτοῦ πρὸς τὸ ἄριστον βλεπούσης.",
+   "flags": [
+    {
+     "taylor": "body is the agent while, at the same time, it becomes the vehicle through which is transmitted something of the star's will",
+     "in": "MacKenna",
+     "why": "The Greek says the body gives, a part to a part, \"while the star's choice and its soul that truly is look to the best\" (προαιρέσεως τοῦ ἄστρου καὶ ψυχῆς τῆς ὄντως αὐτοῦ πρὸς τὸ ἄριστον βλεπούσης). Nothing of the star's will is passed on through the body: the star's will is turned the other way."
+    }
+   ]
+  },
+  {
+   "seg": "II.3.9.p5",
+   "chapter": "II.3.9",
+   "modern": "And the other things follow on it, or rather not on it, but on what is around it: as heat goes from fire into the whole, or as something goes from one soul into another soul that is akin to it. The troublesome things come from the mixture. For the nature of this All is mixed, and if one were to separate from it its separable soul, what is left is not much. It is a god, then, when that soul is counted in; but the rest is, he says, a great daemon, and the passions in it are daemonic.",
+   "greek": "παρακολουθεῖ δ’ αὐτῷ τὰ ἄλλα, μᾶλλον δ’ οὐκ αὐτῷ, ἀλλὰ τοῖς περὶ αὐτόν, οἷον ἐκ πυρὸς θερμότητος εἰς τὸ ὅλον ἰούσης, καὶ εἴ τι παρὰ ψυχῆς τῆς ἄλλης εἰς ψυχὴν ἄλλην συγγενῆ οὖσαν: τὰ δὲ δυσχερῆ διὰ τὴν μῖξιν. μεμιγμένη γὰρ οὖν δὴ ἡ τοῦδε τοῦ παντὸς φύσις, καὶ εἴ τις τὴν ψυχὴν τὴν χωριστὴν αὐτοῦ χωρίσειε, τὸ λοιπὸν οὐ μέγα. θεὸς μὲν οὖν ἐκείνης συναριθμουμένης, τὸ δὲ λοιπὸν δαίμων, φησί, μέγας καὶ τὰ πάθη τὰ ἐν αὐτῷ δαιμόνια.",
+   "flags": [
+    {
+     "taylor": "But (with every allowance to the lower forces) all follows either upon that Highest or rather upon the Beings about It — we may think of the Divine as a fire",
+     "in": "MacKenna",
+     "why": "A hard place: the Greek says \"the other things follow on it, or rather not on it, but on those around it\" (παρακολουθεῖ δ’ αὐτῷ τὰ ἄλλα, μᾶλλον δ’ οὐκ αὐτῷ, ἀλλὰ τοῖς περὶ αὐτόν). \"It\" is masculine, most likely the star, not \"that Highest\"; and the fire is only an image of how heat spreads, not \"the Divine\"."
+    },
+    {
+     "taylor": "\" is a mighty spirit and its ways are subdivine.\"",
+     "in": "MacKenna",
+     "why": "The Greek is δαίμων μέγας, \"a great daemon\", and the passions in it are \"daemonic\" (δαιμόνια): Plato's words for Love in the Symposium (202d-e), a great daemon between gods and mortals. \"Spirit\" and \"subdivine\" hide the quotation."
+    }
+   ]
+  },
+  {
+   "seg": "II.3.10.p1",
+   "chapter": "II.3.10",
+   "modern": "If it is so, we must grant the signs even now; but the doings, not in every way, nor to the stars as wholes, but only those that are affections of the All, and as much as belongs to what remains of them. And to the soul we must grant that, even before it comes to birth, it comes bringing something of its own: for it would not come into a body if it did not have a great capacity to be affected. We must grant too that chances meet it as it enters, since it enters at the very moment of the revolution. And we must grant that the revolution itself acts, working together and filling up from itself what the All must accomplish, each of the things in it having taken the rank of a part.",
+   "greek": "εἰ δ’ οὕτω, τὰς σημασίας καὶ νῦν δοτέον τὰς δὲ ποιήσεις οὐ πάντως οὐδὲ τοῖς ὅλοις αὐτῶν, ἀλλὰ καὶ ὅσα τοῦ παντὸς πάθη, καὶ ὅσον τὸ λοιπὸν αὐτῶν. καὶ ψυχῇ μὲν καὶ πρὶν ἐλθεῖν εἰς γένεσιν δοτέον ἥκειν τι φερούσῃ παῤ αὑτῆς: οὐ γὰρ ἂν ἔλθοι εἰς σῶμα μὴ μέγα τι παθητικὸν ἔχουσα. δοτέον δὲ καὶ τύχας εἰσιούσῃ τῷ κατ’ αὐτὴν τὴν φορὰν εἰσιέναι. δοτέον δὲ καὶ αὐτὴν τὴν φορὰν ποιεῖσθαι συνεργοῦσαν καὶ ἀποπληροῦσαν παῤ αὑτῆς, ἃ δεῖ τελεῖν τὸ πᾶν, ἑκάστου τῶν ἐν αὐτῇ τάξιν μερῶν λαβόντος.",
+   "flags": [
+    {
+     "taylor": "for it could never touch body except under stress of a powerful inner impulse",
+     "in": "MacKenna",
+     "why": "The Greek says it would not come into a body \"unless it had a great capacity to be affected\" (μὴ μέγα τι παθητικὸν ἔχουσα): something passive in it, not an impulse."
+    }
+   ],
+   "notes": [
+    "\"What remains of them\" (τὸ λοιπὸν αὐτῶν): the stars' bodies and lower soul, \"the rest\" of chapter 9, as against their pure soul."
+   ]
+  },
+  {
+   "seg": "II.3.11.p1",
+   "chapter": "II.3.11",
+   "modern": "We must also bear in mind that what goes out from them does not come into those who receive it such as it is when it leaves them: if it is fire, it is dim here; and if it is a disposition to friendship, it becomes weak in the receiver and makes a love that is not very beautiful; and spirit, in one who does not receive it in measure, so as to become brave, makes a quick temper or faint-heartedness; and what lies in the love of honour and is concerned with beauty makes a desire for things that seem beautiful; and the outflow of intellect makes knavery: for knavery wants to be intellect, but cannot attain what it aims at. So each of these things becomes bad in us, though they are not so there. For what has come, though it is not those things, does not stay as it came either, being mixed with bodies, with matter and with one another.",
+   "greek": "χρὴ δὲ κἀκεῖνο ἐνθυμεῖσθαι, ὡς τὸ ἀπ’ ἐκείνων ἰὸν οὐ τοιοῦτον εἶσιν εἰς τοὺς λαβόντας, οἷον παῤ ἐκείνων ἔρχεται: οἷον εἰ πῦρ, ἀμυδρὸν τοῦτο, καὶ εἰ φιλιακὴ διάθεσις ἀσθενὴς γενομένη ἐν τῷ λαβόντι οὐ μάλα καλὴν τὴν φίλησιν εἰργάσατο, καὶ θυμὸς δὴ οὐκ ἐν μέτρῳ τυχόντος, ὡς ἀνδρεῖον γενέσθαι, ἢ ἀκροχολίαν ἢ ἀθυμίαν εἰργάσατο, καὶ τὸ τιμῆς ἐν ἔρωτι ὂν καὶ περὶ τὸ καλὸν ἔχον τῶν δοκούντων καλῶν ἔφεσιν εἰργάσατο, καὶ νοῦ ἀπόρροια πανουργίαν: καὶ γὰρ ἡ πανουργία ἐθέλει νοῦς εἶναι τυχεῖν οὗ ἐφίεται οὐ δυνάμενος. γίνεται οὖν κακὰ ἕκαστα τούτων ἐν ἡμῖν ἐκεῖ οὐ τούτων ὄντων: ἐπεὶ καὶ τὰ ἐλθόντα, καίτοι οὐκ ἐκεῖνα ὄντα, οὐ μένει οὐδὲ ταῦτα οἷα ἦλθε σώμασι μιγνύμενα καὶ ὕλῃ καὶ ἀλλήλοις.",
+   "flags": [
+    {
+     "taylor": "and ambition ... in love . . .",
+     "in": "MacKenna",
+     "why": "MacKenna's dots mark a gap; Volkmann's text has none here: \"what lies in the love of honour and is concerned with beauty\" (τὸ τιμῆς ἐν ἔρωτι ὂν καὶ περὶ τὸ καλὸν ἔχον) makes a desire for what only seems beautiful."
+    },
+    {
+     "taylor": "intellectual power at its lowest produces the extreme of wickedness, for wickedness is a miscalculating effort towards Intelligence",
+     "in": "MacKenna",
+     "why": "The Greek πανουργία is \"knavery\", cleverness ready for anything, not \"the extreme of wickedness\"; and it comes from \"the outflow of intellect\" (νοῦ ἀπόρροια), not from intellect \"at its lowest\"."
+    }
+   ],
+   "notes": [
+    "\"Knavery\" (πανουργία): in Plato's Menexenus (246e-247a) \"all knowledge cut off from justice and the rest of virtue shows itself as knavery, not wisdom\"."
+   ]
+  },
+  {
+   "seg": "II.3.12.p1",
+   "chapter": "II.3.12",
+   "modern": "And what comes falls together into one, and each of the things that come to be takes something from this mixture, so as to become what it is and also of some quality. For it does not make the horse, but gives the horse something: for horse comes from horse, and man from man; the sun works with them in the shaping, but the man comes from the forming principle of man. But outside things have sometimes harmed or helped: for they are like the father: things often fell out for the better, but sometimes for the worse. But they do not drive a thing out of what underlies it; though sometimes matter prevails, and not nature, so that the thing does not come to be complete, since the form is overcome.",
+   "greek": "καὶ δὴ καὶ τὰ ἰόντα εἰς ἓν συμπίπτει καὶ κομίζεται ἕκαστον τῶν γιγνομένων τι ἐκ τούτου τοῦ κράματος, ὥστε ὃ ἔστι καὶ ποῖόν τι γενέσθαι. οὐ γὰρ τὸ ἵππον ποιεῖ, ἀλλὰ τῷ ἵππῳ τι δίδωσιν: ὁ γὰρ ἵππος ἐξ ἵππου καὶ ἐξ ἀνθρώπου ἄνθρωπος: συνεργὸς δὲ ἥλιος τῇ πλάσει: ὁ δὲ ἐκ τοῦ λόγου τοῦ ἀνθρώπου γίνεται. ἀλλ’ ἔβλαψέ ποτε ἢ ὠφέλησε τὰ ἔξω: ὁμοίως γὰρ τῷ πατρί, ἀλλὰ πρὸς τὸ βέλτιον πολλάκις, ἔστι δ’ ὅτε πρὸς τὸ χεῖρον συνέπεσεν. ἀλλ’ οὐκ ἐκβιβάζει τοῦ ὑποκειμένου: ὁτὲ δὲ καὶ ἡ ὕλη κρατεῖ, οὐχ ἡ φύσις, ὡς μὴ τέλειον γενέσθαι ἡττωμένου τοῦ εἴδους.",
+   "flags": [
+    {
+     "taylor": "though sometimes Matter is the dominant, and the human principle takes the second place",
+     "in": "MacKenna",
+     "why": "The Greek says \"matter prevails, and not nature\" (ἡ ὕλη κρατεῖ, οὐχ ἡ φύσις); \"the human principle\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "\"Man begets man, and the sun too\": Aristotle's Physics (II.2, 194b13)."
+   ]
+  },
+  {
+   "seg": "II.3.13.p1",
+   "chapter": "II.3.13",
+   "modern": "From here on, then, since some things come about from the revolution and others do not, we must distinguish and sort them, and say where each one comes from in general. The beginning is this. Soul governs this All according to a forming principle, just as in each living being there is the principle in it from which each of the living being's parts is shaped and ordered to the whole of which they are parts; and in the whole there is all of it, but in the parts only as much as each one is. What comes to each from outside is sometimes contrary to the will of its nature, and sometimes helpful; but to the whole all things are ordered together in every way, being parts of it, having received the nature they have, and yet filling up, by their own impulse, the whole life of the All.",
+   "greek": "δεῖ τοίνυν τὸ ἐντεῦθεν, ἐπειδὴ τὰ μὲν παρὰ τῆς φορᾶς γίνεται, τὰ δὲ οὔ, διαλαβεῖν καὶ διακρῖναι καὶ εἰπεῖν, πόθεν ἕκαστα ὅλως. ἀρχὴ δὲ ἥδε: ψυχῆς δὴ τὸ πᾶν τόδε διοικούσης κατὰ λόγον, οἷα δὴ καὶ ἐφ̓ ἑκάστου ζῴου ἡ ἐν αὐτῷ ἀρχή, ἀφ̓ ἧς ἕκαστα τὰ τοῦ ζῴου μέρη καὶ πλάττεται καὶ πρὸς τὸ ὅλον συντέτακται, οὗ μέρη ἐστίν, ἐν μὲν τῷ ὅλῳ ἐστὶ τὰ πάντα, ἐν δὲ τοῖς μέρεσι τοσοῦτον μόνον, ὅσον ἐστὶν ἕκαστον. τὰ δὲ ἔξωθεν προσιόντα, τὰ μὲν καὶ ἐναντία τῇ βουλήσει τῆς φύσεως, τὰ δὲ καὶ πρόσφορα: τῷ δὲ ὅλῳ πάντη ἅτε μέρη ὄντα αὐτοῦ τὰ πάντα συντέτακται φύσιν μὲν λαβόντα ἣν ἔχει καὶ συμπληροῦντα τῇ οἰκείᾳ ὅμως ὁρμῇ πρὸς τὸν ὅλον τοῦ παντὸς βίον.",
+   "flags": [
+    {
+     "taylor": "the entire force of the Soul is represented in the All but, in the parts, Soul is present only in proportion to the degree of essential reality held by each of such partial objects",
+     "in": "MacKenna",
+     "why": "The Greek says only \"in the whole there is all, but in the parts only as much as each is\" (ἐν μὲν τῷ ὅλῳ ἐστὶ τὰ πάντα, ἐν δὲ τοῖς μέρεσι τοσοῦτον μόνον, ὅσον ἐστὶν ἕκαστον); \"the degree of essential reality\" is MacKenna's."
+    }
+   ]
+  },
+  {
+   "seg": "II.3.13.p2",
+   "chapter": "II.3.13",
+   "modern": "The soulless things in it are wholly instruments, and are, as it were, pushed from outside to act. Of the ensouled, some have motion without a fixed course, like horses under the chariot before the charioteer marks out their course for them, since they are driven by the whip; but the nature of a rational living being has its charioteer from itself, and when it has one who knows, it goes straight, and not, as it often does, at random. Both are inside the All and contribute to the whole.",
+   "greek": "τὰ μὲν οὖν ἄψυχα τῶν ἐν αὐτῷ πάντη ὄργανα καὶ οἷον ἐξωθούμενα ἔξω εἰς τὸ ποιεῖν: τὰ δὲ ἔμψυχα, τὰ μὲν τὸ κινεῖσθαι ἀορίστως ἔχει, ὡς ὑφ̓ ἅρμασιν ἵπποι πρὶν τὸν ἡνίοχον ἀφορίσαι αὐτοῖς τὸν δρόμον, ἅτε δὴ πληγῇ νεμόμενα: λογικοῦ δὲ ζῴου φύσις ἔχει παῤ ἑαυτῆς τὸν ἡνίοχον: καὶ ἐπιστήμονα μὲν ἔχουσα κατ’ ἰθὺ φέρεται μηδὲ ὡς ἔτυχε πολλάκις. ἄμφω δὲ εἴσω τοῦ παντὸς καὶ συντελοῦντα πρὸς τὸ ὅλον:",
+   "notes": [
+    "The charioteer and the horses are Plato's image of the soul (Phaedrus 246a-b). \"Driven by the whip\" (πληγῇ νεμόμενα) recalls the Critias (109b-c), where the gods guide men not by blows, as shepherds drive their flocks, but by persuasion."
+   ]
+  },
+  {
+   "seg": "II.3.13.p3",
+   "chapter": "II.3.13",
+   "modern": "And the greater of them, and of more worth, do many great things and contribute to the life of the whole, having an active rather than a passive rank; others go on being acted on, having little power to act; and those between are acted on by others, but do many things, and in many matters have from themselves a principle of action and making. And the All becomes a complete life, the best things doing the best works, as far as the best is in each; and this must be ordered under the leader, as soldiers under a general, who are said to follow \"Zeus as he goes towards\" the intelligible nature. Those that have a lesser nature are the second things of the All, as are the second things of soul in us; and the rest are in proportion to the parts in us: for in us too not all are equal.",
+   "greek": "καὶ τὰ μὲν μείζω αὐτῶν καὶ ἐν πλείονι τῇ ἀξίᾳ πολλὰ ποιεῖ καὶ μεγάλα καὶ πρὸς τὴν τοῦ ὅλου ζωὴν συντελεῖ τάξιν ποιητικὴν μᾶλλον ἢ παθητικὴν ἔχοντα, τὰ δὲ πάσχοντα διατελεῖ μικρὰν δύναμιν πρὸς τὸ ποιεῖν ἔχοντα: τὰ δὲ μεταξὺ τούτων, πάσχοντα μὲν παῤ ἄλλων, ποιοῦντα δὲ πολλὰ καὶ ἐν πολλοῖς ἀρχὴν παῤ αὑτῶν εἰς πράξεις καὶ ποιήσεις ἔχοντα. καὶ γίνεται τὸ πᾶν ζωὴ παντελὴς τῶν μὲν ἀρίστων ἐνεργούντων τὰ ἄριστα, καθ̓ ὅσον τὸ ἄριστον ἐν ἑκάστῳ: ὃ δὴ καὶ τῷ ἡγεμονοῦντι συντακτέον, ὥσπερ στρατιώτας στρατηγῷ, οἳ δὴ λέγονται καὶ ἕπεσθαι Διὶ ἐπὶ φύσιν τὴν νοητὴν ἱεμένῳ. τὰ δὲ ἥττονι τῇ φύσει κεχρημένα δεύτερα τοῦ παντός, οἷα καὶ τὰ ἐν ἡμῖν ψυχῆς δεύτερα: τὰ δ’ ἄλλα ἀνὰ λόγον τοῖς ἐν ἡμῖν μέρεσιν: οὐδὲ γὰρ ἐφ̓ ἡμῶν πάντα ἴσα.",
+   "flags": [
+    {
+     "taylor": "just as in us the members rank lower than the Soul",
+     "in": "MacKenna",
+     "why": "The Greek says \"as are the second things of soul in us\" (οἷα καὶ τὰ ἐν ἡμῖν ψυχῆς δεύτερα): the soul's own lower powers, not the members of the body."
+    }
+   ],
+   "notes": [
+    "\"Follow Zeus\": in the Phaedrus (246e-247a) Zeus, the great leader in heaven, drives his winged chariot first, and the army of gods and daemons follows him up to the place above the heaven."
+   ]
+  },
+  {
+   "seg": "II.3.13.p4",
+   "chapter": "II.3.13",
+   "modern": "All living beings, then, are according to the whole forming principle of the All, both all those in the heaven and the others that have been parted out to make the whole; and none of the parts, however great, has the power to work a change in the forming principles, or in what comes to be according to the forming principles. It can work an alteration either way, for the worse or for the better, but it cannot make a thing stand outside its own nature. It makes things worse either by giving the body weakness; or by becoming, incidentally, a cause of badness to the soul that is in sympathy with the body and has been given by the All to what is below; or, when a body is badly put together, by hindering the activity directed at it from working through it: as when a lyre has not been tuned so as to take the exactness of the harmony that makes its notes musical.",
+   "greek": "ζῷα μὲν οὖν πάντα κατὰ λόγον τὸν τοῦ παντὸς ὅλον, τά τε ἐν οὐρανῷ πάντα καὶ τὰ ἄλλα, ὅσα εἰς τὸ ὅλον μεμέρισται, καὶ οὐδὲν τῶν μερῶν, οὐδ’ εἰ μέγα, δύναμιν ἔχει τοῦ ἐξαλλαγὴν ἐργάσασθαι τῶν λόγων οὐδὲ τῶν κατὰ τοὺς λόγους γενομένων: ἀλλοίωσιν δὲ ἐπ’ ἀμφότερα, χείρονός τε καὶ βελτίονος, ἐργάσασθαι, ἀλλ’ οὐκ ἐκστῆσαί γε τῆς οἰκείας φύσεως δύναται. χεῖρον δὲ ἐργάζεται ἢ κατὰ σῶμα ἀσθένειαν διδὸν ἢ τῇ ψυχῇ τῇ συμπαθεῖ καὶ παῤ αὐτοῦ δοθείσῃ εἰς τὸ κάτω κατὰ συμβεβηκὸς φαυλότητος αἴτιον γιγνόμενον ἢ σώματος κακῶς συντεθέντος ἐμπόδιον τὴν εἰς αὐτὸ ἐνέργειαν δἰ αὐτὸ ποιῆσαι: οἷον οὐχ οὕτως ἁρμοσθείσης λύρας, ὡς δέξασθαι τὸ ἀκριβὲς τῆς ἁρμονίας εἰς τὸ μουσικοὺς ἀποτελεῖν τοὺς φθόγγους.",
+   "flags": [
+    {
+     "taylor": "which by the medium of the material frame, become a power to debasement, has been delivered over, though never in its essence, to the inferior order of being",
+     "in": "MacKenna",
+     "why": "The Greek says the part becomes \"incidentally a cause of badness\" (κατὰ συμβεβηκὸς φαυλότητος αἴτιον) to the soul that is in sympathy with the body; \"though never in its essence\" is MacKenna's turn of \"incidentally\", and the debasing body is his."
+    }
+   ]
+  },
+  {
+   "seg": "II.3.14.p1",
+   "chapter": "II.3.14",
+   "modern": "And how about poverty and wealth, fame and office? If wealth comes from one's fathers, the stars signified the rich man, just as they only made known the man of good birth, born of such parents and having fame through his family. If it comes from manly excellence, then, if the body has worked with it, those who made the body's strength would contribute: first the parents, then, if any of the places supplied something, the heavens and the earth. If virtue won it without the body, to virtue alone the most must be given, and whatever divine gifts came with it from those who rewarded it. If others gave the wealth, and they are good, the cause must be traced back to virtue in this way too; if they are bad, but gave justly, it came about through what is best in them acting. If the man who grew rich is wicked, his wickedness comes first, and whatever is the cause of his wickedness; and the givers must be taken in too, as having become joint causes in the same way.",
+   "greek": "περὶ δὲ πενίας καὶ πλούτους καὶ δόξας καὶ ἀρχὰς πῶς; ἤ, εἰ μὲν παρὰ πατέρων οἱ πλοῦτοι, ἐσήμηναν τὸν πλούσιον, ὥσπερ καὶ εὐγενῆ τὸν ἐκ τοιούτων διὰ τὸ γένος τὸ ἔνδοξον ἔχοντα ἐδήλωσαν μόνον: εἰ δ’ ἐξ ἀνδραγαθίας, εἰ σῶμα συνεργὸν γεγένηται, συμβάλλοιντο ἂν οἱ τὴν σώματος ἰσχὺν ἐργασάμενοι, γονεῖς μὲν πρῶτον, εἶτα, εἴ τις ἄρα τῶν τόπων παρέσχε τι, τὰ οὐράνια καὶ ἡ γῆ: εἰ δὲ ἄνευ σώματος ἡ ἀρετή, αὐτῇ μόνῃ δοτέον τὸ πλεῖστον καὶ ὅσα θεῖα παρὰ τῶν ἀμειψαμένων συνεβάλλετο. οἱ δὲ δόντες εἰ μὲν ἀγαθοί, εἰς ἀρετὴν ἀνακτέον καὶ οὕτω τὴν αἰτίαν: εἰ δὲ φαῦλοι, δικαίως δὲ δόντες, τῷ ἐν αὐτοῖς βελτίστῳ ἐνεργήσαντι τοῦτο γεγονέναι. εἰ δὲ πονηρὸς ὁ πλουτήσας, τὴν μὲν πονηρίαν προηγουμένην καί τι τὸ αἴτιον τῆς πονηρίας, προσληπτέον δὲ καὶ τοὺς δόντας συναιτίους ὡσαύτως γενομένους.",
+   "flags": [
+    {
+     "taylor": "Wealth may be due to personal activity",
+     "in": "MacKenna",
+     "why": "The Greek ἀνδραγαθία is \"manly excellence\", brave and good deeds, not activity in general."
+    },
+    {
+     "taylor": "must be attributed to virtue exclusively",
+     "in": "MacKenna",
+     "why": "The Greek gives virtue alone \"the most\" (τὸ πλεῖστον), not all of it, and adds the divine gifts that came with it."
+    }
+   ]
+  },
+  {
+   "seg": "II.3.14.p2",
+   "chapter": "II.3.14",
+   "modern": "If it comes from labour, as from farming, the cause goes back to the farmer, with his surroundings working with him. If he found a treasure, something from the All fell in with him; and if so, it is signified: for all things follow on one another in every way, and so it is signified in every way. If a man lost his wealth, if it was taken from him, the cause goes back to the one who took it, and he to his own principle; if he lost it at sea, to the things that fell out together. Fame is either just or not. If it is just, the cause goes back to the deeds, and to the better judgement of those who give it; if it is not just, to the injustice of those who honour. And the same account holds of office: it is held either fittingly or not; and the first goes back to the better judgement of those who chose, or to the man himself, who brought it about by the backing of his friends, or in some other way. With marriages, it is either choice, or chance and the falling together of things from the wholes. The births of children follow on these, and the child is either shaped according to its forming principle, with nothing hindering it, or is worse, some hindrance having arisen within, either because of the mother herself, or because the surroundings were so disposed as to be ill-suited to this pregnancy.",
+   "greek": "εἰ δ’ ἐκ πόνων, οἷον ἐκ γεωργίας, ἐπὶ τὸν γεωργόν, συνεργὸν δὲ τὸ περιέχον γεγενημένον. εἰ δὲ θησαυρὸν εὗρε, συμπεσεῖν τι τῶν ἐκ τοῦ παντός: εἰ δέ, σημαίνεται: πάντως γὰρ ἀκολουθεῖ ἀλλήλοις πάντα: διὸ καὶ πάντως σημαίνεται. εἰ δ’ ἀπέβαλέ τις πλοῦτον, εἰ ἀφαιρεθείς, ἐπὶ τὸν ἀφελόμενον, κἀκεῖνον ἐπὶ τὴν οἰκείαν ἀρχήν: εἰ δ’ ἐν θαλάττῃ, ἐπὶ τὰ συμπεσόντα. τὸ δ’ ἔνδοξον ἢ δικαίως ἢ οὔ. εἰ οὖν δικαίως, ἐπὶ τὰ ἔργα καὶ τὸ παρὰ τοῖς δοξάζουσι βέλτιον: εἰ δ’ οὐ δικαίως, ἐπὶ τὴν τῶν τιμώντων ἀδικίαν. καὶ ἀρχῆς δὲ πέρι ὁ αὐτὸς λόγος: ἢ γὰρ προσηκόντως ἢ οὔ: καὶ θάτερον μὲν ἐπὶ τὸ βέλτιον τῶν ἑλομένων, ἢ ἐπ’ αὐτὸν διαπραξάμενον ἑταίρων συστάσει καὶ ὁπωσοῦν ἄλλως. περὶ δὲ γάμων ἢ προαίρεσις ἢ συντυχία καὶ σύμπτωσις ἐκ τῶν ὅλων. παίδων δὲ γενέσεις ἀκόλουθοι τούτοις, καὶ ἢ πέπλασται κατὰ λόγον ἐμποδίσαντος οὐδενός, ἢ χεῖρον ἔσχε γενομένου ἔνδον κωλύματός τινος, ἢ παῤ αὐτὴν τὴν κύουσαν, ἢ τοῦ περιέχοντος οὕτω διατεθέντος, ὡς ἀσυμμέτρως πρὸς τήνδε τὴν κύησιν ἐσχηκέναι",
+   "flags": [
+    {
+     "taylor": "As for good fame, it is either deserved and then is due to the services done and to the merit of those appraising them",
+     "in": "MacKenna",
+     "why": "The Greek says the cause goes back to the deeds and \"to the better\" judgement in those who hold the opinion (τὸ παρὰ τοῖς δοξάζουσι βέλτιον): their good sense, not their merit."
+    }
+   ],
+   "notes": [
+    "\"The surroundings\" (τὸ περιέχον) is the astrologers' word for the sky and air around the earth, which works with the farmer and on the pregnant mother."
+   ]
+  },
+  {
+   "seg": "II.3.15.p1",
+   "chapter": "II.3.15",
+   "modern": "Plato gives the lots and the choices before the turning of the spindle, and afterwards gives the things in the spindle as fellow workers, as bringing to completion in every way what was chosen; for the daemon too is a fellow worker in fulfilling it. But what are the lots? To be born when the All is as it was then, when the souls entered the body; and to enter this body, and to be born of these parents and in such places; and, in general, as we said, the things outside. That all these come about together and are, as it were, spun together, is shown through the first of the so-called Fates, both for each and for all; Lachesis gives the lots; and it is necessary that Atropos should bring on in every way what has fallen out together.",
+   "greek": "ὁ δὲ Πλάτων πρὸ τῆς περιφορᾶς τοῦ ἀτράκτου δοὺς κλήρους καὶ προαιρέσεις συνεργοὺς ὕστερον δίδωσι τοὺς ἐν τῷ ἀτράκτῳ, ὡς πάντως τὰ αἱρεθέντα συναποτελοῦντας: ἐπεὶ καὶ ὁ δαίμων συνεργὸς εἰς πλήρωσιν αὐτῶν. ἀλλ’ οἱ κλῆροι τίνες; ἢ τὸ τοῦ παντὸς ἔχοντος οὕτως, ὡς τότε εἶχεν, ὅτε εἰσῄεσαν εἰς τὸ σῶμα, γενέσθαι καὶ τὸ εἰσελθεῖν εἰς τόδε τὸ σῶμα καὶ τῶνδε γονέων καὶ ἐν τοιούτοις τόποις γίνεσθαι καὶ ὅλως, ὡς εἴπομεν, τὰ ἔξω. πάντα δὲ ὁμοῦ γενόμενα καὶ οἷον συγκλωσθέντα διὰ τῆς μιᾶς τῶν λεγομένων Μοιρῶν δεδήλωται ἐπί τε ἑκάστων ἐπί τε τῶν ὅλων: ἡ δὲ Λάχεσις τοὺς κλήρους: καὶ τὰ συμπεσόντα τάδε πάντως ἀναγκαῖον τὴν Ἄτροπον ἐπάγειν.",
+   "flags": [
+    {
+     "taylor": "that once done, only the Spindle-destiny is valid ; it fixes the chosen conditions irretrievably",
+     "in": "MacKenna",
+     "why": "The Greek says that Plato afterwards gives \"those in the spindle\" (τοὺς ἐν τῷ ἀτράκτῳ), the stars that turn in it, as \"fellow workers\" (συνεργοὺς), helping to bring what was chosen to completion; nothing is said of the spindle alone being valid."
+    },
+    {
+     "taylor": "the elected guardian-spirit",
+     "in": "MacKenna",
+     "why": "The Greek is ὁ δαίμων, the daemon each soul chooses in the myth of Er; \"elected\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "The myth of Er (Republic X, 617d-620e): the souls draw lots for their turn to choose a life; Lachesis gives each the daemon it has chosen, Clotho confirms the choice under the turning spindle, and Atropos makes it irreversible. Plotinus' \"first of the so-called Fates\" is Clotho, the spinner, whom MacKenna names."
+   ]
+  },
+  {
+   "seg": "II.3.15.p2",
+   "chapter": "II.3.15",
+   "modern": "Of human beings, some come to belong to what comes from the whole and from outside, as if bewitched, and are little or nothing themselves. Others master these things, and, rising above them, as if with their head, towards what is above and outside soul, keep safe what is best and ancient in the being of soul. For surely we must not think that soul is the kind of thing whose nature is whatever it undergoes from outside, alone of all things with no nature of its own. Rather, much more than the other things, since it has the standing of a principle, it must have many powers of its own for its natural activities: for it is not possible that, being a substance, it should not have, along with its being, desires and actions and a bent towards the good. The composite, then, comes from the composite nature, and is of this kind and has works of this kind; but if a soul is separated, it does separate works, its own, not counting the body's passions as its own, since it now sees that the one is one thing and the other another.",
+   "greek": "τῶν δ’ ἀνθρώπων οἱ μὲν γίνονται τῶν ἐκ τοῦ ὅλου καὶ τῶν ἔξω ὥσπερ γοητευθέντες καὶ ὀλίγα ἢ οὐδὲν αὐτοί: οἱ δὲ κρατοῦντες τούτων καὶ ὑπεραίροντες οἷον τῇ κεφαλῇ πρὸς τὸ ἄνω καὶ ἐκτὸς ψυχῆς ἀποσώζουσι τὸ ἄριστον καὶ τὸ ἀρχαῖον τῆς ψυχικῆς οὐσίας. οὐ γὰρ δὴ νομιστέον τοιοῦτον εἶναι ψυχήν, οἷον, ὅ τι ἂν ἔξωθεν πάθῃ, ταύτην φύσιν ἴσχειν μόνην τῶν πάντων οἰκείαν φύσιν οὐκ ἔχουσαν: ἀλλὰ χρὴ πολὺ πρότερον αὐτὴν ἢ τὰ ἄλλα, ἅτε ἀρχῆς λόγον ἔχουσαν, πολλὰς οἰκείας δυνάμεις πρὸς ἐνεργείας τὰς κατὰ φύσιν ἔχειν: οὐ γὰρ δὴ οἷόν τε οὐσίαν οὖσαν μὴ μετὰ τοῦ εἶναι καὶ ὀρέξεις καὶ πράξεις καὶ τὸ πρὸς τὸ εὖ κεκτῆσθαι. τὸ μὲν οὖν συναμφότερον ἐκ τοῦ συναμφοτέρου τῆς φύσεως καὶ τοιόνδε καὶ ἔργα ἔχει τοιάδε: ψυχὴ δὲ εἴ τις χωρίζεται, χωριστὰ καὶ ἴδια ἐνεργεῖ τὰ τοῦ σώματος πάθη οὐχ αὑτῆς τιθεμένη, ἅτε ἤδη ὁρῶσα, ὡς τὸ μὲν ἄλλο, τὸ δὲ ἄλλο.",
+   "flags": [
+    {
+     "taylor": "the Soul, possessing the Idea which belongs to a Principle",
+     "in": "MacKenna",
+     "why": "The Greek ἀρχῆς λόγον ἔχουσαν is \"having the standing of a principle\", as in chapter 8; \"the Idea\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "\"As if with their head\": in the Phaedrus (248a) the best soul \"lifts the head of its charioteer into the place outside\" the heaven. \"Ancient\": see chapter 8."
+   ]
+  },
+  {
+   "seg": "II.3.16.p1",
+   "chapter": "II.3.16",
+   "modern": "But what is mixed and what is not, what is separable and what inseparable, when soul is in body, and in general what the living being is, must be looked into later, taking up another beginning: for not everyone has held the same opinion about it. For now let us say further in what sense we said that soul governs the All according to a forming principle. Does it make each thing as if in a straight line, a man, then a horse, and another animal, and wild beasts too, though fire and earth first; and then, seeing these fall together and destroying one another or helping one another, does it only see the interweaving that comes from them, and what always comes about afterwards, contributing nothing more to what follows, but only making again the births of the living beings that were from the beginning, and leaving them to what they undergo through one another? Or do we say that it is the cause of what comes about in this way too, since what came from it brings about what follows?",
+   "greek": "ἀλλὰ τί τὸ μικτὸν καὶ τί τὸ μὴ καὶ τί τὸ χωριστὸν καὶ ἀχώριστον, ὅταν ἐν σώματι ᾖ, καὶ ὅλως τί τὸ ζῷον ἀρχὴν ἑτέραν ὕστερον λαβοῦσι ζητητέον: οὐ γὰρ ἅπαντες τὴν αὐτὴν δόξαν ἔσχον περὶ τούτου. νῦν δὲ ἔτι λέγωμεν πῶς τὸ κατὰ λόγον ψυχῆς διοικούσης τὸ πᾶν εἴπομεν. πότερον γὰρ ἕκαστα οἷον ἐπ’ εὐθείας ποιοῦσα, ἄνθρωπον, εἶτα ἵππον καὶ ἄλλο ζῷον καὶ δὴ καὶ θηρία, πῦρ δὲ καὶ γῆν πρότερον, εἶτα συμπεσόντα ταῦτα ἰδοῦσα καὶ φθείροντα ἄλληλα ἢ καὶ ὠφελοῦντα τὴν συμπλοκὴν τὴν ἐκ τούτων ἰδοῦσα μόνον καὶ τὰ ὕστερον συμβαίνοντα ἀεὶ γίγνεσθαι οὐδὲν ἔτι συμβαλλομένη πρὸς τὰ ἐφεξῆς, ἀλλ’ ἢ μόνον ζῴων γενέσεις τῶν ἐξ ἀρχῆς πάλιν ποιοῦσα καὶ τοῖς πάθεσι τοῖς δἰ ἀλλήλων αὐτὰ συγχωροῦσα; ἢ αἰτίαν λέγοντες καὶ τῶν οὕτω γινομένων, ὅτι παῤ αὐτῆς γενόμενα τὰ ἐφεξῆς ἐργάζεται;",
+   "flags": [
+    {
+     "taylor": "For the present let us explain in what sense we have described the All as the expressed idea of the Governing Soul.",
+     "in": "MacKenna",
+     "why": "The Greek says \"in what sense we said that soul governs the All according to a forming principle\" (πῶς τὸ κατὰ λόγον ψυχῆς διοικούσης τὸ πᾶν εἴπομεν), in chapter 13; MacKenna makes the All the soul's \"expressed idea\"."
+    }
+   ],
+   "notes": [
+    "\"Must be looked into later\": the next treatise Plotinus wrote, On what the living being is (I.1), the fifty-third of the fifty-four, takes up these questions."
+   ]
+  },
+  {
+   "seg": "II.3.16.p2",
+   "chapter": "II.3.16",
+   "modern": "Or does the forming principle hold this thing's being affected or acting in this way too, not at random, nor by chance, nor as things merely happen, but of necessity so? Do the forming principles make these things, then? Or do the forming principles exist, not as making them but as knowing them; or rather, does the soul that has the generative forming principles know what follows from all its works? For when the same things fall together and surround a thing, the same things must in every way be brought about; and the soul, taking these up or foreseeing them, carries through and strings together what follows on them. So there are things that go before and things that follow, in every way, and again what follows goes before what comes after it, from what is present. Hence perhaps what follows is always worse: as men were different long ago and are different now, by the interval and by the always necessary yielding of the forming principles to the affections of matter.",
+   "greek": "ἢ καὶ τὸ τόδε τι παθεῖν ἤ τι ποιῆσαι ἔχει ὁ λόγος οὐκ εἰκῇ οὐδὲ κατ’ ἐπιτυχίαν οὐδὲ τῶνδε γιγνομένων, ἀλλ’ ἐξ ἀνάγκης οὕτως. ἆῤ οὖν τῶν λόγων αὐτὰ ποιούντων; ἢ ὄντων μὲν τῶν λόγων, οὐχ ὡς ποιούντων δέ, ἀλλ’ ὡς εἰδότων, μᾶλλον δὲ τῆς ψυχῆς τῆς τοὺς λόγους τοὺς γεννητικοὺς ἐχούσης εἰδυίας τὰ ἐκ τῶν ἔργων συμβαίνοντα αὐτῆς ἁπάντων: τῶν γὰρ αὐτῶν συμπιπτόντων καὶ περιεστηκότων τὰ αὐτὰ πάντως προσήκει ἀποτελεῖσθαι: ἃ δὴ παραλαβοῦσα ἢ προιδοῦσα ἡ ψυχὴ ἐπὶ τούτοις τὰ ἐφεξῆς περαίνει καὶ συνείρει. προηγούμενα οὖν καὶ ἐπακολουθοῦντα πάντως καὶ πάλιν ἐπὶ τούτοις τὰ ἐφεξῆς προηγούμενα, ὡς ἐκ τῶν παρόντων: ὅθεν ἴσως ἀεὶ χείρω τὰ ἐφεξῆς: οἷον ἄνδρες ἄλλοι πάλαι, νῦν δ’ ἄλλοι, τῷ μεταξὺ καὶ ἀεὶ ἀναγκαίῳ τῶν λόγων εἰκόντων τοῖς τῆς ὕλης παθήμασι.",
+   "notes": [
+    "\"Men were different long ago\": as in Homer, where a hero lifts a stone that two men, \"such as mortals are now\", could not carry (Iliad 5.302-304)."
+   ]
+  },
+  {
+   "seg": "II.3.16.p3",
+   "chapter": "II.3.16",
+   "modern": "So, seeing now these things and now those, and following the affections of its own works, it has a life of this kind, and is never freed from care for its work, as it would be if it had put the finish on what it made and had contrived once for all that it should be well for ever; but it is like a farmer who has sown or even planted, and is always setting right what rainy winters, or long frosts, or blasts of wind have harmed. But if this is absurd, we must say that ruin, and the works that come from vice, are already known, or even lie, in the forming principles. But if so, we shall say that the forming principles make the vices too; and yet in the arts and their principles there is no error, nor what is against the art, nor the ruin of what is made by art.",
+   "greek": "συνορῶσα οὖν ἀεὶ ἄλλα, τὰ δ’ ἄλλα, καὶ παρακολουθοῦσα τοῖς τῶν αὐτῆς ἔργων παθήμασι τὸν βίον τοιοῦτον ἔχει καὶ οὐκ ἀπήλλακται τῆς ἐπὶ τῷ ἔργῳ φροντίδος τέλος ἐπιθεῖσα τῷ ποιήματι καὶ ὅπως ἕξει καλῶς καὶ εἰς ἀεὶ ἅπαξ μηχανησαμένη, οἷα δέ τις γεωργὸς σπείρας ἢ καὶ φυτεύσας ἀεὶ διορθοῦται, ὅσα χειμῶνες ἔβλαψαν ὑέτιοι ἢ κρυμῶν συνέχεια ἢ ἀνέμων ζάλαι. ἀλλ’ εἰ ταῦτα ἄτοπα, ἐκεῖνο δεῖ λέγειν, ὅτι ἤδη ἔγνωσται ἢ καὶ κεῖται ἐν τοῖς λόγοις καὶ ἡ φθορὰ καὶ τὰ ἀπὸ κακίας ἔργα. ἀλλ’ εἰ τοῦτο, καὶ τὰς κακίας τοὺς λόγους ποιεῖν φήσομεν, καίτοι ἐν ταῖς τέχναις καὶ τοῖς λόγοις αὐτῶν οὐκ ἔνι ἁμαρτία οὐδὲ τὸ παρὰ τὴν τέχνην οὐδ’ ἡ φθορὰ τοῦ κατὰ τέχνην.",
+   "flags": [
+    {
+     "taylor": "ever labouring to bring about perfection, planning to lead all to an unending state of excellence",
+     "in": "MacKenna",
+     "why": "The Greek says the soul is never freed from care \"as one who had put the finish on the work and contrived once for all that it should be well for ever\" (τέλος ἐπιθεῖσα τῷ ποιήματι καὶ ὅπως ἕξει καλῶς καὶ εἰς ἀεὶ ἅπαξ μηχανησαμένη): that is what it has not done. MacKenna turns it into the soul's plan."
+    },
+    {
+     "taylor": "the ruin and all the consequences of flaw",
+     "in": "MacKenna",
+     "why": "The Greek says \"the works that come from vice\" (τὰ ἀπὸ κακίας ἔργα): vice, not a flaw."
+    }
+   ]
+  },
+  {
+   "seg": "II.3.16.p4",
+   "chapter": "II.3.16",
+   "modern": "But here someone will say that there is nothing against nature, and nothing bad, for the whole. Still, the worse and the better will be granted. What then, if the worse too works with the whole, and not everything has to be beautiful? For contraries too contribute, and there is no cosmos without them; and so it is with the individual living beings too. The forming principle compels and shapes the better things; those that are not so lie in the forming principles potentially, and in what comes to be actually; for soul can no longer make them, or stir up the forming principles, when matter, by the shaking that comes from the forming principles that went before, is already making worse things of its own, and yet is overcome no less towards the better: so that there is one thing out of all, which come to be in one way from each side, and in another way again in the forming principles.",
+   "greek": "ἀλλ’ ἐνταῦθά τις ἐρεῖ μὴ εἶναι μηδὲν παρὰ φύσιν μηδὲ κακὸν τῷ ὅλῳ: ἀλλ’ ὅμως τὸ χεῖρον καὶ τὸ βέλτιον συγχωρήσεται. τί οὖν, εἰ τῷ ὅλῳ καὶ τὸ χεῖρον συνεργόν, καὶ οὐ δεῖ πάντα καλὰ εἶναι; ἐπεὶ καὶ τὰ ἐναντία συντελεῖ καὶ οὐκ ἄνευ τούτων κόσμος: καὶ γὰρ ἐπὶ τῶν καθ̓ ἕκαστα ζῴων οὕτως: καὶ τὰ μὲν βελτίω ἀναγκάζει καὶ πλάττει ὁ λόγος, ὅσα δὲ μὴ τοιαῦτα, δυνάμει κεῖται ἐν τοῖς λόγοις, ἐνεργείᾳ δὲ ἐν τοῖς γενομένοις, οὐδὲν ἔτι δυναμένης ἐκείνης ποιεῖν οὐδ’ ἀνακινεῖν τοὺς λόγους ἤδη τῆς ὕλης τῷ σεισμῷ τῷ ἐκ τῶν προηγουμένων λόγων καὶ τὰ παῤ αὐτῆς ποιούσης χείρω, κρατουμένης δ’ αὖ οὐδὲν ἧττον πρὸς τὰ βελτίω: ὥστε ἓν ἐκ πάντων ἄλλως ἑκατέρως γινομένων καὶ ἄλλως αὖ ἐν τοῖς λόγοις.",
+   "flags": [
+    {
+     "taylor": "since, amid the clash of these antecedent Principles, Matter had already from its own stock produced the less good",
+     "in": "MacKenna",
+     "why": "The Greek speaks of matter \"shaken\" (τῷ σεισμῷ) by the forming principles that went before, as the receptacle of the Timaeus is shaken (52e-53a): not of a clash among the principles."
+    }
+   ],
+   "notes": [
+    "\"There is no cosmos without contraries\": so Plato's Theaetetus (176a), \"evils cannot perish, for there must always be something opposed to the good\"."
+   ]
+  },
+  {
+   "seg": "II.3.17.p1",
+   "chapter": "II.3.17",
+   "modern": "Are these forming principles in the soul thoughts? But then how will it make according to its thoughts? For the forming principle makes in matter naturally, and what makes naturally is not thinking or seeing, but a power that turns matter, not knowing but only doing, like a print or a figure in water, a circle say, when something else has given it the power to make this. If so, the leading part of the soul will make by turning the soul that is in matter and generative. Will this, then, turn it after reasoning? But if after reasoning, it will refer to something. To something else, or to what is in itself? But if to what is in itself, there is no need of reasoning: for it is not reasoning that will turn it, but the part of the soul that holds the forming principles; for this is both stronger and able to make in the soul.",
+   "greek": "πότερα δὲ οἱ λόγοι οὗτοι οἱ ἐν ψυχῇ νοήματα; ἀλλὰ πῶς κατὰ τὰ νοήματα ποιήσει; ὁ γὰρ λόγος ἐν ὕλῃ φυσικῶς ποιεῖ καὶ τὸ ποιοῦν φυσικῶς οὐ νόησις οὐδὲ ὅρασις, ἀλλὰ δύναμις τρεπτικὴ τῆς ὕλης, οὐκ εἰδυῖα ἀλλὰ δρῶσα μόνον, οἷον τύπον καὶ σχῆμα ἐν ὕδατι, ὥσπερ κύκλος, ἄλλου ἐνδόντος εἰς τοῦτο τὸ ποιεῖν. εἰ τοῦτο, ποιήσει τὸ ἡγούμενον τῆς ψυχῆς τῷ τρέπειν τὴν ἔνυλον καὶ γεννητικὴν ψυχήν. τρέψει οὖν λογισαμένη αὕτη; ἀλλ’ εἰ λογισαμένη, ἀναφορὰν ἕξει. πότερον εἰς ἄλλο ἢ εἰς τὰ ἐν αὐτῇ; ἀλλ’ εἰ εἰς τὰ ἐν αὐτῇ, οὐδὲν δεῖ λογισμοῦ. οὐ γὰρ οὗτος τρέψει, ἀλλὰ τὸ ἐν αὐτῇ ἔχον τοὺς λόγους: τοῦτο γὰρ καὶ δυνατώτερον καὶ ποιεῖν ἐν ψυχῇ δυνάμενον.",
+   "flags": [
+    {
+     "taylor": "where the formation of the ring is conditioned by something distinct from that force itself (i.e. by the existence and nature of the water)",
+     "in": "MacKenna",
+     "why": "The Greek says \"something else having given it the power to make this\" (ἄλλου ἐνδόντος εἰς τοῦτο τὸ ποιεῖν): whatever started the ring, as a stone dropped in. MacKenna's words in brackets, the water's nature, are his."
+    }
+   ]
+  },
+  {
+   "seg": "II.3.17.p2",
+   "chapter": "II.3.17",
+   "modern": "So it makes according to forms. So it too must give what it has from intellect. Intellect gives to the soul of the All, and soul, the one after intellect, gives from itself to the one after it, shining on it and imprinting it; and this one, as if under orders, at once makes. It makes some things unhindered, others hindered. Since it has received power for making, and has been filled with forming principles that are not the first ones, it will not only make according to what it received, but something will come from itself too, and this is plainly worse: a living being, yes, but a less complete one, and discontented with its own life, as being the worst, and ill-tempered and savage, made of a worse matter, a kind of sediment of what went before, bitter and making things bitter. And this too the soul will supply to the whole.",
+   "greek": "κατ’ εἴδη ἄρα ποιεῖ. δεῖ τοίνυν καὶ αὐτὴν παρὰ νοῦ ἔχουσαν διδόναι. νοῦς δὴ ψυχῇ δίδωσι τῇ τοῦ παντός, ψυχὴ δὲ παῤ αὑτῆς ἡ μετὰ νοῦν τῇ μετ’ αὐτὴν ἐλλάμπουσα καὶ τυποῦσα, ἡ δὲ ὡσπερεὶ ἐπιταχθεῖσα ἤδη ποιεῖ: ποιεῖ δὲ τὰ μὲν ἀνεμποδίστως, τὰ δὲ ἐμποδισθεῖσα. ἅτε δὴ δύναμιν εἰς τὸ ποιεῖν λαβοῦσα καὶ λόγων οὐ τῶν πρώτων πληρωθεῖσα οὐ μόνον καθ̓ ἃ ἔλαβε ποιήσει, ἀλλὰ γένοιτο ἄν τι καὶ παῤ αὐτῆς καὶ τοῦτο δῆλον ὅτι χεῖρον: καὶ ζῷον μέν, ζῷον δὲ ἀτελέστερον καὶ δυσχεραῖνον τὴν αὑτοῦ ζωήν, ἅτε χείριστον καὶ δύσκολον δὴ καὶ ἄγριον καὶ ἐξ ὕλης χείρονος οἷον ὑποστάθμης τῶν προηγουμένων πικρᾶς καὶ πικρὰ ποιούσης: καὶ ταῦτα παρέξει καὶ αὐτὴ τῷ ὅλῳ.",
+   "flags": [
+    {
+     "taylor": "hindering its own life",
+     "in": "MacKenna",
+     "why": "The Greek δυσχεραῖνον τὴν αὑτοῦ ζωήν is \"discontented with its own life\", finding it hard to bear; not hindering it."
+    }
+   ],
+   "notes": [
+    "\"Sediment\" (ὑποστάθμη) is the word of Plato's Phaedo (109c) for the dregs that settle in the hollows of the earth where we live."
+   ]
+  },
+  {
+   "seg": "II.3.18.p1",
+   "chapter": "II.3.18",
+   "modern": "Are the evils in the All necessary, then, because they follow on what went before? Or rather because, if they did not exist, the All would be incomplete. For most of them, or even all, provide some use to the whole, like those of the poisonous creatures, though why is hidden in most cases; since even vice itself has many uses, and makes many beautiful things, all the beauty made by art, for instance, and moves us to wisdom, not letting us sleep in security.",
+   "greek": "ἆῤ οὖν τὰ κακὰ τὰ ἐν τῷ παντὶ ἀναγκαῖα, ὅτι ἕπεται τοῖς προηγουμένοις; ἢ ὅτι, καὶ εἰ μὴ ταῦτα ἦν, ἀτελὲς ἂν ἦν τὸ πᾶν. καὶ γὰρ χρείαν τὰ πολλὰ αὐτῶν ἢ καὶ πάντα παρέχεται τῷ ὅλῳ, οἷον τὰ τῶν ἰοβόλων, λανθάνει δὲ τὰ πλεῖστα διὰ τί: ἐπεὶ καὶ τὴν κακίαν αὐτὴν ἔχειν πολλὰ χρήσιμα καὶ πολλῶν ποιητικὴν εἶναι καλῶν, οἷον κάλλους τεχνητοῦ παντός, καὶ κινεῖν εἰς φρόνησιν μὴ ἐῶσαν ἐπ’ ἀδείας εὕδειν.",
+   "flags": [
+    {
+     "taylor": "Are the evils in the Universe necessary because it is of later origin than the Higher Sphere ?",
+     "in": "MacKenna",
+     "why": "The Greek asks whether they are necessary \"because they follow on what went before\" (ὅτι ἕπεται τοῖς προηγουμένοις), the things that came first in the chain of chapter 16; it says nothing of the All's being later than the higher sphere."
+    },
+    {
+     "taylor": "it stirs us to thoughtful living",
+     "in": "MacKenna",
+     "why": "The Greek says vice moves us \"to wisdom\" (εἰς φρόνησιν)."
+    }
+   ],
+   "notes": [
+    "\"Not letting us sleep in security\": Chrysippus said that bedbugs are useful for waking us and mice for making us careful (Plutarch, On the self-contradictions of the Stoics 21, 1044d)."
+   ]
+  },
+  {
+   "seg": "II.3.18.p2",
+   "chapter": "II.3.18",
+   "modern": "If this has been said rightly, the soul of the All must contemplate the best things, always reaching towards the intelligible nature and God; and as it is filled, and has been filled, as it were brimming over, the image that comes from it, its last part, towards what is below, is what makes. This, then, is the last maker; above it is the part of the soul that is first filled from intellect; and above all is intellect, the craftsman, who gives to the soul after him too the things whose traces are in the third. Rightly, then, is this cosmos called an image always being imaged: the first and the second stand still, and the third stands still too, but is moved in matter and incidentally. For as long as there are intellect and soul, the forming principles will flow into this form of soul, as, as long as there is a sun, all the lights that come from it.",
+   "greek": "εἰ δὴ ταῦτα ὀρθῶς εἴρηται, δἑ??ʼ τὴν τοῦ παντὸς ψυχὴν θεωρεῖν μὲν τὰ ἄριστα ἀεὶ ἱεμένην πρὸς τὴν νοητὴν φύσιν καὶ τὸν θεόν, πληρουμένης δὲ αὐτῆς καὶ πεπληρωμένης οἷον ἀπομεστουμένης αὐτῆς τὸ ἐξ αὐτῆς ἴνδαλμα καὶ τὸ ἔσχατον αὐτῆς πρὸς τὸ κάτω τὸ ποιοῦν τοῦτο εἶναι. ποιητὴς οὖν ἔσχατος οὗτος: ἐπὶ δ’ αὐτῷ τῆς ψυχῆς τὸ πρώτως πληρούμενον παρὰ νοῦ: ἐπὶ πᾶσι δὲ νοῦς δημιουργός, ὃς καὶ τῇ ψυχῇ τῇ μετ’ αὐτὸν δίδωσιν ὧν ἴχνη ἐν τῇ τρίτῃ. εἰκότως οὖν λέγεται οὗτος ὁ κόσμος εἰκὼν ἀεὶ εἰκονιζόμενος, ἑστηκότων μὲν τοῦ πρώτου καὶ δευτέρου, τοῦ δὲ τρίτου ἑστηκότος μὲν καὶ αὐτοῦ, ἀλλ’ ἐν τῇ ὕλῃ καὶ κατὰ συμβεβηκὸς κινουμένου. ἕως γὰρ ἂν ᾖ νοῦς καὶ ψυχή, ῥεύσονται οἱ λόγοι εἰς τοῦτο τὸ εἶδος τῆς ψυχῆς, ὥσπερ, ἕως ἂν ᾖ ἥλιος, πάντα τὰ ἀπ’ αὐτοῦ φῶτα.",
+   "flags": [
+    {
+     "taylor": "the divine Thought-Forms will pour forth into that phase of the Soul",
+     "in": "MacKenna",
+     "why": "The Greek says \"the forming principles will flow\" (ῥεύσονται οἱ λόγοι), the principles that chapter 17 says are not thoughts."
+    }
+   ],
+   "notes": [
+    "The Workshop's Greek of this chapter has a damaged word, \"δἑ??ʼ\", at the start of this sentence; the word is δεῖ, \"must\", which the modern version follows.",
+    "\"The craftsman\" (δημιουργός) is the maker of the cosmos in the Timaeus (28a-29a), who makes it after the eternal model; for Plotinus he is intellect. \"An image always being imaged\" recalls the Timaeus (37d), where time is \"a moving image of eternity\"."
    ]
   }
  ],
