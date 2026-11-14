@@ -203,8 +203,25 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   Helen and Idomeneus (Iliad III.230-233), proportion as bond (Timaeus 31c-32a), the stars as letters (II.3.7), Phaedrus
   246b, the lives of beasts (Phaedo 81e-82b, Republic X 620a-b, Timaeus 91d-e), the daemon (Phaedo 107d, Republic X
   617e, 620d-e, Timaeus 90a), the stars of souls (Timaeus 41d-42b) and the spindle (Republic X 616c-617d).
-- E13: III.5 On love (3,531). Next. Compare MacKenna's chapter openings with the Greek before translating.
-- E14: III.8 On nature, contemplation and the One, III.9 Various considerations (5,035).
+- **E13: III.5 On love (3,531) (done).** 9 chapters, 34 paragraphs, 39 flags, 26 notes, beside MacKenna's vol. II
+  (pp. 53-66). His chapters 1 to 8 are Volkmann's; his chapter 10 (p. 66) begins at "myths must divide into times", inside
+  the Greek's chapter 9, so that chapter is shown with his 9 and 10 (@older 9 10). E.g. MacKenna has "Celestial Spirit",
+  "Celestials", "Spirits" and "Supernals" for the daemon, "from a point of view entirely his own" where Plato wrote much
+  in many places, "the good" for the self-controlled, "the consistent total of the good" for the Pythagorean column,
+  "an attenuation" for the beauty here as the plaything of the beauty there, "minister of beautiful children" and
+  "Dispenser of beautiful children" for the Phaedrus' overseer of beautiful boys, "Possession" for Poros (Resource) and
+  "Resource" for his mother Metis (Cunning), a "Person" for the reality love is, the soul looking "towards the very
+  Highest" for the first being, "Our only escape" for one more absurdity, "the representative" for the trace of a soul,
+  "a goad" for the gadfly, "blank possession" for the daemon left idle, a triangle "made up of two right angles", Zeus
+  "the highest" where he is ranked by the better in him, "kneaded out" for unfolded, the reason-principle "breaking into"
+  the garden for flowing in, and soul "breaking away" from intellect where it has its reality from it. Notes on the
+  Symposium (180d-181c, 202d-203a, 203b-e, 206b-208b), the Phaedrus (242d, 246e, 249d-251b, 255c-d, 265c), Hesiod's
+  Aphrodite (Theogony 188-200), Kronos as intellect (Cratylus 396b), the Pythagorean columns (Metaphysics I.5,
+  986a22-26), Plutarch's Eros as the world (On Isis and Osiris 374c-d), the Epinomis' daemons (984b-985b), intelligible
+  matter (II.4), the triangle (Posterior Analytics I.4), Zeus' royal soul and intellect (Philebus 30d), the third
+  libation, Hera's star ([Aristotle], On the cosmos 392a27-28) and the Timaeus read as told in time (On the heavens I.10).
+- E14: III.8 On nature, contemplation and the One, III.9 Various considerations (5,035). Next. Compare MacKenna's
+  chapter openings with the Greek before translating (his III.8 has 10 chapters for Volkmann's 11).
 - E15: IV.1 On the being of the soul, first part, and IV.4 chapters 1-17 (about 5,000); MacKenna's vol. III (1924).
 - E16: IV.4 chapters 18-31 (about 4,700).
 - E17: IV.4 chapters 32-45 (about 4,600).

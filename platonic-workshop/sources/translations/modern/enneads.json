@@ -165,8 +165,8 @@
   {
    "id": "III.5",
    "title": "On love",
-   "status": "to come",
-   "milestone": "E13"
+   "status": "here",
+   "first": "III.5.1"
   },
   {
    "id": "III.6",
@@ -652,6 +652,22 @@
     "III.4.4",
     "III.4.5",
     "III.4.6"
+   ]
+  },
+  {
+   "id": "III.5",
+   "title": "On love",
+   "summary": "Plotinus asks whether love is a god, a daemon or a passion of the soul, and reads Plato's Symposium and Phaedrus for the answer. The passion is the soul's longing for a beauty it knows from before: some love the beauty here as an image of the beauty there and remember it, some are content with the beauty here, and some fall from it into the ugly. Love the god is the eye that the heavenly Aphrodite, the soul that stays above with intellect, begot in looking at intellect; the soul of the world begot another love, a daemon, and every soul has its own. Daemons are between gods and men, born from the soul of the All, and share in an intelligible matter. Then the myth of Eros' birth from Resource and Poverty at Aphrodite's birthday feast is read piece by piece: Zeus is intellect, Aphrodite his soul, Resource the reason-principle that flows from intellect into soul, drunk with nectar and asleep in the garden of Zeus, and Poverty the soul's indefinite longing, its matter. Love, their child, is always in need and always resourceful: a daemon, never filled.",
+   "chapters": [
+    "III.5.1",
+    "III.5.2",
+    "III.5.3",
+    "III.5.4",
+    "III.5.5",
+    "III.5.6",
+    "III.5.7",
+    "III.5.8",
+    "III.5.9"
    ]
   }
  ],
@@ -3815,6 +3831,166 @@
      "page": 50,
      "year": 1921,
      "text": "What, then, is the achieved Sage ?\n\nOne whose Act is determined by the higher phase of the Soul.\n\nIt does not suffice to perfect virtue to have only this Spirit (equivalent in all men) as co-operator in the life : the acting force in the Sage is the Intellective Principle (the diviner phase of the human Soul) which therefore is itself his presiding spirit or is guided by a presiding spirit of its own, no other than the very Divinity.\n\nBut this exalts the Sage above the Intellectual Principle as possessing for presiding spirit the Prior to the Intellectual Principle : how then does it come about that he was not, from the very beginning, all that he now is ?\n\nThe failure is due to the disturbance caused by birth — though, before all reasoning, there exists the instinctive movement reaching out towards its own.\n\nAn instinct which the Sage finally rectifies in every respect ?\n\nNot in every respect : the Soul is so constituted that its life-history and its general tendency will answer not merely to its own nature but also to the conditions among which it acts.\n\nThe presiding Spirit, as we read, conducting a Soul to the Underworld ceases to be its guardian — except when the Soul resumes (in its later choice) the former state of life.\n\nBut, meanwhile, what happens to it ?\n\nFrom the passage (in* the Phaedo) which tells how it presents the Soul to judgment we gather that after the death it resumes the form it had before the birth, but that then, beginning again, it is present to the Souls in their punishment during the period of their renewed life — a time not so much of living as of expiation.\n\nBut the Souls that enter into brute bodies, are they controlled by some thing less than this presiding Spirit ? No : theirs is still a Spirit, but an evil or a foolish one.\n\nAnd the Souls that attain to the highest ?\n\nOf these higher Souls some live in the world of Sense, some above it : and those in the world of Sense inhabit the Sun or another of the planetary bodies ; the others occupy the fixed Sphere (above the planetary) holding the place they have merited through having lived here the superior life of reason.\n\nWe must understand that, while our Souls do contain an Intellectual Kosmos they also contain a subordination of various forms like that of the Kosmic Soul. The world Soul is distributed so as to produce the fixed sphere and the planetary circuits corresponding to its graded powers : so with our Souls ; they must have their provinces according to their different powers, parallel to those of the World Soul : each must give out its own special act ; released, each will inhabit there a star consonant with the temperament and faculty in act within and constituting the principle of the life ; and this star or the next highest power will stand to them as God or more exactly as. tutelary spirit.\n\nBut here some further precision is needed.\n\nEmancipated Souls, for the whole period of their sojourn there above, have transcended the Spirit-nature and the entire fatality of birth and all that belongs to this visible world, for they have taken up with them that Hypostasis of the Soul in which the desire of earthly life is vested. This Hypostasis may be described as the distributable Soul, for it is what enters bodily forms and multiplies itself by this division among them. But its distribution is not (arithmetical, not) a matter of magnitudes ; wherever it is present, there is the same thing present entire ; its unity can always be reconstructed : when living things — animal or vegetal — (distribute themselves and) produce their constant succession of new forms, they do so in virtue of the self-distribution of this phase of the Soul, for it must be as much distributed among the new forms as the propagating originals are. In some cases it communicates its force by permanent presence — the life principle in plants for instance — in other cases it withdraws after imparting its virtue — for instance where from the putridity of dead animal or vegetable matter a multitudinous birth is produced from one organism.\n\nA power corresponding to this in the All must reach down and co-operate in the life of our world — in fact the very same power.\n\nIf the Soul returns to this Sphere it finds itself under the same Spirit or a new, according to the life it is to live. With this Spirit it embarks in the skiff of the universe : the \" spindle of Necessity \" then takes control and appoints the seat for the voyage, the seat of the lot in life.\n\nThe Universal circuit is like a breeze, and the voyager, still or stirring, is carried forward by it. He has a hundred varied experiences, fresh sights, changing circumstances, all sorts of events. The vessel itself furnishes incident, tossing as it drives on. And the voyager also acts of himself in virtue of that individuality which he retains because he is on the vessel in his own person and character. Under identical circumstances individuals answer very differently in their movements and acts : hence it comes about that, be the occurrences and conditions of life similar or dissimilar, the result may differ from man to man, as on the other hand a similar result may be produced by dissimilar conditions : this (personal answer to incident) it is that constitutes destiny."
+    }
+   ]
+  },
+  {
+   "id": "III.5.1",
+   "treatise": "III.5",
+   "title": "Love the passion",
+   "summary": "Is love a god, a daemon or a passion? The passion is the soul's longing for beauty, which it knows and is akin to from before: nature makes by looking to the beautiful. Those who love bodies love them as images; those who recollect love them as images of the beauty there, those who do not take them for the truth. Some love beauty alone, some want also to beget, and so to be immortal; those who beget against nature have slipped from the road. Both the lover of beauty and the lover of women are self-controlled, but the first is better; and the longing for good often falls into evil.",
+   "greek_unit": "3.5.1",
+   "greek_part": 22,
+   "older": [
+    {
+     "n": 1,
+     "label": "III.5, chapter 1",
+     "page": 53,
+     "year": 1921,
+     "text": "What is Love ? A God, a Celestial Spirit, a state of mind ? Or is it, perhaps, sometimes to be thought of as a God or Spirit and sometimes merely as an experience ? And what is it essentially in each of these respects ?\n\nThese important questions make it desirable to review prevailing opinions on the matter, the philosophical treatment it has received and, especially, the theories of the great Plato who has many passages dealing with Love, from a point of view entirely his own.\n\nPlato does not treat of it as simply a state observed in Souls ; he also makes it a Spirit-being so that we read of the birth of Eros, under definite circumstances and by a certain parentage.\n\nNow everyone recognises that the emotional state for which we make this \" Love \" responsible rises in souls aspiring to be knit in the closest union with some beautiful object, and that this aspiration takes two forms, that of the good whose devotion is for beauty itself, and that other which seeks its consummation in some vile act. But this generally admitted distinction opens a new question : we need a philosophical investigation into the origin of the two phases.\n\nIt is sound, I think, to find the primal source of Love in a tendency of the Soul towards pure beauty, in a recognition, in a kinship, in an unreasoned consciousness of friendly relation. The vile and ugly is in clash, at once, with Nature and with God : Nature produces by looking to the Good, for it looks towards Order — which has its being in the consistent total of the good, while the unordered is ugly, a member of the system of evil — and besides Nature itself, clearly, springs from the divine realm, from Good and Beauty ; and when anything brings delight and the sense of kinship, its very image attracts.\n\nReject this explanation, and no one can tell how the mental state rises and what are its causes : it is the explanation of even copulative love which is the will to beget in beauty ; Nature seeks to produce the beautiful and therefore by all reason cannot desire to procreate in the ugly.\n\nThose that desire earthly procreation are satisfied with the beauty found on earth, the beauty of image and of body ; it is because they are strangers to the Archetype, the source of even the attraction they feel towards what is lovely here. There are Souls to whom earthly beauty is a leading to the memory of that in the higher realm and these love the earthly as an image ; those that have not attained to this memory do not understand what is happening within them, and take the image for the reality. Once there is perfect self-control, it is no fault to enjoy the beauty of earth ; where appreciation degenerates into carnality, there is sin.\n\nPure Love seeks the beauty alone, whether there is Reminiscence or not ; but there are those that feel, also, a desire of such immortality as lies within mortal reach ; and these are seeking Beauty in their demand for perpetuity, the desire of the eternal ; Nature teaches them to sow the seed and to beget in beauty, to sow towards eternity, but in beauty through their own kinship with the beautiful. And indeed the eternal is of the one stock with the beautiful, the Eternal-Nature is the first shaping of beauty and makes beautiful all that rises from it.\n\nThe less the desire for procreation, the greater is the contentment with beauty alone, yet procreation aims at the engendering of beauty ;\n\nit is the expression of a lack ; the subject is conscious of insufficiency and, wishing to produce beauty, feels that the way is to beget in a beautiful form. Where the procreative desire is lawless or against the purposes of nature, the first inspiration has been natural, but they have diverged from the way, they have slipped and fallen, and they grovel ; they neither understand whither Love sought to lead them nor have they any instinct to production ; they have not mastered the right use of the images of beauty ; they do not know what the Authentic Beauty is.\n\nThose that love beauty of person without carnal desire love for beauty's sake ; those that have — for women, of course — the copulative love, have the further purpose of self-perpetuation : as long as they are led by these motives, both are on the right path, though the first have taken the nobler way. But, even in the right, there is the difference that the one set, worshipping the beauty of earth, look no further, while the others, those of recollection, venerate also the beauty of the other world while they, still, have no contempt for this in which they recognise, as it were, a last outgrowth, an attenuation of the higher. These, in sum, are innocent frequenters of beauty, not to be confused with the class to whom it becomes an occasion of fall into the ugly — for the aspiration towards a good degenerates into an evil often.\n\nSo much for love, the state.\n\nNow we have to consider Love, the God."
+    }
+   ]
+  },
+  {
+   "id": "III.5.2",
+   "treatise": "III.5",
+   "title": "The heavenly Aphrodite and her love",
+   "summary": "Plato calls Eros a god, Aphrodite's, overseer of beautiful boys, and in the Symposium says he was born at Aphrodite's birthday feast from Poverty and Resource. So who is Aphrodite? There are two: the heavenly, motherless daughter of Ouranos, and the daughter of Zeus and Dione, who has to do with marriages. The heavenly one, from Kronos, who is intellect, is the most divine soul, which stays above, pure, a god and not a daemon. Looking to intellect she loved it and begot Eros, who looks there with her: the eye of the lover, which sees the beauty before it lets the lover see.",
+   "greek_unit": "3.5.2",
+   "greek_part": 22,
+   "older": [
+    {
+     "n": 2,
+     "label": "III.5, chapter 2",
+     "page": 55,
+     "year": 1921,
+     "text": "The existence of such a being is no demand of the ordinary man, merely ; it is supported by Theologians (Orphic teachers) and, over and over again, by Plato to whom Eros is child of Aphrodite, minister of beautiful children, inciter of human souls towards the supernal beauty or quickener of an already existing impulse thither. All this requires philosophical examination. A cardinal passage is that in The Banquet where we are told Eros was not a child of Aphrodite but born on the day of Aphrodite's birth, Penia, Poverty, being the mother, and Poros, Possession, the father.\n\nThe matter seems to demand some discussion of Aphrodite since in any case Eros is described as being either her son or in some association with her. Who then is Aphrodite, and in what sense is Love either her child or born with her or in some way both her child and her birthfellow ?\n\nTo us Aphrodite is twofold ; there is the heavenly Aphrodite, daughter of Ouranos or Heaven : and there is the other the daughter of Zeus and Dione, this is the Aphrodite who presides over earthly unions ; the higher was not born of a mother and has no part in marriages for in Heaven there is no marrying.\n\nThe Heavenly Aphrodite, daughter of Kronos (Saturn) who is no other than the Intellectual Principle — must be the Soul at its divinest : unmingled as the immediate emanation of the unmingled ; remaining ever Above, as neither desirous nor capable of descending to this sphere, never having developed the downward tendency, a divine Hypostasis essentially aloof, so unreservedly an Authentic Being as to have no part with Matter — and therefore mythically \" the unmothered \" — justly called not Celestial Spirit but God, as knowing no admixture, gathered cleanly within itself.\n\nAny Nature springing directly from the Intellectual Principle must be itself also a clean thing : it will derive a resistance of its own from its nearness to the Highest, for all its tendency, no less than its fixity, centres upon its author whose power is certainly sufficient to maintain it Above.\n\nSoul then could never fall from its sphere ; it is closer held to the divine Mind than the very sun could hold the light it gives forth to radiate about it, an outpouring from itself held firmly to it, still.\n\nBut following upon Kronos — or, if you will, upon Heaven, (Ouranos) the father of Kronos — the Soul directs its Act towards him and holds closely to him and in that love brings forth the Eros through whom it continues to look towards him. This Act of the Soul has produced an Hypostasis, a Real-Being ; and the mother and this Hypostasis — her offspring, noble Love — gaze together upon Divine Mind. Love, thus, is ever intent upon that other loveliness, and exists to be the medium between desire and that object of desire. It is the eye of the desirer ;\n\nby its power what loves is enabled to see the loved thing. But it is first ; before it becomes the vehicle of vision, it is itself filled with the sight ; it is first, therefore, and not even in the same order — for desire attains to vision only through the efficacy of Love, while Love, in its own Act, harvests the spectacle of beauty playing immediately above it."
+    }
+   ]
+  },
+  {
+   "id": "III.5.3",
+   "treatise": "III.5",
+   "title": "Love born from seeing; the love of the world's soul",
+   "summary": "Love is a reality, born from a reality. The soul above looked at intellect, the first being, with such intensity and joy that she begot something worthy of herself and of the sight: an eye filled with what it sees, Eros, whose name may come from seeing. This love is separate, like the soul, and stays above. The soul of the All begot another love, who has to do with marriages, and who, as far as he touches the longing above, moves the souls of the young and turns soul back to the memory of what is there; for every soul longs for the good.",
+   "greek_unit": "3.5.3",
+   "greek_part": 22,
+   "older": [
+    {
+     "n": 3,
+     "label": "III.5, chapter 3",
+     "page": 57,
+     "year": 1921,
+     "text": "That Love is a Hypostasis (a \" Person \") a Real-Being sprung from a Real- Being — lower than the parent but authentically existent — is beyond doubt.\n\nFor the parent-Soul was a Real-Being sprung directly from the Act of the Hypostasis that ranks before it : it had life ; it was a constituent in the Real-Being of all that authentically is — in the Real-Being which looks, rapt, towards the very Highest. That was the first object of its vision ; it looked towards it as towards its good, and it rejoiced in the looking ; and the quality of what it saw was such that the contemplation could not be void of effect ; in virtue of that rapture, of its position in regard to its object, of the intensity of its gaze, the Soul conceived and brought forth an offspring worthy of itself and of the vision. Thus ; there is a strenuous activity of contemplation in the Soul ; there is an emanation towards it from the object contemplated ; and Eros is born, the Love which is an eye filled with its vision, a seeing that bears its image with it ; Eros taking its name, probably, from the fact that its essential being is due to this horasis, this seeing. Of course Love, as an emotion, will take its name from Love, the Person, since a Real-Being cannot but be prior to what lacks this reality. The mental state will be designated as Love, like the Hypostasis, though it is no more than a particular act directed towards a particular object ; but it must not be confused with the Absolute Love, the Divine Being. The Eros that belongs to the supernal Soul must be of one temper with it ; it must itself look aloft as being of the household of that Soul, dependent upon that Soul, its very offspring ; and therefore caring for nothing but the contemplation of the Gods.\n\nOnce that Soul which is the primal source of light to the heavens is recognised as an Hypostasis standing distinct and aloof, it must be admitted that Love too is distinct and aloof though not, perhaps, so loftily celestial a being as the Soul. Our own best we conceive as inside ourselves and yet something apart ; so, we must think of this Love — as essentially resident where the unmingling Soul inhabits.\n\nBut besides this purest Soul, there must be also a Soul of the All : at once there is another Love — the eye with which this second Soul looks upwards — like the supernal Eros engendered by force of desire. This Aphrodite, the secondary Soul, is of this Universe — not Soul unmingled alone, not Soul, the Absolute, giving birth, therefore, to the Love concerned with the universal life ; no, this is the Love presiding over marriages ; but it, also, has its touch of the upward desire ; and, in the degree of that striving, it stirs and leads upwards the Souls of the young and every Soul with which it is incorporated in so far as there is a natural tendency to remembrance of the divine. For every Soul is striving towards The Good, even the mingling Soul and that of particular beings, for each holds directly from the divine Soul, and is its offspring."
+    }
+   ]
+  },
+  {
+   "id": "III.5.4",
+   "treatise": "III.5",
+   "title": "Each soul's love; many Aphrodites",
+   "summary": "Has each soul its own love, as the whole soul and the soul of the All have? Yes: this love is the daemon that goes with each, putting in the desires that suit its nature, as worthy as the soul that begets it. The whole soul has the whole love, the partial souls their own, and as the souls are one, so are the loves; the love in the All appears everywhere in it. So there are many Aphrodites in the All, daemons, hanging from one whole Aphrodite: soul is love's mother, Aphrodite is soul, love is a soul's activity reaching for the good. The love of the soul above is a god, the love of the mixed soul a daemon.",
+   "greek_unit": "3.5.4",
+   "greek_part": 22,
+   "older": [
+    {
+     "n": 4,
+     "label": "III.5, chapter 4",
+     "page": 58,
+     "year": 1921,
+     "text": "Does each individual Soul, then, contain within itself such a Love in essence and substantial reality ?\n\nSince not only the pure All-Soul but also that of the Universe contain such a Love, it would be difficult to explain why our personal Soul should not. It must be so, even, with all that has life.\n\nThis indwelling love is no other than the Spirit which, as we are told, walks with every being, the affection dominant in each several nature. It implants the characteristic desire ; the particular Soul, strained towards its own natural objects, brings forth its own Eros, the guiding spirit realising its worth and the quality of its Being.\n\nAs the All-Soul contains the Universal Love, so must the single Soul be allowed its own single Love : and as closely as the single Soul holds to the All-Soul, never cut off but embraced within it, the two together constituting one principle of life, so the single separate Love holds to the All-Love. Similarly, the individual love keeps with the individual Soul as that other, the great Love, goes with the All-Soul ; and the Love within the All permeates it throughout so that the one Love becomes many, showing itself where it chooses at any moment of the Universe, taking definite shape in these its partial phases and revealing itself at its will.\n\nIn the same way we must conceive many Aphrodites in the All, Spirits entering it together with Love, all emanating from an Aphrodite of the All, a train of particular Aphrodites dependent upon the first, and each with the particular Love in attendance : this multiplicity cannot be denied, if Soul be the mother of Love, and Aphrodite mean Soul, and Love be an act of a Soul seeking good.\n\nThis Love, then, leader of particular Souls to The Good, is twofold : the Love in the loftier Soul would be a god ever linking the Soul to the divine ; the Love in the mingling Soul will be a celestial spirit."
+    }
+   ]
+  },
+  {
+   "id": "III.5.5",
+   "treatise": "III.5",
+   "title": "Love is not the world",
+   "summary": "What is the nature of daemons, which the Symposium speaks of, and of Eros, born from Poverty and Resource? Some take Plato's Eros to be the world. But the world is a blessed and self-sufficient god, and Eros, Plato says, is neither god nor self-sufficient, but always in need. If the world is soul and body, Aphrodite would be the ruling part of Eros; if the world is its soul, Eros would be Aphrodite. Why would this daemon be the world and the others not? How could the world be overseer of beautiful boys, or homeless and barefoot?",
+   "greek_unit": "3.5.5",
+   "greek_part": 22,
+   "older": [
+    {
+     "n": 5,
+     "label": "III.5, chapter 5",
+     "page": 59,
+     "year": 1921,
+     "text": "But what is the Nature of this Spirit — of the Supernals in general ?\n\nThe Spirit-Kind is treated in the Symposium where, with much about the others, we learn of Eros — Love — born to Penia — Poverty — and Poros — Possession — who is son of Metis — Resource — at Aphrodite's birth feast.\n\nBut (the passage has been misunderstood for) to take Plato as meaning, by Eros, this Universe — and not simply the Love native within it — involves much that is self-contradictory.\n\nFor one thing, the universe is described as a blissful god and as selfsufficing, while this \"Love\" is confessedly neither divine nor selfsufficing but in ceaseless need.\n\nAgain, this Kosmos is a compound of body and soul ; but Aphrodite to Plato is the Soul itself, therefore Aphrodite would necessarily be a constituent part of Eros, (not mother but) dominant member ! A man is the man's Soul, if the world is, similarly, the world's Soul, then Aphrodite, the Soul, is identical with Love, the Kosmos ! And why should this one spirit, Love, be the Universe to the exclusion of all the others, which certainly are sprung from the same Essential-Being ? Our only escape would be to make the Kosmos a complex of Supernals.\n\nLove, again, is called the Dispenser of beautiful children : does this apply to the Universe ? Love is represented as homeless, bedless and bare-footed : would not that be a shabby description of the Kosmos and quite out of the truth ?"
+    }
+   ]
+  },
+  {
+   "id": "III.5.6",
+   "treatise": "III.5",
+   "title": "Gods, daemons, and intelligible matter",
+   "summary": "How do daemons differ from gods? The gods are without passion; daemons, everlasting and next to the gods, have passions, between gods and men. There is no daemon in the intelligible: even a daemon itself would be a god; the visible gods down to the moon are second gods, like the radiance round a star. A daemon is the trace of a soul that has come into the world; the loves are born from soul's longing for the good, the other daemons from the other powers of the soul of the All, to govern it. They do not share in bodily matter, but they must share in some matter, an intelligible one, through which they come to bodies.",
+   "greek_unit": "3.5.6",
+   "greek_part": 22,
+   "older": [
+    {
+     "n": 6,
+     "label": "III.5, chapter 6",
+     "page": 60,
+     "year": 1921,
+     "text": "What then, in sum, is to be thought of Love and of his \" birth \" as we are told of it ?\n\nClearly we have to establish the significance, here, of Poverty and Possession, and show in what way the parentage is appropriate : we have also to bring these two into line with the other Supernals since one spirit nature, one spirit essence, must characterise all unless they are to have merely a name in common.\n\nWe must, therefore, lay down the grounds on which we distinguish the Gods from the Celestials — that is, when we emphasise the separate nature of the two orders and are not, as often in practice, including these Spirits under the common name of Gods.\n\nIt is our teaching and conviction that the Gods are immune to all passion while we attribute experience and emotion to the Celestials which, though eternal Beings and directly next to the Gods, are already a step towards ourselves and stand between the divine and the human.\n\nBut by what process (of degeneration) was the immunity lost ? What in their nature led them downwards to the inferior ?\n\nAnd other questions present themselves.\n\nDoes the Intellectual Realm include no member of this spirit order, not even one ? And does the Kosmos contain only these spirits, God being confined to the Intellectual ? Or are there Gods in the sub-celestial too, the Kosmos itself being a God, the third, as is commonly said, and the Powers down to the Moon being all Gods as well ?\n\nIt is best not to use the word \" Celestial \" of any Being of that Realm ; the word \" God \" may be applied to the Essential-Celestial — the auto-daimon — and even to the Visible Powers of the Universe of Sense down to the Moon ; Gods, these too, visible, secondary, sequent upon the Gods of the Intellectual Realm, consonant with Them, held about Them, as the radiance about the star.\n\nWhat, then, are these spirits ?\n\nA Celestial is the representative generated by each Soul when it enters the Kosmos.\n\nAnd why, by a Soul entering the Kosmos ?\n\nBecause Soul pure of the Kosmos generates not a Celestial Spirit but a God ; hence it is that we have spoken of Love, offspring of Aphrodite the Pure Soul, as a God.\n\nBut, first what prevents every one of the Celestials from being an Eros, a Love ? And why are they not untouched by Matter like the Gods?\n\nOn the first question : — Every Celestial born in the striving of the Soul towards the good and beautiful is an Eros ; and all the Souls within the Kosmos do engender this Celestial ; but other Spirit-Beings, equally born from the Soul of the All, but by other faculties of that Soul, have other functions : they are for the direct service of the All, and administer particular things to the purpose of the Universe entire. The Soul of the All must be adequate to all that is and therefore must bring into being spirit powers serviceable not merely in one function but to its entire charge.\n\nBut what participation can the Celestials have in Matter, and in what Matter ?\n\nCertainly none in bodily Matter ; that would make them simply living things of the order of sense. And if, even, they are to invest themselves in bodies of air or of fire, the nature must have already been altered before they could have any contact with the corporeal. The Pure does not mix, unmediated, with body — though many think that the Celestial-Kind, of its very essence, comports a body aerial or of fire.\n\nBut (since this is not so) why should one order of Celestial descend to body and another not ? The difference implies the existence of some cause or medium working upon such as thus descend. What would constitute such a medium ?\n\nWe are forced to assume that there is a Matter of the Intellectual Order, and that Beings partaking of it are thereby enabled to enter into the lower Matter, the corporeal."
+    }
+   ]
+  },
+  {
+   "id": "III.5.7",
+   "treatise": "III.5",
+   "title": "Resource, Poverty, and what love is",
+   "summary": "So Resource was drunk with nectar before there was wine: love was born before the sensible, and Poverty shared in the intelligible, with the indefiniteness the soul has before it reaches the good. A reason-principle in what is not reason, a sufficient reason and an indefinite longing, made a love that is lacking, never filled, like a gadfly: helpless by its need, resourceful by its reason. Every daemon is such. The good love the good simply; others live by other daemons; the bad fetter their loves with evil desires. Natural loves are beautiful and real; loves against nature are passions, not beings. Our love is for the simple things, as our thoughts are.",
+   "greek_unit": "3.5.7",
+   "greek_part": 22,
+   "older": [
+    {
+     "n": 7,
+     "label": "III.5, chapter 7",
+     "page": 62,
+     "year": 1921,
+     "text": "This is the significance of Plato's account of the birth of Love.\n\nThe drunkenness of the father Poros or Possession is caused by Nectar, \" wine yet not existing \" ; Love is born before the realm of sense has come into being : Penia (Poverty) had participation in the Intellectual before the lower image of that divine Realm had appeared ; she dwelt in that Sphere, but as a mingled being consisting partly of Form but partly also of that indetermination which belongs to the Soul before she attains the Good and when all her knowledge of Reality is a foreintimation veiled by the indeterminate and unordered : in this state (of fore-feeling and desiring The Good) Poverty brings forth the Hypostasis, Love.\n\nThis, then, is a union of Reason with something that is not Reason but a mere indeterminate striving in a being not yet illuminated : the offspring Love, therefore, is not perfect, not self-sufficient, but unfinished, bearing the signs of its parentage, the undirected striving and the selfsufficient Reason. This offspring is a Reason-Principle but not purely so ; for it includes within itself an aspiration ill-defined, unreasoned, unlimited — it can never be sated as long as it contains within itself that element of the Indeterminate. Love, then, clings to the Soul, from which it sprung as from the principle of its Being, but it is lessened by including an element of the Reason-Principle which did not remain self-concentrated but blended with the indeterminate, not, it is true, by immediate contact but through its emanation. Love, therefore, is like a goad ; it is without resource in itself ; even winning its end, it is poor again.\n\nIt cannot be satisfied because a thing of mixture never can be so : true satisfaction is only for what has its plenitude in its own being ; where craving is due to an inborn deficiency, there may be satisfaction at some given moment but it does not last. Love, then, has on the one side the powerlessness of its native inadequacy, on the other the resource inherited from the Reason-Kind.\n\nSuch must be the nature and such the origin of the entire Spirit Order, each — like its fellow, Love — has its appointed sphere, is powerful there, and wholly devoted to it, and, like Love, none is ever complete of itself but always straining towards some good which it sees in things of the partial sphere.\n\nWe understand, now, why good men have no other Love — no other Eros of life — than that for the Absolute and Authentic Good, and never follow the random attractions known to those ranged under the lower Spirit Kind.\n\nEach human being is set under his own Spirit-Guides, but this is mere blank possession when they ignore their own and live by some other spirit adopted by them as more closely attuned to the operative part of the Soul in them. Those that go after evil are natures that have merged all the Love-Principles within them in the evil desires springing in their hearts and allowed the right reason, which belongs to our kind, to fall under the spell of false ideas from another source.\n\nAll the natural Loves, all that serve the ends of Nature, are good ; in a lesser Soul, inferior in rank and in scope ; in the greater Soul, superior ; but all belong to the order of Being. Those forms of Love that do not serve the purposes of Nature are merely accidents attending on perversion : in no sense are they Real-Beings or even manifestations of any Reality ; for they are no true issue of Soul ; they are merely accompaniments of a spiritual flaw which the Soul automatically exhibits in the total of disposition and conduct.\n\nIn a word ; all that is truly good in a Soul acting to the purposes of nature and within its appointed order, all this is Real-Being : anything else is alien, no act of the Soul, but merely something that happens to it : a parallel may be found in false mentation, notions behind which there is no reality as there is in the case of authentic ideas, the eternal, the strictly denned, in which there is at once an act of true knowing, a truly knowable object and authentic existence — and this not merely in the Absolute, but also in the particular being that is occupied by the authentically knowable and by the Intellectual-Principle manifest in every several form.\n\nIn each particular human being we must admit the existence of the authentic Intellective Act and of the authentically knowable object — though not as wholly merged into our being, since we are not these in the absolute and not exclusively these — and hence our longing for absolute things : it is the expression of our intellective activities : if we sometimes care for the partial, that affection is not direct but accidental, like our knowledge that a given triangular figure is made up of two right angles because the absolute triangle is so."
+    }
+   ]
+  },
+  {
+   "id": "III.5.8",
+   "treatise": "III.5",
+   "title": "Zeus and his garden",
+   "summary": "Who is Zeus, into whose garden Resource went? Not soul, which is Aphrodite. Plato calls Zeus the great leader in the Phaedrus, the third elsewhere, and in the Philebus says there is in Zeus a royal soul and a royal intellect. So Zeus is intellect, and Aphrodite, his, from him and with him, is his soul, named for the beauty, splendour, innocence and delicacy of soul. The male gods are intellects, the female their souls; priests and theologians make Hera and Aphrodite one, and call Aphrodite's star Hera's.",
+   "greek_unit": "3.5.8",
+   "greek_part": 22,
+   "older": [
+    {
+     "n": 8,
+     "label": "III.5, chapter 8",
+     "page": 64,
+     "year": 1921,
+     "text": "But what are we to understand by this Zeus with the garden into which, we are told, Poros or Wealth entered ? And what is the garden ?\n\nWe have seen that the Aphrodite of the Myth is the Soul and that Poros, Wealth, is the Reason- Principle of the Universe : we have still to explain Zeus and his garden.\n\nWe cannot take Zeus to be the Soul, which we have agreed is represented by Aphrodite.\n\nPlato, who must be our guide in this question, speaks in the Phaedrus of this God, Zeus, as the Great Leader — though elsewhere he seems to rank him as one of three — but in the Philebus he speaks more plainly when he says that there is in Zeus not only a royal Soul, but also a royal Intellect.\n\nAs a mighty Intellect and Soul, he must be a principle of Cause ; he must be the highest for several reasons but especially because to be King and Leader is to be the chief cause : Zeus then is the Intellectual Principle. Aphrodite, his daughter, issue of him, dwelling with him, will be Soul, her very name Aphrodite (=the habra, delicate) indicating the beauty and gleam and innocence and delicate grace of the Soul.\n\nAnd if we take the male gods to represent the Intellectual Powers and the female gods to be their souls — to every Intellectual Principle its companion Soul — we are forced, thus also, to make Aphrodite the Soul of Zeus ; and the identification is confirmed by Priests and Theologians who consider Aphrodite and Hera one and the same and call Aphrodite's star (\" Venus \") the star of Hera."
+    }
+   ]
+  },
+  {
+   "id": "III.5.9",
+   "treatise": "III.5",
+   "title": "The myth read whole",
+   "summary": "Resource is the reason-principle of the intelligible, unfolded, coming into soul: drunk because his fullness is brought in from outside, as intellect's is not. The garden of Zeus is the adornments that come from his intellect into soul; the nectar is the reason-principle that the divine receives. Myths divide into times and births what is always together; put together again, soul with intellect, filled with reason-principles, is Aphrodite, her reason-principles Resource, her adornments the garden where he sleeps, and the gods' feast their blessed life. Love has always been, from soul's longing for the good: mixed, needy and resourceful. His mother Poverty is matter, the indefiniteness of desire; so love is something like matter, a daemon born from soul.",
+   "greek_unit": "3.5.9",
+   "greek_part": 22,
+   "older": [
+    {
+     "n": 9,
+     "label": "III.5, chapter 9",
+     "page": 65,
+     "year": 1921,
+     "text": "This Poros, Possession, then, is the Reason-Principle of all that exists in the Intellectual Realm and in the supreme Intellect ; but being more diffused, kneaded out as it were, it must touch Soul, be in Soul, (as the next lower principle).\n\nFor, all that lies gathered in the Intellect is native to it : nothing enters from without ; but \" Poros intoxicated \" is some Power deriving satisfaction outside itself : what, then, can we understand by this member of the Supreme filled with Nectar but a Reason-Principle falling from a loftier essence to a lower ? This means that the Reason-Principle upon \" the birth of Aphrodite \" left the Intellectual for the Soul, breaking into the garden of Zeus.\n\nA garden is a place of beauty and a glory of wealth : all the loveliness that Zeus maintains takes its splendour from the Reason-Principle within him ; for all this beauty is the radiation of the Divine Intellect upon the Divine Soul, which it has penetrated. What could the Garden of Zeus indicate but the images of his Being and the splendours of his glory ? And what could these divine splendours and beauties be but the Ideas streaming from him ?\n\nThese Reason-Principles — this Poros who is the lavishness, the abundance of Beauty — are at one and are made manifest ; this is the Nectar-drunkenness. For the Nectar of the gods can be no other than what the god-nature essentially demands ; and this is the Reason pouring down from the divine Mind.\n\nThe Intellectual Principle possesses Itself to satiety, but there is no \" drunken \" abandonment in this possession which brings nothing alien to it. But the Reason-Principle — as its offspring, a later hypostasis — is already a separate Being and established in another Realm, and so is said to lie in the garden of this Zeus who is divine Mind ; and this lying in the garden takes place at the moment when, in our way of speaking, Aphrodite enters the realm of Being."
+    },
+    {
+     "n": 10,
+     "label": "III.5, chapter 10",
+     "page": 66,
+     "year": 1921,
+     "text": "\" Our way of speaking \" — for myths, if they are to serve their purpose, must necessarily import time-distinctions into their subject and will often present as separate, Powers which exist in unity but differ in rank and faculty ; they will relate the births of the unbegotten and discriminate where all is one substance ; the truth is conveyed in the only manner possible, it is left to our good sense to bring all together again.\n\nOn this principle we have, here, Soul (successively) dwelling with the divine Intelligence, breaking away from it, and yet again being filled to satiety with the divine Ideas — the beautiful abounding in all plenty, so that every splendour become manifest in it with the images of whatever is lovely — Soul which, taken as one all, is Aphrodite, while in it may be distinguished the Reason-Principles summed under the names of Plenty and Possession, produced by the downflow of the Nectar of the over realm. The splendours contained in Soul are thought of as the garden of Zeus with reference to their existing within Life ; and Poros sleeps in this garden in the sense of being sated and heavy with its produce. Life is eternally manifest, an eternal existent among the existences, and the banqueting of the gods means no more than that they have their Being in that vital blessedness. And Love — \" born at the banquet of the gods \" — has of necessity been eternally in existence, for it springs from the intention of the Soul towards its Best, towards the Good ; as long as Soul has been, Love has been.\n\nStill this Love is of mixed quality. On the one hand there is in it the lack which keeps it craving : on the other, it is not entirely destitute ; the deficient seeks more of what it has, and certainly nothing absolutely void of good would ever go seeking the good.\n\nIt is said then to spring from Poverty and Possession in the sense that Lack and Aspiration and the Memory of the Ideal Principles, all present together in the Soul, produce that Act towards The Good which is Love. Its Mother is Poverty, since striving is for the needy ; and this Poverty is Matter, for Matter is the wholly poor : the very ambition towards the good is a sign of existing indetermination ; there is a lack of shape and of Reason in that which must aspire towards the Good, and the greater degree of effort implies the lower depth of materiality. A thing aspiring towards the Good is an Ideal-principle only when the striving (with attainment) will leave it still unchanged in Kind : when it must take in something other than itself, its aspiration is the presentment of Matter to the incoming power.\n\nThus Love is at once, in some degree a thing of Matter and at the same time a Celestial, sprung of the Soul ; for Love lacks its Good but, from its very birth, strives towards It."
     }
    ]
   }
@@ -10097,6 +10273,537 @@
    ],
    "notes": [
     "The spindle of Necessity, on which all the circles of the heaven turn, and the three Fates who turn it, are Plato's (Republic X 616c-617d); the souls, having chosen, are led under its turning (620e)."
+   ]
+  },
+  {
+   "seg": "III.5.1.p1",
+   "chapter": "III.5.1",
+   "modern": "On love: is it a god, or a daemon, or a passion of the soul? Or is one love a god or a daemon, and another a passion too? And what is each of them like? It is worth looking into this, going through the thoughts of other people, and those that have arisen in philosophy about these things, and above all what the divine Plato holds, who wrote much about love in many places in his works. He says not only that it is a passion that comes to be in souls, but also calls it a daemon, and he tells of its birth, how and from what parents it was born.",
+   "greek": "Περὶ ἔρωτος, πότερα θεός τις ἢ δαίμων ἢ πάθος τι τῆς ψυχῆς, ἢ ὁ μὲν θεός τις ἢ δαίμων, τὸ δέ τι καὶ πάθος, καὶ ποῖόν τι ἕκαστον, ἐπισκέψασθαι ἄξιον τάς τε τῶν ἄλλων ἀνθρώπων ἐπινοίας ἐπιόντας, καὶ ὅσαι ὲν φιλοσοφίᾳ ἐγένοντο περὶ τούτων, καὶ μάλιστα ὅσα ὑπολαμβάνει ὁ θεῖος Πλάτων, ὃς δὴ καὶ πολλὰ πολλαχῇ τῶν ἑαυτοῦ περὶ ἔρωτος ἔγραψεν: ὃς δὴ οὐ μόνον ἐν ταῖς ψυχαῖς ἐγγινόμενόν τι πάθος εἴρηκεν εἶναι, ἀλλὰ καὶ δαίμονά φησιν αὐτὸν καὶ περὶ γενέσεως αὐτοῦ διεξῆλθεν, ὅπως καὶ ὅθεν ἐστὶ γεγενημένος.",
+   "flags": [
+    {
+     "taylor": "a Celestial Spirit, a state of mind",
+     "in": "MacKenna",
+     "why": "The Greek has δαίμων, \"daemon\", Plato's word for Eros in the Symposium (202d-e), and πάθος, a \"passion\" of the soul; MacKenna's \"Celestial Spirit\" is not the word, and he keeps changing it (\"Spirit-being\", \"Celestial\", \"Supernal\") through the treatise."
+    },
+    {
+     "taylor": "from a point of view entirely his own",
+     "in": "MacKenna",
+     "why": "The Greek says Plato \"wrote much about love in many places in his works\" (πολλὰ πολλαχῇ τῶν ἑαυτοῦ): τῶν ἑαυτοῦ is \"of his own writings\", not a point of view of his own."
+    }
+   ],
+   "notes": [
+    "Plato on love: Diotima's speech in the Symposium (201d-212a), where Eros is a great daemon between gods and men (202d-e) and his birth is told (203b-e); and the Phaedrus, where love is a madness from the gods and Eros a god (242d-e, 249d-256e)."
+   ]
+  },
+  {
+   "seg": "III.5.1.p2",
+   "chapter": "III.5.1",
+   "modern": "As for the passion that we blame on love: that it comes to be in souls that long to be joined with something beautiful, and that this longing is, in some, that of the self-controlled, who are at home with beauty itself, while in others it wants to end in some shameful act, no one, I suppose, is unaware. But where each of the two has its origin, it is fitting to examine from here on, with philosophy.",
+   "greek": "περὶ μὲν οὖν τοῦ πάθους οὗ τὸν ἔρωτα αἰτιώμεθα, ὅτι ἐγγίνεται ἐν ψυχαῖς ἐφιεμέναις καλῷ τινι συμπλακῆναι, καὶ ὡς ἡ ἔφεσις αὕτη ἡ μέν ἐστι παρὰ σωφρόνων αὐτῷ τῷ κάλλει οἰκειωθέντων, ἡ δὲ καὶ τελευτᾶν ἐθέλει εἰς αἰσχροῦ τινος πρᾶξιν, οὐδεὶς ἀγνοεῖ δήπου: ὅθεν δὲ τὴν ἀρχὴν ἔχει ἑκάτερος τὸ ἐντεῦθεν ἐπισκοπεῖν διὰ φιλοσοφίας προσήκει.",
+   "flags": [
+    {
+     "taylor": "that of the good whose devotion is for beauty itself",
+     "in": "MacKenna",
+     "why": "The Greek says the one longing is \"of the self-controlled\" (παρὰ σωφρόνων), made at home with beauty itself; MacKenna's \"the good\" loses the virtue, to which the chapter comes back: for the self-controlled, the attachment to beauty here is without fault."
+    }
+   ]
+  },
+  {
+   "seg": "III.5.1.p3",
+   "chapter": "III.5.1",
+   "modern": "If one were to lay down as the origin the longing for beauty itself that is in souls beforehand, their recognition of it, their kinship with it, and an unreasoning awareness that it is their own, he would hit, I think, on the true cause. For the ugly is opposed both to nature and to god. Nature makes by looking to the beautiful, and it looks to the defined, which is in the column of the good; the undefined is ugly, and of the other column. And nature has its origin from there, from the good, and plainly from the beautiful too. Whatever one delights in and is akin to, one is drawn to its images too.",
+   "greek": "ἀρχην δὲ εἴ τις θεῖτο τὴν αὐτοῦ τοῦ κάλλους πρότερον ἐν ταῖς ψυχαῖς ὄρεξιν καὶ ἐπίγνωσιν καὶ συγγένειαν καὶ οἰκειότητος ἄλογον σύνεσιν, τυγχάνοι ἄν, οἶμαι, τοῦ ἀληθοῦς τῆς αἰτίας. τὸ μὲν γὰρ αἰσχρὸν ἐναντίον καὶ τῇ φύσει καὶ τῷ θεῷ. καὶ γὰρ ἡ φύσις πρὸς τὸ καλὸν βλέπουσα ποιεῖ καὶ πρὸς τὸ ὡρισμένον βλέπει, ὃ ἔστιν ἐν τῇ τοῦ ἀγαθοῦ συστοιχίᾳ: τὸ δὲ ἀόριστον αἰσχρὸν καὶ τῆς ἑτέρας συστοιχίας. τῇ δὲ φύσει γένεσις ἐκεῖθεν ἐκ τοῦ ἀγαθοῦ δῆλον ὅτι καὶ τοῦ καλοῦ. ὅτῳ δέ τις ἄγαται καὶ ἔστι συγγενής, τούτου ᾠκείωται καὶ πρὸς τὰς εἰκόνας.",
+   "flags": [
+    {
+     "taylor": "a tendency of the Soul towards pure beauty",
+     "in": "MacKenna",
+     "why": "The Greek speaks of the longing for beauty itself that is in souls \"beforehand\" (πρότερον), before any beautiful body is seen, together with a \"recognition\" (ἐπίγνωσις) of it: love begins from what the soul already knows. MacKenna's \"tendency\" loses the \"beforehand\"."
+    },
+    {
+     "taylor": "the consistent total of the good",
+     "in": "MacKenna",
+     "why": "The Greek συστοιχία is a \"column\" of the Pythagorean table of opposites, in which the limited stands with the good and the unlimited with the bad; \"the consistent total\" and \"the system of evil\" hide the reference."
+    }
+   ],
+   "notes": [
+    "The two columns: the Pythagoreans set out ten pairs of opposites, limit and unlimited, odd and even, one and many, and so on to good and bad, in two columns (Aristotle, Metaphysics I.5, 986a22-26). The defined (ὡρισμένον) stands with limit, and so with the good; the undefined (ἀόριστον) with the unlimited."
+   ]
+  },
+  {
+   "seg": "III.5.1.p4",
+   "chapter": "III.5.1",
+   "modern": "If one takes away this cause, he will not be able to say how the passion arises, or for what causes, not even in the case of the loves that aim at intercourse. For these too want to beget in beauty; it would be absurd for nature, which wants to make beautiful things, to want to beget in the ugly. But those who are moved to beget here are content to have the beauty here, which is present in images and bodies, since the archetype is not present to them, the archetype that is the cause of their loving even this beauty. For those who have come from this beauty to the recollection of that one, this one is loved as an image; but those who have not recollected, not knowing what is happening to them, take it for the true one. For the self-controlled, the attachment to the beauty here is without fault; but the fall into intercourse is a fault.",
+   "greek": "εἰ δέ τις ταύτην τὴν αἰτίαν ἀνέλοι, ὅπῃ τὸ πάθος γίνεται καὶ δἰ ἃς αἰτίας οὐχ ἕξει λέγειν οὐδ’ ἐπ’ αὐτῶν τῶν διὰ μῖξιν ἐρώτων. καὶ γὰρ οὗτοι τίκτειν βούλονται ἐν τῷ καλῷ: ἐπείπερ ἄτοπον βουλομένην τὴν φύσιν καλὰ ποιεῖν ἐν αἰσχρῷ γεννᾶν βούλεσθαι. ἀλλὰ γὰρ τοῖς μὲν τῇδε γεννᾶν κινουμένοις ἀρκεῖ τὸ τῇδε καλὸν ἔχειν, ὅπερ πάρεστιν ἐν εἰκόσι καὶ σώμασιν, ἐπεὶ μὴ τὸ ἀρχέτυπον αὐτοῖς πάρεστιν, ὅ ἐστιν αἴτιον αὐτοῖς τοῦ καὶ τοῦδε ἐρᾶν. καὶ εἰς ἀνάμνησιν μὲν ἐκείνου ἀπὸ τοῦδε ἐλθοῦσιν ἀγαπᾶται τοῦτο ὡς εἰκών, μὴ ἀναμνησθεῖσι δὲ ὑπ’ ἀγνοίας τοῦ πάθους ἀληθὲς τοῦτο φαντάζεται: καὶ σώφροσι μὲν οὖσιν ἀναμάρτητος ἡ πρὸς τὸ τῇδε καλὸν οἰκείωσις, ἡ δὲ πρὸς μῖξιν ἔκπτωσις ἁμαρτία.",
+   "notes": [
+    "To \"beget in beauty\" (τίκτειν ἐν καλῷ) is Diotima's account of what love does (Symposium 206b-e). The sight of beauty here reminds the soul of the beauty it saw before birth, and those who are not newly initiated \"do not know what is happening to them\" (Phaedrus 249d-250b)."
+   ]
+  },
+  {
+   "seg": "III.5.1.p5",
+   "chapter": "III.5.1",
+   "modern": "Whoever has a pure love of the beautiful loves beauty alone, whether he has recollected or not. But whoever has another desire mixed in too, the desire to be immortal, as far as a mortal can, seeks the beautiful in what is always being born and everlasting; and, going according to nature, he sows and begets in beauty: sowing for always, and in beauty, because of his kinship with the beautiful. For the everlasting is akin to the beautiful; the everlasting nature is the first thing of this kind, and all that comes from it is such. So what does not want to beget is more self-sufficient in beauty; what longs to make something wants to make a beautiful thing out of need, and is not self-sufficient, and it thinks it will make such a thing if it begets in beauty. But those who want to beget lawlessly and against nature made their start from the road according to nature, and were carried aside from it; they lie where they fell, as if they had slipped on a road, knowing neither the love that was leading them, nor the longing to beget, nor the use of the image of beauty, nor what beauty itself is.",
+   "greek": "καὶ ὅτῳ μὲν καθαρὸς ὁ τοῦ καλοῦ ἔρως ἀγαπητὸν τὸ κάλλος μόνον εἴτε ἀναμνησθέντι εἴτε καὶ μή, ὅτῳ δὲ μέμικται καὶ ἄλλη τοῦ ἀθάνατον εἶναι ὡς ἐν θνητῷ ἐπιθυμία, οὗτος ἐν τῷ ἀειγενεῖ καὶ ἀιδίῳ τὸ καλὸν ζητεῖ καὶ κατὰ φύσιν μὲν ἰὼν σπείρει καὶ γεννᾷ ἐν καλῷ, σπείρων μὲν εἰς τὸ ἀεί, ἐν καλῷ δὲ διὰ συγγένειαν τοῦ καλοῦ. καὶ γὰρ καὶ τὸ ἀίδιον συγγενὲς τῷ καλῷ καὶ ἡ ἀίδιος φύσις τὸ πρώτως τοιοῦτον καὶ τὰ ἀπ’ αὐτῆς τοιαῦτα πάντα. τὸ μὲν οὖν μὴ γεννᾶν ἐθέλον μᾶλλον αὐταρκέστερον τῷ καλῷ, τὸ δὲ ἐφιέμενον ποιῆσαι καλόν τε ἐθέλει ποιεῖν ὑπ’ ἐνδείας καὶ οὐκ αὔταρκες καί, εἴπερ ποιήσει τοιοῦτον, οἴεται, εἰ ἐν καλῷ γεννήσεται. οἳ δ’ ἂν ἐν παρανόμῳ καὶ παρὰ τὴν φύσιν ἐθέλωσι γεννᾶν, ἐκ τῆς κατὰ φύσιν πορείας ποιησάμενοι τὰς ἀρχὰς γενόμενοι παράφοροι ἐκ ταύτης οἷον ὁδοῦ ὀλισθήσαντες κεῖνται πεσόντες οὔτε ἔρωτα γνόντες ἐφ̓ ὃ ἦγεν αὐτοὺς οὔτε ἔφεσιν γεννήσεως οὔτε χρῆσιν κάλλους εἰκόνος οὔτε ὅ τι ἐστὶ κάλλος αὐτό.",
+   "notes": [
+    "\"Love is of immortality too\": mortal nature shares in immortality by begetting (Symposium 206e-208b). Love against nature: in the Phaedrus the one who is not newly initiated, seeing beauty, \"gives himself over to pleasure and tries to mount and beget like a beast, and pursues pleasure against nature\" (250e-251a); compare Laws VIII 836c, 841d."
+   ]
+  },
+  {
+   "seg": "III.5.1.p6",
+   "chapter": "III.5.1",
+   "modern": "Those who love beautiful bodies, not for intercourse, love them because they are beautiful; those who have the love called mixed, the love of women, love so that there may also be the \"always\". As long as they do not slip towards other things, both are self-controlled, but the first are better. But some revere the beauty here and are content with it; others, all who have recollected, revere that beauty too, and do not dishonour this one either, as a product of that one and its plaything. These, then, are about the beautiful without the ugly; others fall into the ugly because of the beautiful, for the longing for good often has its fall into evil. These, then, are the passions of the soul.",
+   "greek": "ἀλλ’ οὖν οἵ τε σωμάτων καλῶν οὐ διὰ μῖξιν ἐρῶντες, ὅτι καλά ἐστιν ἐρῶσιν, οἵ τε τὸν λεγόμενον μικτὸν ἔρωτα, γυναικῶν μέν, ἵνα καὶ τὸ ἀεί. μὴ τοιούτων δὲ σφαλλόμενοι σωφρονοῦσι μὲν ἄμφω: οἱ δὲ ἀμείνους. ἀλλ’ οἱ μὲν τὸ τῇδε κάλλος σέβουσιν ἀρκούμενοι, οἱ δὲ κἀκεῖνο, ὅσοι ἀνεμνήσθησαν, καὶ οὐκ ἀτιμάζουσιν οὐδὲ τοῦτο ὡς ἂν καὶ ἀποτέλεσμά τι ὂν ἐκείνου καὶ παίγνιον. οὗτοι μὲν οὖν περὶ τὸ καλὸν αἰσχροῦ ἄνευ, οἱ δὲ καὶ διὰ τὸ καλὸν εἰς αἰσχρὸν πεσόντες: καὶ γὰρ ἡ ἀγαθοῦ ἔφεσις ἔχει εἰς κακὸν τὴν ἔκπτωσιν πολλάκις. καὶ ταῦτα μὲν τῆς ψυχῆς τὰ παθήματα.",
+   "flags": [
+    {
+     "taylor": "a last outgrowth, an attenuation of the higher",
+     "in": "MacKenna",
+     "why": "The Greek calls the beauty here \"a product\" (ἀποτέλεσμα) and \"a plaything\" (παίγνιον) of the beauty there; \"attenuation\" is MacKenna's, and the plaything is lost."
+    }
+   ],
+   "notes": [
+    "The plaything: Plato's man is \"a plaything of god\" (Laws VII 803c), and Plotinus calls the world's wars and changes a play (III.2.15). The \"always\" is the immortality of the kind, which the lover of women seeks by begetting (Symposium 207d-208b)."
+   ]
+  },
+  {
+   "seg": "III.5.2.p1",
+   "chapter": "III.5.2",
+   "modern": "As for the love that is held to be a god, not only by other people but by the theologians, and by Plato in many places, who speaks of Eros as Aphrodite's and says that his work is to be the overseer of beautiful boys and to move souls towards the beauty there, or to strengthen the impulse towards it that is there already: about this above all we must philosophize. And we must take in too all that is said in the Symposium, where he says that Eros was not born of Aphrodite, but at Aphrodite's birthday feast, from Poverty and Resource. The account seems to demand that we say something about Aphrodite too, since Eros is said to have been born either from her or with her. First, then, who is Aphrodite? Then, how is Eros from her, or with her, or in what way is he both from her and with her at once?",
+   "greek": "περὶ δὲ τοῦ ὃν θεὸν τίθενται οὐ μόνον οἱ ἄλλοι ἄνθρωποι, ἀλλὰ καὶ θεολόγοι καὶ Πλάτων πολλαχοῦ Ἀφροδίτης Ἔρωτα λέγων καὶ ἔργον αὐτῷ εἶναι καλῶν τε ἔφορον παίδων εἶναι καὶ κινητικὸν τῶν ψυχῶν πρὸς τὸ ἐκεῖ κάλλος, ἢ καὶ ἐπαύξειν τὴν ἤδη γενομένην πρὸς τὸ ἐκεῖ ὁρμήν, περὶ τούτου μάλιστα φιλοσοφητέον: καὶ δὴ καὶ ὅσα ἐν Συμποσίῳ εἴρηται παραληπτέον, ἐν οἷς οὐκ Ἀφροδίτης φησὶν αὐτὸν γενέσθαι, ἀλλ’ ἐν Ἀφροδίτης γενεθλίοις ἐκ τῆς Πενίας καὶ τοῦ Πόρου. ἔοικε δὲ ὁ λόγος καὶ περὶ τῆς Ἀφροδίτης ἀπαιτήσειν τι εἰπεῖν, εἴτ̓ οὖν ἐξ ἐκείνης εἴτε μετ’ ἐκείνης γεγονέναι λέγεται ὁ Ἔρως. πρῶτον οὖν τίς ἡ Ἀφροδίτη; εἶτα πῶς ἢ ἐξ αὐτῆς ἢ σὺν αὐτῇ ἢ τίνα τρόπον ἔχει τὸ ἐξ αὐτῆς τε ἅμα καὶ σὺν αὐτῇ.",
+   "flags": [
+    {
+     "taylor": "Theologians (Orphic teachers)",
+     "in": "MacKenna",
+     "why": "The Greek has only \"theologians\" (θεολόγοι), those who tell of the gods, Hesiod as well as the Orphic poets; MacKenna's bracket narrows them."
+    },
+    {
+     "taylor": "minister of beautiful children",
+     "in": "MacKenna",
+     "why": "The Greek ἔφορον καλῶν παίδων is \"overseer of beautiful boys\", Plato's words for Eros in the Phaedrus (265c): the boys are the young who are loved, not children who are born."
+    },
+    {
+     "taylor": "Poros, Possession, the father",
+     "in": "MacKenna",
+     "why": "Πόρος is a \"way through\", a \"means\", \"resource\": the son of Metis, Cunning (Symposium 203b), the opposite of the helplessness (ἀπορία) of his partner Poverty; \"Possession\" makes him a having rather than a finding of ways."
+    }
+   ],
+   "notes": [
+    "Eros as Aphrodite's son: Phaedrus 242d; as overseer of beautiful boys: Phaedrus 265c. His birth at the feast for Aphrodite's birth, from Poros, Metis' son, and Penia: Symposium 203b-c."
+   ]
+  },
+  {
+   "seg": "III.5.2.p2",
+   "chapter": "III.5.2",
+   "modern": "We say, then, that Aphrodite is twofold: the heavenly one, who we say is Ouranos', and the one born of Zeus and Dione, who has to do with the marriages here. The heavenly one is motherless and beyond marriages, since there are no marriages in heaven either. The one called heavenly, from Kronos, who is intellect, must be the most divine soul, coming straight from him, pure from pure, staying above, so that she neither wanted nor was able to come to the things here, since she was not of a nature to go down among the things below, being a separate reality and a being that has no share in matter (which is why they hinted at her by this, that she is motherless). One would rightly call her a god, not a daemon, since she is unmixed and stays pure by herself. For what is born straight from intellect is pure too, since it is strong by itself through its nearness, and since its desire and its settled place are towards what begot it, which is able to hold it above. So a soul that hangs from intellect could not fall away, much less than the sun could lose the light that shines round it, which comes from it and is bound to it.",
+   "greek": "λέγομεν δὴ τὴν Ἀφροδίτην εἶναι διττήν, τὴν μὲν οὐρανίαν Οὐρανοῦ λέγοντες εἶναι, τὴν δὲ ἐκ Διὸς καὶ Διώνης, τὴν τῶν τῇδε ἐφαπτομένην γάμων: ἀμήτορα δὲ ἐκείνην καὶ ἐπέκεινα γάμων, ὅτι μηδὲ ἐν οὐρανῷ γάμοι. τὴν δὲ οὐρανίαν λεγομένην ἐκ Κρόνου νοῦ ὄντος ἐκείνου ἀνάγκη ψυχὴν θειοτάτην εἶναι εὐθὺς ἐξ αὐτοῦ ἀκήρατον ἀκηράτου μείνασαν ἄνω, ὡς μηδὲ εἰς τὰ τῇδε ἐλθεῖν μήτε ἐθελήσασαν μήτε δυναμένην, μὴ κατὰ τὰ κάτω φῦσαν βαίνειν χωριστὴν οὖσάν τινα ὑπόστασιν καὶ ἀμέτοχον ὕλης οὐσίαν — ὅθεν αὐτὴν τούτῳ ᾐνίττοντο, τῷ ἀμήτορα εἶναι — ἣν δὴ καὶ θεὸν ἄν τις δικαίως, οὐ δαίμονα εἴποι, ἄμικτον οὖσαν καὶ καθαρὰν ἐφ̓ ἑαυτῆς μένουσαν. τὸ γὰρ εὐθὺς ἐκ νοῦ πεφυκὸς καθαρὸν καὶ αὐτό, ἅτε ἰσχύον καθ̓ ἑαυτὸ τῷ ἐγγύθεν, ἅτε καὶ τῆς ἐπιθυμίας οὔσης αὐτῇ καὶ τῆς ἱδρύσεως πρὸς τὸ γεννῆσαν ἱκανὸν ὂν κατέχειν ἄνω. ὅθεν οὐδ’ ἂν ἐκπέσοι ψυχὴ νοῦ ἐξηρτημένη πολὺ μᾶλλον ἢ ἥλιος ἂν ἔχοι ἐξ ἑαυτοῦ ὅσον αὐτὸν περιλάμπει φῶς τὸ ἐξ αὐτοῦ εἰς αὐτὸν συνηρτημένον.",
+   "flags": [
+    {
+     "taylor": "justly called not Celestial Spirit but God",
+     "in": "MacKenna",
+     "why": "The Greek has δαίμονα, \"a daemon\": the heavenly Aphrodite is a god and not a daemon, because she is unmixed. MacKenna's \"Celestial Spirit\" hides that the distinction is Plato's, between gods and daemons (Symposium 202d-203a)."
+    }
+   ],
+   "notes": [
+    "Pausanias' speech in the Symposium (180d-181c) has the two Aphrodites, the elder and motherless daughter of Ouranos, called heavenly, and the younger daughter of Zeus and Dione, called common, each with her Eros. In Hesiod (Theogony 188-200) Aphrodite rises from the foam round the parts of Ouranos that Kronos cut off; Dione is her mother in Homer (Iliad V.370-371). Kronos is intellect for Plotinus (V.1.4, V.1.7), after the Cratylus (396b), where his name means the pure and unmixed of intellect."
+   ]
+  },
+  {
+   "seg": "III.5.2.p3",
+   "chapter": "III.5.2",
+   "modern": "Following Kronos, or, if you like, Kronos' father Ouranos, she was active towards him and became his own, and in love with him she begot Eros, and with him she looks towards him; and her activity made a reality and a being. And both look there, the mother and the beautiful Eros she bore, a reality always ranked towards another beautiful thing, and having its being in this: between, as it were, the one who longs and the one longed for. He is the eye of the one who longs, giving the lover through himself the power to see the beloved, but running ahead himself, and, before he gives the other the power to see through the organ, filling himself with the sight. He sees first, though not in like manner, in that he fixes the sight in the lover, but himself reaps the vision of the beauty as it runs past him.",
+   "greek": "ἐφεπομένη δὲ τῷ Κρόνῳ ἤ, εἰ βούλει, τῷ πατρὶ τοῦ Κρόνου τῷ Οὐρανῷ ἐνήργησέ τε πρὸς αὐτὸν καὶ ᾠκειώθη καὶ ἐρασθεῖσα Ἔρωτα ἐγέννησε καὶ μετὰ τούτου πρὸς αὐτὸν βλέπει, καὶ ἡ ἐνέργεια αὐτῆς ὑπόστασιν καὶ οὐσίαν εἰργάσατο, καὶ ἄμφω ἐκεῖ βλέπουσι, καὶ ἡ γειναμένη καὶ ὁ καλὸς Ἔρως ὁ γεγεννημένος ὑπόστασις πρὸς ἄλλο καλὸν ἀεὶ τεταγμένη καὶ τὸ εἶναι ἐν τούτῳ ἔχουσα τῷ μεταξὺ ὥσπερ ποθοῦντος καὶ ποθουμένου, ὀφθαλμὸς ὁ τοῦ ποθοῦντος παρέχων μὲν τῷ ἐρῶντι δἰ αὑτοῦ τὸ ὁρᾶν τὸ ποθούμενον, προτρέχων δὲ αὐτὸς καὶ πρὶν ἐκείνῳ παρασχεῖν τὴν τοῦ ὁρᾶν δἰ ὀργάνου δύναμιν αὐτὸς πιμπλάμενος τοῦ θεάματος, πρότερος μέν, οὐ μὴν ὁμοίως ὁρῶν τῷ ἐνστηρίζειν μὲν ἐκείνῳ τὸ ὅραμα, αὐτὸν δὲ καρποῦσθαι τὴν θέαν τοῦ καλοῦ αὐτὸν παραθέουσαν.",
+   "flags": [
+    {
+     "taylor": "not even in the same order",
+     "in": "MacKenna",
+     "why": "The Greek says love sees first, \"though not in the same way\" (οὐ μὴν ὁμοίως ὁρῶν): it fixes the sight in the lover and itself reaps the vision. Nothing is said of an order, nor that desire sees \"only through the efficacy of Love\"."
+    },
+    {
+     "taylor": "beauty playing immediately above it",
+     "in": "MacKenna",
+     "why": "The Greek says the beauty \"runs past\" it (παραθέουσαν), not that it plays above it."
+    }
+   ],
+   "notes": [
+    "The eye: in the Phaedrus the stream of beauty enters the lover through the eyes (251b), and flows back to the beloved through his (255c-d). Plotinus' next chapter takes Eros' name from seeing."
+   ]
+  },
+  {
+   "seg": "III.5.3.p1",
+   "chapter": "III.5.3",
+   "modern": "That it is a reality and a being, from a being, less than the one that made it but a being all the same, we ought not to doubt. For that soul too was a being, born from the activity before it, and living, and of the being of the things that are, and looking towards what was the first being, and looking intently. This was her first sight, and she looked at it as at her own good, and rejoiced in looking; and the sight was such that the one who saw could not make the seeing a side matter, so that by her pleasure, as it were, and her straining towards it, and the intensity of her seeing, she begot from herself something worthy of herself and of the sight. So from what was intently active about the seen, and from what flows, as it were, from the seen, an eye was filled, a sight with its image, as it were, and Eros was born; perhaps his name too came from here, because he has his reality from seeing (horasis). For the passion would take its name from this one, if being comes before what is not being; and the passion is called loving, and if love holds someone, it is love of this or that; it would not be called love simply. Such, then, would be the Eros of the soul above, himself looking above, since he is her follower, born from her and by her, and content with the sight of the gods.",
+   "greek": "ὑπόστασιν δὲ εἶναι καὶ οὐσίαν ἐξ οὐσίας ἐλάττω μὲν τῆς ποιησαμένης, οὖσαν δὲ ὅμως, ἀπιστεῖν οὐ προσήκει. καὶ γὰρ ἡ ψυχὴ ἐκείνη οὐσία ἦν γενομένη ἐξ ἐνεργείας τῆς πρὸ αὐτῆς καὶ ζῶσα καὶ τῆς τῶν ὄντων οὐσίας καὶ πρὸς ἐκεῖνο ὁρώσης, ὃ πρώτη ἦν οὐσία, καὶ σφόδρα ὁρώσης. καὶ πρῶτον ἦν ὅραμα αὐτῇ τοῦτο καὶ ἑώρα ὡς πρὸς ἀγαθὸν αὑτῆς καὶ ἔχαιρεν ὁρῶσα, καὶ τὸ ὅραμα τοιοῦτον ἦν, ὡς μὴ πάρεργον τὴν θέαν ποιεῖσθαι τὸ ὁρῶν, ὡς τῇ οἷον ἡδονῇ καὶ τάσει τῇ πρὸς αὐτὸ καὶ σφοδρότητι τῆς θέας γεννῆσαί τι παῤ αὑτῆς ἄξιον αὐτῆς καὶ τοῦ ὁράματος. ἐξ οὖν τοῦ ἐνεργοῦντος συντόνως περὶ τὸ ὁρώμενον καὶ ἐκ τοῦ οἷον ἀπορρέοντος ἀπὸ τοῦ ὁρωμένου ὄμμα πληρωθέν, οἷον μετ’ εἰδώλου ὅρασις, Ἔρως ἐγένετο τάχα που καὶ τῆς προσηγορίας ἐντεῦθεν μᾶλλον αὐτῷ γεγενημένης, ὅτι ἐξ ὁράσεως τὴν ὑπόστασιν ἔχει: ἐπεὶ τό γε πάθος ἀπὸ τούτου ἔχοι ἂν τὴν ἐπωνυμίαν, εἴπερ πρότερον οὐσία μὴ οὐσίας καὶ τό γε πάθος ἐρᾶν λέγεται, καὶ εἴπερ ἔρως αὐτὸν ἔχει τοῦδε: ἁπλῶς δὲ οὐκ ἂν λέγοιτο ἔρως. ὁ μὲν δὴ τῆς ἄνω ψυχῆς Ἔρως τοιοῦτος ἂν εἴη, ὁρῶν καὶ αὐτὸς ἄνω, ἅτε ὀπαδὸς ὢν ἐκείνης καὶ ἐξ ἐκείνης καὶ παῤ ἐκείνης γεγενημένος καὶ θεῶν ἀρκούμενος θέᾳ.",
+   "flags": [
+    {
+     "taylor": "That Love is a Hypostasis (a \" Person \")",
+     "in": "MacKenna",
+     "why": "The Greek says love is a \"reality\" (ὑπόστασις) and a \"being\" (οὐσία); \"Person\" is MacKenna's."
+    },
+    {
+     "taylor": "towards the very Highest",
+     "in": "MacKenna",
+     "why": "The Greek says the soul looks \"towards what was the first being\" (πρὸς ἐκεῖνο ... ὃ πρώτη ἦν οὐσία): intellect, the first being, not the One, which is beyond being."
+    }
+   ],
+   "notes": [
+    "Eros from horasis, \"seeing\": a play on ἔρως and ὅρασις. In the Cratylus (420a-b) Plato takes ἔρως from the flowing in (ἐσρεῖν) of beauty through the eyes. The \"follower\" (ὀπαδός) of a god is the Phaedrus' word for the souls that follow the gods round the heaven (248a, 252c)."
+   ]
+  },
+  {
+   "seg": "III.5.3.p2",
+   "chapter": "III.5.3",
+   "modern": "If we say that that soul, which first lights up the heaven, is separate, we shall hold that this Eros is separate too, even though we did call the soul heavenly as much as we could; just as in our own case, when we say that the best in us is in us, we still hold that it is separate. So let him be only there, where the pure soul is.",
+   "greek": "χωριστὴν δὲ ἐκείνην τὴν ψυχὴν λέγοντες τὴν πρώτως ἐλλάμπουσαν τὸν Οὐρανὸν χωριστὸν καὶ τὸν Ἔρωτα τοῦτον θησόμεθα, εἰ καὶ ὅτι μάλιστα οὐρανίαν τὴν ψυχὴν εἴπομεν: ἐπεὶ καὶ ἐν ἡμῖν λέγοντες τὸ ἐν ἡμῖν ἄριστον εἶναι χωριστὸν ὅμως τιθέμεθα αὐτὸ εἶναι: μόνον ἐκεῖ ἔστω, οὗ ἡ ψυχὴ ἡ ἀκήρατος.",
+   "flags": [
+    {
+     "taylor": "though not, perhaps, so loftily celestial a being as the Soul",
+     "in": "MacKenna",
+     "why": "The Greek says \"even though we called the soul heavenly as much as could be\" (εἰ καὶ ὅτι μάλιστα οὐρανίαν τὴν ψυχὴν εἴπομεν): her name does not tie her to the heaven, and so her love is separate too. No comparison is made between the love and the soul."
+    }
+   ]
+  },
+  {
+   "seg": "III.5.3.p3",
+   "chapter": "III.5.3",
+   "modern": "But since there had to be a soul of this All too, the other Eros came into being with her at once, he too her eye, he too born from longing. Being the world's, this Aphrodite, who is not only soul nor soul simply, begot the Eros in this world too, who already has to do with marriages himself, and who, as far as he too touches the longing above, so far moves the souls of the young, and turns back the soul with which he is ranked, as far as she too is of a nature to come to the memory of those things. For every soul longs for the good, the mixed one too, and the one that has become some one thing's; since this soul too comes next after that one, and from it.",
+   "greek": "ἐπεὶ δὲ καὶ τοῦδε τοῦ παντὸς ψυχὴν εἶναι ἔδει, ὑπέστη μετὰ ταύτης ἤδη καὶ ὁ ἄλλος Ἔρως ὄμμα καὶ ταύτης ἐξ ὀρέξεως καὶ αὐτὸς γεγενημένος. τοῦ δὲ κόσμου οὖσα ἡ. Ἀφροδίτη αὕτη καὶ οὐ μόνον ψυχὴ οὐδὲ ἁπλῶς ψυχὴ καὶ τὸν ἐν τῷδε τῷ κόσμῳ Ἔρωτα ἐγεννήσατο ἐφαπτόμενον ἤδη καὶ αὐτὸν γάμων καί, καθ̓ ὅσον ἐφάπτεται καὶ αὐτὸς τῆς ὀρέξεως τῆς ἄνω, κατὰ τοσοῦτον κινοῦντα καὶ τὰς τῶν νέων ψυχὰς καὶ τὴν ψυχὴν ᾗ συντέτακται ἀναστρέφοντα, καθ̓ ὅσον καὶ αὐτὴ εἰς μνήμην ἐκείνων πέφυκεν ἰέναι. πᾶσα γὰρ ἐφίεται τοῦ ἀγαθοῦ καὶ ἡ μεμιγμένη καὶ ἥ τινος γενομένη: ἐπεὶ καὶ αὕτη ἐφεξῆς ἐκείνῃ καὶ ἐξ ἐκείνης.",
+   "flags": [
+    {
+     "taylor": "giving birth, therefore, to the Love concerned with the universal life",
+     "in": "MacKenna",
+     "why": "The Greek says that this Aphrodite, \"not only soul nor simply soul\", begot the love in this world, who has to do with marriages; MacKenna's \"the Love concerned with the universal life\", followed by \"no\", turns the Greek's statement into a denial."
+    }
+   ],
+   "notes": [
+    "The love of the common Aphrodite, who has to do with marriages and bodies: Symposium 180d-181c."
+   ]
+  },
+  {
+   "seg": "III.5.4.p1",
+   "chapter": "III.5.4",
+   "modern": "Does each soul, then, have such a love too, in being and in reality? Or why should the whole soul, and the soul of the All, have love as a reality, and the soul of each of us not, and the soul in all the other animals too? And this love, then, is the daemon that, they say, goes along with each, each one's own love. For this would be the one that puts in the desires according to the nature of each soul, each soul reaching out in proportion to its own nature and begetting the love that answers to its worth and its being.",
+   "greek": "ἆῤ οὖν καὶ ἑκάστη ψυχὴ ἔχει ἔρωτα τοιοῦτον ἐν οὐσίᾳ καὶ ὑποστάσει; ἢ διὰ τί ἡ μὲν ὅλη ἕξει καὶ ἡ τοῦ παντὸς ὑποστάντα τὸν ἔρωτα, ἡ δὲ ἑκάστου ἡμῶν οὔ: πρὸς δὲ καὶ ἡ ἐν τοῖς ἄλλοις ζῴοις ἅπασι; καὶ ἄρα ὁ ἔρως οὗτός ἐστιν ὁ δαίμων, ὅν φασιν ἑκάστῳ συνέπεσθαι, ὁ αὑτοῦ ἑκάστου ἔρως. οὗτος γὰρ ἂν εἴη καὶ ὁ ἐμποιῶν τὰς ἐπιθυμίας κατὰ φύσιν ἑκάστης τῆς ψυχῆς ὀριγνωμένης ἀνάλογον ἑκάστης πρὸς τὴν αὑτῆς φύσιν καὶ τὸν ἔρωτα γεννώσης εἴς τε ἀξίαν καὶ πρὸς οὐσίαν.",
+   "flags": [
+    {
+     "taylor": "the Spirit which, as we are told, walks with every being",
+     "in": "MacKenna",
+     "why": "The Greek has ὁ δαίμων, \"the daemon\" that goes with each, Plato's daemon allotted to each of us (Phaedo 107d, Republic X 617e; III.4); MacKenna's \"Spirit\" hides the reference."
+    },
+    {
+     "taylor": "the guiding spirit realising its worth and the quality of its Being",
+     "in": "MacKenna",
+     "why": "The Greek says the soul begets the love \"answering to its worth and its being\" (εἴς τε ἀξίαν καὶ πρὸς οὐσίαν): the love is as worthy as the soul that begets it. It is the soul that begets, not the guiding spirit that realises."
+    }
+   ],
+   "notes": [
+    "Plotinus' III.4 made the daemon allotted to each the power of the soul just above the one by which we live; here it is each one's own love."
+   ]
+  },
+  {
+   "seg": "III.5.4.p2",
+   "chapter": "III.5.4",
+   "modern": "So let the whole soul have the whole love, and the partial souls each its own. And as each soul stands to the whole, not cut off from it but contained in it, so that all are one, each love too would stand to the whole love; and the partial love would be with the partial soul, and that great love with the whole soul; and the love in the All would be everywhere in the All, and this one love would become many and be many, appearing everywhere in the All where he wishes, shaping himself in his parts and showing himself, if he wishes.",
+   "greek": "ἐχέτω δὴ ἡ μὲν ὅλη ὅλον, αἱ δὲ ἐν μέρει τὸν αὑτῆς ἑκάστη. καθ̓ ὅσον δὲ ἑκάστη πρὸς τὴν ὅλην ἔχει οὐκ ἀποτετμημένη, ἐμπεριεχομένη δέ, ὡς εἶναι πάσας μίαν, καὶ ὁ ἔρως ἕκαστος πρὸς τὸν πάντα ἂν ἔχοι: συνεῖναι δ’ αὖ καὶ τὸν ἐν μέρει τῇ ἐν μέρει καὶ τῇ ὅλῃ τὸν μέγαν ἐκεῖνον καὶ τὸν ἐν τῷ παντὶ τῷ παντὶ πανταχοῦ αὐτοῦ καὶ πολλοὺς αὖ τὸν ἕνα τοῦτον γίγνεσθαι καὶ εἶναι φαινόμενον πανταχοῦ τοῦ παντὸς οὗ ἂν θέλῃ σχηματιζόμενον μέρεσιν ἑαυτοῦ καὶ φανταζόμενον, εἰ θέλοι.",
+   "notes": [
+    "All souls one: IV.9, and IV.3.1-8, where the partial souls are not cut off from the whole soul."
+   ]
+  },
+  {
+   "seg": "III.5.4.p3",
+   "chapter": "III.5.4",
+   "modern": "We must think too that there are many Aphrodites in the whole, daemons that have come to be in it with love, flowed from some whole Aphrodite, many partial ones hanging from her with loves of their own; if soul is the mother of love, and Aphrodite is soul, and love is the activity of a soul reaching for the good. So this love, who leads each soul to the nature of the good: the love of the soul above would be a god, who always joins the soul to that good; the love of the mixed soul a daemon.",
+   "greek": "οἴεσθαι δὲ χρὴ καὶ Ἀφροδίτας ἐν τῷ ὅλῳ πολλάς, δαίμονας ἐν αὐτῷ γενομένας μετ’ ἔρωτος, ῥυείσας ἐξ Ἀφροδίτης τινὸς ὅλης, ἐν μέρει πολλὰς ἐκείνης ἐξηρτημένας μετὰ ἰδίων ἐρώτων, εἴπερ ψυχὴ μήτηρ ἔρωτος, Ἀφροδίτη δὲ ψυχή, ἔρως δὲ ἐνέργεια ψυχῆς ἀγαθοῦ ὀριγνωμένης. ἄγων τοίνυν ἑκάστην οὗτος ὁ ἔρως πρὸς τὴν ἀγαθοῦ φύσιν ὁ μὲν τῆς ἄνω θεὸς ἂν εἴη, ὃς ἀεὶ ψυχὴν ἐκείνῳ συνάπτει, δαίμων δ’ ὁ τῆς μεμιγμένης.",
+   "flags": [
+    {
+     "taylor": "the Love in the mingling Soul will be a celestial spirit",
+     "in": "MacKenna",
+     "why": "The Greek says the love of the mixed soul is \"a daemon\" (δαίμων), as the love of the soul above is \"a god\": Plato's distinction between gods and daemons, which \"celestial spirit\" hides."
+    }
+   ]
+  },
+  {
+   "seg": "III.5.5.p1",
+   "chapter": "III.5.5",
+   "modern": "But what is the nature of a daemon, and of daemons altogether, of which the Symposium speaks too: the nature of the others, and that of Eros himself, who was born from Poverty and Resource, the son of Cunning, at Aphrodite's birthday feast? To suppose that Plato means by Eros this world, and not the Eros that has grown up in the world, has much against it. For the world is said to be a blessed god and self-sufficient, while this Eros is agreed by Plato to be neither a god nor self-sufficient, but always in need.",
+   "greek": "ἀλλὰ τίς ἡ δαίμονος καὶ ὅλως ἡ δαιμόνων φύσις, περὶ ἧς καὶ ἐν Συμποσίῳ λέγεται, ἥ τε τῶν ἄλλων καὶ ἡ αὐτοῦ τοῦ Ἔρωτος, ὃς ἐκ Πενίας καὶ Πόρου τοῦ Μήτιδός ἐστι γεγεννημένος ἐν τοῖς Ἀφροδίτης γενεθλίοις; τὸ μὲν οὖν τὸν κόσμον ὑπονοεῖν λέγεσθαι τόνδε τῷ Πλάτωνι τὸν Ἔρωτα, ἀλλὰ μὴ τοῦ κόσμου τὸν ἐν αὐτῷ ἐκφύντα Ἔρωτα, πολλὰ τὰ ἐναντιούμενα τῇ δόξῃ ἔχει, τοῦ μὲν κόσμου λεγομένου εὐδαίμονος θεοῦ καὶ αὐτάρκους εἶναι, τοῦ δὲ Ἔρωτος τούτου ὁμολογουμένου τῷ ἀνδρὶ οὔτε θεοῦ οὔτε αὐτάρκους, ἀεὶ δὲ ἐνδεοῦς εἶναι.",
+   "flags": [
+    {
+     "taylor": "Poros — Possession — who is son of Metis — Resource",
+     "in": "MacKenna",
+     "why": "Μῆτις is \"cunning\", practical wisdom, the mother of Πόρος (Symposium 203b), and it is Poros himself who is \"resource\"; MacKenna gives the son's name to the mother."
+    },
+    {
+     "taylor": "the passage has been misunderstood",
+     "in": "MacKenna",
+     "why": "The Greek says only that to suppose Plato meant the world \"has much against it\"; MacKenna's bracket says who misunderstood."
+    }
+   ],
+   "notes": [
+    "Plutarch had read the myth so: in On Isis and Osiris 57 (374c-d) Poros is the first and self-sufficient, Penia is matter, and Eros, born of them, is the world. The world a blessed god: Timaeus 34b; self-sufficient: 33d. Eros neither god nor self-sufficient: Symposium 202b-d, 203c-d."
+   ]
+  },
+  {
+   "seg": "III.5.5.p2",
+   "chapter": "III.5.5",
+   "modern": "Then, if the world is from soul and body, and the soul of the world is Aphrodite to Plato, Aphrodite must be the ruling part of Eros; or, if the world is its soul, as a man is the soul of a man, Eros must be Aphrodite. Then why will this one, being a daemon, be the world, and the other daemons, who are plainly of the same being, not be the world too? And the world will be a compound made of just this, of daemons. And how could the one said to be the overseer of beautiful boys be the world? And how could \"without bed, barefoot and homeless\" fit it, except meanly and out of tune?",
+   "greek": "εἶτα ἀνάγκη, εἴπερ ὁ κόσμος ἐστὶν ἐκ ψυχῆς καὶ σώματος, ἡ δὲ ψυχὴ τοῦ κόσμου ἡ Ἀφροδίτη ἐστὶν αὐτῷ, μέρος τὸ κύριον τοῦ Ἔρωτος τὴν Ἀφροδίτην εἶναι: ἤ, εἰ κόσμος ἡ ψυχή ἐστιν αὐτοῦ, ὥσπερ καὶ ἄνθρωπος ἡ ἀνθρώπου ψυχή, τὸν Ἔρωτα τὴν Ἀφροδίτην εἶναι. εἶτα διὰ τί οὗτος μὲν δαίμων ὢν ὁ κόσμος ἔσται, οἱ δὲ ἄλλοι δαίμονες — δῆλον γὰρ ὅτι ἐκ τῆς αὐτῆς οὐσίας εἰσίν — οὐ καὶ αὐτοὶ ἔσονται; καὶ ὁ κόσμος ἔσται σύστασις αὐτὸ τοῦτο ἐκ δαιμόνων. ὁ δὲ ἔφορος καλῶν παίδων λεχθεὶς εἶναι πῶς ἂν ὁ κόσμος εἴη; τὸ δὲ ἄστρωτον καὶ ἀνυπόδητον καὶ ἄοικον πῶς ἂν ἐφαρμόσειε μὴ οὐ γλίσχρως καὶ ἀπᾳδόντως;",
+   "flags": [
+    {
+     "taylor": "Our only escape would be to make the Kosmos a complex of Supernals",
+     "in": "MacKenna",
+     "why": "The Greek says \"and the world will be a compound made of just this, of daemons\" (ἔσται σύστασις αὐτὸ τοῦτο ἐκ δαιμόνων): one more absurdity, not an escape; \"Supernals\" is MacKenna's word for daemons."
+    },
+    {
+     "taylor": "Love, again, is called the Dispenser of beautiful children",
+     "in": "MacKenna",
+     "why": "The Greek has ἔφορος καλῶν παίδων, \"overseer of beautiful boys\" (Phaedrus 265c): not a giver of children."
+    }
+   ],
+   "notes": [
+    "A man is his soul: Alcibiades I 130c. Eros \"hard and dry, barefoot and homeless, always lying on the ground without a bed\": Symposium 203c-d."
+   ]
+  },
+  {
+   "seg": "III.5.6.p1",
+   "chapter": "III.5.6",
+   "modern": "What, then, must we say about Eros and his so-called birth? Plainly we must grasp what Poverty is and what Resource is, and how they suit being his parents. And plainly we must make them suit the other daemons too, if daemons, as daemons, are to have one nature and one being, and not only a common name. Let us grasp, then, how we distinguish gods from daemons, even if we often call daemons gods too, at least when we say that the one is one kind, and the other another. We say and hold that the kind of the gods is free from passion, but we give passions to daemons, saying that they are everlasting, next after the gods, but already towards us, between gods and our kind.",
+   "greek": "ἀλλὰ τί δὴ χρὴ λέγειν περὶ τοῦ Ἔρωτος καὶ τῆς λεγομένης γενέσεως αὐτοῦ; δῆλον δὴ ὅτι δεῖ λαβεῖν τίς ἡ Πενία καὶ τίς ὁ Πόρος, καὶ πῶς ἁρμόσουσιν οὗτοι γονεῖς εἶναι αὐτῷ. δῆλον δὲ ὅτι δεῖ καὶ τοῖς ἄλλοις δαίμοσι τούτους ἁρμόσαι, εἴπερ δεῖ φύσιν εἶναι καὶ οὐσίαν μίαν καθὸ δαίμονες δαιμόνων, εἰ μὴ κοινὸν ὄνομα ἕξουσι μόνον. λάβωμεν τοίνυν πῇ ποτε διορίζομεν θεοὺς δαιμόνων, καὶ εἰ πολλάκις καὶ δαίμονας θεοὺς λέγομεν εἶναι, ἀλλ’ ὅταν γε τὸ μὲν ἕτερον, τὸ δὲ ἕτερον λέγωμεν αὐτῶν εἶναι γένος. τὸ μὲν δὴ θεῶν ἀπαθὲς λέγομεν καὶ νομίζομεν γένος, δαίμοσι δὲ προστίθεμεν πάθη, ἀιδίους λέγοντες ἐφεξῆς τοῖς θεοῖς, ἤδη δὲ πρὸς ἡμᾶς, μεταξὺ θεῶν τε καὶ τοῦ ἡμετέρου γένους.",
+   "flags": [
+    {
+     "taylor": "distinguish the Gods from the Celestials",
+     "in": "MacKenna",
+     "why": "The Greek has δαίμονες, \"daemons\", throughout; MacKenna's \"Celestials\", \"Spirits\" and \"Supernals\" change from sentence to sentence for one Greek word."
+    }
+   ],
+   "notes": [
+    "Daemons between gods and men: Symposium 202d-203a. The Epinomis (984d-985b) gives daemons pleasure and pain, which the gods do not feel."
+   ]
+  },
+  {
+   "seg": "III.5.6.p2",
+   "chapter": "III.5.6",
+   "modern": "How, then, did these not stay free from passion? How did they come down by nature to the worse? And this too must be looked at: whether there is not even one daemon in the intelligible, and only daemons in this world, while god is set apart in the intelligible; or whether there are gods here too, and the world is a god, the third, as it is usual to say, and each of those down to the moon is a god. It is better not to call any in the intelligible a daemon, but, even if there is a daemon itself, to call him a god too; and again, in the sensible, to call those down to the moon, the visible gods, second gods, after those intelligible ones and in accord with them, hanging from them, like the radiance round each star.",
+   "greek": "πῇ δὴ οὖν οὐκ ἔμειναν ἀπαθεῖς οὗτοι, πῇ δὲ κατέβησαν τῇ φύσει πρὸς τὸ χεῖρον; καὶ δὴ καὶ τοῦτο σκεπτέον, πότερα δαίμων ἐν τῷ νοητῷ οὐδὲ εἷς καὶ αὖ ἐν τῷ κόσμῳ τούτῳ δαίμονες μόνον, θεὸς δὲ ἐν τῷ νοητῷ ἀφορίζεται, ἢ εἰσὶ καὶ ἐνταῦθα θεοὶ καὶ ὁ κόσμος θεός, ὥσπερ σύνηθες λέγειν, τρίτος καὶ οἱ μέχρι σελήνης ἕκαστος θεός. βέλτιον δὲ μηδένα ἐν τῷ νοητῷ δαίμονα λέγειν, ἀλλά, καὶ εἰ αὐτοδαίμων, θεὸν καὶ τοῦτον εἶναι, καὶ αὖ ἐν τῷ αἰσθητῷ τοὺς μέχρι σελήνης θεοὺς τοὺς ὁρατοὺς θεοὺς δευτέρους μετ’ ἐκείνους καὶ κατ’ ἐκείνους τοὺς νοητούς, ἐξηρτημένους ἐκείνων, ὥσπερ αἴγλην περὶ ἕκαστον ἄστρον.",
+   "notes": [
+    "The world as a god: Timaeus 34a-b, 92c; the \"third\" after the first god and intellect, as Numenius counted them (fr. 21 des Places). The visible gods, the stars, born: Timaeus 40d, 41a."
+   ]
+  },
+  {
+   "seg": "III.5.6.p3",
+   "chapter": "III.5.6",
+   "modern": "What, then, are daemons? Is each the trace of a soul that has come into the world? And why of a soul in the world? Because a pure soul begets a god, and we said that the love of this soul is a god. First, then, why are not all daemons loves? And then, how are these not pure of matter too? Or: those are loves that are begotten when a soul longs for the good and the beautiful, and all the souls here beget this daemon; but the other daemons, also from a soul, the soul of the All, are begotten by other powers, and fill out the All and help to govern each thing in it, according to the need of the whole. For the soul of the All had to be sufficient for the All, begetting the powers of daemons, those fitted to its own whole.",
+   "greek": "τοὺς δὲ δαίμονας τί; ἆρά γε ψυχῆς ἐν κόσμῳ γενομένης τὸ ἐφ̓ ἑκάστης ἴχνος; διὰ τί δὲ τῆς ἐν κόσμῳ; ὅτι καθαρὰ θεὸν γεννᾷ, καὶ θεὸν ἔφαμεν τὸν ταύτης ἔρωτα. πρῶτον δὴ διὰ τί οὐ πάντες οἱ δαίμονες ἔρωτες; εἶτα πῶς οὐ καθαροὶ καὶ οὗτοι ὕλης; ἢ ἔρωτες μέν, οἳ γεννῶνται ψυχῆς ἐφιεμένης τοῦ ἀγαθοῦ καὶ καλοῦ, καὶ γεννῶσι πᾶσαι τοῦτον τὸν δαίμονα αἱ ἐν τῷδε, οἱ δὲ ἄλλοι δαίμονες ἀπὸ ψυχῆς μὲν καὶ οὗτοι τῆς τοῦ παντός, δυνάμεσι δὲ ἑτέραις γεννώμενοι κατὰ χρείαν τοῦ ὅλου συμπληροῦσι καὶ συνδιοικοῦσι τῷ παντὶ ἕκαστα. ἔδει γὰρ ἀρκεῖν τὴν ψυχὴν τοῦ παντὸς τῷ παντὶ γεννήσασαν δυνάμεις δαιμόνων καὶ προσφόρους τῷ ἑαυτῆς ὅλῳ.",
+   "flags": [
+    {
+     "taylor": "A Celestial is the representative generated by each Soul when it enters the Kosmos",
+     "in": "MacKenna",
+     "why": "The Greek asks (ἆρά γε ...;) whether daemons are \"the trace\" (ἴχνος) of a soul that has come into the world: a trace left behind, not a representative sent out, and a question, not an answer."
+    }
+   ]
+  },
+  {
+   "seg": "III.5.6.p4",
+   "chapter": "III.5.6",
+   "modern": "But how, and in what matter, do they share? Not bodily matter, or they will be animals of sense. For even if they take on bodies of air or of fire, their nature must first be different, so that they can share in body too; for what is pure in every way does not mix with body straight off, although many think that the being of a daemon, in so far as it is a daemon, goes with some body, of air or of fire. But why does one mix with body and another not, unless there is some cause in the one that mixes? What, then, is the cause? We must posit an intelligible matter, so that what shares in it may come through it into this matter too, the matter of bodies.",
+   "greek": "ἀλλὰ πῶς καὶ τίνος ὕλης μετέχουσιν; οὐ γὰρ δὴ τῆς σωματικῆς, ἢ ζῷα αἰσθητὰ ἔσται. καὶ γὰρ εἰ σώματα προσλαμβάνουσιν ἀέρινα ἢ πύρινα, ἀλλὰ δεῖ γε πρότερον διάφορον αὐτῶν τὴν φύσιν εἶναι, ἵνα καὶ μετάσχωσι σώματος: οὐ γὰρ εὐθὺς τὸ καθαρὸν πάντη σώματι μίγνυται, καίτοι πολλοῖς δοκεῖ ἡ οὐσία τοῦ δαίμονος καθ̓ ὅσον δαίμων μετά τινος σώματος ἢ ἀέρος ἢ πυρὸς εἶναι. ἀλλὰ διὰ τί ἡ μὲν σώματι μίγνυται, ἡ δὲ οὔ, εἰ μή τις εἴη τῇ μιγνυμένῃ αἰτία; τίς οὖν ἡ αἰτία; ὕλην δεῖ νοητὴν ὑποθέσθαι, ἵνα τὸ κοινωνῆσαν ἐκείνης ἥκῃ καὶ εἰς ταύτην τὴν τῶν σωμάτων δἰ αὐτῆς.",
+   "notes": [
+    "Daemons with bodies of air: Epinomis 984b-985b, and Apuleius, On the god of Socrates 8-11. Intelligible matter, the matter of the forms: II.4.2-5, after Aristotle's \"intelligible matter\" (Metaphysics VII.10, 1036a9-12)."
+   ]
+  },
+  {
+   "seg": "III.5.7.p1",
+   "chapter": "III.5.7",
+   "modern": "That is why Plato, in telling of Eros' birth, says that Resource was drunk with nectar, \"for there was no wine yet\": as if Eros was born before the sensible, and Poverty shared in the nature of the intelligible, not of an image of the intelligible pictured from there, but came to be there and was mixed with Resource, as from form and indefiniteness: the indefiniteness the soul has before it reaches the good, while it divines that there is something, by an indefinite and boundless image. So she bore the reality of Eros.",
+   "greek": "διὸ καὶ ἐν τῇ γενέσει τοῦ Ἔρωτος ὁ Πλάτων φησὶ τὸν Πόρον τὴν μέθην ἔχειν τοῦ νέκταρος οἴνου οὔπω ὄντος, ὡς πρὸ τοῦ αἰσθητοῦ τοῦ Ἔρωτος γενομένου καὶ τῆς Πενίας μετεχούσης φύσεως νοητοῦ, ἀλλ’ οὐκ εἰδώλου νοητοῦ ἐκεῖθεν ἐμφαντασθέντος, ἀλλ’ ἐκεῖ γενομένης καὶ συμμιχθείσης ὡς ἐξ εἴδους καὶ ἀοριστίας, ἣν ἔχει ἡ ψυχὴ πρὶν τυχεῖν τοῦ ἀγαθοῦ, μαντευομένη δέ τι εἶναι κατὰ ἀόριστον καὶ ἄπειρον φάντασμα, τὴν ὑπόστασιν τοῦ Ἔρωτος τεκούσης.",
+   "flags": [
+    {
+     "taylor": "Penia (Poverty) had participation in the Intellectual before the lower image of that divine Realm had appeared",
+     "in": "MacKenna",
+     "why": "The Greek says Poverty shared in the intelligible nature, \"not of an image of the intelligible\" pictured from there: the contrast is between the intelligible and its image, not one of time; \"before\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "Symposium 203b-c: on the day Aphrodite was born the gods feasted, Poros among them; when they had dined, Penia came to beg at the door. Poros, drunk with nectar, \"for there was no wine yet\", went into the garden of Zeus and, weighed down, fell asleep; and Penia, plotting because of her own helplessness to have a child by Poros, lay down beside him and conceived Eros."
+   ]
+  },
+  {
+   "seg": "III.5.7.p2",
+   "chapter": "III.5.7",
+   "modern": "So a reason-principle, coming to be in what is not reason, but in an indefinite longing and a dim reality, made what was born neither complete nor sufficient, but lacking, since it was born from an indefinite longing and a sufficient reason-principle. And this reason-principle is not pure, since it has in itself a longing that is indefinite, unreasoning and boundless; for it will never be filled, as long as it has in itself the nature of the indefinite. It hangs from soul, since it was born from her as from its origin; but it is a mixture of a reason-principle that did not stay in itself but was mixed with indefiniteness, not by blending itself with it, but by what comes from it. And love is like a gadfly, without resource by its own nature; so even when it gets what it wants, it is without resource again. For it cannot be filled, because it is a mixture; only what is already full by its own nature is truly filled; but what longs because of the need that is with it, even if it is filled for the moment, does not hold it. So its helplessness comes from its need, and its resourcefulness from the nature of the reason-principle.",
+   "greek": "λόγος οὖν γενόμενος ἐν οὐ λόγῳ, ἀορίστῳ δὲ ἐφέσει καὶ ὑποστάσει ἀμυδρᾷ, ἐποίησε τὸ γενόμενον οὐ τέλειον οὐδὲ ἱκανόν, ἐλλιπὲς δέ, ἅτε ἐξ ἐφέσεως ἀορίστου καὶ λόγου ἱκανοῦ γεγενημένον. καὶ ἔστι λόγος οὗτος οὐ καθαρός, ἅτε ἔχων ἐν αὑτῷ ἔφεσιν ἀόριστον καὶ ἄλογον καὶ ἄπειρον: οὐ γὰρ μήποτε πληρώσεται, ἕως ἂν ἔχῃ ἐν αὑτῷ τὴν τοῦ ἀορίστου φύσιν. ἐξήρτηται δὲ ψυχῆς ὡς ἐξ ἐκείνης μὲν γενόμενος ὡς ἀρχῆς, μῖγμα δὲ ὢν ἐκ λόγου οὐ μείναντος ἐν αὑτῷ, ἀλλὰ μιχθέντος ἀοριστίᾳ, οὐκ αὐτοῦ ἀνακραθέντος ἐκείνῃ, ἀλλὰ τοῦ ἐξ αὐτοῦ ἐκείνῃ. καὶ ἔστιν ὁ ἔρως οἷον οἶστρος ἄπορος τῇ ἑαυτοῦ φύσει: διὸ καὶ τυγχάνων ἄπορος πάλιν. οὐ γὰρ ἔχει πληροῦσθαι διὰ τὸ μὴ ἔχειν τὸ μῖγμα: μόνον γὰρ πληροῦται ἀληθῶς, ὅτιπερ καὶ πεπλήρωται τῇ ἑαυτοῦ φύσει: ὁ δὲ διὰ τὴν συνοῦσαν ἔνδειαν ἐφίεται, κἂν παραχρῆμα πληρωθῇ, οὐ στέγει: ἐπεὶ καὶ τὸ ἀμήχανον αὐτῷ διὰ τὴν ἔνδειαν, τὸ δὲ ποριστικὸν διὰ τὴν τοῦ λόγου φύσιν",
+   "flags": [
+    {
+     "taylor": "Love, therefore, is like a goad",
+     "in": "MacKenna",
+     "why": "The Greek οἶστρος is a \"gadfly\", the insect whose sting drives cattle wild, and so a frenzy: Plato's word for the lover driven by desire (Phaedrus 240d); a goad is the herdsman's, used from outside."
+    }
+   ],
+   "notes": [
+    "Eros, by his mother, is without resource (ἄπορος), and by his father resourceful (πόριμος): what he gains always slips away, so that he is never without resource nor rich (Symposium 203d-e)."
+   ]
+  },
+  {
+   "seg": "III.5.7.p3",
+   "chapter": "III.5.7",
+   "modern": "And we must think that every daemon is such, and from such parents. For each is resourceful for what it is set over, and longs for it, and in this is akin to Eros; and it is not full either, but longs for one of the partial things, as goods.",
+   "greek": "δεῖ δὲ καὶ πᾶν τὸ δαιμόνιον τοιοῦτον νομίζειν καὶ ἐκ τοιούτων: καὶ γὰρ ἕκαστον ἐφ̓ ᾧ τέτακται ποριστικὸν ἐκείνου καὶ ἐφιέμενον ἐκείνου καὶ συγγενὲς καὶ ταύτῃ τῷ Ἔρωτι καὶ οὐ πλῆρες οὐδ’ αὐτό, ἐφιέμενον δέ τινος τῶν ἐν μέρει ὡς ἀγαθῶν."
+  },
+  {
+   "seg": "III.5.7.p4",
+   "chapter": "III.5.7",
+   "modern": "So the good here, having the love they have of the good simply and truly, do not have some particular love; and those who are ranked under other daemons are ranked under one daemon or another: they have left idle the daemon they had simply, and act by another daemon, which they chose in accord with the part of soul that is active in them. Those who long for evils have fettered all the loves in them with the evil desires that have come to be in them, just as they have fettered the right reason, which is born with them, with the evil opinions that have come on top.",
+   "greek": "ὅθεν καὶ τοὺς ἐνταῦθα ἀγαθοὺς ὃν ἔχουσιν ἔρωτα τοῦ ἁπλῶς ἀγαθοῦ καὶ τοῦ ὄντως ἔχειν οὐκ ἔρωτά τινα ἔχοντας, τοὺς δὲ κατ’ ἄλλους δαίμονας τεταγμένους. κατ’ ἄλλον δὲ ἄλλον δαίμονα τετάχθαι: ὃν ἁπλῶς εἶχον ἀργὸν ἀφέντας, ἐνεργοῦντας δὲ κατ’ ἄλλον δαίμονα, ὃν εἵλοντο κατὰ τὸ σύμφωνον μέρους τοῦ ἐνεργοῦντος ἐν αὐτοῖς ψυχῆς. οἱ δὲ κακῶν ἐφιέμενοι ταῖς κακαῖς ἐγγενομέναις ἐπιθυμίαις ἐπέδησαν πάντας τοὺς ἐν αὐτοῖς ἔρωτας, ὥσπερ καὶ λόγον τὸν ὀρθόν, ὅστις σύμφυτος, κακαῖς ταῖς ἐπιγενομέναις δόξαις.",
+   "flags": [
+    {
+     "taylor": "but this is mere blank possession when they ignore their own",
+     "in": "MacKenna",
+     "why": "The Greek says they \"have left idle\" (ἀργὸν ἀφέντας) the daemon they had simply, and act by another they chose: as in III.4.3, where the daemon above stands over us idle while the one below acts."
+    },
+    {
+     "taylor": "merged all the Love-Principles within them in the evil desires",
+     "in": "MacKenna",
+     "why": "The Greek says they \"fettered\" (ἐπέδησαν) all the loves in them with evil desires, as they fettered the right reason, \"which is inborn\" (σύμφυτος), with evil opinions; \"merged\", \"which belongs to our kind\" and \"from another source\" are MacKenna's."
+    }
+   ],
+   "notes": [
+    "The choice of a daemon by the part of the soul that is active: III.4.3, after Republic X 617e."
+   ]
+  },
+  {
+   "seg": "III.5.7.p5",
+   "chapter": "III.5.7",
+   "modern": "The loves, then, that are by nature and according to nature are beautiful: those of a lesser soul lesser in worth and power, those of a greater soul greater, but all of them in being. But those against nature are the passions of those who have slipped, and in no way beings or realities with being, no longer born from soul, but coming into existence along with the vice of a soul that begets things like itself, in dispositions and states, by now.",
+   "greek": "οἱ μὲν οὖν φύσει ἔρωτες καὶ κατὰ φύσιν καλοί: καὶ οἱ μὲν ἐλάττονος ψυχῆς ἐλάττους εἰς ἀξίαν καὶ δύναμιν, οἱ δὲ κρείττονος κρείττους, πάντες δὲ ἐν οὐσίᾳ: οἱ δὲ παρὰ φύσιν σφαλέντων πάθη ταῦτα καὶ οὐδαμῇ οὐσίαι οὐδὲ ὑποστάσεις οὐσιώδεις οὐ παρὰ ψυχῆς ἔτι γεννώμενα, ἀλλὰ συνυφιστάμενα κακίᾳ ψυχῆς ὅμοια γεννώσης ἐν διαθέσεσι καὶ ἕξεσιν ἤδη.",
+   "flags": [
+    {
+     "taylor": "All the natural Loves, all that serve the ends of Nature, are good",
+     "in": "MacKenna",
+     "why": "The Greek calls the natural loves \"beautiful\" (καλοί), the word of the whole treatise, not \"good\"; \"that serve the ends of Nature\" is MacKenna's for \"according to nature\"."
+    }
+   ]
+  },
+  {
+   "seg": "III.5.7.p6",
+   "chapter": "III.5.7",
+   "modern": "For on the whole it seems that the true goods, when the soul is active according to nature within what is defined, are being, and the others, when it is not active from itself, are nothing but passions; just as false thoughts do not have beings beneath them, as the true ones do, which are truly everlasting and defined, having together thinking, the intelligible and being, not only in what is simply, but in each one, about what is truly intelligible, and the intellect in each form. And we must posit in each of us, purely, thinking and the intelligible, though we are not this together and simply. So our love too is of the simple things, for so are our thoughts; and if it is of some partial thing, it is by accident, as if one saw that this triangle has angles equal to two right angles in so far as it is simply a triangle.",
+   "greek": "καὶ γὰρ ὅλως κινδυνεύει τὰ μὲν ἀγαθὰ τὰ ἀληθῆ κατὰ φύσιν ψυχῆς ἐνεργούσης ἐν ὡρισμένοις οὐσία εἶναι, τὰ δ’ ἄλλα οὐκ ἐξ αὑτῆς ἐνεργεῖν, οὐδὲν. δ’ ἄλλο ἢ πάθη εἶναι: ὥσπερ ψευδῆ νοήματα οὐκ ἔχοντα τὰς ὑπ’ αὐτὰ οὐσίας, καθάπερ τὰ ἀληθῆ ὄντως καὶ ἀίδια καὶ ὡρισμένα ὁμοῦ τὸ νοεῖν καὶ τὸ νοητὸν καὶ τὸ εἶναι ἔχοντα οὐ μόνον ἐν τῷ ἁπλῶς, ἀλλὰ καὶ ἐν ἑκάστῳ περὶ τὸ νοητὸν ὄντως καὶ νοῦν τὸν ἐν ἑκάστῳ εἴδει. δεῖ δὲ καὶ ἐν ἑκάστῳ ἡμῶν τίθεσθαι καθαρῶς νόησιν καὶ νοητόν, καὶ μὴ ὁμοῦ ὄντων ἡμῶν τοῦτο καὶ ἁπλῶς. ὅθεν καὶ τῶν ἁπλῶν ἡμῖν ὁ ἔρως: καὶ γὰρ αἱ νοήσεις: καὶ εἴ τινος τῶν ἐν μέρει, κατὰ συμβεβηκός, ὥσπερ εἴ τις τόδε τὸ τρίγωνον δύο ορθὰς θεωρεῖ καθ̓ ὅσον ἁπλῶς τρίγωνον.",
+   "flags": [
+    {
+     "taylor": "a given triangular figure is made up of two right angles",
+     "in": "MacKenna",
+     "why": "The Greek has the old theorem: this triangle has its angles equal to \"two right angles\" (δύο ὀρθάς), and one sees it in this triangle in so far as it is simply a triangle. A triangle is not \"made up of\" right angles."
+    }
+   ],
+   "notes": [
+    "The triangle's two right angles were the schools' example of what belongs to a thing as such, not by accident (Aristotle, Posterior Analytics I.4, 73b30-74a3; I.24, 85b5-15)."
+   ]
+  },
+  {
+   "seg": "III.5.8.p1",
+   "chapter": "III.5.8",
+   "modern": "But who is Zeus, whose garden he speaks of, the garden into which Resource went? And what is this garden? For Aphrodite, we said, was soul, and Resource was said to be the reason-principle of all things. What must we take these to be, Zeus and his garden? We must not take Zeus to be soul, since we took Aphrodite to be that. Here too we must take Zeus from Plato: in the Phaedrus he calls this god a great leader, and elsewhere, I think, the third; and more plainly in the Philebus, where he says that in Zeus there is a royal soul and a royal intellect.",
+   "greek": "ἀλλὰ τίς ὁ Ζεύς, οὗ τὸν κῆπον λέγει, εἰς ὃν εἰσῆλθεν ὁ Πόρος, καὶ τίς ὁ κῆπος οὗτος; ἡ μὲν γὰρ Ἀφροδίτη ψυχὴ ἦν ἡμῖν, λόγος δὲ ἐλέγετο τῶν πάντων ὁ Πόρος. ταῦτα δὲ τί δεῖ τίθεσθαι, τὸν Δία καὶ τὸν κῆπον αὐτοῦ; οὐδὲ γὰρ ψυχὴν δεῖ τίθεσθαι τὸν Δία τὴν Ἀφροδίτην τοῦτο θέντας. δεῖ δὴ λαβεῖν καὶ ἐνταῦθα παρὰ Πλάτωνος τὸν Δία ἐκ μὲν Φαίδρου ἡγεμόνα μέγαν λέγοντος αὐτοῦ τοῦτον τὸν θεόν, ἐν ἄλλοις δὲ τρίτον, οἶμαι, τοῦτον: σαφέστερον δὲ ἐν τῷ Φιλήβῳ, ἡνίκ̓ ἂν φῇ ἐν τῷ Διὶ εἶναι βασιλικὴν μὲν ψυχήν, βασιλικὸν δὲ νοῦν.",
+   "flags": [
+    {
+     "taylor": "though elsewhere he seems to rank him as one of three",
+     "in": "MacKenna",
+     "why": "The Greek says that elsewhere Plato calls Zeus \"the third, I think\" (τρίτον, οἶμαι): a rank, not one of three."
+    }
+   ],
+   "notes": [
+    "Zeus \"the great leader in heaven\": Phaedrus 246e. \"The third\" is probably Zeus the Saviour, to whom the third libation was poured (Republic IX 583b, Philebus 66d); Plotinus' \"I think\" shows he quotes from memory. \"In the nature of Zeus a royal soul and a royal intellect\": Philebus 30d."
+   ]
+  },
+  {
+   "seg": "III.5.8.p2",
+   "chapter": "III.5.8",
+   "modern": "If, then, Zeus is a great intellect and soul, and is ranked among the causes, and must be ranked by the better in him, both for other reasons and because the royal and leading is a cause, he will be on the side of intellect; and Aphrodite, being his, and from him, and with him, will be ranked on the side of soul, called Aphrodite for the beautiful, the splendid, the innocent and the delicate (habron) in soul. For if we rank the male gods with intellect and call the female ones their souls, since a soul is with each intellect, in this way too the soul of Zeus would be Aphrodite; and priests and theologians bear witness to this account again, who bring Hera and Aphrodite to the same, and call Aphrodite's star in the heaven Hera's.",
+   "greek": "εἰ οὖν ὁ Ζεὺς νοῦς ἐστι μέγας καὶ ψυχὴ καὶ ἐν τοῖς αἰτίοις τάττεται, κατὰ δὲ τὸ κρεῖττον δεῖ τάττειν διά τε τὰ ἄλλα καὶ ὅτι αἴτιον καὶ τὸ βασιλικὸν δὲ καὶ τὸ ἡγούμενον, ὁ μὲν ἔσται κατὰ τὸν νοῦν, ἡ δὲ Ἀφροδίτη αὐτοῦ οὖσα καὶ ἐξ αὐτοῦ καὶ σὺν αὐτῷ κατα τὴν ψυχὴν τετάξεται κατὰ τὸ καλὸν καὶ ἀγλαὸν καὶ τὸ τῆς ψυχῆς ἄκακον καὶ ἁβρὸν Ἀφροδίτη λεχθεῖσα. καὶ γὰρ εἰ κατὰ μὲν τὸν νοῦν τοὺς ἄρρενας τάττομεν τῶν θεῶν, κατὰ δὲ τὰς ψυχὰς αὐτῶν τὰς θηλείας λέγομεν, ὡς νῷ ἑκάστῳ ψυχῆς συνούσης, εἴη ἂν καὶ ταύτῃ ἡ ψυχὴ τοῦ Διὸς ἡ Ἀφροδίτη πάλιν μαρτυρούντων τούτῳ τῷ λόγῳ ἱερέων τε καὶ θεολόγων, οἳ εἰς ταὐτὸν Ἥραν καὶ Ἀφροδίτην ἄγουσι καὶ τὸν τῆς Ἀφροδίτης ἀστέρα ἐν οὐρανῷ Ἥρας λέγουσιν.",
+   "flags": [
+    {
+     "taylor": "he must be the highest for several reasons",
+     "in": "MacKenna",
+     "why": "The Greek says Zeus must be ranked \"by the better\" (κατὰ τὸ κρεῖττον) of what is in him, intellect rather than soul, so \"he will be on the side of intellect\"; not that he is the highest."
+    }
+   ],
+   "notes": [
+    "Aphrodite and ἁβρός, \"delicate\": the play is Plotinus'; Plato takes her name from the foam (ἀφρός) she was born from (Cratylus 406c-d). Hera's star: the morning star, \"which some call Aphrodite's and others Hera's\" ([Aristotle], On the cosmos 2, 392a27-28; Pliny, Natural History II.37)."
+   ]
+  },
+  {
+   "seg": "III.5.9.p1",
+   "chapter": "III.5.9",
+   "modern": "Resource, then, being the reason-principle of the things in the intelligible and in intellect, and more poured out, and unfolded, as it were, would come to be about soul and in soul. For what is gathered together in intellect does not come into it from another; but to Resource, drunk, the filling is brought in from outside. And what would the one filled there with nectar be, but a reason-principle fallen from a better principle to a lesser? So this reason-principle is in the soul from intellect, when Aphrodite is said to have been born, having flowed into his garden.",
+   "greek": "ὁ οὖν Πόρος λόγος ὢν τῶν ἐν τῷ νοητῷ καὶ νῷ καὶ μᾶλλον κεχυμένος καὶ οἷον ἁπλωθεὶς περὶ ψυχὴν ἂν γένοιτο καὶ ἐν ψυχῇ. τὸ γὰρ ἐν νῷ συνεσπειραμένον οὐ παρὰ ἄλλου εἰς αὐτόν, τούτῳ δὲ μεθύοντι ἐπακτὸν τὸ τῆς πληρώσεως. τὸ δ’ ἐκεῖ πληρούμενον τοῦ νέκταρος τί ἂν εἴη ἢ λόγος ἀπὸ κρείττονος ἀρχῆς πεσὼν εἰς ἐλάττονα; ἐν οὖν τῇ ψυχῇ ἀπὸ νοῦ ὁ λόγος οὗτος, ὅτε ἡ Ἀφροδίτη λέγεται γεγονέναι, εἰσρυεὶς εἰς τὸν κῆπον αὐτοῦ.",
+   "flags": [
+    {
+     "taylor": "being more diffused, kneaded out as it were",
+     "in": "MacKenna",
+     "why": "The Greek has ἁπλωθείς, \"unfolded\", \"spread out\", as against what is \"coiled together\" (συνεσπειραμένον) in intellect; \"kneaded\" is MacKenna's."
+    },
+    {
+     "taylor": "breaking into the garden of Zeus",
+     "in": "MacKenna",
+     "why": "The Greek says the reason-principle \"flowed into\" (εἰσρυείς) his garden: nothing breaks in."
+    }
+   ]
+  },
+  {
+   "seg": "III.5.9.p2",
+   "chapter": "III.5.9",
+   "modern": "Every garden is an adornment and a show of wealth. Zeus' garden is adorned by Zeus' reason-principle, and its ornaments are the adornments that have come from his intellect into the soul. Or what would the garden of Zeus be, but his statues and his adornments? And what would his adornments and ornaments be, but the reason-principles that have flowed from him? So the reason-principles together, Resource, the plenty and wealth of beautiful things, now showing forth: this is being drunk with nectar. For what is nectar to the gods, but what the divine receives? And what is below intellect receives a reason-principle. Intellect has itself in fullness, and is not drunk in having it, for it has nothing brought in. But the reason-principle, the offspring of intellect and a reality after intellect, no longer its own but in another, is said to lie in the garden of Zeus, who is intellect; and it lies there at the time when Aphrodite is said to come to be among the beings.",
+   "greek": "κῆπος δὲ πᾶς ἀγλάισμα καὶ πλούτου ἐγκαλλώπισμα. ἀγλαίζεται δὲ τῷ τοῦ Διὸς λόγῳ καὶ τὰ καλλωπίσματα αὐτοῦ, τὰ παρὰ τοῦ νοῦ αὐτοῦ εἰς τὴν ψυχὴν ἐλθόντα ἀγλαίσματα. ἢ τί ἂν εἴη ὁ κῆπος τοῦ Διὸς ἢ τὰ ἀγάλματα αὐτοῦ καὶ τὰ ἀγλαίσματα; τί δ’ ἂν εἴη τὰ ἀγλαίσματα αὐτοῦ καὶ τὰ κοσμήματα ἢ οἱ λόγοι οἱ παῤ αὐτοῦ ῥυέντες; ὁμοῦ δὴ οἱ λόγοι, ὁ Πόρος, ἡ εὐπορία καὶ ὁ πλοῦτος τῶν καλῶν, ἐν ἐκφάνσει ἤδη καὶ τοῦτό ἐστι τὸ μεθύειν τῷ νέκταρι. τί γὰρ θεοῖς νέκταρ ἢ ὃ τὸ θεῖον κομίζεται; κομίζεται δὲ τὸ ὑποβεβηκὸς νοῦ λόγον: νοῦς δὲ ἑαυτὸν ἔχει ἐν κόρῳ καὶ οὐ μεθύει ἔχων. οὐ γὰρ ἐπακτόν τι ἔχει. ὁ δὲ λόγος νοῦ γέννημα καὶ ὑπόστασις μετὰ νοῦν καὶ οὐκέτι αὐτοῦ ὤν, ἀλλ’ ἐν ἄλλῳ, ἐν τῷ νοῦ Διὸς κήπῳ λέγεται κεῖσθαι τότε κείμενος, ὅτε ἡ Ἀφροδίτη ἐν τοῖς οὖσιν ὑποστῆναι λέγεται.",
+   "flags": [
+    {
+     "taylor": "what the god-nature essentially demands",
+     "in": "MacKenna",
+     "why": "The Greek asks \"what is nectar to the gods but what the divine receives (κομίζεται)?\", and answers that what is below intellect receives a reason-principle: what is received, not demanded."
+    }
+   ],
+   "notes": [
+    "Intellect \"in fullness\" (ἐν κόρῳ): Plotinus takes Kronos' name from κόρος, \"fullness\", and νοῦς (V.1.4, V.1.7), after the Cratylus (396b)."
+   ]
+  },
+  {
+   "seg": "III.5.9.p3",
+   "chapter": "III.5.9",
+   "modern": "Myths, if they are to be myths, must divide what they tell into times, and separate from one another many of the beings that are together but stand apart in rank or in powers; since reasoned accounts too make births of what is unborn, and they too divide what is together, and, having taught as well as they can, they let the one who has understood put it together again. Put together, it is this: soul, being with intellect, and having its reality from intellect, and filled in turn with reason-principles, beautiful and adorned with beautiful things, and filled with plenty, so that many adornments are to be seen in her, and images of all beautiful things, is Aphrodite as a whole; all the reason-principles in her are plenty and Resource, from the nectar there flowing from above; and the adornments in her, as lying in life, are called the garden of Zeus, and Resource is said to sleep there, weighed down by what he was filled with. And since life has shown itself and is always among the beings, the gods are said to feast, as being in such blessedness.",
+   "greek": "δεῖ δὲ τοὺς μύθους, εἴπερ τοῦτο ἔσονται, καὶ μερίζειν χρόνοις ἃ λέγουσι, καὶ διαιρεῖν ἀπ’ ἀλλήλων πολλὰ τῶν ὄντων ὁμοῦ μὲν ὄντα, τάξει δὲ ἢ δυνάμεσι διεστῶτα, ὅπου καὶ οἱ λόγοι καὶ γενέσεις τῶν ἀγεννήτων ποιοῦσι, καὶ τὰ ὁμοῦ ὄντα καὶ αὐτοὶ διαιροῦσι, καὶ διδάξαντες ὡς δύνανται τῷ νοήσαντι ἤδη συγχωροῦσι συναιρεῖν. ἡ δὲ συναίρεσις ψυχὴ νῷ συνοῦσα καὶ παρὰ νοῦ ὑποστᾶσα καὶ αὖ λόγων πληρωθεῖσα καὶ καλὴ καλοῖς κοσμηθεῖσα καὶ εὐπορίας πληρωθεῖσα, ὡς εἶναι ἐν αὐτῇ ὁρᾶν πολλὰ ἀγλαίσματα καὶ τῶν καλῶν ἁπάντων εἰκόνας, Ἀφροδίτη μέν ἐστι τὸ πᾶν, οἱ δὲ ἐν αὐτῇ λόγοι πάντες εὐπορία καὶ Πόρος, ἀπὸ τῶν ἄνω ῥυέντος τοῦ ἐκεῖ νέκταρος: τὰ δὲ ἐν αὐτῇ ἀγλαίσματα ὡς ἂν ἐν ζωῇ κείμενα κῆπος Διὸς λέγεται, καὶ εὕδειν ἐκεῖ ὁ Πόρος οἷς ἐπληρώθη βεβαρημένος. ζωῆς δὲ φανείσης καὶ οὔσης ἀεὶ ἐν τοῖς οὖσιν ἑστιᾶσθαι οἱ θεοὶ λέγονται ὡς ἂν ἐν τοιαύτῃ μακαριότητι ὄντες.",
+   "flags": [
+    {
+     "taylor": "breaking away from it",
+     "in": "MacKenna",
+     "why": "The Greek says soul \"has its reality from intellect\" (παρὰ νοῦ ὑποστᾶσα): it comes from intellect, and stays \"with intellect\"; it does not break away from it."
+    }
+   ],
+   "notes": [
+    "So the early Academy read the Timaeus' making of the world: told as a birth in time for the sake of teaching, as one draws a figure step by step (Aristotle, On the heavens I.10, 279b32-280a2)."
+   ]
+  },
+  {
+   "seg": "III.5.9.p4",
+   "chapter": "III.5.9",
+   "modern": "And Eros has always come to be in this way, of necessity, from the soul's longing for the better and the good, and he always was, as long as soul was. He is a mixed thing, sharing in need, by which he wants to be filled, but not without a share in plenty, by which he seeks what is lacking to what he has; for what has no share at all in the good would never seek the good. So he is said to be from Resource and Poverty, in that the lack, the longing and the memory of the reason-principles, coming together in the soul, begot the activity towards the good, which is this love.",
+   "greek": "ἀεὶ δὲ οὕτως ὑπέστη ὅδε ἐξ ἀνάγκης ἐκ τῆς ψυχῆς ἐφέσεως πρὸς τὸ κρεῖττον καὶ τὸ ἀγαθὸν, καὶ ἦν ἀεὶ ἐξ οὗπερ καὶ ψυχη ὁ ἔρως. ἔστι δὲ οὗτος μικτόν τι χρῆμα μετέχον μὲν ἐνδείας, ᾗ πληροῦσθαι θέλει, οὐκ ἄμοιρον δὲ εὐπορίας, ᾗ οὗ ἔχει τὸ ἐλλεῖπον ζητεῖ: οὐ γὰρ δὴ τὸ πάμπαν ἄμοιρον τοῦ ἀγαθοῦ τὸ ἀγαθὸν ἄν ποτε ζητήσειεν. ἐκ Πόρου οὖν καὶ Πενίας λέγεται εἶναι, ᾗ ἡ ἔλλειψις καὶ ἡ ἔφεσις καὶ τῶν λόγων ἡ μνήμη ὁμοῦ συνελθόντα ἐν ψυχῇ ἐγέννησε τὴν ἐνέργειαν τὴν πρός τὸ ἀγαθόν, ἔρωτα τοῦτον ὄντα."
+  },
+  {
+   "seg": "III.5.9.p5",
+   "chapter": "III.5.9",
+   "modern": "His mother is Poverty, because longing always belongs to what is in need. And Poverty is matter, because matter too is in need of all things, and because of the indefiniteness of the desire for the good: for there is no shape or reason-principle in what longs for it, and the longing makes what longs more like matter, as far as it longs. But what is turned towards itself is form alone, staying in itself; and when something longs to receive, it makes what is to receive matter for what comes upon it. So Eros is something like matter, and he is this daemon, born from soul in so far as it lacks the good, but longs for it.",
+   "greek": "ἡ δὲ μήτηρ αὐτῷ Πενία, ὅτι ἀεὶ ἡ ἔφεσις ἐνδεοῦς: ὕλη δὲ ἡ Πενία, ὅτι καὶ ἡ ὕλη ἐνδεὴς τὰ πάντα καὶ τὸ ἀόριστον τῆς τοῦ ἀγαθοῦ ἐπιθυμίας: οὐ γὰρ μορφή τις οὐδὲ λόγος ἐν τῷ ἐφιεμένῳ τούτου: ὑλικώτερον τὸ ἐφιέμενον καθ̓ ὅσον ἐφίεται ποιεῖ. τὸ δὲ πρὸς αὐτὸ εἶδός ἐστι μόνον ἐν αὑτῷ μένον: καὶ δέξασθαι δὲ ἐφιέμενον ὕλην τῷ ἐπιόντι τὸ δεξόμενον παρασκευάζει. οὕτω τοι ὁ Ἔρως ὑλικός τίς ἐστι καὶ δαίμων οὗτός ἐστιν ἐκ ψυχῆς, καθ̓ ὅσον ἐλλείπει τῷ ἀγαθῷ, ἐφίεται δέ, γεγενημένος.",
+   "flags": [
+    {
+     "taylor": "will leave it still unchanged in Kind",
+     "in": "MacKenna",
+     "why": "The Greek says that what is turned to itself is \"form alone, staying in itself\", and that what longs to receive makes the receiver matter for what comes: MacKenna's striving \"(with attainment)\" that leaves a thing \"unchanged in Kind\" is not in it."
+    },
+    {
+     "taylor": "and at the same time a Celestial, sprung of the Soul",
+     "in": "MacKenna",
+     "why": "The Greek says love is \"this daemon\" (δαίμων οὗτος), born from soul: the daemon of the Symposium, whom the treatise set out to explain."
+    }
+   ],
+   "notes": [
+    "Matter as poverty: II.4.16, where Plotinus calls matter \"Poverty\" (πενία), and I.8.3. Plutarch too made Penia matter (On Isis and Osiris 57, 374c-d)."
    ]
   }
  ],
