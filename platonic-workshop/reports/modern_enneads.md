@@ -4,14 +4,14 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 
 - Made from: Volkmann's Greek (Leipzig, 1883-1884), as First1KGreek gives it; checked against MacKenna's English (1917, 1921, 1924; the Internet Archive's OCR of the printed volumes, read by rule (tools/mackenna.py), not proofread).
 - Porphyry's Life of Plotinus: Volkmann's own Greek (vol. I, 1883), proofread from the scan (`sources/neoplatonists/proofread/porphyry-life-plotinus.txt`).
-- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny, III.2 On providence, first part, III.3 On providence, second part, III.4 On the daemon allotted to us, III.5 On love, III.8 On nature, contemplation and the One, III.9 Various considerations, IV.1 On the being of the soul, first part, IV.4 On difficulties about the soul, second part, IV.5 On difficulties about the soul, third part, or on sight, IV.6 On perception and memory.
-- The whole Enneads: 26 treatises here, 15 beside Taylor (milestone 27), 14 to come.
-- Chapters: 256, each with a short title and a summary.
-- Paragraphs: 743, each with its Greek.
-- Words: 102,685 modern, 77,305 Greek, 132,752 in MacKenna's English of the same chapters.
-- Sentences (each can be marked in the reader): 3,627.
-- Flags (where MacKenna and the Greek differ, or the Greek is hard): 698.
-- Notes (Plato's, Aristotle's and Homer's places, hard readings): 463.
+- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny, III.2 On providence, first part, III.3 On providence, second part, III.4 On the daemon allotted to us, III.5 On love, III.8 On nature, contemplation and the One, III.9 Various considerations, IV.1 On the being of the soul, first part, IV.4 On difficulties about the soul, second part, IV.5 On difficulties about the soul, third part, or on sight, IV.6 On perception and memory, IV.8 On the descent of the soul into bodies, IV.9 Whether all souls are one.
+- The whole Enneads: 28 treatises here, 15 beside Taylor (milestone 27), 12 to come.
+- Chapters: 269, each with a short title and a summary.
+- Paragraphs: 788, each with its Greek.
+- Words: 107,957 modern, 81,352 Greek, 138,560 in MacKenna's English of the same chapters.
+- Sentences (each can be marked in the reader): 3,761.
+- Flags (where MacKenna and the Greek differ, or the Greek is hard): 733.
+- Notes (Plato's, Aristotle's and Homer's places, hard readings): 485.
 - Problems found: 0.
 
 ## Flags
@@ -716,6 +716,41 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | IV.6.3.p5 | memory follows upon attention ; those who have memorised much, by dint of their training in the use of leading indications (suggestive words and the like) | The Greek has no "memory follows upon attention"; it says memory comes not only for what we have practised, and that those used to "reports" (ἀπαγγελίαις), to telling things over, recover others easily; MacKenna's "leading indications" and his bracket are not there. |
 | IV.6.3.p6 | in no pursuit do technical exercises tend to make a man less the master of his acts and states | The Greek says "nowhere does training for anything make what has trained easily affected" (εὐπαθές): the point is that training makes it less passive, which is the opposite of what imprints would need. |
 | IV.6.3.p7 | the dominant idea differs from man to man | The Greek says "different forms prevail in different men" (ἐπικρατοῦσι γὰρ ἄλλαι ἐν ἄλλῳ ἰδέαι): kinds of make or constitution, as a boxer's and a runner's, not ideas. |
+| IV.8.1.p1 | Lifted out of the body into myself | The Greek says "waking up" (ἐγειρόμενος) out of the body into myself: the life in the body is the sleep, and the vision is the waking. |
+| IV.8.1.p2 | always beginning again | The Greek ἄρχεσθαι is most naturally "to be ruled" (toiling for the same masters), not "to begin": Heraclitus' fragment speaks of the weariness of serving. |
+| IV.8.1.p2 | in slavery to a raving discord | The Greek says "trusting in raging strife" (πίσυνος μαινομένῳ νείκει): Empedocles put his faith in Strife; there is no slavery. |
+| IV.8.2.p1 | though in all cases appropriately placed within the universe | The Greek says each particular body, left to itself, would scatter and be carried to its own place, while "in the All everything lies by nature in its own place": a contrast between the two, not a concession about the particular body. |
+| IV.8.2.p3 | in the second kind of care the agent absorbs much of the nature of its object | The Greek says the doer is "filled" (ἀναπιμπλᾶσα), even tainted, with the nature of what it does, by contact with it: not much of it, but its nature. |
+| IV.8.2.p4 | bringing about a veritable descent | The Greek says no business "makes it incline downward" (νεῦσιν ποιοῦσα κάτω): an inclination, not a descent. |
+| IV.8.3.p3 | remaining, therefore, an Intellectual-Principle | The Greek says the opposite: having taken on something else, "it did not remain intellect" (νοῦς οὐκ ἔμεινεν). |
+| IV.8.4.p1 | the appetite for the divine Intel lect urges them to return to their source | The Greek says they "use an intellectual longing" (ὀρέξει νοερᾷ) in turning back to their source: the longing is intellectual, not a longing for intellect. |
+| IV.8.4.p2 | by an actual presence, it administers the particular | The Greek says it governs the particular "with difficulty" (μετὰ περιστάσεως), amid troubles; its presence comes after, "present to it, and sunk into it". |
+| IV.8.4.p3 | the soul has lost that innocency of conducting the higher | The Greek says it has missed "the freedom from harm" (τοῦ ἀβλαβοῦς) that it had in governing the better: harmlessness, not innocence. |
+| IV.8.4.p3 | when only it makes its memories the starting point of a new vision | The Greek says "recollection" (ἀναμνήσεως), Plato's recollection of the forms, not the soul's memories. |
+| IV.8.4.p4 | have place in both spheres | The Greek says they become "amphibians, as it were" (οἷον ἀμφίβιοι), living in two elements, like a frog in water and on land. |
+| IV.8.5.p1 | a voluntary descent aiming at the completion of the universe | The Greek speaks only of "the descent for the completion of the All" (ἡ εἰς τελείωσιν κάθοδος τοῦ παντός); that it is voluntary is MacKenna's. |
+| IV.8.5.p2 | determined by an external law of nature | The Greek says "an everlasting law" (ἀιδίῳ νόμῳ), not an external one. |
+| IV.8.5.p3 | its audacity, its Tolma | Not in the Greek of this chapter, which says only "the cause of its coming down"; the soul's "audacity" (τόλμα) is in V.1.1, and MacKenna brings it here. |
+| IV.8.5.p4 | coming to understand what sin is | The Greek says "the nature of wickedness" (φύσιν κακίας), vice, not sin. |
+| IV.8.6.p1 | native to soul as it exists in the Supreme | The Greek says the power is "as great as was in that one" (ὅση ἦν ἐν ἐκείνῳ), in the prior; nothing is said here of soul in the Supreme. |
+| IV.8.7.p1 | the greatness of rest in the Supreme | The Greek says it learns "what it is to be there" (οἷον ἄρα ἐστὶν ἐκεῖ εἶναι); "rest" is MacKenna's. |
+| IV.8.7.p2 | Where the faculty is incapable of knowing without contact | The Greek says "too weak to know evil by knowledge before experience" (ἐπιστήμῃ πρὸ πείρας). |
+| IV.8.7.p3 | has the property of knowing its lower by inspection | The Greek says it grasps what is below it "by contemplation" (θεωρίᾳ), the word for the soul's beholding of intellect. |
+| IV.8.8.p1 | or by the individual choice or by both at once | The Greek says "by the power of discursive thought" (διανοητικῇ): the reasoning power, not choice. |
+| IV.8.8.p2 | as in the execution of an artistic conception | The Greek says "as art does not deliberate" (ὡς ἡ τέχνη οὐ βουλεύεται): the point is that it acts without deliberating. |
+| IV.8.8.p3 | that pleasure which is its lure | The Greek says "pleasure deceives it" (ἡδονὴ ἠπάτησε): a deception, not only a lure. |
+| IV.9.1.p1 | That the Soul of every individual is one thing we deduce from the fact | The Greek is one long question ("Is it the case that, as we say..."), which MacKenna turns into statements. |
+| IV.9.1.p2 | and yours, and mine, belongs to it | The Greek says ours "come from" (ἐκ) the soul of the All. |
+| IV.9.2.p1 | the distress is felt not in the other but in the hand as represented in the centralising unity | The Greek says the other hand does not perceive it, "but the soul in the whole" does (ἀλλ’ ἡ ἐν τῷ ὅλῳ); MacKenna's "centralising unity" stands for this. |
+| IV.9.2.p2 | some transmission of the experience may be expected | The Greek says that "to be affected together" (συμπάσχειν), sympathy, is not absurd; Plotinus' word for the bond of the All. |
+| IV.9.2.p3 | an identical thing may be active here and inactive there | The Greek says "moving in one and standing in another" (κινεῖσθαι ... ἑστάναι), as with the man in me and in you above. |
+| IV.9.3.p1 | and all this can be due only to some unity among us | The Greek says "perhaps that is why there is love" (μήποτε γὰρ τὸ φιλεῖν διὰ τοῦτο): feeling with one another may be the cause of love. |
+| IV.9.3.p3 | which itself has sensation passively | The Greek says it is the part that is nourished (ὃ καὶ παθητικῶς αἰσθητικόν), the body, that perceives passively, not the All. |
+| IV.9.4.p2 | Let us suppose, even, the first soul to be corporeal | The Greek says "if it were a body" (εἰ μὲν οὖν σῶμα εἴη): a hypothesis to be refuted, which MacKenna turns into a supposition to grant. |
+| IV.9.4.p4 | the soul is a unit broken up into a variety of points | The Greek says it "would be spent" or used up (ἀνηλίσκετο) into many marks: consumed by being divided, as a body is. |
+| IV.9.5.p1 | includes the one-many in virtue of giving itself | The Greek says the many go back "to it" (εἰς ταύτην) as to one that has given itself to multitude and not given itself; there is no "one-many" that it includes. |
+| IV.9.5.p3 | its value consists in its approach to the whole | The Greek says it "is empowered" (ἐνδυναμοῦται) by coming near the whole: it gains power, not value. |
+| IV.9.5.p4 | There all stands out clear and separate | The Greek says "all things are clear, and each" (φανὰ πάντα καὶ ἕκαστον); "separate" is MacKenna's. |
 
 ## The plan, in Porphyry's order
 
@@ -756,8 +791,8 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | IV.5 | On difficulties about the soul, third part, or on sight | done here |
 | IV.6 | On perception and memory | done here |
 | IV.7 | On the immortality of the soul | done beside Taylor (milestone 27) |
-| IV.8 | On the descent of the soul into bodies | to come (E19) |
-| IV.9 | Whether all souls are one | to come (E19) |
+| IV.8 | On the descent of the soul into bodies | done here |
+| IV.9 | Whether all souls are one | done here |
 | V.1 | On the three first realities | done beside Taylor (milestone 27) |
 | V.2 | On the origin and order of what comes after the first | done beside Taylor (milestone 27) |
 | V.3 | On the knowing realities and what is beyond | done beside Taylor (milestone 27) |

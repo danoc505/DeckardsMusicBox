@@ -320,10 +320,31 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   cave's shadows (Republic VII 515a-c), voice (Diogenes Laertius VII.55), V.3.1-6, recollection (Phaedo 72e-76e, Phaedrus
   249b-c), the bewitched soul (Phaedo 81b), virtues made by exercise (Republic VII 518d-e) and the writing tablet (On the soul
   III.4).
-- E19: IV.8 On the descent of the soul into bodies, IV.9 Whether all souls are one (4,047). Next. MacKenna's chapters
-  look to be the Greek's (8 and 5 in both); check them against the Greek.
+- **E19: IV.8 On the descent of the soul into bodies, IV.9 Whether all souls are one (4,047) (done).** 13 chapters, 45
+  paragraphs, 35 flags, 22 notes. MacKenna's chapters are the Greek's in both treatises (8 and 5). E.g. MacKenna has Plotinus
+  "Lifted out of the body" where the Greek has him wake, Heraclitus' weariness of "always beginning again" for being ruled,
+  Empedocles "in slavery" to strife for trusting in it, the particular body "appropriately placed" where the Greek contrasts it
+  with the All, "absorbs much" for being filled with the nature of what is done, "a veritable descent" for an inclination,
+  the soul "remaining ... an Intellectual-Principle" where the Greek says it did not remain intellect, an appetite "for the
+  divine Intellect" for an intellectual longing, "an actual presence" for difficulty, "innocency" for freedom from harm,
+  "memories" for recollection, "both spheres" for the amphibians, a "voluntary" descent for completing the All, an
+  "external" law for an everlasting one, the soul's "Tolma" (from V.1.1), "sin" for wickedness, a power "native to soul" for
+  the prior's, "rest in the Supreme" for what it is to be there, "without contact" for knowledge before experience,
+  "inspection" for contemplation, "individual choice" for discursive thought, "an artistic conception" for art that does not
+  deliberate, pleasure as "lure" for deception, statements for Plotinus' question, souls that "belong to" the All's for
+  coming from it, "the centralising unity" for the soul in the whole, "transmission" for sympathy, "active ... inactive" for
+  moving and standing, "due only to some unity" for perhaps the cause of love, sensation in the All for the nourished part,
+  the body-soul "supposed" for a hypothesis refuted, "points" for being spent, "the one-many", "value" for being empowered,
+  and "separate" for each. Notes on Life 23, Heraclitus (B60, B84a-b, B90, B101), Empedocles (B115, B120), the bond, tomb
+  and custody (Cratylus 400c, Phaedo 62b, 82e), the cave (Republic VII 514a-517b), the wings and periods (Phaedrus 246c,
+  248c-249b), the lots (Republic X 617d-620e), the Timaeus' blessed god, mixing bowl and sowing (29e-30c, 34b, 41a-42d), the
+  star-bodies (Timaeus 36d-e, 40a-b), the body that hinders (Phaedo 65a-66d), the intelligible place and Living Being,
+  recollection, Xenocrates' reading of the Timaeus, the judgements (Phaedo 113d-114c), potency and act, the ungrudging good
+  (Timaeus 29e), matter (II.4, III.6), the undescended soul against Proclus (Elements of Theology 211), art that does not
+  deliberate (Physics II.8), the divided and undivided (Timaeus 35a), magic (IV.4.40-44), the ring (On the soul II.12), and
+  geometrical analysis (Pappus, Nicomachean Ethics III.3).
 - E20: V.4 How what comes after the first comes from it, V.5 That the intelligibles are not outside intellect (5,314);
-  MacKenna's vol. IV (1926).
+  MacKenna's vol. IV (1926). Next. Check MacKenna's chapters against the Greek.
 - E21: V.7 Whether there are forms of individuals, V.8 On intelligible beauty (5,221).
 - E22: VI.1 On the kinds of being, first part, chapters 1-15 (about 4,900); MacKenna's vol. V (1930).
 - E23: VI.1 chapters 16-30 (about 4,900).
