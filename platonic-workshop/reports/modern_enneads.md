@@ -6,12 +6,12 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 - Porphyry's Life of Plotinus: Volkmann's own Greek (vol. I, 1883), proofread from the scan (`sources/neoplatonists/proofread/porphyry-life-plotinus.txt`).
 - Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny, III.2 On providence, first part, III.3 On providence, second part, III.4 On the daemon allotted to us, III.5 On love, III.8 On nature, contemplation and the One, III.9 Various considerations, IV.1 On the being of the soul, first part, IV.4 On difficulties about the soul, second part.
 - The whole Enneads: 24 treatises here, 15 beside Taylor (milestone 27), 16 to come.
-- Chapters: 217, each with a short title and a summary.
-- Paragraphs: 601, each with its Greek.
-- Words: 83,590 modern, 63,017 Greek, 108,047 in MacKenna's English of the same chapters.
-- Sentences (each can be marked in the reader): 3,077.
-- Flags (where MacKenna and the Greek differ, or the Greek is hard): 573.
-- Notes (Plato's, Aristotle's and Homer's places, hard readings): 373.
+- Chapters: 231, each with a short title and a summary.
+- Paragraphs: 647, each with its Greek.
+- Words: 90,359 modern, 68,075 Greek, 117,007 in MacKenna's English of the same chapters.
+- Sentences (each can be marked in the reader): 3,284.
+- Flags (where MacKenna and the Greek differ, or the Greek is hard): 599.
+- Notes (Plato's, Aristotle's and Homer's places, hard readings): 399.
 - Problems found: 0.
 
 ## Flags
@@ -591,6 +591,32 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | IV.4.17.p3 | the doubt and the change of standard are of the Conjoint | The Greek has "the common" (τοῦ κοινοῦ), the compound of soul and body, and ἀλλοδοξία, holding different opinions at different times; "change of standard" is MacKenna's. |
 | IV.4.17.p4 | a demotic constitution not out of control | The Greek says a democracy "not unmixed" (οὐκ ἀκράτου), tempered by something better; the word means "unmixed", like undiluted wine, and so "unbridled", but the point is the mixture. |
 | IV.4.17.p4 | the city of the lower elements | MacKenna's chapter ends here, leaving out the Greek's last sentence: that in the soul of the All there is one, the same and the like, and in the other souls otherwise, which sums up the chapters on memory and reasoning. |
+| IV.4.18.p1 | the most honourable phase of our being, is what we think of as the true man and into this we are penetrating | The Greek says "we set this down as the most honoured part of us, and as the man, and as it were sink into it" (τοῦτο ἡμῶν τὸ τιμιώτατον καὶ τὸν ἄνθρωπον τιθέμεθα καὶ οἷον εἰσδυόμεθα εἰς αὐτό). "This" is the body we care for: Plotinus is blaming our mistake of taking it for ourselves. MacKenna makes it the higher part, and our going into it a good. |
+| IV.4.18.p2 | by its very nature is immune from evil | The Greek says soul alone "escapes everything" (ἐκφεύγει πᾶν): it suffers neither division nor anything else. "From evil" is MacKenna's. |
+| IV.4.18.p2 | in the mere fact that they were inapt to partnership | The Greek puts the origin of pain in their "not being allowed to be one" (τῷ οὐκ ἐᾶσθαι εἶναι ἕν): two that want to be one, held together by a oneness brought in from outside, and kept apart by their natures; it says nothing of their being unfit to share. |
+| IV.4.18.p2 | directed to the above, of longing for unison | The Greek says that, turned upward, the compound announces "its own pleasure" (τὴν αὑτοῦ ἡδονήν), as it announced its pain when carried down; the longing for the partnership is the reason for the pleasure. MacKenna leaves the pleasure out, though the chapter is about pleasure and pain. |
+| IV.4.19.p1 | the principle, the imaging faculty, into which the sensations finally merge | The Greek names no faculty: the perceiving soul announces the affection "to that in which the perceptions end" (τῷ εἰς ὃ λήγουσιν αἱ αἰσθήσεις). MacKenna identifies it as the imaging faculty, which Plotinus makes the seat of memory in IV.3.29-31, but not here. |
+| IV.4.19.p2 | just as we class him as fair from his eyes being blue | The Greek says the man is called grey-eyed (γλαυκός) for the grey in his eye: the same word is used of the man and of his eye, as "hurts" is said of the man and of his finger. "Fair" loses the point that the whole is named from its part. |
+| IV.4.20.p2 | the soul, which alone is competent, acts upon it | The Greek says it is "the soul whose task it is to provide" (ἧς τὸ πορίζειν) that provides or resists: it is marked out by its task of providing, not by being alone competent. |
+| IV.4.20.p3 | makes the child's experience her own | The Greek says "the completion comes from that to her" (τὴν περάτωσιν ἀπ’ ἐκείνου πρὸς αὐτὴν ἥκειν): the desire begun in the body is finished in nature, which is why the clear desire of the last paragraph is "the end of the one that began in the body". |
+| IV.4.21.p1 | it may refuse assent to the idea of eating or drinking until reason gives the word | The Greek does not make the whole desire wait on reason: it says the desire "does not want to eat or drink before reasoning comes in" (πρὸ τοῦ τὸν λογισμὸν εἶναι), because nature has not joined the body's pre-desire; reason is not yet in the picture. |
+| IV.4.22.p2 | they lack the flesh, blood, muscle, and pliant material of earth | The Greek says there are no sinews, flesh, blood or moisture "there", in the fiery stars, and yet they have soul; it does not give the earth flesh and blood, but says it is "more varied, made of all the bodies". |
+| IV.4.23.p1 | it has the faculty of dealing with the sensible, but it remains isolated | The Greek returns to the soul alone (μόνη), and puts its reaching for the perceptible as a supposition, "even if it could" (κἂν οἷόν τε); MacKenna makes it nature, with a faculty it has. |
+| IV.4.23.p2 | an object whose complete detail of colour and form is known | The Greek says the form ends "in the underlying colour and shape, as large as it is there" (ὅσον ἐστὶν ἐκεῖ): seeing reaches the object at its own size, though what first comes from far off is without parts. That distant things look small is the question of II.8 (E9). |
+| IV.4.24.p3 | by means of what is stationary in it, perceive that region of itself which is in movement, that is to say the earth | The Greek says the All sees "the wandering sphere with the unwandering one, and with this the earth and what is on it": the fixed stars (ἀπλανής, "unwandering", not "stationary": they turn with the heaven) see the planets, and through them the earth. MacKenna makes the earth the moving region. |
+| IV.4.25.p1 | Now it is the soul's character to be ever in the Intellectual sphere | The Greek says this of "the soul of the All" (τῇ τοῦ παντὸς ψυχῇ); our souls are with the intelligibles only "at the times when we are there", as the next words say. |
+| IV.4.25.p2 | means by which they apply themselves to their function | The Greek says "if they turn (ἐπιστρέφεσθαι) through both", sight and hearing: turn towards us and the earth, whose prayers they hear; "their function" is MacKenna's. |
+| IV.4.26.p3 | the earth is primarily of the spiritual order | The Greek says the growing power is first "in pneuma" (ἐν πνεύματι), the warm breath that the doctors and the Stoics put in living bodies: a fine body, and it is because it is a body that it can be transparent and lit. "The spiritual order" makes it bodiless. |
+| IV.4.27.p1 | at once the earth is ensouled, as our flesh is | The comparison is of the plants, not the earth: if they hold the generative power in themselves, they are "like flesh already ensouled" (ὡς ἡ σὰρξ ἔμψυχος ἤδη). |
+| IV.4.27.p2 | Hestia (Earth-Mind) and Demeter (Earth-Soul) | The Greek names Hestia and Demeter together for the earth's higher soul and intellect; it does not assign intellect to one and soul to the other. The glosses in brackets are MacKenna's. |
+| IV.4.28.p3 | they pay attention to no outside combinations | The Greek says beasts are angry "according to their temperaments" (πρὸς τὰς κράσεις), the blends of their bodies, and at nothing else, but at what they think has harmed them: κρᾶσις is the body's own mixture, not anything outside. |
+| IV.4.28.p4 | the phase not inbound with body | The Greek's "not about the body" (μὴ περὶ τὸ σῶμα) goes with the injustice: reason is angered by a wrong that does not touch the body, which is why anger was said to need understanding. MacKenna takes it of the soul. |
+| IV.4.29.p3 | the seeing is merely the sequel to some law | "To see by convention" (νόμῳ ὁρᾶν) is Democritus' word: "by convention colour, by convention sweet; in truth atoms and void" (fragment B9, B125). The colours we see are not in the things. MacKenna's "law (of our own nature)" loses the reference. |
+| IV.4.29.p3 | the full store of colours in the sky | The Greek says "in the air" (ἐν τῷ ἀέρι), which is full of such things, and that in the air they are not such as they appear in bodies; not the sky or the heavens. |
+| IV.4.29.p4 | on the dissolution of the body | The Greek says "when the body is moved away" (μετακινουμένου τοῦ σώματος): the case now is of bodies that remain, and move, and their light moving with them; the perishing of bodies was the case just left lying. |
+| IV.4.30.p2 | such a memory as we ascribed to Demeter and Hestia | The earlier account gave Demeter and Hestia no memory (chapter 27 only names them). The Greek says that memory would be needed too for benefits to men such as Demeter's and Hestia's, the earth's, "unless one were to say that only the earth does good to human things". |
+| IV.4.31.p1 | Our problem embraces all act and all experience throughout the entire kosmos | MacKenna's chapter 30 runs on here without a break: the Greek's chapter 31 begins with these words (the OCR lost his number 31). |
+| IV.4.31.p5 | a doom from the All | The Greek has "the judgement of the All" (τῇ τοῦ παντὸς γνώμῃ): the mind and will of the All, set with the stars' choice and reasonings; not a doom laid on us. |
 
 ## The plan, in Porphyry's order
 
@@ -627,7 +653,7 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | IV.1 | On the being of the soul, first part | done here |
 | IV.2 | On the being of the soul, second part | done beside Taylor (milestone 27) |
 | IV.3 | On difficulties about the soul, first part | done beside Taylor (milestone 27) |
-| IV.4 | On difficulties about the soul, second part | done here, chapters 1-17 of 45 |
+| IV.4 | On difficulties about the soul, second part | done here, chapters 1-31 of 45 |
 | IV.5 | On difficulties about the soul, third part, or on sight | to come (E18) |
 | IV.6 | On perception and memory | to come (E18) |
 | IV.7 | On the immortality of the soul | done beside Taylor (milestone 27) |

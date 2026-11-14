@@ -474,10 +474,19 @@ beside MacKenna's vol. III (1924, the Fourth Ennead, newly brought in): 18 chapt
 soul that "has descended from the Intellectual region" to the heaven where the Greek has it go up "from here", eternity for
 the stars' "always", lyre strings "struck in tune" where they are moved in sympathy, nature acting on soul where it acts on
 matter, intellect embracing what is beyond being where it is soul that longs for it, and the last sentence of chapter 17 left
-out. The reader marks IV.4 as chapters 1-17 of 45 so far. The notes give the Timaeus' undivided and divided soul (35a), the
+out. The notes give the Timaeus' undivided and divided soul (35a), the
 dance of the stars (Timaeus 40c), Zeus' kingly soul (Philebus 30d), nature that does not deliberate (Physics II.8), the wax of
 the Theaetetus (191c-e), what is in time encompassed by time (Physics IV.12), the Good beyond being (Republic VI 509b) and the
 din of the assembly (Republic VI 492b-c).
+**IV.4, On difficulties about the soul, second part, chapters 18-31** (E16), beside MacKenna's vol. III: 14 chapters, 46
+paragraphs, 26 flags, among them his making the body we sink into "the true man" where Plotinus blames that mistake, "fair"
+for grey-eyed, flesh and blood given to the earth where the Greek denies them to the stars, the earth as the moving region
+seen by the "stationary" where the fixed stars see the planets, "the spiritual order" for pneuma, "some law" for Democritus'
+convention, and a memory given to Demeter and Hestia that the Greek never gave them. MacKenna's chapter 30 runs on through
+the Greek's 31, which is shown with it. The reader marks IV.4 as chapters 1-31 of 45 so far. The notes give the earth as the
+eldest god within the heaven (Timaeus 40c), the proportional mean (Timaeus 31c-32a), the All that needed no eyes (Timaeus
+33c), Hestia (Phaedrus 247a), the spirited part (Republic IV), heart and liver (Timaeus 70a-71b), Aristotle's two
+definitions of anger (On the soul I.1) and co-ordinate division (Categories 13).
 **III.8, On nature, contemplation and the One, and III.9, Various considerations** (E14), beside MacKenna's vol. II: 14
 chapters, 41 paragraphs, 70 flags, among them his "the Highest" for intellect that began as one and unrolled itself,
 "pregnant" for weighed down, the living principle "brother ... to that which gives mere shape" where it is brother to
@@ -563,7 +572,7 @@ hyphened terms such as "Sense-Perception" kept; not proofread). The master copy 
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: IV.4 chapters 18-31 (E16).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: IV.4 chapters 32-45 (E17).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,

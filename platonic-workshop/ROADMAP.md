@@ -259,8 +259,26 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   coming to rest (Physics VII.3), the Epicureans' troubled gods, the wax (Theaetetus 191c-e), Aristotle's time that encompasses
   (Physics IV.12), the Good beyond being (Republic VI 509b), the assembly's din (Republic VI 492b-c) and the city in heaven
   (Republic IX 592b).
-- E16: IV.4 chapters 18-31 (about 4,700). Next. MacKenna's 30 holds the Greek's 31 (the OCR lost his number): @older 30.
-- E17: IV.4 chapters 32-45 (about 4,600).
+- **E16: IV.4 chapters 18-31 (5,058) (done).** 14 chapters, 46 paragraphs, 26 flags, 26 notes; IV.4 now shows as "chapters 1-31
+  of 45 so far". MacKenna's chapters 18-30 are the Greek's; the OCR lost his number 31, whose text runs on in his 30, so the
+  Greek's 31 is shown with it (@older 30). E.g. MacKenna has the body we sink into as "the true man" where Plotinus blames that
+  mistake, "immune from evil" for escaping everything, "longing for unison" where the compound announces its pleasure, the
+  imaging faculty where the Greek names none, "fair" for grey-eyed, "alone is competent" for the soul whose task is to provide,
+  the child's experience made nature's where the desire is finished in her, flesh and blood given to the earth where the Greek
+  denies them to the stars, Nature for the soul alone, "complete detail" for the object's own size, the earth as the moving
+  region seen by the "stationary" where the fixed stars see the planets, the soul's character for the soul of the All's,
+  "their function" for turning to us, "the spiritual order" for pneuma, the earth ensouled where the plants are like flesh,
+  Hestia "(Earth-Mind)" and Demeter "(Earth-Soul)", "outside combinations" for the beasts' temperaments, the soul "not inbound
+  with body" where the injustice is not about the body, "some law" for Democritus' convention, the sky for the air, dissolution
+  for moving, a memory given to Demeter and Hestia, and "a doom from the All" for its judgement. Notes on the soul of the All
+  and the earth as eldest god (Timaeus 34b, 40c), the delight of sight (Metaphysics I.1), the proportional mean (Timaeus
+  31c-32a), sight in a void (On the soul II.7), the All without eyes (Timaeus 33c), light as the act of the transparent,
+  Hestia (Phaedrus 247a) and Demeter (Cratylus 404b), the spirited part and its alliance with reason (Republic IV), heart and
+  liver (Timaeus 70a-71b), Aristotle's two definitions of anger (On the soul I.1), ὁμοούσιος, co-ordinate division
+  (Categories 13), the seminal principles, ψυχαγωγία (Phaedrus 261a) and the astrologers' hot and cold planets (Tetrabiblos
+  I.4).
+- E17: IV.4 chapters 32-45 (about 4,600). Next. MacKenna's chapter numbers 38 and 41 were lost by the OCR: his 37 holds the
+  Greek's 38 (@older 37) and his 40 the Greek's 41 (@older 40); check the rest against the Greek.
 - E18: IV.5 On sight, IV.6 On perception and memory (4,686).
 - E19: IV.8 On the descent of the soul into bodies, IV.9 Whether all souls are one (4,062).
 - E20: V.4 How what comes after the first comes from it, V.5 That the intelligibles are not outside intellect (5,314);
