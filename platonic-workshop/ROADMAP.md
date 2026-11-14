@@ -67,8 +67,17 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   the Symposium's beauty itself, the Phaedrus (the pedestal, the statue, the sting of love), the Republic's sunlike eye, the
   Good beyond being and Thrasymachus, Aristotle's evening and morning star and "what all things desire", Agamemnon's "dear
   fatherland", Circe and Calypso, Narcissus, Heraclitus' hidden harmony and the Stoics' symmetry (Cicero).
-- E4: I.8 What evils are, and where they come from, I.9 On going out of life (4,533). MacKenna's I.8 has 12 chapters for
-  Volkmann's 15: name his chapters with `@older`, and check that tools/mackenna.py reads his chapter numbers there.
+- **E4: I.8 What evils are, and where they come from, I.9 On going out of life (4,533) (done).** I.8 in 15 chapters, 42
+  paragraphs, 31 flags; I.9 in 1 chapter, 3 paragraphs, 3 flags. MacKenna's I.8 really has 12 chapters (checked in the scan:
+  no chapter numbers lost; the running head of p. 105 is "I. 8. 10"): his 10 holds Volkmann's 10 to 13, his 11 and 12 are 14
+  and 15, named with `@older`; `tests/test_modern_enneads.py` now checks each flag against the MacKenna chapters shown with it.
+  (E.g. MacKenna gives "the First Act" to the Good where the Greek gives it to intellect, makes non-being "utterly different"
+  from being where the Greek says "only other", has the soul "hasty to compromises" for "rash in its assents", "in times of
+  stress" where the Greek is "full" and "empty", "practical proof" for induction, and "unlawful" in I.9 where the Greek says
+  only "one must do nothing".) Notes on the Theaetetus' flight (176a-b), the Second Letter's king of all (312e), the Sophist's
+  non-being (258b), the Timaeus (47e-48a, 41a-b, 52b), the Statesman's ancient nature and place of unlikeness (273b-d), the
+  Phaedo's mud and guard post (69c, 61c-62c), the Republic's sleep in Hades (534c-d), the Phaedrus' wings (246b-c),
+  Sophocles' holy grove, Aristotle on contraries, privation, induction and substance, and the Chaldaean oracle that opens I.9.
 - E5: Porphyry's Life of Plotinus, chapters 1-12. Porphyry set it before the Enneads, and its English is in MacKenna's vol. I;
   but its Greek is not yet in the Workshop (First1KGreek has no Vita Plotini): bring in Volkmann's vol. I (1883), which opens with the
   Life (check this in the scan), as an Internet Archive scan on the Neoplatonists' shelf, and proofread its pages as Proclus' commentary was
