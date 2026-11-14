@@ -469,6 +469,13 @@ paragraphs, 31 and 3 flags, among them his "First Act" given to the Good where t
 Greek chapter with `@older`. The notes give the Theaetetus' flight (176a-b), the Second Letter's king of all (312e), the
 Statesman's place of unlikeness (273d), the Republic's sleep in Hades (534c-d), the Phaedo's guard post (61c-62c), and
 Sophocles' holy grove (Oedipus at Colonus 54).
+**II.3, Whether the stars are causes** (E8), beside MacKenna's vol. II: 18 chapters, 46 paragraphs, 47 flags, among them his
+cold star opposed "to the cold" where the Greek says to the hot, "virtue the unconquerable" for Plato's virtue with no master
+(Republic 617e), a "mighty spirit" for the Symposium's great daemon, the star's will "transmitted" through the body where the
+Greek has it look to the best, a gap in the text where Volkmann has none, and "Thought-Forms" for the forming principles; the
+notes give the astrologers' centres, aspects and risings (Ptolemy's Tetrabiblos), the myth of Er's spindle and lots (Republic
+616c-620e), the Timaeus' lower soul and terrible passions (41c-d, 69c-d), the Phaedrus' charioteer and Zeus' army, the
+Hippocratic "one breathing together", Aristotle's "man begets man, and the sun" and Chrysippus' bedbugs.
 **II.1, On the heaven** and **II.2, On the movement of the heaven** (E7), beside MacKenna's vol. II (1921): 8 and 3 chapters,
 25 and 9 paragraphs, 18 and 12 flags, among them his heaven that "does not in fact extend so low as to the moon" where the
 Greek says it ends there, "Celestials" for daemons, "some effluence from the Divine Reason" for "a little from reasoning",
@@ -509,7 +516,7 @@ hyphened terms such as "Sense-Perception" kept; not proofread). The master copy 
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: II.3 Whether the stars are causes (E8).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: II.5, II.6, II.7 and II.8 (E9).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,

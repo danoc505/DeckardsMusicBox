@@ -278,7 +278,7 @@ class Files(unittest.TestCase):
 
     def test_milestone_e7_on_the_heaven_and_its_movement(self):
         d = load()
-        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][6:], ["I.9", "II.1", "II.2"])
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][6:9], ["I.9", "II.1", "II.2"])
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "II.1"], [f"II.1.{n}" for n in range(1, 9)])
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "II.2"], ["II.2.1", "II.2.2", "II.2.3"])
         ch = {c["id"]: c for c in d["chapters"]}
@@ -298,6 +298,35 @@ class Files(unittest.TestCase):
         self.assertGreaterEqual(sum(len(flags[s]) for s in flags if s.startswith(("II.1.", "II.2."))), 25)
         notes = " ".join(n for p in d["paragraphs"] if p["chapter"].startswith(("II.1.", "II.2.")) for n in p.get("notes", []))
         for place in ("Republic VII (530a-b)", "Timaeus (41a-b)", "On the Heavens II.1, 284a", "Iliad 16.192"):
+            self.assertIn(place, notes)
+
+    def test_milestone_e8_whether_the_stars_are_causes(self):
+        d = load()
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][7:], ["II.1", "II.2", "II.3"])
+        self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "II.3"], [f"II.3.{n}" for n in range(1, 19)])
+        ch = {c["id"]: c for c in d["chapters"]}
+        # MacKenna's vol. II beside it, his eighteen chapters Volkmann's.
+        self.assertEqual([(o["n"], o["year"], o["page"]) for o in ch["II.3.1"]["older"]], [(1, 1921, 159)])
+        self.assertEqual([(o["n"], o["page"]) for o in ch["II.3.18"]["older"]], [(18, 177)])
+        para = {p["seg"]: p for p in d["paragraphs"]}
+        self.assertTrue(para["II.3.1.p1"]["greek"].startswith("Ὅτι ἡ τῶν ἄστρων φορὰ σημαίνει"))
+        self.assertTrue(para["II.3.7.p1"]["modern"].startswith("But if they signify what will be"))
+        self.assertIn("like letters always being written in the heaven", para["II.3.7.p1"]["modern"])
+        self.assertIn("an image always being imaged", para["II.3.18.p2"]["modern"])
+        self.assertTrue(para["II.3.18.p2"]["greek"].endswith("πάντα τὰ ἀπ’ αὐτοῦ φῶτα."))
+        flags = {s: p.get("flags", []) for s, p in para.items()}
+        # MacKenna has the cold star opposed to the cold where the Greek says to the hot; "virtue the unconquerable"
+        # for Plato's virtue with no master; a mighty "spirit" for the Symposium's great daemon; the star's will passed
+        # on through the body where the Greek has it look to the best; a gap in the text where Volkmann has none.
+        self.assertTrue(any("to the hot" in f["why"] for f in flags["II.3.5.p1"]))
+        self.assertTrue(any("617e" in f["why"] for f in flags["II.3.9.p2"]))
+        self.assertTrue(any("Symposium" in f["why"] for f in flags["II.3.9.p5"]))
+        self.assertTrue(any("look to the best" in f["why"] for f in flags["II.3.9.p4"]))
+        self.assertTrue(any("no gap" in f["why"] or "has none" in f["why"] for f in flags["II.3.11.p1"]))
+        self.assertGreaterEqual(sum(len(flags[s]) for s in flags if s.startswith("II.3.")), 40)
+        notes = " ".join(n for p in d["paragraphs"] if p["chapter"].startswith("II.3.") for n in p.get("notes", []))
+        for place in ("Republic X, 616c-617d", "Timaeus (41c-d, 42a)", "Phaedrus (246e-247a)", "Physics (II.2, 194b13)",
+                      "Menexenus (246e-247a)", "Tetrabiblos III.10", "On nourishment (23)"):
             self.assertIn(place, notes)
 
     def test_the_life_greek_is_proofread(self):
