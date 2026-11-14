@@ -59,6 +59,20 @@ def pieces(db, out):
     return {"base": f"db/{tag}/", "size": size, "chunk": PIECE}
 
 
+def server_json():
+    """The JSON files under sources/ and reports/ the website's server reads as it answers.
+
+    Files over 2 MB are left out (they are only read when the library is built), except the
+    Workshop's modern English (sources/translations/modern/), which is read whole as the reader
+    opens a work: the Metaphysics and the Enneads passed 2 MB and went missing from the site once."""
+    out = []
+    for p in sorted([*(ROOT / "sources").rglob("*.json"), *(ROOT / "reports").glob("*.json")]):
+        if p.stat().st_size > 2_000_000 and serve.MODERN not in p.parents:
+            continue
+        out.append(p)
+    return out
+
+
 def build(out=OUT):
     if not build_db.DB_PATH.exists():
         raise SystemExit(f"{build_db.DB_PATH} not found; run python3 tools/build_db.py first")
@@ -76,9 +90,7 @@ def build(out=OUT):
     files = {f"tools/{p.name}": p.read_text(encoding="utf-8") for p in sorted((ROOT / "tools").glob("*.py"))}
     files.update({f"db/{p.name}": p.read_text(encoding="utf-8") for p in sorted((ROOT / "db").glob("*.sql"))})
     # The small JSON files the server reads as it answers (the dossiers' index, the reconciliation tables, ...).
-    for p in sorted([*(ROOT / "sources").rglob("*.json"), *(ROOT / "reports").glob("*.json")]):
-        if p.stat().st_size > 2_000_000:
-            continue
+    for p in server_json():
         files[p.relative_to(ROOT).as_posix()] = p.read_text(encoding="utf-8")
     # Taylor's prefatory texts the Library shelves (milestone 13), read whole by /api/taylor/<id>.
     for p in sorted((ROOT / "texts" / "taylor-1804" / "vol1").glob("*.json")):
