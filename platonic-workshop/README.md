@@ -469,6 +469,13 @@ paragraphs, 31 and 3 flags, among them his "First Act" given to the Good where t
 Greek chapter with `@older`. The notes give the Theaetetus' flight (176a-b), the Second Letter's king of all (312e), the
 Statesman's place of unlikeness (273d), the Republic's sleep in Hades (534c-d), the Phaedo's guard post (61c-62c), and
 Sophocles' holy grove (Oedipus at Colonus 54).
+**III.5, On love** (E13), beside MacKenna's vol. II: 9 chapters, 34 paragraphs, 39 flags, among them his "Celestial
+Spirit" and "Supernals" for the daemon, "minister of beautiful children" for the Phaedrus' overseer of beautiful boys,
+"Possession" for Poros, Resource, "the consistent total of the good" for the Pythagorean column, a triangle "made up of
+two right angles", and soul "breaking away" from intellect where it has its reality from it; MacKenna's ten chapters are
+Volkmann's nine, his tenth beginning inside the Greek's ninth (`@older`). The notes give the two Aphrodites of the
+Symposium, Eros' birth from Poros and Penia, Plutarch's Eros as the world, Zeus' royal soul and intellect in the Philebus,
+and Hera's star.
 **III.3, On providence, second part, and III.4, On the daemon allotted to us** (E12), beside MacKenna's vol. II: 13
 chapters, 43 paragraphs, 55 flags, among them his higher world "dependent upon the World of Sense" where the Greek says it
 is not cut off from it, "Universal interdependence, there could not be" where all things must not be cut off from one
@@ -539,7 +546,7 @@ hyphened terms such as "Sense-Perception" kept; not proofread). The master copy 
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: III.5 On love (E13).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: III.8 On nature, contemplation and the One, and III.9 Various considerations (E14).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,

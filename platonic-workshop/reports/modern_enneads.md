@@ -4,14 +4,14 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 
 - Made from: Volkmann's Greek (Leipzig, 1883-1884), as First1KGreek gives it; checked against MacKenna's English (1917, 1921; the Internet Archive's OCR of the printed volumes, read by rule (tools/mackenna.py), not proofread).
 - Porphyry's Life of Plotinus: Volkmann's own Greek (vol. I, 1883), proofread from the scan (`sources/neoplatonists/proofread/porphyry-life-plotinus.txt`).
-- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny, III.2 On providence, first part, III.3 On providence, second part, III.4 On the daemon allotted to us.
-- The whole Enneads: 19 treatises here, 15 beside Taylor (milestone 27), 21 to come.
-- Chapters: 176, each with a short title and a summary.
-- Paragraphs: 471, each with its Greek.
-- Words: 65,895 modern, 49,806 Greek, 84,422 in MacKenna's English of the same chapters.
-- Sentences (each can be marked in the reader): 2,459.
-- Flags (where MacKenna and the Greek differ, or the Greek is hard): 410.
-- Notes (Plato's, Aristotle's and Homer's places, hard readings): 269.
+- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny, III.2 On providence, first part, III.3 On providence, second part, III.4 On the daemon allotted to us, III.5 On love.
+- The whole Enneads: 20 treatises here, 15 beside Taylor (milestone 27), 20 to come.
+- Chapters: 185, each with a short title and a summary.
+- Paragraphs: 505, each with its Greek.
+- Words: 70,415 modern, 53,335 Greek, 89,726 in MacKenna's English of the same chapters.
+- Sentences (each can be marked in the reader): 2,599.
+- Flags (where MacKenna and the Greek differ, or the Greek is hard): 449.
+- Notes (Plato's, Aristotle's and Homer's places, hard readings): 295.
 - Problems found: 0.
 
 ## Flags
@@ -428,6 +428,45 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | III.4.6.p3 | this star or the next highest power will stand to them as God or more exactly as. tutelary spirit | The Greek says they will have "such a god, and daemon" (τοιούτῳ θεῷ καὶ δαίμονί γε), "either this very one or the one above this power": the god or daemon is a power of the soul, not the star itself. |
 | III.4.6.p4 | its unity can always be reconstructed | The Greek says "the same is whole in all, and again one" (τὸ γὰρ αὐτὸ ἐν πᾶσιν ὅλον καὶ πάλιν ἕν): it is never broken, so nothing has to be reconstructed. |
 | III.4.6.p5 | this (personal answer to incident) it is that constitutes destiny | The Greek says "for such is destiny" (τοιοῦτον γὰρ ἡ εἱμαρμένη): destiny is the whole, ship, wind and passenger together, not the personal answer alone. |
+| III.5.1.p1 | a Celestial Spirit, a state of mind | The Greek has δαίμων, "daemon", Plato's word for Eros in the Symposium (202d-e), and πάθος, a "passion" of the soul; MacKenna's "Celestial Spirit" is not the word, and he keeps changing it ("Spirit-being", "Celestial", "Supernal") through the treatise. |
+| III.5.1.p1 | from a point of view entirely his own | The Greek says Plato "wrote much about love in many places in his works" (πολλὰ πολλαχῇ τῶν ἑαυτοῦ): τῶν ἑαυτοῦ is "of his own writings", not a point of view of his own. |
+| III.5.1.p2 | that of the good whose devotion is for beauty itself | The Greek says the one longing is "of the self-controlled" (παρὰ σωφρόνων), made at home with beauty itself; MacKenna's "the good" loses the virtue, to which the chapter comes back: for the self-controlled, the attachment to beauty here is without fault. |
+| III.5.1.p3 | a tendency of the Soul towards pure beauty | The Greek speaks of the longing for beauty itself that is in souls "beforehand" (πρότερον), before any beautiful body is seen, together with a "recognition" (ἐπίγνωσις) of it: love begins from what the soul already knows. MacKenna's "tendency" loses the "beforehand". |
+| III.5.1.p3 | the consistent total of the good | The Greek συστοιχία is a "column" of the Pythagorean table of opposites, in which the limited stands with the good and the unlimited with the bad; "the consistent total" and "the system of evil" hide the reference. |
+| III.5.1.p6 | a last outgrowth, an attenuation of the higher | The Greek calls the beauty here "a product" (ἀποτέλεσμα) and "a plaything" (παίγνιον) of the beauty there; "attenuation" is MacKenna's, and the plaything is lost. |
+| III.5.2.p1 | Theologians (Orphic teachers) | The Greek has only "theologians" (θεολόγοι), those who tell of the gods, Hesiod as well as the Orphic poets; MacKenna's bracket narrows them. |
+| III.5.2.p1 | minister of beautiful children | The Greek ἔφορον καλῶν παίδων is "overseer of beautiful boys", Plato's words for Eros in the Phaedrus (265c): the boys are the young who are loved, not children who are born. |
+| III.5.2.p1 | Poros, Possession, the father | Πόρος is a "way through", a "means", "resource": the son of Metis, Cunning (Symposium 203b), the opposite of the helplessness (ἀπορία) of his partner Poverty; "Possession" makes him a having rather than a finding of ways. |
+| III.5.2.p2 | justly called not Celestial Spirit but God | The Greek has δαίμονα, "a daemon": the heavenly Aphrodite is a god and not a daemon, because she is unmixed. MacKenna's "Celestial Spirit" hides that the distinction is Plato's, between gods and daemons (Symposium 202d-203a). |
+| III.5.2.p3 | not even in the same order | The Greek says love sees first, "though not in the same way" (οὐ μὴν ὁμοίως ὁρῶν): it fixes the sight in the lover and itself reaps the vision. Nothing is said of an order, nor that desire sees "only through the efficacy of Love". |
+| III.5.2.p3 | beauty playing immediately above it | The Greek says the beauty "runs past" it (παραθέουσαν), not that it plays above it. |
+| III.5.3.p1 | That Love is a Hypostasis (a " Person ") | The Greek says love is a "reality" (ὑπόστασις) and a "being" (οὐσία); "Person" is MacKenna's. |
+| III.5.3.p1 | towards the very Highest | The Greek says the soul looks "towards what was the first being" (πρὸς ἐκεῖνο ... ὃ πρώτη ἦν οὐσία): intellect, the first being, not the One, which is beyond being. |
+| III.5.3.p2 | though not, perhaps, so loftily celestial a being as the Soul | The Greek says "even though we called the soul heavenly as much as could be" (εἰ καὶ ὅτι μάλιστα οὐρανίαν τὴν ψυχὴν εἴπομεν): her name does not tie her to the heaven, and so her love is separate too. No comparison is made between the love and the soul. |
+| III.5.3.p3 | giving birth, therefore, to the Love concerned with the universal life | The Greek says that this Aphrodite, "not only soul nor simply soul", begot the love in this world, who has to do with marriages; MacKenna's "the Love concerned with the universal life", followed by "no", turns the Greek's statement into a denial. |
+| III.5.4.p1 | the Spirit which, as we are told, walks with every being | The Greek has ὁ δαίμων, "the daemon" that goes with each, Plato's daemon allotted to each of us (Phaedo 107d, Republic X 617e; III.4); MacKenna's "Spirit" hides the reference. |
+| III.5.4.p1 | the guiding spirit realising its worth and the quality of its Being | The Greek says the soul begets the love "answering to its worth and its being" (εἴς τε ἀξίαν καὶ πρὸς οὐσίαν): the love is as worthy as the soul that begets it. It is the soul that begets, not the guiding spirit that realises. |
+| III.5.4.p3 | the Love in the mingling Soul will be a celestial spirit | The Greek says the love of the mixed soul is "a daemon" (δαίμων), as the love of the soul above is "a god": Plato's distinction between gods and daemons, which "celestial spirit" hides. |
+| III.5.5.p1 | Poros — Possession — who is son of Metis — Resource | Μῆτις is "cunning", practical wisdom, the mother of Πόρος (Symposium 203b), and it is Poros himself who is "resource"; MacKenna gives the son's name to the mother. |
+| III.5.5.p1 | the passage has been misunderstood | The Greek says only that to suppose Plato meant the world "has much against it"; MacKenna's bracket says who misunderstood. |
+| III.5.5.p2 | Our only escape would be to make the Kosmos a complex of Supernals | The Greek says "and the world will be a compound made of just this, of daemons" (ἔσται σύστασις αὐτὸ τοῦτο ἐκ δαιμόνων): one more absurdity, not an escape; "Supernals" is MacKenna's word for daemons. |
+| III.5.5.p2 | Love, again, is called the Dispenser of beautiful children | The Greek has ἔφορος καλῶν παίδων, "overseer of beautiful boys" (Phaedrus 265c): not a giver of children. |
+| III.5.6.p1 | distinguish the Gods from the Celestials | The Greek has δαίμονες, "daemons", throughout; MacKenna's "Celestials", "Spirits" and "Supernals" change from sentence to sentence for one Greek word. |
+| III.5.6.p3 | A Celestial is the representative generated by each Soul when it enters the Kosmos | The Greek asks (ἆρά γε ...;) whether daemons are "the trace" (ἴχνος) of a soul that has come into the world: a trace left behind, not a representative sent out, and a question, not an answer. |
+| III.5.7.p1 | Penia (Poverty) had participation in the Intellectual before the lower image of that divine Realm had appeared | The Greek says Poverty shared in the intelligible nature, "not of an image of the intelligible" pictured from there: the contrast is between the intelligible and its image, not one of time; "before" is MacKenna's. |
+| III.5.7.p2 | Love, therefore, is like a goad | The Greek οἶστρος is a "gadfly", the insect whose sting drives cattle wild, and so a frenzy: Plato's word for the lover driven by desire (Phaedrus 240d); a goad is the herdsman's, used from outside. |
+| III.5.7.p4 | but this is mere blank possession when they ignore their own | The Greek says they "have left idle" (ἀργὸν ἀφέντας) the daemon they had simply, and act by another they chose: as in III.4.3, where the daemon above stands over us idle while the one below acts. |
+| III.5.7.p4 | merged all the Love-Principles within them in the evil desires | The Greek says they "fettered" (ἐπέδησαν) all the loves in them with evil desires, as they fettered the right reason, "which is inborn" (σύμφυτος), with evil opinions; "merged", "which belongs to our kind" and "from another source" are MacKenna's. |
+| III.5.7.p5 | All the natural Loves, all that serve the ends of Nature, are good | The Greek calls the natural loves "beautiful" (καλοί), the word of the whole treatise, not "good"; "that serve the ends of Nature" is MacKenna's for "according to nature". |
+| III.5.7.p6 | a given triangular figure is made up of two right angles | The Greek has the old theorem: this triangle has its angles equal to "two right angles" (δύο ὀρθάς), and one sees it in this triangle in so far as it is simply a triangle. A triangle is not "made up of" right angles. |
+| III.5.8.p1 | though elsewhere he seems to rank him as one of three | The Greek says that elsewhere Plato calls Zeus "the third, I think" (τρίτον, οἶμαι): a rank, not one of three. |
+| III.5.8.p2 | he must be the highest for several reasons | The Greek says Zeus must be ranked "by the better" (κατὰ τὸ κρεῖττον) of what is in him, intellect rather than soul, so "he will be on the side of intellect"; not that he is the highest. |
+| III.5.9.p1 | being more diffused, kneaded out as it were | The Greek has ἁπλωθείς, "unfolded", "spread out", as against what is "coiled together" (συνεσπειραμένον) in intellect; "kneaded" is MacKenna's. |
+| III.5.9.p1 | breaking into the garden of Zeus | The Greek says the reason-principle "flowed into" (εἰσρυείς) his garden: nothing breaks in. |
+| III.5.9.p2 | what the god-nature essentially demands | The Greek asks "what is nectar to the gods but what the divine receives (κομίζεται)?", and answers that what is below intellect receives a reason-principle: what is received, not demanded. |
+| III.5.9.p3 | breaking away from it | The Greek says soul "has its reality from intellect" (παρὰ νοῦ ὑποστᾶσα): it comes from intellect, and stays "with intellect"; it does not break away from it. |
+| III.5.9.p5 | will leave it still unchanged in Kind | The Greek says that what is turned to itself is "form alone, staying in itself", and that what longs to receive makes the receiver matter for what comes: MacKenna's striving "(with attainment)" that leaves a thing "unchanged in Kind" is not in it. |
+| III.5.9.p5 | and at the same time a Celestial, sprung of the Soul | The Greek says love is "this daemon" (δαίμων οὗτος), born from soul: the daemon of the Symposium, whom the treatise set out to explain. |
 
 ## The plan, in Porphyry's order
 
@@ -456,7 +495,7 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | III.2 | On providence, first part | done here |
 | III.3 | On providence, second part | done here |
 | III.4 | On the daemon allotted to us | done here |
-| III.5 | On love | to come (E13) |
+| III.5 | On love | done here |
 | III.6 | On the impassibility of the bodiless | done beside Taylor (milestone 27) |
 | III.7 | On eternity and time | done beside Taylor (milestone 27) |
 | III.8 | On nature, contemplation and the One | to come (E14) |

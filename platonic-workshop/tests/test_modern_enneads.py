@@ -419,7 +419,7 @@ class Files(unittest.TestCase):
 
     def test_milestone_e12_on_providence_second_part_and_the_daemon(self):
         d = load()
-        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][15:], ["III.2", "III.3", "III.4"])
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][15:18], ["III.2", "III.3", "III.4"])
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "III.3"], [f"III.3.{k}" for k in range(1, 8)])
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "III.4"], [f"III.4.{k}" for k in range(1, 7)])
         ch = {c["id"]: c for c in d["chapters"]}
@@ -452,6 +452,40 @@ class Files(unittest.TestCase):
         notes = " ".join(n for p in d["paragraphs"] if p["chapter"].startswith(("III.3.", "III.4.")) for n in p.get("notes", []))
         for place in ("Poetics 9", "Metaphysics XII.10", "Iliad III.230-233", "Timaeus 31c-32a", "Phaedrus 246b",
                       "Phaedo 81e-82b", "Phaedo 107d", "Republic X 617e", "Timaeus 90a", "Republic X 616c-617d"):
+            self.assertIn(place, notes)
+
+    def test_milestone_e13_on_love(self):
+        d = load()
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][17:], ["III.4", "III.5"])
+        self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "III.5"], [f"III.5.{k}" for k in range(1, 10)])
+        ch = {c["id"]: c for c in d["chapters"]}
+        # MacKenna has ten chapters for Volkmann's nine: his chapter 10 (p. 66) begins at the Greek's "myths must divide
+        # into times", within chapter 9, so the Greek's chapter 9 is shown with his 9 and 10; his 1 to 8 are Volkmann's.
+        self.assertEqual([(o["n"], o["year"], o["page"]) for o in ch["III.5.1"]["older"]], [(1, 1921, 53)])
+        self.assertEqual([[o["n"] for o in ch[f"III.5.{k}"]["older"]] for k in range(1, 9)], [[k] for k in range(1, 9)])
+        self.assertEqual([(o["n"], o["page"]) for o in ch["III.5.9"]["older"]], [(9, 65), (10, 66)])
+        para = {p["seg"]: p for p in d["paragraphs"]}
+        self.assertTrue(para["III.5.1.p1"]["greek"].startswith("Περὶ ἔρωτος, πότερα θεός τις ἢ δαίμων"))
+        self.assertTrue(para["III.5.9.p3"]["greek"].startswith("δεῖ δὲ τοὺς μύθους"))
+        self.assertTrue(para["III.5.9.p5"]["greek"].endswith("ἐφίεται δέ, γεγενημένος."))
+        self.assertIn("is it a god, or a daemon, or a passion of the soul?", para["III.5.1.p1"]["modern"])
+        self.assertIn("He is the eye of the one who longs", para["III.5.2.p3"]["modern"])
+        self.assertIn("love is like a gadfly", para["III.5.7.p2"]["modern"])
+        self.assertIn("And Poverty is matter", para["III.5.9.p5"]["modern"])
+        flags = {s: p.get("flags", []) for s, p in para.items()}
+        # MacKenna has "Celestial Spirit" and "Supernals" for the daemon; "minister of beautiful children" for the overseer of
+        # beautiful boys; "Possession" for Resource; "the consistent total" for the Pythagorean column; a triangle "made up
+        # of two right angles"; and soul "breaking away" from intellect where it has its reality from it.
+        self.assertTrue(any("daemon" in f["why"] for f in flags["III.5.1.p1"]))
+        self.assertTrue(any("overseer of beautiful boys" in f["why"] for f in flags["III.5.2.p1"]))
+        self.assertTrue(any("resource" in f["why"] for f in flags["III.5.2.p1"]))
+        self.assertTrue(any("Pythagorean" in f["why"] for f in flags["III.5.1.p3"]))
+        self.assertTrue(any("two right angles" in f["why"] for f in flags["III.5.7.p6"]))
+        self.assertTrue(any("from intellect" in f["why"] for f in flags["III.5.9.p3"]))
+        self.assertGreaterEqual(sum(len(flags[s]) for s in flags if s.startswith("III.5.")), 35)
+        notes = " ".join(n for p in d["paragraphs"] if p["chapter"].startswith("III.5.") for n in p.get("notes", []))
+        for place in ("Symposium 203b-c", "Symposium 180d-181c", "Phaedrus 265c", "Metaphysics I.5, 986a22-26",
+                      "Theogony 188-200", "Cratylus (396b)", "Philebus 30d", "Phaedrus 246e", "374c-d", "392a27-28"):
             self.assertIn(place, notes)
 
     def test_the_life_greek_is_proofread(self):
