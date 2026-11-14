@@ -469,6 +469,10 @@ paragraphs, 31 and 3 flags, among them his "First Act" given to the Good where t
 Greek chapter with `@older`. The notes give the Theaetetus' flight (176a-b), the Second Letter's king of all (312e), the
 Statesman's place of unlikeness (273d), the Republic's sleep in Hades (534c-d), the Phaedo's guard post (61c-62c), and
 Sophocles' holy grove (Oedipus at Colonus 54).
+**III.1, On destiny** (E10), beside MacKenna's vol. II: 10 chapters, 23 paragraphs, 27 flags, among them his "compromise
+between evil and accidental circumstance" where the Greek blends choice with chance, "the philosophic life" for being wise,
+stars that "wreak vengeance" where they are "afflicted", and "personal action" for "what is up to us"; the notes give
+Epicurus' swerve, the Stoics' destiny, chain and seed-principles, Chrysippus' cylinder, and Aristotle's voluntary.
 **II.5 to II.8** (E9), On what is potential and what is actual, On substance or quality, On complete blending and On sight,
 beside MacKenna's vol. II: 13 chapters, 29 paragraphs, 39 flags, among them his matter unable to annex "a visible outline"
 where the Greek says it cannot even be coloured, "a temperament" for Aristotle's settled state, "lighting" for whitening,
@@ -522,7 +526,7 @@ hyphened terms such as "Sense-Perception" kept; not proofread). The master copy 
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: III.1 On destiny (E10).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: III.2 On providence, first part (E11).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,
