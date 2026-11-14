@@ -87,11 +87,13 @@ VOLUMES = {
         "enneads": [5],
         # where the treatises end: MacKenna's acknowledgements follow V.9
         "end": "ACKNOWLEDGEMENTS",
+        # the OCR lost V.8's last number, 13 (two blank lines before "The God fettered"): its text stays with his 12
+        "lost": ["V.8.13"],
     },
 }
 
 NUM = r"[0-9ioIlO]{1,3}"     # a page number, as the OCR reads it ("io8", "IOI")
-HEAD_EVEN = re.compile(rf"^({NUM})[\s:.,]+PLOTINUS\s*$")
+HEAD_EVEN = re.compile(rf"^({NUM})[\s:.,]+PLOT[I1]NUS\s*$")     # vol. IV's OCR reads some "PLOT1NUS"
 HEAD_LIFE = re.compile(rf"^PORPHYRY\s+({NUM})\s*$")       # the odd pages of Porphyry's Life
 HEAD_ODD = re.compile(rf"^[^\]\s][^\]]{{0,14}}\]\s+([^a-z0-9]+?)\s+({NUM})\s*$")    # the title in capitals, then the page
 FOOT_NUM = re.compile(r"^(\d{1,3})\s*$")
@@ -104,7 +106,7 @@ def as_number(s):
     return int(s) if s.isdigit() else None
 
 
-HEAD_BLURRED = re.compile(r"^(\S{1,4}\s+)?PLOTINUS\s*$")   # an even page's head whose number the OCR lost ("lib", "|gS", none)
+HEAD_BLURRED = re.compile(r"^(\S{1,4}\s+)?PLOT[I1]NUS\s*$")   # an even page's head whose number the OCR lost ("lib", "|gS", none)
 
 
 def page_of_head(line):

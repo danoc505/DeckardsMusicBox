@@ -5476,3 +5476,412 @@ For the nature of the Good, again, is not to be all things, nor yet one of all t
 But if this good is in it, the difference by which this compound was good, it must come from another; but that was simple and only good: much more, then, is that from which it comes only good. So the first, the Good, has appeared to us above all beings, only good, and having nothing in itself, but unmixed with all, above all, and cause of all. For neither beauty nor the beings come from evil, nor again from what is indifferent: for what makes is better than what is made; for it is more perfect.
 !flag Thus is revealed to us the Primarily existent | The Greek says "the first, the Good" (τὸ ἄρα πρώτως καὶ τἀγαθόν) has appeared "above all beings": not "the Primarily existent".
 !note "Indifferent" (ἀδιάφορα): the Stoics' word for what is neither good nor bad (Diogenes Laertius VII.102-104). That the maker is better than the made: V.4.1, where what begets must be the most honourable.
+
+# Milestone E21: V.7 and V.8, beside MacKenna's vol. IV (1926), the Fifth Ennead. His chapters are the Greek's in V.7, and
+# in V.8 from 1 to 12; the OCR of his vol. IV lost his number 13 of V.8 (two blank lines where the scan prints it), so
+# its text runs on in his 12 (@older 12).
+
+@treatise V.7 | Whether there are forms of individuals
+A short early treatise, the eighteenth in Porphyry's list of the order of writing (Life 4). Plotinus asks whether each individual, Socrates for instance, has a form of its own in the intelligible, and not only the kind, man. If each soul holds the forming principles of all the individuals it passes through, as the world holds those of every living being, the principles would be without limit; but the world comes round in periods, and in each the same things come back by the same principles, so the infinity has a limit. One man could not serve as the pattern of men who differ not only in their matter but in countless differences of form. He meets the objections from the mixing of the parents' principles, from children of the same parents, from peoples of different countries, from twins and litters, and answers that a difference may lie in principles we cannot see, as a craftsman who makes two things alike must still think of them as two. The infinity in intellect need not be feared: all of it is in what has no parts, and it unfolds when it acts.
+
+@ch V.7.1 | A form for each individual
+Is there a form of the individual? If Socrates' soul always exists, there is a Socrates himself there; if the soul that was Socrates becomes Pythagoras, there is not. Since each soul, like the world, holds the forming principles of all individuals, they would be without limit, unless the world comes round in periods and gives back the same things. One man could not be the pattern of men who differ in form; each period holds all the principles, and the infinity in the intelligible is in what has no parts.
+
+@p
+Is there a form of the individual too? That is: if I, and each one of us, can be traced back up to the intelligible, the principle of each of us is there too. If Socrates, that is, Socrates' soul, always exists, there will be a Socrates himself there, as the phrase goes, in so far as the soul is an individual there too. But if he does not always exist, and the soul that was Socrates before becomes someone different at different times, Pythagoras, say, or someone else, then this individual is no longer there as well.
+!note "Socrates himself" (αὐτοσωκράτης) is made like the names given to the forms, "man himself", "horse himself", which Aristotle mocks in the Metaphysics (B.2, 997b8-12). Plotinus asks whether such a form exists for a single person.
+!note Pythagoras is the example because of the transmigration of souls, which he taught, and which he claimed to remember for his own soul (Diogenes Laertius VIII.4-5); Plato tells of souls choosing new lives in the Phaedrus (248c-249b) and in the Republic's myth of Er (X 617d-620d).
+
+@p
+@greek ἀλλ’ εἰ ἡ ψυχὴ ἑκάστου
+But if the soul of each one holds the forming principles of all the individuals it passes through, all of them in turn are there. For we also say that each soul has as many forming principles as the world has. If, then, the world has the principles not only of man but also of the individual living beings, so does the soul. Then the number of principles will be without limit, unless the world comes round again in periods; in this way the infinity will be limited, when the same things are given back.
+!note The periods: the Stoics taught that after each conflagration the same world comes again, with the same Socrates marrying the same Xanthippe (Nemesius, On the nature of man 38). Plotinus takes the periods without the conflagration, and uses them to limit the number of the forming principles.
+
+@p
+@greek εἰ οὖν ὅλως πλείω
+If, then, the things that come to be may be more, on the whole, than their pattern, why must there be forming principles and patterns of all the things that come to be in one period? One man would be enough as the pattern for all men, just as souls limited in number make men without limit.
+
+@p
+@greek ἢ τῶν διαφόρων οὐκ ἔστιν
+Or rather, things that differ cannot have the same forming principle. One man is not enough as the pattern for men who differ from one another not only by their matter but by countless differences of form. They are not like portraits of Socrates beside their original: different products must come from different principles. The whole period holds all the principles, and in the next the same things come again by the same principles. And we need not be afraid of the infinity in the intelligible: all of it is in what has no parts, and it comes forth, as it were, when it acts.
+!flag The entire soul-period conveys with it all the requisite Reason-Principles | The Greek says "the whole period" (ἡ πᾶσα περίοδος), the world's whole cycle, holds all the principles; "soul-period" is MacKenna's.
+!flag it is an infinitude having nothing to do with number or part | The Greek says that all the infinity is "in what has no parts" (ἐν ἀμερεῖ), in intellect, which holds it undivided; it says nothing of number.
+!note "Differences of form" (εἰδικαὶ διαφοραί) is Aristotle's word for the differences that divide a genus into its species (Topics VI.6); here Plotinus uses it for differences of form among men of one species, which matter alone does not explain.
+!note Portraits of Socrates differ only in their matter, the paint and the panel, and all go back to the one man. Men who differ in form are not copies of one original.
+
+@ch V.7.2 | The parents, the country, and how many principles
+If the male's and female's principles mix, there seems to be no principle for each child, but only the father's; but the parent holds all the principles and puts forward different ones at different times. Children of the same parents differ as one parent's principle or the other's masters the matter. Differences of country cannot all be put down to matter mastered unequally; only ugliness is matter overmastering the principles. But why as many principles as people born in one period? Perhaps because in another period the same comes again in every way, but in one period nothing is the same in every way.
+
+@p
+But if the mixings of the forming principles of male and female make their children different, there will no longer be a forming principle for each one that comes to be; and each of the two parents, the male for instance, will not make by different principles, but by one, his own or his father's.
+!flag one of the parents —the male let us say — is the source | The Greek says that each of the two (ἑκάτερος) begetting, the male for instance, would make by one principle only; it does not make one parent the only source.
+!note That the mother gives the matter and the father the form is Aristotle's account of generation (Generation of animals I.20-21, 729a9-b21); the likeness of children to their fathers or grandfathers is his question in IV.3 (767a36-769a6).
+
+@p
+@greek ἢ οὐδὲν κωλύει
+Or nothing prevents him from making by different principles too, since he holds them all, but has different ones ready to hand at different times. And when children are born of the same parents, why do they differ? Because the parents do not prevail equally. And this is the point: even if, to look at, the child follows the male for the most part at one time and the female at another, it is not that each parent gave an equal part. Each gave the whole, and it lies in the child; but it masters a part of the matter, one parent's principle or the other's.
+!note The Greek of this sentence is uncertain in the manuscripts, and Volkmann's text ("ὅτι οὐκ εἰ ἐν τῷ φαίνεσθαι") is hard to construe; the modern version gives its likely sense: each parent gives its whole principle, and the likeness shows which of them masters the matter.
+
+@p
+@greek οἱ δὲ ἐν ἄλλῃ χώρᾳ
+And people in another country: how do they differ? Is it, then, the matter, not mastered in like manner everywhere, that makes the difference? Then all but one would be against nature. But if what differs is beautiful in many places, the form is not one. We must put down to ugliness alone that the matter, against nature, masters the forming principles, which are complete, hidden indeed, but given whole.
+!flag Difference everywhere is a good, and so there must be differing archetypes | The Greek says that what differs is "beautiful in many places" (πολλαχοῦ καλόν), and so the form is not one: an observation, which MacKenna makes a rule ("everywhere a good").
+!flag though only to evil could we attribute any power in Matter to thwart nature | The Greek says "ugliness" (αἶσχος): only where a thing is ugly is the matter to be blamed for mastering the principles; it does not speak of evil.
+!note That peoples differ in body and character with their country and its climate is the teaching of the Hippocratic Airs, waters, places (12-24); Plato speaks of it in the Laws (V 747d-e).
+
+@p
+@greek ἀλλ’ ἔστωσαν διάφοροι
+Let the principles differ, then. But why must there be as many as the people born in one period, if it is possible for people to look different outwardly when the same principles are given? It was granted that the principles are given whole; the question is whether the same ones prevail. Is it, then, that in another period what is the same comes again in every way, but in this period nothing is the same in every way?
+
+@ch V.7.3 | Twins, litters, and the craftsman
+Where twins or the young of a litter cannot be told apart, perhaps there is one principle; but then there are not as many principles as individuals, only as many as differ by more than falling short of the form. Yet even things that do not differ may have different principles: a craftsman making two alike must think of them as two, and in nature the difference is joined to the form, though we cannot grasp it. If the number is measured, all the principles unfolded set it, and when all have run out another period begins. The infinity in seeds and principles need not be feared, since soul holds all, and intellect too.
+
+@p
+How, then, shall we say that the principles of many twins differ? And what if one goes on to the other animals, above all those that bear many young at a birth? Where they cannot be told apart, there is one principle. But if so, there are not as many principles as there are individuals. Or rather, there are as many as there are individuals that differ, and differ not by falling short of the form.
+!note Twins are Plotinus' own objection; the Stoics had used twins who could not be told apart against the Academics, who denied that each thing has a mark of its own (Cicero, Academica II.54-58, 85-86).
+
+@p
+@greek ἢ τί κωλύει καὶ ἐν οἷς
+Or what prevents there being different principles even where things do not differ, if there are any things at all that do not differ in any way? A craftsman, even if he makes things that do not differ, must still grasp the sameness with a difference in thought, by which he will make another, bringing some difference to the same. In nature, where the other comes to be not by reasoning but by forming principles alone, the difference must be joined to the form; it is we who cannot grasp the difference.
+!flag A craftsman even in constructing an object identical with a model | The Greek says the craftsman makes things that do not differ from each other (ἀδιάφορα), two alike; there is no model in it.
+!note That no two things in nature are wholly alike, so that a difference must lie in their principle, is the thought Leibniz later made a principle, the identity of indiscernibles (Monadology 9).
+
+@p
+@greek καὶ εἰ μὲν ἡ ποίησις
+If the making leaves it to chance how many there are, that is another story. But if it is measured how many there are to be, the number will be set by the unrolling and unfolding of all the principles; so that when all of them have come to an end, another beginning comes. For how great the world must be, and how many things it will go through in its life, is laid down from the beginning in what holds the principles.
+!flag If production is undetermined in regard to Quantity, each thing has its distinct Reason-Principle | The Greek says that if the making leaves the number to chance (τὸ εἰκῆ τοῦ ὁποσαοῦν), "that is another account" (ἄλλος λόγος): another explanation would be needed. It does not say that each thing then has its own principle.
+!note The "unrolling" (ἐξέλιξις) of the principles is a Stoic image: the world's seed holds the forming principles of all that will be, and they unfold in order through the world's period.
+
+@p
+@greek ἆῤ οὖν καὶ ἐπὶ τῶν ἄλλων ζῴων
+Are there, then, as many principles in the other animals too, where many come from one birth? We need not be afraid of the infinity in the seeds and the principles, since soul holds all things. And the infinity of these is in intellect too, as it is in soul; there, by contrast, they are ready to hand.
+!flag the Beings there are unfailing | The Greek ends with the principles "ready to hand there" (τῶν ἐκεῖ προχείρων), the word V.7.2 uses of the principles a parent has ready at different times; "unfailing" is not in it.
+!note The last sentence is hard, and its text uncertain; "by contrast" (ἀνάπαλιν) may mean that what soul unfolds one after another is in intellect all at once and ready to hand.
+
+@treatise V.8 | On intelligible beauty
+The thirty-first treatise in the order of writing (Life 5), and the second part of the long work that Porphyry divided into four treatises (III.8, V.8, V.5, II.9). Whoever has seen the beauty of intellect can come to think of its father, beyond it; so Plotinus tries to show how that beauty might be seen. A stone carved into a statue is beautiful by the form the art put into it, and the art is more beautiful than the statue; the beauty of living things comes from a form, not from bulk, as the beauty of souls shows. The forming principle of beauty is clearer in soul and leads to intellect, which is seen in the gods: in the intelligible all is transparent, each holds all and sees all in each, and life is a wisdom not gathered by reasoning, whose forms are like the carved signs of the Egyptian priests, each a whole knowledge at once. The maker of this world did not plan it piece by piece: it appeared as an image of what is there, without toil, beautiful because its pattern is, as Plato's craftsman admired it. Plotinus asks the reader to picture the world as a transparent sphere, take away its bulk, and pray the god to come with his world; he tells of Zeus leading the gods to the vision, of seeing the god within until one is one with what one sees, and of the myth of Ouranos, Kronos and Zeus, read as the One, intellect and soul. The world, the image of intellect, always was and always will be, and those who give it a beginning and an end are wrong.
+
+@ch V.8.1 | The stone and the statue
+Whoever has seen intelligible beauty can think of its father, so let us try to see the beauty of intellect. Of two stones, the one carved into a god or a beautiful person is beautiful by the form the art put into it; the form was in the art before, and is more beautiful there, since what goes into matter is weakened, and every first maker is greater than what it makes. The arts do not only imitate what is seen, but go back to the principles of nature and add what is lacking: Phidias made his Zeus as Zeus would look if he chose to appear.
+
+@p
+We say that whoever has come to see the intelligible beauty, and has grasped the beauty of the true intellect, will be able to bring to mind its father too, who is beyond intellect. Let us try, then, to see and to tell ourselves, as far as such things can be told, how someone might contemplate the beauty of intellect and of that world.
+!flag will be able also to come to understand the Father and Transcendent of that Divine Being | The Greek says he will be able "to bring into mind" (εἰς ἔννοιαν βαλέσθαι) the father, "who is beyond intellect" (τὸν ἐπέκεινα νοῦ): to form some notion of him, not to understand him, since he is beyond what intellect grasps.
+!note The One is the father of intellect, as in Plato's Letter VI (323d), "the father of the leader and cause", which Plotinus cites in V.1.8; in the Republic the Good is the father of the sun (VI 506e-508b).
+
+@p
+@greek κειμένων τοίνυν ἀλλήλων ἐγγύς
+Suppose, then, two stones lying near each other, two blocks, if you like: one unshaped and with no share of art, the other already mastered by art into a statue of a god or of a human being: of a god, a Grace or a Muse; of a human being, not some particular person, but one the art has made out of all that is beautiful. The one the art has brought to the beauty of form would look beautiful, not because it is a stone (or the other would be just as beautiful), but because of the form the art put into it. Now the matter did not have this form: it was in the one who conceived it even before it came into the stone. And it was in the craftsman not in so far as he had eyes or hands, but because he shared in the art. So this beauty was far better in the art. For it was not the beauty in the art that came into the stone: that stays where it is, and another, less than it, comes from it; and not even this stayed pure in the stone, or as the art wished, but only so far as the stone gave way to the art.
+!flag Let us go to the realm of magnitudes | The Greek has only "two stones in bulk" (δύο λίθων ἐν ὄγκῳ), two blocks of stone; MacKenna makes the phrase a heading of its own.
+!flag the other has been minutely wrought by the craftsman's hands | The Greek says the stone has been "mastered by art" (τέχνῃ κεκρατημένου); the craftsman's hands are what the next sentences say the form does not belong to.
+!note A figure made from all that is beautiful: the painter Zeuxis, asked by the people of Croton for a Helen, chose the five most beautiful girls of the city as his models (Cicero, On invention II.1-3; Pliny, Natural History XXXV.64).
+!note That the form is in the maker's soul before it is in the stone is Aristotle's account of art: "from art come the things whose form is in the soul" (Metaphysics Z.7, 1032a32-b1).
+
+@p
+@greek εἰ δ’ ἡ τέχνη ὃ ἔστι
+If the art makes what it is and what it has (and it makes something beautiful by the forming principle of what it makes), then it is beautiful in a greater and truer way, since it has the beauty of art, which is greater and more beautiful than anything in the outside thing. For the further it spreads out by going into matter, the weaker it is than what stays in one. Everything that is spread out departs from itself: if it is strength, in strength; if heat, in heat; if power in general, in power; and so beauty in beauty. And every first maker must in itself be stronger than what is made: it is not lack of music that makes a musician, but music, and the music in the perceptible is made by the music before it.
+!flag and so the art exhibited in the material work derives from an art yet higher | The Greek speaks still of music: the music in the perceptible (τὴν ἐν αἰσθητῷ) is made by the music before it; MacKenna widens it to all art.
+!note "Not lack of music but music": like comes from like, as health from health and a house from a house (Aristotle, Metaphysics Z.7, 1032b11-14; Z.9, 1034a21-25).
+
+@p
+@greek εἰ δέ τις τὰς τέχνας ἀτιμάζει
+If anyone looks down on the arts because they make by imitating nature, we must say, first, that the natures too imitate other things; then, we must know that the arts do not simply imitate what is seen, but go back to the forming principles from which nature comes; and further, that they make much of their own, and add to whatever is lacking, since they have beauty. So Phidias made his Zeus after nothing perceptible, but grasped what Zeus would look like if he chose to appear to our eyes.
+!note Plato's Republic (X 596a-598d) makes the painter an imitator of appearances, third from the truth; "art imitates nature" is Aristotle's (Physics II.2, 194a21). Plotinus answers that art imitates the forming principles themselves.
+!note Phidias' Zeus at Olympia: Cicero says that Phidias, making it, did not look at any man as his model, but had in his own mind a surpassing form of beauty (Orator 8-9).
+
+@ch V.8.2 | Beauty comes from form, not from bulk
+Leave the arts and look at the beauties of nature: what makes living things beautiful is not their blood and stuff, but a form that came from the maker, as the form came from the art to the statue. Beauty is not in bulk: the same form moves the soul alike in a small thing or a large one, and it enters through the eyes as form only. The maker must be beautiful, but we chase the outside, like someone chasing his reflection. The beauty of studies and ways of life, and of souls, shows that beauty is inside; whoever is not moved by it will not find himself beautiful. Recollect, if you have seen yourself so.
+
+@p
+But let us leave the arts aside. Let us look at the things whose works the arts are said to imitate, the beauties that come to be and are called beautiful by nature: all living beings, rational and irrational, and above all those of them that have turned out well, where the one who moulded and fashioned them has mastered the matter and given it the form he wished. What, then, is the beauty in these? Not, surely, the blood and the menses: the colour of these is something other, and their shape is nothing, or something shapeless, or like what holds something simple, as matter does.
+!flag as it were the mere Matter of beauty | The Greek says that the shape of blood and menses is "like what holds something simple, as matter does" (οἷα ὕλη); "of beauty" is MacKenna's.
+!note The menses are the matter of generation in Aristotle's account, as the father's seed gives the form (Generation of animals I.19-20, 727a2-729a33).
+
+@p
+@greek πόθεν δὴ ἐξέλαμψε
+Where, then, did the beauty of Helen, fought over, shine out from, or of all the women like Aphrodite in beauty? Or where does Aphrodite's own come from, or that of any human being who is wholly beautiful, or of a god, of those who come to be seen, or who do not come, but have in them a beauty that would be seen? Is this not form everywhere, come from the maker to what came to be, as in the arts, we said, it came from the arts to the works of art? What then? Are the things made beautiful, and the forming principle in the matter, while the principle not in matter, but in the maker, the first and immaterial principle, gathered into one, is not beauty?
+!note Helen "fought over" (περιμάχητος): the old men on the wall of Troy say that it is no shame for Trojans and Achaeans to suffer so long for such a woman, terribly like the immortal goddesses to look on (Iliad III.156-158).
+
+@p
+@greek ἀλλ’ εἰ μὲν ὁ ὄγκος ἦν καλός
+But if the bulk were beautiful in so far as it is bulk, then the forming principle that made it, since it is not bulk, would have to be not beautiful. But if the same form, whether in something small or in something large, moves and affects the soul of the one who sees it in like manner, by its own power, then beauty must not be put down to the size of the bulk. This is a sign too: as long as it is outside, we have not yet seen it; when it comes inside, it has affected us. But it comes in through the eyes as form alone; how else could it come through something small? The size is drawn in along with it, not large in bulk, but become large in form.
+!flag but by an elaboration upon the presented form | The Greek says the size comes in "having become large in form" (εἴδει γενόμενον μέγα): the size itself becomes form; there is no "elaboration" upon it.
+!note How a large thing can come in through the small pupil of the eye is a question of Plotinus' own treatises on sight (II.8, IV.5).
+
+@p
+@greek ἔπειτα ἢ αἰσχρὸν δεῖ
+Then, the maker must be either ugly, or neither, or beautiful. If it were ugly, it would not make its opposite; if neither, why would it make the beautiful rather than the ugly? But in fact nature too, which fashions things so beautiful, is beautiful long before them. We, who are not used to seeing anything of what is inside, and do not know it, pursue what is outside, not knowing that it is what is inside that moves us: as if someone looked at his own reflection and, not knowing where it came from, chased it.
+!note The one who chases his reflection: Plotinus tells the story in I.6.8, of the man who reaches for a beautiful image in the water and sinks, as Narcissus did.
+
+@p
+@greek δηλοῖ δέ, ὅτι τὸ διωκόμενον
+That what we pursue is something else, and that beauty is not in size, is shown by the beauty in studies and in ways of life, and in general the beauty in souls. There it is more truly beauty, when you see wisdom in someone and are delighted with it, not looking at his face (that may be ugly), but leaving all shape aside and going after his inner beauty. If it does not yet move you so that you call such a man beautiful, neither will you take pleasure in yourself as beautiful when you look within. So it would be in vain for you, being like that, to look for that beauty: you will look for it with what is ugly and not pure. That is why talk of such things is not for everyone. But if you too have seen yourself beautiful, recollect.
+!flag catching only at the inner comeliness, the truly personal | The Greek says "his inner beauty" (τὸ εἴσω κάλλος αὐτοῦ); "the truly personal" is MacKenna's.
+!flag you, if you are conscious of beauty within, remember | The Greek says "if you too have seen yourself beautiful, recollect" (εἰ δὲ καὶ σὺ εἶδες σαυτὸν καλόν, ἀναμνήσθητι): a beauty once seen, to be recollected, as Plato's souls recollect the forms.
+!note The ladder of beauty in Plato's Symposium goes from bodies to the beauty in souls, in ways of life and laws, and in the sciences (210b-d). The face that may be ugly is Socrates', a Silenus outside with images of gods within (Symposium 215a-b, 216d-217a).
+!note "Recollect": Plato's recollection (ἀνάμνησις), by which the soul knows again the beauty it saw before birth (Phaedrus 249c-250d).
+
+@ch V.8.3 | Intellect, seen in the gods
+The principle of beauty in nature is the archetype of the beauty in body, and the one in soul is more beautiful; it is clearest in a good soul, where it makes the soul reason out what is before it: intellect, always intellect. We can take an image of intellect only from intellect, as a piece of gold is a sample of gold: from our own purified intellect, or from the gods. The gods are beautiful by intellect, and always wise. The gods in the heaven see that other heaven from afar; those in it dwell in all of it, where everything is heaven, and go through it at rest.
+
+@p
+There is, then, in nature too a forming principle of beauty, the archetype of the beauty in body; and more beautiful than the one in nature is the one in soul, from which the one in nature also comes. It is clearest in a good soul, one already advancing in beauty. For it adorns the soul, and gives it light from a greater light, which is beauty in the first place; and, being itself in the soul, it makes the soul reason out what the one before it is like, the one that no longer comes to be in anything, nor is in another, but is in itself. That is why it is not even a forming principle, but the maker of the first forming principle, of the beauty that is in the soul as in a matter. And this is intellect: always intellect, and not intellect at some times, since it is not brought into itself from outside.
+!flag In the proficient soul this is brighter | The Greek says "a good soul" (σπουδαία ψυχή), the word of Aristotle and the Stoics for the good man; "proficient" makes it a soul's skill.
+!note The soul as a matter for intellect, which gives it form: soul receives its forms from intellect as matter receives them from soul (V.9.3).
+
+@p
+@greek τίνα ἂν οὖν εἰκόνα
+What image, then, could one take of it? Every image will come from something worse. But the image must come from intellect, so that we take it not through an image, but as one takes a piece of gold as a sample of all gold; and if the piece taken is not pure, one must purify it, showing in deed or in word that not all of this is gold, but only this part of the lump. So here too we take it from the intellect in us, once purified, or, if you like, from the gods, from what the intellect in them is like.
+
+@p
+@greek σεμνοὶ μὲν γὰρ πάντες θεοὶ
+For all gods are august and beautiful, and their beauty is beyond words. But what is it that makes them so? Intellect, and the fact that intellect is more active in them, so that it is seen. Not, surely, that their bodies are beautiful: even those that have bodies are not gods by that; they too are gods by intellect. So the gods are beautiful. They are not wise at one time and foolish at another, but always wise, in an intellect that is without passions, steady and pure; and they know all things, not human things, but their own, and all that intellect sees.
+!flag Intellect operating within them (the divine sun and stars) to visibility | The Greek speaks of all the gods, and says intellect is more active in them "so that it is seen" (ὥστε ὁρᾶσθαι); MacKenna's parenthesis makes them the heavenly bodies, though the next sentence tells apart the gods who have bodies from those who do not.
+!note "Beauty beyond words" (ἀμήχανον κάλλος): Plato's words for the Good in the Republic (VI 509a), and in the Symposium for the beauty Alcibiades hoped to buy from Socrates (218e).
+
+@p
+@greek τῶν δὲ θεῶν οἱ μὲν
+Of the gods, those who are in the heaven, since they have leisure, contemplate always, and see, as from afar, what is in that other heaven, by lifting their heads above it. Those who are in that heaven, all who dwell on it and in it, dwell in all of the heaven there. For all things there are heaven: the earth is heaven, and the sea, and animals and plants and human beings, everything heavenly, of that heaven. And the gods in it, who do not scorn human beings or anything else there, because it is of the things there, go through all the country and the place there, at rest.
+!flag see and know in virtue of their omnipresence to it | The Greek says only that they dwell in all of that heaven (ἐν παντὶ οἰκοῦντες τῷ ἐκεῖ οὐρανῷ); "see and know" is MacKenna's.
+!note Plato's Phaedrus (247a-c, 248a): the gods go round on the back of the heaven and see the place beyond it, and the best of the other souls lift their charioteer's head into the region outside; "there is no envy in the divine choir" (247a).
+
+@ch V.8.4 | Life and wisdom there
+There the gods live at ease, fed by truth, seeing all that is, and themselves in others: all is transparent, light to light, each holds all and sees all in each, and the sun there is all the stars. Movement and rest there are pure, and each stands on no foreign ground, for its place is intellect, as it is. There each is whole; the vision brings no weariness or surfeit. Life there is wisdom not gathered by reasoning, and knowledge itself sits beside intellect, as Justice beside Zeus. Wisdom made all things and is all things; we miss it because we think knowledge a heap of propositions.
+
+@p
+For there is "living at ease" there, and truth is their mother and nurse, their being and their food; and they see all things, not those that have coming to be, but those that have being, and see themselves in others. For all things there are transparent, and nothing is dark or resistant: each is clear to each, to the inside, and all things are clear, for light is clear to light. Each holds all things in itself, and again sees all things in another, so that all are everywhere, and all is all, and each is all, and the glory is without limit. Each of them is great, since even the small is great; the sun there is all the stars, and each star is the sun and all the others again. In each one thing stands out, but each shows all the others too.
+!flag every being is lucid to every other, in breadth and depth | The Greek says each is clear to each "to the inside" (εἰς τὸ εἴσω), seen through and through; "in breadth and depth" is MacKenna's.
+!note "Living at ease" (ῥεῖα ζώοντες) is Homer's word for the gods (Iliad VI.138; Odyssey IV.805). Truth as their food: in the Phaedrus the gods' thought is fed on truth in the plain beyond the heaven (247d, 248b-c).
+
+@p
+@greek ἔστι δὲ καὶ κίνησις καθαρά
+There is pure movement there too, since nothing other than it, which it moves, confuses it as it goes; and rest is not disturbed, since it is not mixed with what is not at rest; and the beautiful is beautiful, since it is not in a beautiful thing, as something else's. Each one does not walk, as it were, on foreign ground: the place each is in is what each is itself, and as it goes, so to speak, upwards, the place it comes from runs along with it; it is not one thing itself and its place another. For the ground under it is intellect, and it is intellect: as if one were to think of this visible heaven, which is like light, as the light that grows out of it.
+!flag though of course this is really produced by the stars | The Greek has only the image: as if one were to think of the visible heaven, which is like light, as the light that grows from it, so that ground and what stands on it are one; the correction about the stars is MacKenna's own.
+!note Movement and rest are two of the greatest kinds of Plato's Sophist (254d-255e), which Plotinus finds in intellect (VI.2.7-8). Volkmann's Greek says the beautiful "is not in the beautiful": not a beauty that sits in some beautiful thing, but beauty itself.
+
+@p
+@greek ἐνταῦθα μὲν οὖν ἐκ μέρους
+Here, one part would come from another, and each would be only a part; but there each always comes from the whole, and each is at once a part and the whole. It appears as a part, but to a sharp sight it is seen as whole: as if someone had such sight as Lynceus was said to have, who saw even what is inside the earth; the story hints at the eyes there.
+!note Lynceus, one of the Argonauts, could see through earth and stone (Pindar, Nemean X.61-63; Apollonius of Rhodes, Argonautica I.153-155).
+
+@p
+@greek τῆς δὲ ἐκεῖ θέας
+There is no weariness in the vision there, nor any filling up that would make the one who sees stop; for there was no emptiness, that he should come to fullness and his end and be satisfied; nor is one thing one way and another another, so that what belongs to one should displease another in it; and the things there do not wear out. There is a not being filled there, in that the filling does not make him look down on what filled him. For seeing he sees the more, and beholding himself and what he sees as without limit, he follows his own nature.
+!flag and of course all There are unchangeable | The Greek says the things there are "unwearying" (ἄτρυτα), they do not wear out; "unchangeable" says something else.
+!note Satiety (κόρος) without disdain: in V.8.13 Kronos, intellect, is "sated" with the beautiful things there; Plato's Cratylus (396b) reads Kronos' name as κόρος, the purity of intellect.
+
+@p
+@greek καὶ ἡ ζωὴ μὲν οὐδενὶ κάματον
+Life brings no weariness to anyone when it is pure: how could what lives best grow weary? This life is wisdom, and a wisdom not got by reasonings, since it was always whole, and lacked nothing, so as to need searching. It is the first wisdom, not from another; and the substance itself is wisdom: it is not itself first and then wise. That is why no wisdom is greater, and knowledge itself sits there beside intellect, by appearing together with it: as, imitating this, they say that Justice sits beside Zeus. For all such things there are like statues, seen by their own light, so that they are a sight for spectators more than happy.
+!note Justice sits beside her father Zeus (Hesiod, Works and Days 256-259); "Justice follows him always", says Plato of the god in the Laws (IV 716a).
+!note The "statues" (ἀγάλματα) are the statues of the gods in temples. Plato's Alcibiades sees such images of gods within Socrates (Symposium 216e-217a); in the Phaedrus the souls see the forms as a "blessed sight and spectacle" (250b).
+
+@p
+@greek τῆς μὲν οὖν σοφίας τὸ μέγεθος
+One could see the greatness and power of wisdom from this: it has with it all the things that are, and has made them, and all of them followed it, and it is itself the things that are, and they came to be with it, and both are one, and the substance there is wisdom. But we have not come to understand this, because we have thought that the sciences too are theorems and a heap of propositions; and that is not so even with the sciences here. If anyone disputes this, we must leave these aside for now. But of the knowledge there, which Plato saw when he says it is "not one thing in another", he left it to us to seek and find out how this is so, if we say we are worthy of the name. Perhaps, then, it is better to begin from here.
+!flag if we boast ourselves worthy of the discussion | The Greek says "if we say we are worthy of the name" (εἴπερ ἄξιοι τῆς προσηγορίας φαμὲν εἶναι), of the name of philosophers who seek; "the discussion" is MacKenna's.
+!note Phaedrus 247d-e: the soul sees "knowledge, not the one to which coming to be belongs, nor the one that is other in another of the things we now call beings, but the knowledge that is in what really is".
+
+@ch V.8.5 | Wisdom is the true substance
+All that comes to be, by art or by nature, some wisdom makes. The craftsman goes back to the wisdom of nature, which made him: a wisdom not put together from theorems, but one whole that unfolds into many. If nature's principle is not the first, where did nature get it? From intellect, which is wisdom itself. True wisdom is substance, and true substance wisdom; what has no wisdom is a substance because wisdom made it, but not a true substance. The gods there look at no propositions, but at beautiful statues, real ones; so the ancients called the forms beings and substances.
+
+@p
+All things that come to be, whether made by art or by nature, some wisdom makes, and everywhere wisdom leads the making. But if someone makes according to wisdom itself, let the arts be of that kind. Yet the craftsman, in turn, goes back to the wisdom of nature, by which he has come to be, a wisdom no longer put together from theorems, but one whole thing: not one composed out of many into one, but rather one resolving itself from one into many.
+!flag to that wisdom in Nature which is embodied in himself | The Greek says the craftsman goes back to the wisdom of nature "by which he has come to be" (καθ’ ἣν γεγένηται): the wisdom that made him, not one he embodies.
+
+@p
+@greek εἰ μὲν οὖν ταύτην τις πρώτην
+If one sets this wisdom down as the first, that is enough: for it no longer comes from another, nor is it in another. But if they say that the forming principle is in nature, and that nature is its source, we shall ask where nature has it from; and if from another, what that other is. If from itself, we shall stop there. But if they come to intellect, we must see here whether intellect gave birth to wisdom; and if they say so, where did it get it? If from itself, that cannot be unless it is itself wisdom.
+!flag but if (as we assume) we are referred to the Intellectual-Principle | The Greek says "if they come to intellect" (εἰ δὲ εἰς νοῦν ἥξουσιν): a step of those who answer, not "as we assume".
+!note "Not in another": the words of Plato that end V.8.4 (Phaedrus 247d-e).
+
+@p
+@greek ἡ ἄρα ἀληθινὴ σοφία οὐσία
+True wisdom, then, is substance, and true substance is wisdom; and substance has its worth from wisdom, and because it is from wisdom it is true substance. So all the substances that do not have wisdom are substances because they came to be through some wisdom, but are not true substances, since they do not have wisdom in themselves.
+
+@p
+@greek οὐ τοίνυν δεῖ νομίζειν
+We must not think, then, that the gods there, or those more than happy there, look at propositions. Each of the things that are said there is a beautiful statue, such as one might imagine in the soul of a wise man; but statues not painted, but real. That is why the ancients said that the forms were beings and substances.
+!flag need look to our apparatus of science | The Greek says the gods there do not look at "propositions" (ἀξιώματα), statements such as our sciences set out one after another; MacKenna widens it.
+!note The ancients: Plato, whose forms are "what is" and "being" (Phaedo 65d-66a, 78d; Timaeus 27d-28a). Γεγραμμένα is both "painted" and "written": the forms are neither pictures nor written words.
+
+@ch V.8.6 | The carved signs of the Egyptians
+The wise men of Egypt, when they wanted to show something by wisdom, did not use letters, which go through words and propositions in order, but carved one image for each thing in their temples: each image is a whole knowledge and wisdom at once, and not reasoning. Our discursive account comes after, an image unrolled in another, which finds reasons why things are so, and wonders how well they are so. Wisdom gives reasons it does not itself have; what our search finds hardly or not at all was so before any searching.
+
+@p
+The wise men of the Egyptians too seem to me to have seen this, whether by exact knowledge or by a knowledge born in them. When they wished to show something through wisdom, they did not use the shapes of letters, which go through words and propositions in order and imitate sounds and the utterance of statements; but they drew images, and carved in their temples one image for each thing, and so displayed that world's going-through all at once: that each image is a kind of knowledge and wisdom, a subject, all at once, and not discursive thought or deliberation. Afterwards, from it, all at once as it is, they found an image in something else, already unrolled, which tells it over in order and finds out the reasons why things are so; so that one wonders that what has come to be is so well.
+!flag not an aggregate of discursive reasoning and detailed willing | The Greek says each image is "not discursive thought or deliberation" (οὐ διανόησις οὐδὲ βούλευσις); deliberation is the weighing of what to do, not "willing", and there is no "aggregate".
+!note Volkmann's Greek says they showed "its going-through" (τὴν ἐκείνου διέξοδον); later editors read "that there is no going-through there" (οὐ διέξοδον). Either way, the image holds all at once what words go through in order. The Egyptian writing as symbols of things, not of sounds: Plutarch, On Isis and Osiris 10 (354e-f); Clement of Alexandria, Stromateis V.4.
+
+@p
+@greek ἃ εἴ τις οἶδε
+Whoever knows this would say that he wonders at wisdom: how, without itself having reasons for being so, it gives them to the things made according to it. So the "being so, and well", which would come to light from search with difficulty or not at all (that it must be so), if one were to find it, is there, so, before search and before reasoning. For example (let us take what I mean in one great case, and it will fit all cases):
+!flag This excellence, whose necessity is scarcely or not at all manifest to search, exists, if we could but find it out | In the Greek the condition "if one were to find it" (εἴπερ τις ἐξεύροι) belongs to the search: what search would find with difficulty, if at all, is there before search; MacKenna puts the condition on its existing.
+
+@ch V.8.7 | How this world was made
+The maker did not plan the universe piece by piece and then set to work: he had never seen a world, and had no hands. All things are in another, and an image of it appeared as if suddenly, from it or through soul, more beautiful there, where nothing is mixed. Forms hold this world from beginning to end, matter too, the last of them; it was made without noise and without toil, and nothing hinders it. If we were archetypes, our making too would be without toil. We can give reasons for the earth's place and the ecliptic, but there it is so because it is as it is, as if the conclusion came before the syllogism; we must not seek the causes of a principle.
+
+@p
+This universe, then: since we agree that it is from another and is of such a kind, are we to think that its maker thought out for himself the earth, and that it must stand in the middle, then water, and that on the earth, and the rest in order up to the heaven, then all the living beings, and for each of them shapes such as they now have, and the organs inside each and the parts outside, and then, having set each one out for himself in this way, put his hand to the work? No: such a plan was not possible. Where would it have come to him from, who had never seen anything? Nor, taking it from another, could he have worked as craftsmen now make things, using hands and tools; for hands and feet came later.
+!flag how could the plan for a universe come to one that had never looked outward | The Greek asks where the plan would come from to one "who had never yet seen" (οὐπώποτε ἑωρακότι) anything; "looked outward" is MacKenna's.
+!note Plato's Timaeus tells of a maker who reasons and plans (30b-c, 32c-34b), and sets the earth in the middle (40b-c); Plotinus reads the planning as a way of speaking.
+
+@p
+@greek λείπεται τοίνυν εἶναι
+It remains, then, that all things are in another, and that, since there is nothing between, by the nearness, in what is, of something else, an image and likeness of it appeared, as it were suddenly, either from it directly or with soul serving, or some soul (that makes no difference for now). All these things, then, came from there, and are more beautiful there; for the things here are mixed, and those are not.
+!flag since there is no obstacle, all being continuous within the realm of reality | The Greek says that nothing is between (οὐδενὸς μεταξὺ ὄντος) and speaks of nearness (γειτονεία); "no obstacle" and "all being continuous" are MacKenna's.
+!note "Suddenly" (ἐξαίφνης): the word of Plato's Symposium (210e), where beauty itself appears suddenly at the end of the way.
+
+@p
+@greek ἀλλ’ οὖν εἴδεσι κατέσχηται
+But at any rate it is held by forms from beginning to end: first matter by the forms of the elements, then other forms upon forms, then others again; which is why it is hard to find matter, hidden under many forms. And since matter too is a kind of last form, this whole is form, and all things are forms; for the pattern was form. And it made this without noise, since all that made it is substance and form; and that is why this fashioning, too, was without toil. And it was the making of a whole, as a whole makes. So there was nothing to hinder it, and even now it prevails, though some things hinder others; but they do not hinder it, even now, for it remains as a whole.
+!note Matter as "a kind of last form" is a surprise; in II.4 (On matter) it is without form. Here it is the last trace of form, held by the forms above it. "Without noise" (ἀψοφητί): nature too makes in silence (III.8.4).
+
+@p
+@greek δοκεῖ δέ μοι, ὅτι καί
+It seems to me that if we too were archetypes, and substance, and forms at once, and the form that makes here were our substance, our making too would prevail without toil. And yet a human being too makes a form, other than what he has become. For, having become a human being, he has now stood away from being the whole. But when he stops being a human being, "he travels on high", Plato says, "and governs the whole world"; for, having become one of the whole, he makes the whole.
+!flag as man now stands, he does not produce in his work a true image of himself | The Greek says the human being does make a form (δημιουργεῖ εἶδος), but one other than what he has become; MacKenna turns the sentence into a denial.
+!note Phaedrus 246b-c: the soul that is perfect and winged "travels on high and governs the whole world", and the one that loses its wings settles on a body.
+
+@p
+@greek ἀλλ’ οὗ χάριν ὁ λόγος
+But to come back to what the argument is for: you can give a reason why the earth is in the middle, and why it is round, and why the ecliptic lies as it does; but there it is not that things were planned so because they had to be so, but because things there are as they are, the things here too are well. It is as if the conclusion came before the syllogism that gives the cause, and not from the premisses. For it is not from following a sequence, nor from forethought, but before sequence and before forethought: all these come later, reason and proof and conviction. Since it is a principle, all these things come from it directly, and so. And rightly it is said that we should not seek the causes of a principle, and of such a principle, the perfect one, which is the same as the end; what is principle and end is the whole together, and lacks nothing.
+!flag we can say only that because the All is what it is, therefore there is a total of good | The Greek says that because it is as it is, "these things" (ταῦτα), the things here, are well; MacKenna's "total of good" is not in it.
+!note The ecliptic is "the oblique circle" (ὁ λοξός) of the sun's yearly course, Plato's in the Timaeus (36c-d). That the principles of a proof are not themselves proved: Aristotle, Posterior Analytics I.2-3 (71b19-72b24).
+
+@ch V.8.8 | The pattern Plato's craftsman admired
+Intellect is beautiful in the first place, whole everywhere, falling short of beauty in no part; what is before it does not even wish to be beautiful. So Plato makes his craftsman admire his work, to show the beauty of its pattern, since whoever admires a copy admires its original, even lovers who do not know why. If that were not beautiful beyond words, what would be more beautiful than this world? Those who blame it are wrong, except in that it is not that one.
+
+@p
+It is beautiful, then, in the first place, and whole, and whole everywhere, so that it falls short of beauty not even in a part. Who, then, will not call it beautiful? For what is not beautiful is not what is wholly beauty, but what has a part of it, or none at all. And if that is not beautiful, what else would be? What is before it does not even wish to be beautiful; but what came forward first to be seen, because it is form and the sight of intellect, is for this reason admirable to see.
+!flag Certainly it cannot be anything (be, for example, Beauty) without being wholly that thing | The Greek says that what falls short of beauty is what has only a part of it, or none; MacKenna's parenthesis makes a general rule about being anything wholly.
+!note The Good beyond beauty: "the Good lies beyond, the source and principle of beauty" (I.6.9); it "does not wish" to be beautiful, as it is beyond the forms (VI.7.32-33).
+
+@p
+@greek διὸ καὶ Πλάτων τοῦτο σημῆναι
+That is why Plato, wishing to signify this by something clearer to us, makes the craftsman approve of what he had finished, wishing to show through this the beauty of the pattern and of the idea, as admirable. For whenever someone wonders at a thing made after another, his wonder goes to that after which it was made. If he does not know what he is feeling, that is no wonder: lovers too, and in general those who have admired the beauty here, do not know that it is because of that; for it is because of that. That Plato refers "he admired" to the pattern, he makes clear on purpose by the words that follow: he said, "he admired it, and wished to make it still more like the pattern", showing what the beauty of the pattern is like by saying that what came to be from it is beautiful, and is itself an image of that. For if that were not the more than beautiful, beautiful beyond words, what would be more beautiful than this which we see? So those who find fault with it are not right, unless only in that it is not that one.
+!flag the Beauty sprung from this world is, itself, a copy from That | The Greek says that what came to be from the pattern is beautiful, and is itself an image of it (καὶ αὐτὸ ὡς εἰκόνα ἐκείνου): the world is the image; there is no "Beauty sprung from this world".
+!note Timaeus 37c-d: when the father saw the world moving and alive, "he admired it, and being glad wished to make it still more like the pattern". Those who find fault with the world are the Gnostics, answered in the last part of this long work (II.9).
+
+@ch V.8.9 | The transparent sphere
+Picture this world in thought, each part itself but all together, as on a transparent sphere; keep that shining image, and take another without bulk, places or matter, and pray the god who made it to come with his world and all the gods in it, one and all, together and apart without distance, each a whole power reaching to infinity. This heaven would be greater but for the small power of body; the powers of fire seem great to us only because we do not know true power. The power there is being, and being beautiful; beauty and being are one nature, and this false substance here is, as far as it takes an image of beauty.
+
+@p
+Let us take this world, then, in thought, each of its parts remaining what it is and not merged with the others, all together in one, as far as we can, so that, whichever one of them appears first, the outer sphere for instance, the image of the sun follows at once, and with it that of the other stars, and earth and sea and all the living beings are seen, as on a transparent sphere; and in fact all things could be seen in it. Let there be, then, in your soul the shining image of a sphere, holding all things in itself, either moving or standing still, or some moving and some standing still. Keeping this one, take another for yourself, taking away the bulk; take away the places too, and the picture of matter in you; and do not try to take another, smaller in bulk than it, but call on the god who made the sphere whose picture you have, and pray him to come.
+!flag cast out your inborn sense of Matter | The Greek says "take away the picture of matter in you" (τὸ τῆς ὕλης ἐν σοὶ φάντασμα): the image of matter in your imagining, not an inborn sense.
+!note The world is a sphere holding all living beings in Plato's Timaeus (30c-31b, 33b). To call on god before speaking of the universe: Timaeus 27c; Plotinus prays so in V.1.6.
+
+@p
+@greek ὁ δὲ ἥκοι
+And may he come, bringing his own world with all the gods in it, he being one and all, and each of them all, gathered together into one: different in their powers, but all one in that one power which is many; or rather, the one is all. For he does not fail if all those come to be. They are together, and each again apart, in a rest without distance, having no perceptible shape; for then one would be here and another somewhere else, and each would not be all in himself. Nor does he have parts that are one thing for others and another for himself, nor is each whole a power cut up into small change, as great as its parts measured. It is all power, going to infinity, and able to infinity; and he is so great that even his parts have come to be infinite. For where can one say there is somewhere he does not reach first?
+!flag It is distinction by state without interval | The Greek says each is apart "in a rest without distance" (ἐν στάσει ἀδιαστάτῳ): they stand still, apart without being spread out; "distinction by state" takes rest (στάσις) for a state.
+!note "One and all": in the intelligible each god is all the gods, as each form is all the forms (V.8.4). The power "cut up into small change" (κερματισθεῖσα) is a power changed, like a coin, into smaller coins.
+
+@p
+@greek μέγας μὲν οὖν καὶ ὅδε ὁ οὐρανὸς
+This heaven too, then, is great, and all the powers in it together; but it would be greater, so great that one could not say how great, if some small power of body were not with it. One might, of course, call great the powers of fire and of the other bodies; but it is through not knowing true power that we picture them burning, destroying, crushing, and serving the coming to be of living things. But these destroy because they are themselves destroyed, and help to beget because they themselves come to be. The power there has being only, and being beautiful only.
+!flag it is through their failure in the true power | The Greek ἀπειρίᾳ δυνάμεως ἀληθινῆς is most naturally "through inexperience of true power": we picture their powers as great because we do not know the true one; MacKenna makes it the bodies' own failure.
+
+@p
+@greek ποῦ γὰρ ἂν εἴη τὸ καλὸν
+For where would beauty be, robbed of being? And where would substance be, robbed of being beautiful? In falling short of beauty it falls short in substance too. That is why being is longed for, because it is the same as beauty; and beauty is loved, because it is being. Why should we ask which is the cause of which, when the nature is one? This false substance here needs an image of beauty brought in from outside, to look beautiful and to be at all; and it is, in so far as it has a share of the beauty that comes with form; and the more it takes, the more perfect it is, for it is more its own when it is beautiful.
+!flag The very figment of Being needs some imposed image of Beauty to make it passable | The Greek says the false substance needs a brought-in image of beauty "so that it may look beautiful" (ἵνα καὶ καλὸν φαίνηται) and be at all; "passable" weakens it.
+!note Being and beauty one: "the beautiful is the forms ... and the nature of the beautiful is real being" (I.6.6). Love is of the beautiful, and of having the good for ever (Symposium 204d-206a).
+
+@ch V.8.10 | Zeus leads the gods to the vision
+As in Plato's Phaedrus, Zeus leads the gods, daemons and souls to the vision; it rises over them like the sun, and some bear it while others turn away dazzled. Each sees something different: justice, or self-control, the one that runs over all seen last. The gods and the souls that come from there see all; Zeus and his fellow lovers see the whole beauty last, and become beautiful, as climbers take on the colour of yellow earth. Those drunk with the nectar are no longer spectators: what is seen is within them, and they must see it as themselves, like one possessed by a god.
+
+@p
+That is why Zeus too, though he is the eldest of the other gods, whom he leads, goes first to the vision of it; and the other gods follow, and daemons and souls who are able to see these things. It shows itself to them from some unseen place, and, rising high above them, shines on all things and fills them with radiance; it strikes those below, and they turn away, unable to look, as at the sun. Some of them bear it and look; others are troubled, the more the farther they stand from it.
+!flag followed by gods and demigods | The Greek says "daemons" (δαίμονες), as Plato's Phaedrus (246e) has it; "demigods" are heroes, another order.
+!note Phaedrus 246e-247a: "Zeus, the great leader in heaven, driving a winged chariot, goes first, ordering all things and caring for them, and there follows him an army of gods and daemons". The dazzled who turn away are like the prisoners led out of Plato's cave (Republic VII 515c-516b).
+
+@p
+@greek ὁρῶντες δὲ οἱ δυνηθέντες
+Those who were able to see all look at it and at what is its; but each does not always carry away the same sight. One, gazing steadily, saw the source and nature of justice shining out; another was filled with the sight of self-control, not the self-control human beings have among them, when they have it, for this somehow imitates that; and that self-control, running over all, round the whole greatness, so to speak, of that world, is seen last by those who have already seen many clear sights.
+!flag another is filled with the sight of Moral Wisdom | The Greek has σωφροσύνη, self-control, which Plato's Phaedrus (247d) names beside justice; "Moral Wisdom" hides it.
+!note Phaedrus 247d: in its round the soul "sees justice itself, sees self-control, sees knowledge".
+
+@p
+@greek θεῶνται μὲν οὖν οἱ θεοὶ
+The gods, then, look, each one and all together, and so do the souls that see all things there and have come to be from all of them, so that they too hold all things from beginning to end; and they are there as far as it is their nature to be there, and often the whole of them is there, when they are not divided off.
+!note Part of each soul always stays in the intelligible (IV.8.8); the whole soul is there when it is not divided off into a body.
+
+@p
+@greek ταῦτα οὖν ὁρῶν ὁ Ζεὺς
+Zeus, then, seeing these things, and any of us who is his fellow lover, sees last of all, over all, the whole beauty, and shares in the beauty there. For it shines on all things and fills those who come there, so that they too become beautiful; as often people who climb up to high places, where the earth has a yellow colour, are filled with that colour, made like the ground they walk on. But there the colour that blooms on the surface is beauty; or rather all is colour and beauty from the depth, for the beautiful is not something other, like a bloom on the surface.
+!flag or rather all There is light and beauty, through and through | The Greek says "all is colour and beauty from the depth" (πᾶν χρόα καὶ κάλλος ἐκ βάθους); "light" is MacKenna's, in place of colour.
+!note "Fellow lover": in the Phaedrus each lover follows his own god, and the followers of Zeus look for a beloved of Zeus' kind (252c-253c). The true earth seen from above, coloured purple, gold and white, is in Plato's Phaedo (110b-c).
+
+@p
+@greek ἀλλὰ τοῖς μὴ ὅλον ὁρῶσιν
+But those who do not see the whole think that the first impact is all; while for those who are, as it were, drunk through and through and filled with the nectar, since the beauty has come through their whole soul, it is not possible to remain spectators only. For there is no longer one who is outside, and what he looks at outside again; but the one who sees sharply has what is seen in himself, and though he has it, he mostly does not know that he has it, and looks at it as something outside, because he looks at it as something seen, and because he wishes to look. But all that one looks at as a spectacle one looks at as outside. One must now bring it over into oneself, and look at it as one, and look at it as oneself: as if someone seized by a god, possessed by Phoebus or by one of the Muses, were to bring about the vision of the god in himself, if he had the power to see the god in himself.
+!flag it is but finding the strength to see divinity within | The Greek puts it as a condition, "if he had the power to see the god in himself" (εἰ δύναμιν ἔχοι ἐν αὑτῷ θεὸν βλέπειν); MacKenna's "it is but" makes it easy.
+!note Drunk with nectar: in Plato's Symposium (203b) Poros lies drunk with nectar in the garden of Zeus; intellect in love is "drunk with the nectar" in VI.7.35. Possession by Phoebus (Apollo) and the Muses: Plato's Phaedrus (244a-245c) and Ion (533e-534b).
+
+@ch V.8.11 | Being one with what one sees
+Seized by the god, one sees an image of oneself made beautiful; letting it go, one becomes one with the god, present without a sound, and if one turns back to being two, one stays near him while pure. At first one perceives oneself as other; then, running inward, one has all. The learner must hold to an imprint, then give himself inward and become what is seen. One is most in beauty by becoming it. We feel sickness more than health, which is our own; so we understand ourselves best when knowledge and knower are one, and seem not to know what we know most by intellect, because perception has nothing to report.
+
+@p
+If one of us, unable to see himself, is seized by that god and brings the sight forward to see it, he brings himself forward, and sees an image of himself made beautiful. But, letting go of the image, beautiful though it is, he comes into one with himself, and, no longer split apart, he is one and all together with that god, who is present without a sound; and he is with him as far as he can and wishes. If he turns back to being two, while he is pure he stays next to him, so as to be present to him in that other way again, if he turns to him again.
+!flag at once he forms a multiple unity with the God silently present | The Greek says he is "one, all together" (ἓν ὁμοῦ πάντα) with the god; "multiple unity" is MacKenna's.
+!flag still he is pure and remains very near to the God | The Greek makes it a condition: "being pure" (καθαρὸς μὲν ὤν), he stays next to the god; MacKenna's "still he is pure" says it of whoever turns back.
+!note "Without a sound" (ἀψοφητί), the word of V.8.7 for the silent making of the world. The union with the god, and the falling back from it, are described again in VI.9.10-11.
+
+@p
+@greek ἐν δὲ τῇ ἐπιστροφῇ
+In the turning he gains this: at first he perceives himself, as long as he is other; but running inward he has all, and, leaving perception behind him for fear of being other, he is one there; and if he desires to see it as something other, he puts himself outside.
+!flag he puts sense away behind him in dread of the separated life | The Greek says he leaves perception behind "for fear of being other" (τοῦ ἕτερος εἶναι φόβῳ), of being other than what he sees; "the separated life" is MacKenna's.
+
+@p
+@greek δεῖ δὲ καταμανθάνοντα
+One who is still learning must stay in some imprint of it and come to know it by searching; but once he has learnt, and is confident that he is going into something most blessed, he must give himself at once to the inside, and become, instead of a seer, the sight of another who contemplates, shining with the thoughts that come from there.
+!flag be no longer the seer, but, as that place has made him, the seen | The Greek says he becomes the sight "of another who contemplates" (ἑτέρου θεωμένου), shining with the thoughts that come from there; MacKenna leaves out the other.
+
+@p
+@greek πῶς οὖν ἔσται τις ἐν καλῷ
+How, then, will one be in beauty without seeing it? Seeing it as something other, he is not yet in beauty; having become it, he is in beauty most of all. If, then, sight is of what is outside, there must be no sight, or only such sight as is the same as what is seen: and this is like an understanding and co-perception of oneself, which takes care not to stand away from itself by wishing to perceive more.
+!flag Still, we will be told, one cannot be in beauty and yet fail to see it | The Greek asks a question, "how will one be in beauty without seeing it?" (πῶς οὖν ἔσται τις ἐν καλῷ μὴ ὁρῶν αὐτό;), which Plotinus answers by saying that seeing it as other is not yet being in it; MacKenna makes it an objection put to him.
+!note "Co-perception" (συναίσθησις), as of the first in V.4.2: a self-awareness that is not a looking at oneself as at another.
+
+@p
+@greek δεῖ δὲ κακεῖνο ἐνθυμεῖσθαι
+We must also keep this in mind: perceptions of evils strike harder blows, but give less knowledge, since the knowing is knocked away by the blow. Sickness gives more of a shock; but health, quietly with us, would rather give us an understanding of itself, for it settles in as our own, and is united with us. Sickness is foreign, not our own, and so stands out by seeming very different from us. But of what is ours, and of ourselves, we have no perception. Being so, we understand ourselves best of all when we have made our knowledge and ourselves one.
+!flag we are most completely aware of ourselves when we are most completely identified with the object of our knowledge | The Greek says we understand ourselves best when we have made "our knowledge and ourselves" one (τὴν ἐπιστήμην ἡμῶν καὶ ἡμᾶς ἓν πεποιηκότες): knowledge and knower, not knower and object.
+!note We are not aware of our best activities while we do them, as a reader absorbed in reading is not aware that he reads (I.4.10).
+
+@p
+@greek κἀκεῖ τοίνυν, ὅτε μάλιστα
+There too, then, when we know most by intellect, we seem not to know, because we wait for the affection of perception, which says it has not seen; for it did not see, nor could it ever see such things. So what disbelieves is perception, and the one who saw is the other. Or, if that one disbelieved too, it would not even believe that it exists itself; for it cannot put itself outside, as if it were a perceptible thing, and look at itself with the eyes of the body.
+!flag by intellection, we are aware of none | The Greek says "we seem not to know" (ἀγνοεῖν δοκοῦμεν): a seeming, because perception has nothing to report, not an awareness of nothing.
+
+@ch V.8.12 | The god in labour with beautiful offspring
+What does one who has seen report? A god in labour with a beautiful offspring, who begot all things in himself without pain and keeps them with him; one child alone came out, and from him, as from an image, one sees how great the father is. The son made another world, beautiful as the image of beauty, which imitates its archetype in every way, everlastingness too: an image by nature lasts as long as its archetype. So those who destroy the world, or make it begin by the maker's decision, are wrong: as long as that shines, the rest will never fail.
+
+@p
+But it has been said how one can do this as another, and how as remaining oneself. Having seen, then, either as another or remaining himself, what does he report? That he has seen a god in labour with a beautiful offspring, who has begotten all things in himself and holds the labour in himself without pain. For, delighted with what he begot and admiring his offspring, he kept them all with him, glad of his own splendour and of theirs. But while they are beautiful, and those that stayed inside more beautiful, one child alone of them all came out, into the outside. From him, the last child, one can see, as from an image of him, how great that father is, and the brothers who stayed with the father.
+!flag God engendering a universe within himself in a painless labour | The Greek says he begot "all things" (πάντα) in himself; "a universe" is MacKenna's.
+!note The myth is Hesiod's (Theogony 453-500): Kronos swallowed his children as they were born, and only Zeus, the youngest, escaped, by Rhea's trick. Plotinus reads Kronos as intellect, who keeps its offspring, the forms, within; Zeus is the soul that makes the world (V.1.7; III.5.2). "In labour with beauty": Plato's Symposium (206c-e).
+
+@p
+@greek ὁ δὲ οὔ φησι μάτην
+And he says that he did not come from the father in vain: for another world has come to be through him, beautiful, as an image of the beautiful; for it is not lawful that there should be no beautiful image either of the beautiful or of substance. It imitates the archetype in every way: it has life, and what belongs to substance, as an imitation, and it has being beautiful, as coming from there; and it has its everlastingness too, as an image. Or will it have an image at some times and not at others, when the image was not made by art? Every image that is by nature is, as long as its archetype remains. That is why they are not right who destroy the world while the intelligible remains, and give it birth as if the maker at some time took counsel to make it. For they do not wish to understand what manner of making such making is, nor do they know that, as long as that shines, the other things will never fail, but since it is, these also are; it was always, and will be. We must use these words because we need to signify.
+!flag the Supreme has existed for ever and for ever will exist | The Greek's "it was always and will be" (ἦν δ’ ἀεὶ καὶ ἔσται) may go on with "these" (ταῦτα), the things here, whose plural takes a singular verb in Greek: the world always was and will be. MacKenna makes it the Supreme.
+!note Those who destroy the world and make it come to be by a decision of its maker: the Gnostics (II.9.3-4, 8), and the Christians, who taught a creation and an end of the world. "Was" and "will be" do not belong to what is eternal, which only "is" (Timaeus 37e-38a): hence the apology for the words.
+
+@ch V.8.13 | Kronos between his father and his son
+Kronos, bound to stay the same, let his son rule this universe, since it was not his way to leave the rule there for a younger one; he set his father firm above him and what comes from his son below, and stands between them, cut off from above and held apart from below by a bond. His father is too great to be beauty, so he is beautiful in the first place, and soul, his trace, is beautiful and more so when it looks there. If soul, Aphrodite, is beautiful, what is he? We are beautiful when we are ourselves and know ourselves. Beauty is there; is this enough, or must we go by another road?
+
+@older 12
+@p
+So the god who is bound to remain the same, and who has granted his son the rule of this universe (for it was not in his character to let go of the rule there and pursue one younger and later than himself, having had his fill of beautiful things), let these go, and set his own father firm in relation to himself, and all that goes up as far as him; and he set firm, again, what begins from his son and goes the other way, to be after him; so that he came to be between both, by the otherness of his cutting off from what is above, and by the bond that holds him up, away from what comes after him, downwards: being between a better father and a lesser son.
+!flag The God fettered (as in the Kronos Myth) to an unchanging identity | MacKenna's chapter 12 runs on here without a break: the Greek's chapter 13 begins with these words (the OCR lost his number 13).
+!flag by that which keeps him apart from the link between himself and the lower | The Greek says he is held up, away from what comes after him, by "the bond" (τῷ ἀνέχοντι ... δεσμοῦ): the bond itself holds him apart; MacKenna keeps him apart from the link.
+!note In Hesiod Ouranos is cut off by his son Kronos (Theogony 154-182), and Kronos is bound by his son Zeus with the Titans (Theogony 717-735; Plato, Euthyphro 6a, Republic II 377e-378a). Plotinus reads the cutting off as intellect's being other than the One, and the bond as what keeps it above soul. Kronos "sated" (κόρον ἔχων): Plato's Cratylus (396b) reads his name as κόρος, the purity of intellect.
+
+@p
+@greek ἀλλ’ ἐπειδὴ ὁ πατὴρ αὐτῷ
+But since his father was too great to be beauty, he himself remained beautiful in the first place; and yet the soul is beautiful too. But he is more beautiful than soul as well, because soul is a trace of him; and so it is beautiful by nature, but more beautiful when it looks there. If, then, the soul of the all, to speak more familiarly, and Aphrodite herself, is beautiful, what is he? If she is beautiful of herself, how great would that be? But if from another, from whom does the soul have its beauty, both the beauty brought in and the beauty grown into its substance? For we too, when we are beautiful, are so by being ourselves, and ugly when we go over to another nature; knowing ourselves we are beautiful, and ugly when we do not know ourselves. Beauty, then, is there and comes from there. Is what has been said enough, then, to bring us to a clear understanding of the intelligible place, or must we go over it again by another road, like this?
+!flag Soul also has beauty, but is less beautiful than Intellect as being its image | The Greek says soul is "a trace" (ἴχνος) of intellect, a weaker word than image.
+!note Aphrodite as the soul, daughter of Kronos, intellect: III.5.2-3. "Know yourself", the Delphic saying, read as self-knowledge of the soul in Plato's Alcibiades I (130e-133c).
+!note "The intelligible place" (νοητὸς τόπος): Plato's Republic (VI 508c, VII 517b). The "other road" is the next part of the long work, V.5.
