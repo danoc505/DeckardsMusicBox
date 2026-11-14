@@ -77,6 +77,17 @@ VOLUMES = {
         # and the lost chapter's text stays with the one before it (the modern English names both with @older)
         "lost": ["IV.4.15", "IV.4.17", "IV.4.31", "IV.4.38", "IV.4.41"],
     },
+    # vol. IV (Enneads milestone E20): the Fifth Ennead
+    "mackenna-1926": {
+        "source": "mackenna-plotinus-1926",
+        "file": "plotinustranslat04plotuoft_djvu.txt",
+        "item": "plotinustranslat04plotuoft",
+        "title": "Plotinus: The Divine Mind, being the Treatises of the Fifth Ennead",
+        "year": 1926,
+        "enneads": [5],
+        # where the treatises end: MacKenna's acknowledgements follow V.9
+        "end": "ACKNOWLEDGEMENTS",
+    },
 }
 
 NUM = r"[0-9ioIlO]{1,3}"     # a page number, as the OCR reads it ("io8", "IOI")
@@ -183,7 +194,7 @@ def read_volume(vid):
             close_para()
             ennead = ORD.index(m.group(1)) + 1
             continue
-        m = re.fullmatch(r"(\w+)\s+TRACTATE", s)
+        m = re.fullmatch(r"(?:THE\s+)?(\w+)\s+TRACTATE", s)    # vol. IV prints "THE NINTH TRACTATE"
         if m and m.group(1) in ORD:
             close_para()
             k = ORD.index(m.group(1)) + 1
@@ -192,6 +203,16 @@ def read_volume(vid):
                 i += 1
             title = re.sub(r"\s+", " ", lines[i].strip())
             i += 1
+            # a title over two or three lines (vol. IV): more lines in capitals, before the first chapter number
+            j = i
+            while j < end and j < i + 4:
+                x = lines[j].strip()
+                if x and (chapter_number(x) is not None or re.search(r"[a-z]", x)):
+                    break
+                if x:
+                    title = f"{title} {re.sub(r'\s+', ' ', x)}"
+                    i = j + 1
+                j += 1
             # its first page is known only from the next running head or page number (vol. II prints no page number
             # under some first pages, and begins some treatises part way down a page)
             page = None

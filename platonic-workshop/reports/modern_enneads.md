@@ -2,16 +2,16 @@
 
 Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.txt`. The Workshop's modern English, machine-assisted: drafted with an AI model (Claude) from the Greek and not yet checked by a scholar. The Greek of each paragraph, and MacKenna's English of each chapter, are one tap away.
 
-- Made from: Volkmann's Greek (Leipzig, 1883-1884), as First1KGreek gives it; checked against MacKenna's English (1917, 1921, 1924; the Internet Archive's OCR of the printed volumes, read by rule (tools/mackenna.py), not proofread).
+- Made from: Volkmann's Greek (Leipzig, 1883-1884), as First1KGreek gives it; checked against MacKenna's English (1917, 1921, 1924, 1926; the Internet Archive's OCR of the printed volumes, read by rule (tools/mackenna.py), not proofread).
 - Porphyry's Life of Plotinus: Volkmann's own Greek (vol. I, 1883), proofread from the scan (`sources/neoplatonists/proofread/porphyry-life-plotinus.txt`).
-- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny, III.2 On providence, first part, III.3 On providence, second part, III.4 On the daemon allotted to us, III.5 On love, III.8 On nature, contemplation and the One, III.9 Various considerations, IV.1 On the being of the soul, first part, IV.4 On difficulties about the soul, second part, IV.5 On difficulties about the soul, third part, or on sight, IV.6 On perception and memory, IV.8 On the descent of the soul into bodies, IV.9 Whether all souls are one.
-- The whole Enneads: 28 treatises here, 15 beside Taylor (milestone 27), 12 to come.
-- Chapters: 269, each with a short title and a summary.
-- Paragraphs: 788, each with its Greek.
-- Words: 107,957 modern, 81,352 Greek, 138,560 in MacKenna's English of the same chapters.
-- Sentences (each can be marked in the reader): 3,761.
-- Flags (where MacKenna and the Greek differ, or the Greek is hard): 733.
-- Notes (Plato's, Aristotle's and Homer's places, hard readings): 485.
+- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny, III.2 On providence, first part, III.3 On providence, second part, III.4 On the daemon allotted to us, III.5 On love, III.8 On nature, contemplation and the One, III.9 Various considerations, IV.1 On the being of the soul, first part, IV.4 On difficulties about the soul, second part, IV.5 On difficulties about the soul, third part, or on sight, IV.6 On perception and memory, IV.8 On the descent of the soul into bodies, IV.9 Whether all souls are one, V.4 How what comes after the first comes from it, and on the One, V.5 That the intelligibles are not outside intellect, and on the Good.
+- The whole Enneads: 30 treatises here, 15 beside Taylor (milestone 27), 10 to come.
+- Chapters: 284, each with a short title and a summary.
+- Paragraphs: 846, each with its Greek.
+- Words: 114,869 modern, 86,642 Greek, 146,236 in MacKenna's English of the same chapters.
+- Sentences (each can be marked in the reader): 3,999.
+- Flags (where MacKenna and the Greek differ, or the Greek is hard): 781.
+- Notes (Plato's, Aristotle's and Homer's places, hard readings): 527.
 - Problems found: 0.
 
 ## Flags
@@ -751,6 +751,54 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | IV.9.5.p1 | includes the one-many in virtue of giving itself | The Greek says the many go back "to it" (εἰς ταύτην) as to one that has given itself to multitude and not given itself; there is no "one-many" that it includes. |
 | IV.9.5.p3 | its value consists in its approach to the whole | The Greek says it "is empowered" (ἐνδυναμοῦται) by coming near the whole: it gains power, not value. |
 | IV.9.5.p4 | There all stands out clear and separate | The Greek says "all things are clear, and each" (φανὰ πάντα καὶ ἕκαστον); "separate" is MacKenna's. |
+| V.4.1.p2 | it will debar all telling and knowing except that it may be described as | The Greek says that it is false even to say of it that it is one (καθ’ οὗ ψεῦδος καὶ τὸ ἓν εἶναι), and that there is no account or knowledge of it; "beyond being" is what is said of it, not an exception to it, as MacKenna's "except" makes it. |
+| V.4.1.p2 | nothing authentically one, there would be no Source | The Greek says that the first, if it were not simple and really one, would not be a principle: a step about the first, not about whether such a thing exists. |
+| V.4.1.p4 | tending to eternity and to service | The Greek says "towards everlastingness and goodness" (εἰς ἀιδιότητά τε καὶ ἀγαθότητα): things imitate the first by lasting and by being good, not by "service". |
+| V.4.1.p4 | the Power towards all | The Greek ἡ πάντων δύναμις is "the power of all things", as in V.4.2 (δύναμις πάντων): the power that is all things before they are, not a power directed towards them. |
+| V.4.2.p1 | for the dyad is the Intellectual-Principle | The Greek says "for this is intellect" (τοῦτο γὰρ ὁ νοῦς): the whole that comes from the dyad and the one, the forms and numbers, not the dyad alone. |
+| V.4.2.p1 | and it possesses besides another object of intellection in the Order following upon itself | The Greek says there is another intelligible "after which" intellect comes (τὸ μετ’ αὐτὸ νοητόν): the first, which the next sentence calls "this intelligible", from which intellect comes. MacKenna puts the other intelligible below intellect. |
+| V.4.2.p2 | and especially within a being which is the sum of being | The Greek says that something comes to be from the first "when it is most of all what it is" (ὅταν ἐκεῖνο μάλιστα ᾖ ὃ ἔστι), while it stays in itself; it does not call the first "the sum of being", which it is beyond, nor say that the thing comes to be within it. |
+| V.4.2.p3 | That transcendent was the potentiality of the All | The Greek says "power of all things" (δύναμις πάντων): the power that makes all things, not a "potentiality" in Aristotle's sense, a matter waiting to be made actual, which Plotinus denies of the first. |
+| V.4.2.p4 | it exists here together with the things of the universe | The Greek says "here", in intellect's case, it is with the things (ἐνταῦθα μετὰ τῶν πραγμάτων): with the things it knows, not with "the things of the universe". |
+| V.4.2.p4 | and the collective knowledge (in the divine mind) of the immaterial is the universe of things | The Greek says that all knowledge of things without matter is the things (ἡ ἐπιστήμη δὲ ὅλη τῶν ἄνευ ὕλης τὰ πράγματα): the knowledge is the same as what it knows, not "the universe of things". |
+| V.5.1.p3 | the intellections would be impressions, that is to say not native act but violence from without | The Greek says the thoughts would be imprints "brought in from outside, and blows" (ἐπακτοὶ καὶ πληγαί), the words of the theories of perception Plotinus is turning against intellect; "not native act" and "violence" are MacKenna's gloss. |
+| V.5.1.p5 | They cannot be premises, axioms or predicates | The Greek λεκτά are the Stoics' "sayables", what a sentence says, not "predicates"; and Plotinus' reason is that they would say something about other things, not be the beings themselves. |
+| V.5.1.p5 | the work of some unknown sculptor or graver | The Greek says "by some sculptor or painter" (ὑπό τινος πλάστου ἢ γραφέως); "unknown" is MacKenna's, and a painter is not a graver. |
+| V.5.1.p6 | belief is our lief | The Greek gives a reason, not a pun: opinion is "receptive" (παραδεχομένη), and receives one thing while the thing it comes from is another. |
+| V.5.2.p3 | Thus veritable truth is not accordance with an external ; it is selfaccordance | The Greek says it "agrees not with another, but with itself" (οὐ συμφωνοῦσα ἄλλῳ, ἀλλ’ ἑαυτῇ); a fair sense, but MacKenna's "it affirms and is nothing other than itself and is nothing other" doubles the Greek, which says it "says nothing besides itself, and is, and says what it is". |
+| V.5.3.p1 | but the Godhead entire | The Greek says it is "not some god, but thinks fit to be all these" (οὐ τίς, ἀλλὰ πᾶς ἀξιοῖ ταῦτα εἶναι): all the beings, the truth, intellect, not "the Godhead". |
+| V.5.3.p1 | it will be heralded by some ineffable beauty | The Greek says an immense beauty (κάλλος ἀμήχανον) must "go before him"; "ineffable" belongs to the One, not to the beauty of intellect that goes before it. |
+| V.5.3.p2 | holding sway by all reason over a dense offspring his own | The Greek says he is "by nature lord" (κατὰ φύσιν κύριος) of his own offspring gathered together; "by all reason" and "dense" are not in it. |
+| V.5.3.p2 | [Interpolation : —Zeus | MacKenna sets the sentence on Zeus apart as an interpolation; Volkmann's Greek, the Workshop's, prints it as part of Plotinus' sentence, and the modern version keeps it there. |
+| V.5.4.p2 | for if we fail of the centre | The Greek says only "if not, you have two" (εἰ δὲ μή, ἔσχες δύο); the centre is MacKenna's image. |
+| V.5.4.p3 | essential number first appears as providing duration to the divine Intellection | The Greek phrase (ὁ τῷ νοεῖν εἶναι ἀεὶ παρέχων) is hard, and MacKenna's "first appears" and "divine" are his; it says that substantial number always gives being to thinking, or to the intelligibles in intellect's thinking. |
+| V.5.4.p4 | the dyad, as a thing of extension, is not strictly a unit | The Greek compares the dyad with the continuous (πρὸς τὸ συνεχές) and says it is not one as the continuous is; it does not make the dyad a thing of extension. |
+| V.5.5.p3 | sounds which labour to express the essential nature of the universe | The Greek says the sounds signify "the existence of what was begotten" (τὴν ὑπόστασιν τοῦ γεννηθέντος), being, not "the universe". |
+| V.5.5.p3 | that Being (the weaker) is that which proceeds from (the stronger), The One | "The weaker" and "the stronger" are MacKenna's; the Greek's point is the breathing: on, pressed hard with the rough breathing, sounds hen, so that being shows it came from the one. |
+| V.5.6.p2 | but never seeking to define it | The Greek says one learns "what it is like" (οἷον δὲ ἔστι) by letting the intelligible go: MacKenna makes this a refusal to define it, where the Greek gives the way to see it. |
+| V.5.6.p3 | we are talking of the untenable | The Greek says "we speak of what cannot be spoken" (λέγομεν περὶ οὐ ῥητοῦ): what is beyond speech, not what cannot be held. |
+| V.5.6.p4 | there would be more truth in silence | The Greek says it "would be less clear than if one gave it no name" (ἀσαφέστερον ... τοῦ εἰ μή τις ὄνομα ἔλεγεν αὐτοῦ): a comparison of clearness, not of truth. |
+| V.5.7.p2 | declining towards the lower Nature, that upon which the light from above rests | The Greek says intellect inclines "to the nature of the things lit up" (πρὸς τὴν τῶν καταλαμπομένων φύσιν): the intelligibles it sees, not a "lower Nature". |
+| V.5.8.p1 | It was here. Yet no | The Greek says "so it was within, and again not within" (ἔνδον ἄρα ἦν καὶ οὐκ ἔνδον αὖ): the question was whether the light came from outside or within; MacKenna's "here" and "beyond" lose it. |
+| V.5.8.p2 | gleaming in the light of that presence | The Greek says intellect "saw itself" become more beautiful and shining (εἶδε ... καλλίω γενόμενον ἑαυτὸν καὶ ἐπιστίλβοντα); MacKenna drops that it sees itself. |
+| V.5.8.p3 | (by its divinest power) | The Greek says only that intellect sees "by what of it is not intellect" (τῷ ἑαυτοῦ μὴ νῷ); MacKenna's bracket names it, and "(having a sphere of its own)" before it is his too. |
+| V.5.9.p1 | otherwise it would not be contained at all | The Greek says that what needed another to come to be "needs another everywhere" (ἄλλου δεῖται πανταχοῦ), and so is in another; MacKenna's "otherwise" is not in it. |
+| V.5.9.p2 | but so as not to be pointed off to hold them part for part | The Greek says it "was not scattered into them" (οὔτ’ ἐσκεδάσθη εἰς αὐτά): it holds them without being dispersed among them. |
+| V.5.9.p3 | God is sovranly present through all | The Greek says "it will be everywhere by itself" (πανταχοῦ ἔσται ἐφ’ ἑαυτοῦ); "God", here and in the next sentence, is MacKenna's, as is "sovranly". |
+| V.5.9.p4 | its linked members form and occupy the whole | The Greek says the cosmos' parts "hang from it and are in it" (ἀνηρτημένα εἰς αὐτὸν καὶ ἐν ἐκείνῳ): they depend on the whole. |
+| V.5.10.p2 | for that, you must yourself be the divine Intellect in Act | The Greek says the opposite of this: "else", if you try to report the whole, "you will be an intellect thinking" (νοῦς νοῶν ἔσῃ), and it will escape you. Thinking it is what loses it. |
+| V.5.10.p2 | In ordinary vision you may think to see the object entire | The Greek is a command: "when you see, look at the whole" (ὅταν μὲν ὁρᾷς, ὅλον βλέπε), of the seeing of the One, not ordinary vision. |
+| V.5.10.p3 | Yet its Being is not limited | The Greek says "he is not limited" (οὐδὲ πεπερασμένος εἶναι); "its Being" gives being to what the treatise has just put beyond being. |
+| V.5.11.p2 | the thing of extension least real of all | The Greek quotes a saying, "and the great is less" (τὸ δὲ μέγα ἧττον ἐστί), of what is large in bulk: MacKenna turns it into his own words. |
+| V.5.12.p2 | This love of Beauty then is later than the love of Good and comes with a more sophisticated understanding | The Greek says this love is "second" and of those "who already understand more" (ἤδη συνιέντων μᾶλλον); "sophisticated" is MacKenna's. |
+| V.5.12.p3 | they struggle venomously for beauty as something secondary like themselves | The Greek says they "rival and quarrel with" beauty (φιλονεικοῦσι καὶ ἐρίζουσι τῷ καλῷ), as a rival that they think has come to be as they have, not that they fight "for" it; "venomously" is MacKenna's. |
+| V.5.12.p4 | Beauty is all violence and stupefaction | The Greek says beauty has "amazement and shock" (θάμβος ... καὶ ἔκπληξιν); "violence" and "all" are MacKenna's. |
+| V.5.12.p5 | as some attraction will lure the child from the father's side | The Greek says "as the beloved" (τὸ ἐρώμενον) draws one from the father: love of another draws the son from his father's house; MacKenna's "some attraction" and "the child" lose the beloved. |
+| V.5.12.p6 | exactly as He would not have grudged existence to any other universe | The Greek says "if it had been possible for something else (ἄλλῳ) to come to be from it": not "any other universe". |
+| V.5.13.p2 | existence or intellect or goodness | The Greek says "substance or intellect or beauty" (οὐσίαν ἢ νοῦν ἢ καλόν): Plotinus' point is that even beauty must not be added to the Good, as V.5.12 put beauty second. |
+| V.5.13.p2 | philosophy must guard against attaching to the Supreme what is later and lower | The Greek says "we too must add nothing" (καὶ ἡμεῖς μηδὲν ... προστιθῶμεν); "philosophy" is MacKenna's. |
+| V.5.13.p3 | the primarily good must be that principle in which the better element has more effectively participated | The Greek says that what is first good is "that by sharing in which", beside the common element, the compound has become good: the compound shares in the first, the first does not share. |
+| V.5.13.p4 | Thus is revealed to us the Primarily existent | The Greek says "the first, the Good" (τὸ ἄρα πρώτως καὶ τἀγαθόν) has appeared "above all beings": not "the Primarily existent". |
 
 ## The plan, in Porphyry's order
 
@@ -796,8 +844,8 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | V.1 | On the three first realities | done beside Taylor (milestone 27) |
 | V.2 | On the origin and order of what comes after the first | done beside Taylor (milestone 27) |
 | V.3 | On the knowing realities and what is beyond | done beside Taylor (milestone 27) |
-| V.4 | How what comes after the first comes from it, and on the One | to come (E20) |
-| V.5 | That the intelligibles are not outside intellect, and on the Good | to come (E20) |
+| V.4 | How what comes after the first comes from it, and on the One | done here |
+| V.5 | That the intelligibles are not outside intellect, and on the Good | done here |
 | V.6 | That what is beyond being does not think | done beside Taylor (milestone 27) |
 | V.7 | Whether there are forms of individuals | to come (E21) |
 | V.8 | On intelligible beauty | to come (E21) |
