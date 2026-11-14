@@ -113,8 +113,26 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   the Odyssey (5; 24.60-62), Hesiod (Theogony 35), Herodotus (1.47), Diogenes Laertius (2.37) and the Apology (21a), the
   Phaedo (81c), the Gorgias (493a, 523e-524a), the Cratylus (400c), the Sophist (254b-255e), Nag Hammadi, and V.5, IV.3, II.3,
   III.1 and II.9 as the treatises the Life names.
-- E7: II.1 On the heaven, II.2 On the movement of the heaven (3,747); MacKenna's vol. II (1921). Next.
-- E8: II.3 Whether the stars are causes (4,489).
+- **E7: II.1 On the heaven, II.2 On the movement of the heaven (3,747) (done).** MacKenna's vol. II (1921, "Psychic and
+  Physical Treatises", the Third Ennead printed before the Second) brought in as the Internet Archive's OCR of the Toronto copy
+  `plotinuspsychicp00plotuoft` (`sources/mackenna-plotinus-1921/`, `mackenna-plotinus-1921` in `sources/manifest.json`), read by
+  `tools/mackenna.py` into `texts/plotinus/mackenna-1921.json`; the tool now also reads a chapter number "6-," and a running
+  head whose page number the OCR lost ("lib PLOTINUS"), and takes each treatise's first page from the next running head (II.1
+  begins on p. 143, which prints no number). II.1 in 8 chapters, 25 paragraphs, 18 flags, 22 notes; II.2 in 3 chapters, 9
+  paragraphs, 12 flags, 7 notes; MacKenna's chapters are Volkmann's. E.g. MacKenna has the heaven "not extend so low as to the
+  moon" where the Greek says it ends there, "the superiors from which the celestial fire depends" for some other element in
+  the heaven, "Celestials" for daemons, "some effluence from the Divine Reason" for "a little from reasoning", "Plato accepts it
+  as indicated by all the appearances" for the Timaeus' likely account, "still higher heavenly bodies" for the rest of the
+  heaven, the soul for "what is spherical in us" (the head, Timaeus 44d), a "common centre" for each star's own, "the custom"
+  for what the soul has ordered, and he reads ἐκεῖ ("there", a place in the heaven) as the intelligible "There". Hard places
+  flagged: "not continuous" (II.2.1), "it does not have it alone" (II.2.2), and whether II.2.3 names one higher power or two.
+  Notes on the Republic (530a-b), the Statesman (269d-e), Heraclitus (B6), Aristotle's fifth body (On the Heavens 268b-270b),
+  his toiling soul and Ixion (284a), flame as boiling (Meteorology 340b), the Timaeus (31b-32b, 33a, 36d-e, 39b, 40a-b, 41a-d,
+  42d-43a, 44d, 45b, 58c-d, 59b, 60b-61c), the Laws (897c-898b), Homer's ἀμφαγαπάζεσθαι (Iliad 16.192), the Metaphysics'
+  "hang from him" (1072b13-14) and the Sophist (248e-249d). For later milestones: MacKenna's vol. II as the tool reads it
+  has other chapter counts than Volkmann's in III.3 (4 for 7), III.5 (10 for 9), III.8 (10 for 11) and II.9 (10 for 18, for
+  E34); each milestone checks its treatises in the scan and names his chapters with `@older` where they are not Volkmann's.
+- E8: II.3 Whether the stars are causes (4,489). Next.
 - E9: II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On
   sight (4,430).
 - E10: III.1 On destiny (2,648).

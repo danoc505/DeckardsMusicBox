@@ -1,0 +1,18 @@
+{
+  "plotinuspsychicp00plotuoft_djvu.txt": {
+    "url": "https://archive.org/download/plotinuspsychicp00plotuoft/plotinuspsychicp00plotuoft_djvu.txt",
+    "fetched_at": "2026-11-14T12:49:00+00:00",
+    "http_status": 200,
+    "content_type": "text/plain; charset=utf-8",
+    "bytes": 610570,
+    "sha256": "f83d6a39fd7767234e498ba6157a97ee2b5e7fccd6e29c553c1c26cf835bcaa6"
+  },
+  "plotinuspsychicp00plotuoft_metadata.json": {
+    "url": "https://archive.org/metadata/plotinuspsychicp00plotuoft/metadata",
+    "fetched_at": "2026-11-14T12:49:00+00:00",
+    "http_status": 200,
+    "content_type": "application/json",
+    "bytes": 1960,
+    "sha256": "c2f8c19faf9e274c30741446c0b76134e3722148f32e9da549b5f96c76ac540b"
+  }
+}

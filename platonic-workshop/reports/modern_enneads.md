@@ -2,16 +2,16 @@
 
 Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.txt`. The Workshop's modern English, machine-assisted: drafted with an AI model (Claude) from the Greek and not yet checked by a scholar. The Greek of each paragraph, and MacKenna's English of each chapter, are one tap away.
 
-- Made from: Volkmann's Greek (Leipzig, 1883-1884), as First1KGreek gives it; checked against MacKenna's English (1917; the Internet Archive's OCR of the printed volumes, read by rule (tools/mackenna.py), not proofread).
+- Made from: Volkmann's Greek (Leipzig, 1883-1884), as First1KGreek gives it; checked against MacKenna's English (1917, 1921; the Internet Archive's OCR of the printed volumes, read by rule (tools/mackenna.py), not proofread).
 - Porphyry's Life of Plotinus: Volkmann's own Greek (vol. I, 1883), proofread from the scan (`sources/neoplatonists/proofread/porphyry-life-plotinus.txt`).
-- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life.
-- The whole Enneads: 8 treatises here, 15 beside Taylor (milestone 27), 32 to come.
-- Chapters: 93, each with a short title and a summary.
-- Paragraphs: 242, each with its Greek.
-- Words: 31,286 modern, 23,911 Greek, 37,114 in MacKenna's English of the same chapters.
-- Sentences (each can be marked in the reader): 1,263.
-- Flags (where MacKenna and the Greek differ, or the Greek is hard): 148.
-- Notes (Plato's, Aristotle's and Homer's places, hard readings): 119.
+- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven.
+- The whole Enneads: 10 treatises here, 15 beside Taylor (milestone 27), 30 to come.
+- Chapters: 104, each with a short title and a summary.
+- Paragraphs: 276, each with its Greek.
+- Words: 36,366 modern, 27,652 Greek, 43,155 in MacKenna's English of the same chapters.
+- Sentences (each can be marked in the reader): 1,446.
+- Flags (where MacKenna and the Greek differ, or the Greek is hard): 178.
+- Notes (Plato's, Aristotle's and Homer's places, hard readings): 148.
 - Problems found: 0.
 
 ## Flags
@@ -166,6 +166,36 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | I.9.1.p1 | For wheresoever it go, it will be in some definite condition | The Greek says "it will go out having something" (ἔχουσά τι), something of the body, "if it goes out at all": the reason for the opening command, not a condition it will be in. |
 | I.9.1.p2 | movements which it is unlawful to indulge | The Greek says only "but one must do nothing" (δεῖ δὲ μηδὲν πράττειν): nothing is done that would come from these feelings. There is no law in the Greek. |
 | I.9.1.p2 | That is not likely in the Sage | The Greek's σπουδαῖος is "the good man", serious about virtue, as elsewhere in the Workshop (see I.4); MacKenna's "Sage" makes him a Stoic figure. |
+| II.1.1.p1 | however true an explanation, is utterly inadequate | The Greek says only that this would "perhaps" (ἴσως) be true, but would give no clarity (σαφήνεια): the complaint is that it explains nothing, not that it is "utterly inadequate". |
+| II.1.1.p1 | The Will of God is able to cope with the ceaseless flux | In the Greek this is part of what "someone will perhaps claim" (μήποτε ... ἀξιώσει), a view Plotinus puts forward to test; MacKenna states it as fact. |
+| II.1.1.p3 | by such communication | The Greek says "even in this way and in this manner" (κἂν οὕτω καὶ τοῦτον τὸν τρόπον); there is no word for "communication". |
+| II.1.2.p2 | no need, then, to call on a soul or on any perdurable conjunction | The Greek says he would need nothing from the soul "except" (ἢ) that the two be always together to make up a living being: the lasting union with soul is the one thing still needed, where MacKenna has it not needed either. |
+| II.1.3.p2 | co-operates by its upward tendency as earth by its lingering below | The Greek says only that fire is "sharp and quick" because it does not stay down here, as earth is because it does not stay above; there is no word for "co-operates". |
+| II.1.3.p3 | occur in some of the superiors from which the celestial fire depends | The Greek says "if it had something else" (εἰ ἄλλου τινὸς ἔχοι), some other element besides fire in the heaven, which might flow away too; there are no "superiors" on which the fire depends. |
+| II.1.4.p1 | docile to the purposes of the stars | The Greek says the fire there "suits the nature of the stars" (τῇ τῶν ἄστρων πρόσφορον φύσει); there is nothing about their "purposes". |
+| II.1.4.p2 | moving in its marvellous might | The Greek says the soul is "set" or "lies" (κειμένην) next to the best things, with a wonderful power; it is not said to move. |
+| II.1.5.p2 | whose region does not in fact extend so low as to the moon | The Greek says the opposite: the things under the heaven are not parts of it, "or else the heaven would not reach (only) as far as the moon" (ἢ οὐ μέχρι σελήνης ὁ οὐρανός). The heaven ends at the moon; what is below it is not the heaven. |
+| II.1.5.p3 | bringing with it some effluence from the Divine Reason | The Greek says the higher soul comes when the body is already formed, "helping a little, from reasoning" (μικρὰ ἐκ λογισμοῦ), towards its being; there is no "effluence" and no "Divine Reason", only our own reasoning. |
+| II.1.6.p1 | Plato accepts it as indicated by all the appearances | The Greek says Plato judged the view by "the likely" (τῷ εἰκότι), the "likely account" of the Timaeus, not by "all the appearances". The appearances come next, and lead the other way. |
+| II.1.6.p1 | derive from them the impression of illumination | The Greek names sight and "the grasp of touch" (τὴν τῆς ἁφῆς ἀντίληψιν): to both senses the stars seem made of fire. MacKenna leaves out touch. |
+| II.1.6.p3 | It is still not proven that fire is necessary to the visibility of earth | The Greek is a question to be looked into (ἐπισκεπτέον, "we must look at whether"), and its point is the next sentence: if each element needed the others, nothing would have a being of its own. |
+| II.1.6.p5 | there are living beings of fire among the Celestials | The Greek says "among the daemons" (δαιμόνων): MacKenna's "Celestials" makes them gods of the heaven. |
+| II.1.7.p3 | extinguished by the currents of air opposed to it | The Greek says the flame is quenched when it "meets more air" (ἐντυχοῦσαν πλείονι ἀέρι); nothing is said of currents opposing it. |
+| II.1.7.p3 | constitutes also the still higher heavenly bodies | The Greek says "the rest of the heaven" (τὸν δ’ ἄλλον οὐρανόν), the heaven between the stars, is of this light too, and is not seen; there are no "still higher heavenly bodies". |
+| II.1.8.p1 | no match for what it would be opposing in those higher regions | The Greek compares that fire with the fire down here: it is "lesser, and not as strong as the things here" (ἰσχύον τε οὐκ ἴσα τοῖς ἐνθάδε), since flame dies down as it rises (chapter 7). |
+| II.1.8.p2 | a Principle not dwelling in the higher regions | The Greek says only "another nature presiding over them" (ἄλλης ἐπιστατούσης φύσεως); where it dwells is MacKenna's gloss. |
+| II.2.1.p1 | being self-centred it is not of unlimited extension (and consequently must move ceaselessly to be omnipresent) | A hard place. The Greek says only "or is it in itself, not being continuous?" (ἢ ἔστιν ἐν αὑτῇ οὐ συνεχὴς οὖσα;); MacKenna's "unlimited extension" and his words in brackets are his reading of it. |
+| II.2.1.p3 | its straight line would finally fling it outside the universe | The Greek says only that fire "will be scattered" (σκεδασθήσεται) in a straight line; "outside the universe" is MacKenna's (Plotinus says next that there is no place beyond). |
+| II.2.1.p3 | itself its own sphere | The Greek says "itself its own place" (αὐτὸ αὑτοῦ τόπος). |
+| II.2.1.p4 | a living thing whose nature binds it within a body | The Greek says "a body that is alive and in its natural state" (ζῶντι καὶ κατὰ φύσιν δὲ ἔχοντι σώματι); nothing binds a living thing within a body. |
+| II.2.1.p4 | the custom the All-Soul has established | The Greek says nature is "what has been ordered by the whole soul" (τὸ ὑπὸ ψυχῆς τῆς πάσης ταχθέν): an ordering, not a custom. |
+| II.2.1.p4 | dwelt wholly and solely in the realm in which every member is at rest | The Greek "as being only there where each thing stays" (ὡς ἐκεῖ οὔσης μόνον, οὗ ἕκαστον μένει) means a place in the heaven, not the intelligible realm; MacKenna reads "there" (ἐκεῖ) as Plotinus' "There", the world above. |
+| II.2.2.p1 | (which it desires to possess alone) | A hard place: the Greek says only "because it does not have it alone" (ὅτι μὴ μόνον ἔχει), which may mean that it has other things besides the soul, or that it does not have the soul in one place only. MacKenna's words in brackets are his. |
+| II.2.2.p3 | what in us is of this circling nature (the soul) | The Greek says "what is spherical in us" (τὸ σφαιροειδὲς ἡμῶν), which is earthy: the head, which the Timaeus (44d) makes spherical in imitation of the All. It is a part of the body, not the soul. |
+| II.2.2.p3 | the Spirit which dwells with the Soul does thus circle about the divinity | The Greek πνεῦμα here is the "breath", the fine body around the soul that the later Platonists call its vehicle; MacKenna's capital "Spirit" can be read as something higher. |
+| II.2.2.p3 | to each a revolution around their common centre | The Greek gives each star a motion "around their own centre" (τὴν περὶ τὸ κέντρον αὐτῶν), each turning in its own place, as in the Timaeus (40a-b); not around a common centre. |
+| II.2.3.p1 | another phase possesses sensation, while yet another includes the Reason | A hard place: MacKenna counts three powers. The Greek "the one whose nature is to perceive and the one that receives the reason that forms opinions" (ἡ δὲ αἰσθάνεσθαι πεφυκυῖα καὶ ἡ λόγον δοξαστικὸν δεχομένη) goes with one singular verb and "itself" (ἑαυτήν), and the chapter goes on with two: the lower power woven through the All, and the perceiving power above. |
+| II.2.3.p1 | this upward tension | The Greek says "its turning" (ἡ δὲ ἐπιστροφὴ αὐτῆς), Plotinus' word for the soul's turning back to what is above it. |
 
 ## The plan, in Porphyry's order
 
@@ -181,8 +211,8 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | I.7 | On the first good and the other goods | done here |
 | I.8 | What evils are, and where they come from | done here |
 | I.9 | On going out of life | done here |
-| II.1 | On the heaven | to come (E7) |
-| II.2 | On the movement of the heaven | to come (E7) |
+| II.1 | On the heaven | done here |
+| II.2 | On the movement of the heaven | done here |
 | II.3 | Whether the stars are causes | to come (E8) |
 | II.4 | On matter | done beside Taylor (milestone 27) |
 | II.5 | On what is potential and what is actual | to come (E9) |
