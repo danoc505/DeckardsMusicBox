@@ -237,9 +237,29 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   being (Republic VI 509b), like known by like, the Parmenides' first hypothesis, Kronos as intellect (Cratylus 396b), the
   Living Being of Timaeus 39e, the Second Letter's third (312e), the body in the soul (Timaeus 34b, 36d-e), intelligible
   matter, the Sophist's motion and rest (254d) and the unmoved mover (Metaphysics XII.7).
-- E15: IV.1 On the being of the soul, first part, and IV.4 chapters 1-17 (about 5,000); MacKenna's vol. III (1924). Next.
-  Compare MacKenna's chapter openings with the Greek before translating.
-- E16: IV.4 chapters 18-31 (about 4,700).
+- **E15: IV.1 On the being of the soul, first part, and IV.4 chapters 1-17 (4,656) (done).** MacKenna's vol. III (1924, "Plotinus
+  on the Nature of the Soul, being the Fourth Ennead") brought in: the Internet Archive's OCR of the Toronto copy
+  `plotinustranslat03burkuoft` (`sources/mackenna-plotinus-1924/`, `mackenna-plotinus-1924` in `sources/manifest.json`), read by
+  `tools/mackenna.py` into `texts/plotinus/mackenna-1924.json`. The OCR lost five of IV.4's chapter numbers (15, 17, 31, 38, 41:
+  a blank line where the scan prints them); the volume's "lost" list lets the next number begin its chapter, and the lost
+  chapter's text runs on in the one before. 18 chapters, 55 paragraphs, 54 flags, 45 notes; IV.4 is the first treatise done in
+  parts, shown as "chapters 1-17 of 45 so far". MacKenna's IV.1 is Volkmann's (one chapter; Henry-Schwyzer's IV.2). His IV.4
+  chapters are Volkmann's, but the Greek's 7th begins with the last two sentences of his 6th (@older 6 7), and his 14 and 16
+  hold the Greek's 15 and 17 (@older 14, @older 16). E.g. MacKenna has "the world of unembodied spirits" for souls without
+  bodies, "an act of philosophic virtue" for practising philosophy, "a reading" for the soul's settling on what intellect has
+  divided, "falls in love with its own powers and possessions" for embracing what is its own, depth turned round, "the same
+  principle of penetration" for "in proportion to memory and imagination", "by way of analogy" for conjecture, a soul
+  "descended from the Intellectual region" where the Greek has it rise "from here", eternity for the stars' "always", lyre
+  strings "struck in tune" for moved in sympathy, "chief in producing" for the wisest craftsman, "conferring grace" for
+  ordering, nature acting on soul where it acts on matter, intellect possessing what is beyond being, and he leaves out the last
+  sentence of chapter 17. Notes on the Timaeus' undivided and divided soul (35a), division and collection (Phaedrus 265d-266b),
+  Aristotle on memory (449b15-28) and on knowing as matter taking form, the Stoic impressions, the cave's climb (Republic VII
+  515e-516b), souls in the stars (Timaeus 41d-42b, Apology 41a-c), Hesiod's good order, the dance of the stars (Timaeus 40c),
+  the music of the spheres, Zeus' kingly soul (Philebus 30d, Phaedrus 246e), nature and the doctor (Physics II.8), knowing as
+  coming to rest (Physics VII.3), the Epicureans' troubled gods, the wax (Theaetetus 191c-e), Aristotle's time that encompasses
+  (Physics IV.12), the Good beyond being (Republic VI 509b), the assembly's din (Republic VI 492b-c) and the city in heaven
+  (Republic IX 592b).
+- E16: IV.4 chapters 18-31 (about 4,700). Next. MacKenna's 30 holds the Greek's 31 (the OCR lost his number): @older 30.
 - E17: IV.4 chapters 32-45 (about 4,600).
 - E18: IV.5 On sight, IV.6 On perception and memory (4,686).
 - E19: IV.8 On the descent of the soul into bodies, IV.9 Whether all souls are one (4,062).

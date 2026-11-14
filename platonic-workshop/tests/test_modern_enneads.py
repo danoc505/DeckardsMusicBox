@@ -97,6 +97,41 @@ class MacKenna(unittest.TestCase):
         self.assertTrue(ch["I.9.1"]["paras"][0].startswith('" You will not dismiss your Soul'))
 
 
+class MacKennaVolumeIII(unittest.TestCase):
+    """MacKenna's vol. III (1924), brought in by milestone E15: the Fourth Ennead."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.d = json.loads((ROOT / "texts" / "plotinus" / "mackenna-1924.json").read_text(encoding="utf-8"))
+        cls.t = {t["id"]: t for t in cls.d["treatises"]}
+
+    def test_the_file_is_what_the_tool_makes(self):
+        path, text = mackenna.write("mackenna-1924")
+        self.assertEqual(path.read_text(encoding="utf-8"), text)
+
+    def test_the_fourth_ennead(self):
+        self.assertEqual([t["id"] for t in self.d["treatises"]], [f"IV.{n}" for n in range(1, 10)])
+        self.assertEqual((self.d["translator"], self.d["year"]), ("Stephen MacKenna", 1924))
+        self.assertEqual((self.t["IV.1"]["page"], self.t["IV.4"]["page"]), (1, 47))
+
+    def test_iv_1_and_iv_4_their_chapters_and_pages(self):
+        # IV.1 is one chapter, as Volkmann's. The OCR lost the numbers of IV.4's chapters 15, 17, 31, 38 and 41 (a blank
+        # line where the scan prints them), so their text runs on in the chapter before.
+        self.assertEqual([c["n"] for c in self.t["IV.1"]["chapters"]], [1])
+        self.assertEqual([c["n"] for c in self.t["IV.4"]["chapters"]], [n for n in range(1, 46) if n not in (15, 17, 31, 38, 41)])
+        self.assertEqual([c["page"] for c in self.t["IV.4"]["chapters"]][:15], [47, 49, 50, 51, 51, 53, 53, 54, 56, 57, 58, 59, 60, 62, 63])
+        ch = {c["id"]: c for t in self.d["treatises"] for c in t["chapters"]}
+        self.assertTrue(ch["IV.1.1"]["paras"][0].startswith("In the Intellectual Kosmos dwells Authentic Essence"))
+        self.assertTrue(ch["IV.1.1"]["paras"][-1].endswith("it is divided as being effective in every part."))
+        self.assertTrue(ch["IV.4.1"]["paras"][0].startswith("What, then, will be the Soul's discourse"))
+        self.assertTrue(any(p.startswith("But there is a difficulty affecting this entire settlement") for p in ch["IV.4.14"]["paras"]))
+        self.assertTrue(any(p.startswith("But how comes it that the intuitions") for p in ch["IV.4.16"]["paras"]))
+        self.assertTrue(ch["IV.4.18"]["paras"][0].startswith("There remains the question whether the body"))
+        text = " ".join(p for c in ch.values() for p in c["paras"])
+        self.assertNotIn("ACKNOWLEDGEMENT", text)
+        self.assertNotIn("SECOND TRACTATE", text)
+
+
 class MacKennaVolumeII(unittest.TestCase):
     """MacKenna's vol. II (1921), brought in by milestone E7: the Third Ennead, then the Second."""
 
@@ -172,8 +207,10 @@ class Files(unittest.TestCase):
         for c in d["chapters"]:
             self.assertTrue(c["title"] and c["summary"], c["id"])
             self.assertTrue(c["older"], f"{c['id']}: MacKenna's chapter is shown with it")
-            # MacKenna's vol. I (1917) for the Life and Ennead I, vol. II (1921) for Enneads II and III (E7 onward).
-            self.assertEqual(c["older"][0]["year"], 1921 if c["treatise"].startswith(("II.", "III.")) else 1917)
+            # MacKenna's vol. I (1917) for the Life and Ennead I, vol. II (1921) for Enneads II and III (E7 onward),
+            # vol. III (1924) for Ennead IV (E15 onward).
+            self.assertEqual(c["older"][0]["year"], 1924 if c["treatise"].startswith("IV.") else
+                             1921 if c["treatise"].startswith(("II.", "III.")) else 1917)
         first = next(p for p in d["paragraphs"] if p["seg"] == "I.1.1.p1")
         self.assertTrue(first["modern"].startswith("Pleasures and pains, fears and boldness"))
         self.assertTrue(first["greek"].startswith("Ἡδοναὶ καὶ λῦπαι"))
@@ -490,7 +527,7 @@ class Files(unittest.TestCase):
 
     def test_milestone_e14_on_nature_contemplation_and_the_one_and_various_considerations(self):
         d = load()
-        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][18:], ["III.5", "III.8", "III.9"])
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][18:21], ["III.5", "III.8", "III.9"])
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "III.8"], [f"III.8.{k}" for k in range(1, 12)])
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "III.9"], [f"III.9.{k}" for k in range(1, 4)])
         ch = {c["id"]: c for c in d["chapters"]}
@@ -522,6 +559,55 @@ class Files(unittest.TestCase):
         notes = " ".join(n for p in d["paragraphs"] if p["chapter"].startswith(("III.8.", "III.9.")) for n in p.get("notes", []))
         for place in ("Laws VII 803c-804b", "Phaedrus (246a-254e)", "fragment B3", "Republic VI 509b", "Cratylus etymologises",
                       "Timaeus 39e", "Second Letter", "Timaeus 34b", "Sophist (254d)", "1072a26-b4"):
+            self.assertIn(place, notes)
+
+    def test_milestone_e15_on_the_being_of_the_soul_and_difficulties_about_the_soul_chapters_1_to_17(self):
+        d = load()
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][20:], ["III.9", "IV.1", "IV.4"])
+        self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "IV.1"], ["IV.1.1"])
+        self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "IV.4"], [f"IV.4.{k}" for k in range(1, 18)])
+        # IV.4 is done over E15 to E17: chapters 1-17 of 45 so far.
+        t = {t["id"]: t for t in d["treatises"]}
+        self.assertEqual((t["IV.4"]["chapters_done"], t["IV.4"]["chapters_all"]), (17, 45))
+        self.assertNotIn("chapters_done", t["IV.1"])
+        c = {c["id"]: c for c in d["contents"]}
+        self.assertEqual((c["IV.4"]["status"], c["IV.4"]["chapters_done"]), ("here", 17))
+        self.assertEqual(c["IV.5"]["milestone"], "E18")
+        ch = {c["id"]: c for c in d["chapters"]}
+        # MacKenna's vol. III beside them. The Greek's seventh chapter begins with the last two sentences of his sixth;
+        # the OCR lost his numbers 15 and 17, whose text runs on in his 14 and 16.
+        self.assertEqual([(o["n"], o["year"], o["page"]) for o in ch["IV.1.1"]["older"]], [(1, 1924, 1)])
+        self.assertEqual([(o["n"], o["year"], o["page"]) for o in ch["IV.4.1"]["older"]], [(1, 1924, 47)])
+        self.assertEqual([o["n"] for o in ch["IV.4.7"]["older"]], [6, 7])
+        self.assertEqual([o["n"] for o in ch["IV.4.15"]["older"]], [14])
+        self.assertEqual([o["n"] for o in ch["IV.4.17"]["older"]], [16])
+        self.assertIn({"file": "texts/plotinus/mackenna-1924.json", "year": 1924}, d["older"]["volumes"])
+        para = {p["seg"]: p for p in d["paragraphs"]}
+        self.assertTrue(para["IV.1.1.p1"]["greek"].startswith("ἐν τῷ κόσμῳ τῷ νοητῷ ἡ ἀληθινὴ οὐσία"))
+        self.assertTrue(para["IV.1.1.p3"]["greek"].endswith("τῷ ἐν παντὶ εἶναι μεμέρισται."))
+        self.assertTrue(para["IV.4.1.p1"]["greek"].startswith("Τί οὖν ἐρεῖ, καὶ τίνων τὴν μνήμην"))
+        self.assertTrue(para["IV.4.17.p4"]["greek"].endswith("ταῦτα μὲν οὖν ταύτῃ."))
+        self.assertIn("like a line from a centre", para["IV.1.1.p3"]["modern"])
+        self.assertIn("what it remembers, that it is and becomes", para["IV.4.3.p2"]["modern"])
+        self.assertIn("like strings in a lyre moved in sympathy", para["IV.4.8.p6"]["modern"])
+        self.assertIn("as he is the wisest craftsman", para["IV.4.9.p1"]["modern"])
+        self.assertIn("as if in thick wax an impression", para["IV.4.13.p1"]["modern"])
+        self.assertIn("soul longs for what is beyond being", para["IV.4.16.p3"]["modern"])
+        self.assertIn("the best of the counsellors speaks and does not prevail", para["IV.4.17.p3"]["modern"])
+        flags = {s: p.get("flags", []) for s, p in para.items()}
+        # MacKenna has the soul come down to the heaven where the Greek has it go up from here; eternity for "always";
+        # the lyre strings struck where they are moved in sympathy; nature acting on soul where it acts on matter;
+        # intellect possessing what is beyond being; and he leaves out the last sentence of the Greek's chapter 17.
+        self.assertTrue(any("from here" in f["why"] for f in flags["IV.4.5.p2"]))
+        self.assertTrue(any("always" in f["why"] for f in flags["IV.4.7.p2"]))
+        self.assertTrue(any("sympathy" in f["why"] for f in flags["IV.4.8.p6"]))
+        self.assertTrue(any("matter" in f["why"] for f in flags["IV.4.13.p3"]))
+        self.assertTrue(any("beyond being" in f["why"] for f in flags["IV.4.16.p3"]))
+        self.assertTrue(any("leaving out" in f["why"] for f in flags["IV.4.17.p4"]))
+        self.assertGreaterEqual(sum(len(flags[s]) for s in flags if s.startswith(("IV.1.", "IV.4."))), 45)
+        notes = " ".join(n for p in d["paragraphs"] if p["chapter"].startswith(("IV.1.", "IV.4.")) for n in p.get("notes", []))
+        for place in ("Timaeus (35a)", "Republic VII 515e-516b", "Timaeus 40c", "Philebus (30d)", "Physics II.8", "Theaetetus 191c-e",
+                      "Physics IV.12", "Republic VI 509b", "Republic VI 492b-c", "IX 592b"):
             self.assertIn(place, notes)
 
     def test_the_life_greek_is_proofread(self):

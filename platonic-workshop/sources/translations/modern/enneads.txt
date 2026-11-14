@@ -3595,3 +3595,375 @@ But it will not be aware of itself. What, then, would its awareness of itself be
 !flag it observes itself in order, by that activity, to become master of its Being | The Greek says what is aware of itself is so "that by this activity it may be with itself" (ἵνα τῇ ἐνεργείᾳ ταύτῃ συνῇ αὑτῷ): to be together with itself, not to "become master of its Being".
 !flag this can mean only that ignorance inheres in it | The Greek says it "must have happened to be unlearned by itself" (ἀκαταμάθητον τετυχηκέναι αὑτῷ): not yet learned through, before it learns itself; "ignorance inheres" is stronger than the Greek.
 !note "Awareness of itself" (παρακολούθησις, a following-along with oneself) is self-consciousness, the accompanying awareness that we are thinking (I.4.10). "Adding makes a taking away" answers III.8.11: "if you add anything, you will make it lacking".
+
+# Milestone E15: IV.1 On the being of the soul, first part, and IV.4 On difficulties about the soul, second part, chapters
+# 1 to 17, beside MacKenna's vol. III (1924, the Fourth Ennead; pp. 1-2 and 47-65). IV.1 is Volkmann's (Ficino's) first
+# treatise of the Fourth Ennead, a single chapter; Henry and Schwyzer number it IV.2, and the longer treatise that Taylor
+# translated IV.1. IV.4 has 45 chapters in the Greek and is done over E15 to E17. MacKenna's chapters are the Greek's,
+# except that the Greek's seventh begins with the last two sentences of his sixth (so it is shown with his 6 and 7), and
+# that the OCR of his vol. III lost the numbers of his chapters 15 and 17, whose text runs on in his 14 and 16 (@older 14,
+# @older 16).
+
+@treatise IV.1 | On the being of the soul, first part
+A single chapter on how the soul can be both undivided and divided. In the intelligible world all intellect is together and all souls are together, without separation in place; intellect is never divided, but soul has a nature to be divided, and its division is its departing into a body. Yet it does not depart whole: something of it stays above and is not divided, so that the soul made, in Plato's words, "of the undivided and of what is divided in bodies" is one soul that is above and below, like a line from a centre. Even in the body it is divided without being divided, whole in the whole body and in every part.
+
+@ch IV.1.1 | Undivided above, divided in bodies
+Intellect and souls are together in the intelligible world, without bodies and without distance; intellect is never divided, but soul has a nature to be divided, and its division is its going into a body. It is undivided too, because not all of it has gone: it is the soul of the Timaeus, made of the undivided and of the divided, above and below, like a line from a centre, and whole in the whole body and in every part.
+
+@p
+In the intelligible world is true being. Intellect is the best of it; but souls are there too, for it is from there that they are here as well. That world has souls without bodies, and this one has the souls that come to be in bodies and are divided by the bodies. There all intellect is together, not distinguished or divided, and all souls are together in the one world, not separated in place.
+!flag that is the world of unembodied spirits | The Greek says that world "has souls without bodies" (ψυχὰς ἄνευ σωμάτων ἔχει), as this one has souls in bodies: its souls, not "spirits".
+!note "True being" (ἡ ἀληθινὴ οὐσία) is the being of the forms, which intellect is (V.9.5-8). That souls are "there" too, and come from there, is the teaching of the Phaedrus (246a-249d) and of the Timaeus (41d-42b), where the craftsman sows the souls before they are given bodies.
+
+@p
+@greek νοῦς μὲν οὖν ἀεὶ ἀδιάκριτος
+Intellect, then, is always undistinguished and undivided. Soul, there, is undistinguished and undivided too, but it has a nature to be divided: for its division is its departing and coming to be in a body. It is fittingly said, then, to be "divided in bodies", because in this way it departs and is divided. How, then, is it also undivided? Because it did not depart whole: there is something of it that has not come, which is not of a nature to be divided.
+!flag speak of it as a partible thing | The Greek says it is fittingly called divisible "in bodies" (περὶ τὰ σώματα), the Timaeus' words, which the next paragraph quotes in full: it is divisible there, by departing into them, not divisible as such.
+
+@p
+@greek τὸ οὖν ἐκ τῆς ἀμερίστου
+So the soul made "of the undivided and of what is divided in bodies" is the same as the soul that is above and below, fastened from there but flowing down as far as here, like a line from a centre. Having come here, it sees with this part, and by this same part it keeps the nature of the whole. For even here it is not only divided but undivided as well: what is divided of it is divided without being divided. For giving itself to the whole body, and not divided, whole into whole, it is divided by being in every part.
+!flag attached to the Supreme and yet reaching down to this sphere | The Greek says the soul is "fastened from there" (ἐκεῖθεν ἐξημμένης), from the intelligible world of the first sentence, where intellect and the souls are; "the Supreme" is MacKenna's.
+!flag it possesses still the vision inherent to that superior phase | The Greek says that, having come here, the soul "sees with this part" (τούτῳ τῷ μέρει ὁρᾷ), the part that has not come down, and by it keeps the nature of the whole: the seeing is done here, with the part that stays.
+!note "Of the undivided and of what is divided in bodies": Plato's Timaeus (35a), where the craftsman mixes the world soul from the undivided being that is always the same and the divided being that comes to be in bodies. Plotinus reads the mixture as one soul that is at once above and below. The line from the centre comes back in IV.4.16 and VI.9.8.
+
+@treatise IV.4 | On difficulties about the soul, second part
+The second of the three books On difficulties about the soul (IV.3 to IV.5). It begins with memory. A soul in the intelligible remembers nothing of this world, not even itself: it is one with what it sees, and memory begins only when it leans out and wants to be its own; what it remembers, it becomes. The stars, the soul of the world and Zeus himself have no memory, and do not reason: their life is always the same, their knowledge is not learned, and their making is like nature's, which makes from within, not like a doctor's, who must deliberate. Nature is the last image of wisdom, a trace in wax; time belongs to soul, but the soul of the All is not in time, and its order is a circle round the centre of the Good. Our own reasonings come in time because many things rule in us, as many voices shout down the best counsellor in an assembly. (Chapters 18 to 45, to come in E16 and E17, take up the body's share in pleasure and pain, the desires, the earth's and the stars' perception, prayer and magic, and the sympathy of the All.)
+
+@ch IV.4.1 | No memory in the intelligible
+A soul in the intelligible contemplates the things there and remembers nothing of here, not even that it did philosophy. Thinking does not include "I have thought", and the things there are timeless, so there is no memory there at all. But it can see many things at once, as a face is seen with its eyes and nose, and the first and later among the forms is an order, not a time, like the order of a plant seen whole.
+
+@p
+What, then, will the soul say, and what will it remember, when it is in the intelligible and has come to that being? It follows to say that it contemplates those things and is active about those things among which it is; or else it is not there either. Of the things here, then, it remembers nothing: for example, that it practised philosophy, or indeed that while it was here it contemplated the things there.
+!flag it will not, for example, remember an act of philosophic virtue | The Greek says it will not remember "that it practised philosophy" (ὅτι ἐφιλοσόφησε); there is no "virtue" in it.
+!note "What will the soul say?": the treatise goes on from IV.3, whose last chapters (IV.3.25-32) asked which soul has memory, and what the soul remembers after death; Plotinus divides one inquiry into three books. "Being" (οὐσία) is the being of the intelligible world, as in IV.1.
+
+@p
+@greek ἀλλ’ εἰ μὴ ἔστιν, ὅτε τις ἐπιβάλλει
+But when someone turns his thinking on something, it is not possible to do anything else than think and contemplate it, and "I have thought" is not contained in the thinking: one would say it later, if at all, and that already belongs to someone who is changing. If so, it is not possible for someone who is purely in the intelligible to remember what once happened to him here. And if, as it seems, all thinking is timeless, since the things there are in eternity and not in time, there cannot be memory there, not only of the things here but of anything at all. Each thing is present: for there is no going through, nor passing from one thing to another.
+!flag in the knowing there is not included any previous knowledge | The Greek says what is not contained in the thinking is "having thought" (τὸ ἐνενοήκειν), the awareness that one has thought, which comes later; not "previous knowledge".
+!note Memory, for Plotinus as for Aristotle, is of the past (On memory 449b15-28): where nothing is past, as in eternity, there is nothing to remember. Eternity (αἰών) is the life of intellect, all at once, and time is the life of soul (III.7.3-5, 11).
+
+@p
+@greek τί οὖν; οὐκ ἔσται διαίρεσις
+What then? Will there be no dividing, from above into forms, or from below up to the universal and to what is above? Let there be none for what is above, since it is all together in act; but why will there be none for the soul that is there? What, then, prevents this soul too from grasping all things together, all at once? Is it as one thing together? Or as all the thoughts of many things together. For since the spectacle is varied, the thinking must be varied and many at once, and the thoughts many, as there are many perceptions of a face when the eyes are seen at once with the nose and the rest. But what when it divides some one thing and unfolds it? Or it has been divided in intellect already, and such an act is rather a kind of settling on it.
+!flag Admitting that the Highest, as a self-contained unity, has no outgoing effect | The Greek says only that for what is above, "being all together in act" (ἐνεργείᾳ πάντα ὁμοῦ ὄντι), let there be no dividing: it does not divide, since it is all at once; nothing is said of an "outgoing effect".
+!flag the Act of the soul is little more than a reading of this | The Greek ἐναπέρεισις is a pressing into, a settling or fixing on something, the soul's attention resting on what intellect has already divided; not "a reading".
+!note Dividing "from above into forms" and gathering "from below up to the universal" are the two ways of Plato's dialectic, division and collection (Phaedrus 265d-266b; Sophist 253d), which Plotinus gives to dialectic in I.3.4.
+
+@p
+@greek τὸ δὲ πρῶτον καὶ τὸ ὕστερον ἐν τοῖς εἴδεσιν
+The first and the later among the forms are not in time, and will not make the thinking of the earlier and later be in time either. For there is an order too: as in a plant, the order that begins from the roots and goes up to the top has, for someone contemplating it, no earlier and later except in order, since he contemplates the whole at once. But when the soul looks to one thing, and then has many and all, how did it have the first first, and the others next? Or the one power was one in such a way as to be many in another, and not all things by one thought. For its activities are not one at a time, but always all of them, by a power that stands still; but in other things they come to be. For that, already, as not being the One, could receive into itself the nature of the many, which were not before.
+!flag the source of things not previously existent in its superior | The Greek says intellect, "as not being the One" (ὡς μὴ τὸ ἓν ὄν), could receive into itself "the nature of the many, which were not before" (πρότερον οὐκ ὄντων): they were not before it, not "in its superior".
+!note "That ... as not being the One" is intellect, the first to be many, which the One is not (V.1.5-7, V.3.11, III.8.8-9).
+
+@ch IV.4.2 | Not even memory of itself
+The soul up there does not even remember itself, that it is Socrates or soul: even here, in the clearest contemplation, we do not turn to ourselves but become what we see, offering ourselves as matter to be formed. Thinking itself, it thinks all, and thinking all, it has itself; this is no change, since it is all things. Once turned to intellect it is fitted and united to it, one and two, aware of itself without changing.
+
+@p
+But so much for this. And how about itself? Or it will not have memory even of itself, nor that it is itself, Socrates for example, who contemplates, or that it is intellect or soul. On this, let one remember that even here, when someone contemplates, and above all when he contemplates clearly, he does not then turn to himself in his thinking: he has himself, but his activity is towards that; and he becomes that, offering himself as a kind of matter, formed according to what he sees, and being himself then only potentially. Is he, then, actually himself when he thinks nothing? Or, if he is himself alone, he is empty of everything. But if he is such as to be all things, when he thinks himself he thinks all things together: so that such a one, seeing himself by the act and attention turned on himself, has all things included in him, and by the attention turned on all things, he has himself included.
+!flag This means that he is actively himself when he has intellection of nothing. | The Greek can be read as a question, "Is he then actually himself when he thinks nothing?", which the next sentence answers: if he is only himself, he is empty of everything. MacKenna makes it a statement.
+!note Socrates is the philosophers' stock example of an individual (in Aristotle, Categories 2a13, Metaphysics VII.15). That the knower becomes what he knows, as matter takes a form, is Aristotle's (On the soul III.4-5, 430a2-5).
+
+@p
+@greek ἀλλ’ εἰ οὕτω ποιεῖ, μεταβάλλει
+But if it does this, it changes its thoughts, which before we ourselves would not allow. Or one must say that in intellect there is sameness, but that in the soul, which lies as it were at the edges of the intelligible, this can happen, since it also moves inward: for if something comes to be around what stays, it must vary in relation to what stays, not staying in a like way. Or it must not even be called change, when it goes from its own contents to itself, and when it goes from itself to the others: for it is itself all things, and both are one.
+!flag in this case the contemplator is the total | The Greek says "it is itself all things, and both are one" (πάντα γὰρ αὐτός ἐστι καὶ ἄμφω ἕν): the self and its contents are one, so passing between them is no change.
+
+@p
+@greek ἀλλ’ ἡ ψυχὴ ἐν τῷ νοητῷ οὖσα τοῦτο πάσχει
+But does the soul, when it is in the intelligible, undergo this "one thing and another" in relation to itself and what is in it? Or, being purely in the intelligible, it too has unchangeableness. For it too is what it is. Since even when it is in that place it must come into union with intellect, if indeed it has turned to it: for once it has turned there is nothing between, and having come into intellect it is fitted to it, and fitted it is united, without being destroyed: both are one, and two. Being so, it would not change, but would be unalterably directed to thinking, having at the same time the awareness of itself, as having become one and the same with the intelligible.
+!flag the soul, without motion (but by right of its essential being) | The words in brackets are MacKenna's; the Greek says only that, being so, the soul "would not change" (οὐκ ἂν μεταβάλλοι).
+!flag for it has become one simultaneous existence with the Supreme | The Greek says the soul has become one and the same "with the intelligible" (ἅμα τῷ νοητῷ), not "with the Supreme".
+!note "Awareness of itself" (συναίσθησις) is the soul's sense of itself together with its thinking: it keeps its self-awareness even in union, as "one and two".
+
+@ch IV.4.3 | Memory begins when the soul leans out
+The soul comes out of union because it cannot bear the one, wants to be its own and other, and leans out; then it has memory of itself. Memory of the intelligible holds it up, memory of things here carries it down, memory of the heavens keeps it there: what it remembers, it is and becomes. It is on the boundary, and moves towards both.
+
+@p
+But when it comes out from there, not bearing the one, but embracing what is its own and wishing to be other, and as it were leaning out, it takes, as it seems, a memory of itself.
+!flag it falls in love with its own powers and possessions | The Greek says it "embraces what is its own" (τὸ δὲ αὑτῆς ἀσπασαμένη) and wishes to be other: its own being, set apart; "powers and possessions" are MacKenna's.
+!note "Leaning out" (προκύψασα), like someone peering out of a window or over an edge: the soul's first step away from the intelligible is wanting to be itself. Compare the "daring" (τόλμα) of souls that wished to belong to themselves (V.1.1).
+
+@p
+@greek μνήμη δὲ ἡ μὲν τῶν ἐκεῖ
+Memory of the things there still holds it back from falling; memory of the things here carries it down here; memory of the things in the heaven holds it there; and, in general, what it remembers, that it is and becomes. For remembering, as we said, was either thinking or imagining; and imagining belongs to it not by having something, but as it sees and as it is disposed. And if it sees the things of sense, as much of them as it sees, so much depth it has. For because it has all things in a second way, it does not become all things so completely; and being a boundary, and set in such a place, it is carried towards both.
+!flag it is the lower in the degree in which it penetrates the object | The Greek says that as much of the sensibles as the soul sees, "so much depth it has" (τοσοῦτον ἔχει τὸ βάθος): depth (βάθος) is a name for matter and the lower world (II.4.5), so the more it looks at sensibles the deeper it is sunk; MacKenna's "penetrates the object" turns the depth round.
+!note "Remembering was either thinking or imagining": IV.3.29-31, where Plotinus gave memory to the imaging power (φαντασία). The soul as a "boundary" (μεθόριον), between the intelligible and the sensible, is also IV.8.4 and IV.8.7.
+
+@ch IV.4.4 | Memory is not the best
+In the intelligible the soul also sees the Good through intellect. Turned below, it has what it wanted by memory and imagination, so memory, even of the best, is not the best. Memory also includes being disposed by past experiences without knowing it, and this sinks the soul more. Leaving the intelligible, it brings up memories it had there as a power, not as stored impressions.
+
+@p
+There, then, it also sees the Good through intellect, for that is not shut in so as not to pass through into it, since what is between is not body, to hinder it; and yet even where bodies are between, the first things reach the third in many ways.
+!note The first, the second and the third are the One (the Good), intellect and soul (V.1.10; [Plato] Second Letter 312e). Even through bodies the higher reaches the lower, as light passes through air.
+
+@p
+@greek εἰ δὲ πρὸς τὰ κάτω δοίη αὑτήν
+But if the soul gives itself to the things below, it has what it wanted in proportion to its memory and imagination. That is why memory, even when it is of the best things, is not the best. Memory must be taken not only as a kind of perceiving that one remembers, but also when one is disposed according to earlier experiences or sights. For it can happen that someone who is not aware that he has something has it in himself more strongly than if he knew. For knowing it, he might perhaps have it as something other, being himself another; but not knowing that he has it, he is in danger of being what he has: and this experience makes the soul fall more.
+!flag the same principle of penetration comes into play | The Greek says the soul has what it wanted "in proportion to its memory and imagination" (ἀναλόγως τῇ μνήμῃ καὶ τῇ φαντασίᾳ): how much of the lower it gets depends on how much it remembers and imagines. There is no "principle of penetration".
+!note Being disposed by past experience without awareness is what the Stoics and Aristotle called a disposition (διάθεσις) or habit; Plotinus' point, that unconscious possession is stronger and binds the soul more, recalls I.4.10 (we act best when we are not aware of acting).
+
+@p
+@greek ἀλλ’ ἀφισταμένη τοῦ ἐκεῖ τόπου
+But when it departs from the place there, it brings up its memories, in whatever way it had them even there; but the activity of the things there made the memory disappear. For they were not lying there as impressions, in which case what happens would perhaps be absurd; it was the power, which was let go later into activity. So when the activity in the intelligible stopped, the soul saw what it had seen before it came there.
+!note "Impressions" (τύποι) are the Stoic account of memory and perception, stamps on the soul as in wax, which Plotinus rejects (IV.3.26, IV.6.1-3): memory is a power, not a store.
+
+@ch IV.4.5 | Seeing the intelligible here, and memory in the heavens
+What sees the intelligible here is not memory but the same power that saw it there, awakened, as from a lookout. Memory begins in the heaven, after the soul has left the intelligible: souls risen there from earth can remember much of this world and recognise one another by their characters, even in spherical bodies; souls come down from the intelligible remember less, and need not fall all the way.
+
+@p
+What then? Does this same power, by which we remember, now bring those things too into activity? Or, if we did not see the things themselves, it is by memory; but if we see them, it is by that by which we saw them there too. For this is awakened by what awakens it, and this is what sees about the things we have spoken of. For one must not declare them by using conjecture, nor by a syllogism that takes its principles from elsewhere; but it is possible to speak about the intelligibles, as is said, even while we are here, by the same thing that has the power to contemplate the things there. For we must see the things there by awakening, as it were, that same thing: as if someone, raising his eye on some high lookout, were to see what none of those who had not climbed up with him sees.
+!flag no matter to be brought to us by way of analogy | The Greek εἰκασία is "conjecture", guessing from likenesses or images: in Plato's divided line, the lowest state of the soul (Republic VI 511e). Plotinus means that the intelligible is not known by guesswork, nor by a syllogism whose principles come from elsewhere.
+!note "As is said": Plato, and Plotinus himself, speak of the intelligible while we are in the body. The lookout is the image of the soul that has climbed above the rest; compare the climb out of the cave (Republic VII 515e-516b).
+
+@p
+@greek ἡ τοίνυν μνήμη ἐκ τοῦ λόγου
+Memory, then, by our argument, seems to begin from the heaven, when the soul has already left the places there. So if it goes from here into the heaven and stays there, it is no wonder if it has memory of many things here, of the kind described, and recognises many of the souls it knew before, if indeed they must have bodies about them in like shapes. And even if they changed their shapes, making them spherical, they would know one another through their characters and the peculiarity of their ways: for this is not absurd. For let them have put off their passions; nothing prevents their characters from remaining. And if they could also converse, they would know one another in this way too.
+!flag A soul that has descended from the Intellectual region | The Greek says the soul goes into the heaven "from here" (ἐντεῦθεν), from this world, and remembers what it knew here; MacKenna has it come down from the intelligible.
+!flag (of the stars inhabited by souls in the mid-realm) | The words in brackets are MacKenna's; the Greek says only that the souls might take spherical shapes.
+!note The souls in the heaven recall the Timaeus, where each soul is given a star and returns to it after a good life (41d-42b), and the Apology (41a-c), where Socrates hopes to converse with the dead. Plotinus keeps the characters (ἤθη) and lets the passions (πάθη) go.
+
+@p
+@greek ἀλλ’ ὅταν ἐκ τοῦ νοητοῦ κατέλθωσι
+But when they come down from the intelligible, how? They will stir up memory of the same things, but less than those souls do: for they will have other things to remember, and a longer time will have made them forget many things completely. But if, turned to the sensible world, they fall here into becoming, what will be the way of remembering? Or they need not fall into the whole depth. For it is possible, once they have moved, to stop when they have gone some way; and nothing prevents them from coming up out again before they come to the last place of becoming.
+!flag (the point at which non-being begins) | The words in brackets are MacKenna's; the Greek speaks only of "the last place of becoming" (γενέσεως ... ἔσχατον τόπον).
+
+@ch IV.4.6 | The stars do not reason
+Souls that change place may remember, since memory is of what is past; but what would the souls that stay the same remember, the stars, the sun and moon, the soul of the All, Zeus himself? They need nothing and learn nothing, so they have no reasonings or devices for ruling us; their way of ordering the All is another.
+
+@p
+Of souls that pass from one state to another and change, then, one could say that they remember, for memory is of what has come to be and gone by; but those whose lot is to stay in the same, what would they remember? The argument looks for memories in the soul of the stars, all the others and indeed the sun and moon, and in the end it will go on to the soul of the All, and will dare to busy itself with the memories of Zeus himself. And looking into this, it will consider what their thoughts and reasonings are, if they have any.
+!flag Souls that descend, souls that change their state | The Greek μετιούσας is souls "that pass over", from one place or state to another, which includes the souls going up into the heaven of chapter 5; not only those that "descend".
+!note The stars are living beings with souls, gods, in Plato (Timaeus 40a-d) and for Plotinus (II.1, II.3, III.4.6 in E7, E8, E12). Zeus is the craftsman or the world soul (chapter 10).
+
+@p
+@greek εἰ οὖν μήτε ζητοῦσι
+If, then, they neither seek nor are at a loss, since they need nothing, and do not learn what was not in their knowledge before, what reasonings or syllogisms or thinkings-through would they have? Nor do they have notions and devices about human affairs, by which they will manage our affairs, or those of the earth in general: their way of bringing good order to the All is another.
+!flag they have no need for observation or method | The Greek says they have no "notions and devices" (ἐπίνοιαι καὶ μηχαναί) about human affairs, as a ruler plans and contrives; not "observation or method".
+!note "Good order" (εὐθημοσύνη) is a rare word, from Hesiod (Works and days 471), the farmer's good management. That the gods do not reason is also II.3.17 and III.2.2 (E8, E11).
+
+@ch IV.4.7 | No yesterday in the heaven
+They do not remember seeing god, since they always see him: "I have seen" belongs to those who have stopped. Nor do they remember going round the earth yesterday or last year: their life is always one, and their movement is one, as a single stride is one, and there is one day there. But they pass different parts of the zodiac and see human affairs change: so do they remember?
+
+@older 6 7
+@p
+What then? Do they not remember that they saw god? Or they always see him; and as long as they see, they surely cannot say that they have seen: for that would be the experience of those who have stopped.
+!flag such reminiscence is for souls that have lost it | The Greek says "that would be the experience of those who have stopped" (παυσαμένων γὰρ τοῦτο ἂν πάθος εἴη) seeing: to have seen belongs to those whose seeing has stopped. "Reminiscence" and "lost" are MacKenna's.
+
+@p
+@greek τί δέ; οὐδ’ ὅτι περιῆλθον
+What then? Do they not remember that they went round the earth yesterday and last year, nor that they lived yesterday, and long ago, and since they began to live? Or they live always, and "always" is one and the same; and the "yesterday" and "last year" of their motion would be as if someone were to divide into many the step taken with one stride, and make the one into one and another and many. For here too the motion is one, but among us many motions are measured and other days, because nights come between. But there, where there is one day, how can there be many? So there is no "last year" either.
+!flag Their living is eternal, and eternity is an unchanging unity | The Greek says "they live always, and the always is one and the same" (ἢ ζῶσιν ἀεί: τὸ δὲ ἀεὶ ταὐτὸν ἕν): the stars live in everlasting time, "always", not in eternity (αἰών), which is the life of intellect.
+!note Days, nights and years are measured by the motion of the heavens (Timaeus 39b-c), but for the stars themselves the motion is one; compare III.7.12, where time is measured by the motion of the heaven.
+
+@p
+@greek ἀλλὰ τὸ διάστημα οὐ ταὐτόν
+But the distance gone is not the same but another, and the section of the zodiac is another. Why, then, will the soul not say "I have passed this one, and now I am in another"? And if it also looks upon the affairs of men, how will it not see the changes in them too, and that now they are others? And if this, then also that before there were others, and other things: so memory too.
+!note The zodiac (ζῴδιον, "the little figures") is the band of the heaven through which the sun, moon and planets pass, divided into twelve signs.
+
+@ch IV.4.8 | What we need not notice, and the dance of the stars
+We do not store all we see: what does not concern us, or comes by accident, passes without awareness, as we take no note of the air we walk through or of time when only moving matters, and no one watches the details of what he always does the same. So the stars, intent on greater things and always on the same path, need no memory of places or times; their motion is the life of one living being, like a dance always complete, or like lyre strings moved in sympathy.
+
+@p
+Or it is not necessary to put in memory everything one contemplates, nor for what follows along wholly by accident to come into the imagination; and for things whose thinking and knowledge are clearer, if these come about in a perceptible way, it is not necessary to let go of the knowledge of them and turn one's attention to the particular thing perceived, unless one is managing something in practice: the things in part are included in the knowledge of the whole.
+!flag when things vividly present to intuition | The Greek says the things whose thinking and knowledge are "clearer" (ἐναργεστέρα) than any perception of them: one who knows them in thought need not turn to them as perceived.
+
+@p
+@greek λέγω δὲ ἕκαστον ὧδε
+I explain each point as follows. First, that it is not necessary to lay up in oneself what one sees. For when it makes no difference, or the perception does not concern oneself at all, moved without choice by the difference of the things seen, the perception alone underwent this, and the soul did not take it inward, since the difference matters to it neither for need nor for any other benefit. And when its activity is directed to other things, it would not put up with the memory of such things at all once they are past, since it does not even notice the perception of them when they are present.
+
+@p
+@greek καὶ μὴν ὅτι τῶν πάντη
+Next, that what happens wholly by accident need not come into the imagination, and if it did come, not so as to keep and observe it, but that the impression of such a thing does not even give awareness: one could learn this if one took what is said as follows. If it were never one's aim to cut through this air and then that, in moving from place to place, or still more to pass through it, there would be no observation of it, or thought of it, as we walk. For even of the road, if covering this stretch were not our aim, and we could make our way through the air, it would not occur to us to care in what stade of land we are, or how far we have gone; and if we had to move, not for so much time, but only to move, and we did not refer any other action to time, we would not have made one time and another in memory. And it is well known that when the understanding has the whole of what is being done, and trusts that it will be done in just this way, it would no longer attend to each thing as it happens. And again, when someone always does the same thing, it would be in vain for him to keep watching each detail of the same.
+!flag mere movement in the air being the main concern | The Greek imagines that "we could make our way through the air" (δι’ ἀέρος δὲ ἦν τὴν διέξοδον ποιήσασθαι), as the stars do, with no road beneath: then no one would count the stades of land. MacKenna makes it a matter of what concerns us.
+!note A stade (στάδιον) is a Greek measure of distance, about 180 metres, the length of a running track.
+
+@p
+@greek εἰ οὖν τὰ ἄστρα φερόμενα
+If, then, the stars, as they move, move doing their own work, and not in order to pass what they pass; and their work is neither the sight of what they pass, nor the passing; and the passing by is by accident, and their mind is on other, greater things; and the things through which they go are always the same; and the time spent in so much space is not in their reckoning, even if it were divided: then there need be no memory either of the places they pass or of the times. And they have the same life, since their movement in place too is about the same centre, so that the motion is not one of place but of life, the motion of one living being active towards itself, at rest as regards what is outside, but in motion by the life within it, which is everlasting.
+!flag (since they are one in the All-Soul) | The words in brackets are MacKenna's; the Greek says the stars "have the same life" because their movement in place is about the same centre (περὶ ταὐτόν).
+!note The heaven's motion as a life rather than a change of place is II.2.1-3 (E7): the soul moves round itself, and the heaven follows it.
+
+@p
+@greek καὶ μὴν εἰ καὶ χορείᾳ
+And again, if someone were to liken their motion to a dance: if to a dance that stops at some time, the whole, completed from beginning to end, would be complete, and each part of it incomplete; but if to such a dance as goes on always, it is always complete. And if it is always complete, it has no time in which it will be completed, nor place: so that it would have no longing either: so that it will measure neither by time nor by place: so there is no memory of these.
+!flag but if the dance is a thing of eternity, it is in eternal perfection | The Greek says "if it is such as goes on always, it is always complete" (εἰ δὲ τοιαύτῃ οἵα ἀεί, τελεία ἀεί): the dance lasts always, in time, as the stars do; it is not "a thing of eternity".
+!note The dance of the stars is Plato's: "the dances (χορεῖαι) of these gods" (Timaeus 40c), and the choir of the heavens in the Epinomis (982e).
+
+@p
+@greek εἰ μέντοι αὐτοὶ μὲν ζωὴν
+If, however, they themselves live a blessed life, looking to the life in their own souls; and if, by their souls' inclining to one, and by the light that shines from them into the whole heaven, they were to sing a melody, like strings in a lyre moved in sympathy, in some natural harmony; if the whole heaven and its parts are moved in this way towards itself, the whole moving, and the parts in other ways towards the same, each having its own position too: then our argument would be upheld still more, the life of them all being still more one and like.
+!flag by force of their souls' tendency to become one | The Greek says "by their souls' inclining to one" (πρὸς ἓν τῇ νεύσει), turning towards one centre, the one they all look to; not a tendency "to become one".
+!flag being struck in tune, sing a melody | The Greek says the strings are "moved in sympathy" (συμπαθῶς κινηθεῖσαι): a string sounds when another tuned to it is struck, without being struck itself. This sympathy is the subject of the last chapters of the treatise (IV.4.32-45).
+!note The music of the spheres goes back to the Pythagoreans (Aristotle, On the heavens II.9) and to the Sirens of the spindle of necessity (Republic X 617b). Sympathetic vibration is IV.4.41.
+
+@ch IV.4.9 | Zeus' memory
+Zeus orders and governs all, with a kingly soul and kingly intellect, and has completed many periods: must he not remember them, and be the best at remembering as he is the wisest of craftsmen? But if their number is limited, the All has a beginning in time, and if unlimited, he cannot know it. The answer: he knows the All as one, by one life always, not by knowledge from outside, as he knows his own unlimited life.
+
+@p
+But Zeus, who orders all things and is their guardian and disposer, who has forever a kingly soul and a kingly intellect, and providence that things come to be, and oversight of them as they come to be, managing them in order, and rolling round many periods and having already completed them: how could he not have memory, in all of these, of how many periods there were and of what kind? And contriving how they may come to be hereafter, and comparing and reasoning, how would he not be the greatest at remembering of all, as he is the wisest craftsman?
+!flag as he is chief in producing | The Greek says "as he is the wisest craftsman" (ὅσῳ καὶ δημιουργὸς σοφώτατος): the craftsman (δημιουργός) of the Timaeus, and the wisest; it is his wisdom that seems to need memory.
+!note "A kingly soul and a kingly intellect": Plato's Philebus (30d), where Zeus has them by the power of the cause. "Zeus who orders all things" is the great leader of the gods in the Phaedrus (246e), "ordering all things and caring for them". The periods are the cycles of the world (Statesman 269c-270a; Timaeus 39d, the perfect year).
+
+@p
+@greek τὸ μὲν οὖν περιόδων τῆς μνήμης
+The memory of the periods would itself raise much difficulty: how great their number would be, and whether he would know it. For if it were limited, he will give the All a beginning in time; and if unlimited, he will not know how many his works are. Or he will know that it is one, by one life always: for it is unlimited in this way. And he will know the one not by knowledge from outside, but in act, the unlimited being always with him in this way, or rather following him, and contemplated by no knowledge brought in from outside. For as he knows the unlimitedness of his own life, so he knows his activity towards the All as one, but not as directed to the All.
+!flag but he knows it in its unity not in its process | The Greek says he knows his activity towards the All "as one, but not that it is towards the All" (μίαν οὖσαν, οὐχ ὅτι εἰς τὸ πᾶν): he knows it as his own one activity, without looking out to what it acts on; there is no "process" in the Greek.
+!note That the world had no beginning in time, against a reading of the Timaeus that gave it one, is II.1.1 and III.2.1; Aristotle argues the same (On the heavens I.10-12).
+
+@ch IV.4.10 | The world soul does not deliberate
+What orders is double: the craftsman, and the soul of the All, both called Zeus. The craftsman has a single timeless life; the world soul too lives without reasoning, since what must be is already found and set in order: the order is the activity of a soul hanging from a wisdom that stays. It is one, always in control, always willing the same, and begins from the first things, not from the parts; if it deliberated, it would be at a loss and its work would weaken.
+
+@p
+But since what orders is double, and we speak of one as the craftsman and of the other as the soul of the All; and when we speak of Zeus we are carried sometimes to the craftsman, and sometimes to the leading part of the All: in the case of the craftsman, we must take away the before and after entirely, giving him one unchanging and timeless life.
+!note The craftsman (δημιουργός) is intellect, and the soul of the All is the world soul; Zeus is either (III.5.8, in E13; V.8.13). The "leading part" (ἡγεμονοῦν) is the Stoic name for the ruling part of the soul.
+
+@p
+@greek ἡ δὲ τοῦ κόσμου ζωὴ
+But the life of the world, which has the leading part in itself, still needs an account. Does it, then, also not have its life in reasoning, nor in seeking what it must do? For what must be has already been found and set in order, without being ordered: what was ordered was the things that come to be, and what makes them is the order. And this is the activity of a soul hanging from a wisdom that stays, of which the order in it is an image. And since that does not change, this too must not change: for it does not sometimes look there and sometimes not: if it were left without, it would be at a loss. For the soul is one and the work one.
+!flag for what must be stands shaped before the kosmos | The Greek says "what must be has already been found and set in order" (ἤδη γὰρ ἐξεύρηται καὶ τέτακται): it is done already; "before the kosmos" is MacKenna's.
+!note "A soul hanging from a wisdom that stays": the world soul depends on intellect, whose wisdom (φρόνησις) does not change; the order of the world is its image.
+
+@p
+@greek τὸ γὰρ ἡγεμονοῦν ἓν κρατοῦν ἀεί
+For the leading part is one, always in control, and not sometimes controlling and sometimes controlled: for where would the plurality come from, so that there could be a fight or perplexity? And what governs, being one, always wills the same: for why would it will one thing and then another, to be at a loss among more? And yet even if, being one, it were to change, it would not be at a loss. For it would not be at a loss how to arrange things because the All has many forms and parts and contrarieties among the parts: for it does not begin from the last things, nor from the parts, but from the first; and beginning from the first, it goes by an unhindered road to all things and orders them, and controls them for this reason, that it stays in one and the same work, and is the same. If it were to deliberate one thing and another, where would the other come from? Then it would be at a loss what to do, and its work would weaken as it went into doubt about acting by reasonings.
+!flag that soul does not take its essence from its ultimates or from its parts | The Greek says it "does not begin from the last things nor from the parts" (οὐ γὰρ ἀπὸ τῶν ἐσχάτων οὐδ’ ἀπὸ τῶν μερῶν ἄρχεται): where it starts its ordering, not where it gets its being.
+!flag into a total of things, conferring grace | The Greek κοσμεῖ is "orders" or "sets in order", the work of the world soul throughout the chapter; "conferring grace" is MacKenna's.
+
+@ch IV.4.11 | Ruling like nature, not like a doctor
+The All is governed as one living being: not like a doctor, who works from outside, part by part, and must deliberate, but like nature, from the principle, with no need of deliberation. One nature rules all the natures, as the life of a tree rules its branches. The more varied what comes to be, the more the maker stays the same, as one forming principle unfolds a living being's ages, horns, beard and breasts; so the wisdom of the world is one, standing, and all at once.
+
+@p
+For the managing is as in one living being: one kind from outside and from the parts, the other from inside and from the principle. A doctor begins from outside and part by part, and is often at a loss and deliberates; but nature works from the principle, and has no need of deliberation. And the managing of the All, and the one who manages it in leading, must not be in the manner of a doctor, but as nature is. And there it is much more simple, inasmuch as all things are included as parts of one living being. For one nature controls all the natures, and they follow, hanging from it and depending on it, and as it were grown out of it, as the nature in the branches comes from that of the whole plant.
+!flag all the Kinds included in the universe are dominated by one Kind | The Greek says "one nature controls all the natures" (πάσας γὰρ τὰς φύσεις κρατεῖ μία), the natures of the parts, as the nature of the tree controls its branches; MacKenna's "Kinds" makes them classes.
+!note The doctor and nature: Aristotle says that nature does not deliberate, though it acts for an end, and that it is like a doctor who heals himself (Physics II.8, 199b26-32). Plotinus' doctor is the one who works from outside, at a loss.
+
+@p
+@greek τίς οὖν ὁ λογισμὸς
+What, then, is the reasoning, or what the counting, or what the memory, when wisdom is always present and active and in control and managing in the same way? For it is not because what comes to be is varied and different that what makes it must also follow along with the changes of what comes to be. On the contrary, the more varied the things that come to be, the more what makes them stays the same. For in each single living being too, the things that come to be according to nature are many, and not all at once: the ages, the growths at their times, of horns for example, or beards, the growth of breasts, prime, the begetting of others; the former forming principles are not destroyed, but others come in addition.
+!flag there is process of growth, but no diversity in the initial principle | The Greek says the former principles are not destroyed "but others come on in addition" (ἐπιγινομένων δὲ ἄλλων): the forming principles of the later ages come in their turn; MacKenna denies them.
+
+@p
+@greek δῆλον δὲ καὶ ἐκ τοῦ
+And this is clear also from the fact that in the living being begotten, again, there is the same, the whole forming principle. So it is right to give it the same wisdom, and that this is universal, as it were the standing wisdom of the world, many and varied and again simple, the wisdom of one very great living being, not altered by its manyness, but one forming principle, and all things together: for if it were not all things, the wisdom would not be the world's, but that of later things and of parts.
+!flag not the wisdom of the Supreme | The Greek says that if it were not all things, it would be the wisdom "not of that" (οὐκ ἐκείνου), the one very great living being, the world, but of the later things and the parts; not "of the Supreme".
+!note "One very great living being": the world as a single living being with a soul and intelligence (Timaeus 30b-d, 69c).
+
+@ch IV.4.12 | Reasoning is seeking wisdom, not having it
+To say the All must reason because it is wise is to mistake seeking wisdom for wisdom: the reasoner is like one playing the lyre to learn it, and stops when he finds. If the leader of the All knows the future, it knows how it will be, as makers know, not as diviners; if it did not know, it would make at random. So it makes in one way, by the pattern in it; the variety of things comes from the forming principles, and the maker is never at a loss or troubled, as some thought ruling the world must be.
+
+@p
+But perhaps someone might say that such a thing is the work of nature, but that, since there is wisdom in the All, there must also be reasonings and memories. But this is said by men who place being wise in not being wise, and who think that seeking to be wise is the same as being wise. For what else would reasoning be than longing to find wisdom and a true account that hits upon what is? For the one who reasons is like someone playing the lyre to acquire the skill of playing it, and someone practising to acquire a habit, and, in general, someone learning to acquire knowledge. For the one who reasons seeks to learn what the wise man already has: so wisdom is in what has come to a stand. The one who has reasoned bears witness to this himself: for when he finds what is needed, he has stopped reasoning; he has come to rest, having come into wisdom. If, then, we set the leading part of the All among the learners, we must give it reasonings and perplexities and memories, as it compares the past with the present and the future. But if among those who know, we must think its wisdom is in a rest that has its limit.
+!flag For what can reasoning be but a struggle | The Greek says reasoning is "longing (ἐφίεσθαι) to find wisdom": there is no "struggle" in it.
+!flag the wisdom within it consists in a rest possessing the object | The Greek says its wisdom is "in a rest that has a limit" (ἐν στάσει ὅρον ἐχούσῃ), a rest that has reached its end; "possessing the object" is MacKenna's.
+!note Knowledge as the mind coming to rest is Aristotle's (Physics VII.3, 247b9-13; On the soul I.3, 407a32-33), with a play on ἐπιστήμη and ἵστασθαι, "to stand". The lyre-player who learns by playing is also his (Nicomachean Ethics II.1, 1103a33-b2).
+
+@p
+@greek εἶτα εἰ μὲν οἶδε τὰ μέλλοντα
+Then, if it knows the future, as it would be absurd to say that it does not, why will it not also know how it will be? And if it will know how it will be, what further need is there to reason, and to compare the past with the present? And the knowledge of the future, if it is granted that it has it, would not be such as diviners have, but such as those have who make things, trusting that it will be. And this is the same as those who are masters of all, for whom nothing is doubtful or disputed. Those whose judgement is fixed keep it. So the wisdom about the future is the same as that about the present, in standing still; and this is outside reasoning.
+!flag the notion is constituent and therefore unvarying | The Greek says "those whose opinion is fixed (ἄραρεν), keep it": the makers' and masters' judgement stays as it is.
+!note The diviner guesses what will be from signs; the maker knows it because he will make it. Compare III.3.6 (E12), where the diviner reads the signs of the All.
+
+@p
+@greek ἀλλ’ εἰ μὴ οἶδε τὰ μέλλοντα
+But if it does not know the future that it will itself make, it will neither make knowingly nor make looking to something, but will make whatever comes: and this is the same as at random. So it stays fixed on that according to which it will make. And if it stays fixed on that according to which it will make, it will make in no other way than as the pattern in it is. So it will make in one way and in the same way: not now in one way and later in another; or what prevents it from failing? And if what is made is to be different, it was different not of itself, but because it serves forming principles; and these come from the maker: so it followed the forming principles in their series.
+!note "The pattern in it" (παράδειγμα): the craftsman of the Timaeus makes looking to an eternal pattern (28a-29a); here the pattern is within the maker.
+
+@p
+@greek ὥστε οὐδαμῇ τὸ ποιοῦν
+So in no way is the maker compelled to wander, or to be at a loss, or to have troubles, as some have thought that the management of the whole is laborious. For to have troubles was, it seems, to take in hand works that are not one's own; and that means works one does not control. But one who controls something, and alone, what would he need but himself and his own will? And this is the same as his own wisdom: for in such a one the will is wisdom. So such a one needs nothing for making, since his wisdom is not borrowed either: he uses nothing brought in from outside. Nor, then, reasoning or memory: for these are brought in.
+!flag which are handlings of the external | The Greek says reasoning and memory are "brought in" (ἐπακτά), acquired from outside, not one's own; not that they "handle" the external.
+!note "As some have thought": the Epicureans, who said the gods could not rule the world without trouble, and so do not rule it (Epicurus, Letter to Herodotus 76-77; Lucretius II.1090-1104; Cicero, On the nature of the gods I.52).
+
+@ch IV.4.13 | Nature, the last image of wisdom
+Wisdom is first, nature last: nature is the image of wisdom and the last of soul, like an impression that goes through thick wax and is a faint trace on the far side. So nature does not know, but only makes, giving what it has to body without choosing, as a warmed thing warms what touches it. It has no imagination: imagination is between nature's impression and thinking. Intellect has; the world soul receives always; nature is what is imaged from it into matter, the last of the intelligible.
+
+@p
+But how will such wisdom differ from what is called nature? Wisdom is first, and nature last: for nature is an image of wisdom, and, being the last of soul, it has the last also of the forming principle that shines into it; as if in thick wax an impression were to pass through to the last surface, on the other side, clear on the upper side and a faint trace on the lower. For this reason it does not even know, but only makes: for giving what it has to what comes next, without choosing, it has its making in the giving to the bodily and the material; as also what has been heated has given its own form to what touches it next, making it hot to a lesser degree.
+!flag This Wisdom is a first (within the All-Soul) | The words in brackets are MacKenna's: the Greek says only that wisdom is first and nature last, and the last of soul.
+!note The wax is Plato's image of memory (Theaetetus 191c-e), turned here to the passing down of form: the impression is sharp above, where wisdom is, and faint below, where nature works on bodies. That nature makes without choosing (ἀπροαιρέτως), by its being, is III.8.2-4 (E14).
+
+@p
+@greek διὰ τοῦτό τοι ἡ φύσις
+For this reason nature does not even have imagination; but thinking is higher than imagination, and imagination is between the impression of nature and thinking. For nature has no grasp or understanding of anything, while imagination has understanding of what is brought in from outside: for it gives the one who has imagined to know what he experienced. But nature itself begets, and is active from the very one that acted.
+!note "Nature has no imagination" (φαντασία): III.8.1 (E14), against the Stoics. Imagination between perception and thinking is Aristotle's (On the soul III.3, 428a-429a).
+
+@p
+@greek νοῦς μὲν οὖν ἔχει
+Intellect, then, has; the soul of the All has received, for ever, and this is its life, and what appears to it always is its understanding as it thinks; and what is imaged from it into matter is nature, in which, or even before it, the things that are come to a stand; and these are the last of the intelligible: for what comes after this is imitations. Nature acts on matter and is acted on; the soul before it, and close to it, acts and is not acted on; and the one still higher does not act on bodies or on matter.
+!flag Nature operates toward soul, and receives from it | The Greek says nature "acts and is acted on" towards matter (εἰς αὐτὴν ποιοῦσα καὶ πάσχουσα), as the next words, about bodies and matter, show; it does not act towards soul. The soul above it acts without being acted on.
+!note The three: intellect, the soul that is close to nature (the higher part of the world soul), and nature, its lowest part (III.8.4-5, V.2.1). Below nature are "imitations", the bodies that copy the forms.
+
+@ch IV.4.14 | How nature is in bodies
+The elements are nature's bodies; but how is nature in animals and plants? Not like light in air, which leaves nothing when it goes, but like the heat left in a warmed thing when the fire has gone: the shape nature gives is a form other than nature. Whether something stands between the shape and nature must be looked into.
+
+@p
+Of the bodies said to come to be by nature, the elements are just this; but animals and plants, do they come to be in such a way as to have nature lying beside them, as it were, in them? As, when light has gone away, the air has nothing of it, but the light is apart, as it were, and the air apart, not mixed with it, as it were. Or as with fire and what has been heated: when the fire has gone, some heat remains, which is other than the heat in the fire, an affection of what was heated.
+!note Light in air, which leaves nothing behind when the source goes, is Plotinus' image for soul present to body without mixing (IV.3.22, I.1.4 in E1); heat left in a warmed thing is an image of a trace that remains.
+
+@p
+@greek τὴν μὲν γὰρ μορφήν
+For the shape that nature gives to what it moulds must be set down as a form other than nature itself. But whether what is moulded has something else beside this, which is as it were between this and nature itself, must be looked into. And what the difference is between nature and the wisdom said to be in the All has been told.
+!flag a link connecting it with Nature, the general principle | "The general principle" is MacKenna's: the Greek asks only whether there is something "between this and nature itself" (μεταξὺ τούτου καὶ αὐτῆς τῆς φύσεως); chapters 18-20 take it up, as the "trace of soul" in the body.
+
+@ch IV.4.15 | Time and the soul of the All
+A difficulty: if eternity belongs to intellect and time to soul, and time is divided and has a past, must the activity of the world soul not be divided too, and turn back to the past with memory? Perhaps our souls are in time and the soul of the All is not; then why does it beget time and not eternity? Because what it begets is not everlasting, but encompassed by time: souls are not in time, only their affections and works, as what is in place and number is encompassed by them.
+
+@older 14
+@p
+But there is this difficulty in view of all that has now been said. If eternity is about intellect, and time about soul (for we say that time has its existence about the activity of the soul, and from it), how, since time is divided and has a past, would the activity not be divided too, and, turning to the past, make memory in the soul of the All as well? For again, sameness must be set in eternity, and otherness in time; or eternity and time will be the same, if we do not grant change to the activities of the soul too.
+!flag especially since we deny that the activities of the soul can themselves experience change | The Greek says eternity and time will be the same "if we do not grant change" (εἰ ... τὸ μεταβάλλειν οὐ δώσομεν) to the soul's activities: a condition, which is the difficulty, not a denial already made.
+!note "Time has its existence about the activity of the soul": III.7.11-13, where time is the life of soul in a movement of passing from one life to another. Eternity is the life of intellect, all at once (III.7.3-5).
+
+@p
+@greek ἆῤ οὖν τὰς μὲν ἡμετέρας
+Shall we say, then, that our souls, which receive change, both other change and lack, are in time, but that the soul of the whole begets time and is not in time? But let it not be in time: what is it that makes it beget time and not eternity? Because what it begets is not everlasting, but encompassed by time: since souls are not in time either, but some of their affections and their productions are. For souls are everlasting, and time is later than they are, and what is in time is less than time: for time must encompass what is in time, as, he says, what is in place and in number is encompassed.
+!flag the souls (under, or included in, the All-Soul) are not in time | The words in brackets are MacKenna's; the Greek says "souls are not in time either" (οὐδ’ αἱ ψυχαὶ ἐν χρόνῳ), all souls, ours too.
+!flag time is folded around what is in time exactly as — we read — it is folded about what is in place and in number | The Greek says time encompasses what is in time "as, he says, [place and number encompass] what is in place and in number": the "he" is Aristotle, and it is place and number, not time, that encompass these.
+!note "As he says": Aristotle, Physics IV.12 (221a17-30): what is in time is encompassed by time, as what is in place by place and what is in number by number.
+
+@ch IV.4.16 | The order of the world soul is a circle round the Good
+In the soul, all the forming principles are at once; earlier and later are in what it makes, which cannot be all at once, as hands and feet are together in the forming principle and apart in sense. The soul does not command "this after this" by looking to an order: it is the first order, form and power, second after intellect. It is like a circle fitted to its centre: the Good the centre, intellect an unmoving circle, soul a circle moved by longing; and the heaven, having such a soul, goes round in a circle.
+
+@p
+But if in it there is this after this, and the earlier and later of the things that are made, and if it makes in time, it inclines to the future too; and if so, to the past too. Or the earlier and the past are in the things made, but in it nothing is past: all the forming principles are at once, as has been said. In the things made there is the not-at-once, since there is not the together either, although in the forming principles there is the together, as hands and feet in the forming principle; but in perceptible things they are apart. And yet there too there is apartness in another way, so that the earlier too is in another way.
+!note "Hands and feet": the forming principle (λόγος) of a man holds all his parts together, unextended, as the seed holds the whole plant (III.2.2, V.9.6).
+
+@p
+@greek ἢ τὸ μὲν χωρὶς εἴποι
+Or one might say that the apartness there is by otherness; but the earlier, how could it be, unless what orders presides over it? And presiding, it will say "this after this": for why will all things not be at once? Or, if what orders and the order are different, it will be so, as if it spoke; but if what presides is the first order, it no longer says, but only makes this after this. For if it says, it says looking to the order, so that it will be other than the order. How, then, is it the same? Because what orders is not matter and form, but form only and power, and soul is a second activity after intellect; and "this after this" is in the things, which cannot be all at once.
+!flag if the ordering principle is Primal Order, there is no such affirmation of series | The Greek says that what presides, if it is the first order, "no longer says" (οὐκέτι λέγει) "this after this", but only makes it; the contrast is between saying and making.
+
+@p
+@greek σεμνὸν γάρ τι καὶ ἡ ψυχὴ
+For such a soul is something majestic, like a circle fitted to a centre, grown out right next to the centre, an extension without extension. For this is how each thing is: if someone were to set the Good as a centre, he would set intellect as an unmoving circle, and soul as a circle that moves, and moves by its longing. For intellect at once has and embraces, but soul longs for what is beyond being. And the sphere of the All, having the soul that longs in this way, moves in the way it is its nature to long. And it is its nature, as a body, to long for what is outside it: and this is to embrace it, and go round it on every side, with itself. And so it moves in a circle.
+!flag the Intellectual-Principle possesses and has ever embraced that which is beyond being | The Greek says intellect "at once has and embraces" (εὐθὺς καὶ ἔχει καὶ περιείληφεν), its own contents, all things; it is soul that "longs for what is beyond being" (τοῦ ἐπέκεινα ὄντος ἐφίεται). MacKenna gives intellect the Good, beyond being, as its possession.
+!note "Beyond being" (ἐπέκεινα τῆς οὐσίας) is Plato's Good (Republic VI 509b). The circles round the centre are also VI.9.8; the heaven moving in a circle because its soul goes round what it longs for is II.2.1-2 (E7).
+
+@ch IV.4.17 | Why we reason in time: the assembly of the soul
+In us thoughts come in time because many things rule, and our needs come from outside, one after another: desire's image announces it and demands to be followed, anger calls for revenge, the body has needs, and the soul is pulled every way. The best in us is not confused, but its right reason is weak in the mixture, like the best counsellor shouted down in an assembly. Men are like constitutions: bad, democratic, aristocratic, and in the best man one ruler, as a city above and a city below.
+
+@older 16
+@p
+But why, in us too, are not the soul's thoughts and forming principles like this, and why here does the later come in times, and our inquiries in this way? Is it because there are many things that rule and are moved, and no one thing controls? Or also because one thing and another come for the need and the present, which are not determined in themselves but always directed to one thing and another outside: hence the deliberation is different and for the occasion, when the need is present. And this happens to us from outside, and then this. And because many things rule, the images too must be many, acquired and new, one from one thing, another from another, and hindering the motions and activities of each.
+!note The "images" (φαντασίαι) are the impressions that, for the Stoics, set impulse going, and to which reason gives or refuses assent.
+
+@p
+@greek ὅταν γὰρ τὸ ἐπιθυμητικὸν κινηθῇ
+For when the desiring part is moved, its image comes, like a perception announcing and declaring the affection, and demanding that we follow and procure what is desired; and what is necessarily in perplexity, whether it follows along and procures or resists. And spirit, calling for revenge, does the same when it is moved; and so do the needs of the body; and the affections make us hold now one opinion and now another; and the ignorance of what is good, and the soul's not knowing what to say, being led in every direction; and from the mixture of these, other things again.
+!flag is necessarily thrown out of equilibrium | The Greek says what is called on is necessarily "in perplexity" (ἐν ἀπόρῳ), at a loss whether to follow or resist; the word for the treatise's whole question.
+!note Desire (τὸ ἐπιθυμητικόν) and spirit (θυμός) are the lower parts of the soul of Plato's Republic (IV 439d-441c).
+
+@p
+@greek ἀλλ’ εἰ καὶ τὸ βέλτιστον
+But does the best part itself hold now one opinion and now another? Or the perplexity and the change of opinion belong to the common part; and from the best, the right reason is given to the common part, weak by being in the mixture, not by its own nature: as in the great tumult of an assembly the best of the counsellors speaks and does not prevail, but the worst of those who make a din and shout; and he sits in silence, able to do nothing, beaten by the din of the worse.
+!flag the doubt and the change of standard are of the Conjoint | The Greek has "the common" (τοῦ κοινοῦ), the compound of soul and body, and ἀλλοδοξία, holding different opinions at different times; "change of standard" is MacKenna's.
+!note The crowd's din in the assembly, which drowns the voice of reason, is Plato's (Republic VI 492b-c).
+
+@p
+@greek καὶ ἔστιν ἐν μὲν τῷ φαυλοτάτῳ
+And in the worst man the common part, the man made up of all of these, is like a bad constitution; in the middle man it is like a city in which something good might control a democratic constitution that is not wholly unmixed; in the better man, the life is aristocratic, since he is already fleeing the common part of the man and giving himself to the better; and in the best, the one who separates himself, the ruler is one, and the order comes from it to the rest: as if the city were double, one city above, and the other the city of those below, set in order according to those above. But that in the soul of the All there is the one, the same and the like, and in the others otherwise, and why, has been said. So much for this.
+!flag a demotic constitution not out of control | The Greek says a democracy "not unmixed" (οὐκ ἀκράτου), tempered by something better; the word means "unmixed", like undiluted wine, and so "unbridled", but the point is the mixture.
+!flag the city of the lower elements | MacKenna's chapter ends here, leaving out the Greek's last sentence: that in the soul of the All there is one, the same and the like, and in the other souls otherwise, which sums up the chapters on memory and reasoning.
+!note The man as a city, and the constitutions from the worst to the best, are Plato's (Republic VIII-IX 544d-592b); the city above is "a pattern laid up in heaven" (IX 592b), and here the ruling part of the soul.

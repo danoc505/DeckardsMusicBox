@@ -469,6 +469,15 @@ paragraphs, 31 and 3 flags, among them his "First Act" given to the Good where t
 Greek chapter with `@older`. The notes give the Theaetetus' flight (176a-b), the Second Letter's king of all (312e), the
 Statesman's place of unlikeness (273d), the Republic's sleep in Hades (534c-d), the Phaedo's guard post (61c-62c), and
 Sophocles' holy grove (Oedipus at Colonus 54).
+**IV.1, On the being of the soul, first part, and IV.4, On difficulties about the soul, second part, chapters 1-17** (E15),
+beside MacKenna's vol. III (1924, the Fourth Ennead, newly brought in): 18 chapters, 55 paragraphs, 54 flags, among them his
+soul that "has descended from the Intellectual region" to the heaven where the Greek has it go up "from here", eternity for
+the stars' "always", lyre strings "struck in tune" where they are moved in sympathy, nature acting on soul where it acts on
+matter, intellect embracing what is beyond being where it is soul that longs for it, and the last sentence of chapter 17 left
+out. The reader marks IV.4 as chapters 1-17 of 45 so far. The notes give the Timaeus' undivided and divided soul (35a), the
+dance of the stars (Timaeus 40c), Zeus' kingly soul (Philebus 30d), nature that does not deliberate (Physics II.8), the wax of
+the Theaetetus (191c-e), what is in time encompassed by time (Physics IV.12), the Good beyond being (Republic VI 509b) and the
+din of the assembly (Republic VI 492b-c).
 **III.8, On nature, contemplation and the One, and III.9, Various considerations** (E14), beside MacKenna's vol. II: 14
 chapters, 41 paragraphs, 70 flags, among them his "the Highest" for intellect that began as one and unrolled itself,
 "pregnant" for weighed down, the living principle "brother ... to that which gives mere shape" where it is brother to
@@ -546,15 +555,15 @@ text), MacKenna's chapter one tap away (*MacKenna's words*, with his page) or be
 The page and its contents column also list **the whole Enneads**, all fifty-four treatises in Porphyry's order: those done here
 link to their chapters, Taylor's fifteen to his English with the modern beside it, and the rest say which milestone will do
 them. Labelled as the Workshop's own and machine-assisted, not yet checked by a scholar. MacKenna's English is the Internet
-Archive's OCR of his volumes, kept as received in `sources/mackenna-plotinus-1917/` and `sources/mackenna-plotinus-1921/`
-(vol. II, the Third Ennead and then the Second) and read by rule by `tools/mackenna.py` into `texts/plotinus/mackenna-1917.json`
-and `mackenna-1921.json` (running heads and page numbers out, broken words and paragraphs joined, his
+Archive's OCR of his volumes, kept as received in `sources/mackenna-plotinus-1917/`, `sources/mackenna-plotinus-1921/`
+(vol. II, the Third Ennead and then the Second) and `sources/mackenna-plotinus-1924/` (vol. III, the Fourth Ennead), and read by
+rule by `tools/mackenna.py` into `texts/plotinus/mackenna-1917.json`, `mackenna-1921.json` and `mackenna-1924.json` (running heads and page numbers out, broken words and paragraphs joined, his
 hyphened terms such as "Sense-Perception" kept; not proofread). The master copy is
 `sources/translations/modern/enneads.txt`; `tools/modern_enneads.py` checks it (Porphyry's order and none of Taylor's
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: IV.1 On the being of the soul, first part, and IV.4 chapters 1-17 (E15).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: IV.4 chapters 18-31 (E16).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,

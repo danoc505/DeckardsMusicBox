@@ -1,0 +1,18 @@
+{
+  "plotinustranslat03burkuoft_djvu.txt": {
+    "url": "https://archive.org/download/plotinustranslat03burkuoft/plotinustranslat03burkuoft_djvu.txt",
+    "fetched_at": "2026-11-14T16:19:50+00:00",
+    "http_status": 200,
+    "content_type": "text/plain; charset=utf-8",
+    "bytes": 402642,
+    "sha256": "582002d0dadada3f2510c48e493ff30c3e38735f2310b315c74f38066e7dfc23"
+  },
+  "plotinustranslat03burkuoft_metadata.json": {
+    "url": "https://archive.org/metadata/plotinustranslat03burkuoft/metadata",
+    "fetched_at": "2026-11-14T16:19:50+00:00",
+    "http_status": 200,
+    "content_type": "application/json",
+    "bytes": 2057,
+    "sha256": "5e7ff4d7e59ac341f5dce6b217dca6aa830349714d7c2c0c001451397ce82d1a"
+  }
+}
