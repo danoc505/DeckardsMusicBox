@@ -363,7 +363,7 @@ class Files(unittest.TestCase):
 
     def test_milestone_e10_on_destiny(self):
         d = load()
-        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][13:], ["II.8", "III.1"])
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][13:15], ["II.8", "III.1"])
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "III.1"], [f"III.1.{k}" for k in range(1, 11)])
         ch = {c["id"]: c for c in d["chapters"]}
         # MacKenna's vol. II prints the Third Ennead first; his chapters of III.1 are Volkmann's.
@@ -387,6 +387,34 @@ class Files(unittest.TestCase):
         notes = " ".join(n for p in d["paragraphs"] if p["chapter"].startswith("III.1.") for n in p.get("notes", []))
         for place in ("On the nature of things II.216-293", "Aetius I.28.4", "Diogenes Laertius VII.136",
                       "Airs, waters, places 12-24", "On fate 42-43", "Nicomachean Ethics III.1-5", "VI.9.11"):
+            self.assertIn(place, notes)
+
+    def test_milestone_e11_on_providence_first_part(self):
+        d = load()
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][14:], ["III.1", "III.2"])
+        self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "III.2"], [f"III.2.{k}" for k in range(1, 19)])
+        ch = {c["id"]: c for c in d["chapters"]}
+        # MacKenna's chapters of III.2 are Volkmann's (vol. II, pp. 11-35).
+        self.assertEqual([(o["n"], o["year"], o["page"]) for o in ch["III.2.1"]["older"]], [(1, 1921, 11)])
+        self.assertEqual([(o["n"], o["page"]) for o in ch["III.2.18"]["older"]], [(18, 35)])
+        para = {p["seg"]: p for p in d["paragraphs"]}
+        self.assertTrue(para["III.2.1.p1"]["greek"].startswith("Τὸ μὲν τῷ αὐτομάτῳ καὶ τύχῃ"))
+        self.assertTrue(para["III.2.18.p3"]["greek"].endswith("τοῦ παντὸς ψυχῆς τινος ὄντος;"))
+        self.assertIn("its being according to intellect", para["III.2.1.p2"]["modern"])
+        self.assertIn("the undeclared war", para["III.2.15.p2"]["modern"])
+        self.assertIn("the soul is the actor", para["III.2.17.p4"]["modern"])
+        flags = {s: p.get("flags", []) for s, p in para.items()}
+        # MacKenna has "divine Reason" for intellect beside necessity; a "lesson in right doing" for a pattern of justice;
+        # "executive power" for craft; a "bandit war" for the undeclared one; "furnaces" for Hephaestus' art.
+        self.assertTrue(any("intellect and necessity" in f["why"] for f in flags["III.2.2.p3"]))
+        self.assertTrue(any("pattern of justice" in f["why"] for f in flags["III.2.5.p1"]))
+        self.assertTrue(any("craft" in f["why"] for f in flags["III.2.9.p3"]))
+        self.assertTrue(any("undeclared war" in f["why"] for f in flags["III.2.15.p2"]))
+        self.assertTrue(any("Hephaestus" in f["why"] for f in flags["III.2.14.p2"]))
+        self.assertGreaterEqual(sum(len(flags[s]) for s in flags if s.startswith("III.2.")), 45)
+        notes = " ".join(n for p in d["paragraphs"] if p["chapter"].startswith("III.2.") for n in p.get("notes", []))
+        for place in ("Timaeus 47e-48a", "Republic X 617e", "Theaetetus 176a", "Laws IX 872d-873a", "Phaedrus 248c",
+                      "Laws I 626a", "Laws VII 803c-804b", "fr. B51", "Iliad XVIII.417-420"):
             self.assertIn(place, notes)
 
     def test_the_life_greek_is_proofread(self):
