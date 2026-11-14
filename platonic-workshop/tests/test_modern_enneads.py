@@ -97,6 +97,44 @@ class MacKenna(unittest.TestCase):
         self.assertTrue(ch["I.9.1"]["paras"][0].startswith('" You will not dismiss your Soul'))
 
 
+class MacKennaVolumeII(unittest.TestCase):
+    """MacKenna's vol. II (1921), brought in by milestone E7: the Third Ennead, then the Second."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.d = json.loads((ROOT / "texts" / "plotinus" / "mackenna-1921.json").read_text(encoding="utf-8"))
+        cls.t = {t["id"]: t for t in cls.d["treatises"]}
+
+    def test_the_file_is_what_the_tool_makes(self):
+        path, text = mackenna.write("mackenna-1921")
+        self.assertEqual(path.read_text(encoding="utf-8"), text)
+
+    def test_the_third_ennead_then_the_second(self):
+        self.assertEqual([t["id"] for t in self.d["treatises"]],
+                         [f"III.{n}" for n in range(1, 10)] + [f"II.{n}" for n in range(1, 10)])
+        self.assertEqual((self.d["translator"], self.d["year"]), ("Stephen MacKenna", 1921))
+        self.assertEqual(self.t["III.1"]["page"], 1)
+
+    def test_ii_1_and_ii_2_their_chapters_and_pages(self):
+        # As Volkmann's: II.1 in 8 chapters ("6-," is the OCR's 6), II.2 in 3. II.1 begins on p. 143, which prints no
+        # page number; II.2 begins part way down p. 154.
+        self.assertEqual(self.t["II.1"]["title"], "On the Kosmos or on the Heavenly System")
+        self.assertEqual(self.t["II.2"]["title"], "The Heavenly Circuit")
+        self.assertEqual([c["n"] for c in self.t["II.1"]["chapters"]], list(range(1, 9)))
+        self.assertEqual([c["n"] for c in self.t["II.2"]["chapters"]], [1, 2, 3])
+        self.assertEqual([c["page"] for c in self.t["II.1"]["chapters"]], [143, 144, 145, 146, 148, 149, 151, 153])
+        self.assertEqual((self.t["II.1"]["page"], self.t["II.2"]["page"]), (143, 154))
+        ch = {c["id"]: c for t in self.d["treatises"] for c in t["chapters"]}
+        self.assertTrue(ch["II.1.1"]["paras"][0].startswith("We hold that the ordered universe, in its material mass"))
+        self.assertTrue(ch["II.1.6"]["paras"][0].startswith("We may now consider the question whether fire"))
+        self.assertTrue(ch["II.2.1"]["paras"][0].startswith("But whence that circular movement ?"))
+        self.assertTrue(ch["II.2.3"]["paras"][-1].startswith("And this is why the All, circling as it does"))
+        text = " ".join(p for c in ch.values() for p in c["paras"])
+        self.assertNotIn("PLOTINUS", text)
+        self.assertNotIn("THE KOSMOS", text)
+        self.assertNotIn("NOTE ON THE ORDER", text)
+
+
 class Files(unittest.TestCase):
     def test_labelled_as_the_workshops_own_and_machine_assisted(self):
         d = load()
@@ -134,7 +172,8 @@ class Files(unittest.TestCase):
         for c in d["chapters"]:
             self.assertTrue(c["title"] and c["summary"], c["id"])
             self.assertTrue(c["older"], f"{c['id']}: MacKenna's chapter is shown with it")
-            self.assertEqual(c["older"][0]["year"], 1917)
+            # MacKenna's vol. I (1917) for the Life and Ennead I, vol. II (1921) for Enneads II and III (E7 onward).
+            self.assertEqual(c["older"][0]["year"], 1921 if c["treatise"].startswith(("II.", "III.")) else 1917)
         first = next(p for p in d["paragraphs"] if p["seg"] == "I.1.1.p1")
         self.assertTrue(first["modern"].startswith("Pleasures and pains, fears and boldness"))
         self.assertTrue(first["greek"].startswith("Ἡδοναὶ καὶ λῦπαι"))
@@ -236,6 +275,30 @@ class Files(unittest.TestCase):
         self.assertTrue(any("entrusted" in f["why"] for f in flags["Life.18.p2"]))
         self.assertTrue(any("opposite" in f["why"] for f in flags["Life.20.p7"]))
         self.assertGreaterEqual(sum(len(flags[s]) for s in flags if s.startswith(tuple(f"Life.{n}." for n in range(13, 27)))), 30)
+
+    def test_milestone_e7_on_the_heaven_and_its_movement(self):
+        d = load()
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][6:], ["I.9", "II.1", "II.2"])
+        self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "II.1"], [f"II.1.{n}" for n in range(1, 9)])
+        self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "II.2"], ["II.2.1", "II.2.2", "II.2.3"])
+        ch = {c["id"]: c for c in d["chapters"]}
+        # MacKenna's vol. II beside them, his chapters the Greek's.
+        self.assertEqual([(o["n"], o["year"], o["page"]) for o in ch["II.1.1"]["older"]], [(1, 1921, 143)])
+        self.assertIn({"file": "texts/plotinus/mackenna-1921.json", "year": 1921}, d["older"]["volumes"])
+        para = {p["seg"]: p for p in d["paragraphs"]}
+        self.assertTrue(para["II.1.1.p1"]["greek"].startswith("Τὸν κόσμον ἀεὶ λέγοντες"))
+        self.assertTrue(para["II.2.1.p1"]["modern"].startswith("Why does it move in a circle? Because it imitates intellect."))
+        self.assertTrue(para["II.2.3.p2"]["greek"].endswith("ἅμα καὶ ἕστηκεν."))
+        flags = {s: p.get("flags", []) for s, p in para.items()}
+        # MacKenna has the heaven not reach down to the moon, where the Greek says it ends there; a common centre
+        # for the stars, where the Greek gives each its own; the soul for "what is spherical in us".
+        self.assertTrue(any("ends at the moon" in f["why"] for f in flags["II.1.5.p2"]))
+        self.assertTrue(any("own centre" in f["why"] for f in flags["II.2.2.p3"]))
+        self.assertTrue(any("head" in f["why"] for f in flags["II.2.2.p3"]))
+        self.assertGreaterEqual(sum(len(flags[s]) for s in flags if s.startswith(("II.1.", "II.2."))), 25)
+        notes = " ".join(n for p in d["paragraphs"] if p["chapter"].startswith(("II.1.", "II.2.")) for n in p.get("notes", []))
+        for place in ("Republic VII (530a-b)", "Timaeus (41a-b)", "On the Heavens II.1, 284a", "Iliad 16.192"):
+            self.assertIn(place, notes)
 
     def test_the_life_greek_is_proofread(self):
         rows = [ln for ln in (ROOT / "sources" / "neoplatonists" / "proofread" / "porphyry-life-plotinus.txt").read_text(encoding="utf-8").splitlines()

@@ -50,6 +50,17 @@ VOLUMES = {
         "life": {"heading": r"PORPHYRY:\s+ON\s+THE\s+LIFE\s+OF\s+PLOTINUS\s+AND",
                  "title": "Porphyry: On the Life of Plotinus and the Arrangement of his Work"},
     },
+    # vol. II (Enneads milestone E7): MacKenna prints the Third Ennead first, then the Second
+    "mackenna-1921": {
+        "source": "mackenna-plotinus-1921",
+        "file": "plotinuspsychicp00plotuoft_djvu.txt",
+        "item": "plotinuspsychicp00plotuoft",
+        "title": "Plotinus: Psychic and Physical Treatises, comprising the Second and Third Enneads",
+        "year": 1921,
+        "enneads": [3, 2],
+        # where the treatises end: MacKenna's note on the order of the tractates follows II.9
+        "end": "NOTE  ON  THE  ORDER  OF  THE  TRACTATES  OF  THE",
+    },
 }
 
 NUM = r"[0-9ioIlO]{1,3}"     # a page number, as the OCR reads it ("io8", "IOI")
@@ -57,7 +68,7 @@ HEAD_EVEN = re.compile(rf"^({NUM})[\s:.,]+PLOTINUS\s*$")
 HEAD_LIFE = re.compile(rf"^PORPHYRY\s+({NUM})\s*$")       # the odd pages of Porphyry's Life
 HEAD_ODD = re.compile(rf"^[^\]\s][^\]]{{0,14}}\]\s+([^a-z0-9]+?)\s+({NUM})\s*$")    # the title in capitals, then the page
 FOOT_NUM = re.compile(r"^(\d{1,3})\s*$")
-CHAPTER = re.compile(r"^([0-9ilI]{1,3}|[1i][o0])\s*[.\-]\s*$")    # "io." is 10 in the Life
+CHAPTER = re.compile(r"^([0-9ilI]{1,3}|[1i][o0])\s*[.\-][,.]?\s*$")    # "io." is 10 in the Life
 STOPS = tuple('.?!:;"\')—]')
 
 
@@ -66,10 +77,15 @@ def as_number(s):
     return int(s) if s.isdigit() else None
 
 
+HEAD_BLURRED = re.compile(r"^(\S{1,4}\s+)?PLOTINUS\s*$")   # an even page's head whose number the OCR lost ("lib", "|gS", none)
+
+
 def page_of_head(line):
     m = HEAD_EVEN.match(line)
     if m:
         return as_number(m.group(1))
+    if HEAD_BLURRED.match(line):
+        return -1           # a running head, its page the one after the last
     m = HEAD_LIFE.match(line)
     if m:
         return as_number(m.group(1))
@@ -160,12 +176,19 @@ def read_volume(vid):
                 i += 1
             title = re.sub(r"\s+", " ", lines[i].strip())
             i += 1
-            treatises.append({"id": f"{ROMAN[ennead - 1]}.{k}", "title": title.strip('" '), "page": page, "chapters": []})
+            # its first page is known only from the next running head or page number (vol. II prints no page number
+            # under some first pages, and begins some treatises part way down a page)
+            page = None
+            treatises.append({"id": f"{ROMAN[ennead - 1]}.{k}", "title": title.strip('" '), "page": None, "chapters": []})
             cur_ch = None
             new_chapter(1)
             after_title = True
             continue
         p = page_of_head(s)
+        if p == -1 or (p is None and HEAD_BLURRED.match(s)):
+            if page is None:
+                continue
+            p = page + 1
         if p is not None:
             page = p
             for c in pending:
@@ -204,7 +227,7 @@ def read_volume(vid):
         para.append(raw)
     close_para()
     for t in treatises:
-        if (t["page"] is None or t["id"] == "Life") and t["chapters"]:
+        if t["chapters"]:
             t["page"] = t["chapters"][0]["page"]
         for c in t["chapters"]:
             c["paras"], c["notes"] = mend(c.pop("_paras"))
