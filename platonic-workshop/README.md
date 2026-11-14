@@ -469,6 +469,12 @@ paragraphs, 31 and 3 flags, among them his "First Act" given to the Good where t
 Greek chapter with `@older`. The notes give the Theaetetus' flight (176a-b), the Second Letter's king of all (312e), the
 Statesman's place of unlikeness (273d), the Republic's sleep in Hades (534c-d), the Phaedo's guard post (61c-62c), and
 Sophocles' holy grove (Oedipus at Colonus 54).
+**III.2, On providence, first part** (E11), beside MacKenna's vol. II: 18 chapters, 54 paragraphs, 64 flags, among them his
+"divine Reason" for the intellect that meets necessity, vice as "a lesson in right doing" where the Greek makes it a pattern
+of justice, "executive power" for craft, "a bandit war" for the undeclared one, and statues "wrought in the furnaces of
+craftsmanship" for Hephaestus' art; the notes give the Timaeus' intellect and necessity, Lachesis' "the blame is the
+chooser's", the Theaetetus' evils that never pass away, Adrasteia, the Laws' undeclared war and plaything of god, and
+Heraclitus' harmony of opposites.
 **III.1, On destiny** (E10), beside MacKenna's vol. II: 10 chapters, 23 paragraphs, 27 flags, among them his "compromise
 between evil and accidental circumstance" where the Greek blends choice with chance, "the philosophic life" for being wise,
 stars that "wreak vengeance" where they are "afflicted", and "personal action" for "what is up to us"; the notes give
@@ -526,7 +532,7 @@ hyphened terms such as "Sense-Perception" kept; not proofread). The master copy 
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: III.2 On providence, first part (E11).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: III.3 On providence, second part, and III.4 On the daemon allotted to us (E12).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,

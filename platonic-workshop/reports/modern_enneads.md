@@ -4,14 +4,14 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 
 - Made from: Volkmann's Greek (Leipzig, 1883-1884), as First1KGreek gives it; checked against MacKenna's English (1917, 1921; the Internet Archive's OCR of the printed volumes, read by rule (tools/mackenna.py), not proofread).
 - Porphyry's Life of Plotinus: Volkmann's own Greek (vol. I, 1883), proofread from the scan (`sources/neoplatonists/proofread/porphyry-life-plotinus.txt`).
-- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny.
-- The whole Enneads: 16 treatises here, 15 beside Taylor (milestone 27), 24 to come.
-- Chapters: 145, each with a short title and a summary.
-- Paragraphs: 374, each with its Greek.
-- Words: 51,597 modern, 39,191 Greek, 60,849 in MacKenna's English of the same chapters.
-- Sentences (each can be marked in the reader): 1,957.
-- Flags (where MacKenna and the Greek differ, or the Greek is hard): 291.
-- Notes (Plato's, Aristotle's and Homer's places, hard readings): 215.
+- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny, III.2 On providence, first part.
+- The whole Enneads: 17 treatises here, 15 beside Taylor (milestone 27), 23 to come.
+- Chapters: 163, each with a short title and a summary.
+- Paragraphs: 428, each with its Greek.
+- Words: 60,339 modern, 45,770 Greek, 70,523 in MacKenna's English of the same chapters.
+- Sentences (each can be marked in the reader): 2,245.
+- Flags (where MacKenna and the Greek differ, or the Greek is hard): 355.
+- Notes (Plato's, Aristotle's and Homer's places, hard readings): 245.
 - Problems found: 0.
 
 ## Flags
@@ -309,6 +309,70 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | III.1.9.p1 | this compromise between evil and accidental circumstance | The Greek says "choice and chances blended" (προαιρέσει καὶ τύχαις κραθέντα): choice (προαίρεσις), Aristotle's word for deliberate decision, not evil. |
 | III.1.10.p1 | Unwisdom, then, is not due to the Soul | The Greek says "the causes of not being wise are other things" (τοῦ μὲν μὴ φρονεῖν ἄλλα αἴτια εἶναι): the things around, which hinder the soul. |
 | III.1.10.p1 | when the passions are in abeyance | The Greek says only "insofar as they are let breathe again" (καθ̓ ὅσον ἄν ἀναπνεύσωσι συγχωρηθέντες); the passions are MacKenna's. |
+| III.2.1.p2 | we can link the secondary with it | The Greek says: set down the providence of the universe, "and let us join what follows to it" (τὰ ἑξῆς συνάπτωμεν), the next steps of the argument; nothing is said of linking particular providence to it later. |
+| III.2.1.p2 | a guidance and partial providence, therefore, such as is indicated | The Greek says that, if the world had begun in time, its providence would be "the same as we said there is in particular things" (οἵαν καὶ ἐπὶ τοῖς κατὰ μέρος), a foresight and reasoning of God; it is a comparison, not a second kind of providence. |
+| III.2.1.p2 | a universal consonance with the divine Intelligence | The Greek says providence for the universe is "its being according to intellect" (τὸ κατὰ νοῦν αὐτὸ εἶναι): a way of being, not a consonance, and "divine" is MacKenna's. |
+| III.2.1.p3 | shows difference at no point | The Greek says it "has no alteration" (ἀλλοίωσιν οὐκ ἔχει): it does not change. It is not without difference; Plotinus finds difference in the intelligible world (V.1.4). |
+| III.2.1.p3 | it does not make over any of its content into any new form | The Greek says "it does not act one thing upon another" (οὐδὲ γὰρ ποιεῖ ἄλλο εἰς ἄλλο): nothing in it works on anything else, which is why it has no alteration. |
+| III.2.2.p1 | it must pursue something outside itself for its fulfilment | The Greek says the part "is kept in being by another, and is hostile to that by which it is kept" (σωζόμενον τῷ ἄλλῳ πολέμιόν ἐστιν ὑφ’ οὗ σώζεται): what preserves it is what it fights, as fire lives on what it consumes. Nothing is said of pursuing fulfilment. |
+| III.2.2.p2 | the divine Realm imposes the one harmonious act | In the Greek the things themselves, harming and destroying one another, "set up one harmony" (μίαν ... ἁρμονίαν ἐνεστήσατο), while reason makes the harmony over them; "the divine Realm" is MacKenna's. |
+| III.2.2.p2 | sometimes of choice and sometimes incidentally | The Greek says "some willingly, some unwillingly" (τὰ μὲν ἑκόντα, τὰ δὲ καὶ ἄκοντα). |
+| III.2.2.p3 | the meeting ground of Necessity and divine Reason | The Greek says "intellect and necessity came together" (συνελθόντος νοῦ καὶ ἀνάγκης), the pair of the Timaeus; MacKenna has "divine Reason" for intellect. |
+| III.2.2.p3 | Its two extremes are Matter and the Divine Reason | The Greek says the mixture "ends in" (λήγει) matter and reason and "begins from" soul (ὅθεν δὲ ἄρχεται ψυχή). "Divine" is MacKenna's: the reason here is the one that has come down into the world, not the intelligible. |
+| III.2.3.p1 | serving at once its own purpose and that of all its parts | The Greek says the whole is "dear (φίλον) to itself and to its parts", the friendship of chapter 2; "purpose" is MacKenna's. |
+| III.2.3.p2 | nations of Spirit-Beings and lofty souls | The Greek has "peoples of daemons (δαιμόνων δῆμοι) and good souls (ψυχαὶ ἀγαθαί)": daemons, not spirits, and souls that are good, not lofty. |
+| III.2.4.p1 | individual or partial things exist by virtue of Universals | The Greek says "bodies live by their form (κατ’ εἶδος), and as wholes each" (καθ’ ὅλα ἕκαστα): bodies live on in their kinds and as whole masses, though single ones perish. "Universals" are MacKenna's. |
+| III.2.4.p2 | since things here are derived | The Greek says "for they did not come to be everlasting" (οὐ γὰρ ἀίδια ἐγένετο): animals must die, and so may be eaten; "derived" is MacKenna's. |
+| III.2.4.p4 | ends by establishing a set habit where there was at first only a fall | The Greek says the first slip, overlooked, "made a choice (αἵρεσιν) of what one fell into": the fall becomes a choice, not a habit. |
+| III.2.5.p1 | Men are not born divine | The Greek asks "what is terrible if those who have not become divine do not have a divine life?" (μὴ θείους δὲ γενομένους): becoming divine is something done, as in I.2, not a matter of birth. |
+| III.2.5.p1 | it acts as a lesson in right doing | The Greek says vice became "a pattern of justice" (παράδειγμα δίκης): in the punishment it brings, an example of justice done, not a lesson in right doing. |
+| III.2.5.p1 | to make it the material of unknown forms | The Greek says "for other forms" (εἰς ἑτέρας μορφάς), not unknown ones. |
+| III.2.6.p1 | why should what essentially offends our nature fall to the good | The Greek says simply "what is against nature" (τὰ παρὰ φύσιν), and "what is according to nature" for its opposite: the Stoics' names for sickness, poverty and the like, and for health and wealth. MacKenna makes them what "offends our nature" and what it "demands". |
+| III.2.6.p2 | we cannot be absolved from the attempt to show in what way the detail of this sphere is just | The Greek says "how each of these things is well" (ὅπῃ ἕκαστα τούτων καλῶς ἔχει), not that it is just. |
+| III.2.7.p1 | must begin from this principle of gradation | The Greek says only "setting this down" (ταῦτα τοίνυν ὑποθέμενον), that the mixed must not be judged by the unmixed; "gradation" is MacKenna's. |
+| III.2.7.p2 | it is not abstract Spirit | The Greek says souls are "not souls only, but already living things" (οὐ ψυχαὶ μόνον, ἀλλὰ ζῷα ἤδη): souls joined to bodies. "Abstract Spirit" is MacKenna's. |
+| III.2.7.p2 | to presuppose it | The Greek says "to bring it into being" (ὑφιστάναι), to make it subsist. |
+| III.2.7.p3 | And even granting that those less noble members are not in themselves admirable | The Greek says it is neither holy nor pious "to grant that these things are not well (ἐνδόντας τὸ μὴ καλῶς ταῦτα ἔχειν) and to find fault with the work": the granting is the impiety. MacKenna has Plotinus grant it. |
+| III.2.8.p1 | they have not trained themselves in self-defence | The Greek says they "are not good, and have not prepared themselves not to suffer" (οὐκ εἰσὶν ἀγαθοὶ οὐδὲ παρεσκεύασαν αὑτοὺς μὴ παθεῖν): what they lack is goodness, not training in self-defence. |
+| III.2.8.p2 | in the disaster to their human quality | The Greek says their first penalty is to be "wolves and ill-starred men" (λύκοις εἶναι καὶ κακοδαίμοσιν ἀνθρώποις): men with an evil daemon, unhappy, whose wickedness is itself their misfortune. |
+| III.2.8.p3 | This at once brings us outside the gymnasium with its fun for boys | The Greek says "such things are not a wrestling school, for there it is play" (ἀλλ’ οὐ παλαίστρα τὰ τοιαῦτα: παιδιὰ γὰρ ἐκεῖ): life is not the wrestling school, but war. |
+| III.2.8.p3 | Not even a God would have the right to deal a blow for the unwarlike | The Greek says "it was not for a god to fight for the unwarlike himself" (οὐ θεὸν ἔδει ὑπὲρ τῶν ἀπολέμων αὐτὸν μάχεσθαι): what is fitting, not what is a god's right. |
+| III.2.8.p4 | Yet death would be better for us | The Greek says death is better "for them" (αὐτοῖς), those who will not do what the gods command; MacKenna takes it to us all. |
+| III.2.8.p4 | the triumph of weaklings would not be just | The Greek says only "this is just, and that is not" (τοῦτο γὰρ δίκαιον, καὶ οὐκ ἐκεῖνο): it is just that the cowardly be ruled, and the other way would not be; "the triumph of weaklings" is MacKenna's reading of "the other". |
+| III.2.9.p1 | It would not be just, because Providence cannot be a something reducing us to nothingness | The Greek begins "For providence must not be such that we are nothing" (οὐ γὰρ δὴ οὕτως τὴν πρόνοιαν εἶναι δεῖ, ὥστε μηδὲν ἡμᾶς εἶναι); "It would not be just" is MacKenna's link to the last line of chapter 8. |
+| III.2.9.p1 | is to annihilate the Universe | The Greek says that providence, if it were all, "would not exist either: for of what would it still be?" (οὐδ’ ἂν εἴη: τίνος γὰρ ἂν ἔτι εἴη;): providence itself would vanish, having nothing to provide for. |
+| III.2.9.p2 | their prayers should bring others to sacrifice themselves for their sakes | The Greek says it is not a lawful prayer for the bad "to ask that others be their saviours, having thrown themselves away" (ἑαυτοὺς προεμένους): it is the bad who have given themselves up, and nothing is said of others sacrificing themselves. |
+| III.2.9.p2 | nor do they take any steps to improve themselves | The Greek says they never took care that good rulers should come to be "so that they themselves might be cared for" (ὅπως αὐτοὶ εἶεν ἐπιμελούμενοι); nothing is said of improving themselves. |
+| III.2.9.p3 | to increase the dominance of moral value | The Greek says "making virtue the stronger" (ἐπικρατεστέραν ἀρετὴν ποιοῦν). |
+| III.2.9.p3 | wisdom, intelligence, executive power and right doing | The Greek has "wisdom, intellect, craft (τέχνης) and justice (δικαιοσύνης)": craft, not executive power, and justice, not right doing. |
+| III.2.10.p1 | Men are no doubt involuntary sinners in the sense that they do not actually desire to sin | The Greek says they are unwilling "because error is unwilling" (ὅτι ἁμαρτία ἀκούσιον), Socrates' saying that no one errs willingly; nothing is said of desire. |
+| III.2.10.p2 | exists only in the sense of a universal relationship | The Greek says the necessity is "not from outside, but in that it holds altogether" (ἀλλ’ ὅτι πάντως): the deed, once done by the doer, is done of necessity; nothing is said of a relationship. |
+| III.2.10.p2 | Now Men are Principles, or, at least, they are moved | The Greek says "men too are principles" (ἀρχαὶ δὲ καὶ ἄνθρωποι), without hedging; "at any rate" (γοῦν) gives the proof, that they are moved by their own nature. |
+| III.2.11.p1 | it cannot desire all to be good | The Greek says reason does "not wish (οὐ βουλόμενος) all things to be good": it is reason's choice, not something it cannot do. |
+| III.2.11.p1 | celestial spirits, the intermediate order | The Greek says "daemons, a second nature" (δαίμονας, δευτέραν φύσιν). |
+| III.2.12.p1 | retaining, that is, the hostility to partition | The Greek says reason is "unlike in its parts" (ἀνόμοιος τοῖς μέρεσιν), made of different reasons; MacKenna makes it averse to being divided, the opposite of the point. |
+| III.2.13.p1 | Those that have money will be made poor | The Greek says reason makes them poor "if they used wealth badly" (εἰ κακῶς ἐχρήσαντο πλούτῳ), not all who have money. |
+| III.2.13.p1 | a man that wrongs a woman will become a woman, to be wronged | The Greek says "raped" (βιασάμενος ... ἵνα βιασθῇ): violence, not a wrong in general. |
+| III.2.13.p3 | produce as one thing the desirable and the just | The Greek says "the beautiful (τὸ καλόν) and the just": the beautiful, not the desirable. |
+| III.2.14.p1 | displays the Divine Intelligence to a degree in which no arranging by reason could express it | The Greek says the natures of single things come to be "in a more intellectual way than by the ordering of reasoning" (νοερώτερον ἢ κατὰ λογισμοῦ διάταξιν); "the Divine Intelligence" is MacKenna's. |
+| III.2.14.p1 | In that case, things of the Intellectual realm and things of the realm of sense must remain one unbroken identity for ever | The Greek speaks of the eternal things "among the intelligibles and among the things of sense" (ἔν τε νοητοῖς ἔν τε αἰσθητοῖς), the intelligible world and the everlasting heavens, which are always the same; it does not say the two realms would be one. |
+| III.2.14.p2 | with stars radiant not only in the ears and on the brow | The Greek says "on the face" (κατὰ τὸ πρόσωπον) and on the breast; the ears are MacKenna's. |
+| III.2.14.p2 | wrought in the furnaces of craftsmanship | The Greek says "made by the art of Hephaestus" (τέχνῃ Ἡφαίστου), the smith god. |
+| III.2.15.p1 | The Divine Reason is the beginning and the end | The Greek says "reason, then, is the principle, and all things are reason" (ἀρχὴ οὖν λόγος καὶ πάντα λόγος); "divine" and "the end" are MacKenna's. |
+| III.2.15.p2 | the necessity of this bandit war | The Greek says "the undeclared war" (τοῦ πολέμου τοῦ ἀκηρύκτου), a war without heralds, which no truce ends; nothing is said of bandits. |
+| III.2.15.p4 | the other kind of man is himself a futility | The Greek says "the other man is a toy" (ὁ δ’ ἄλλος ἄνθρωπος παίγνιον), Plato's plaything of the gods; "futility" loses the image that the rest of the chapter plays on. |
+| III.2.15.p4 | comes to look on life with their eyes | The Greek says that a serious man who plays along and suffers such things "has fallen into a children's game, having put off the mask he wore" (τὸ περὶ αὑτὸν ἀποθέμενος πρόσωπον); "to look on life with their eyes" is MacKenna's. |
+| III.2.16.p2 | Life, then, aims at pattern as does the pantomimic dancer with his set movements | The Greek says "its activity is artful (τεχνική), as the dancer moving would be": the dancer's art moves him, not a pattern set before him; and nothing is said of mime or of symbolising life. |
+| III.2.16.p3 | (By an imperfect communication) it sets up a conflict of part against part | The words in brackets are MacKenna's: the Greek says reason "set the parts against one another and made them in need" (ἀντιθεὶς δὲ ἀλλήλοις τὰ μέρη καὶ ποιήσας ἐνδεᾶ). |
+| III.2.17.p1 | the partial thing (a human being, for example) | The bracket is MacKenna's: the Greek speaks of the longing of any part for the whole (ἡ ἔφεσις τοῦ μέρους πρὸς τὸ ὅλον). |
+| III.2.17.p2 | and the Reason-Principle does not excuse them | The Greek says reason "makes us not pardon such things" (ποιεῖ δὲ ὁ λόγος μηδὲ συγγνώμονας ἐπὶ τοῖς τοιούτοις εἶναι): what reason makes is our refusal to pardon. |
+| III.2.17.p4 | accepting from the author its entire role | The Greek says the soul takes "all the rest apart from itself and its own deeds" (τὰ ἄλλα πάντα χωρὶς ἑαυτῆς καὶ τῶν ἔργων αὑτῆς): the poet gives everything except the soul and what it does; MacKenna makes the whole role given and laid over its character. |
+| III.2.17.p4 | robes of state or rags | The Greek has "saffron robes" (τοὺς κροκωτούς), the yellow gowns of women's and Dionysus' parts on the stage, and rags. |
+| III.2.17.p5 | All is just and good in the Universe | The Greek says that in the whole there is "the fitting and the beautiful" (τὸ πρέπον καὶ τὸ καλόν); "just" is MacKenna's. |
+| III.2.17.p6 | and the corresponding moral type is often serviceable | The Greek, in words set off as a saying, says "there is often need of such a man too" (δεῖ δὲ καὶ ἀνθρώπου τοιούτου πολλάκις): of the man himself, not of a moral type. |
+| III.2.18.p1 | its expression may take any one of three main forms | The Greek says only that we must bear in mind "the second and the third" (τὰ δεύτερα καὶ τὰ τρίτα), and that soul does not always act with the same parts; the "three main forms" are MacKenna's. |
+| III.2.18.p2 | We may perhaps think of actors having the right to add something to the poet's words | The Greek doubts whether there is any need "to bring in actors who will say something other than the poet's words" (μὴ γὰρ οὐδὲν δεῖ ἐπεισάγειν τοιούτους ὑποκριτάς): the thought is put in question, not granted as a right. |
+| III.2.18.p3 | when the All is itself a Soul | The Greek says "the All belonging to a soul" (τοῦ παντὸς ψυχῆς τινος ὄντος): the All is a soul's, not itself a soul. |
 
 ## The plan, in Porphyry's order
 
@@ -334,7 +398,7 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | II.8 | On sight, or why distant things look small | done here |
 | II.9 | Against the Gnostics | done beside Taylor (milestone 27) |
 | III.1 | On destiny | done here |
-| III.2 | On providence, first part | to come (E11) |
+| III.2 | On providence, first part | done here |
 | III.3 | On providence, second part | to come (E12) |
 | III.4 | On the daemon allotted to us | to come (E12) |
 | III.5 | On love | to come (E13) |

@@ -147,8 +147,8 @@
   {
    "id": "III.2",
    "title": "On providence, first part",
-   "status": "to come",
-   "milestone": "E11"
+   "status": "here",
+   "first": "III.2.1"
   },
   {
    "id": "III.3",
@@ -600,6 +600,31 @@
     "III.1.8",
     "III.1.9",
     "III.1.10"
+   ]
+  },
+  {
+   "id": "III.2",
+   "title": "On providence, first part",
+   "summary": "Is this world the work of chance, or of an evil maker, as some say who see things in it go wrong? Neither: providence for a world that never began is its being according to intellect, which made it without seeking to, as an image of the true world above. That world is one, without strife; this one, spread out in matter, is many, its parts at war, and yet one reason makes a harmony of them. Plotinus answers the complaints one by one: fire put out, beasts preying on beasts, men wronging men, the good poor and the bad in power. The whole must be judged as a whole; vice and suffering are used by reason and followed by justice; men stand midway between gods and beasts, and those who will not arm themselves are beaten by those who do. Evil is a lack of good, which must be found where the good is in something other than itself. But if reason makes all, are the wicked still to blame? Plotinus answers with a play: reason is the poet, souls the actors who bring their own good or bad playing to the parts they are given, and their places, high or low, are set by justice. Reason is one, made of contrary reasons, as a harmony of high and low notes, and the lesser voice too belongs to the music. The treatise breaks off with its question open, and goes on in III.3.",
+   "chapters": [
+    "III.2.1",
+    "III.2.2",
+    "III.2.3",
+    "III.2.4",
+    "III.2.5",
+    "III.2.6",
+    "III.2.7",
+    "III.2.8",
+    "III.2.9",
+    "III.2.10",
+    "III.2.11",
+    "III.2.12",
+    "III.2.13",
+    "III.2.14",
+    "III.2.15",
+    "III.2.16",
+    "III.2.17",
+    "III.2.18"
    ]
   }
  ],
@@ -3236,6 +3261,312 @@
      "page": 10,
      "year": 1921,
      "text": "To sum the results of our argument : — All things and events are foreshown and brought into being by causes ; but the causation is of two Kinds ; there are results originating from the Soul and results due to other causes, those of the environment.\n\nIn the action of our Souls all that is done of their own motion in the light of sound reason is the Soul's work, while what is done where they are hindered from their own action is not so much done as suffered. Unwisdom, then, is not due to the Soul, and, in general — if we mean by Fate a compulsion outside ourselves — an act is fated when it is contrary to wisdom.\n\nBut all our best is of our own doing : such is our nature as long as we remain detached. The wise and good do perform acts ; their right action is the expression of their own power : in the others it comes in the breathing spaces when the passions are in abeyance ; but it is not that they draw this occasional wisdom from outside themselves ; simply, they are for the time being unhindered."
+    }
+   ]
+  },
+  {
+   "id": "III.2.1",
+   "treatise": "III.2",
+   "title": "Not chance; providence as being according to intellect",
+   "summary": "To give this universe to chance is senseless, and has been refuted often; but how its things come to be, some of which seem wrongly made, so that some deny providence and others blame an evil maker, must be looked at from the start. Leave aside providence over single acts. Since the world had no beginning in time, providence for it is its being according to intellect, which is before it in nature as a pattern is before its image. The true world, intellect and being, is one, whole in every part, without strife or change; it does not act, and in not acting does great things.",
+   "greek_unit": "3.2.1",
+   "greek_part": 19,
+   "older": [
+    {
+     "n": 1,
+     "label": "III.2, chapter 1",
+     "page": 11,
+     "year": 1921,
+     "text": "To make the existence and coherent structure of this Universe depend upon automatic activity and upon chance is against all good sense.\n\nSuch a notion could be entertained only where there is neither intelligence nor even ordinary perception ; and reason enough has been urged against it, though none is really necessary.\n\nBut there is still the question as to the process by which the individual things of this sphere have come into being, how they were made.\n\nSome of them seem so undesirable as to cast doubts upon a Universal Providence ; and we find, on the one hand, the denial of any controlling power, on the other the belief that the Kosmos is the work of an evil creator.\n\nThis matter must be examined through and through from the very first principles. We may, however, omit for the present any consideration of the particular providence, that beforehand decision which accomplishes or holds things in abeyance to some good purpose and gives or withholds in our own regard : when we have established the Universal Providence which we affirm, we can link the secondary with it.\n\nOf course the belief that after a certain lapse of time a Kosmos previously non-existent came into being would imply a foreseeing and a reasoned plan on the part of God providing for the -production of the Universe and securing all possible perfection in it — a guidance and partial providence, therefore, such as is indicated. But since we hold the eternal existence of the Universe, the utter absence of a beginning to it, we are forced, in sound and sequent reasoning, to explain the providence ruling in the Universe as a universal consonance with the divine Intelligence to which the Kosmos is subsequent not in time but in the fact of derivation, in the fact that the Divine Intelligence, preceding it in Kind, is its cause as being the Archtype and Model which it merely images, the primal by which, from all eternity, it has its existence and subsistence.\n\nThe relationship may be presented thus : —\n\nThe authentic and primal Kosmos is the Being of the Intellectual Principle and of the Veritable Existent. This contains within itself no spatial distinction, and has none of the feebleness of division, and even its parts bring no incompleteness to it since here the individual is not severed from the entire. In this Nature inheres all life and all intellect, a life living and having intellection as one act within a unity : every part that it gives forth is a whole ; all its content is its very own, for there is here no separation of thing from thing, no part standing in isolated existence estranged from the rest, and therefore nowhere is there any wronging of any other, any opposition. Everywhere one and complete, it is at rest throughout and shows difference at no point ; it does not make over any of its content into any new form ; there can be no reason for changing what is everywhere perfect.\n\nWhy should Reason elaborate yet another Reason, or Intelligence another Intelligence ? An indwelling power of making things is in the character of a being not at all points as it should be but making, moving, by reason of some failure in quality. Those whose nature is all blessedness have no more to do than to repose in themselves and be their being.\n\nA widespread activity is dangerous to those who must go out from themselves to act. But such is the blessedness of this Being that in its very non-action it magnificently operates and in its self-dwelling it produces mightily."
+    }
+   ]
+  },
+  {
+   "id": "III.2.2",
+   "treatise": "III.2",
+   "title": "The world of parts, and the reason that harmonizes it",
+   "summary": "From that one true world comes this one, not truly one: many, its parts apart, at enmity as well as friendship, each kept by another and hostile to it. It came not from reasoning but by the necessity of a second nature: the first, having all power, makes without seeking to. Intellect gave something of itself to matter, and that is reason flowing from it. As a seed's reason unfolds into parts that hinder one another, so the universe stood apart into friends and enemies, yet reason makes one harmony of them. The world shares in intellect and reason, mixed with necessity, intellect ruling; soul presides over the mixture without toil.",
+   "greek_unit": "3.2.2",
+   "greek_part": 19,
+   "older": [
+    {
+     "n": 2,
+     "label": "III.2, chapter 2",
+     "page": 13,
+     "year": 1921,
+     "text": "By derivation from that Authentic Kosmos, one within itself, there subsists this lower kosmos, no longer a true unity.\n\nIt is multiple, divided into various elements, thing standing apart from thing in a new estrangement. No longer is there concord unbroken ; hostility, too, has entered as the result of difference and distance ; imperfection has inevitably introduced discord ; for a part is not selfsufficient, it must pursue something outside itself for its fulfilment, and so it becomes the enemy to what it needs.\n\nThis Kosmos of parts has come into being not as the result of a judgment establishing its desirability, but by the sheer necessity of a secondary Kind.\n\nThe Intellectual Realm was not of a nature to be the ultimate of existents. It was the First and it held great power, all there is of power ; this means that it is productive without seeking to produce ; for if effort and search were incumbent upon it, the Act would not be its own, would not spring from its essential nature ; it would be, like a craftsman, producing by a power not inherent but acquired, mastered by dint of study.\n\nThe Intellectual Principle, then, in its unperturbed serenity has brought the universe into being, by communicating from its own store to Matter : and this gift is the Reason-Form flowing from it. For the Emanation of the Intellectual Principle is Reason, an emanation unfailing as long as the Intellectual Principle continues to have place among beings.\n\nThe Reason-Principle within a seed contains all the parts and qualities concentrated in identity ; there is no distinction, no jarring, no internal hindering ; then there comes a pushing out into bulk, part rises in distinction with part, and at once the members of the organism stand in each other's way and begin to wear each other down.\n\nSo from this, the One Intellectual Principle, and the Reason-Form emanating from it, our Universe rises and develops part, and inevitably are formed groups concordant and helpful in contrast with groups discordant and combative ; sometimes of choice and sometimes incidentally, the parts maltreat each other; engendering proceeds by destruction.\n\nYet : Amid all that they effect and accept, the divine Realm imposes the one harmonious act ; each utters its own voice, but all is brought into accord, into an ordered system, for the universal purpose, by the ruling Reason-Principle. This Universe is not Intelligence and Reason, like the Supernal, but participant in Intelligence and Reason : it stands in need of the harmonising because it is the meeting ground of Necessity and divine Reason — Necessity pulling towards the lower, towards the unreason which is its own characteristic, while yet the Intellectual Principle remains sovran over it.\n\nThe Intellectual Sphere (the Divine) alone is Reason, and there can never be another Sphere that is Reason and nothing else ; so that, given some other system, it cannot be as noble as that first ; it cannot be Reason : yet since such a system cannot be merely Matter, which is the utterly unordered, it must be a mixed thing. Its two extremes are Matter and the Divine Reason ; its governing principle is Soul, presiding over the conjunction of the two, and to be thought of not as labouring in the task but as administering serenely by little more than an act of presence."
+    }
+   ]
+  },
+  {
+   "id": "III.2.3",
+   "treatise": "III.2",
+   "title": "The whole, not the parts: the world speaks",
+   "summary": "Nor should anyone blame this world as not beautiful, or blame its cause: it came by necessity from a better nature, and even if reasoning had made it, the maker would not be ashamed of a whole all-beautiful and self-sufficient. To blame the whole for its parts is like looking at a hair and not the man, or bringing on Thersites. Listen to the world: a god made me, complete, holding gods, peoples of daemons, good souls and men happy by virtue; the heavens too are full of soul. Everything reaches for the good as it can; we must not demand the same of unequal things.",
+   "greek_unit": "3.2.3",
+   "greek_part": 19,
+   "older": [
+    {
+     "n": 3,
+     "label": "III.2, chapter 3",
+     "page": 14,
+     "year": 1921,
+     "text": "Nor would it be sound to condemn this Kosmos as less than beautiful, as less than the noblest possible in the corporeal ; and neither can any charge be laid against its source.\n\nThe world, we must reflect, is a product of Necessity, not of deliberate purpose : it is due to a higher Kind engendering in its own likeness by a natural process. And none the less, a second consideration, if a considered plan brought it into being it would still be no disgrace to its maker — for it stands a stately whole, complete within itself, serving at once its own purpose and that of all its parts which, leading and lesser alike, are of such a nature as to further the interests of the total. It is, therefore, impossible to condemn the whole on the merits of the parts which, besides, must be judged only as they enter harmoniously or not into the whole, the main consideration, quite overpassing the members which thus cease to have importance. To linger about the parts is to condemn not the Kosmos but some isolated appendage of it ; in the entire living Being we fasten our eyes on a hair or a toe neglecting the marvellous spectacle of the complete Man ; we ignore all the tribes and kinds of animals except for the meanest ; we pass over an entire race, humanity, and bring forward — Thersites.\n\nNo : this thing that has come into Being is (not a mass of fragments, but) the Kosmos complete : do but survey it, and surely this is the pleading you will hear : —\n\nI am made by a God : from that God I came perfect above all forms of life, adequate to my function, self-sufficing, lacking nothing : for I am the container of all, that is, of every plant and every animal, of all the Kinds of created things, and many Gods and nations of Spirit-Beings and lofty souls and men happy in their goodness.\n\nAnd do not think that, while earth is ornate with all its growths and with living things of every race, and while the very sea has answered to the power of Soul, do not think that the great air and the ether and the far-spread heavens remain void of it : there it is that all good Souls dwell, infusing life into the stars and into that orderly eternal circuit of the heavens which in its conscious movement ever about the one Centre, seeking nothing beyond, is a faithful copy of the divine Mind. And all that is within me strives towards the Good ; and each, to the measure of its faculty, attains. For from that Good all the heavens depend, with all my own Soul and the Gods that dwell in my every part, and all that lives and grows, and even all in me\" that you may judge inanimate.\n\nBut there are degrees of participation : here no more than Existence, elsewhere Life ; and, in Life, sometimes mainly that of Sensation, higher again that of Reason, finally Life in all its fullness. We have no right to demand equal powers in the unequal : the finger is not to be asked to see ; there is the eye for that ; a finger has its own business — to be finger and have finger power."
+    }
+   ]
+  },
+  {
+   "id": "III.2.4",
+   "treatise": "III.2",
+   "title": "Fire, beasts and men: destruction, wrong and justice",
+   "summary": "Fire quenched by water is no wonder: what was made by another perishes by another, and another fire takes its place. In the bodiless heaven each thing stays; here the whole lives for ever, souls change bodies, and bodies live on in their kinds, a moving life breathed out from the still one. Animals must prey on one another, since they are not everlasting; men wrong one another reaching for the good and failing, and are punished, for nothing escapes the law of the All. Order is not for the sake of disorder: there is disorder because order is brought in from outside. Free beings turn sometimes to the worse; the first small turn grows, and justice follows. Only the good are happy.",
+   "greek_unit": "3.2.4",
+   "greek_part": 19,
+   "older": [
+    {
+     "n": 4,
+     "label": "III.2, chapter 4",
+     "page": 16,
+     "year": 1921,
+     "text": "That water extinguishes fire and fire consumes other things should not astonish us. The thing destroyed derived its being from outside itself : this is no case of a self -originating substance being annihilated by an external ; it rose on the ruin of something else, and thus in its own ruin it suffers nothing strange ; and for every fire quenched, another is kindled.\n\nIn the immaterial heaven every member is unchangeably itself for ever ; in the heavens of our universe, while the whole has life eternally and so too all the nobler and lordlier components, the Souls pass from body to body entering into varied forms — and, when it may, a Soul will rise outside of the realm of birth and dwell with the one Soul of all. For the embodied lives by virtue of a Form or Idea : individual or partial things exist by virtue of Universals ; from these priors they derive their life and maintenance, for life here is a thing of change ; only in that prior realm is it unmoving. From that unchangingness change had to emerge and from that self-cloistered Life its derivative, this which breathes and stirs, the respiration of the still life of the divine.\n\nThe conflict and destruction that reign among living beings are inevitable, since things here are derived, brought into existence because the Divine Reason which contains all of them in the upper Heavens — how could they come here unless they were There ? — must outflow over the whole extent of Matter.\n\nSimilarly, the very wronging of man by man may be derived from an effort towards the Good ; foiled, in their weakness, of their true desire, they turn against each other : still, when they do wrong, they pay the penalty — that of having hurt their Souls by their evil conduct and of degradation to a lower place — for nothing can ever escape what stands decreed in the law of the Universe.\n\nThis is not to accept the idea, sometimes urged, that order is an outcome of disorder and law of lawlessness, as if evil were a necessary preliminary to their existence or their manifestation : on the contrary order is the original and enters this sphere as imposed from without : it is because order, law and reason exist that there can be disorder ; breach of law and unreason exist because^Reason exists — not that these better things are directly the causes of the bad but simply that what ought to absorb the Best is prevented by its own nature, or by some accident, or by foreign interference. An entity which must look outside itself for a law, may be foiled of its purpose by either an internal or an external cause ; there will be some flaw in its own nature, or it will be hurt by some alien influence, for often harm follows, unintended, upon the action of others in the pursuit of quite unrelated aims. Such living beings, on the other hand, as have freedom of motion under their own will sometimes take the right turn, sometimes the wrong.\n\nWhy the wrong course is followed is scarcely worth enquiring : a slight deviation at the beginning develops with every advance into a continuously wider and graver error — especially since there is the attached body with its inevitable concomitant of desire — and the first step, the hasty movement not previously considered and not immediately corrected, ends by establishing a set habit where there was at first only a fall.\n\nPunishment naturally follows : there is no injustice in a man suffering what belongs to the condition in which he is ; nor can we ask to be happy when our actions have not earned us happiness ; the good, only, are happy ; divine beings are happy only because they are good."
+    }
+   ]
+  },
+  {
+   "id": "III.2.5",
+   "treatise": "III.2",
+   "title": "Poverty, disease and vice in the whole",
+   "summary": "If souls can be happy here, those who are not must blame their own weakness in the contest where virtue's prizes are set out. Poverty and disease are nothing to the good and useful to the bad, and they too serve the whole: reason uses what perishes for new births, and vice becomes a pattern of justice and wakes the mind. Evil is not there for this; but it is the mark of the greatest power to use evils well. Evil is a lack of good, necessary here because the good is in something other than itself.",
+   "greek_unit": "3.2.5",
+   "greek_part": 19,
+   "older": [
+    {
+     "n": 5,
+     "label": "III.2, chapter 5",
+     "page": 17,
+     "year": 1921,
+     "text": "Now, once Happiness is possible at all to Souls in this Universe, if some fail of it, the blame must fall not upon the place but upon the feebleness insufficient to the staunch combat in the one arena where the rewards of excellence are offered. Men are not born divine ; what wonder that they do not enjoy a divine life. And poverty and sickness mean nothing to the good — only to the evil are they disastrous — and where there is body there must be ill-health.\n\nBesides, these accidents are not without their service in the coordination and completion of the Universal system.\n\nOne thing perishes, and the Kosmic Reason — whose control nothing anywhere eludes — employs that ending to the beginning of something new ; and, so, when the body suffers and the Soul, under the affliction, loses power, all that has been bound under illness and evil is brought into a new set of relations, into another class or order. Some of these troubles are helpful to the very sufferers — poverty and sickness, for example — and as for vice, even this brings something to the general service : it acts as a lesson in right doing, and, in many ways even, produces good ; thus, by setting men face to face with the ways and consequences of iniquity, it calls them from lethargy, stirs the deeper mind and sets the understanding to work ; by the contrast of the evil under which wrongdoers labour it displays the worth of the right. Not that evil exists for this purpose ; but, as we have indicated, once the wrong has come to be, the Reason of the Kosmos employs it to good ends ; and, precisely, the proof of the mightiest power is to be able to use the ignoble nobly and, given formlessness, to make it the material of unknown forms.\n\nThe principle is that evil by definition is a falling short in good, and good cannot be at full strength in this Sphere where it is lodged in the alien : the good here is in something else, in something distinct from the Good, and this something else constitutes the falling short for it is not good. And this is why evil is ineradicable : there is, first, the fact that in relation to this principle of Good, thing will always stand less than thing, and, besides, all things come into being through it, and are what they are by standing away from it."
+    }
+   ]
+  },
+  {
+   "id": "III.2.6",
+   "treatise": "III.2",
+   "title": "The good poor, the bad in power",
+   "summary": "But what of the undeserved lot, the good in evils and the bad in the opposite? True, nothing is evil to the good, nor good to the bad; but the fitting and the deserved would be the work of the best providence, and it seems unfitting that the bad should be masters and rulers of cities and the decent their slaves, that the wicked should win wars and abuse their prisoners. A maker must look to the whole, but order the parts rightly too, above all those with life and reason; providence must reach everything. So it must be shown how each of these things is well.",
+   "greek_unit": "3.2.6",
+   "greek_part": 19,
+   "older": [
+    {
+     "n": 6,
+     "label": "III.2, chapter 6",
+     "page": 18,
+     "year": 1921,
+     "text": "As for the disregard of desert — the good afflicted, the unworthy thriving — it is a sound explanation no doubt that to the good nothing is evil and to the evil nothing can be good : still the question remains why should what essentially offends our nature fall to the good while the wicked enjoy all it demands ? How can such an allotment be approved ?\n\nNo doubt since pleasant conditions add nothing to true happiness and the unpleasant do not lessen the evil in the wicked, the conditions matter little : as well complain that a good man happens to be ugly and a bad man handsome.\n\nStill, under such a dispensation, there would surely be a propriety, a reasonableness, a regard to merit which, as things are, do not appear, though this would certainly be in keeping with the noblest Providence : even though external conditions do not affect a man's hold upon good or evil, none the less it would seem utterly unfitting that the bad should be the masters, be sovereign in the state, while honourable men are slaves : a wicked ruler may commit the most lawless acts ; and in war the worst men have a free hand and perpetrate every kind of crime against their prisoners.\n\nWe are forced to ask how such things can be, under a Providence. Certainly a maker must consider his work as a whole, but none the less he should see to the due ordering of all the parts, especially when these parts have Soul, that is, are Living and Reasoning Beings : the Providence must reach to all the details ; its functioning must consist in neglecting no point.\n\nHolding, therefore, as we do, despite all, that the Universe lies under an Intellectual Principle whose power has touched every existent, we cannot be absolved from the attempt to show in what way the detail of this sphere is just."
+    }
+   ]
+  },
+  {
+   "id": "III.2.7",
+   "treatise": "III.2",
+   "title": "The mixed world; the souls' own works; does providence reach the earth?",
+   "summary": "In a mixture we must not demand what the unmixed has, but praise what it could take from reason: a man of flesh and bone is not the man in intellect. The harm that bad souls do stays with them, and the blame is the chooser's: souls were to have motions of their own, and were the world's before the world was. But the good poor, the bad rich and ruling? Providence reaches the earth, as plants and animals show; to say it reaches but does not rule is like saying that a man's head is nature's work and the rest is chance's.",
+   "greek_unit": "3.2.7",
+   "greek_part": 19,
+   "older": [
+    {
+     "n": 7,
+     "label": "III.2, chapter 7",
+     "page": 19,
+     "year": 1921,
+     "text": "A preliminary observation : in looking for excellence in this thing of mixture, the Kosmos, we cannot require all that is implied in the excellence of the unmingled ; it is folly to ask for Firsts in the Secondary, and since this Universe contains body, we must allow for some bodily influence upon the total and be thankful if the mingled existent lack nothing of what its nature allowed it to receive from the Divine Reason.\n\nThus, supposing we were enquiring for the finest type of the human being as known here, we would certainly not demand that he prove identical with Man as in the Divine Intellect ; we would think it enough in the Creator to have so brought this thing of flesh and nerve and bone under Reason as to give grace to these corporeal elements and to have made it possible for Reason to have contact with Matter.\n\nOur progress towards the object of our investigation must begin from this principle of gradation which wilJ open to us the wonder of the Providence and of the power by which our universe holds its being.\n\nWe begin with evil acts entirely dependent upon the Souls which perpetrate them — the harm, for example, which perverted Souls do to the good and to each other. Unless the fore-planning power alone is to be charged with the vice in such Souls, we have no ground of accusation, no claim to redress : the blame lies on the Soul exercising its choice. Even a Soul, we have seen, must have its individual movement ; it is not abstract Spirit ; the first step towards animal life has been taken and the conduct will naturally be in keeping with that character.\n\nIt is not because the world existed that Souls are here : before the world was, they had it in them to be of the world, to concern themselves with it, to presuppose it, to administer it : it was in their nature to produce it — by whatever method, whether by giving forth some emanation while they themselves remained above, or by an actual descent, or in both ways together, some presiding from above, others descending ; for we are not at the moment concerned about the mode of creation but are simply urging that, however the world was produced, no blame falls on Providence for what exists within it.\n\nThere remains the other phase of the question — the distribution of evil to the opposite classes of men : the good go bare while the wicked are rich : all that human need demands, the least deserving have in abundance ; it is they that rule ; peoples and states are at their disposal. Would not all this imply that the divine power does not reach to earth ?\n\nThat it does is sufficiently established by the fact that Reason rules in the lower things : animals and plants have their share in Reason, Soul and Life.\n\nPerhaps, then, it reaches to earth but is not master over all ?\n\nWe answer that the universe is one living organism : as well maintain that while human head and face are the work of nature and of the ruling reason-principle, the rest of the frame is due to other agencies — accident or sheer necessity — and owes its inferiority to this origin, or to the incompetence of unaided Nature. And even granting that those less noble members are not in themselves admirable it would still be neither pious nor even reverent to censure the entire structure."
+    }
+   ]
+  },
+  {
+   "id": "III.2.8",
+   "treatise": "III.2",
+   "title": "Men between gods and beasts; the lazy and the armed",
+   "summary": "In every animal the upper parts are finest; men are in the middle and below, with the heaven and its gods above, and the earth like a single star. Men wonder at wrongdoing because they take man for the best thing in the All; but he lies between gods and beasts. The beast-like drag the middle ones about; the better are beaten in so far as they are worse and unprepared. As well-trained but uneducated boys rob soft ones, the lazy pay for their laziness, the wolves for being wolves. In war the law saves the brave, not those who pray, as harvests come to those who farm. Bad men rule through the cowardice of the ruled, and that is just.",
+   "greek_unit": "3.2.8",
+   "greek_part": 19,
+   "older": [
+    {
+     "n": 8,
+     "label": "III.2, chapter 8",
+     "page": 21,
+     "year": 1921,
+     "text": "Thus we come to our enquiry as to the degree of excellence found in things of this Sphere, and how far they belong to an ordered system or in what degree they are, at least, not evil.\n\nNow in every living being the upper parts — head, face — are the most beautiful, the mid and lower members inferior. In the Universe the middle and lower members are human beings ; above them, the Heavens and the Gods that dwell there ; these Gods with the entire circling expanse of the heavens constitute the greater part of the Kosmos : the earth is but a central point, and may be considered as simply one among the stars. Yet human wrong-doing is made a matter of wonder ; we are evidently asked to take humanity as the choice member of the Universe, nothing wiser existent !\n\nBut humanity, in reality, is poised midway between gods and beasts, and inclines now to the one order, now to the other ; some men grow like to the divine, others to the brute, the greater number stand neutral. But those that are corrupted to the point of approximating to irrational animals and wild beasts pull the mid-folk about and inflict wrong upon them ; the victims are no doubt better than the wrongdoers, but are at the mercy of their inferiors in the field in which they themselves are inferior, where, that is, they cannot be classed among the good since they have not trained themselves in self-defence.\n\nA gang of lads, morally neglected, and in that respect inferior to the intermediate class, but in good physical training, attack and throw another set, trained neither physically nor morally, and make off with their food and their dainty clothes. What more is called for than a laugh ?\n\nAnd surely even the lawgiver would be right in allowing the second group to suffer this treatment, the penalty of their sloth and self-indulgence : the gymnasium lies there before them, and they, in laziness and luxury and listlessness, have allowed themselves to fall like fat-loaded sheep, a prey to the wolves.\n\nBut the evil-doers also have their punishment : first they pay in that very wolfishness, in the disaster to their human quality : and next there is laid up for them the due of their Kind ; living ill here, they will not get off by death ; on every precedent through all the line there waits its sequent, reasonable and natural — worse to the bad, better to the good.\n\nThis at once brings us outside the gymnasium with its fun for boys ; they must grow up, both kinds, amid their childishness and both one day stand girt and armed. Then there is a finer spectacle than is ever seen by those that train in the ring. But at this stage some have not armed themselves — and the duly armed win the day.\n\nNot even a God would have the right to deal a blow for the unwarlike: the law decrees that to come safe out of battle is for fighting men, not for those that pray, The harvest comes home not for praying but for tilling ; healthy days are not for those that neglect their health : we have no right to complain of the ignoble getting the richer harvest if they are the only workers in the fields, or the best.\n\nAgain : it is childish, while we carry on all the affairs of our life to our own taste and not as the Gods would have us, to expect them to keep all well for us in spite of a life that is lived without regard to the conditions which the Gods have prescribed for our well-being. Yet death would be better for us than to go on living lives condemned by the laws of the Universe. If things took the contrary course, if all the modes of folly and wickedness brought no trouble in life — then indeed we might complain of the indifference of a Providence leaving the victory to evil.\n\nBad men rule by the feebleness of the ruled : and this is just ; the triumph of weaklings would not be just."
+    }
+   ]
+  },
+  {
+   "id": "III.2.9",
+   "treatise": "III.2",
+   "title": "Providence keeps us ourselves; man in the middle; the beasts",
+   "summary": "Providence must not make us nothing: if it were all, it would be of nothing. It comes to man to keep him man, living by its law: a good life for the good, now and after, the opposite for the bad. The bad may not pray to be saved by others, nor that gods or good men rule them for them. Man, a middle creature who chose his rank, is not let perish but always drawn upward; he keeps his reason and shares in wisdom, intellect, craft and justice, a beautiful work as far as he can be. Nor should anyone blame the lesser animals: they bite, but they have their uses, and why wonder that wild beasts defend themselves?",
+   "greek_unit": "3.2.9",
+   "greek_part": 19,
+   "older": [
+    {
+     "n": 9,
+     "label": "III.2, chapter 9",
+     "page": 22,
+     "year": 1921,
+     "text": "It would not be just, because Providence cannot be a something reducing us to nothingness : to think of Providence as everything, with no other thing in existence, is to annihilate the Universe ; such a providence could have no field of action ; nothing would exist except the Divine. As things are, the Divine, of course, exists, but has reached forth to something other — not to reduce that to nothingness but to preside over it ; thus in the case of Man, for instance, the Divine presides as the Providence, preserving the character of human nature, that is the character of a being under the providential law, which, again, implies subjection to what that law may enjoin.\n\nAnd that law enjoins that those who have made themselves good shall know the best of life, here and later, the bad the reverse. But the law does not warrant the wicked in expecting that their prayers should bring others to sacrifice themselves for their sakes ; or that the gods should lay aside the divine life in order to direct their daily concerns ; or that good men, who have chosen a path nobler than all earthly rule, should become their rulers. The perverse have never made a single effort to bring the good into authority, nor do they take any steps to improve themselves ; they are all spite against anyone that becomes good of his own motion, though if good men were placed in authority the total of goodness would be increased.\n\nIn sum : Man has come into existence, a living being but not a member of the noblest order ; he occupies by choice an intermediate rank ; still, in that place in which he exists, Providence does not allow him to be reduced to nothing ; on the contrary he is ever being led upwards by all those varied devices which the Divine employs in its labour to increase the dominance of moral value. The human race, therefore, is not deprived by Providence of its rational being ; it retains its share, though necessarily limited, in wisdom, intelligence, executive power and right doing, the right doing, at least, of individuals to each other — and even in wronging others people think they are doing right and only paying what is due.\n\nMan is, therefore, a noble creation, as perfect as the scheme allows ; a part, no doubt, in the fabric of the All, he yet holds a lot higher than that of all the other living things of earth.\n\nNow, no one of any intelligence complains of these others, man's inferiors, which serve to the adornment of the world ; it would be feeble indeed to complain of animals biting man, as if we were to pass our days asleep. No : the animal, too, exists of necessity, and is serviceable in many ways, some obvious and many progressively discovered — so that not one lives without profit to itself and even to humanity. It is ridiculous, also, to complain that many of them are dangerous — there are dangerous men abroad as well — and if they distrust us, and in their distrust attack, is that anything to wonder at ?"
+    }
+   ]
+  },
+  {
+   "id": "III.2.10",
+   "treatise": "III.2",
+   "title": "Unwilling, yet their own doing",
+   "summary": "If men are bad unwillingly, how can wrongdoers be blamed? And if necessity, from the heavens or a first principle, makes them bad, is reason not unjust? Wrong is unwilling as all error is, but the wrongdoers do it themselves. The necessity is not from outside; the heavens do not take away what is up to us, or men could not set themselves against the gods. Given a first principle, the rest follows, but men too are principles, moved by their own nature towards the beautiful, a principle that is its own master.",
+   "greek_unit": "3.2.10",
+   "greek_part": 19,
+   "older": [
+    {
+     "n": 10,
+     "label": "III.2, chapter 10",
+     "page": 24,
+     "year": 1921,
+     "text": "But : if the evil in men is involuntary, if their own will has not made them what they are, how can we either blame wrong-doers or even reproach their victims with suffering through their own fault ?\n\nIf there is a Necessity, bringing about human wickedness either by force of the celestial movement or by a rigorous sequence set up by the First Cause, is not the evil a thing rooted in Nature ? And if thus the Reason-Principle of the universe is the creator of evil, surely all is injustice ?\n\nNo : Men are no doubt involuntary sinners in the sense that they do not actually desire to sin ; but this does not alter the fact that wrongdoers, of their own choice, are, themselves, the agents ; it is because they themselves act that the sin is in their own ; if they were not agents they could not sin.\n\nThe Necessity (held to underlie human wickedness) is not an outer force (actually compelling the individual), but exists only in the sense of a universal relationship.\n\nNor is the force of the celestial Movement such as to leave us powerless : if the universe were something outside and apart from us it would stand as its makers willed so that, once the gods had done their part, no man, however impious, could introduce anything contrary to their intention. But, as things are, efficient act does come from men : given the starting Principle, the secondary line, no doubt, is inevitably completed ; but each and every principle contributes towards the sequence. Now Men are Principles, or, at least, they are moved by their characteristic nature towards all that is good, and that nature is a Principle, a freely acting cause."
+    }
+   ]
+  },
+  {
+   "id": "III.2.11",
+   "treatise": "III.2",
+   "title": "Reason wills the variety: the painting and the play",
+   "summary": "Is everything so by natural necessity, as good as it can be? Rather reason rules and makes all, and wills even the so-called evils, not wishing all to be good, as a craftsman does not make the whole animal eyes. So reason made gods, daemons, men and animals, not from envy but out of the variety of intellect. We blame it as the untrained blame a painter's colours, or a play for having slaves and rustics among its heroes.",
+   "greek_unit": "3.2.11",
+   "greek_part": 19,
+   "older": [
+    {
+     "n": 11,
+     "label": "III.2, chapter 11",
+     "page": 25,
+     "year": 1921,
+     "text": "Are we, then, to conclude that particular things are determined by Necessities rooted in Nature and by the sequence of causes, and that everything is as good as anything can be ?\n\nNo : the Reason-Principle is the sovereign, making all : it wills things as they are and, in its reasonable act, it produces even what we know as evil : it cannot desire all to be good : an artist would not make an animal all eyes ; and in the same way, the Reason-Principle would not make all divine ; it makes Gods but also celestial spirits, the intermediate order, then men, then the animals ; all is graded succession, and this in no spirit of grudging but in the expression of a Reason teeming with intellectual variety.\n\nWe are like people ignorant of painting who complain that the colours are not beautiful everywhere in the picture : but the Artist has laid on the appropriate tint to every spot. Or we are censuring a drama because the persons are not all heroes but include a servant and a rustic and some scurrilous clown ; yet take away the low characters and the power of the drama is gone ; these are part and parcel of it."
+    }
+   ]
+  },
+  {
+   "id": "III.2.12",
+   "treatise": "III.2",
+   "title": "Souls are parts of reason, set where they deserve",
+   "summary": "If reason, fitting itself into matter, made things as it is, unlike in its parts, nothing could be more beautiful than its work, and a reason made of things all alike would be no reason. But if it brought souls in from outside and forced them against their nature, how is that right? Rather the souls are like parts of it, and it sets them where they deserve to be.",
+   "greek_unit": "3.2.12",
+   "greek_part": 19,
+   "older": [
+    {
+     "n": 12,
+     "label": "III.2, chapter 12",
+     "page": 25,
+     "year": 1921,
+     "text": "Suppose this Universe were the direct creation of the Reason-Principle applying itself, quite unchanged, to Matter, retaining, that is, the hostility to partition which it derives from its Prior, the Intellectual Principle — then, this its product, so produced, would be of supreme and unparalleled excellence. But the Reason-Principle (if it is to be the author of a universe) could not be a thing of entire identity or even of closely compact diversity ; and the mode in which it is here manifested is no matter of censure since its function is to be all things, each single thing in some distinctive way.\n\nBut (it will be asked) has it not, besides itself entering Matter, brought other beings down ? Has it not for example brought Souls into Matter and, in adapting them to its creation, twisted them against their own nature and been the ruin of many of them ? And can this be right ?\n\nThe answer is that the Souls are, in a fair sense, members of this Reason-Principle and that it has not adapted them to the creation by perverting them, but has set them in the place here to which their quality entitles them."
+    }
+   ]
+  },
+  {
+   "id": "III.2.13",
+   "treatise": "III.2",
+   "title": "Past lives, Adrasteia, and the art in small things",
+   "summary": "Reason looks not only at the present but at past and future periods: the bad master becomes a slave, the rich who misused wealth poor, the unjust killer is killed, unjustly by the killer but justly for him; one who killed his mother is born a woman and killed by her son. This order is Adrasteia, Justice and a wonderful wisdom. The same art shows in the smallest things, animals, fruits, leaves, flowers, always made anew. Nothing changes at random: the divine makes as its nature is, and its nature brings out the beautiful and the just.",
+   "greek_unit": "3.2.13",
+   "greek_part": 19,
+   "older": [
+    {
+     "n": 13,
+     "label": "III.2, chapter 13",
+     "page": 26,
+     "year": 1921,
+     "text": "And we must not despise the familiar observation that there is something more to be considered than the present. There are the periods of the past and, again, those in the future ; and these have everything to do with fixing worth of place.\n\nThus a man, once a ruler, will be made a slave because he abused his power and because the fall is to his future good. Those that have money will be made poor — and to the good poverty is no hindrance. Those that have unjustly killed, are killed in turn, unjustly as regards the murderer but justly as regards the victim, and those that are to suffer are thrown into the path of those that administer the merited treatment.\n\nIt is not an accident that makes a man a slave ; no one is a prisoner by chance ; every bodily outrage has its due cause. The man once did what he now suffers. A man that murders his mother will become a woman and be murdered by a son ; a man that wrongs a woman will become a woman, to be wronged.\n\nHence arises that awesome word Adrasteia (the Inevadable Retribution) ; for in very truth this ordinance is an Adrasteia, Justice itself and a wonderful wisdom.\n\nWe cannot but recognise from what we observe in this universe that some such principle of order prevails throughout the entire of existence — the minutest of things a tributary to the vast total ; the marvellous art shown not merely in the mightiest works and sublimest members of the All, but even amid such littleness as one would think Providence must disdain : the varied workmanship of wonder in any and every animal form ; the world of vegetation, too ; the grace of fruits and even of leaves, the lavishness, the delicacy, the diversity of exquisite bloom : and all this not issuing once, and then to die out, but made ever and ever anew as the Transcendent Beings move variously over this earth.\n\nIn all the changing, there is no change by chance : there is no taking of new forms but to desirable ends and in ways worthy of Divine Powers. All that is Divine executes the Act of its quality ; its quality is the expression of its essential Being : and this essential Being in the Divine is the Being whose activities produce as one thing the desirable and the just — for if the good and the just are not produced, there, where, then, have they their being ?"
+    }
+   ]
+  },
+  {
+   "id": "III.2.14",
+   "treatise": "III.2",
+   "title": "Each kind sufficient; the part is not the whole",
+   "summary": "The order is according to intellect without reasoning, such that the best reasoner would wonder that reasoning could find nothing better, as in the works of each nature. No kind can be blamed for not being like the eternal things, or for lacking horns: reason had to reach everything, and the lesser must be in the greater and the parts unequal. Above, each is all; below, each is not all, and a man as a part is not the whole, nor can he be asked to reach the peak of virtue. Yet the whole does not grudge the part that grows finer, and a man may shine like the stars on a great statue.",
+   "greek_unit": "3.2.14",
+   "greek_part": 19,
+   "older": [
+    {
+     "n": 14,
+     "label": "III.2, chapter 14",
+     "page": 27,
+     "year": 1921,
+     "text": "The ordinance of the Kosmos, then, is in keeping with the Intellectual Principle. True, no reasoning went to its creation, but it so stands that the keenest reasoning must wonder — since no reasoning could be able to make it otherwise — at the spectacle before it, a product which, even in the Kinds of the partial and particular Sphere, displays the Divine Intelligence to a degree in which no arranging by reason could express it. Every one of the ceaselessly recurrent types of being manifests a creating Reason-Principle above all censure. No fault is to be found unless on the assumption that everything ought to come into being with all the perfection of those that have never known such a coming, the Eternals. In that case, things of the Intellectual realm and things of the realm of sense must remain one unbroken identity for ever.\n\nIn this demand for more good than exists, there is implied a failure to recognise that the form allotted to each entity is sufficient in itself ; it is like complaining because one kind of animal lacks horns. We ought to understand both that the Reason-Principle must extend to every possible existent and, at the same time, that every greater must include lesser things, that to every whole belong its parts, and that all cannot be equality unless all part is to be absent.\n\nThis is why in the Over- World each entity is all, while here, below, the single thing is not' all (is not the Universe but a \" Self \"). Thus too, a man, an individual, in so far as he is a part, is not Humanity complete : but wheresoever there is associated with the parts something that is no part (but a Divine, an Intellectual Being), this makes a whole of that in which it dwells. Man, man as partial thing, cannot be required to have attained to the very summit of goodness : if he had, he would have ceased to be of the partial order. Not that there is any grudging in the whole towards the part that grows in goodness and dignity ; such an increase in value is a gain to the beauty of the whole ; the lesser grows by being made over in the likeness of the greater, by being admitted, as it were, to something of that greatness, by sharing in that rank, and thus even from this place of man, from man's own self, something gleams forth, as the stars shine in the divine firmament, so that all appears one great and lovely figure — living or wrought in the furnaces of craftsmanship— with stars radiant not only in the ears and on the brow but on the breasts too, and wherever else they may be displayed in beauty."
+    }
+   ]
+  },
+  {
+   "id": "III.2.15",
+   "treatise": "III.2",
+   "title": "The war of all things, a play on a stage",
+   "summary": "Taken one by one, things are well; but their weaving together brings a harder question: beasts eat one another, men attack one another, there is war without truce, and reason is said to have made it so. The old answer, that matter is to blame, no longer serves, since reason is the principle of all. The eating is a change of living things, which could not last anyway, like the murdered actor who comes back in another mask; and it is better than no life at all. Men's wars are like a war dance: their concerns are play, death is nothing terrible, possessions were never theirs. Murders and sacked cities are scenes on a stage; it is the outer shadow of a man that weeps. Only the serious is to be taken seriously; the rest of man is a toy, and tears are no proof of evil.",
+   "greek_unit": "3.2.15",
+   "greek_part": 19,
+   "older": [
+    {
+     "n": 15,
+     "label": "III.2, chapter 15",
+     "page": 28,
+     "year": 1921,
+     "text": "These considerations apply very well to things considered as standing alone : but there is a stumbling-block, a new problem, when we think of all these forms, permanent and ceaselessly produced, in mutual relationship.\n\nThe animals devour each other : men attack each other : all is war without rest, without truce : this gives new force to the question how Reason can be author of the plan and how all can be declared well done.\n\nThis new difficulty is not met by the former answer ; that all stands as well as the nature of things allows ; that the blame for their condition falls on Matter dragging them down ; that, given the plan as we know it, evil cannot be eliminated and should not be ; that the Matter making its presence felt is still not supreme but remains an element taken in from outside to contribute to a definite total, or rather to be itself brought to order by Reason.\n\nThe Divine Reason is the beginning and the end ; all that comes into being must be rational and fall at its coming into an ordered scheme reasonable at every point. Where, then, is the necessity of this bandit war of man and beast ?\n\nThis devouring of Kind by Kind is necessary as the means to the transmutation of living things which could not keep form for ever even though no other killed them : what grievance is it that when they must go their despatch is so planned as to be serviceable to others ?\n\nStill more, what does it matter when they are devoured only to return in some new form ? It comes to no more than the murder of one of the personages in a play ; the actor alters his make-up and enters in a new role. The actor, of course, was not really killed ; but if dying is but changing a body as the actor changes a costume, or even an exit from the body like the exit of the actor from the boards when he has no more to say or do, what is there so very dreadful in this transformation of living beings one into another ?\n\nSurely it is much better so than if they had never existed : that way would mean the bleak quenching of life, precluded from passing outside itself ; as the plan holds, life is poured copiously throughout a Universe, engendering the universal things and weaving variety into their being, never at rest from producing an endless sequence of comeliness and shapeliness, a living pastime.\n\nMen directing their weapons against each other — under doom of death yet neatly lined up to fight as in the pyrrhic sword-dances of thensport — this is enough to tell us that all human intentions are but play, that death is nothing terrible, that to die in a war or in a fight is but to taste a little beforehand what old age has in store, to go away earlier and come back the sooner. So for misfortunes that may accompany life, the loss of property, for instance ; the loser will see that there was a time when it was not his, that its possession is but a mock boon to the robbers, who will in their turn lose it to others, and even, that to retain property is a greater loss than to forfeit it.\n\nMurders, death in all its guises, the reduction and sacking of cities, all must be to us just such a spectacle as the changing scenes of a play ; all is but the varied incident of a plot, costume on and off, acted grief and lament. For on earth, in all the succession of life, it is not the Soul within but the Shadow outside of the authentic man, that grieves and complains and acts out the plot on this world stage which men have dotted with stages of their own constructing. All this is the doing of man knowing no more than to live the lower and outer life, and never perceiving that, in his weeping and in his graver doings alike, he is but at play ; to handle austere matters austerely is reserved for the thoughtful : the other kind of man is himself a futility. Those incapable of thinking gravely read gravity into frivolities which correspond to their own frivolous Nature. Anyone that joins in their trifling and so comes to look on life with their eyes must understand that by lending himself to such idleness he has laid aside his own character. If Socrates himself takes part in the trifling, he trifles in the outer Socrates.\n\nWe must remember, too, that we cannot take tears and laments as proof that anything is wrong ; children cry and whimper where there is nothing amiss."
+    }
+   ]
+  },
+  {
+   "id": "III.2.16",
+   "treatise": "III.2",
+   "title": "Reason, a life that shapes, one made of contraries",
+   "summary": "But then where are wickedness, wrong and sin, if all is well done? How is anything against nature, or impious? It would be like a poet writing an actor's part that abuses the poet. So: this reason is not pure intellect nor pure soul, but a shining out from both, a life with a reason in it. Every life is an activity that gives form, artful, like a dancer's. Coming from one intellect and one life, reason is neither one life nor one intellect, and does not give itself whole; setting part against part, it made war, and is one whole, if not one thing, like a play full of fights, or rather a harmony of opposed notes. A reason must be many and different, and the greatest difference is contrariety; so it makes contraries, and is complete by making itself contrary.",
+   "greek_unit": "3.2.16",
+   "greek_part": 19,
+   "older": [
+    {
+     "n": 16,
+     "label": "III.2, chapter 16",
+     "page": 30,
+     "year": 1921,
+     "text": "But if all this is true, what room is left for evil ? Where are we to place wrong-doing and sin ?\n\nHow explain that in a world organised in good, the efficient agents (human beings) behave unjustly, commit sin ? And how comes misery if neither sin nor injustice exists ?\n\nAgain, if all ours action is determined by a natural process, how can the distinction be maintained between behaviour in accordance with nature and behaviour in conflict with it ?\n\nAnd what becomes of blasphemy against the divine ? The blasphemer is made what he is : a dramatist has written a part insulting and maligning himself and given it to an actor to play.\n\nThese considerations oblige us to state the Logos (the Reason-Principle of the Universe) once again, and more clearly, and to justify its nature.\n\nThis Reason-Principle, then — let us dare the definition in the hope of conveying the truth — this Logos is not the Intellectual Principle unmingled, not the Absolute Divine Intellect ; nor does it descend from the pure Soul alone ; it is a dependent of that Soul while, in a sense, it is a radiation from both those divine Hypostases : the Intellectual Principle and the Soul — the Soul as conditioned by the Intellectual Principle — engender this Logos which is a Life holding restfully a certain measure of Reason.\n\nNow all life, even the least valuable, is an activity, and not a blind activity like that of flame ; even where there is not sensation the activity of life is no mere haphazard play of Movement : any object in which life is present, any object which participates in Life, is at once enreasoned in the sense that the activity peculiar to life is formative, shaping as it moves.\n\nLife, then, aims at pattern as does the pantomimic dancer with his set movements ; the mime, in himself, represents life, and, besides, his movements proceed in obedience to a pattern designed to symbolise life.\n\nThus far to give us some idea of the nature of Life in general.\n\nBut this Reason-Principle which emanates from the complete unity, divine Mind, and the complete unity Life (=Soul) — is neither a uniate complete Life nor a uniate complete divine Mind, nor does it give itself whole and all-including to its sub j ect . (By an imperfect communication) it sets up a conflict of part against part : it produces imperfect things and so engenders and maintains war and attack, and thus its unity can be that only of a sum-total not of a thing undivided. At war with itself in the parts which it now exhibits, it has the unity, or harmony, of a drama torn with struggle. The drama, of course, brings the conflicting elements to one final harmony, weaving the entire story of the clashing characters into one thing ; while in the Logos the conflict of the divergent elements rises within the one element, the Reason-Principle : the comparison therefore is rather with a harmony emerging directly from the conflicting elements themselves, and the question becomes what introduces clashing elements among these Reason-Principles.\n\nNow in the case of music, tones high and low are the product of Reason-Principles which, by the fact that they are Principles of harmony, meet in the unit of Harmony, the absolute Harmony, a more comprehensive Principle, greater than they and including them as its parts. Similarly in the Universe at large we find contraries — white and black, hot and cold, winged and wingless, footed and footless, reasoning and unreasoning — but all these elements are members of one living body, their sum-total ; the Universe is a self-accordant entity, its members everywhere clashing but the total being the manifestation of a Reason-Principle. That one Reason-Principle, then, must be the unification of conflicting Reason-Principles whose very opposition is the support of its coherence and, almost, of its Being.\n\nAnd indeed, if it were not multiple, it could not be a Universal Principle, it could not even be at all a Reason-Principle ; in the fact of its being a Reason-Principle is contained the fact of interior difference. Now the maximum of difference is contrariety ; admitting that this differentiation exists and creates, it will create difference in the greatest and not in the least degree ; in other words, the Reason-Principle, bringing about differentiation to the uttermost degree, will of necessity create contrarieties : it will be complete only by producing itself not in merely diverse things but in contrary things."
+    }
+   ]
+  },
+  {
+   "id": "III.2.17",
+   "treatise": "III.2",
+   "title": "The good and the bad as actors in reason's play",
+   "summary": "The more reason is spread out, the more contrary its works: the world of sense is less one than its reason, more many, its parts more eager for life and for union, and lovers destroy what they love. So the good and the bad are like a dancer's contrary steps in one art. The bad are still bad, though not of themselves; and reason makes us not pardon them. As a poet gives parts to actors who already are what they are, so each soul goes to the place that fits it, and speaks impious or holy words. In this truer play the soul is the actor, taking its fortunes from the poet as costumes, and brings its own good or bad playing, and is honoured or dismissed for it. These actors play on a bigger stage and choose their places; they are fitted to the reason of the All as strings to their notes, the lesser voice too adding to the harmony, as the faint notes of a panpipe do; and the bad soul is like the executioner in a well-run city.",
+   "greek_unit": "3.2.17",
+   "greek_part": 19,
+   "older": [
+    {
+     "n": 17,
+     "label": "III.2, chapter 17",
+     "page": 32,
+     "year": 1921,
+     "text": "The nature of the Reason-Principle is adequately expressed in its Act and, therefore, the wider its extension the nearer will its productions approach to full contrariety : hence the world of sense is less a unity than is its Reason-Principle ; it contains a wider multiplicity and contrariety : its partial members will, therefore, be urged by a closer intention towards fullness of life, a warmer desire for unification.\n\nBut desire often destroys the desired ; it seeks its own good, and if the desired object is perishable, the ruin follows : and the partial thing (a human being, for example) straining towards its completing principle draws towards itself all it possibly can.\n\nThus, with the good we have the bad : we have the opposed movements of a dancer guided by one artistic plan ; we recognise in his steps the good as against the bad, and see that in the opposition lies the merit of the design.\n\nBut, thus, the wicked disappear ?\n\nNo : their wickedness remains ; simply, their role is not of their own planning.\n\nBut, surely, this excuses them ?\n\nNo ; excuse lies with the Reason- Principle — and the Reason-Principle does not excuse them.\n\nNo doubt all are members of this Principle but one is a good man, another is bad — the larger class, this — and it goes as in a play ; the poet while he gives each actor a part is also using them as they are in their own persons : he does not himself rank the men as leading actor, second, third ; he simply gives suitable words to each, and by that assignment fixes each man's standing.\n\nThus, every man has his place, a place that fits the good man, a place that fits the bad : each within the two orders of men makes his way, naturally, reasonably, to the place, good or bad, that suits him, and takes the position he has made his own. There he talks and acts, in blasphemy and crime or in all goodness : for the actors bring to this play what they were before it was ever staged.\n\nIn the dramas of human art, the poet provides the words but the actors add their own quality, good or bad — for they have more to do than merely repeat the author's words — in the truer drama which dramatic genius imitates in its degree, the Soul displays itself in a part assigned by the creator of the piece.\n\nAs the actors of our stages get their masks and their costume, robes of state or rags, so a Soul is allotted its fortunes, and not at haphazard but always under a Reason : it adapts itself to the fortunes assigned to it, attunes itself, ranges itself rightly to the drama, to the whole Principle of the piece : then it speaks out its business, exhibiting at the same time all that a Soul can express of its own quality, as a singer in a song. A voice, a bearing, naturally fine or vulgar, may increase the charm of a piece ; on the other hand, an actor with his ugly voice may make a sorry exhibition of himself, yet the drama stands as good a work as ever : the dramatist taking the action which a sound criticism suggests, disgraces one, taking his part from him, with perfect justice : another man he promotes to more serious roles or to any more important play he may have, while the first is cast for whatever minor work there may be.\n\nJust so the Soul, entering this drama of the Universe, making itself a part of the Play, bringing to its acting its personal excellence or defect, set in a definite place at the entry and accepting from the author its entire role — superimposed upon its own character and conduct — just so, it receives in the end its punishment and reward.\n\nBut these actors, Souls, hold a peculiar dignity : they act in a vaster place than any stage : the Author has made them masters of all this world ; they have a wide choice of place ; they themselves determine the honour or discredit in which they are agents since their place and part are in keeping with their quality : they therefore fit into the Reason-Principle of the Universe, each adjusted, most legitimately, to the appropriate environment, as every string of the lyre is set in the precisely right position, determined by the Principle directing musical utterance, for the due production of the tones within its capacity. All is just and good in the Universe in which every actor is set in his own quite appropriate place, though it be to utter in the Darkness and in Tartarus the dreadful sounds whose utterance there is well.\n\nThis Universe is good not when the individual is a stone, but when everyone throws in his own voice towards a total harmony, singing out a life — thin, harsh, imperfect, though it be. The Syrinx does not utter merely one pure note ; there is a thin obscure sound which blends in to make the harmony of Syrinx music : the harmony is made up from tones of various grades, all the tones differing, but the resultant of all forming one sound.\n\nSimilarly the Reason-Principle entire is One, but it is broken into unequal parts : hence the difference of place found in the Universe, better spots and worse ; and hence the inequality of Souls, finding their appropriate surroundings amid this local inequality. The diverse places of this sphere, the Souls of unequal grade and unlike conduct, are well exemplified by the distinction of parts in the Syrinx or any other instrument : there is local difference, but from every position every string gives forth its own tone, the sound appropriate, at once, to its particular place and to the entire plan.\n\nWhat is evil in the single Soul will stand a good thing in the universal system ; what in the unit offends nature will serve nature in the total event — and still remains the weak and wrong tone it is, though its sounding takes nothing from the worth of the whole, just as, in another order of image, the executioner's ugly office does not mar the wellgoverned state : such an officer is a civic necessity ; and the corresponding moral type is often serviceable ; thus, even as things are, all is well."
+    }
+   ]
+  },
+  {
+   "id": "III.2.18",
+   "treatise": "III.2",
+   "title": "Do the actors add their own lines? The question left open",
+   "summary": "Souls are worse and better, some for other causes, some unequal as it were from the start, unequal parts of reason; and soul does not always act with the same parts. Perhaps we should not bring in actors who say other than the poet's lines, as if the play were incomplete and the poet had left gaps; for even what follows on bad deeds is reason's, as better children come of adultery and rape, and better cities rise after sacked ones. But if bringing in souls who do good and evil is absurd, why not make the actors' deeds parts of reason, as of a play? Then why make evil, and what are souls, if all are parts of reason? The question goes on in III.3.",
+   "greek_unit": "3.2.18",
+   "greek_part": 19,
+   "older": [
+    {
+     "n": 18,
+     "label": "III.2, chapter 18",
+     "page": 35,
+     "year": 1921,
+     "text": "Souls vary in worth ; and the difference is due, among other causes, to an almost initial inequality ; it is in reason that, standing to the Reason-Principle, as parts, they should be unequal by the fact of becoming separate.\n\nWe must also remember that every Soul has its second grade and its third, and that, therefore, its expression may take any one of three main forms. But this point must be dealt with here again : the matter requires all possible elucidation.\n\nWe may perhaps think of actors having the right to add something to the poet's words : the drama as it stands is not perfectly filled in, and they are to supply where the Author has left blank spaces here and there ; the actors are to be something else as well ; they become parts of the poet, who on his side has a fore-knowledge of the word they will add, and so is able to bind into one story what the actors bring in and what is to follow.\n\nFor, in the All, the sequences, including what follows upon wickedness, become Reason-Principles, and therefore in right reason. Thus : from adultery and the violation of prisoners the process of nature will produce fine children, to grow, perhaps, into fine men ; and where wicked violence has destroyed cities, other and nobler cities may rise in their place.\n\nBut does not this make it absurd to introduce Souls as responsible causes, some acting for good and some for evil ? If we thus exonerate the Reason-Principle from any part in wickedness do we not also cancel its credit for the good ? Why not simply take the doings of these actors (in the universal drama) for representative parts of the Reason-Principle as the doings of stage-actors are representative parts of the stage-drama ? Why not admit that the Reason-Principle itself includes evil action as much as good action, and inspires the precise conduct of all its representatives ? Would not this be all the more plausible in that the universal drama is the completer creation and that the Reason-Principle is the source of all that exists ?\n\nBut this raises the question, What motive could lead the Logos to produce evil ?\n\nThe explanation, also, would take away all power in the Universe from Souls, even those nearest to the divine ; they would all be mere parts of a Reason-Principle.\n\nAnd, further — unless all Reason-Principles are Souls — why should some be souls and others exclusively Reason-Principles when the All is itself a Soul ?"
     }
    ]
   }
@@ -8013,6 +8344,828 @@
    ],
    "notes": [
     "\"When we are alone\" (ὅταν μόνοι ὦμεν): the soul by itself, without what the body and the chances add; the same thought ends the Enneads, \"the flight of the alone to the alone\" (VI.9.11)."
+   ]
+  },
+  {
+   "seg": "III.2.1.p1",
+   "chapter": "III.2.1",
+   "modern": "To hand over the being and the structure of this universe to the spontaneous and to chance is unreasonable, the view of a man who has neither intellect nor perception. That is plain even before any argument, and many sufficient arguments have been set down to show it. But how each of these things comes to be and was made is another matter. Because some things seem not to come to be rightly, people find themselves at a loss about the providence of the universe: some have been led to say that there is none, others that the world was made by an evil craftsman. This we must look into, taking up the argument from above and from the beginning.",
+   "greek": "Τὸ μὲν τῷ αὐτομάτῳ καὶ τύχῃ διδόναι τοῦδε τοῦ παντὸς τὴν οὐσίαν καὶ σύστασιν ὡς ἄλογον καὶ ἀνδρὸς οὔτε νοῦν οὔτε αἴσθησιν κεκτημένου, δῆλόν που καὶ πρὸ λόγου καὶ πολλοὶ ἱκανοὶ καταβέβληνται δεικνύντες τοῦτο λόγοι: τὸ δὲ τίς ὁ τρόπος τοῦ ταῦτα γίνεσθαι ἕκαστα καὶ πεποιῆσθαι, ἐξ ὧν καὶ ἐνίων ὡς οὐκ ὀρθῶς γινομένων ἀπορεῖν περὶ τῆς τοῦ παντὸς προνοίας συμβαίνει, καὶ τοῖς μὲν ἐπῆλθε μηδὲ εἶναι εἰπεῖν, τοῖς δὲ ὡς ὑπὸ κακοῦ δημιουργοῦ ἐστι γεγενημένος ὁ κόσμος, ἐπισκέψασθαι προσήκει ἄνωθεν καὶ ἐξ ἀρχῆς τὸν λόγον λαβόντας.",
+   "notes": [
+    "\"The spontaneous\" (τὸ αὐτόματον) and chance are Aristotle's pair (Physics II.4-6); the world given to them is the Epicureans' world, made by atoms falling together, which leaves no room for providence. The \"evil craftsman\" (κακὸς δημιουργός) is the maker of the world in the Gnostics' myths, against whom Plotinus wrote II.9."
+   ]
+  },
+  {
+   "seg": "III.2.1.p2",
+   "chapter": "III.2.1",
+   "modern": "Let us set aside the providence over each single thing, which is a reasoning before the act about how something that ought to be done should come to be or not come to be, or how something might be or not be ours. Let us take as our starting point the providence we say belongs to the universe, and join what follows to it. Now if we said that the world had come to be from some point in time, before which it did not exist, we would set down in our argument the same providence as we said there is in particular things: a foresight and a reasoning of God about how this universe might come to be, and how it might be as good as possible. But since we say that \"always\" and \"never not\" belong to this world, we would say rightly and consistently that providence, for the universe, is its being according to intellect. Intellect is before it, not as earlier in time, but because the world comes from intellect, and intellect is prior by nature and its cause, as an archetype and pattern of which the world is an image, existing through it and always holding its being from it, in this way.",
+   "greek": "πρόνοιαν τοίνυν τὴν μὲν ἐφ̓ ἑκάστῳ, ἥ ἐστι λόγος πρὸ ἔργου ὅπως δεῖ γενέσθαι ἢ μὴ γενέσθαι τι τῶν δεόντων πραχθῆναι ἢ ὅπως τι εἴη ἢ μὴ εἴη ἡμῖν, ἀφείσθω: ἣν δὲ τοῦ παντὸς λέγομεν πρόνοιαν εἶναι, ταύτην ὑποθέμενοι τὰ ἑξῆς συνάπτωμεν. εἰ μὲν οὖν ἀπό τινος χρόνου πρότερον οὐκ ὄντα τὸν κόσμον ἐλέγομεν γεγονέναι, τὴν αὐτὴν ἂν τῷ λόγῳ ἐτιθέμεθα, οἵαν καὶ ἐπὶ τοῖς κατὰ μέρος ἐλέγομεν εἶναι, προόρασίν τινα καὶ λογισμὸν θεοῦ, ὡς ἂν γένοιτο τόδε τὸ πᾶν, καὶ ὡς ἂν ἄριστα κατὰ τὸ δυνατὸν εἴη. ἐπεὶ δὲ τὸ ἀεὶ καὶ τὸ οὔποτε μὴ τῷ κόσμῳ τῷδέ φαμεν παρεῖναι, τὴν πρόνοιαν ὀρθῶς ἂν καὶ ἀκολούθως λέγοιμεν τῷ παντὶ εἶναι τὸ κατὰ νοῦν αὐτὸ εἶναι, καὶ νοῦν πρὸ αὐτοῦ εἶναι οὐχ ὡς χρόνῳ πρότερον ὄντα, ἀλλ’ ὅτι παρὰ νοῦ ἐστι καὶ φύσει πρότερος ἐκεῖνος καὶ αἴτιος τούτου ἀρχέτυπον οἷον καὶ παράδειγμα εἰκόνος τούτου ὄντος καὶ δἰ ἐκεῖνον ὄντος καὶ ὑποστάντος ἀεί, τόνδε τὸν τρόπον:",
+   "flags": [
+    {
+     "taylor": "we can link the secondary with it",
+     "in": "MacKenna",
+     "why": "The Greek says: set down the providence of the universe, \"and let us join what follows to it\" (τὰ ἑξῆς συνάπτωμεν), the next steps of the argument; nothing is said of linking particular providence to it later."
+    },
+    {
+     "taylor": "a guidance and partial providence, therefore, such as is indicated",
+     "in": "MacKenna",
+     "why": "The Greek says that, if the world had begun in time, its providence would be \"the same as we said there is in particular things\" (οἵαν καὶ ἐπὶ τοῖς κατὰ μέρος), a foresight and reasoning of God; it is a comparison, not a second kind of providence."
+    },
+    {
+     "taylor": "a universal consonance with the divine Intelligence",
+     "in": "MacKenna",
+     "why": "The Greek says providence for the universe is \"its being according to intellect\" (τὸ κατὰ νοῦν αὐτὸ εἶναι): a way of being, not a consonance, and \"divine\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "Pattern and image are the Timaeus' (28a-29b, 37d). That the world never began, and that the Timaeus' story of its making is not of an event in time, is Plotinus' reading, against those who took the making literally (Aristotle, On the heavens I.10, 280a28-32; II.9.3, II.1.1)."
+   ]
+  },
+  {
+   "seg": "III.2.1.p3",
+   "chapter": "III.2.1",
+   "modern": "The nature of intellect and of being is the true and first world. It does not stand apart from itself. It is not weakened by division, nor lacking even in its parts, since no part is torn from the whole. All its life and all its intellect, living and thinking together in one, makes the part a whole and all of it dear to itself: nothing is separated from anything else, or made other on its own and estranged from the rest. That is why nothing there wrongs anything else, even if it is its opposite. Being one everywhere, and complete wherever it is, it stands still and has no alteration; for it does not act one thing upon another. For the sake of what would it act, when it lacks nothing? Why should reason produce reason, or intellect another intellect? To be able to make something by oneself belongs, then, to what is not wholly in a good state, but makes and is moved in so far as it is worse. For the wholly blessed it is enough to stand still in themselves and to be what they are; busy activity is not safe for those who move themselves out of themselves. But that world is blessed in such a way that in not making it works great things, and in staying by itself it makes no small ones.",
+   "greek": "ἡ τοῦ νοῦ καὶ τοῦ ὄντος φύσις κόσμος ἐστὶν ὁ ἀληθινὸς καὶ πρῶτος, οὐ διαστὰς ἀφ̓ ἑαυτοῦ οὐδὲ ἀσθενὴς τῷ μερισμῷ οὐδὲ ἐλλιπὴς οὐδὲ τοῖς μέρεσι γενόμενος ἅτε ἑκάστου μὴ ἀποσπασθέντος τοῦ ὅλου: ἀλλ’ ἡ πᾶσα ζωὴ αὐτοῦ καὶ πᾶς νοῦς ἐν ἑνὶ ζῶσα καὶ νοοῦσα ὁμοῦ καὶ τὸ μέρος παρέχεται ὅλον καὶ πᾶν αὐτῷ φίλον οὐ χωρισθὲν ἄλλο ἀπ’ ἄλλου οὐδὲ ἕτερον γεγενημένον μόνον καὶ τῶν ἄλλων ἀπεξενωμένον: ὅθεν οὐδὲ ἀδικεῖ ἄλλο ἄλλο οὐδ’ ἂν ᾖ ἐναντίον. πανταχοῦ δὲ ὂν ἓν καὶ τέλειον ὁπουοῦν ἕστηκέ τε καὶ ἀλλοίωσιν οὐκ ἔχει: οὐδὲ γὰρ ποιεῖ ἄλλο εἰς ἄλλο. τίνος γὰρ ἂν ἕνεκα ποιοῖ ἐλλεῖπον οὐδενί; τί δ’ ἂν λόγος λόγον ἐργάσαιτο ἢ νοῦς νοῦν ἄλλον; ἀλλὰ τὸ δἰ αὑτοῦ δύνασθαί τι ποιεῖν ἦν ἄρα οὐκ εὖ ἔχοντος πάντη, ἀλλὰ ταύτῃ ποιοῦντος καὶ κινουμένου, καθ̓ ὅ τι καὶ χεῖρόν ἐστι: τοῖς δὲ πάντη μακαρίοις ἐν αὑτοῖς ἑστάναι καὶ τοῦτο εἶναι, ὅπερ εἰσί, μόνον ἀρκεῖ, τὸ δὲ πολυπραγμονεῖν οὐκ ἀσφαλὲς ἑαυτοὺς ἐξ αὑτῶν παρακινοῦσιν. ἀλλὰ γὰρ οὕτω μακάριον κἀκεῖνο, ὡς ἐν τῷ μὴ ποιεῖν μεγάλα αὖ ἐργάζεσθαι, καὶ ἐν τῷ ἐφ̓ ἑαυτοῦ μένειν οὐ σμικρὰ ποιεῖν.",
+   "flags": [
+    {
+     "taylor": "shows difference at no point",
+     "in": "MacKenna",
+     "why": "The Greek says it \"has no alteration\" (ἀλλοίωσιν οὐκ ἔχει): it does not change. It is not without difference; Plotinus finds difference in the intelligible world (V.1.4)."
+    },
+    {
+     "taylor": "it does not make over any of its content into any new form",
+     "in": "MacKenna",
+     "why": "The Greek says \"it does not act one thing upon another\" (οὐδὲ γὰρ ποιεῖ ἄλλο εἰς ἄλλο): nothing in it works on anything else, which is why it has no alteration."
+    }
+   ]
+  },
+  {
+   "seg": "III.2.2.p1",
+   "chapter": "III.2.2",
+   "modern": "At any rate, from that true and one world this world comes to be, which is not truly one. It is many, at any rate, divided into a multitude, one thing standing away from another and become foreign to it. There is no longer only friendship, but enmity too, through the distance between them; and in their lack, of necessity, one thing is hostile to another. For the part is not enough for itself, but, kept in being by another, it is hostile to that by which it is kept. This world came to be not by a reasoning that it ought to come to be, but by the necessity of a second nature. For that first world was not of a kind to be the last of the things that are. It was first, and had great power, all power; and so it had this power too, to make something else without seeking to make it. For if it had sought, it would not have had the power from itself, nor would the making come from its own substance. It would be like a craftsman, who does not have his making from himself, but has it brought in from outside, taken from learning.",
+   "greek": "ὑφίσταται γοῦν ἐκ τοῦ κόσμου τοῦ ἀληθινοῦ ἐκείνου καὶ ἑνὸς κόσμος οὗτος οὐχ εἷς ἀληθῶς: πολυς γοῦν καὶ εἰς πλῆθος μεμερισμένος καὶ ἄλλο ἀπ’ ἄλλου ἀφεστηκὸς καὶ ἀλλότριον γεγενημένον καὶ οὐκέτι φιλία μόνον, ἀλλὰ καὶ ἔχθρα τῇ διαστάσει καὶ ἐν τῇ ἐλλείψει ἐξ ἀνάγκης πολέμιον ἄλλο ἄλλῳ. οὐ γὰρ ἀρκεῖ αὑτῷ το μέρος, ἀλλὰ σωζόμενον τῷ ἄλλῳ πολέμιόν ἐστιν ὑφ̓ οὗ σώζεται: γέγονε δὲ οὐ λογισμῷ τοῦ δεῖν γενέσθαι, ἀλλὰ φύσεως δευτέρας ἀνάγκῃ: οὐ γὰρ ἦν τοιοῦτον ἐκεῖνο οἷον ἔσχατον εἶναι τῶν ὄντων. πρῶτον γὰρ ἦν καὶ πολλὴν δύναμιν ἔχον καὶ πᾶσαν: καὶ ταύτην τοίνυν τὴν τοῦ ποιεῖν ἄλλο ἄνευ τοῦ ζητεῖν ποιῆσαι. ἤδη γὰρ ἂν αὐτόθεν οὐκ εἶχεν, εἰ ἐζήτει, οὐδ’ ἂν ἦν ἐκ τῆς αὐτοῦ οὐσίας, ἀλλ’ ἦν οἷον τεχνίτης ἀφ̓ αὑτοῦ τὸ ποιεῖν οὐκ ἔχων, ἀλλ’ ἐπακτόν, ἐκ τοῦ μαθεῖν λαβὼν τοῦτο.",
+   "flags": [
+    {
+     "taylor": "it must pursue something outside itself for its fulfilment",
+     "in": "MacKenna",
+     "why": "The Greek says the part \"is kept in being by another, and is hostile to that by which it is kept\" (σωζόμενον τῷ ἄλλῳ πολέμιόν ἐστιν ὑφ’ οὗ σώζεται): what preserves it is what it fights, as fire lives on what it consumes. Nothing is said of pursuing fulfilment."
+    }
+   ],
+   "notes": [
+    "Friendship and enmity (φιλία, ἔχθρα) recall Empedocles' Love and Strife (fr. B17), the one making all things one, the other many; Plotinus names Empedocles in IV.8.1."
+   ]
+  },
+  {
+   "seg": "III.2.2.p2",
+   "chapter": "III.2.2",
+   "modern": "So intellect, giving something of itself to matter, made all things, while it stayed unmoved and at rest; and this is reason flowing from intellect. For what flows out from intellect is reason, and it flows always, as long as intellect is present among the things that are. In the reason in a seed all things are together and in the same place, none fighting another, none at odds or in the way. Then something comes to be in bulk, one part here, another there, and one may even hinder another, and one use another up. So too from one intellect, and the reason that comes from it, this universe rose up and stood apart. Of necessity some things became friendly and gentle, others hostile and warlike; some, willingly or unwillingly, harmed one another, and in perishing some brought about the becoming of others. And yet, doing and suffering such things, they set up one harmony among them, each sounding its own note, while reason makes the harmony over them, and one ordering for the whole.",
+   "greek": "νοῦς τοίνυν δούς τι ἑαυτοῦ εἰς ὕλην ἀτρεμὴς καὶ ἥσυχος τὰ πάντα εἰργάζετο: τοῦτο δὲ λόγος ἐκ νοῦ ῥυείς. τὸ γὰρ ἀπορρέον ἐκ νοῦ λόγος, καὶ ἀεὶ ἀπορρεῖ, ἕως ἂν ᾖ παρὼν ἐν τοῖς οὖσι νοῦς. ὥσπερ δὲ ἐν λόγῳ τῷ ἐν τῷ σπέρματι ὁμοῦ πάντων καὶ ἐν τῷ αὐτῷ ὄντων καὶ οὐδενὸς οὐδενὶ μαχομένου οὐδὲ διαφερομένου οὐδὲ ἐμποδίου ὄντος, γίνεταί τι ἤδη ἐν ὄγκῳ καὶ ἄλλο μέρος ἀλλαχοῦ καὶ δὴ καὶ ἐμποδίσειεν ἂν ἕτερον ἑτέρῳ καὶ ἀπαναλώσειεν ἄλλο ἄλλο, οὕτω δὴ καὶ ἐξ ἑνὸς νοῦ καὶ τοῦ ἀπ’ αὐτοῦ λόγου ἀνέστη τόδε τὸ πᾶν καὶ διέστη καὶ ἐξ ἀνάγκης τὰ μὲν ἐγένετο φίλα καὶ προσηνῆ, τὰ δὲ ἐχθρὰ καὶ πολέμια, καὶ τὰ μὲν ἑκόντα, τὰ δὲ καὶ ἄκοντα ἀλλήλοις ἐλυμήνατο καὶ φθειρόμενα θάτερα γένεσιν ἀλλήλοις εἰργάσατο καὶ μίαν ἐφ̓ αὑτοῖς τοιαῦτα ποιοῦσι καὶ πάσχουσιν ὅμως ἁρμονίαν ἐνεστήσατο φθεγγομένων μὲν ἑκάστων τὰ αὑτῶν, τοῦ δὲ λόγου ἐπ’ αὐτοῖς τὴν ἁρμονίαν καὶ μίαν τὴν σύνταξιν εἰς τὰ ὅλα ποιουμένου.",
+   "flags": [
+    {
+     "taylor": "the divine Realm imposes the one harmonious act",
+     "in": "MacKenna",
+     "why": "In the Greek the things themselves, harming and destroying one another, \"set up one harmony\" (μίαν ... ἁρμονίαν ἐνεστήσατο), while reason makes the harmony over them; \"the divine Realm\" is MacKenna's."
+    },
+    {
+     "taylor": "sometimes of choice and sometimes incidentally",
+     "in": "MacKenna",
+     "why": "The Greek says \"some willingly, some unwillingly\" (τὰ μὲν ἑκόντα, τὰ δὲ καὶ ἄκοντα)."
+    }
+   ]
+  },
+  {
+   "seg": "III.2.2.p3",
+   "chapter": "III.2.2",
+   "modern": "For this universe is not, like the world there, intellect and reason, but shares in intellect and reason. That is why it needed harmony: intellect and necessity came together in it, and necessity drags towards the worse and carries towards unreason, since it is itself without reason; but intellect rules over necessity all the same. For the intelligible is reason only, and nothing else that came to be could be reason only. If something else came to be, it had to be less than that, and not reason; nor again could it be matter, for matter is without order. So it is a mixture. What it ends in is matter and reason; where it begins is soul, set over the mixture. We must not think that soul suffers hardship: it manages this universe with great ease, by a kind of presence.",
+   "greek": "ἔστι γὰρ τὸ πᾶν τόδε οὐχ ὥσπερ ἐκεῖ νοῦς καὶ λόγος, ἀλλὰ μετέχον νοῦ καὶ λόγου. διὸ καὶ ἐδεήθη ἁρμονίας συνελθόντος νοῦ καὶ ἀνάγκης, τῆς μὲν πρὸς τὸ χεῖρον ἑλκούσης καὶ εἰς ἀλογίαν φερούσης ἅτε οὔσης ἀλόγου, ἄρχοντος δὲ νοῦ ὅμως ἀνάγκης. ὁ μὲν γὰρ νοητὸς μόνον λόγος, καὶ οὐκ ἂν γένοιτο ἄλλος μόνον λόγος: εἰ δέ τι ἐγένετο ἄλλο, ἔδει ἔλαττον ἐκείνου καὶ μὴ λόγον, μηδ’ αὖ ὕλην εἶναι: ἄκοσμον γάρ: μικτὸν ἄρα. καὶ εἰς ἃ μὲν λήγει ὕλη καὶ λόγος, ὅθεν δὲ ἄρχεται ψυχὴ ἐφεστῶσα τῷ μεμιγμένῳ, ἣν οὐ κακοπαθεῖν δεῖ νομίζειν ῥᾷστα διοικοῦσαν τόδε τὸ πᾶν τῇ οἷον παρουσίᾳ.",
+   "flags": [
+    {
+     "taylor": "the meeting ground of Necessity and divine Reason",
+     "in": "MacKenna",
+     "why": "The Greek says \"intellect and necessity came together\" (συνελθόντος νοῦ καὶ ἀνάγκης), the pair of the Timaeus; MacKenna has \"divine Reason\" for intellect."
+    },
+    {
+     "taylor": "Its two extremes are Matter and the Divine Reason",
+     "in": "MacKenna",
+     "why": "The Greek says the mixture \"ends in\" (λήγει) matter and reason and \"begins from\" soul (ὅθεν δὲ ἄρχεται ψυχή). \"Divine\" is MacKenna's: the reason here is the one that has come down into the world, not the intelligible."
+    }
+   ],
+   "notes": [
+    "Timaeus 47e-48a: this world was born mixed, from necessity and intellect, intellect ruling necessity by persuading it to lead most things to the best."
+   ]
+  },
+  {
+   "seg": "III.2.3.p1",
+   "chapter": "III.2.3",
+   "modern": "No one could reasonably blame this world either, as not beautiful, or not the best of the things that have a body; nor again blame the cause of its being. First, because it exists of necessity and did not come to be from reasoning: a better nature begat it, by nature, like itself. Second, even if reasoning had made it, it would not be ashamed of what it made. For it made a whole that is altogether beautiful, sufficient to itself, and dear to itself and to its parts, both the more sovereign and the lesser, as fitting to it. So whoever blames the whole from its parts would be out of place in his charge. The parts must be looked at in relation to the whole itself, whether they agree and fit with it; and when one looks at the whole, one must not look at some small parts. That is not blaming the world, but taking one of its things by itself. It is as if, ignoring the whole man, a marvellous sight, one were to look at a hair of the whole animal, or at a toe of the parts that walk on the ground; or, by Zeus, were to pass over the other animals and take the meanest; or, leaving out a whole race, the human, were to bring Thersites into the middle.",
+   "greek": "καὶ οὐκ ἄν τις εἰκότως οὐδὲ τούτῳ μέμψαιτο ὡς οὐ καλῷ ἢ τῶν μετὰ σώματος οὐκ ἀρίστῳ, οὐδ’ αὖ τὸν αἴτιον τοῦ εἶναι αὐτῷ αἰτιάσαιτο πρῶτον μὲν ἐξ ἀνάγκης ὄντος αὐτοῦ καὶ οὐκ ἐκ λογισμοῦ γενομένου, ἀλλὰ φύσεως ἀμείνονος γεννώσης κατὰ φύσιν ὅμοιον ἑαυτῇ: ἔπειτα οὐδ’ εἰ λογισμὸς εἴη ὁ ποιήσας, αἰσχυνεῖται τῷ ποιηθέντι: ὅλον γάρ τι ἐποίησε πάγκαλον καὶ αὔταρκες καὶ φίλον αὑτῷ καὶ τοῖς μέρεσι τοῖς αὑτοῦ τοῖς τε κυριωτέροις καὶ τοῖς ἐλάττοσιν ὡς αὑτῷ προσφόροις. ὁ τοίνυν ἐκ τῶν μερῶν τὸ ὅλον αἰτιώμενος ἄτοπος ἂν εἴη τῆς αἰτίας: τά τε γὰρ μέρη πρὸς αὐτὸ τὸ ὅλον δεῖ σκοπεῖν, εἰ σύμφωνα καὶ ἁρμόττοντα ἐκείνῳ, τό τε ὅλον σκοπούμενον μὴ πρὸς μέρη ἄττα σμικρὰ βλέπειν. τοῦτο γὰρ οὐ τὸν κόσμον αἰτιωμένου, ἀλλά τινα τῶν αὐτοῦ χωρὶς λαβόντος, οἷον εἰ παντὸς ζῴου τρίχα ἢ τῶν χαμαὶ δάκτυλον ἀμελήσας τὸν πάντα ἄνθρωπον, δαιμονίαν τινὰ ὄψιν, βλέποι, ἢ νὴ Δία τὰ ἄλλα ζῷα ἀφεὶς τὸ εὐτελέστατον λαμβάνοι, ἢ τὸ ὅλον γένος παρείς, οἷον τὸ ἀνθρώπου, Θερσίτην εἰς μέσον ἄγοι.",
+   "flags": [
+    {
+     "taylor": "serving at once its own purpose and that of all its parts",
+     "in": "MacKenna",
+     "why": "The Greek says the whole is \"dear (φίλον) to itself and to its parts\", the friendship of chapter 2; \"purpose\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "Thersites is the ugliest man who came to Troy, who rails at Agamemnon and is beaten by Odysseus (Iliad II.212-277). The part is made for the whole, not the whole for the part: Laws X 903b-d."
+   ]
+  },
+  {
+   "seg": "III.2.3.p2",
+   "chapter": "III.2.3",
+   "modern": "Since what has come to be is the whole world, if you look at it you might hear it say: \"A god made me, and from there I came to be complete, made from all living things, sufficient to myself and self-sufficient, needing nothing, since all things are in me: plants and animals and the nature of all things born, and many gods, and peoples of daemons, and good souls, and men happy by virtue. For it is not that the earth is adorned with all plants and animals of every kind, and the power of soul has come as far as the sea, while the whole air and ether and the whole heaven have no share in soul. Up there are all the good souls, giving life to the stars and to the well-ordered, everlasting revolution of the heaven, which, in imitation of intellect, is carried round in a circle about the same centre, wisely, for ever; for it seeks nothing outside.",
+   "greek": "ἐπεὶ οὖν τὸ γενόμενον ὁ κόσμος ἐστὶν ὁ σύμπας, τοῦτον θεωρῶν τάχ̓ ἂν ἀκούσαις παῤ αὐτοῦ, ὡς ἐμὲ πεποίηκε θεὸς κἀγὼ ἐκεῖθεν ἐγενόμην τέλειος ἐκ πάντων ζῴων καὶ ἱκανὸς ἐμαυτῷ καὶ αὐτάρκης οὐδενὸς δεόμενος, ὅτι πάντα ἐν ἐμοὶ καὶ φυτὰ καὶ ζῷα καὶ συμπάντων τῶν γεννητῶν φύσις καὶ θεοὶ πολλοὶ καὶ δαιμόνων δῆμοι καὶ ψυχαὶ ἀγαθαὶ καὶ ἄνθρωποι ἀρετῇ εὐδαίμονες. οὐ γὰρ δὴ γῆ μὲν κεκόσμηται φυτοῖς τε πᾶσι καὶ ζῴοις παντοδαποῖς καὶ μέχρι θαλάττης ψυχῆς ἦλθε δύναμις, ἀὴρ δὲ πᾶς καὶ αἰθὴρ καὶ οὐρανὸς σύμπας ψυχῆς ἄμοιρος, ἀλλ’ ἐκεῖ ψυχαὶ ἀγαθαὶ πᾶσαι, ἄστροις ζῆν διδοῦσαι καὶ τῇ εὐτάκτῳ οὐρανοῦ καὶ ἀιδίῳ περιφορᾷ νοῦ μιμήσει κύκλῳ φερομένῃ ἐμφρόνως περὶ ταὐτὸν ἀεί: οὐδὲν γὰρ ἔξω ζητεῖ.",
+   "flags": [
+    {
+     "taylor": "nations of Spirit-Beings and lofty souls",
+     "in": "MacKenna",
+     "why": "The Greek has \"peoples of daemons (δαιμόνων δῆμοι) and good souls (ψυχαὶ ἀγαθαί)\": daemons, not spirits, and souls that are good, not lofty."
+    }
+   ],
+   "notes": [
+    "The world as a living thing that holds all living things, self-sufficient and needing nothing, is the Timaeus' (30c-31b, 33c-34b), as is the circling of the heaven about the same centre in imitation of intellect (34a, 40a-b)."
+   ]
+  },
+  {
+   "seg": "III.2.3.p3",
+   "chapter": "III.2.3",
+   "modern": "\"All the things in me reach for the good, and each attains it according to its own power. For the whole heaven hangs from it, and all my soul, and the gods in my parts, and all the animals and plants, and whatever in me seems to be without soul. Some things seem to share only in being, others in living, others more in perceiving, others already have reason, others all life.\" We must not demand equal things of things that are not equal. Seeing does not belong to the fingers, but to the eyes; to a finger belongs something else: to be a finger, I think, and to have what is its own.",
+   "greek": "πάντα δὲ τὰ ἐν ἐμοὶ ἐφίεται μὲν τοῦ ἀγαθοῦ, τυγχάνει δὲ κατὰ δύναμιν τὴν ἑαυτῶν ἕκαστα: ἐξήρτηται γὰρ πᾶς μὲν οὐρανὸς ἐκείνου, πᾶσα δὲ ἐμὴ ψυχὴ καὶ οἱ ἐν μέρεσιν ἐμοῖς θεοί, καὶ τὰ ζῷα δὲ πάντα καὶ τὰ φυτὰ καὶ εἴ τι ἄψυχον δοκεῖ εἶναι ἐν ἐμοί. καὶ τὰ μὲν τοῦ εἶναι μετέχειν δοκεῖ μόνον, τὰ δὲ τοῦ ζῆν, τὰ δὲ μᾶλλον ἐν τῷ αἰσθάνεσθαι, τὰ δὲ ἤδη λόγον ἔχει, τὰ δὲ πᾶσαν ζωήν. οὐ γὰρ τὰ ἴσα ἀπαιτεῖν δεῖ τοῖς μὴ ἴσοις: οὐδὲ γὰρ δακτύλων τὸ βλέπειν, ἀλλὰ ὀφθαλμῶν τοῦτο, δακτύλου δὲ ἄλλο, τὸ εἶναι οἶμαι δακτύλῳ καὶ τὸ αὑτοῦ ἔχειν."
+  },
+  {
+   "seg": "III.2.4.p1",
+   "chapter": "III.2.4",
+   "modern": "If fire is quenched by water, and something else destroyed by fire, do not wonder. Something else brought it into being, and, since it was not brought into being by itself, it was destroyed by another. It came into being through the destruction of another, and its own destruction, if that is so, would bring nothing terrible to it; and in place of the fire destroyed there is another fire. In the bodiless heaven each thing stays as it is. But in this heaven the whole lives for ever, and so do all its honoured and sovereign parts, while the souls, changing bodies, come to be now in one form, now in another; and, when it can, a soul stands outside becoming and is with the soul of the All. Bodies live by their form, and as wholes, each of them, since animals will come from them and be nourished from them: for life here is moving, but there unmoved. Motion had to come from rest, and from the life that stays in itself another life had to come out of it, a life breathing and not at rest, the breath of the life that is still.",
+   "greek": "πῦρ δὲ εἰ ὑπὸ ὕδατος σβέννυται καὶ ἕτερον ὑπὸ πυρὸς φθείρεται, μὴ θαυμάσῃς. καὶ γὰρ εἰς τὸ εἶναι ἄλλο αὐτὸ ἤγαγεν, οὐδ’ ἀχθὲν ὑφ̓ αὑτοῦ ὑπ’ ἄλλου ἐφθάρη, καὶ ἦλθε δὲ εἰς τὸ εἶναι ὑπ’ ἄλλου φθορᾶς, καὶ ἡ φθορὰ δὲ αὐτῷ οὐδὲν ἄν, εἰ οὕτω, δεινὸν φέροι, καὶ ἀντὶ τοῦ φθαρέντος πυρὸς πῦρ ἄλλο. ἐν μὲν γὰρ τῷ ἀσωμάτῳ οὐρανῷ ἕκαστον μένει, ἐν δὲ τῷδε τῷ οὐρανῷ πᾶν μὲν ἀεὶ ζῇ καὶ ὅσα τίμια καὶ κύρια μέρη, αἱ δὲ ἀμείβουσαι ψυχαὶ σώματα ἄλλοτε ἐν ἄλλῳ εἴδει γίγνονται, καὶ ὅταν δὲ δύνηται, ἔξω γενέσεως στᾶσα ψυχὴ μετὰ τῆς πάσης ἐστὶ ψυχῆς. σώματα δὲ ζῇ κατ’ εἶδος καὶ καθ̓ ὅλα ἕκαστα, εἴπερ ἐξ αὐτῶν καὶ ζῷα ἔσται καὶ τραφήσεται: ζωὴ γὰρ ἐνταῦθα κινουμένη, ἐκεῖ δὲ ἀκίνητος. ἔδει δὲ κίνησιν ἐξ ἀκινησίας εἶναι καὶ ἐκ τῆς ἐν αὑτῇ ζωῆς τὴν ἐξ αὐτῆς γεγονέναι ἄλλην, οἷον ἐμπνέουσαν καὶ οὐκ ἀτρεμοῦσαν ζωὴν ἀναπνοὴν τῆς ἠρεμούσης οὖσαν.",
+   "flags": [
+    {
+     "taylor": "individual or partial things exist by virtue of Universals",
+     "in": "MacKenna",
+     "why": "The Greek says \"bodies live by their form (κατ’ εἶδος), and as wholes each\" (καθ’ ὅλα ἕκαστα): bodies live on in their kinds and as whole masses, though single ones perish. \"Universals\" are MacKenna's."
+    }
+   ]
+  },
+  {
+   "seg": "III.2.4.p2",
+   "chapter": "III.2.4",
+   "modern": "Animals' attacks on one another, and their destruction, are necessary, for they did not come to be everlasting. They came to be because reason took hold of all matter, and had all things in itself, since they are there in the heaven above; for where would they have come from, if they were not there? Men's wrongs to one another might have as their cause a reaching for the good; failing through their inability to attain it, they turn on one another. But when they do wrong they pay the penalty, made worse in their souls by the activities of vice, and set in a worse place; for nothing set in the law of the All ever escapes it.",
+   "greek": "ζῴων δὲ εἰς ἄλληλα ἀναγκαῖαι αἱ ἐπιθέσεις καὶ φθοραί: οὐ γὰρ ἀίδια ἐγένετο. ἐγένετο δέ, ὅτι λόγος πᾶσαν ὕλην κατελάμβανε καὶ εἶχεν ἐν αὑτῷ πάντα ὄντων αὐτῶν ἐκεῖ ἐν τῷ ἄνω οὐρανῷ: πόθεν γὰρ ἂν ἦλθε μὴ ὄντων ἐκεῖ; ἀνθρώπων δὲ εἰς ἀλλήλους ἀδικίαι ἔχοιεν μὲν ἂν αἰτίαν ἔφεσιν τοῦ ἀγαθοῦ, ἀδυναμίᾳ δὲ τοῦ τυχεῖν σφαλλόμενοι ἐπ’ ἀλλήλους τρέπονται. ἴσχουσι δὲ ἀδικοῦντες δίκας κακυνόμενοί τε ταῖς ψυχαῖς ἐνεργείαις κακίας ταττόμενοί τε εἰς τόπον χείρονα: οὐ γὰρ μήποτε ἐκφύγῃ μηδὲν τὸ ταχθὲν ἐν τῷ τοῦ παντὸς νόμῳ.",
+   "flags": [
+    {
+     "taylor": "since things here are derived",
+     "in": "MacKenna",
+     "why": "The Greek says \"for they did not come to be everlasting\" (οὐ γὰρ ἀίδια ἐγένετο): animals must die, and so may be eaten; \"derived\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "Laws X 904a-905b: the soul that grows worse goes to a worse place, and \"you will never be neglected by this justice of the gods, not if you make yourself small and sink into the depths of the earth\"."
+   ]
+  },
+  {
+   "seg": "III.2.4.p3",
+   "chapter": "III.2.4",
+   "modern": "Order is not for the sake of disorder, nor law for the sake of lawlessness, as someone thinks, so that those better things might come to be, and might show, because of the worse. Order is there because of order, which is brought in from outside. There is disorder because there is order, and because of law and reason; and lawlessness and folly because there is reason. It is not that the better made the worse, but that the things that needed to receive the better could not receive them, through their own nature, or by chance and the hindrance of others. For what has its order brought in from outside may fail to attain it, either through itself and from itself, or through another and from another; and it suffers much from others too, even when those who act do not intend it, and are aiming at something else. Living things that have a self-determined motion of their own may lean now towards the better, now towards the worse.",
+   "greek": "ἔστι δὲ οὐ διὰ τὴν ἀταξίαν τάξις οὐδὲ διὰ τὴν ἀνομίαν νόμος, ὥς τις οἴεται, ἵνα γένοιτο ἐκεῖνα διὰ τὰ χείρω καὶ ἵνα φαίνοιτο, ἀλλὰ διὰ τὴν τάξιν ἐπακτὸν οὖσαν: καὶ ὅτι τάξις ἀταξία καὶ διὰ τὸν νόμον καὶ τὸν λόγον, καὶ ὅτι λόγος παρανομία καὶ ἄνοια οὐ τῶν βελτιόνων τὰ χείρω πεποιηκότων, ἀλλὰ τῶν δέχεσθαι δεομένων τὰ ἀμείνω φύσει τῇ ἑαυτῶν ἢ συντυχίᾳ καὶ κωλύσει ἄλλων δέξασθαι οὐ δεδυνημένων. τὸ γὰρ ἐπακτῷ χρώμενον τάξει τούτου ἂν οὐ τύχοι ἢ δἰ αὑτὸ παῤ αὑτοῦ ἢ δἰ ἄλλο παῤ ἄλλου: πολλὰ δὲ καὶ ὑπ’ ἄλλων πάσχει καὶ ἀκόντων τῶν ποιούντων καὶ πρὸς ἄλλο ἱεμένων. τὰ δὲ δἰ αὑτὰ ἔχοντα κίνησιν αὐτεξούσιον ζῷα ῥέποι ἂν ὁτὲ μὲν πρὸς τὰ βελτίω, ὁτὲ δὲ πρὸς τὰ χείρω.",
+   "notes": [
+    "\"As someone thinks\": so Chrysippus, who argued that goods could not exist without evils, as justice without injustice (Aulus Gellius, Attic Nights VII.1)."
+   ]
+  },
+  {
+   "seg": "III.2.4.p4",
+   "chapter": "III.2.4",
+   "modern": "It is perhaps not worth asking where the turn towards the worse comes from. A small turn at the start, going on in that direction, always makes the error wider and greater; and there is the body with it, and, of necessity, desire. The first step, the sudden one, overlooked and not taken back at once, has even made a choice of what one fell into. Justice follows, at any rate. It is not unjust that one who has become of such a kind should suffer what follows from his state; nor should we demand that happiness belong to those who have not done what is worthy of happiness. Only the good are happy; that is why the gods too are happy.",
+   "greek": "τὴν δὲ πρὸς τὰ χείρω τροπὴν παρὰ τοῦ ζητεῖν ἴσως οὐκ ἄξιον: ὀλίγη γὰρ τροπὴ κατ’ ἀρχὰς γενομένη προιοῦσα ταύτῃ πλέον καὶ μεῖζον τὸ ἁμαρτανόμενον ἀεὶ ποιεῖ: καὶ σῶμα δὲ σύνεστι καὶ ἐξ ἀνάγκης ἐπιθυμία: καὶ παροφθὲν τὸ πρῶτον καὶ τὸ ἐξαίφνης καὶ μὴ ἀναληφθὲν αὐτίκα καὶ αἵρεσιν εἰς ὅ τις ἐξέπεσεν εἰργάσατο. ἕπεταί γε μὴν δίκη: καὶ οὐκ ἄδικον τοιόνδε γενόμενον ἀκόλουθα πάσχειν τῇ διαθέσει, οὐδ’ ἀπαιτητέον τούτοις τὸ εὐδαιμονεῖν ὑπάρχειν, οἷς μὴ εἴργασται εὐδαιμονίας ἄξια. οἱ δ’ ἀγαθοὶ μόνοι εὐδαίμονες: διὰ τοῦτο γὰρ καὶ θεοὶ εὐδαίμονες.",
+   "flags": [
+    {
+     "taylor": "ends by establishing a set habit where there was at first only a fall",
+     "in": "MacKenna",
+     "why": "The Greek says the first slip, overlooked, \"made a choice (αἵρεσιν) of what one fell into\": the fall becomes a choice, not a habit."
+    }
+   ]
+  },
+  {
+   "seg": "III.2.5.p1",
+   "chapter": "III.2.5",
+   "modern": "If, then, souls can be happy in this universe, and some are not happy, we must not blame the place but their own weakness, which could not compete well where the prizes of virtue are set out. And what is terrible if those who have not become divine do not have a divine life? Poverty and disease are nothing to the good, and of use to the bad; and those who have bodies must fall ill. Nor are these things wholly useless for the ordering and completing of the whole. When some things perish, the reason of the All uses what has perished for the becoming of others (for nothing anywhere escapes being held by it); so too, when the body is harmed, and the soul that suffers such things is weakened, what is taken over by disease and vice is put under another chain and another order. Some of these things, like poverty and disease, have been of use to those who suffered them; and vice has done something useful for the whole, becoming a pattern of justice, an example of it, and furnishing many useful things from itself. For it has made men watchful, and wakes up intellect and understanding in those who stand against the ways of wickedness; and it makes them learn what a good thing virtue is, by setting beside it the evils the wicked have. Evils did not come to be for these reasons; but, as has been said, since they have come to be, reason uses them too for what is needed. This is the mark of the greatest power: to be able to use even evils well, and to be able to use things that have become formless for other forms.",
+   "greek": "εἰ τοίνυν καὶ ψυχαῖς ἐν τῷδε τῷ παντὶ ἔξεστιν εὐδαίμοσιν εἶναι, εἴ τινες μὴ εὐδαίμονες, οὐκ αἰτιατέον τὸν τόπον, ἀλλὰ τὰς ἐκείνων ἀδυναμίας οὐ δυνηθείσας καλῶς ἐναγωνίσασθαι, οὗ δὴ ἆθλα ἀρετῆς πρόκειται. καὶ μὴ θείους δὲ γενομένους θεῖον βίον μὴ ἔχειν τί δεινόν; πενίαι δὲ καὶ νόσοι τοῖς μὲν ἀγαθοῖς οὐδέν, τοῖς δὲ κακοῖς σύμφορα: καὶ ἀνάγκη νοσεῖν σώματα ἔχουσι. καὶ οὐκ ἀχρεῖα δὲ οὐδὲ ταῦτα παντάπασιν εἰς σύνταξιν καὶ συμπλήρωσιν τοῦ ὅλου. ὡς γὰρ φθαρέντων τινῶν ὁ λόγος ὁ τοῦ παντὸς κατεχρήσατο τοῖς φθαρεῖσιν εἰς γένεσιν ἄλλων — οὐδὲν γὰρ οὐδαμῇ ἐκφεύγει τὸ ὑπὸ τούτου καταλαμβάνεσθαι — οὕτω καὶ κακωθέντος σώματος καὶ μαλακισθείσης δὲ ψυχῆς τῆς τὰ τοιαῦτα πασχούσης τὰ νόσοις καὶ κακίᾳ καταληφθέντα ὑπεβλήθη ἄλλῳ εἱρμῷ καὶ ἄλλῃ τάξει. καὶ τὰ μὲν αὐτοῖς συνήνεγκε τοῖς παθοῦσιν, οἷον πενία καὶ νόσος, ἡ δὲ κακία εἰργάσατό τι χρήσιμον εἰς τὸ ὅλον παράδειγμα δίκης γενομένη καὶ πολλὰ ἐξ αὑτῆς χρήσιμα παρασχομένη. καὶ γὰρ ἐγρηγορότας ἐποίησε καὶ νοῦν καὶ σύνεσιν ἐγείρει πονηρίας ὁδοῖς ἀντιταττομένων, καὶ μανθάνειν δὲ ποιεῖ οἷον ἀγαθὸν ἀρετὴ παραθέσει κακῶν ὧν οἱ πονηροὶ ἔχουσι. καὶ οὐ γέγονε τὰ κακὰ διὰ ταῦτα, ἀλλὰ ὅτι χρῆται καὶ αὐτοῖς εἰς δέον, ἐπείπερ ἐγένετο, εἴρηται. τοῦτο δὲ δυνάμεως μεγίστης, καλῶς καὶ τοῖς κακοῖς χρῆσθαι δύνασθαι καὶ τοῖς ἀμόρφοις γενομένοις εἰς ἑτέρας μορφὰς χρῆσθαι ἱκανὴν εἶναι.",
+   "flags": [
+    {
+     "taylor": "Men are not born divine",
+     "in": "MacKenna",
+     "why": "The Greek asks \"what is terrible if those who have not become divine do not have a divine life?\" (μὴ θείους δὲ γενομένους): becoming divine is something done, as in I.2, not a matter of birth."
+    },
+    {
+     "taylor": "it acts as a lesson in right doing",
+     "in": "MacKenna",
+     "why": "The Greek says vice became \"a pattern of justice\" (παράδειγμα δίκης): in the punishment it brings, an example of justice done, not a lesson in right doing."
+    },
+    {
+     "taylor": "to make it the material of unknown forms",
+     "in": "MacKenna",
+     "why": "The Greek says \"for other forms\" (εἰς ἑτέρας μορφάς), not unknown ones."
+    }
+   ],
+   "notes": [
+    "The prizes of virtue: Republic X 613b-614a, where the just, like good runners, carry off the prizes in the end."
+   ]
+  },
+  {
+   "seg": "III.2.5.p2",
+   "chapter": "III.2.5",
+   "modern": "In general, we must set down evil as a lack of good; and there must be a lack of good here, because the good is in something else. That other thing, in which the good is, being other than the good, makes the lack; for it was not good. That is why evils cannot be destroyed: because some things are less than others in relation to the nature of the good, and because things are other than the good, though they took the cause of their existence from there, and became such by being far away.",
+   "greek": "ὅλως δὲ τὸ κακὸν ἔλλειψιν τοῦ ἀγαθοῦ θετέον: ἀνάγκη δὲ ἔλλειψιν εἶναι ἐνταῦθα ἀγαθοῦ, ὅτι ἐν ἄλλῳ. τὸ οὖν ἄλλο, ἐν ᾧ ἐστι τὸ ἀγαθόν, ἕτερον ἀγαθοῦ ὂν ποιεῖ τὴν ἔλλειψιν: τοῦτο γὰρ οὐκ ἀγαθὸν ἦν. διὸ οὐδὲ ἀπολέσθαι τὰ κακά, ὅτι τε ἄλλα ἄλλων ἐλάττω πρὸς ἀγαθοῦ φύσιν ἕτερά τε ἄλλα τοῦ ἀγαθοῦ τὴν αἰτίαν τῆς ὑποστάσεως ἐκεῖθεν λαβόντα, τοιαῦτα δὲ γενόμενα τῷ πόρρω.",
+   "notes": [
+    "Theaetetus 176a: \"evils can never pass away, for there must always be something opposed to the good\"; they have their seat not among the gods but in mortal nature and this place."
+   ]
+  },
+  {
+   "seg": "III.2.6.p1",
+   "chapter": "III.2.6",
+   "modern": "Then there is the undeserved: when the good have evils, and the bad the opposite. To say that nothing is evil to the good, nor again good to the bad, is rightly said. But why does what is against nature fall to the one, and what is according to nature to the wicked? How is it a fine thing to distribute in this way? Yet if what is according to nature adds nothing to being happy, and what is against nature takes nothing away from the evil in the bad, what difference does it make whether it is this way or that? No more than if one man is beautiful in body and another ugly. But the fitting, the proportionate and the deserved would have been there in that other way, and now are not; and that would have belonged to the best providence. And indeed, that the bad should be masters and rulers of cities, and the decent slaves, was not fitting, even if these things bring no addition to the getting of good and evil. And yet a wicked ruler could do the most lawless things; and the bad win in wars, and do every shameful thing to the prisoners they take.",
+   "greek": "τὸ δὲ παῤ ἀξίαν, ὅταν ἀγαθοὶ κακὰ ἔχωσι, φαῦλοι δὲ τὰ ἐναντία, τὸ μὲν λέγειν ὡς οὐδὲν κακὸν τῷ ἀγαθῷ οὐδ’ αὖ τῷ φαύλῳ ἀγαθὸν ὀρθῶς μὲν λέγεται: ἀλλὰ διὰ τί τὰ μὲν παρὰ φύσιν τούτῳ, τὰ δὲ κατὰ φύσιν τῷ πονηρῷ; πῶς γὰρ καλὸν νέμειν οὕτως; ἀλλ’ εἰ τὸ κατὰ φύσιν οὐ ποιεῖ προσθήκην πρὸς τὸ εὐδαιμονεῖν, οὐδ’ αὖ τὸ παρὰ φύσιν ἀφαιρεῖ τοῦ κακοῦ τοῦ ἐν φαύλοις, τί διαφέρει τὸ οὕτως ἢ οὕτως; ὥσπερ οὐδέ, εἰ ὁ μὲν καλὸς τὸ σῶμα, ὁ δὲ αἰσχρός. ἀλλὰ τὸ πρέπον καὶ τὸ ἀνάλογον καὶ τὸ κατ’ ἀξίαν ἐκείνως ἂν ἦν, ὃ νῦν οὐκ ἔστι: προνοίας δὲ ἀρίστης ἐκεῖνο ἦν. καὶ μὴν καὶ τὸ δεσπότας εἶναι καὶ ἄρχοντας τῶν πόλεων τοὺς κακούς, τοὺς δὲ ἐπιεικεῖς δούλους εἶναι, οὐ πρέποντα ἦν, οὐδ’ . εἰ προσθήκην ταῦτα μὴ φέρει εἰς ἀγαθοῦ καὶ κακοῦ κτῆσιν. καίτοι καὶ τὰ ἀνομώτατα ἂν πράξειεν ἄρχων πονηρός: καὶ κρατοῦσι δὲ ἐν πολέμοις οἱ κακοὶ καὶ παντοῖα αἰσχρὰ δρῶσιν αἰχμαλώτους λαβόντες.",
+   "flags": [
+    {
+     "taylor": "why should what essentially offends our nature fall to the good",
+     "in": "MacKenna",
+     "why": "The Greek says simply \"what is against nature\" (τὰ παρὰ φύσιν), and \"what is according to nature\" for its opposite: the Stoics' names for sickness, poverty and the like, and for health and wealth. MacKenna makes them what \"offends our nature\" and what it \"demands\"."
+    }
+   ],
+   "notes": [
+    "The Stoics called health, wealth and their like \"according to nature\" and their opposites \"against nature\", but held both indifferent to happiness, which lies in virtue alone (Diogenes Laertius VII.102-107)."
+   ]
+  },
+  {
+   "seg": "III.2.6.p2",
+   "chapter": "III.2.6",
+   "modern": "All these things leave one at a loss how they come about if there is providence. For even if whoever is going to make anything must look to the whole, it is right to set the parts too in their due places, above all when they have soul and life and reason; and providence must reach to all things, and its work must be just this, to neglect nothing. If, then, we say that this universe hangs from intellect, and that its power has come to all things, we must try to show how each of these things is well.",
+   "greek": "πάντα γὰρ ταῦτα ἀπορεῖν ποιεῖ, ὅπως προνοίας οὔσης γίνεται. καὶ γὰρ εἰ πρὸς τὸ ὅλον βλέπειν δεῖ τὸν ὁτιοῦν μέλλοντα ποιεῖν, ἀλλὰ καὶ τὰ μέρη ὀρθῶς ἔχει τάττειν ἐν δέοντι αὐτῷ καὶ μάλιστα, ὅταν ἔμψυχα ᾖ καὶ ζωὴν ἔχῃ καὶ λογικὰ ᾖ, καὶ τὴν πρόνοιαν δὲ ἐπὶ πάντα φθάνειν καὶ τὸ ἔργον αὐτῆς τοῦτο εἶναι, τὸ μηδενὸς ἠμεληκέναι. εἰ οὖν φαμεν ἐκ νοῦ τόδε τὸ πᾶν ἠρτῆσθαι καὶ εἰς ἅπαντα ἐληλυθέναι τὴν δύναμιν αὐτοῦ, πειρᾶσθαι δεῖ δεικνύναι, ὅπῃ ἕκαστα τούτων καλῶς ἔχει.",
+   "flags": [
+    {
+     "taylor": "we cannot be absolved from the attempt to show in what way the detail of this sphere is just",
+     "in": "MacKenna",
+     "why": "The Greek says \"how each of these things is well\" (ὅπῃ ἕκαστα τούτων καλῶς ἔχει), not that it is just."
+    }
+   ],
+   "notes": [
+    "Laws X 902e-903a: the gods, like a good craftsman or physician, take care of the small as well as the great."
+   ]
+  },
+  {
+   "seg": "III.2.7.p1",
+   "chapter": "III.2.7",
+   "modern": "First, then, we must grasp that those who look for the good in what is mixed must not demand in every way as much good as the unmixed has, nor look for the first things in the second. Since the world has a body too, we must allow that something comes into the All from this as well, and praise what the mixture could receive from reason, if it lacks nothing of this. If someone were looking for the most beautiful of men perceived by the senses, he would surely not think it right that this one be the same as the man in intellect. He would be content with the maker if, though the man is in flesh and sinews and bones, the maker had taken hold of him with reason, so as to make these beautiful too, and to let reason come up over matter. Setting this down, we must go on from here to what we are looking for: for perhaps in these things we would find the wonder of providence, and of the power from which this universe came to be.",
+   "greek": "πρῶτον τοίνυν ληπτέον, ὡς τὸ καλῶς ἐν τῷ μικτῷ ζητοῦντας χρὴ μὴ πάντη ἀπαιτεῖν ἀλλ’ ὅσον τὸ καλῶς ἐν τῷ ἀμίκτῳ ἔχει, μηδ’ ἐν δευτέροις ζητεῖν τὰ πρῶτα, ἀλλ’ ἐπειδὴ καὶ σῶμα ἔχει, συγχωρεῖν καὶ παρὰ τούτου ἰέναι τι εἰς τὸ πᾶν, ἐπαινεῖν δὲ παρὰ τοῦ λόγου ὅσον ἠδύνατο δέξασθαι τὸ μῖγμα, εἰ μηδὲν τούτου ἐλλείπει: οἷον, εἴ τις ἐσκόπει τὸν ἄνθρωπον τὸν αἰσθητὸν ὅστις κάλλιστος, οὐκ ἂν δήπου τῷ ἐν νῷ ἀνθρώπῳ ἠξίωσε τὸν αὐτὸν εἶναι, ἀλλ’ ἐκεῖνο ἀποδεδέχθαι τοῦ ποιητοῦ, εἰ ὅμως ἐν σαρξὶ καὶ νεύροις καὶ ὀστέοις ὄντα κατέλαβε τῷ λόγῳ, ὥστε καὶ ταῦτα καλλῦναι καὶ τὸν λόγον δυνηθῆναι ἐπανελθεῖν τῇ ὕλῃ. ταῦτα τοίνυν ὑποθέμενον χρὴ προιέναι τὸ ἐντεῦθεν ἐπὶ τὰ ἐπιζητούμενα: τάχα γὰρ ἂν ἐν τούτοις τὸ θαυμαστὸν ἂν εὕροιμεν τῆς προνοίας καὶ τῆς δυνάμεως, παῤ οὗ ὑπέστη τὸ πᾶν τόδε.",
+   "flags": [
+    {
+     "taylor": "must begin from this principle of gradation",
+     "in": "MacKenna",
+     "why": "The Greek says only \"setting this down\" (ταῦτα τοίνυν ὑποθέμενον), that the mixed must not be judged by the unmixed; \"gradation\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "\"The man in intellect\" is the form of man, which Plotinus places in intellect (VI.7.4-6); the man of the senses is its image in flesh."
+   ]
+  },
+  {
+   "seg": "III.2.7.p2",
+   "chapter": "III.2.7",
+   "modern": "As for the works of souls that stay in the souls that do the worse things, such as all the harm bad souls have done to others, and bad souls to one another: unless one blames what provides for their being bad at all, it is not fitting to demand an account of providence or to call it to answer, when we give the blame to the soul that chose. For it has been said that souls too had to have motions of their own, and that they are not souls only, but already living things; and it is no wonder that, being what they are, they have a life that follows from it. They did not come because there was a world: before the world they had it in them to be the world's, to care for it, to bring it into being, to manage it and to make it, in whatever way they do: whether they stay above and give something of themselves, or come down, or some do one and some the other. We are not asking about this now, but only saying that, whichever way it is, providence is not to be blamed for these things.",
+   "greek": "ὅσα μὲν οὖν ἔργα ψυχῶν, ἃ δὴ ἐν αὐταῖς ἵσταται ταῖς ἐργαζομέναις τὰ χείρω, οἷον ὅσα κακαὶ ψυχαὶ ἄλλας ἔβλαψαν καὶ ὅσα ἀλλήλας αἱ κακαί, εἰ μὴ καὶ τοῦ κακὰς ὅλως αὐτὰς εἶναι τὸ προνοοῦν αἰτιῷτο, οὐκ ἀπαιτεῖν λόγον οὐδὲ εὐθύνας προσήκει αἰτίαν ἑλομένῃ διδόντας: εἴρηται γὰρ ὅτι ἔδει καὶ ψυχὰς κινήσεις οἰκείας ἔχειν καὶ ὅτι οὐ ψυχαὶ μόνον, ἀλλὰ ζῷα ἤδη, καὶ δὴ καὶ οὐδὲν θαυμαστὸν οὔσας ὅ εἰσιν ἀκόλουθον βίον ἔχειν: οὐδὲ γάρ, ὅτι κόσμος ἦν, ἐληλύθασιν, ἀλλὰ πρὸ κόσμου τὸ κόσμου εἶναι εἶχον καὶ ἐπιμελεῖσθαι καὶ ὑφιστάναι καὶ διοικεῖν καὶ ποιεῖν ὅστις ὁ τρόπος, εἴτε ἐφεστῶσαι καὶ διδοῦσαί τι παῤ αὑτῶν εἴτε κατιοῦσαι εἴτε αἱ μὲν οὕτως, αἱ δ’ οὕτως: οὐ γὰρ ἂν τὰ νῦν περὶ τούτων, ἀλλ’ ὅτι, ὅπως πότ̓ ἂν ᾖ, τήν γε πρόνοιαν ἐπὶ τούτοις οὐ μεμπτέον.",
+   "flags": [
+    {
+     "taylor": "it is not abstract Spirit",
+     "in": "MacKenna",
+     "why": "The Greek says souls are \"not souls only, but already living things\" (οὐ ψυχαὶ μόνον, ἀλλὰ ζῷα ἤδη): souls joined to bodies. \"Abstract Spirit\" is MacKenna's."
+    },
+    {
+     "taylor": "to presuppose it",
+     "in": "MacKenna",
+     "why": "The Greek says \"to bring it into being\" (ὑφιστάναι), to make it subsist."
+    }
+   ],
+   "notes": [
+    "Republic X 617e: \"The blame is the chooser's; god is blameless\" (αἰτία ἑλομένου· θεὸς ἀναίτιος), the words read out to the souls about to choose their lives. Plotinus' \"giving the blame to the soul that chose\" (αἰτίαν ἑλομένῃ διδόντας) takes them up."
+   ]
+  },
+  {
+   "seg": "III.2.7.p3",
+   "chapter": "III.2.7",
+   "modern": "But what when one looks at the evils set against the opposite people: the good poor, and the wicked rich, and the worse having more of what men, being men, need to have, and ruling, with the peoples and the cities in their hands? Is it because providence does not reach as far as the earth? But that the other things come to be by reason is a witness that it does reach as far as the earth: for animals and plants share in reason and soul and life. Then it reaches, but does not rule? But since the All is one living thing, this would be as if someone said that a man's head and face come to be by nature and reason ruling, but gave the rest to other causes, chances or necessities, and said it had turned out poor because of this, or through the weakness of nature. It is neither holy nor pious to grant that these things are not well, and to find fault with the work.",
+   "greek": "ἀλλ’ ὅταν πρὸς τοὺς ὑπεναντίους τὴν παράθεσιν τῶν κακῶν τις θεωρῇ, πένητας ἀγαθοὺς καὶ πονηροὺς πλουσίους καὶ πλεονεκτοῦντας ἐν οἷς ἔχειν δεῖ ἀνθρώπους ὄντας τοὺς χείρους καὶ κρατοῦντας καὶ αὐτῶν καὶ τὰ ἔθνη καὶ τὰς πόλεις; ἆῤ οὖν, ὅτι μὴ μέχρι γῆς φθάνει; ἀλλὰ τῶν ἄλλων γινομένων λόγῳ μαρτύριον τοῦτο καὶ μέχρι γῆς ἰέναι: καὶ γὰρ ζῷα καὶ φυτὰ καὶ λόγου καὶ ψυχῆς καὶ ζωῆς μεταλαμβάνει. ἀλλὰ φθάνουσα οὐ κρατεῖ. ἀλλὰ ζῴου ἑνὸς ὄντος τοῦ παντὸς ὅμοιον ἂν γένοιτο, εἴ τις κεφαλὴν μὲν ἀνθρώπου καὶ πρόσωπον ὑπὸ φύσεως καὶ λόγου γίγνεσθαι λέγοι κρατοῦντος, τὸ δὲ λοιπὸν ἄλλαις ἀναθείη αἰτίαις, τύχαις ἢ ἀνάγκαις, καὶ φαῦλα διὰ τοῦτο ἢ δἰ ἀδυναμίαν φύσεως γεγονέναι. ἀλλ’ οὔτε ὅσιον οὔτε εὐσεβὲς ἐνδόντας τὸ μὴ καλῶς ταῦτα ἔχειν καταμέμφεσθαι τῷ ποιήματι.",
+   "flags": [
+    {
+     "taylor": "And even granting that those less noble members are not in themselves admirable",
+     "in": "MacKenna",
+     "why": "The Greek says it is neither holy nor pious \"to grant that these things are not well (ἐνδόντας τὸ μὴ καλῶς ταῦτα ἔχειν) and to find fault with the work\": the granting is the impiety. MacKenna has Plotinus grant it."
+    }
+   ]
+  },
+  {
+   "seg": "III.2.8.p1",
+   "chapter": "III.2.8",
+   "modern": "It remains, then, to look for how these things are well, and how they share in order; or at least how they are not badly. In every animal the upper parts, the face and the head, are more beautiful, and the middle and lower parts are not their equal. Men are in the middle and below; above are the heaven and the gods in it. The greatest part of the world is gods and the whole heaven round about, and the earth is like a centre, and like one of the stars. People wonder at the wrong among men because they think man the honoured thing in the All, as though there were nothing wiser. But he lies in the middle between gods and beasts, and leans towards both: some become like the one, some like the other, and most are in between. Those who have been made bad, so that they come near to irrational animals and beasts, drag the middle ones about and force them. These are better than those who force them, but they are mastered by the worse in so far as they are worse themselves: they are not good, and have not prepared themselves not to suffer it.",
+   "greek": "λοιπὸν δὴ ζητεῖν ὅπῃ καλῶς ταῦτα, καὶ ὡς τάξεως μετέχει, ἢ ὅπῃ μὴ κακῶς. παντὸς δὴ ζῴου τὰ μὲν ἄνω, πρόσωπον καὶ κεφαλή, καλλίω, τὰ δὲ μέσα καὶ κάτω οὐκ ἴσα: ἄνθρωποι δὲ ἐν μέσῳ καὶ κάτω, ἄνω δὲ οὐρανὸς καὶ οἱ ἐν αὐτῷ θεοί: καὶ τὸ πλεῖστον τοῦ κόσμου θεοὶ καὶ οὐρανὸς πᾶς κύκλῳ, γῆ δὲ οἷα κέντρον καὶ ὡς ἕν τι τῶν ἄστρων. θαυμάζεται δὲ ἐν ἀνθρώποις ἀδικία, ὅτι ἄνθρωπον ἀξιοῦσιν ἐν τῷ παντὶ τὸ τίμιον εἶναι ὡς οὐδενὸς ὄντος σοφωτέρου. τὸ δὲ κεῖται ἐν μέσῳ θεῶν καὶ θηρίων καὶ ῥέπει ἐπ’ ἄμφω καὶ ὁμοιοῦνται οἱ μὲν τῷ ἑτέρῳ, οἱ δὲ τῷ ἑτέρῳ, οἱ δὲ μεταξύ εἰσιν, οἱ πολλοί. οἱ δὴ κακυνθέντες εἰς τὸ ἐγγὺς ζῴων ἀλόγων καὶ θηρίων ἰέναι ἕλκουσι τοὺς μέσους καὶ βιάζονται: οἱ δὲ βελτίους μέν εἰσι τῶν βιαζομένων, κρατοῦνταί γε μὴν ὑπὸ τῶν χειρόνων ᾗ εἰσι χείρους καὶ αὐτοὶ καὶ οὐκ εἰσὶν ἀγαθοὶ οὐδὲ παρεσκεύασαν αὑτοὺς μὴ παθεῖν.",
+   "flags": [
+    {
+     "taylor": "they have not trained themselves in self-defence",
+     "in": "MacKenna",
+     "why": "The Greek says they \"are not good, and have not prepared themselves not to suffer\" (οὐκ εἰσὶν ἀγαθοὶ οὐδὲ παρεσκεύασαν αὑτοὺς μὴ παθεῖν): what they lack is goodness, not training in self-defence."
+    }
+   ]
+  },
+  {
+   "seg": "III.2.8.p2",
+   "chapter": "III.2.8",
+   "modern": "Suppose boys who have trained their bodies, but whose souls, for lack of education, are worse than their bodies, were to win at wrestling against those trained neither in body nor in soul, and snatch their food and take their soft clothes: what would the thing be but a joke? Or how would it not be right for the lawgiver, too, to allow the others to suffer this, as the penalty for their idleness and luxury? Training grounds had been set out for them, and through idleness and soft and slack living they let themselves become fattened lambs, the prey of wolves. For those who do this, the first penalty is to be wolves and ill-starred men; and then what such men must suffer is laid up for them too. For it does not stop here, with dying when they have become bad; but on what went before there always follows what is according to reason and nature, worse things for the worse, and better for the better.",
+   "greek": "εἰ οὖν παῖδες ἀσκήσαντες μὲν τὰ σώματα, τὰς δὲ ψυχὰς ὑπ’ ἀπαιδευσίας τούτων χείρους γινόμενοι ἐν πάλῃ κρατοῖεν τῶν μήτε τὰ σώματα μήτε τὰς ψυχὰς πεπαιδευμένων καὶ τὰ σιτία αὐτῶν ἁρπάζοιεν καὶ τὰ ἱμάτια αὐτῶν τὰ ἁβρὰ λαμβάνοιεν, τί ἂν τὸ πρᾶγμα ἢ γέλως εἴη; ἢ πῶς οὐκ ὀρθὸν καὶ τὸν νομοθέτην συγχωρεῖν ταῦτα μὲν πάσχειν ἐκείνους δίκην ἀργίας καὶ τρυφῆς διδόντας, εἰ ἀποδεδειγμένων γυμνασίων αὐτοῖς οἱ δ’ ὑπ’ ἀργίας καὶ τοῦ ζῆν μαλακῶς καὶ ἀνειμένως περιεῖδον ἑαυτοὺς ἄρνας καταπιανθέντας λύκων ἁρπαγὰς εἶναι; τοῖς δὲ ταῦτα ποιοῦσι πρώτη μὲν δίκη τὸ λύκοις εἶναι καὶ κακοδαίμοσιν ἀνθρώποις: εἶτα αὐτοῖς καὶ κεῖται ἃ παθεῖν χρεὼν τοὺς τοιούτους: οὐ γὰρ ἔστη ἐνταῦθα κακοῖς γενομένοις ἀποθανεῖν, ἀλλὰ τοῖς ἀεὶ προτέροις ἕπεται ὅσα κατὰ λόγον καὶ φύσιν, χείρω τοῖς χείροσι, τοῖς δὲ ἀμείνοσι τὰ ἀμείνω.",
+   "flags": [
+    {
+     "taylor": "in the disaster to their human quality",
+     "in": "MacKenna",
+     "why": "The Greek says their first penalty is to be \"wolves and ill-starred men\" (λύκοις εἶναι καὶ κακοδαίμοσιν ἀνθρώποις): men with an evil daemon, unhappy, whose wickedness is itself their misfortune."
+    }
+   ]
+  },
+  {
+   "seg": "III.2.8.p3",
+   "chapter": "III.2.8",
+   "modern": "But such things are not a wrestling school, for there it is play. When the boys have grown bigger, both kinds still foolish, both must now gird themselves and have weapons, and the sight is finer than at wrestling practice. But now some are unarmed, and those who have armed themselves win. Then it was not for a god to fight for the unwarlike himself: the law says that men are saved from wars by being brave, not by praying. Nor do they bring home harvests by praying, but by taking care of the earth; nor are they healthy if they do not take care of their health. Nor must we be angry if the bad get more harvest, or if it goes better for them altogether, when they are the ones who farm.",
+   "greek": "ἀλλ’ οὐ παλαίστρα τὰ τοιαῦτα: παιδιὰ γὰρ ἐκεῖ. ἔδει γὰρ μειζόνων τῶν παίδων μετὰ ἀνοίας ἀμφοτέρων γινομένων ἀμφοτέρους μὲν ζώννυσθαι ἤδη καὶ ὅπλα ἔχειν καὶ ἡ θέα καλλίων ἢ κατὰ πάλας γυμνάζοντι: νῦν δὲ οἱ μὲν ἄοπλοι, οἱ δὲ ὁπλισθέντες κρατοῦσιν. ἔνθα οὐ θεὸν ἔδει ὑπὲρ τῶν ἀπολέμων αὐτὸν μάχεσθαι: σώζεσθαι γὰρ ἐκ πολέμων φησὶ δεῖν ὁ νόμος ἀνδριζομένους, ἀλλ’ οὐκ εὐχομένους: οὐδὲ γὰρ κομίζεσθαι καρποὺς εὐχομένους, ἀλλὰ γῆς ἐπιμελουμένους, οὐδέ γε ὑγιαίνειν μὴ ὑγιείας ἐπιμελουμένους: οὐδ’ ἀγανακτεῖν δεῖ, εἰ τοῖς φαύλοις πλείους γίνοιντο καρποὶ ἢ ὅλως αὐτοῖς γεωργοῦσιν ἢ ἄμεινον.",
+   "flags": [
+    {
+     "taylor": "This at once brings us outside the gymnasium with its fun for boys",
+     "in": "MacKenna",
+     "why": "The Greek says \"such things are not a wrestling school, for there it is play\" (ἀλλ’ οὐ παλαίστρα τὰ τοιαῦτα: παιδιὰ γὰρ ἐκεῖ): life is not the wrestling school, but war."
+    },
+    {
+     "taylor": "Not even a God would have the right to deal a blow for the unwarlike",
+     "in": "MacKenna",
+     "why": "The Greek says \"it was not for a god to fight for the unwarlike himself\" (οὐ θεὸν ἔδει ὑπὲρ τῶν ἀπολέμων αὐτὸν μάχεσθαι): what is fitting, not what is a god's right."
+    }
+   ]
+  },
+  {
+   "seg": "III.2.8.p4",
+   "chapter": "III.2.8",
+   "modern": "Then it is ridiculous for men to do all the other things in life by their own judgement, even if they do not do them in the way dear to the gods, and to be saved by the gods alone, without even doing the things through which the gods command them to be saved. And so death is better for them than to go on living in a way that the laws in the All do not want them to live. If the opposite happened, and peace were kept amid every folly and vice, the affairs of providence would be in a careless state, letting the worse rule in this way. The bad rule through the cowardice of those they rule: for this is just, and the other is not.",
+   "greek": "ἔπειτα γελοῖον τὰ μὲν ἄλλα πάντα τὰ κατὰ τὸν βίον γνώμῃ τῇ ἑαυτῶν πράττειν, κἂν μὴ ταύτῃ πράττωσιν, ᾗ θεοῖς φίλα, σώζεσθαι δὲ μόνον παρὰ θεῶν οὐδὲ ταῦτα ποιήσαντας, δἰ ὧν κελεύουσιν αὐτοὺς οἱ θεοὶ σώζεσθαι. καὶ τοίνυν οἱ θάνατοι αὐτοῖς βελτίους ἢ τὸ οὕτως ξῶντας εἶναι, ὅπως ζῆν αὐτοὺς οὐκ ἐθέλουσιν οἱ ἐν τῷ παντὶ νόμοι: ὥστε τῶν ἐναντίων γιγνομένων, εἰρήνης ἐν ἀνοίαις καὶ κακίαις πάσαις φυλαττομένης, ἀμελῶς ἂν ἔσχε τὰ τῆς προνοίας ἐώσης κρατεῖν οὕτως τὰ χείρω. ἄρχουσι δὲ οἱ κακοὶ ἀρχομένων ἀνανδρίᾳ: τοῦτο γὰρ δίκαιον, καὶ οὐκ ἐκεῖνο.",
+   "flags": [
+    {
+     "taylor": "Yet death would be better for us",
+     "in": "MacKenna",
+     "why": "The Greek says death is better \"for them\" (αὐτοῖς), those who will not do what the gods command; MacKenna takes it to us all."
+    },
+    {
+     "taylor": "the triumph of weaklings would not be just",
+     "in": "MacKenna",
+     "why": "The Greek says only \"this is just, and that is not\" (τοῦτο γὰρ δίκαιον, καὶ οὐκ ἐκεῖνο): it is just that the cowardly be ruled, and the other way would not be; \"the triumph of weaklings\" is MacKenna's reading of \"the other\"."
+    }
+   ],
+   "notes": [
+    "Men between gods and beasts: Aristotle, Politics I.2, 1253a27-29 (who cannot live in a city is a beast or a god), and Plato's man that may grow divine or bestial (Timaeus 90a-d, 91d-92c). That safety in war comes to the brave and not to those who pray is a commonplace of Greek proverb and oratory (Xenophon, Cyropaedia I.6.5-6)."
+   ]
+  },
+  {
+   "seg": "III.2.9.p1",
+   "chapter": "III.2.9",
+   "modern": "For providence must not be such that we are nothing. If providence were all things, and there were only providence, it would not exist either: for of what would it still be the providence? There would be only the divine. That exists now too; but it has come to something else, not to do away with the other, but, coming upon something, upon a man, say, there was providence over him keeping him a man: that is, living by the law of providence, which means doing what its law says. And it says that for those who have become good there will be a good life, now and laid up for afterwards too, and for the bad the opposite.",
+   "greek": "οὐ γὰρ δὴ οὕτως τὴν πρόνοιαν εἶναι δεῖ, ὥστε μηδὲν ἡμᾶς εἶναι: πάντα δὲ οὔσης προνοίας καὶ μόνης αὐτῆς οὐδ’ ἂν εἴη: τίνος γὰρ ἂν ἔτι εἴη; ἀλλὰ μόνον ἂν εἴη τὸ θεῖον. τοῦτο δὲ καὶ νῦν ἔστι: καὶ πρὸς ἄλλο δὲ ἐλήλυθεν, οὐχ ἵνα ἀνέλῃ τὸ ἄλλο, ἀλλ’ ἐπιόν τῳ, οἷον ἀνθρώπῳ, ἦν ἐπ’ αὐτῷ πρόνοια τηροῦσα τὸν ἄνθρωπον ὄντα: τοῦτο δέ ἐστι νόμῳ προνοίας ζῶντα, ὃ δή ἐστι πράττοντα ὅσα ὁ νόμος αὐτῆς λέγει. λέγει δὲ τοῖς μὲν ἀγαθοῖς γενομένοις ἀγαθὸν βίον ἔσεσθαι καὶ κεῖσθαι καὶ ἐσύστερον, τοῖς δὲ κακοῖς τὰ ἐναντία.",
+   "flags": [
+    {
+     "taylor": "It would not be just, because Providence cannot be a something reducing us to nothingness",
+     "in": "MacKenna",
+     "why": "The Greek begins \"For providence must not be such that we are nothing\" (οὐ γὰρ δὴ οὕτως τὴν πρόνοιαν εἶναι δεῖ, ὥστε μηδὲν ἡμᾶς εἶναι); \"It would not be just\" is MacKenna's link to the last line of chapter 8."
+    },
+    {
+     "taylor": "is to annihilate the Universe",
+     "in": "MacKenna",
+     "why": "The Greek says that providence, if it were all, \"would not exist either: for of what would it still be?\" (οὐδ’ ἂν εἴη: τίνος γὰρ ἂν ἔτι εἴη;): providence itself would vanish, having nothing to provide for."
+    }
+   ]
+  },
+  {
+   "seg": "III.2.9.p2",
+   "chapter": "III.2.9",
+   "modern": "For those who have become bad to ask that others be their saviours, when they have thrown themselves away, is not a lawful prayer. So the gods are not to rule them in each detail, leaving their own life to do it; nor are the good men, who live another life, better than human rule, to be their rulers. For the bad themselves never took care that good men should become rulers of the others, so that they themselves might be cared for; they envy anyone who grows good of himself. And yet there would have been more good men, if they had made such men their leaders.",
+   "greek": "κακοὺς δὲ γενομένους ἀξιοῦν ἄλλους αὐτῶν σωτῆρας εἶναι ἑαυτοὺς προεμένους οὐ θεμιτὸν εὐχὴν ποιουμένων: οὐ τοίνυν οὐδὲ θεοὺς αὐτῶν ἄρχειν τὰ καθέκαστα ἀφέντας τὸν ἑαυτῶν βίον οὐδέ γε τοὺς ἄνδρας τοὺς ἀγαθούς, ἄλλον βίον ζῶντας τὸν ἀρχῆς ἀνθρωπίνης ἀμείνω, τούτους αὐτῶν ἄρχοντας εἶναι: ἐπεὶ οὐδ’ αὐτοὶ ἐπεμελήθησάν ποτε, ὅπως ἄρχοντες ἀγαθοὶ γένοιντο τῶν ἄλλων, ὅπως αὐτοὶ εἶεν ἐπιμελούμενοι, ἀλλὰ φθονοῦσιν, ἐάν τις ἀγαθὸς παῤ αὑτοῦ φύηται: ἐπεὶ πλείους ἂν ἐγένοντο ἀγαθοί, εἰ τούτους ἐποιοῦντο προστάτας.",
+   "flags": [
+    {
+     "taylor": "their prayers should bring others to sacrifice themselves for their sakes",
+     "in": "MacKenna",
+     "why": "The Greek says it is not a lawful prayer for the bad \"to ask that others be their saviours, having thrown themselves away\" (ἑαυτοὺς προεμένους): it is the bad who have given themselves up, and nothing is said of others sacrificing themselves."
+    },
+    {
+     "taylor": "nor do they take any steps to improve themselves",
+     "in": "MacKenna",
+     "why": "The Greek says they never took care that good rulers should come to be \"so that they themselves might be cared for\" (ὅπως αὐτοὶ εἶεν ἐπιμελούμενοι); nothing is said of improving themselves."
+    }
+   ],
+   "notes": [
+    "Republic I 347b-d: the good will not rule for money or honour, and must be made to by the penalty of being ruled by worse men; Republic VI 488a-489c: the sailors who will not have the true pilot."
+   ]
+  },
+  {
+   "seg": "III.2.9.p3",
+   "chapter": "III.2.9",
+   "modern": "Man, then, has come to be a living thing that is not the best, but holds a middle rank, and has chosen it. Yet in the place where he lies he is not let perish by providence, but is always brought back up towards what is above by all kinds of means, which the divine uses to make virtue the stronger. The human race has not lost its being rational: it shares, if not to the highest degree, in wisdom and intellect and craft and justice, the justice at least of each towards one another (and those they wrong, they think they wrong justly, since they deserve it). So man is a beautiful work, as beautiful as he can be, and, woven into the All, he has a lot better than all the other animals on earth.",
+   "greek": "γενόμενον τοίνυν ζῷον οὐκ ἄριστον, ἀλλὰ μέσην τάξιν ἔχον καὶ ἑλόμενον, ὅμως ἐν ᾧ κεῖται τόπῳ ὑπὸ προνοίας οὐκ ἐώμενον ἀπολέσθαι, ἀλλὰ ἀναφερόμενον ἀεὶ πρὸς τὰ ἄνω παντοίαις μηχαναῖς, αἷς τὸ θεῖον χρῆται ἐπικρατεστέραν ἀρετὴν ποιοῦν, οὐκ ἀπώλεσε τὸ λογικὸν εἶναι τὸ ἀνθρώπινον γένος, ἀλλὰ μετέχον, εἰ καὶ μὴ ἄκρως, ἐστὶ καὶ σοφίας καὶ νοῦ καὶ τέχνης καὶ δικαιοσύνης, τῆς γοῦν πρὸς ἀλλήλους ἕκαστοι — καὶ οὓς ἀδικοῦσι δὲ οἴονται δικαίως ταῦτα ποιεῖν, εἶναι γὰρ ἀξίους — οὕτω καλόν ἐστιν ἄνθρωπος ποίημα, ὅσον δύναται καλὸν εἶναι, καὶ συνυφανθὲν εἰς τὸ πᾶν μοῖραν ἔχει τῶν ἄλλων ζῴων ὅσα ἐπὶ γῆς βελτίονα.",
+   "flags": [
+    {
+     "taylor": "to increase the dominance of moral value",
+     "in": "MacKenna",
+     "why": "The Greek says \"making virtue the stronger\" (ἐπικρατεστέραν ἀρετὴν ποιοῦν)."
+    },
+    {
+     "taylor": "wisdom, intelligence, executive power and right doing",
+     "in": "MacKenna",
+     "why": "The Greek has \"wisdom, intellect, craft (τέχνης) and justice (δικαιοσύνης)\": craft, not executive power, and justice, not right doing."
+    }
+   ]
+  },
+  {
+   "seg": "III.2.9.p4",
+   "chapter": "III.2.9",
+   "modern": "Nor does anyone who has intellect blame the other animals that are less than he, which bring adornment to the earth. It would be ridiculous if one blamed them because they bite men, as if men ought to live asleep. These too must exist. Some of their benefits are plain, and many that were not obvious time has found out, so that none of them is there in vain, even for men. It is ridiculous, too, to blame many of them for being wild, when there are wild men too. And if they do not trust men, but, not trusting them, defend themselves, what is there to wonder at?",
+   "greek": "ἐπεὶ καὶ τοῖς ἄλλοις ὅσα ἐλάττω ζῷα αὐτοῦ κόσμον γῇ φέροντα μέμφεται οὐδεὶς νοῦν ἔχων. γελοῖον γάρ, εἴ τις μέμφοιτο, ὅτι τοὺς ἀνθρώπους δάκνοι, ὡς δέον αὐτοὺς ζῆν κοιμωμένους. ἀνάγκη δὲ καὶ ταῦτα εἶναι: καὶ αἱ μὲν πρόδηλοι παῤ αὐτῶν ὠφέλειαι, τὰς δὲ οὐ φανερὰς ἀνεῦρε πολλὰς ὁ χρόνος: ὥστε μηδὲν αὐτοῖς μάτην μηδὲ ἀνθρώποις εἶναι. γελοῖον δὲ καὶ ὅτι ἄγρια πολλὰ αὐτῶν μέμφεσθαι γινομένων καὶ ἀνθρώπων ἀγρίων: εἰ δὲ μὴ πεπίστευκεν ἀνθρώποις, ἀλλὰ ἀπιστοῦντα ἀμύνεται, τί θαυμαστόν ἐστιν;",
+   "notes": [
+    "The Stoics defended providence by the uses of animals (Cicero, On the nature of the gods II.154-162); Chrysippus said that bugs are useful for waking us, and mice for making us careful not to leave things about (Plutarch, On Stoic self-contradictions 1044d)."
+   ]
+  },
+  {
+   "seg": "III.2.10.p1",
+   "chapter": "III.2.10",
+   "modern": "But if men are bad unwillingly, and are such not willingly, one could neither blame those who do wrong, nor blame those who suffer, as if they suffered through their own fault. And if it is necessary that they become bad in this way, whether by the revolution of the heavens or by the first principle giving what follows from it, then it is so by nature. And if reason itself is what makes them, how is this not unjust? But they are unwilling in the sense that error is unwilling. This does not do away with the doers themselves acting from themselves; it is because they themselves act that they themselves err. Or they would not have erred at all, if they were not themselves the doers.",
+   "greek": "ἀλλ’ εἰ ἄνθρωποι ἄκοντές εἰσι κακοὶ καὶ τοιοῦτοι οὐχ ἑκόντες, οὔτ’ ἄν τις τοὺς ἀδικοῦντας αἰτιάσαιτο, οὔτε τοὺς πάσχοντας ὡς δἰ αὑτοὺς ταῦτα πάσχοντας. εἰ δὲ δὴ καὶ ἀνάγκη οὕτω κακοὺς γίνεσθαι εἴτε ὑπὸ τῆς φορᾶς εἴτε τῆς ἀρχῆς διδούσης τὸ ἀκόλουθον ἐντεῦθεν, φυσικῶς οὕτως. εἰ δὲ δὴ ὁ λόγος αὐτός ἐστιν ὁ ποιῶν, πῶς οὐκ ἄδικα οὕτως; ἀλλὰ τὸ μὲν ἄκοντες, ὅτι ἁμαρτία ἀκούσιον: τοῦτο δὲ οὐκ ἀναιρεῖ τὸ αὐτοὺς τοὺς πράττοντας παῤ αὑτῶν εἶναι, ἀλλ’ ὅτι αὐτοὶ ποιοῦσι, διὰ τοῦτο καὶ αὐτοὶ ἁμαρτάνουσιν: ἢ οὐδ’ ἂν ὅλως ἥμαρτον μὴ αὐτοὶ οἱ ποιοῦντες ὄντες.",
+   "flags": [
+    {
+     "taylor": "Men are no doubt involuntary sinners in the sense that they do not actually desire to sin",
+     "in": "MacKenna",
+     "why": "The Greek says they are unwilling \"because error is unwilling\" (ὅτι ἁμαρτία ἀκούσιον), Socrates' saying that no one errs willingly; nothing is said of desire."
+    }
+   ],
+   "notes": [
+    "\"No one errs willingly\": Protagoras 345d-e, Gorgias 509e, Laws V 731c and IX 860d."
+   ]
+  },
+  {
+   "seg": "III.2.10.p2",
+   "chapter": "III.2.10",
+   "modern": "The necessity is not from outside, but lies in its holding altogether. And the revolution of the heavens is not such that nothing is up to us. For if everything came from outside, it would be just as those who made it wanted; so men would not set themselves against them, nor would there be impious men, if the gods made everything. As it is, this comes from men themselves. When a principle is given, what comes next is carried through, all the other principles there are being taken along into the sequence too; and men too are principles. At any rate, they are moved towards beautiful things by their own nature, and this principle is its own master.",
+   "greek": "τὸ δὲ τῆς ἀνάγκης οὐκ ἔξωθεν, ἀλλ’ ὅτι πάντως. τὸ δὲ τῆς φορᾶς οὐχ ὥστε μηδὲν ἐφ̓ ἡμῖν εἶναι: καὶ γὰρ εἰ ἔξωθεν τὸ πᾶν, οὕτως ἂν ἦν, ὡς αὐτοὶ οἱ ποιοῦντες ἐβούλοντο: ὥστε οὐκ ἂν αὐτοῖς ἐναντία ἐτίθεντο ἄνθρωποι οὐδ’ ἂν ἀσεβεῖς, εἰ θεοὶ ἐποίουν. νῦν δὲ παῤ αὐτῶν τοῦτο. ἀρχῆς δὲ δοθείσης τὸ ἐφεξῆς περαίνεται συμπαραλαμβανομένων εἰς τὴν ἀκολουθίαν καὶ τῶν ὅσαι εἰσὶν ἀρχαί: ἀρχαὶ δὲ καὶ ἄνθρωποι. κινοῦνται γοῦν πρὸς τὰ καλὰ οἰκείᾳ φύσει καὶ ἀρχὴ αὕτη αὐτεξούσιος.",
+   "flags": [
+    {
+     "taylor": "exists only in the sense of a universal relationship",
+     "in": "MacKenna",
+     "why": "The Greek says the necessity is \"not from outside, but in that it holds altogether\" (ἀλλ’ ὅτι πάντως): the deed, once done by the doer, is done of necessity; nothing is said of a relationship."
+    },
+    {
+     "taylor": "Now Men are Principles, or, at least, they are moved",
+     "in": "MacKenna",
+     "why": "The Greek says \"men too are principles\" (ἀρχαὶ δὲ καὶ ἄνθρωποι), without hedging; \"at any rate\" (γοῦν) gives the proof, that they are moved by their own nature."
+    }
+   ],
+   "notes": [
+    "\"What is up to us\" (τὸ ἐφ’ ἡμῖν) and the heavens' part in our doings are argued in III.1.5-10 and II.3."
+   ]
+  },
+  {
+   "seg": "III.2.11.p1",
+   "chapter": "III.2.11",
+   "modern": "Is each thing, then, so by natural necessities and sequences, and well, as far as it can be? Or not so: reason makes all these things, ruling, and wills them so, and itself makes the so-called evils according to reason, not wishing all things to be good; as a craftsman would not make all the parts of an animal eyes. So reason did not make all things gods, but some gods, some daemons, a second nature, then men and animals after them: not from envy, but by a reason that has an intellectual variety. We are like those unskilled in painting who blame the painter because the colours are not beautiful everywhere, when he has given each place what fits it; or like someone who finds fault with a play because not all in it are heroes, but there is a servant too, and a rustic who speaks coarsely. But it is not beautiful if one takes out the worse characters; it is made complete by them too.",
+   "greek": "πότερα δὲ φυσικαῖς ἀνάγκαις οὕτως ἕκαστα καὶ ἀκολουθίαις καὶ ὅπῃ δυνατὸν καλῶς; ἢ οὔ, ἀλλ’ ὁ λόγος ταῦτα πάντα ποιεῖ ἄρχων καὶ οὕτω βούλεται καὶ τὰ λεγόμενα κακὰ αὐτὸς κατὰ λόγον ποιεῖ οὐ βουλόμενος πάντα ἀγαθὰ εἶναι, ὥσπερ ἂν εἴ τις τεχνίτης οὐ πάντα τὰ ἐν τῷ ζῴῳ ὀφθαλμοὺς ποιοῖ: οὕτως οὐδ’ ὁ λόγος πάντα θεοὺς εἰργάζετο, ἀλλὰ τὰ μὲν θεούς, τὰ δὲ δαίμονας, δευτέραν φύσιν, εἶτα ἀνθρώπους καὶ ζῷα ἐφεξῆς, οὐ φθόνῳ, ἀλλὰ λόγῳ ποικιλίαν νοερὰν ἔχοντι. ἡμεῖς δέ, ὥσπερ οἱ ἄπειροι γραφικῆς τέχνης αἰτιῶνται, ὡς οὐ καλὰ τὰ χρώματα πανταχοῦ, ὁ δὲ ἄρα τὰ προσήκοντα ἀπέδωκεν ἑκάστῳ τόπῳ: ἢ εἴ τις δρᾶμα μέμφοιτο, ὅτι μὴ πάντες ἥρωες ἐν αὐτῷ, ἀλλὰ καὶ οἰκέτης καί τις ἄγροικος καὶ φαύλως φθεγγόμενος: τὸ δὲ οὐ καλόν ἐστιν, εἴ τις τοὺς χείρους ἐξέλοι, καὶ ἐκ τούτων συμπληρούμενον.",
+   "flags": [
+    {
+     "taylor": "it cannot desire all to be good",
+     "in": "MacKenna",
+     "why": "The Greek says reason does \"not wish (οὐ βουλόμενος) all things to be good\": it is reason's choice, not something it cannot do."
+    },
+    {
+     "taylor": "celestial spirits, the intermediate order",
+     "in": "MacKenna",
+     "why": "The Greek says \"daemons, a second nature\" (δαίμονας, δευτέραν φύσιν)."
+    }
+   ],
+   "notes": [
+    "\"Not from envy\": Timaeus 29e, the maker was good, and in the good no envy ever arises about anything. The eyes: Republic IV 420c-d, where a statue's eyes, the finest part, are not to be painted purple, but each part given its own colour, to make the whole beautiful."
+   ]
+  },
+  {
+   "seg": "III.2.12.p1",
+   "chapter": "III.2.12",
+   "modern": "If, then, reason itself, fitting itself into matter, made these things, being what it is, unlike in its parts, and being so from what is before it, then what has come to be, having come to be in this way, could not have anything else more beautiful than itself. Reason would not have come from things all like and close to one another; and this way is not to be blamed, since it is all things, each one differently. But if it brought in other things from outside itself, souls, say, and forced them against their own nature, fitting many of them into its work towards the worse, how is that right? We must say that the souls too are like parts of it, and that it does not make them worse to fit them in, but places them where it is fitting for them, according to what they deserve.",
+   "greek": "εἰ μὲν οὖν αὐτὸς ὁ λόγος ἐναρμόσας ἑαυτὸν εἰς ὕλην ταῦτα εἰργάσατο τοῦτο ὢν οἷός ἐστιν, ἀνόμοιος τοῖς μέρεσιν, ἐκ τοῦ πρὸ αὐτοῦ τοῦτο ὤν, καὶ τοῦτο τὸ γενόμενον οὕτω γενόμενον οὐκ ἂν σχοίη κάλλιον ἑαυτοῦ ἄλλο. ὁ δὲ λόγος ἐκ πάντων ὁμοίων καὶ παραπλησίων οὐκ ἂν ἐγένετο, καὶ οὗτος ὁ τρόπος οὐ μεμπτὸς πάντα ὄντος κατὰ μέρος ἕκαστον ἄλλως. εἰ δὲ ἔξω ἑαυτοῦ ἄλλα εἰσήγαγεν, οἷνον φυχάς, καὶ ἐβιάσατο παρὰ τὴν αὐτῶν φύσιν ἐναρμόσας τῷ ποιήματι πρὸς τὸ χεῖρον πολλάς, πῶς ὀρθῶς; ἀλλὰ φατέον καὶ τὰς ψυχὰς οἷον μέρη αὐτοῦ εἶναι καὶ μὴ χείρους ποιοῦντα ἐναρμόττειν, ἀλλ’ ὅπου προσῆκον αὐταῖς καταχωρίζειν κατ’ ἀξίαν.",
+   "flags": [
+    {
+     "taylor": "retaining, that is, the hostility to partition",
+     "in": "MacKenna",
+     "why": "The Greek says reason is \"unlike in its parts\" (ἀνόμοιος τοῖς μέρεσιν), made of different reasons; MacKenna makes it averse to being divided, the opposite of the point."
+    }
+   ],
+   "notes": [
+    "\"Souls, say\": the Greek text here reads οἷνον φυχάς, a misprint for οἷον ψυχάς."
+   ]
+  },
+  {
+   "seg": "III.2.13.p1",
+   "chapter": "III.2.13",
+   "modern": "For we must not throw out that account either which says that reason does not look each time to the present, but to the periods before and again to what is to come, so as to set from there what each deserves. It changes those who were masters before into slaves, if they were bad masters, and because this is good for them; it makes poor those who used wealth badly, and because it is no harm to the good to be poor; it has those who killed unjustly be killed, unjustly on the part of the one who does it, but justly for the one who suffers it; and it brings the one who is to suffer together with one fit to do to him what he had to suffer. For no one is a slave by accident, nor a captive by chance, nor outraged in body at random: he once did the things he now suffers. One who killed his mother will be killed by a son, having become a woman; and one who raped a woman will be a woman, to be raped.",
+   "greek": "ἐπεὶ οὐδ’ ἐκεῖνον ἀποβλητέον τὸν λόγον, ὃς οὐ πρὸς τὸ παρὸν ἑκάστοτέ φησι βλέπειν, ἀλλὰ πρὸς τὰς πρόσθεν περιόδους καὶ αὖ τὸ μέλλον, ὥστε ἐκεῖθεν τάττειν τὴν ἀξίαν καὶ μετατιθέναι ἐκ δεσποτῶν τῶν πρόσθεν δούλους ποιοῦντα, εἰ ἐγένοντο κακοὶ δεσπόται, καὶ ὅτι σύμφορον αὐτοῖς οὕτω, καὶ εἰ κακῶς ἐχρήσαντο πλούτῳ πένητας, καὶ ὅτι ἀγαθοῖς οὐκ ἀσύμφορον πένησιν εἶναι, καὶ φονεύσαντας ἀδίκως φονευθῆναι ἀδίκως μὲν τῷ ποιήσαντι, αὐτῷ δὲ δικαίως τῷ παθόντι, καὶ τὸν πεισόμενον συναγαγεῖν εἰς τὸ αὐτὸ τῷ ἐπιτηδείῳ ποιῆσαι,: ἃ παθεῖν ἐχρῆν ἐκεῖνον. μὴ γὰρ δὴ κατὰ συντυχίαν δοῦλον μηδὲ αἰχμάλωτον ὡς ἔτυχε μηδὲ ὑβρισθῆναι εἰς σῶμα εἰκῇ, ἀλλὰ ἦν ποτε ταῦτα ποιήσας, ἃ νῦν ἐστι πάσχων: καὶ μητέρα τις ἀνελὼν ὑπὸ παιδὸς ἀναιρεθήσεται γενόμενος γυνή, καὶ βιασάμενος γυναῖκα γυνὴ ἔσται, ἵνα βιασθῇ.",
+   "flags": [
+    {
+     "taylor": "Those that have money will be made poor",
+     "in": "MacKenna",
+     "why": "The Greek says reason makes them poor \"if they used wealth badly\" (εἰ κακῶς ἐχρήσαντο πλούτῳ), not all who have money."
+    },
+    {
+     "taylor": "a man that wrongs a woman will become a woman, to be wronged",
+     "in": "MacKenna",
+     "why": "The Greek says \"raped\" (βιασάμενος ... ἵνα βιασθῇ): violence, not a wrong in general."
+    }
+   ],
+   "notes": [
+    "Laws IX 872d-873a: the old story told by priests, that one who has killed his mother must be born again a woman, and be killed by her own children."
+   ]
+  },
+  {
+   "seg": "III.2.13.p2",
+   "chapter": "III.2.13",
+   "modern": "That is where the divine saying of Adrasteia comes from: for this ordering is truly Adrasteia, and truly Justice, and a wonderful wisdom. From what we see in the All we must judge that the order of the whole is always something of this kind: it reaches to everything, even the very smallest. The art is wonderful not only in divine things but also in those one might have supposed providence would despise as small: such as the varied wonder-working in any animal at all, and the fair form that reaches as far as the plants, in fruits and even in leaves, and their easy blossoming, slender and varied; and that it was not made once and then stopped, but is always being made, as the things above move in the same way, though not alike.",
+   "greek": "ὅθεν καὶ θεία φήμη Ἀδράστεια: αὕτη γὰρ ἡ διάταξις Ἀδράστεια ὄντως καὶ ὄντως Δίκη καὶ σοφία θαυμαστή. τεκμαίρεσθαι δὲ δεῖ τοιαύτην τινὰ εἶναι τὴν τάξιν ἀεὶ τῶν ὅλων ἐκ τῶν ὁρωμένων ἐν τῷ παντί, ὡς εἰς ἅπαν χωρεῖ καὶ ὅ τι μικρότατον, καὶ ἡ τέχνη θαυμαστὴ οὐ μόνον ἐν τοῖς θείοις, ἀλλὰ καὶ ὧν ἄν τις ὑπενόησε καταφρονῆσαι ὡς μικρῶν τὴν πρόνοιαν: οἵα καὶ ἐν τοῖς τυχοῦσι ζῴοις ἡ ποικίλη θαυματουργία καὶ τὸ μέχρι τῶν φυτῶν ἐν καρποῖς καὶ ἔτι φύλλοις εὐειδὲς καὶ τὸ ῥᾷστα εὐανθὲς καὶ ῥαδινὸν καὶ ποικίλον, καὶ ὅτι οὐ πεποίηται ἅπαξ καὶ ἐπαύσατο, ἀλλ’ ἀεὶ ποιεῖται τῶν ὑπεράνω φερομένων κατὰ ταῦτα οὐχ ὡσαύτως.",
+   "notes": [
+    "Adrasteia, \"she whom none escapes\", is the goddess of inescapable justice. Phaedrus 248c gives \"the law of Adrasteia\" for the souls' fall and return; Republic V 451a, \"I bow to Adrasteia\", is said before words that may be punished."
+   ]
+  },
+  {
+   "seg": "III.2.13.p3",
+   "chapter": "III.2.13",
+   "modern": "So the things that change change not at random, nor take other shapes at random, but as is beautiful, and as it would befit divine powers to make. For all that is divine makes as its nature is; and its nature is according to its substance; and its substance is what brings out together, in its activities, the beautiful and the just. For if these are not there, where would they be?",
+   "greek": "μετατίθεται τοίνυν τὰ μετατιθέμενα οὐκ εἰκῇ μετατιθέμενα οὐδ’ ἄλλα σχήματα λαμβάνοντα, ἀλλ’ ὡς καλόν, καὶ ὡς πρέποι ἂν δυνάμεσι θείαις ποιεῖν. ποιεῖ γὰρ πᾶν τὸ θεῖον ὡς πέφυκε: πέφυκε δὲ κατὰ τὴν αὐτοῦ οὐσίαν: οὐσία δὲ αὐτοῦ, ἣ τὸ καλὸν ἐν ταῖς ἐνεργείαις αὐτοῦ καὶ τὸ δίκαιον συνεκφέρει. εἰ γὰρ μὴ ἐκεῖ ταῦτα, ποῦ ἂν εἴη;",
+   "flags": [
+    {
+     "taylor": "produce as one thing the desirable and the just",
+     "in": "MacKenna",
+     "why": "The Greek says \"the beautiful (τὸ καλόν) and the just\": the beautiful, not the desirable."
+    }
+   ]
+  },
+  {
+   "seg": "III.2.14.p1",
+   "chapter": "III.2.14",
+   "modern": "So the order is according to intellect in such a way that it is without reasoning, and yet in such a way that, if someone could use reasoning in the best way, he would wonder that reasoning would not have found how to make it otherwise. This is known in the natures of single things too, as they come to be, always in a more intellectual way than by an ordering of reasoning. In each of the kinds that are always coming to be, then, one cannot blame the reason that makes them, unless one thinks each ought to have come to be like the things that have not come to be but are eternal, always the same, among the intelligibles and among the things of sense; asking for a greater addition of good, and not holding the form given to each sufficient: blaming this animal, say, because it has no horns. Such a man does not see that reason could not but reach to everything, but that the lesser had to be in the greater, and the parts in the whole, and that they could not be equal: or they would not be parts.",
+   "greek": "ἔχει τοίνυν ἡ διάταξις οὕτω κατὰ νοῦν, ὡς ἄνευ λογισμοῦ εἶναι, οὕτω δὲ εἶναι, ὡς, εἴ τις ἄριστα δύναιτο λογισμῷ χρῆσθαι, θαυμάσαι, ὅτι μὴ ἂν ἄλλως εὗρε λογισμὸς ποιῆσαι, ὁποῖόν τι γινώσκεται καὶ ἐν ταῖς καθ̓ ἕκαστα φύσεσι γινόμενον εἰς ἀεὶ νοερώτερον ἢ κατὰ λογισμοῦ διάταξιν. ἐφ̓ ἑκάστου μὲν οὖν τῶν γινομένων ἀεὶ γενῶν οὐκ ἔστιν αἰτιᾶσθαι τὸν ποιοῦντα λόγον, εἴ τις μὴ ἀξιοῖ ἕκαστον οὕτω γεγονέναι χρῆναι, ὡς τὰ μὴ γεγονότα, ἀίδια δέ, ἔν τε νοητοῖς ἔν τε αἰσθητοῖς ἀεὶ τὰ αὐτὰ ὄντα, προσθήκην αἰτῶν ἀγαθοῦ πλείονα, ἀλλ’ οὐ τὸ δοθὲν ἑκάστῳ εἶδος αὔταρκες ἡγούμενος, οἷον τῷδε, ὅτι μὴ κέρατα, οὐ σκοπούμενος, ὅτι ἀδύνατον ἦν λόγον μὴ οὐκ ἐπὶ πάντα ἐλθεῖν, ἀλλ’ ὅτι ἔδει ἐν τῷ μείζονι τὰ ἐλάττω καὶ ἐν τῷ ὅλῳ τὰ μέρη καὶ οὐκ ἴσα δυνατὸν εἶναι: ἢ οὐκ ἂν ἦν μέρη.",
+   "flags": [
+    {
+     "taylor": "displays the Divine Intelligence to a degree in which no arranging by reason could express it",
+     "in": "MacKenna",
+     "why": "The Greek says the natures of single things come to be \"in a more intellectual way than by the ordering of reasoning\" (νοερώτερον ἢ κατὰ λογισμοῦ διάταξιν); \"the Divine Intelligence\" is MacKenna's."
+    },
+    {
+     "taylor": "In that case, things of the Intellectual realm and things of the realm of sense must remain one unbroken identity for ever",
+     "in": "MacKenna",
+     "why": "The Greek speaks of the eternal things \"among the intelligibles and among the things of sense\" (ἔν τε νοητοῖς ἔν τε αἰσθητοῖς), the intelligible world and the everlasting heavens, which are always the same; it does not say the two realms would be one."
+    }
+   ]
+  },
+  {
+   "seg": "III.2.14.p2",
+   "chapter": "III.2.14",
+   "modern": "For above, everything is all things; but below, each thing is not all things. And a man, each one, in so far as he is a part, is not the whole. But if somewhere in some parts there is also something else, which is not a part, by this the part is that whole too. So the single man, as such, is not to be required to be perfect, to the height of virtue: for then he would no longer be a part. Nor, again, does the whole grudge the part that has been adorned to greater worth; for, adorned with greater worth, it makes the whole more beautiful. It becomes such by being made like the whole, and, as it were, allowed to be such and set in order so, that in the place of man too something might shine out in him, as the stars do in the divine heaven; and that what is perceived from here might be as of a great and beautiful statue, whether living or made by the art of Hephaestus, with stars glittering on its face, and others on its breast, and wherever the position of the stars set there would allow.",
+   "greek": "τὸ μὲν γὰρ ἄνω πᾶν πάντα, τὸ δὲ κάτω οὐ πάντα ἕκαστον. καὶ ἄνθρωπος δὴ καθ̓ ὅσον μέρος ἕκαστος οὐ πᾶς. εἰ δέ που ἐν μέρεσί τισι καὶ ἄλλο τι, ὃ οὐ μέρος, τούτῳ κἀκεῖνο πᾶν. ὁ δὴ καθ̓ ἕκαστα ᾗ τοῦτο οὐκ ἀπαιτητέος τέλειος εἶναι εἰς ἀρετῆς ἄκρον: ἤδη γὰρ οὐκέτ̓ ἂν μέρος. οὐ μὴν οὐδὲ τῷ ὅλῳ τὸ μέρος κοσμηθὲν εἰς μείζονα ἀξίαν ἐφθόνηται: καὶ γὰρ κάλλιον τὸ ὅλον ποιεῖ κοσμηθὲν ἀξίᾳ μείζονι. καὶ γὰρ γίνεται τοιοῦτον ἀφομοιωθὲν τῷ ὅλῳ καὶ οἷον συγχωρηθὲν τοιοῦτον εἶναι καὶ συνταχθὲν οὕτως, ἵνα καὶ κατὰ τὸν ἀνθρώπου τόπον ἐκλάμπῃ τι ἐν αὐτῷ, οἷον καὶ κατὰ τὸν θεῖον οὐρανὸν τὰ ἄστρα, καὶ ἡ ἐντεῦθεν ἀντίληψις οἷον ἀγάλματος μεγάλου καὶ καλοῦ ᾖ εἴτε ἐμψύχου εἴτε καὶ τέχνῃ Ἡφαίστου γενομένου, καὶ ὦσι μὲν καὶ κατὰ τὸ πρόσωπον ἐπιστίλβοντες ἀστέρες καὶ ἐν τοῖς στήθεσι δὲ ἄλλοι καὶ ᾗ ἔμελλεν ἐπιτρέψειν ἄστρων θέσις κειμένων.",
+   "flags": [
+    {
+     "taylor": "with stars radiant not only in the ears and on the brow",
+     "in": "MacKenna",
+     "why": "The Greek says \"on the face\" (κατὰ τὸ πρόσωπον) and on the breast; the ears are MacKenna's."
+    },
+    {
+     "taylor": "wrought in the furnaces of craftsmanship",
+     "in": "MacKenna",
+     "why": "The Greek says \"made by the art of Hephaestus\" (τέχνῃ Ἡφαίστου), the smith god."
+    }
+   ],
+   "notes": [
+    "Hephaestus' golden maidservants, made by his art, move, speak and think like the living (Iliad XVIII.417-420). \"Above, everything is all things\": V.8.4, where in the intelligible world each thing has all in itself and sees all in another."
+   ]
+  },
+  {
+   "seg": "III.2.15.p1",
+   "chapter": "III.2.15",
+   "modern": "So it is with each thing looked at by itself. But the weaving together of these things, born and always being born, would bring a halt and a difficulty: over the eating of one another among the other animals, and the attacks of men on one another; and that there is always war, which never takes a pause or a truce; and above all if reason has made it so, and it is said to be well so. For that account no longer helps those who say this: that things are well, as far as they can be, and that matter is the cause of their being so, of their being less well; and that evils cannot be destroyed. For if things had to be so, and it is well so, then matter did not come in and get the mastery, but was brought in so that things might be so; or rather, it too is so through the cause of reason. Reason, then, is the principle, and all things are reason, and what comes to be according to it, and is ordered together at its coming to be, is altogether so.",
+   "greek": "τὰ μὲν οὖν ἕκαστα αὐτὰ ἐφ̓ ἑαυτῶν θεωρούμενα οὕτως: ἡ συμπλοκὴ δὲ ἡ τούτων γεννηθέντων καὶ ἀεὶ γεννωμένων ἔχοι ἂν τὴν ἐπίστασιν καὶ ἀπορίαν κατὰ τε τὴν ἀλληλοφαγίαν τῶν ἄλλων ζῴων καὶ τὰς ἀνθρώπων εἰς ἀλλήλους ἐπιθέσεις, καὶ ὅτι πόλεμος ἀεὶ καὶ οὐ μήποτε παῦλαν οὐδ’ ἀνοχὴν λάβῃ, καὶ μάλιστα εἰ λόγος πεποίηκεν οὕτως ἔχειν, καὶ ούτω λέγεται καλῶς ἔχειν. οὐ γὰρ ἔτι τοῖς οὕτω λέγουσιν ἐκεῖνος ὁ λόγος βοηθεῖ, ὡς καλῶς κατὰ τὸ δυνατὸν ἔχει καὶ αἰτία ὕλη οὕτως ἐχόντων, ὡς ἐλαττόνως ἔχειν, καὶ ὡς οὐ δυνατὸν τὰ κακὰ ἀπολέσθαι, εἴπερ οὕτως ἐχρῆν ἔχειν, καὶ καλῶς οὕτω, καὶ οὐχ ἡ ὕλη παρελθοῦσα κρατεῖ, ἀλλὰ παρήχθη, ἵνα οὕτω, μᾶλλον δὲ ᾖ καὶ αὐτὴ αἰτίᾳ λόγου οὕτως. ἀρχὴ οὖν λόγος καὶ πάντα λόγος καὶ τὰ γινόμενα κατ’ αὐτὸν καὶ συνταττόμενα ἐπὶ τῇ γενέσει πάντως οὕτως.",
+   "flags": [
+    {
+     "taylor": "The Divine Reason is the beginning and the end",
+     "in": "MacKenna",
+     "why": "The Greek says \"reason, then, is the principle, and all things are reason\" (ἀρχὴ οὖν λόγος καὶ πάντα λόγος); \"divine\" and \"the end\" are MacKenna's."
+    }
+   ]
+  },
+  {
+   "seg": "III.2.15.p2",
+   "chapter": "III.2.15",
+   "modern": "What, then, is the necessity of the undeclared war among animals and among men? Their eating of one another is necessary, being changes of animals which could not stay as they are for ever, even if no one killed them. And if, at the time when they had to go, they had to go in such a way as to be of use to others, why grudge it? What if, once eaten, they grew again as others? It is as if on the stage an actor who has been murdered changes his costume and comes on again in another mask: he has not truly died. If, then, dying is a change of body, as of costume there, or for some a complete putting off of body, as there the complete exit from the stage of one who will never come back to compete again, what would be terrible in such a change of animals into one another, which is much better than if they had never come to be at all? For then there would be a desert of life, and no power for the life that is in something else; but as it is, a great life in the All makes all things and varies them in its living, and cannot bear not to be always making beautiful and shapely living toys.",
+   "greek": "τίς οὖν ἡ τοῦ πολέμου τοῦ ἀκηρύκτου ἐν ζῴοις καὶ ἐν ἀνθρώποις ἀνάγκη; ἢ ἀλληλοφαγίαι μὲν ἀναγκαῖαι, ἀμοιβαὶ ζῴων οὖσαι οὐ δυναμένων, οὐδ’ εἴ τις μὴ κτιννύοι αὐτά, οὕτω μένειν εἰς ἀεί. εἰ δὲ ἐν ᾧ χρόνῳ δεῖ ἀπελθεῖν οὕτως ἀπελθεῖν ἔδει, ὡς ἄλλοις γενέσθαι χρείαν παῤ αὐτῶν, τί φθονεῖν ἔδει; τί δ’ εἰ βρωθέντα ἄλλα ἐφύετο; οἷον εἰ ἐπὶ σκηνῆς τῶν ὑποκριτῶν ὁ πεφονευμένος ἀλλαξάμενος τὸ σχῆμα ἀναλαβὼν πάλιν εἰσίοι ἄλλο πρόσωπον, ἀλλ’ οὐ τέθνηκεν ἀληθῶς οὗτος. εἰ οὖν καὶ τὸ ἀποθανεῖν ἀλλαγή ἐστι σώματος, ὥσπερ ἐσθῆτος ἐκεῖ, ἢ καὶ παντελὴς ἀπόθεσις σώματος, ὥσπερ ἐκεῖ ἔξοδος ἐκ τῆς σκηνῆς παντελὴς οὔποτε εἰς ὕστερον πάλιν ἥξοντος ἐναγωνίσασθαι, τί ἂν δεινὸν εἴη ἡ τοιαύτη τῶν ζῴων εἰς ἄλληλα μεταβολὴ πολὺ βελτίων οὖσα τοῦ μηδὲ τὴν ἀρχὴν αὐτὰ γενέσθαι; ἐκείνως μὲν γὰρ ἐρημία ζωῆς καὶ τῆς ἐν ἄλλῳ οὔσης ἀδυναμία: νῦν δὲ πολλὴ οὖσα ἐν τῷ παντὶ ζωὴ πάντα ποιεῖ καὶ ποικίλλει ἐν τῷ ζῆν καὶ οὐκ ἀνέχεται μὴ ποιοῦσα ἀεὶ καλὰ καὶ εὐειδῆ ζῶντα παίγνια.",
+   "flags": [
+    {
+     "taylor": "the necessity of this bandit war",
+     "in": "MacKenna",
+     "why": "The Greek says \"the undeclared war\" (τοῦ πολέμου τοῦ ἀκηρύκτου), a war without heralds, which no truce ends; nothing is said of bandits."
+    }
+   ],
+   "notes": [
+    "\"An undeclared war\" (πόλεμος ἀκήρυκτος) of all against all is what the Cretan in Plato's Laws says nature has set between every city and every other (Laws I 626a)."
+   ]
+  },
+  {
+   "seg": "III.2.15.p3",
+   "chapter": "III.2.15",
+   "modern": "Men, mortal as they are, turning their weapons on one another, and fighting in a seemly order, as they do in play in the war dances, show that all human concerns are games, and tell us that deaths are nothing terrible, and that to die in wars and battles is to be a little ahead of what comes in old age, going away sooner and coming back. And if they are robbed of their goods while they live, they might come to know that these were not theirs before either, and that for the robbers themselves the possession is a joke, since others will rob them of it; for even for those who are not robbed, possession turns out worse than being robbed.",
+   "greek": "ἀνθρώπων δὲ ἐπ’ ἀλλήλους ὅπλα θνητῶν ὄντων ἐν τάξει εὐσχήμονι μαχομένων, οἷα ἐν πυρρίχαις παίζοντες ἐργάζονται, δηλοῦσι τάς τε ἀνθρωπίνας σπουδὰς απάσας παιδιὰς οὔσας τούς τε θανάτους μηνύουσιν οὐδὲν δεινὸν εἶναι, ἀποθνήσκειν δὲ ἐν πολέμοις καὶ ἐν μάχαις ὀλίγον προλαβόντας τοῦ γινομένου ἐν γήρᾳ θᾶττον ἀπιόντας καὶ πάλιν ἰόντας. εἰ δ’ ἀφαιροῖντο ζῶντες χρημάτων, γινώσκοιεν ἂν μηδὲ πρότερον αὑτῶν εἶναι καὶ τοῖς ἁρπάζουσιν αὐτοῖς γελοίαν εἶναι τὴν κτῆσιν ἀφαιρουμένων αὐτοὺς ἄλλων: ἐπεὶ καὶ τοῖς μὴ ἀφαιρεθεῖσι χεῖρον γίνεσθαι τῆς ἀφαιρέσεως τὴν κτῆσιν.",
+   "notes": [
+    "The war dances (πυρρίχαι) were dances in armour, imitating the moves of battle (Laws VII 815a)."
+   ]
+  },
+  {
+   "seg": "III.2.15.p4",
+   "chapter": "III.2.15",
+   "modern": "As on the stages of the theatres, so we must watch murders and all deaths, and the taking and sacking of cities: all are changes of scene and of costume, and acted laments and wails. For here too, in each thing in life, it is not the soul within but the shadow of the man outside that wails and laments and does everything, on a stage that is the whole earth, where men have set up stages in many places. Such are the works of a man who knows only how to live the lower and outer life, and does not know that in his tears and his serious things he is playing. Only the serious man should be serious, in serious works; the other man is a toy. Toys too are taken seriously by those who do not know how to be serious, and who are toys themselves. But if a serious man plays along with them and suffers such things, let him know that he has fallen into a children's game, having put off the mask he wore. And if Socrates too plays, he plays in the outer Socrates. We must bear this in mind as well: we must not take weeping and lamenting as proofs that things are evil, since children too weep and wail over things that are not evil.",
+   "greek": "ὥσπερ δὲ ἐπὶ τῶν θεάτρων ταῖς σκηναῖς, οὕτω χρὴ καὶ τοὺς φόνους θεᾶσθαι καὶ πάντας θανάτους καὶ πόλεων ἁλώσεις καὶ ἁρπαγάς, μεταθέσεις πάντα καὶ μετασχηματίσεις καὶ θρήνων καὶ οἰμωγῶν ὑποκρίσεις. καὶ γὰρ ἐνταῦθα ἐπὶ τῶν ἐν τῷ βίῳ ἑκάστων οὐχ ἡ ἔνδον ψυχή, ἀλλ’ ἡ ἔξω ἀνθρώπου σκιὰ καὶ οἰμώζει καὶ ὀδύρεται καὶ πάντα ποιεῖ ἐν σκηνῇ τῇ ὅλῃ γῇ πολλαχοῦ σκηνὰς ποιησαμένων. τοιαῦτα γὰρ ἔργα ἀνθρώπου τὰ κάτω καὶ τὰ ἔξω μόνα ζῆν εἰδότος καὶ ἐν δακρύοις καὶ σπουδαίοις ὅτι παίζων ἐστὶν ἠγνοηκότος. μόνῳ γὰρ τῷ σπουδαίῳ σπουδαστέον ἐν σπουδαίοις τοῖς ἔργοις, ὁ δ’ ἄλλος ἄνθρωπος παίγνιον. σπουδάζεται δὲ καὶ τὰ παίγνια τοῖς σπουδάζειν οὐκ εἰδόσι καὶ αὐτοῖς οὖσι παιγνίοις. εἰ δέ τις συμπαίζων αὐτοῖς σπουδαῖος τὰ τοιαῦτα πάθοι, ἴστω παραπεσὼν παίδων παιδιᾷ τὸ περὶ αὑτὸν ἀποθέμενος πρόσωπον. εἰ δὲ δὴ καὶ παίζοι Σωκράτης, παίζει τῷ ἔξω Σωκράτει. δεῖ δὲ κἀκεῖνο ἐνθυμεῖσθαι, ὡς οὐ δεῖ τεκμήρια τοῦ κακὰ εἶναι τὸ δακρύειν καὶ θρηνεῖν τίθεσθαι, ὅτι δὴ καὶ παῖδες ἐπὶ οὐ κακοῖς καὶ δακρύουσι καὶ ὀδύρονται.",
+   "flags": [
+    {
+     "taylor": "the other kind of man is himself a futility",
+     "in": "MacKenna",
+     "why": "The Greek says \"the other man is a toy\" (ὁ δ’ ἄλλος ἄνθρωπος παίγνιον), Plato's plaything of the gods; \"futility\" loses the image that the rest of the chapter plays on."
+    },
+    {
+     "taylor": "comes to look on life with their eyes",
+     "in": "MacKenna",
+     "why": "The Greek says that a serious man who plays along and suffers such things \"has fallen into a children's game, having put off the mask he wore\" (τὸ περὶ αὑτὸν ἀποθέμενος πρόσωπον); \"to look on life with their eyes\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "Laws VII 803c-804b: man has been made a plaything of god, and that is the best thing about him, so we should live playing the finest games; and Laws I 644d-645b, the living puppets of the gods."
+   ]
+  },
+  {
+   "seg": "III.2.16.p1",
+   "chapter": "III.2.16",
+   "modern": "But if this is well said, how will there still be wickedness? Where is wrong, and where is sin? How, when all things come to be well, can those who act do wrong or sin? And how can they be miserable, if they do not sin or do wrong? How shall we say that some things that come to be are according to nature and others against nature, if all that is done is according to nature? And how could there be any impiety towards the divine, when what makes and what is made are such? It would be as if a poet were to write an actor in a play abusing and running down the poet of the play.",
+   "greek": "ἀλλ’ εἰ καλῶς ταῦτα λέγεται, πῶς ἂν ἔτι πονηρία; ποῦ δ’ ἀδικία; ἁμαρτία δὲ ποῦ; πῶς γὰρ ἔστι καλῶς γινομένων ἁπάντων ἀδικεῖν ἢ ἁμαρτάνειν τοὺς ποιοῦντας; κακοδαίμονες δὲ πῶς, εἰ μὴ ἁμαρτάνοιεν μηδ’ ἀδικοῖεν; πῶς δὲ τὰ μὲν κατὰ φύσιν, τὰ δὲ παρὰ φύσιν φήσομεν εἶναι τῶν γινομένων, ἁπάντων τῶν δρωμένων κατὰ φύσιν ὄντων; πῶς δ’ ἂν καὶ πρὸς τὸ θεῖον ἀσέβειά τις εἴη τοιούτου ὄντος τοῦ ποιοῦντος καὶ τοῦ ποιουμένου; οἷον εἴ τις ἐν δράματι λοιδορούμενον ποιητὴς ὑποκριτὴν ποιήσαιτο καὶ κατατρέχοντα τοῦ ποιητοῦ τοῦ δράματος."
+  },
+  {
+   "seg": "III.2.16.p2",
+   "chapter": "III.2.16",
+   "modern": "Let us say again, more clearly, what the reason is, and how it is fitting that it is such. This reason, then (let us dare to say it: perhaps we may even hit the mark), is not unmixed intellect, nor intellect itself, nor even of the kind of pure soul, but it hangs from soul, and is as it were a shining out from both: intellect and soul, soul disposed according to intellect, begot this reason, a life that holds a reason quietly in it. Every life is an activity, even the poor one: an activity, not as fire acts, but its activity, even if there is no perception, is a motion that is not random. At any rate, whatever things it is present to, and that share in it in any way at all, at once have a reason in them, that is, they are given form; since the activity that goes with life can give form, and moves in such a way as to give form. So its activity is artful, as the dancer moving would be: for the dancer himself is like such an artful life, and the art moves him, and moves him so, since life itself is somehow of this kind. Let this be said for the sake of what we must think every life, of whatever kind, to be.",
+   "greek": "πάλιν οὖν σαφέστερον λέγωμεν τίς ὁ λόγος καὶ ὡς εἰκότως τοιοῦτός ἐστιν. ἔστι τοίνυν οὗτος ὁ λόγος — τετολμήσθω γάρ: τάχα δ’ ἂν καὶ τύχοιμεν — ἔστι τοίνυν οὗτος οὐκ ἄκρατος νοῦς οὐδ’ αὐτονοῦς οὐδέ γε ψυχῆς καθαρᾶς τὸ γένος, ἠρτημένος: δὲ ἐκείνης καὶ οἷον ἔκλαμψις ἐξ ἀμφοῖν, νοῦ καὶ ψυχῆς καὶ ψυχῆς κατὰ νοῦν διακειμένης γεννησάντων τὸν λόγον τοῦτον ζωὴν λόγον τινὰ ἡσυχῇ ἔχουσαν. πᾶσα δὲ ζωὴ ἐνέργεια, καὶ ἡ φαύλη: ἐνέργεια δὲ οὐχ ὡς τὸ πῦρ ἐνεργεῖ, ἀλλ’ ἡ ἐνέργεια αὐτῆς, κἂν μὴ αἴσθησίς τις παρῇ, κίνησίς τις οὐκ εἰκῇ. οἷς γοῦν ἂν παρῇ καὶ μετάσχῃ ὁπωσοῦν ὁτιοῦν, εὐθὺς λελόγωται, τοῦτο δέ ἐστι μεμόρφωται, ὡς τῆς ἐνεργείας τῆς κατὰ τὴν ζωὴν μορφοῦν δυναμένης καὶ κινούσης οὕτως, ὡς μορφοῦν. ἡ τοίνυν ἐνέργεια αὐτῆς τεχνική, ὥσπερ ἂν ὁ ὀρχούμενος κινούμενος εἴη: ὁ γὰρ ὀρχηστὴς τῇ οὕτω τεχνικῇ ζωῇ ἔοικεν αὐτὸς καὶ ἡ τέχνη αὐτὸν κινεῖ καὶ οὕτω κινεῖ, ὡς τῆς ζωῆς αὐτῆς τοιαύτης πως οὔσης. ταῦτα μὲν οὖν εἰρήσθω τοῦ οἵαν δεῖ καὶ τὴν ἡντινοῦν ζωὴν ἡγεῖσθαι ἕνεκα.",
+   "flags": [
+    {
+     "taylor": "Life, then, aims at pattern as does the pantomimic dancer with his set movements",
+     "in": "MacKenna",
+     "why": "The Greek says \"its activity is artful (τεχνική), as the dancer moving would be\": the dancer's art moves him, not a pattern set before him; and nothing is said of mime or of symbolising life."
+    }
+   ]
+  },
+  {
+   "seg": "III.2.16.p3",
+   "chapter": "III.2.16",
+   "modern": "This reason, then, coming from one intellect and one life, each of them full, is neither one life nor one intellect, nor full everywhere, nor does it give itself whole and entire to those it gives to. Setting the parts against one another, and making them in need, it brought about the making and the becoming of war and battle; and so it is one whole, if not one thing. For becoming hostile to itself in its parts, it is in this way one and friendly, as the plot of a play is one, though it holds many fights in it. The play brings its conflicts, once fought out, as it were into one harmony, making as it were one tale of all the fighters; but there the fight of the things standing apart comes from one reason. So one would rather liken it to the harmony that comes from conflicting notes, and ask why there are conflicting things in the reasons.",
+   "greek": "ἥκων τοίνυν οὗτος ὁ λόγος ἐκ νοῦ ἑνὸς καὶ ζωῆς μιᾶς πλήρους ὄντος ἑκατέρου οὐκ ἔστιν οὔτε ζωὴ μία οὔτε νοῦς τις εἷς οὔτε ἑκασταχοῦ πλήρης οὐδὲ διδοὺς ἑαυτὸν οἷς δίδωσιν ὅλον τε καὶ πάντα. ἀντιθεὶς δὲ ἀλλήλοις τὰ μέρη καὶ ποιήσας ἐνδεᾶ πολέμου καὶ μάχης σύστασιν καὶ γένεσιν εἰργάσατο καὶ οὕτως ἐστὶν εἷς πᾶς, εἰ μὴ ἓν εἴη. γενόμενον γὰρ ἑαυτῷ τοῖς μέρεσι πολέμιον οὕτως ἕν ἐστι καὶ φίλον, ὥσπερ ἂν εἷς ὁ τοῦ δράματος ἔχων ἐν αὑτῷ πολλὰς μάχας. τὸ μὲν οὖν δρᾶμα τὰ μεμαχημένα οἷον εἰς μίαν ἁρμονίαν ἄγει σύμφωνον οἷον διήγησιν τὴν πᾶσαν τῶν μαχομένων ποιούμενον: ἐκεῖ δὲ ἐξ ἑνὸς λόγου ἡ τῶν διαστάτων μάχη: ὥστε μᾶλλον ἄν τις τῇ ἁρμονίᾳ τῇ ἐκ μαχομένων εἰκάσειε καὶ ζητήσειε διὰ τί τὰ μαχόμενα ἐν τοῖς λόγοις.",
+   "flags": [
+    {
+     "taylor": "(By an imperfect communication) it sets up a conflict of part against part",
+     "in": "MacKenna",
+     "why": "The words in brackets are MacKenna's: the Greek says reason \"set the parts against one another and made them in need\" (ἀντιθεὶς δὲ ἀλλήλοις τὰ μέρη καὶ ποιήσας ἐνδεᾶ)."
+    }
+   ]
+  },
+  {
+   "seg": "III.2.16.p4",
+   "chapter": "III.2.16",
+   "modern": "If, then, here too reasons make high and low, and, being reasons of harmony, come together into one, into harmony itself, another and greater reason, while they are lesser and parts; and if we see contraries in the All too, white and black, hot and cold, winged and wingless, footed and footless, rational and irrational, but all parts of one living thing, the whole of things, and the All agrees with itself while its parts fight in many places, but the All is according to reason: then this one reason too must be one made of contrary reasons, such contrariety carrying its very structure, and as it were its being. For if it were not many, it would not be whole, nor would it be reason; but being reason it differs from itself, and the greatest difference is contrariety. So if it makes something other at all, and makes it other most of all, and not less, then, making it other to the highest degree, it will make contraries too, of necessity, and will be complete, not if it makes itself only into different things, but if into contrary things too.",
+   "greek": "εἰ οὖν καὶ ἐνταῦθα ὀξὺ καὶ βαρὺ ποιοῦσι λόγοι καὶ συνίασιν εἰς ἓν ὄντες ἁρμονίας λόγοι εἰς αὐτὴν τὴν ἁρμονίαν, ἄλλον λόγον μείζονα, ὄντες ἐλάττους αὐτοὶ καὶ μέρη, ὁρῶμεν δὲ καὶ ἐν τῷ παντὶ τὰ ἐναντία, οἷον λευκὸν μέλαν, θερμὸν ψυχρόν, καὶ δὴ πτερωτὸν ἄπτερον, ὑπόπουν ἄπουν, λογικὸν ἄλογον, πάντα δὲ ζῴου ἑνὸς τοῦ σύμπαντος μέρη καὶ τὸ πᾶν ὁμολογεῖ ἑαυτῷ τῶν μερῶν πολλαχοῦ μαχομένων, κατὰ λόγον δὲ τὸ πᾶν, ἀνάγκη καὶ τὸν ἕνα τοῦτον λόγον ἐξ ἐναντίων λόγων εἶναι ἕνα τὴν σύστασιν αὐτῷ καὶ οἷον οὐσίαν τῆς τοιαύτης ἐναντιώσεως φερούσης. καὶ γὰρ εἰ μὴ πολὺς ἦν, οὐδ’ ἂν ἦν πᾶς, οὐδ’ ἂν λόγος: λόγος δὲ ὢν διάφορός τε πρὸς αὑτόν ἐστι καὶ ἡ μάλιστα διαφορὰ ἐναντίωσίς ἐστιν: ὥστε εἰ ἕτερον ὅλως, τὸ δὲ ἕτερον ποιεῖ, καὶ μάλιστα ἕτερον, ἀλλ’ οὐχ ἧττον ἕτερον ποιήσει: ὥστε ἄκρως ἕτερον ποιῶν καὶ τὰ ἐναντία ποιήσει ἐξ ἀνάγκης καὶ τέλειος ἔσται, οὐκ εἰ διάφορα μόνον, ἀλλ’ εἰ καὶ ἐναντία ποιεῖ εἶναι ἑαυτόν.",
+   "notes": [
+    "Heraclitus: \"what is opposed agrees, and from things that differ comes the finest harmony\" (fr. B8), and \"a harmony turning back on itself, as of the bow and the lyre\" (fr. B51). That contrariety is the greatest difference is Aristotle's (Metaphysics X.4, 1055a3-5)."
+   ]
+  },
+  {
+   "seg": "III.2.17.p1",
+   "chapter": "III.2.17",
+   "modern": "Being such that it makes everything, it will make the things it makes much more contrary, the more they stand apart. The world of sense is less one than its reason; so it is more many, and its contrariety greater, and each thing's longing for life greater, and its love of coming into one greater. But lovers often destroy what they love, hurrying towards their own good, when it is perishable; and the longing of the part for the whole drags to itself what it can.",
+   "greek": "ὢν δὴ τοιοῦτος οἷος καὶ πάντως ποιεῖ, πολὺ μᾶλλον τὰ ποιούμενα ποιήσει ἐναντία, ὅσῳ καὶ διέστηκε μᾶλλον: καὶ ἧττον ἓν ὁ κόσμος ὁ αἰσθητὸς ἢ ὁ λόγος αὐτοῦ, ὥστε καὶ πολὺς μᾶλλον καὶ ἡ ἐναντιότης μᾶλλον καὶ ἡ τοῦ ζῆν ἔφεσις μᾶλλον ἑκάστῳ καὶ ὁ ἔρως τοῦ εἰς ἓν μᾶλλον. φθείρει δὲ καὶ τὰ ἐρῶντα τὰ ἐρώμενα πολλάκις εἰς τὸ αὑτῶν ἀγαθὸν σπεύδοντα, ὅταν φθαρτὰ ᾖ, καὶ ἡ ἔφεσις δὲ τοῦ μέρους πρὸς τὸ ὅλον ἕλκει εἰς αὐτὸ ὃ δύναται.",
+   "flags": [
+    {
+     "taylor": "the partial thing (a human being, for example)",
+     "in": "MacKenna",
+     "why": "The bracket is MacKenna's: the Greek speaks of the longing of any part for the whole (ἡ ἔφεσις τοῦ μέρους πρὸς τὸ ὅλον)."
+    }
+   ]
+  },
+  {
+   "seg": "III.2.17.p2",
+   "chapter": "III.2.17",
+   "modern": "So, then, there are good and bad, as the contrary movements of a dancer come from the same art; and we shall say that one part of him is good and another bad, and that it is well so. But then are the bad no longer bad? No: their being bad is not done away with, only their being such of themselves. But perhaps there is pardon for the bad? Unless reason makes what is pardoned and what is not: and reason makes us not pardon such things.",
+   "greek": "οὕτως οὖν καὶ οἱ ἀγαθοὶ καὶ οἱ κακοί, ὥσπερ παρὰ τῆς αὐτῆς τέχνης ὀρχουμένου τὰ ἐναντία: καὶ αὐτοῦ τὸ μέν τι μέρος ἀγαθόν, τὸ δὲ κακὸν φήσομεν, καὶ οὕτω καλῶς ἔχειν. καίτοι οὐδὲ κακοὶ ἔτι. ἢ τὸ μὲν κακοὺς εἶναι οὐκ ἀναιρεῖται, ἀλλ’ ἢ μόνον ὅτι μὴ παῤ αὑτῶν τοιοῦτοι. ἀλλ’ ἴσως συγγνώμη τοῖς κακοῖς: εἰ μὴ καὶ τὸ τῆς συγγνώμης καὶ μὴ ὁ λόγος ποιεῖ: ποιεῖ δὲ ὁ λόγος μηδὲ συγγνώμονας ἐπὶ τοῖς τοιούτοις εἶναι.",
+   "flags": [
+    {
+     "taylor": "and the Reason-Principle does not excuse them",
+     "in": "MacKenna",
+     "why": "The Greek says reason \"makes us not pardon such things\" (ποιεῖ δὲ ὁ λόγος μηδὲ συγγνώμονας ἐπὶ τοῖς τοιούτοις εἶναι): what reason makes is our refusal to pardon."
+    }
+   ]
+  },
+  {
+   "seg": "III.2.17.p3",
+   "chapter": "III.2.17",
+   "modern": "But if one part of it is a good man, and another a wicked one, and the wicked are the more parts, it is as in plays: the poet assigns some parts, but uses others who already are what they are. For he does not himself make the first actor, or the second or third, but giving each the words that fit him, he has already given each the place where he must be set. So too there is a place for each, one fitting the good, another the bad. Each of the two, then, according to nature and according to reason, goes to each place, the fitting one, holding the place he chose. Then he speaks and does, the one impious words and deeds, the other the contrary: for the actors were such even before the play, and give themselves to the play.",
+   "greek": "ἀλλ’ εἰ τὸ μὲν μέρος αὐτοῦ ἀγαθὸς ἀνήρ, τὸ δὲ ἄλλο πονηρός, καὶ πλείω μέρη ὁ πονηρός, ὥσπερ ἐν δράμασι τὰ μὲν τάττει αὐτοῖς ὁ ποιητής, τοῖς δὲ χρῆται οὖσιν ἤδη: οὐ γὰρ αὐτὸς πρωταγωνιστὴν οὐδὲ δεύτερον οὐδὲ τρίτον ποιεῖ, ἀλλὰ διδοὺς ἑκάστῳ τοὺς προσήκοντας λόγους ἤδη ἀπέδωκεν ἑκάστῳ εἰς ὃ τετάχθαι δέον: οὕτω τοι καὶ ἔστι τόπος ἑκάστῳ ὁ μὲν τῷ ἀγαθῷ, ὁ δὲ τῷ κακῷ πρέπων. ἑκάτερος οὖν κατὰ φύσιν καὶ κατὰ λόγον εἰς ἑκάτερον καὶ τὸν πρέποντα χωρεῖ τὸν τόπον ἔχων, ὃν εἵλετο. εἶτα φθέγγεται καὶ ποιεῖ ὁ μὲν ἀσεβεῖς λόγους καὶ ἔργα ʽποιῶν̓, ὁ δὲ τὰ ἐναντία: ἦσαν γὰρ καὶ πρὸ τοῦ δράματος τοιοῦτοι οἱ ὑποκριταὶ διδόντες ἑαυτοὺς τῷ δράματι."
+  },
+  {
+   "seg": "III.2.17.p4",
+   "chapter": "III.2.17",
+   "modern": "In human plays the poet gave the words, but the actors each have from themselves and of themselves their playing well or badly; for they have a work of their own, beyond the poet's lines. In the truer poem, which men with a poet's nature imitate in part, the soul is the actor, and what it plays it takes from the poet. As the actors here get their masks, their clothes, their saffron robes and their rags, so the soul itself takes its fortunes, not at random, for these too are according to reason. Fitting these to itself, it comes into tune, and orders itself to the play and to the whole reason. Then it as it were speaks out its deeds, and the other things a soul might do in its own way, as one sings a song. An actor, with his voice and his bearing, by his own beauty or ugliness, either added grace to the poem, as it would seem, or, adding the badness of his voice, did not make the play other than it was, but showed himself unseemly; and the poet of the play sent him away in disgrace, as he deserved, doing the work of a good judge, and brought the other on to greater honours and, if he had them, to finer plays, and the first to worse ones, if he had any. So the soul comes into this poem of the All and makes itself a part of the play, bringing from itself its good or bad playing; it is set in its place on its entrance, and takes all the rest apart from itself and its own deeds; and it has penalties and honours in turn.",
+   "greek": "ἐν μὲν οὖν τοῖς ἀνθρωπίνοις δράμασιν ὁ μὲν ποιητὴς ἔδωκε τοὺς λόγους, οἱ δὲ ἔχουσι παῤ αὑτῶν καὶ ἐξ αὑτῶν τό τε καλῶς καὶ τὸ κακῶς ἕκαστος — ἔστι γὰρ καὶ ἔργον αὐτοῖς μετὰ τὰς ῥήσεις τοῦ ποιητοῦ: ἐν δὲ τῷ ἀληθεστέρῳ ποιήματι, ὅ τι μιμοῦνται κατὰ μέρος ἄνθρωποι ποιητικὴν ἔχοντες φύσιν, ψυχὴ μὲν ὑποκρίνεται, ἃ δ’ ὑποκρίνεται λαβοῦσα παρὰ τοῦ ποιητοῦ, ὥσπερ οἱ τῇδε ὑποκριταὶ τὰ προσωπεῖα, τὴν ἐσθῆτα, τοὺς κροκωτοὺς καὶ τὰ ῥάκη, οὕτω καὶ ψυχὴ αὐτὴ τὰς τύχας οὐ λαβοῦσα εἰκῇ: κατὰ λόγον δὲ καὶ αὗται: καὶ ἐναρμοσαμένη ταύτας σύμφωνος γίνεται καὶ συνέταξεν ἑαυτὴν τῷ δράματι καὶ τῷ λόγῳ παντί: εἶτα οἷον φθέγγεται τὰς πράξεις καὶ τὰ ἄλλα, ὅσα ἂν ψυχὴ κατὰ τρόπον τὸν ἑαυτῆς ποιήσειεν, ὥσπερ τινὰ ᾠδήν. καὶ ὡς ὁ φθόγγος καὶ τὸ σχῆμα παῤ αὑτοῦ καλὸν ἢ αἰσχρὸν καὶ ἢ κόσμον προσέθηκεν, ὡς δόξειεν ἄν, εἰς τὸ ποίημα ἢ προσθεὶς τὴν αὑτοῦ τῆς φωνῆς κάκην οὐκ ἐποίησε μὲν τὸ δρᾶμα ἕτερον ἢ οἷον ἦν, αὐτὸς δὲ ἀσχήμων ἐφάνη, ὁ δὲ ποιητὴς τοῦ δράματος ἀπέπεμψε κατ’ ἀξίαν ἀτιμάσας καὶ τοῦτο ἔργον ποιῶν ἀγαθοῦ κριτοῦ, τὸν δὲ ἤγαγεν εἰς μείζους τιμὰς καί, εἰ ἔχοι, ἐπὶ τὰ καλλίω δράματα, τὸν δὲ ἕτερον, εἴ που εἶχε χείρονα, τοῦτον τὸν τρόπον εἰσελθοῦσα εἰς τόδε τὸ πᾶν ποίημα καὶ μέρος ἑαυτὴν ποιησαμένη τοῦ δράματος εἰς ὑπόκρισιν τὸ εὖ ἢ τὸ κακῶς εἰσενεγκαμένη παῤ αὑτῆς καὶ ἐν τῇ εἰσόδῳ συνταχθεῖσα καὶ τὰ ἄλλα πάντα χωρὶς ἑαυτῆς καὶ τῶν ἔργων αὑτῆς λαβοῦσα δίκας τε καὶ τιμὰς αὖ ἔχει.",
+   "flags": [
+    {
+     "taylor": "accepting from the author its entire role",
+     "in": "MacKenna",
+     "why": "The Greek says the soul takes \"all the rest apart from itself and its own deeds\" (τὰ ἄλλα πάντα χωρὶς ἑαυτῆς καὶ τῶν ἔργων αὑτῆς): the poet gives everything except the soul and what it does; MacKenna makes the whole role given and laid over its character."
+    },
+    {
+     "taylor": "robes of state or rags",
+     "in": "MacKenna",
+     "why": "The Greek has \"saffron robes\" (τοὺς κροκωτούς), the yellow gowns of women's and Dionysus' parts on the stage, and rags."
+    }
+   ]
+  },
+  {
+   "seg": "III.2.17.p5",
+   "chapter": "III.2.17",
+   "modern": "These actors have something more, since they play in a place bigger than the measure of a stage, and the poet of the All has made them masters, and there is a greater power of going to many kinds of places. They fix their own honours and dishonours, by taking a hand themselves in their honours and dishonours, each place being fitted to their characters, so that it agrees with the reason of the All, each being fitted justly to the parts that will receive him, as each string is set in its own fitting place according to the reason of its sounding, according to what its power is for that. For in the whole there is the fitting and the beautiful, if each is set where he should be, sounding evil sounds in the darkness and in Tartarus: for there it is beautiful to sound so. And this whole is beautiful not if each is a stone, but if each, bringing in his own sound, contributes to one harmony, sounding a life himself, though a lesser one, and worse, and less complete. So in a panpipe too there is not one sound, but even a lesser and faint one contributes to the harmony of the whole pipe, since the harmony is divided into unequal parts; all the notes are unequal, but the complete one is one, made from them all.",
+   "greek": "πρόσεστι δέ τι τοῖς ὑποκριταῖς ἅτε ἐν μείζονι τόπῳ ἢ κατὰ σκηνῆς μέτρον ὑποκρινομένοις καὶ τοῦ ποιητοῦ παντὸς τούτου ποιοῦντος κυρίους καὶ δυνάμεως οὔσης μείζονος ἐπὶ πολλὰ ἰέναι εἴδη τόπων τιμὰς καὶ ἀτιμίας ὁρίζουσι τῷ συνεπιλαμβάνειν καὶ αὐτοὺς ταῖς τιμαῖς καὶ ἀτιμίαις ἁρμόζοντος ἑκάστου τόπου τοῖς ἤθεσιν, ὡς συμφωνεῖν τῷ τοῦ παντὸς λόγῳ ἐναρμοζομένου κατὰ δίκην ἑκάστου τοῖς μέρεσι τοῖς δεξομένοις, ὥσπερ χορδῆς ἑκάστης εἰς τὸν οἰκεῖον καὶ προσήκοντα τόπον ταττομένης κατὰ λόγον τὸν τοῦ φθέγγεσθαι, ὁποῖόν ἐστιν αὐτῇ τὸ τῆς δυνάμεως εἰς τοῦτο. καὶ γὰρ ἐν τῷ ὅλῳ τὸ πρέπον καὶ τὸ καλόν, εἰ ἕκαστος οὗ δεῖ τετάξεται φθεγγόμενος κακὰ ἐν τῷ σκότῳ καὶ τῷ ταρτάρῳ: ἐνταῦθα γὰρ καλὸν τὸ οὕτω φθέγγεσθαι: καὶ τὸ ὅλον τοῦτο καλὸν οὐκ, εἰ λίθος εἴη ἕκαστος, ἀλλ’ εἰ τὸν φθόγγον τὸν αὑτοῦ εἰσφερόμενος συντελοῖ εἰς μίαν ἁρμονίαν ζωὴν καὶ αὐτὸς φωνῶν, ἐλάττω δὲ καὶ χείρω καὶ ἀτελεστέραν: ὥσπερ οὐδὲ ἐν σύριγγι φωνὴ μία, ἀλλὰ καὶ ἐλάττων τις οὖσα καὶ ἀμυδρὰ πρὸς ἁρμονίαν τῆς πάσης σύριγγος συντελεῖ, ὅτι μεμέρισται ἡ ἁρμονία εἰς οὐκ ἴσα μέρη καὶ ἄνισοι μὲν οἱ φθόγγοι πάντες, ὁ δὲ τέλειος εἷς ἐκ πάντων.",
+   "flags": [
+    {
+     "taylor": "All is just and good in the Universe",
+     "in": "MacKenna",
+     "why": "The Greek says that in the whole there is \"the fitting and the beautiful\" (τὸ πρέπον καὶ τὸ καλόν); \"just\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "Tartarus, the deepest pit under the earth, where the incurable are thrown: Phaedo 112a-114b, Gorgias 525c-e."
+   ]
+  },
+  {
+   "seg": "III.2.17.p6",
+   "chapter": "III.2.17",
+   "modern": "And so the whole reason is one, but divided into unequal parts. That is why there are different places in the All, better and worse, and souls not equal fit themselves so to places not equal. And so it comes about here too that the places are unlike, and the souls not the same, but unequal and with unlike ways, as with the unlikenesses of a panpipe or some other instrument; they are in places different from one another, and in each place they sound their own notes, in tune both with the places and with the whole. What is badly with them will lie in the beautiful as regards the All, and what is against nature will be according to nature for the All, and will be no less a lesser sound. But the soul that sounds so has not made the whole worse, as the executioner, wicked as he is, has not made the well-governed city worse, if we must use another image too. For there is need of him too in a city (\"and there is often need of such a man\"), and he too is set well.",
+   "greek": "καὶ δὴ καὶ ὁ λόγος ὁ πᾶς εἷς, μεμέρισται δὲ οὐκ εἰς ἴσα: ὅθεν καὶ τοῦ παντὸς διάφοροι τόποι, βελτίους καὶ χείρους, καὶ ψυχαὶ οὐκ ἴσαι ἐναρμόττουσιν οὕτω τοῖς οὐκ ἴσοις καὶ οὕτω καὶ ἐνταῦθα συμβαίνει καὶ τοὺς τόπους ἀνομοίους καὶ τὰς ψυχὰς οὐ τὰς αὐτάς, ἀλλ’ ἀνίσους οὔσας καὶ ἀνομοίους τοὺς τρόπους ἐχούσας, οἷον κατὰ σύριγγος ἤ τινος ἄλλου ὀργάνου ἀνομοιότητας, ἐν τόποις τε πρὸς ἀλλήλας διαφέρουσιν εἶναι καὶ καθ̓ ἕκαστον τόπον τὰ αὑτῶν συμφώνως καὶ τοῖς τόποις καὶ τῷ ὅλῳ φθεγγομένας. καὶ τὸ κακῶς αὐταῖς ἐν καλῷ κατὰ τὸ πᾶν κείσεται καὶ τὸ παρὰ φύσιν τῷ παντὶ κατὰ φύσιν καὶ οὐδὲν ἧττον φθόγγος ἐλάττων. ἀλλ’ οὐ χεῖρον πεποίηκε τὸ ὅλον οὕτω φθεγγομένη, ὥσπερ οὐδὲ ὁ δήμιος πονηρὸς ὢν χείρω πεποίηκε τὴν εὐνομουμένην πόλιν, εἰ δεῖ καὶ ἄλλῃ χρῆσθαι εἰκόνι. δεῖ γὰρ καὶ τούτου ἐν πόλει, ʽδεῖ δὲ καὶ ἀνθρώπου τοιούτου πολλάκις,ʼ καὶ καλῶς καὶ οὗτος κεῖται.",
+   "flags": [
+    {
+     "taylor": "and the corresponding moral type is often serviceable",
+     "in": "MacKenna",
+     "why": "The Greek, in words set off as a saying, says \"there is often need of such a man too\" (δεῖ δὲ καὶ ἀνθρώπου τοιούτου πολλάκις): of the man himself, not of a moral type."
+    }
+   ]
+  },
+  {
+   "seg": "III.2.18.p1",
+   "chapter": "III.2.18",
+   "modern": "Souls are worse and better, some for other causes, and some as it were not all equal from the beginning: for, in proportion to the reason, they too are unequal parts, since they have stood apart. We must also bear in mind the second and the third things, and that soul does not always act with the same parts. But we must say it again in this way too: for the argument longs for much clarity.",
+   "greek": "χείρους δὲ καὶ βελτίους ψυχαὶ αἱ μὲν καὶ δἰ ἄλλας αἰτίας, αἱ δὲ οἷον ἐξ ἀρχῆς οὐ πᾶσαι ἴσαι: ἀνὰ λόγον γὰρ καὶ αὗται τῷ λόγῳ μέρη οὐκ ἴσα, ἐπείπερ διέστησαν. χρὴ δὲ ἐνθυμεῖσθαι καὶ τὰ δεύτερα καὶ τὰ τρίτα καὶ τὸ μὴ τοῖς αὐτοῖς ἐνεργεῖν ἀεὶ μέρεσι ψυχήν. ἀλλὰ πάλιν αὖ καὶ ὧδε λεκτέον: πολλὰ γὰρ ἐπιποθεῖ εἰς σαφήνειαν ὁ λόγος.",
+   "flags": [
+    {
+     "taylor": "its expression may take any one of three main forms",
+     "in": "MacKenna",
+     "why": "The Greek says only that we must bear in mind \"the second and the third\" (τὰ δεύτερα καὶ τὰ τρίτα), and that soul does not always act with the same parts; the \"three main forms\" are MacKenna's."
+    }
+   ]
+  },
+  {
+   "seg": "III.2.18.p2",
+   "chapter": "III.2.18",
+   "modern": "Perhaps there is no need at all to bring in actors of the kind who will say something other than the poet's words, as though the play were incomplete in itself and they were filling in what is lacking, and the poet had left empty places in between; as though the actors were to be not actors but part of the poet, and he foreknew what they would say, so as to be able to join on the rest and what follows. For in the All too, what follows, and what comes after bad deeds, are reasons and according to reason: as from adultery and the carrying off of a captive come children better by nature, and men too, it may be; and other cities better than those sacked by wicked men.",
+   "greek": "μὴ γὰρ οὐδὲν δεῖ ἐπεισάγειν τοιούτους ὑποκριτάς, οἳ ἄλλο τι φθέγξονται ἢ τὰ τοῦ ποιητοῦ, ὥσπερ ἀτελοῦς παῤ αὐτοῦ τοῦ δράματος ὄντος αὐτοὶ ἀποπληροῦντες τὸ ἐλλεῖπον καὶ τοῦ ποιήσαντος διὰ μέσου κενοὺς ποιήσαντος τόπους, ὡς τῶν ὑποκριτῶν οὐχ ὑποκριτῶν ἐσομένων, ἀλλὰ μέρους τοῦ ποιητοῦ, καὶ προειδότος ἃ φθέγξονται, ἵν’ οὕτω τὰ λοιπὰ συνείρειν καὶ τὰ ἐφεξῆς οἷός τε ᾖ. καὶ γὰρ τὰ ἐφεξῆς ἐν τῷ παντὶ καὶ τὰ ἑπόμενα τοῖς κακοῖς τῶν ἔργων λόγοι καὶ κατὰ λόγον: οἷον ἐκ μοιχείας καὶ αἰχμαλώτου ἀγωγῆς παῖδες κατὰ φύσιν βελτίους καὶ ἄνδρες, εἰ τύχοι, καὶ πόλεις ἄλλαι ἀμείνους τῶν πεπορθημένων ὑπὸ ἀνδρῶν πονηρῶν.",
+   "flags": [
+    {
+     "taylor": "We may perhaps think of actors having the right to add something to the poet's words",
+     "in": "MacKenna",
+     "why": "The Greek doubts whether there is any need \"to bring in actors who will say something other than the poet's words\" (μὴ γὰρ οὐδὲν δεῖ ἐπεισάγειν τοιούτους ὑποκριτάς): the thought is put in question, not granted as a right."
+    }
+   ]
+  },
+  {
+   "seg": "III.2.18.p3",
+   "chapter": "III.2.18",
+   "modern": "If, then, it is absurd to bring in souls, some of which will do the wicked things and others the good (for we shall rob reason of the good things too, if we take the wicked away from it), what prevents us from making the actors' deeds parts too, of the reason in the All as of the play there, and both the good playing and its contrary from here, so that it comes to each of the actors from reason itself, so much the more as this play is the more complete, and all things come from reason? But then, to make evil: for what? And the souls, even the more divine, would no longer be anything in the All, but all would be parts of reason. And either all the reasons are souls, or why are some souls and others only reasons, when the All belongs to a soul?",
+   "greek": "εἰ οὖν ἄτοπος ἡ εἰσαγωγὴ τῶν ψυχῶν, αἳ δὴ τὰ πονηρά, αἱ δὲ τὰ χρηστὰ ἐργάσονται — ἀποστερήσομεν γὰρ τὸν λόγον καὶ τῶν χρηστῶν ἀφαιροῦντες αὐτοῦ τὰ πονηρά — τί κωλύει καὶ τὰ τῶν ὑποκριτῶν ἔργα μέρη ποιεῖν, ὥσπερ τοῦ δράματος ἐκεῖ, οὕτω καὶ τοῦ ἐν τῷ παντὶ λόγου, καὶ ἐνταῦθα καὶ τὸ καλῶς καὶ τὸ ἐναντίον, ὥστε εἰς ἕκαστον τῶν ὑποκριτῶν οὕτω παῤ αὐτοῦ τοῦ λόγου, ὅσῳ τελειότερον τοῦτο τὸ δρᾶμα καὶ πάντα παῤ αὐτοῦ. ἀλλὰ τὸ κακὸν ποιῆσαι ἵνα τί; καὶ αἱ ψυχαὶ δὲ οὐδὲν ἔτι ἐν τῷ παντὶ αἱ θειότεραι, ἀλλὰ μέρη λόγου πᾶσαι: καὶ ἢ οἱ λόγοι πάντες ψυχαί, ἢ διὰ τί οἱ μὲν ψυχαί, οἱ δὲ λόγοι μόνον τοῦ παντὸς ψυχῆς τινος ὄντος;",
+   "flags": [
+    {
+     "taylor": "when the All is itself a Soul",
+     "in": "MacKenna",
+     "why": "The Greek says \"the All belonging to a soul\" (τοῦ παντὸς ψυχῆς τινος ὄντος): the All is a soul's, not itself a soul."
+    }
+   ],
+   "notes": [
+    "The questions are taken up in III.3, the second part of the treatise; Porphyry divided Plotinus' one long writing On providence into two, the forty-seventh and forty-eighth in the order of writing (Life 6)."
    ]
   }
  ],

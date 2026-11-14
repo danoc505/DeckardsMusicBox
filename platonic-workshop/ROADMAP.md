@@ -173,9 +173,23 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   fate), the Stoics' destiny, chain, ruling part, management and seed-principles (Stobaeus, Aetius, Diogenes Laertius), the
   astrologers' centres and the Airs, waters, places, impressions and impulse (Chrysippus' cylinder, On fate 42-43),
   Aristotle's voluntary and "up to us" (Nicomachean Ethics III.1-5), and "the alone" of VI.9.11.
-- E11: III.2 On providence, first part (6,582). Next. 18 chapters; MacKenna's tool also finds 18 (vol. II,
-  pp. 11-35), so no @older is expected, but compare his chapter openings with the Greek before translating.
-- E12: III.3 On providence, second part, III.4 On the daemon allotted to us (4,044).
+- **E11: III.2 On providence, first part (6,582) (done).** 18 chapters, 54 paragraphs, 64 flags, 30 notes, beside
+  MacKenna's vol. II (pp. 11-35); his chapters are Volkmann's, so no @older. E.g. MacKenna has "the meeting ground of
+  Necessity and divine Reason" where the Greek has the Timaeus' intellect and necessity, "the divine Realm imposes the one
+  harmonious act" where the warring things themselves set up one harmony, vice "a lesson in right doing" for a pattern
+  (παράδειγμα) of justice, "Men are not born divine" for not having become divine, "it is not abstract Spirit" for souls
+  that are already living things, "Not even a God would have the right" for what it was fitting for a god to do,
+  "executive power and right doing" for craft and justice, "celestial spirits" for daemons, "the hostility to partition"
+  where reason is unlike in its parts, "the desirable" for the beautiful, stars "in the ears" where the Greek has the
+  face, "the furnaces of craftsmanship" for Hephaestus' art, "this bandit war" for the undeclared war, man "a futility"
+  for a toy, a "pantomimic dancer" aiming at pattern where the dancer's art moves him, and actors "having the right to
+  add something" where the Greek doubts the need for them. Notes on the spontaneous and the Gnostics' evil craftsman,
+  Timaeus 47e-48a and 29e, Laws X 902e-905b, Republic X 617e (Lachesis), Theaetetus 176a, Chrysippus on goods and evils
+  (Gellius VII.1) and on bugs (Plutarch 1044d), Laws IX 872d-873a (the mother-killer born a woman), Adrasteia (Phaedrus
+  248c), the undeclared war (Laws I 626a), the plaything of god (Laws VII 803c-804b), Heraclitus fr. B8 and B51, and
+  Hephaestus' living statues (Iliad XVIII.417-420).
+- E12: III.3 On providence, second part, III.4 On the daemon allotted to us (4,044). Next. Compare MacKenna's chapter
+  openings with the Greek before translating.
 - E13: III.5 On love (3,531).
 - E14: III.8 On nature, contemplation and the One, III.9 Various considerations (5,035).
 - E15: IV.1 On the being of the soul, first part, and IV.4 chapters 1-17 (about 5,000); MacKenna's vol. III (1924).
