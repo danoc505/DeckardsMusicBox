@@ -220,9 +220,25 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   986a22-26), Plutarch's Eros as the world (On Isis and Osiris 374c-d), the Epinomis' daemons (984b-985b), intelligible
   matter (II.4), the triangle (Posterior Analytics I.4), Zeus' royal soul and intellect (Philebus 30d), the third
   libation, Hera's star ([Aristotle], On the cosmos 392a27-28) and the Timaeus read as told in time (On the heavens I.10).
-- E14: III.8 On nature, contemplation and the One, III.9 Various considerations (5,035). Next. Compare MacKenna's
-  chapter openings with the Greek before translating (his III.8 has 10 chapters for Volkmann's 11).
-- E15: IV.1 On the being of the soul, first part, and IV.4 chapters 1-17 (about 5,000); MacKenna's vol. III (1924).
+- **E14: III.8 On nature, contemplation and the One, III.9 Various considerations (5,035) (done).** 14 chapters, 41
+  paragraphs, 70 flags, 33 notes, beside MacKenna's vol. II (pp. 119-141). His chapters 1 to 9 of III.8 are Volkmann's; his
+  tenth (p. 133) runs on through the Greek's eleventh ("Another approach"), so the eleventh is shown with his 10 (@older 10).
+  The Greek of III.9 has three chapters, as he has; his third is cut into lettered notes. E.g. MacKenna has "The case of
+  Man" for "this later" (action), "conscious representation" for imagination, the living principle "brother ... to that
+  which gives mere shape" where it is brother to the one that made the shape and has the same power, "Wholly and solely ?"
+  for an answer, "planning" for looking into, "mathematicians" for geometers, "trace" for the shadow of contemplation,
+  "complement" for consequence, the craft in a child made "a minor science in the student", "the Supreme" and "the Highest"
+  for intellect that began as one and unrolled, "pregnant" for weighed down, "lovely abundance" for the beautiful boy who
+  is fullness (Kronos), the rivers one "within" the spring where they have already come out of it, "a common accident" for
+  readers' differing understanding of the Timaeus, the soul looking "downward" for its second glance, and the thinking of
+  the Good denied majesty where the Greek grants it. Notes on play (Laws VII 803c-804b), the Stoics' nature, the
+  wax-modellers (Cicero, On the nature of the gods II.57-58), seminal principles, the Phaedrus' charioteer (246a-254e) and
+  the written word that cannot help itself (275e), Parmenides fragment B3, the heap (Metaphysics VII.17), the Good beyond
+  being (Republic VI 509b), like known by like, the Parmenides' first hypothesis, Kronos as intellect (Cratylus 396b), the
+  Living Being of Timaeus 39e, the Second Letter's third (312e), the body in the soul (Timaeus 34b, 36d-e), intelligible
+  matter, the Sophist's motion and rest (254d) and the unmoved mover (Metaphysics XII.7).
+- E15: IV.1 On the being of the soul, first part, and IV.4 chapters 1-17 (about 5,000); MacKenna's vol. III (1924). Next.
+  Compare MacKenna's chapter openings with the Greek before translating.
 - E16: IV.4 chapters 18-31 (about 4,700).
 - E17: IV.4 chapters 32-45 (about 4,600).
 - E18: IV.5 On sight, IV.6 On perception and memory (4,686).
