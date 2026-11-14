@@ -36,6 +36,20 @@ class TheBuildReadsTheServeModule(unittest.TestCase):
         self.assertTrue(build_site.serve.TAYLOR_TEXTS_AR)
 
 
+class TheSiteCarriesTheModernEnglish(unittest.TestCase):
+    def test_every_modern_text_goes_to_the_website_whatever_its_size(self):
+        # The Metaphysics and the Enneads passed the 2 MB cut for files.json and opened as "Not found" on the iPad.
+        sent = set(build_site.server_json())
+        modern = sorted(build_site.serve.MODERN.glob("*.json"))
+        self.assertTrue(modern)
+        for p in modern:
+            self.assertIn(p, sent, p.name)
+        for tid in build_site.serve.MODERN_NEO:
+            f = build_site.serve.MODERN / f"{tid}.json"
+            if f.exists():
+                self.assertIn(f, sent, tid)
+
+
 class Pieces(unittest.TestCase):
     def test_pieces_put_back_together_are_the_database(self):
         with tempfile.TemporaryDirectory() as tmp:
