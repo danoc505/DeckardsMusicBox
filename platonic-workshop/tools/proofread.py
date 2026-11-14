@@ -2,7 +2,8 @@
 """Milestone 27: the scanned Greek, proofread from the page images, before it is translated.
 
 The Greek of Proclus and Olympiodorus on the First Alcibiades (milestone 25) is the Internet Archive's OCR of
-Cousin's and Creuzer's editions, shown as received and not proofread. Before a passage is translated into
+Cousin's and Creuzer's editions, shown as received and not proofread (and so is Porphyry's Life of Plotinus, from
+Volkmann's, Enneads milestone E5). Before a passage is translated into
 modern English, its pages are proofread against the page images, line by line, and written down in a master
 copy that is easy to read and revise by hand:
 
@@ -117,6 +118,12 @@ def groups(ocr, page):
     return out
 
 
+def editor_of(text_id):
+    """'Cousin's', 'Volkmann's': whose page a correction names."""
+    t = next(x for x in neoplatonists.TEXTS if x["id"] == text_id)
+    return t["editor"].split()[-1] + "'s"
+
+
 def page_corrections(text_id, unit, page):
     """The corrections for one page: (corrections, the corrected text)."""
     lines = unit["text"].split("\n") if unit["text"] else []
@@ -125,7 +132,7 @@ def page_corrections(text_id, unit, page):
         if any(ln.strip() for ln in lines):
             raise ValueError(f"{unit['n']}: a page is supplied for it, but the scan has text there")
         c = {"text": text_id, "unit": unit["n"], "ocr": "", "read": "\n".join(page["lines"]),
-             "why": f"Supplied (Cousin's {page['label']}): the scan's leaf for this page is blank; the page is proofread from "
+             "why": f"Supplied ({editor_of(text_id)} {page['label']}): the scan's leaf for this page is blank; the page is proofread from "
                     f"another scan of the same edition, {page['supplied']} (sources/neoplatonists/proofread/{text_id}.txt).",
              "by": BY, "proofread": True}
         got, _ = neoplatonists.apply_corrections(unit["text"], [c])
@@ -139,7 +146,7 @@ def page_corrections(text_id, unit, page):
             r = "\n".join(page["lines"][j] for j in sorted(ps))
             if o != r:
                 out.append({"text": text_id, "unit": unit["n"], "ocr": o, "read": r,
-                            "why": f"Proofread from the page image (Cousin's {page['label']}): the OCR misreads this line; "
+                            "why": f"Proofread from the page image ({editor_of(text_id)} {page['label']}): the OCR misreads this line; "
                                    f"the page reads so (sources/neoplatonists/proofread/{text_id}.txt).",
                             "by": BY, "proofread": True})
         return out

@@ -623,6 +623,34 @@
       "status": "local"
     },
     {
+      "id": "ia-volkmann-t1",
+      "title": "Porphyry, Life of Plotinus: Plotini Enneades, ed. Richard Volkmann, vol. I (Leipzig: Teubner, 1883), pp. 1-36, Greek, Internet Archive OCR",
+      "kind": "archive",
+      "item": "volkmann-enneades-gr-v.-1-1883",
+      "repo": "https://archive.org/details/volkmann-enneades-gr-v.-1-1883",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/volkmann-enneades-gr-v.-1-1883/Volkmann%20-%20Enneades%2C%20%5Bgr%5D%2C%20v.1%2C%201883_djvu.xml",
+          "sha256": "38f305ab660011333716310379c3231164e2b729fcfa811a51e36c64509151d5",
+          "bytes": 8711910
+        },
+        {
+          "file": "page_numbers.json",
+          "url": "https://archive.org/download/volkmann-enneades-gr-v.-1-1883/Volkmann%20-%20Enneades%2C%20%5Bgr%5D%2C%20v.1%2C%201883_page_numbers.json",
+          "sha256": "6b86a80365e250dccc14d6cb4852172a2b0718727af30e4f81959255b73afec3",
+          "bytes": 76683
+        }
+      ],
+      "sha256": "38f305ab660011333716310379c3231164e2b729fcfa811a51e36c64509151d5",
+      "layer": "neoplatonist",
+      "language": "grc",
+      "citation_scheme": "Volkmann's printed page numbers, and the chapters he numbers",
+      "licence": "Public domain (the Internet Archive marks the scan with the Creative Commons Public Domain Mark 1.0: http://creativecommons.org/publicdomain/mark/1.0/)",
+      "provenance": "Internet Archive item volkmann-enneades-gr-v.-1-1883: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-14 and pinned by sha256; kept as received in data/raw/ia-volkmann-t1/. Volkmann's volume I opens with Porphyry's Life of Plotinus (pp. 1-36; the Life is not in First1KGreek, whose Plotinus is the Enneads alone). The OCR of the pages the Workshop reads is committed in sources/neoplatonists/ocr/ (tools/neoplatonists.py --extract), checked against this download. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json; chapters 1-12 (pp. 3-18) proofread from the page images in sources/neoplatonists/proofread/porphyry-life-plotinus.txt (Enneads milestone E5). Read by tools/neoplatonists.py.",
+      "status": "verified"
+    },
+    {
       "id": "ia-cousin-proclus-t2",
       "title": "Proclus, Commentary on the First Alcibiades, part 1: Procli philosophi Platonici opera, ed. Victor Cousin, vol. II (Paris: J.-M. Eberhart, 1820), Greek with Cousin's Latin, Internet Archive OCR",
       "kind": "archive",

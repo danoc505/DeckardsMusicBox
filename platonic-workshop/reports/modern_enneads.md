@@ -3,20 +3,40 @@
 Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.txt`. The Workshop's modern English, machine-assisted: drafted with an AI model (Claude) from the Greek and not yet checked by a scholar. The Greek of each paragraph, and MacKenna's English of each chapter, are one tap away.
 
 - Made from: Volkmann's Greek (Leipzig, 1883-1884), as First1KGreek gives it; checked against MacKenna's English (1917; the Internet Archive's OCR of the printed volumes, read by rule (tools/mackenna.py), not proofread).
-- Treatises done here: I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life.
-- The whole Enneads: 7 treatises here, 15 beside Taylor (milestone 27), 32 to come.
-- Chapters: 67, each with a short title and a summary.
-- Paragraphs: 159, each with its Greek.
-- Words: 21,931 modern, 16,494 Greek, 27,334 in MacKenna's English of the same chapters.
-- Sentences (each can be marked in the reader): 833.
-- Flags (where MacKenna and the Greek differ, or the Greek is hard): 93.
-- Notes (Plato's, Aristotle's and Homer's places, hard readings): 71.
+- Porphyry's Life of Plotinus: Volkmann's own Greek (vol. I, 1883), proofread from the scan (`sources/neoplatonists/proofread/porphyry-life-plotinus.txt`).
+- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life.
+- The whole Enneads: 8 treatises here, 15 beside Taylor (milestone 27), 32 to come.
+- Chapters: 79, each with a short title and a summary.
+- Paragraphs: 196, each with its Greek.
+- Words: 26,226 modern, 19,858 Greek, 31,180 in MacKenna's English of the same chapters.
+- Sentences (each can be marked in the reader): 1,037.
+- Flags (where MacKenna and the Greek differ, or the Greek is hard): 112.
+- Notes (Plato's, Aristotle's and Homer's places, hard readings): 91.
 - Problems found: 0.
 
 ## Flags
 
 | Paragraph | MacKenna's words | Why |
 |---|---|---|
+| Life.2.p1 | in a short while he contracted malign diphtheria | The Greek says "little by little" (κατ’ ὀλίγον) the disease grew on him, not "in a short while"; and its name is κυνάγχη ("dog-choke"), the ancient name for a severe inflammation of the throat. "Malign diphtheria" is a modern diagnosis put into Porphyry's mouth. |
+| Life.2.p1 | addressing everyone by word of mouth | The Greek ἀπὸ στόματος πάντας προσαγορεύειν is most naturally "greeting everyone mouth to mouth", with a kiss, which is why his friends, afraid of his sores, kept away; "by word of mouth" makes it speech. |
+| Life.3.p1 | he was told he was a " perverted imp," | The Greek ἀτηρὸν παιδίον is "a naughty (or wretched) child", a nurse's scolding; "perverted" is MacKenna's. |
+| Life.3.p2 | At twenty he was caught by the passion for philosophy | The Greek says "in his twenty-eighth year" (εἰκοστὸν δὲ καὶ ὄγδοον ἔτος): MacKenna drops the eight. The count matters, since Porphyry then has him study eleven years with Ammonius and join Gordian's army at thirty-nine. |
+| Life.3.p5 | presented to Hostilianus of Apamea | The Greek names him Ustillianus Hesychius (Οὐστιλλιανῷ Ἡσυχίῳ) of Apamea; MacKenna gives one name, in another form. |
+| Life.4.p2 | the distribution was grudging and secret | The Greek says only that the books were not given out easily or lightly, "but with every care in judging those who received them"; "secret" is MacKenna's. |
+| Life.4.p3 | On our Tutelary Spirit (II. 2) | The fifteenth book, "On the daemon allotted to us", is III.4 in the Enneads, not II.2, which is the fourteenth, "On the circular movement". The Ennead places are MacKenna's additions. |
+| Life.5.p1 | Unity (II. 4, 5) | The two books "That being, one and the same, is everywhere whole" are VI.4 and VI.5 of the Enneads, not II.4 and II.5 (which are "On matter" and "On the potential and the actual"). |
+| Life.5.p2 | After these come the following twenty | Porphyry simply goes on with the list; the heading, and the count of twenty, are MacKenna's. |
+| Life.5.p2 | On the Impassibility of the Bodiless (III. 5) | This book is III.6 of the Enneads; III.5 is "On love", the fiftieth. |
+| Life.6.p2 | On the First Good ; or, On Happiness (I. 8) | The last book, "On the first good", is I.7 of the Enneads; I.8 is "What evils are", the fifty-first. |
+| Life.6.p3 | early manhood, vigorous prime, worn-out constitution | The Greek κατὰ πρώτην ἡλικίαν is "in his earlier age": by Porphyry's own count Plotinus was about forty-eight to fifty-nine when he wrote the first twenty-one, not in "early manhood". |
+| Life.7.p1 | from Amereia, Unification, | ἀμέρεια is "being without parts", indivisibility, which the intelligible has; MacKenna's "Unification" is near the sense, but not the word. |
+| Life.7.p2 | the political career in which he stood high | The Greek says only that Zethus was a man of politics, "with political leanings" (ῥοπὰς ἔχοντα πολιτικάς), which Plotinus tried to check; that he "stood high" in it is MacKenna's. |
+| Life.7.p3 | only one meal a day | The Greek σιτεῖσθαι παρὰ μίαν is "to eat every other day", skipping a day between meals; MacKenna's "one meal a day" is a milder fast. |
+| Life.8.p1 | in these habits, to our general surprise, he remained unchanged to the very end | What "we all marvelled at" (ὃ πάντες ἐθαυμάζομεν) is what follows, "for he would complete the argument in himself...": his writing straight from a finished thought, not his careless habits. |
+| Life.8.p2 | by someone entering on business | The Greek says only "even when talking with someone and keeping the conversation going"; the visitor "entering on business" is MacKenna's. |
+| Life.9.p2 | his intention towards the Supreme | The Greek is τὴν πρὸς τὸν νοῦν τάσιν, his "tension towards intellect"; MacKenna's "the Supreme" sets it higher, at the One. |
+| Life.11.p3 | to my house where I had secluded myself | The Greek says only that Plotinus came to Porphyry "while I was staying in the house" (ἐν τῷ οἴκῳ διατρίβοντι); that he had shut himself away is MacKenna's. |
 | I.1.2.p1 | which Reason manifests | The Greek ἥντινα ἂν φήνῃ ὁ λόγος means "whatever the argument shows it to be": the "reason" (λόγος) here is the discussion now under way, not the soul's faculty of Reason. |
 | I.1.4.p2 | Compare the passage (in Plato) where we read that " it is absurd to suppose that the Soul weaves " | MacKenna puts the saying in Plato; it is Aristotle's, in On the Soul I.4 (408b11-15), where he says that to call the soul angry is like saying that it weaves or builds. |
 | I.1.7.p2 | Discursive-Reasoning, Sense-Knowledge and Intellection | The Greek has διάνοιαι καὶ δόξαι καὶ νοήσεις, "reasonings, opinions and acts of thought": δόξαι are opinions, not "sense-knowledge". |
@@ -115,6 +135,7 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 
 | Treatise | Title | Modern English |
 |---|---|---|
+| Life | Porphyry, On the life of Plotinus and the order of his books | done here, chapters 1-12 of 26 |
 | I.1 | What is the living being, and what is the human being? | done here |
 | I.2 | On the virtues | done beside Taylor (milestone 27) |
 | I.3 | On dialectic | done beside Taylor (milestone 27) |

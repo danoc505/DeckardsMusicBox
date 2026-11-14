@@ -137,7 +137,7 @@ class Proofreading(unittest.TestCase):
 
     def test_the_corrections_are_written_and_kept_apart(self):
         d = json.loads(neoplatonists.CORRECTIONS.read_text(encoding="utf-8"))
-        mine = [c for c in d["corrections"] if c.get("proofread")]
+        mine = [c for c in d["corrections"] if c.get("proofread") and c["text"] == TID]     # other texts are proofread too (E5)
         self.assertGreater(len(mine), 400)
         units = {p["unit"] for p in proofread.parse(TID)}
         for c in mine:
@@ -155,7 +155,7 @@ class Proofreading(unittest.TestCase):
         corrs, problems = proofread.build(TID)
         self.assertEqual(problems, [])
         d = json.loads(neoplatonists.CORRECTIONS.read_text(encoding="utf-8"))
-        self.assertEqual([c for c in d["corrections"] if c.get("proofread")], corrs, "run python3 tools/proofread.py")
+        self.assertEqual([c for c in d["corrections"] if c.get("proofread") and c["text"] == TID], corrs, "run python3 tools/proofread.py")
         t = next(x for x in neoplatonists.TEXTS if x["id"] == TID)
         units = {u["n"]: u for u in neoplatonists.read_ocr(t)[0]}
         for p in proofread.parse(TID):

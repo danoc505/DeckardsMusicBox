@@ -53,10 +53,20 @@ class MacKenna(unittest.TestCase):
         self.assertEqual(path.read_text(encoding="utf-8"), text)
 
     def test_the_first_ennead_its_nine_treatises(self):
-        self.assertEqual([t["id"] for t in self.d["treatises"]], [f"I.{n}" for n in range(1, 10)])
-        self.assertEqual(self.d["treatises"][0]["title"], "The Animate and the Man")
-        self.assertEqual(self.d["treatises"][8]["title"], "The Reasoned Dismissal")
-        self.assertEqual([len(t["chapters"]) for t in self.d["treatises"]], [13, 7, 6, 16, 10, 9, 3, 12, 1])
+        # Porphyry's Life of Plotinus first (milestone E5), then the nine treatises.
+        self.assertEqual([t["id"] for t in self.d["treatises"]], ["Life"] + [f"I.{n}" for n in range(1, 10)])
+        self.assertEqual(self.d["treatises"][1]["title"], "The Animate and the Man")
+        self.assertEqual(self.d["treatises"][9]["title"], "The Reasoned Dismissal")
+        self.assertEqual([len(t["chapters"]) for t in self.d["treatises"]], [26, 13, 7, 6, 16, 10, 9, 3, 12, 1])
+
+    def test_the_life_of_plotinus_its_twenty_six_chapters(self):
+        life = self.d["treatises"][0]
+        self.assertEqual(life["title"], "Porphyry: On the Life of Plotinus and the Arrangement of his Work")
+        self.assertEqual([c["id"] for c in life["chapters"]], [f"Life.{n}" for n in range(1, 27)])
+        self.assertEqual(life["page"], 1)
+        ch = {c["id"]: c for c in life["chapters"]}
+        self.assertTrue(ch["Life.1"]["paras"][0].startswith("Plotinus, the philosopher our contemporary, seemed ashamed"))
+        self.assertIn("At twenty he was caught by the passion for philosophy", " ".join(ch["Life.3"]["paras"]))
         self.assertEqual((self.d["translator"], self.d["year"]), ("Stephen MacKenna", 1917))
 
     def test_running_heads_and_page_numbers_are_taken_out(self):
@@ -64,7 +74,7 @@ class MacKenna(unittest.TestCase):
         self.assertNotIn("PLOTINUS", text)
         self.assertNotIn("THE ANIMATE AND THE MAN", text)
         self.assertNotRegex(text, r"\] [A-Z]{4,}")
-        ch = self.d["treatises"][0]["chapters"]
+        ch = self.d["treatises"][1]["chapters"]
         self.assertEqual([c["page"] for c in ch[:4]], [29, 29, 31, 32])
 
     def test_broken_words_and_paragraphs_are_joined(self):
@@ -76,6 +86,8 @@ class MacKenna(unittest.TestCase):
         self.assertIn("between Soul and Essential Soul (between an individual Soul", " ".join(ch["I.1.2"]["paras"]))
         for c in ch.values():
             for p in c["paras"]:
+                if c["id"] == "Life.22":
+                    continue    # the oracle on Plotinus, in verse, its lines kept as MacKenna set them
                 self.assertRegex(p, r"[.?!:;\"')—\]]$", c["id"])
 
     def test_chapters_open_with_macKennas_words(self):
@@ -98,6 +110,9 @@ class Files(unittest.TestCase):
     def test_the_contents_are_the_fifty_four_in_porphyrys_order(self):
         d = load()
         ids = [c["id"] for c in d["contents"]]
+        # Porphyry's Life of Plotinus, before the Enneads (milestones E5-E6), then the fifty-four.
+        self.assertEqual(ids[0], "Life")
+        ids = ids[1:]
         self.assertEqual(len(ids), 54)
         self.assertEqual(ids[:3], ["I.1", "I.2", "I.3"])
         self.assertEqual(ids[-1], "VI.9")
@@ -106,6 +121,7 @@ class Files(unittest.TestCase):
         self.assertEqual(sorted(taylor), sorted(modern_enneads.taylor_treatises()))
         self.assertEqual(len(taylor), 15)
         here = [c["id"] for c in d["contents"] if c["status"] == "here"]
+        self.assertEqual(d["contents"][0]["status"], "here")
         self.assertEqual(here, [t["id"] for t in d["treatises"]])
         for c in d["contents"]:
             if c["status"] == "to come":
@@ -113,19 +129,19 @@ class Files(unittest.TestCase):
 
     def test_milestone_e1_the_first_treatise(self):
         d = load()
-        self.assertEqual(d["treatises"][0]["id"], "I.1")
+        self.assertEqual(d["treatises"][1]["id"], "I.1")
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "I.1"], [f"I.1.{n}" for n in range(1, 14)])
         for c in d["chapters"]:
             self.assertTrue(c["title"] and c["summary"], c["id"])
             self.assertTrue(c["older"], f"{c['id']}: MacKenna's chapter is shown with it")
             self.assertEqual(c["older"][0]["year"], 1917)
-        first = d["paragraphs"][0]
+        first = next(p for p in d["paragraphs"] if p["seg"] == "I.1.1.p1")
         self.assertTrue(first["modern"].startswith("Pleasures and pains, fears and boldness"))
         self.assertTrue(first["greek"].startswith("Ἡδοναὶ καὶ λῦπαι"))
 
     def test_milestone_e2_on_happiness_and_time(self):
         d = load()
-        self.assertEqual([t["id"] for t in d["treatises"]][:3], ["I.1", "I.4", "I.5"])
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][:3], ["I.1", "I.4", "I.5"])
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "I.4"], [f"I.4.{n}" for n in range(1, 17)])
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "I.5"], [f"I.5.{n}" for n in range(1, 11)])
         first = next(p for p in d["paragraphs"] if p["seg"] == "I.4.1.p1")
@@ -141,7 +157,7 @@ class Files(unittest.TestCase):
 
     def test_milestone_e3_on_beauty_and_the_first_good(self):
         d = load()
-        self.assertEqual([t["id"] for t in d["treatises"]][:5], ["I.1", "I.4", "I.5", "I.6", "I.7"])
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][:5], ["I.1", "I.4", "I.5", "I.6", "I.7"])
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "I.6"], [f"I.6.{n}" for n in range(1, 10)])
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "I.7"], [f"I.7.{n}" for n in range(1, 4)])
         first = next(p for p in d["paragraphs"] if p["seg"] == "I.6.1.p1")
@@ -157,7 +173,7 @@ class Files(unittest.TestCase):
 
     def test_milestone_e4_evils_and_going_out_of_life(self):
         d = load()
-        self.assertEqual([t["id"] for t in d["treatises"]][:7], ["I.1", "I.4", "I.5", "I.6", "I.7", "I.8", "I.9"])
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][:7], ["I.1", "I.4", "I.5", "I.6", "I.7", "I.8", "I.9"])
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "I.8"], [f"I.8.{n}" for n in range(1, 16)])
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "I.9"], ["I.9.1"])
         # MacKenna's I.8 has 12 chapters for Volkmann's 15: his 10 holds 10 to 13, his 11 and 12 are 14 and 15.
@@ -174,6 +190,46 @@ class Files(unittest.TestCase):
         self.assertTrue(any("intellect" in f["why"] for f in flags["I.8.2.p2"]))
         self.assertTrue(any("assents" in f["why"] for f in flags["I.8.14.p1"]))
         self.assertGreaterEqual(sum(len(flags[s]) for s in flags if s.startswith(("I.8.", "I.9."))), 25)
+
+    def test_milestone_e5_porphyrys_life_chapters_1_to_12(self):
+        d = load()
+        self.assertEqual(d["treatises"][0]["id"], "Life")
+        self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "Life"], [f"Life.{n}" for n in range(1, 13)])
+        life = d["contents"][0]
+        self.assertEqual((life["status"], life["chapters_done"], life["chapters_all"], life["first"]), ("here", 12, 26, "Life.1"))
+        # The Greek is Volkmann's own, proofread from the scan: chapter 1 on p. 3, chapter 12 on p. 18.
+        ch = {c["id"]: c for c in d["chapters"]}
+        self.assertEqual((ch["Life.1"]["greek_text"], ch["Life.1"]["greek_label"]), ("porphyry-life-plotinus", "p. 3"))
+        self.assertEqual(ch["Life.12"]["greek_pages"][-1], "ia-volkmann-t1:48")
+        first = next(p for p in d["paragraphs"] if p["seg"] == "Life.1.p1")
+        self.assertTrue(first["greek"].startswith("Πλωτῖνος ὁ καθ’ ἡμᾶς γεγονὼς φιλόσοφος"))
+        self.assertIn("ashamed", first["modern"])
+        # The order of the books: twenty-one before Porphyry came, twenty-four in his six years, five and four after.
+        lists = " ".join(p["modern"] for p in d["paragraphs"] if p["chapter"] in ("Life.4", "Life.5", "Life.6"))
+        for n in ("1", "21", "22-23", "45", "46", "50", "51", "54"):
+            self.assertIn(f"[{n}, ", lists)
+        flags = {p["seg"]: p.get("flags", []) for p in d["paragraphs"]}
+        # MacKenna drops the eight from Plotinus' twenty-eighth year.
+        self.assertTrue(any("twenty-eighth" in f["why"] for f in flags["Life.3.p2"]))
+        self.assertGreaterEqual(sum(len(flags[s]) for s in flags if s.startswith("Life.")), 15)
+
+    def test_the_life_greek_is_proofread(self):
+        rows = [ln for ln in (ROOT / "sources" / "neoplatonists" / "proofread" / "porphyry-life-plotinus.txt").read_text(encoding="utf-8").splitlines()
+                if ln.startswith("@page ")]
+        self.assertEqual(len(rows), 16)
+        self.assertTrue(rows[0].startswith("@page ia-volkmann-t1:33 | p. 3"))
+        self.assertTrue(rows[-1].startswith("@page ia-volkmann-t1:48 | p. 18"))
+        if not (ROOT / "sources" / "neoplatonists" / "ocr" / "ia-volkmann-t1.json.gz").exists():
+            self.skipTest("no OCR copy")
+        import neoplatonists
+        import proofread
+        corrs, problems = proofread.build("porphyry-life-plotinus")
+        self.assertEqual(problems, [])
+        d = json.loads(neoplatonists.CORRECTIONS.read_text(encoding="utf-8"))
+        self.assertEqual([c for c in d["corrections"] if c.get("proofread") and c["text"] == "porphyry-life-plotinus"], corrs,
+                         "run python3 tools/proofread.py")
+        self.assertGreater(len(corrs), 300)
+        self.assertTrue(all("Volkmann's" in c["why"] for c in corrs if not c["why"].startswith("Supplied")))
 
     def test_flags_quote_macKenna_word_for_word(self):
         d = load()
@@ -209,7 +265,7 @@ class Files(unittest.TestCase):
 @unittest.skipUnless(has_greek(), "run python3 tools/fetch_sources.py first")
 class AgainstTheGreek(unittest.TestCase):
     def test_the_paragraphs_hold_all_the_greek_of_each_chapter(self):
-        units = modern_neo.greek_units("plotinus-enneads")
+        units = {**modern_neo.greek_units("plotinus-enneads"), **modern_enneads.life_units()}
         d = load()
         for c in d["chapters"]:
             joined = " ".join(p["greek"] for p in d["paragraphs"] if p["chapter"] == c["id"])
@@ -277,12 +333,21 @@ class Server(unittest.TestCase):
     def test_the_shelf_and_the_greek_link_to_it(self):
         t = next(t for t in self.get("neo")["texts"] if t["id"] == "plotinus-enneads")
         self.assertEqual((t["modern"]["kind"], t["modern"]["text"], t["modern"]["beside_taylor"]), ("enneads", "enneads", 15))
-        self.assertEqual(t["modern"]["treatises"][0]["id"], "I.1")
+        self.assertEqual([x["id"] for x in t["modern"]["treatises"]][:2], ["Life", "I.1"])
         units = self.get("neo/plotinus-enneads/0")["units"]
         self.assertTrue(units and all(u.get("modern_enneads", {}).get("id") == u["label"] for u in units if u["label"].startswith("I.1.")))
         # Taylor's treatises keep their own link, to his English with the modern beside it.
         units = self.get("neo/plotinus-enneads/1")["units"]
         self.assertTrue(all(u.get("modern") and not u.get("modern_enneads") for u in units if u["label"].startswith("I.2.")))
+
+    def test_the_life_on_the_shelf_links_to_it(self):
+        # Milestone E5: Porphyry's Life, proofread from Volkmann's scan, and its pages, link to the modern English.
+        t = next(t for t in self.get("neo")["texts"] if t["id"] == "porphyry-life-plotinus")
+        self.assertEqual((t["modern"]["text"], t["modern"]["first"], t["modern"]["pages"]), ("enneads", "Life.1", 16))
+        self.assertEqual([x["id"] for x in t["modern"]["treatises"]], ["Life"])
+        units = self.get("neo/porphyry-life-plotinus/0")["units"]
+        on = {u["label"]: u.get("modern_section", {}).get("id") for u in units}
+        self.assertEqual((on.get("p. 3"), on.get("p. 5")), ("Life.1", "Life.2"))
 
 
 @unittest.skipUnless(has_library() and shutil.which("node"), "needs the library and Node")

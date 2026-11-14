@@ -7,6 +7,12 @@ English", milestones E1 onward). There is no Taylor to check them against, so th
 translation (1917-1930), which is in the public domain in the United States and was made from Volkmann's Greek, the
 Workshop's own (tools/mackenna.py reads it from the scans' OCR).
 
+Before the treatises comes Porphyry's Life of Plotinus and the order of his books, which Porphyry set at the head of his
+edition (milestones E5-E6). Its Greek is not in First1KGreek: it is Volkmann's own text (vol. I, 1883, pp. 1-36), read
+from the Internet Archive scan and proofread by hand (sources/neoplatonists/proofread/porphyry-life-plotinus.txt,
+tools/proofread.py); its chapters are split at Volkmann's chapter numbers. MacKenna translated it at the head of his first
+volume, and his chapters are those of the Greek.
+
 Each version is a plain rendering of each chapter, paragraph by paragraph, every idea kept, in short sentences and
 today's words, made from the Greek and not from MacKenna, so that it does not inherit his additions; where MacKenna and
 the Greek differ, or the Greek is hard, a flag quotes MacKenna's words and says why. Each version is labelled as the
@@ -18,7 +24,7 @@ sources/translations/modern/enneads.txt
 This tool turns it into sources/translations/modern/enneads.json, which the reader shows at #neo-modern/enneads, and
 checks it (reports/modern_enneads.md):
 
-  * the treatises are in Porphyry's order, none of them one of Taylor's fifteen (those are read beside Taylor);
+  * the Life comes first; the treatises are in Porphyry's order, none of them one of Taylor's fifteen (those are read beside Taylor);
   * each treatise has its chapters from the first, once, in order (a long treatise may be done over two or three
     milestones: then the chapters done so far, and the reader says so);
   * every @greek start is found in its chapter's Greek, in order, and the Greek from one start to the next is kept with
@@ -126,6 +132,15 @@ PLAN = [
 ]
 PLAN_IDS = [x[0] for x in PLAN]
 
+# Porphyry's Life of Plotinus, which he set before the Enneads (milestones E5 and E6), read first, as the treatise "Life".
+# Its Greek is not in First1KGreek: it is Volkmann's vol. I (1883) from the Internet Archive's scan, proofread from the page
+# images (tools/proofread.py, sources/neoplatonists/proofread/porphyry-life-plotinus.txt), split at Volkmann's chapter numbers.
+LIFE = "Life"
+LIFE_TEXT = "porphyry-life-plotinus"
+LIFE_TITLE = "Porphyry, On the life of Plotinus and the order of his books"
+LIFE_CHAPTERS = 26
+LIFE_PLAN = "E5-E6"
+
 
 def parse(src):
     """The master copy as treatises, chapters and paragraphs, in order."""
@@ -199,6 +214,34 @@ def chapter_n(cid):
     return int(cid.rsplit(".", 1)[1])
 
 
+def life_units():
+    """{'Life.1': {'text', 'n': the scanned page it begins on, 'label': 'p. 3', 'part', 'pages': [unit, ...]}}: the
+    proofread Greek of the Life, cut at Volkmann's chapter numbers ("2."), which must run 1, 2, 3 ... in order."""
+    import neoplatonists
+    import proofread
+    text, starts_at = "", []
+    for unit, label, t in proofread.main_text(LIFE_TEXT):
+        if text.endswith("-"):
+            text = text[:-1]
+        elif text:
+            text += " "
+        starts_at.append((len(text), unit, label))
+        text += t
+    t = next(x for x in neoplatonists.TEXTS if x["id"] == LIFE_TEXT)
+    part = {u["n"]: u["part"] for u in neoplatonists.read_ocr(t)[0]}
+    marks = list(re.finditer(r"(?:^|(?<=\s))(\d{1,2})\. ", text))
+    out = {}
+    for k, m in enumerate(marks):
+        n = int(m.group(1))
+        if n != k + 1:
+            raise ValueError(f"the Life: chapter number {n} where {k + 1} was expected")
+        a, b = m.end(), (marks[k + 1].start() if k + 1 < len(marks) else len(text))
+        pages = [(u, lab) for (at, u, lab), nxt in zip(starts_at, starts_at[1:] + [(len(text), None, None)]) if at < b and nxt[0] > m.start()]
+        out[f"{LIFE}.{n}"] = {"text": text[a:b].strip(), "n": pages[0][0], "label": pages[0][1], "part": part.get(pages[0][0]),
+                              "pages": [u for u, _ in pages], "greek_text": LIFE_TEXT}
+    return out
+
+
 def build(terms=None, units=None, older=None, taylor_done=None):
     """The JSON the reader shows, and the problems found (a list of strings)."""
     import mackenna
@@ -206,7 +249,7 @@ def build(terms=None, units=None, older=None, taylor_done=None):
     treatises, chapters, paras = parse((MODERN / f"{TEXT_ID}.txt").read_text(encoding="utf-8"))
     if units is None:
         import modern_neo
-        units = modern_neo.greek_units(GREEK_TEXT)
+        units = {**modern_neo.greek_units(GREEK_TEXT), **life_units()}
     older = older if older is not None else mackenna.chapters()
     taylor_done = taylor_done if taylor_done is not None else taylor_treatises()
     problems = []
@@ -217,7 +260,11 @@ def build(terms=None, units=None, older=None, taylor_done=None):
         problems.append("the plan must list the fifty-four treatises, once each")
     # Porphyry's order, none of Taylor's.
     ids = [t["id"] for t in treatises]
+    if LIFE in ids and ids.index(LIFE) != 0:
+        problems.append("Porphyry's Life of Plotinus comes first, before the Enneads, as he set it")
     for t in treatises:
+        if t["id"] == LIFE:
+            continue
         if t["id"] not in PLAN_IDS:
             problems.append(f"{t['id']}: not a treatise of the Enneads")
         elif t["id"] in taylor_done:
@@ -228,11 +275,11 @@ def build(terms=None, units=None, older=None, taylor_done=None):
     # Each treatise's chapters from the first, once, in order.
     partial = {}
     for t in treatises:
-        want = sorted((lab for lab in units if lab.startswith(t["id"] + ".") and lab.count(".") == 2), key=chapter_n)
+        want = sorted((lab for lab in units if lab.startswith(t["id"] + ".") and lab.count(".") == (1 if t["id"] == LIFE else 2)), key=chapter_n)
         if t["chapters"] != want[:len(t["chapters"])] or not t["chapters"]:
             problems.append(f"{t['id']}: the chapters are {t['chapters']}, the Greek has {want}")
-        elif len(t["chapters"]) < len(want):
-            partial[t["id"]] = (len(t["chapters"]), len(want))
+        elif len(t["chapters"]) < (LIFE_CHAPTERS if t["id"] == LIFE else len(want)):
+            partial[t["id"]] = (len(t["chapters"]), LIFE_CHAPTERS if t["id"] == LIFE else len(want))
     # The Greek of each paragraph: from its start to the next one's.
     by_ch = {}
     for p in paras:
@@ -304,7 +351,7 @@ def build(terms=None, units=None, older=None, taylor_done=None):
             vols.setdefault(o["volume"], o["year"])
     done = {t["id"]: t for t in treatises}
     contents = []
-    for tid, title, how in PLAN:
+    for tid, title, how in [(LIFE, LIFE_TITLE, LIFE_PLAN)] + PLAN:
         item = {"id": tid, "title": title}
         if tid in done:
             item["status"] = "here"
@@ -341,6 +388,8 @@ def build(terms=None, units=None, older=None, taylor_done=None):
         "chapters": [{"id": c["id"], "treatise": c["treatise"], "title": c["title"], "summary": c["summary"],
                       "greek_unit": units[c["id"]]["n"] if c["id"] in units else None,
                       "greek_part": units[c["id"]]["part"] if c["id"] in units else None,
+                      **({"greek_text": LIFE_TEXT, "greek_label": units[c["id"]]["label"], "greek_pages": units[c["id"]]["pages"]}
+                         if c["treatise"] == LIFE and c["id"] in units else {}),
                       "older": [{"n": n, "label": f"{c['treatise']}, chapter {n}", "page": o["page"], "year": o["year"],
                                  "text": "\n\n".join(o["paras"])} for n, o in c["_older"]]}
                      for c in chapters],
@@ -366,7 +415,9 @@ def report(d, problems):
              "Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.txt`. " + LABEL, "",
              f"- Made from: Volkmann's Greek (Leipzig, 1883-1884), as First1KGreek gives it; checked against MacKenna's English "
              f"({', '.join(str(v['year']) for v in d['older']['volumes'])}; {d['older']['how']}).",
-             f"- Treatises done here: {', '.join(t['id'] + ' ' + t['title'] for t in d['treatises'])}.",
+             f"- Porphyry's Life of Plotinus: Volkmann's own Greek (vol. I, 1883), proofread from the scan "
+             f"(`sources/neoplatonists/proofread/{LIFE_TEXT}.txt`).",
+             f"- Treatises done here: {', '.join(t['title'] if t['id'] == LIFE else t['id'] + ' ' + t['title'] for t in d['treatises'])}.",
              f"- The whole Enneads: {len(here)} treatise{'' if len(here) == 1 else 's'} here, {sum(1 for c in d['contents'] if c['status'] == 'taylor')} beside "
              f"Taylor (milestone 27), {sum(1 for c in d['contents'] if c['status'] == 'to come')} to come.",
              f"- Chapters: {len(d['chapters'])}, each with a short title and a summary.",

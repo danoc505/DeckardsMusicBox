@@ -25,6 +25,14 @@
  "source": "sources/translations/modern/enneads.txt",
  "contents": [
   {
+   "id": "Life",
+   "title": "Porphyry, On the life of Plotinus and the order of his books",
+   "status": "here",
+   "first": "Life.1",
+   "chapters_done": 12,
+   "chapters_all": 26
+  },
+  {
    "id": "I.1",
    "title": "What is the living being, and what is the human being?",
    "status": "here",
@@ -336,6 +344,27 @@
  ],
  "treatises": [
   {
+   "id": "Life",
+   "title": "Porphyry, On the life of Plotinus and the order of his books",
+   "summary": "Porphyry, Plotinus' pupil, wrote this life of his teacher about thirty years after his death and set it before his edition of the treatises, the Enneads. He begins with Plotinus' death and works back: his illness and last words, his birth, his search for a teacher until he found Ammonius at Alexandria, his years in Rome. Then he lists the fifty-four treatises in the order Plotinus wrote them, with their first words, and describes the circle around him: his pupils, the senators, the women and the orphans in his care, his way of writing and of teaching, his gift for reading character, the attack of a rival by magic, and the god that was found to be his guardian daemon. Chapters 1 to 12 are done here; chapters 13 to 26 are to come (E6).",
+   "chapters": [
+    "Life.1",
+    "Life.2",
+    "Life.3",
+    "Life.4",
+    "Life.5",
+    "Life.6",
+    "Life.7",
+    "Life.8",
+    "Life.9",
+    "Life.10",
+    "Life.11",
+    "Life.12"
+   ],
+   "chapters_done": 12,
+   "chapters_all": 26
+  },
+  {
    "id": "I.1",
    "title": "What is the living being, and what is the human being?",
    "summary": "Where do our feelings, perceptions and thoughts belong: to the soul, to the body, or to something made of both? Plotinus argues that the soul in itself cannot be affected: it lights up the body and makes of it, together with that light, a living being, and the feelings and sensations belong to this living being. \"We\" are found higher up, where the soul judges the impressions of sense and reasons, and above us is intellect, which is also ours. Evil, error and punishment belong to the compound, not to the soul itself, which is never cut off from what is above it.",
@@ -453,6 +482,285 @@
   }
  ],
  "chapters": [
+  {
+   "id": "Life.1",
+   "treatise": "Life",
+   "title": "Ashamed to be in a body",
+   "summary": "Plotinus seemed ashamed of being in a body, and would not speak of his family or his country, or sit for a portrait: the body is already an image, and a portrait would be an image of an image. Amelius had a painter, Carterius, watch him at the meetings and paint him from memory.",
+   "greek_unit": "ia-volkmann-t1:33",
+   "greek_part": 0,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 3",
+   "greek_pages": [
+    "ia-volkmann-t1:33"
+   ],
+   "older": [
+    {
+     "n": 1,
+     "label": "Life, chapter 1",
+     "page": 1,
+     "year": 1917,
+     "text": "Plotinus, the philosopher our contemporary, seemed ashamed of being in the body.\n\nSo deeply-rooted was this feeling that he could never be induced to tell of his ancestry, his parentage or his birthplace.\n\nHe showed, too, an unconquerable reluctance to sit to a painter or a sculptor, and when Amelius persisted in urging him to allow of a portrait being made he asked him, \" Is it not enough to carry about this image in which nature has enclosed us ? Do you really think I must also consent to leave, as a desirable spectacle to posterity, an image of the image ? \"\n\nIn view of this determined refusal Amelius brought his friend Carterius, the best artist of the day, to the Conferences, which were open to every comer, and saw to it that by long observation of the philosopher he caught his most striking personal traits. From the impressions thus stored in mind the artist drew a first sketch ; Amelius made various suggestions towards bringing out the resemblance, and in this way, without the knowledge of Plotinus, the genius of Carterius gave us a life-like portrait."
+    }
+   ]
+  },
+  {
+   "id": "Life.2",
+   "treatise": "Life",
+   "title": "Illness, death and birth",
+   "summary": "Plotinus refused remedies he thought unfitting; when the plague killed the men who massaged him, a disease of the throat grew on him, with hoarseness, failing sight and sores, and he left Rome for Campania. He died there at sixty-six, with only Eustochius present, saying that he was trying to bring the divine in us back to the divine in the All. He never told his birthday, but kept Plato's and Socrates'.",
+   "greek_unit": "ia-volkmann-t1:33",
+   "greek_part": 0,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 3",
+   "greek_pages": [
+    "ia-volkmann-t1:33",
+    "ia-volkmann-t1:34",
+    "ia-volkmann-t1:35"
+   ],
+   "older": [
+    {
+     "n": 2,
+     "label": "Life, chapter 2",
+     "page": 1,
+     "year": 1917,
+     "text": "Plotinus was often distressed by an intestinal complaint, but declined clysters, pronouncing the use of such remedies unbecoming in an elderly man : in the same way he refused such medicaments as contain any substance taken from wild beasts or reptiles : all the more, he remarked, since he could not approve of eating the flesh of animals reared for the table.\n\nHe abstained from the use of the bath, contenting himself with a daily massage at home : when the terrible epidemic carried off his masseurs he renounced all such treatment : in a short while he contracted malign diphtheria.\n\nDuring the time I was about him there was no sign of any such malady, but after I sailed for Sicily the condition grew acute : his intimate, Eustochius, who was with him till his death, told me, on my return to Rome, that he became hoarse, so that his voice quite lost its clear sonorous note, his sight grew dim and ulcers formed on his hands and feet.\n\nAs he still insisted on addressing everyone by word of mouth, his condition prompted his friends to withdraw from his society : he therefore left Rome for Campania, retiring to a property which had belonged to Zethos, an old friend of his at this time dead. His wants were provided in part out of Zethos' estate, and for the rest were furnished from Minturnse, where Castricius' property lay.\n\nOf Plotinus' last moments Eustochius has given me an account.\n\nHe himself was staying at Puteoli and was late in arriving : when he at last came, Plotinus said : \" I have been a long time waiting for you ; I am striving to give back the Divine in myself to the Divine in the All.\" As he spoke a snake crept under the bed on which he lay and slipped away into a hole in the wall : at the same moment Plotinus died.\n\nThis was at the end of the second year of the reign of Claudius, and, as Eustochius tells me, Plotinus was then sixty-six. I myself was at Lilybaeum at the time, Amelius at Apamea in Syria, Castricius at Rome ; only Eustochius was by his side.\n\nCounting sixty-six years back from the second year of Claudius, we can fix Plotinus' birth at the thirteenth year of Severus ; but he never disclosed the month or day. This was because he did not desire any birthday sacrifice or feast ; yet he himself sacrificed on the traditional birthdays of Plato and of Socrates, afterwards giving a banquet at which every member of the circle who was able was expected to deliver an address."
+    }
+   ]
+  },
+  {
+   "id": "Life.3",
+   "treatise": "Life",
+   "title": "Ammonius, the Persian campaign, and Rome",
+   "summary": "What Plotinus told of himself: as a boy of eight he still went to his nurse for milk until he was shamed out of it. At twenty-eight he turned to philosophy, found the teachers of Alexandria wanting until he heard Ammonius, and stayed with him eleven years; he joined Gordian's campaign to learn the wisdom of Persia and India, escaped to Antioch, and at forty came to Rome. He kept his promise not to publish Ammonius' teaching, taught without writing for ten years, and Amelius joined him.",
+   "greek_unit": "ia-volkmann-t1:35",
+   "greek_part": 0,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 5",
+   "greek_pages": [
+    "ia-volkmann-t1:35",
+    "ia-volkmann-t1:36",
+    "ia-volkmann-t1:37"
+   ],
+   "older": [
+    {
+     "n": 3,
+     "label": "Life, chapter 3",
+     "page": 3,
+     "year": 1917,
+     "text": "Despite his general reluctance to talk of his own life, some few details he did often relate to us in the course of conversation.\n\nThus he told how, at the age of eight, when he was already going to school, he still clung about his nurse and loved to bare her breasts and take suck : one day he was told he was a \" perverted imp,\" and so was shamed out of the trick.\n\nAt twenty he was caught by the passion for philosophy : he was directed to the most highly reputed professors to be found at Alexandria ; but he used to come from their lectures saddened and discouraged. A friend to whom he opened his heart divined his temperamental craving and suggested Ammonius, whom he had not yet tried. Plotinus went, heard a lecture, and exclaimed to his comrade : \" This was the man I was looking for.\"\n\nFrom that day he followed Ammonius continuously, and under his guidance made such progress in philosophy that he became eager to investigate the Persian methods and the system adopted among the Indians. It happened that the Emperor Gordian was at that time preparing his campaign against Persia ; Plotinus joined the army and went on the expedition. He was then thirty-nine, for he had passed eleven entire years under Ammonius. When Gordian was killed in Mesopotamia, it was only with great difficulty that Plotinus came off safe to Antioch.\n\nAt forty, in the reign of Philip, he settled in Rome.\n\nErennius, Origen and Plotinus had made a compact not to disclose any of the doctrines which Ammonius had revealed to them. Plotinus kept faith, and in all his intercourse with his associates divulged nothing of Ammonius' system. But the compact was broken, first by Erennius and then by Origen following suit : Origen, it is true, put in writing nothing but the treatise On the Spirit-Beings, and in Galienus' reign that entitled The King the Sole Creator. Plotinus himself remained a long time without writing, but he began to base his Conferences on what he had gathered from his studies under Ammonius. In this way, writing nothing but constantly conferring with a certain group of associates, he passed ten years.\n\nHe used to encourage his hearers to put questions, a liberty which, as Amelius told me, led to a great deal of wandering and futile talk.\n\nAmelius had entered the circle in the third year of Philip's reign, the third, too, of Plotinus' residence in Rome, and remained about him until the first year of Claudius, twenty-four years in all. He had come to Plotinus after an efficient training under Lysimachus : in laborious diligence he surpassed all his associates ; for example, he transcribed and arranged nearly all the works of Numenius, and was not far from having most of them off by heart. He also took notes of the Conferences and wrote them out in something like a hundred treatises which he has since presented to Hostilianus of Apamea, his adopted son."
+    }
+   ]
+  },
+  {
+   "id": "Life.4",
+   "treatise": "Life",
+   "title": "Porphyry arrives; the first twenty-one treatises",
+   "summary": "Porphyry came to Rome from Greece in the tenth year of Gallienus, aged thirty, and found Amelius in his eighteenth year with Plotinus, who was fifty-nine. Plotinus had begun writing in the first year of Gallienus, and had written twenty-one treatises, given out only to a few after careful judgement. They had no titles of their own; Porphyry lists them with the titles that won out and their first words.",
+   "greek_unit": "ia-volkmann-t1:37",
+   "greek_part": 0,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 7",
+   "greek_pages": [
+    "ia-volkmann-t1:37",
+    "ia-volkmann-t1:38",
+    "ia-volkmann-t1:39"
+   ],
+   "older": [
+    {
+     "n": 4,
+     "label": "Life, chapter 4",
+     "page": 4,
+     "year": 1917,
+     "text": "I myself arrived from Greece in the tenth year of Galienus' reign, accompanied by Antonius of Rhodes, and found Amelius an eigh teenyears' associate of Plotinus, but still lacking the courage to write anything except for the notebooks, which had not reached their century. Plotinus, in this tenth year of Galienus, was about fifty-nine : when I first met him I was thirty.\n\nFrom about the first year of Galienus Plotinus had begun to write upon such subjects as had arisen at the Conferences : when I first came to know him in this tenth year of the reign he had composed twentyone treatises.\n\nThese I procured though they were by no means given about freely. In fact the distribution was grudging and secret ; those that obtained them had passed the strictest scrutiny.\n\nPlotinus had given no titles to these treatises; everybody headed them for himself : I cite them here under the titles which finally prevailed, quoting the first words of each to facilitate identification.* i. On Beauty (I. 6).\n\n2. On the Immortality of the Soul (IV. 7).\n\n3. On Fate (III. 1).\n\n4. On the Essence of the Soul (IV. 1).\n\n5. On the Intellectual-Principle, the Ideas, and the Authentic-Existent (V. 9).\n\n6. On the Descent of the Soul into the Body (IV. 8).\n\n7. On the Emanation of the Non-Primal from the Primal-Being ; and on The One (V. 4).\n\n8. Whether all the Souls constitute One Soul (IV. 9).\n\n9. On the Good or the One (VI. 9).\n\n10. On the Three First Hypostases (V. 1).\n\nn. On the Generation and Order of the Post-Primals (V. 2).\n\n12. On the Two Orders of Matter (II. 4).\n\n13. Diverse Questions (III. 9).\n\n14. On the Circular Movement (II. 2).\n\n15. On our Tutelary Spirit (II. 2).\n\n16. On the Reasoned Dismissal (I. 9).\n\n17. On Quality (II. 6).\n\n18. Whether there exist Ideas of Particulars (V. 7).\n\n19. On the Virtues (I. 2).\n\n20. On Dialectic (I. 3).\n\n21. Why the Soul is described as Intermediate between the Existent having parts and the undisparted Existent (IV. 1).\n\nThese are the twenty-one treatises which, as I have said, Plotinus had already written, by his fifty-ninth year, when I first came to him."
+    }
+   ]
+  },
+  {
+   "id": "Life.5",
+   "treatise": "Life",
+   "title": "Six years with Plotinus: twenty-four more",
+   "summary": "In the six years Porphyry was with him, questions raised at the meetings, and the urging of Amelius and Porphyry, led Plotinus to write twenty-four treatises, among them the great works on being everywhere whole, on the soul, on intelligible beauty, against the Gnostics, and on the kinds of being. With the first twenty-one, they make forty-five.",
+   "greek_unit": "ia-volkmann-t1:39",
+   "greek_part": 0,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 9",
+   "greek_pages": [
+    "ia-volkmann-t1:39",
+    "ia-volkmann-t1:40",
+    "ia-volkmann-t1:41"
+   ],
+   "older": [
+    {
+     "n": 5,
+     "label": "Life, chapter 5",
+     "page": 5,
+     "year": 1917,
+     "text": "I had been, it is true, in Rome a little before this tenth year of Galienus, but at that time Plotinus was taking a summer holiday, engaging merely in conversation with his friends. After coming to know him I passed six years in close relation with him. Many questions were threshed out in the Conferences of those six years and, under persuasion from Amelius and myself, he composed two treatises to establish : —\n\n22, 23. That the Authentic-Existent is universally an integral, selfidentical Unity (II. 4, 5).\n\nIn immediate succession to these he composed two more : one is entitled : —\n\n24. On the Absence of the Intellectual- Act in the Transcendental ; and on What Existent has the Intellectual-Act Primarily and What Existent has the Intellectual-Act Secondarily (V. 6) ;\n\nThe other deals with —\n\n25. Existence, Potential and Actual (II. 5).\n\nAfter these come the following twenty : —\n\n26. On the Impassibility of the Bodiless (III. 5).\n\n27. On the Soul, First (IV. 3).\n\n28. On the Soul, Second (IV. 4).\n\n29. On the Soul, Third ; or, How We See (IV. 5).\n\n30. On Contemplation (III. 8).\n\n31. On the Intellectual-Beauty (V. 8).\n\n32. That the Intelligibles are Not Outside of the Intellectual-Principle and On the Good (V. 5).\n\n33. Against the Gnostics (II. 9).\n\n34. On Numbers (VI. 6).\n\n35. Why Distant Objects Appear Small (II. 8).\n\n36. Whether Happiness depends upon Extension of Time (I. 5).\n\n37. On Coalescence (II. 7).\n\n38. How the Multitude of Ideas came into Being ; and on the Good (VI. 7).\n\n39. On Free-Will (VI. 8).\n\n40. On the World (II. 1).\n\n41. On Sensation and Memory (IV. 6).\n\n42. On the Kinds of Being, First (VI. 1).\n\n43. On the Kinds of Being, Second (VI. 2).\n\n44. On the Kinds of Being, Third (VI. 3).\n\n45. On Eternity and Time (III. 7).\n\nThus we have twenty-four treatises composed during the six years of my association with him and dealing, as the titles indicate, with such problems as happened to arise at the Conferences ; add the twenty-one composed before my arrival, and we have accounted for forty-five treatises."
+    }
+   ]
+  },
+  {
+   "id": "Life.6",
+   "treatise": "Life",
+   "title": "The last nine, and the strength of the books",
+   "summary": "While Porphyry was in Sicily, Plotinus sent him five more treatises, and, shortly before his death, four: fifty-four in all. Their strength follows the time of writing: the first twenty-one are slighter, the middle twenty-four the most complete, the last nine weaker, and the last four weaker still.",
+   "greek_unit": "ia-volkmann-t1:41",
+   "greek_part": 1,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 11",
+   "greek_pages": [
+    "ia-volkmann-t1:41",
+    "ia-volkmann-t1:42"
+   ],
+   "older": [
+    {
+     "n": 6,
+     "label": "Life, chapter 6",
+     "page": 7,
+     "year": 1917,
+     "text": "The following five more Plotinus wrote and sent to me while I was living in Sicily, where I had gone about the fifteenth year of Galienus : —\n\n46. On Happiness (I. 4).\n\n47. On Providence, First (III. 2).\n\n48. On Providence, Second (III. 3).\n\n49. On the Conscious Hypostases and the Transcendental (V. 3).\n\n50. On Love (III. 5).\n\nThese five he sent me in the first year of Claudius : in the early months of the second year, shortly before his death, I received the following four : —\n\n51. On Evil (I. 8).\n\n52. Whether the Stars have Causal Operation (II. 3).\n\n53. On the Animate and the Man (I. 1).\n\n54. On the First Good ; or, On Happiness (I. 8).\n\nAdding these nine to the forty-five of the first and second sets we have a total of fifty-four treatises.\n\nAccording to the time of writing — early manhood, vigorous prime, worn-out constitution — so the tractates vary in power. The first twentyone pieces manifest a slighter capacity, the talent being not yet matured to the fulness of nervous strength. The twenty-four produced in the mid-period display the utmost reach of the powers and, except for the short treatises among them, attain the highest perfection. The last nine were written when the mental strength was already waning, and of these the last four show less vigour even than the five preceding."
+    }
+   ]
+  },
+  {
+   "id": "Life.7",
+   "treatise": "Life",
+   "title": "The circle: pupils, senators, friends",
+   "summary": "Plotinus had many hearers and some close followers: Amelius, who wanted to be called Amerius; the doctors Paulinus, Eustochius and Zethus; the critic and poet Zoticus; Castricius Firmus; senators, among them Rogatianus, who gave up his property and office and was cured of his gout, Plotinus' model for philosophers; Serapion, who could not give up money; and Porphyry, whom he asked to correct his writings.",
+   "greek_unit": "ia-volkmann-t1:42",
+   "greek_part": 1,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 12",
+   "greek_pages": [
+    "ia-volkmann-t1:42",
+    "ia-volkmann-t1:43",
+    "ia-volkmann-t1:44"
+   ],
+   "older": [
+    {
+     "n": 7,
+     "label": "Life, chapter 7",
+     "page": 8,
+     "year": 1917,
+     "text": "Plotinus had a large following. Notable among the more zealous students, really devoted to philosophy, was Amelius of Tuscany, whose family name was Gentilianus. Amelius preferred to call himself Amerius, changing L for R, because, as he explained, it suited him better to be named from Amereia, Unification, than from Ameleia, Indifference.\n\nThe group included also one Paulinus, a doctor of Scythopolis, whom Amelius used to call Mikkalos in allusion to his blundering habit of mind.\n\nAmong closer personal friends was Eustochius of Alexandria, also a doctor, who came to know Plotinus towards the end of his life, and attended him until his death : Eustochius consecrated himself exclusively to Plotinus* system and became a veritable philosopher.\n\nThen there was Zoticus, at once critic and poet, who has amended the text of Antimachus* works and is the author of an exquisite poem upon the Atlantis story : his sight failed, and he died a little before Plotinus, as also did Paulinus.\n\nAnother friend was Zethos, an Arabian by descent, who married a daughter of Ammonius' friend Theodosius. Zethos, too, was a doctor : Plotinus was deeply attached to him and was always trying to divert him from the political career in which he stood high. Plotinus was on the most familiar terms with him, and used to stay with him at his country place, six miles from Minturnae, a property which had formerly belonged to Castricius Firmus.\n\nCastricius was excelled by none of the group in appreciation of the finer side of life : he venerated Plotinus ; he devoted himself in the most faithful comradeship to Amelius in every need, and was in all matters as loyal to myself as though I were his own brother.\n\nThis was another example of a politician venerating the philosopher. There were also among Plotinus' hearers not a few members of the Senate, amongst whom Marcellus Orontius and Sabinillus showed the greatest assiduity in philosophical studies.\n\nAnother Senator, Rogatianus, advanced to such detachment from political ambitions that he gave up all his property, dismissed all his slaves, renounced every dignity, and, on the point of taking up his praetorship, the lictors already at the door, refused to come out or to have anything to do with the office. He even abandoned his own house, spending his time here and there at his friends' and acquaintances', sleeping and eating with them and taking, at that, only one meal a day. He had been a victim of gout, carried in a chair, but this new regime of abstinence and abnegation restored his health : he had been unable to stretch out his hands ; he came to use them as freely as men living by manual labour. Plotinus took a great liking to Rogatianus and frequently praised him very highly, holding him up as a model to those aiming at the philosophical life.\n\nThen there was Serapion, an Alexandrian, who began life as a professional orator and later took to the study of philosophy, but was never able to conquer the vices of avarice and usury.\n\nI myself, Porphyry of Tyre, was one of Plotinus' very closest friends, and it was to me he entrusted the task of revising his writings."
+    }
+   ]
+  },
+  {
+   "id": "Life.8",
+   "treatise": "Life",
+   "title": "How he wrote",
+   "summary": "Plotinus never reread what he had written, since his sight was poor, and he cared nothing for handwriting or spelling, only for the thought. He worked out a whole argument in his head and then wrote it down as if copying from a book; he could talk with someone and keep his train of thought, and go straight on afterwards. He was always attentive to himself, and slept little.",
+   "greek_unit": "ia-volkmann-t1:44",
+   "greek_part": 1,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 14",
+   "greek_pages": [
+    "ia-volkmann-t1:44",
+    "ia-volkmann-t1:45"
+   ],
+   "older": [
+    {
+     "n": 8,
+     "label": "Life, chapter 8",
+     "page": 9,
+     "year": 1917,
+     "text": "Such revision was necessary : Plotinus could not bear to go back on his work even for one re-reading ; and indeed the condition of his sight would scarcely allow it : his handwriting was slovenly ; he misjoined his words ; he cared nothing about spelling ; his one concern was for the idea : in these habits, to our general surprise, he remained unchanged to the very end.\n\nHe used to work out his design mentally from first to last : when he came to set down his ideas ; he wrote out at one jet all he had stored in mind as though he were copying from a book.\n\nInterrupted, perhaps, by someone entering on business, he never lost hold of his plan ; he was able to meet all the demands of the conversation and still keep his own train of thought clearly before him ; when he was free again, he never looked over what he had previously written — his sight, it has been mentioned, did not allow of such rereading— but he linked on what was to follow as if no distraction had occurred.\n\nThus he was able to live at once within himself and for others ; he never relaxed from his interior attention unless in sleep ; and even his sleep was kept light by an abstemiousness that often prevented him taking as much as a piece of bread, and by this unbroken concentration upon his own highest nature."
+    }
+   ]
+  },
+  {
+   "id": "Life.9",
+   "treatise": "Life",
+   "title": "Women, orphans, and a gentle man",
+   "summary": "Gemina, her daughter and Amphiclea were devoted to him and to philosophy. Dying parents left their children and property in his care, so his house was full of boys and girls; he checked their accounts, saying their property must be kept safe until they took up philosophy, yet never relaxed his mind's tension towards intellect. In twenty-six years in Rome he settled many disputes and made no enemy.",
+   "greek_unit": "ia-volkmann-t1:45",
+   "greek_part": 1,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 15",
+   "greek_pages": [
+    "ia-volkmann-t1:45"
+   ],
+   "older": [
+    {
+     "n": 9,
+     "label": "Life, chapter 9",
+     "page": 10,
+     "year": 1917,
+     "text": "Several women were greatly attached to him, amongst them Gemina, in whose house he lived, and her daughter, called Gemina, too, after the mother, and Amphiclea, the wife of Ariston, son of Iamblichus ;\n\nall three devoted themselves assiduously to philosophy.\n\nNot a few men and women of position, on the approach of death, had left their boys and girls, with all their property, in his care, feeling that with Plotinus for guardian the children would be in holy hands. His house therefore was filled with lads and lasses, amongst them Polemon, in whose education he took such interest as often to hear the boy recite verses of his own composition.\n\nHe always found time for those that came to submit returns of the childrens' property, and he looked closely to the accuracy of the accounts : \" Until the young people take to philosophy,\" he used to say, \" their fortunes and revenues must be kept intact for them.\" And yet all this labour and thought over the worldly interests of so many people never interrupted, during waking hours, his intention towards the Supreme.\n\nHe was gentle, and always at the call of those having the slightest acquaintance with him. After spending twenty-six entire years in Rome, acting, too, as arbiter in many differences, he had never made an enemy of any citizen."
+    }
+   ]
+  },
+  {
+   "id": "Life.10",
+   "treatise": "Life",
+   "title": "Olympius' magic, the god-daemon, and the gods",
+   "summary": "Olympius, a jealous rival, tried to harm Plotinus by magic, but the attack turned back on him. An Egyptian priest called up Plotinus' guardian daemon in the temple of Isis, and a god appeared, not a daemon; hence Plotinus' book On the daemon allotted to us. Asked to join the sacrifices, he said: \"They must come to me, not I to them.\"",
+   "greek_unit": "ia-volkmann-t1:45",
+   "greek_part": 1,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 15",
+   "greek_pages": [
+    "ia-volkmann-t1:45",
+    "ia-volkmann-t1:46",
+    "ia-volkmann-t1:47"
+   ],
+   "older": [
+    {
+     "n": 10,
+     "label": "Life, chapter 10",
+     "page": 10,
+     "year": 1917,
+     "text": "Among those making profession of Philosophy at Rome was one Olympius, an Alexandrian, who had been for a little while a pupil of Ammonius.\n\nThis man's jealous envy showed itself in continual insolence, and finally he grew so bitter that he even ventured sorcery, seeking to crush Plotinus by star-spells. But he found his experiments recoiling upon himself, and he confessed to his associates that Plotinus possessed \" a mighty soul, so powerful as to be able to hurl every assault back upon those that sought his ruin.\" Plotinus had felt the operation and declared that at that moment Olympius' \" limbs were convulsed and his body shrivelling like a money-bag pulled tight.\" Olympius, perceiving on several attempts that he was endangering himself rather than Plotinus, desisted.\n\nIn fact Plotinus possessed by birth something more than is accorded to other men. An Egyptian priest who had arrived in Rome and, through some friend, had been presented to the philosopher, became desirous of displaying his powers to him, and he offered to evoke a visible manifestation of Plotinus' presiding spirit. Plotinus readily consented and the evocation was made in the Temple of Isis, the only place, they say, which the Egyptian could find pure in Rome.\n\nAt the summons a Divinity appeared, not a being of the spiritranks, and the Egyptian exclaimed : \" You are singularly graced ; the guiding-spirit within you is none of the lower degree but a God.\" It was not possible, however, to interrogate or even to contemplate this God any further, for the priest's assistant, who had been holding the birds to prevent them flying away, strangled them, whether through jealousy or in terror. Thus Plotinus had for indwelling spirit a Being of the more divine degree, and he kept his own divine spirit unceasingly intent upon that inner presence. It was this preoccupation that led him to write his treatise upon Our Tutelary Spirit, an essay in the explanation of the differences among spirit-guides.\n\nAmelius was scrupulous in observing the day of the New-Moon and other holy-days, and once asked Plotinus to join in some such celebration : Plotinus refused : \" It is for those Beings to come to me, not for me to go to them.\"\n\nWhat was in his mind in so lofty an utterance we could not explain to ourselves and we dared not ask him."
+    }
+   ]
+  },
+  {
+   "id": "Life.11",
+   "treatise": "Life",
+   "title": "Reading character; Porphyry saved",
+   "summary": "Plotinus picked out the slave who had stolen a widow's necklace, and foretold how the children in his care would turn out. When Porphyry thought of taking his own life, Plotinus came to him, told him it came from melancholy, not from intellect, and sent him away to Sicily, where Porphyry gave up the thought, but was not with Plotinus when he died.",
+   "greek_unit": "ia-volkmann-t1:47",
+   "greek_part": 1,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 17",
+   "greek_pages": [
+    "ia-volkmann-t1:47"
+   ],
+   "older": [
+    {
+     "n": 11,
+     "label": "Life, chapter 11",
+     "page": 12,
+     "year": 1917,
+     "text": "He had a remarkable penetration into character.\n\nOnce a valuable necklace was stolen from Chione, who was living in honourable widowhood with her children in the same house as Plotinus : the servants were called before him : he scrutinised them all, then indicated one : \" This man is the thief.\" The man was whipped but for some time persisted in denial : finally, however, he confessed, and restored the necklace.\n\nPlotinus foretold also the future of each of the children in the household : for instance, when questioned as to Polemon's character and destiny he said : \" He will be amorous and short-lived \" ; and so it proved.\n\nI myself at one period had formed the intention of ending my life ; Plotinus discerned my purpose ; he came unexpectedly to my house where I had secluded myself, told me that my decision sprang not from reason but from mere melancholy and advised me to leave Rome. I obeyed and left for Sicily, which I chose because I heard that one Probus, a man of scholarly repute, was living there not far from Lilybaeum. Thus I was induced to abandon my first intention but was prevented from being with Plotinus between that time and his death."
+    }
+   ]
+  },
+  {
+   "id": "Life.12",
+   "treatise": "Life",
+   "title": "Platonopolis",
+   "summary": "The emperor Gallienus and his wife Salonina honoured Plotinus, and he asked them to rebuild a ruined city of philosophers in Campania, to be called Platonopolis and governed by Plato's laws, where he would retire with his companions. Envy at court stopped it.",
+   "greek_unit": "ia-volkmann-t1:47",
+   "greek_part": 1,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 17",
+   "greek_pages": [
+    "ia-volkmann-t1:47",
+    "ia-volkmann-t1:48"
+   ],
+   "older": [
+    {
+     "n": 12,
+     "label": "Life, chapter 12",
+     "page": 12,
+     "year": 1917,
+     "text": "The Emperor Galienus and his wife Salonina greatly honoured and venerated Plotinus, who thought to turn their friendly feeling to some good purpose. In Campania there had once stood, according to tradition, a City of Philosophers, a ruin now ; Plotinus asked the Emperor to rebuild this city and to make over the surrounding district to the newfounded state ; the population was to live under Plato's laws : the city was to be called Platonopolis ; and Plotinus undertook to settle down there with his associates. He would have had his way without more ado but that opposition at court, prompted by jealousy, spite, or some such paltry motive, put an end to the plan."
+    }
+   ]
+  },
   {
    "id": "I.1.1",
    "treatise": "I.1",
@@ -1594,6 +1902,411 @@
   }
  ],
  "paragraphs": [
+  {
+   "seg": "Life.1.p1",
+   "chapter": "Life.1",
+   "modern": "Plotinus, the philosopher of our own time, seemed like a man ashamed to be in a body. Because of this frame of mind he could not bear to talk about his family, his parents or his homeland. He thought it so far beneath him to sit for a painter or a sculptor that, when Amelius asked him to allow a likeness of him to be made, he said: \"Is it not enough to carry the image that nature has wrapped around us? Must I also agree to leave behind an image of the image, to last longer, as if it were one of the works worth looking at?\"",
+   "greek": "Πλωτῖνος ὁ καθ’ ἡμᾶς γεγονὼς φιλόσοφος ἐῴκει μὲν αἰσχυνομένῳ, ὅτι ἐν σώματι εἴη. ἀπὸ δὲ τῆς τοιαύτης διαθέσεως οὔτε περὶ τοῦ γένους αὐτοῦ διηγεῖσθαι ἠνείχετο οὔτε περὶ τῶν γονέων οὔτε περὶ τῆς πατρίδος. ζωγράφου δὲ ἀνασχέσθαι ἢ πλάστου τοσοῦτον ἀπηξίου, ὥστε καὶ λέγειν πρὸς Ἀμέλιον δεόμενον εἰκόνα αὐτοῦ γενέσθαι ἐπιτρέψαι· οὐ γὰρ ἀρκεῖ φέρειν, ὃ ἡ φύσις εἴδωλον ἡμῖν περιτέθεικεν; ἀλλὰ καὶ εἰδώλου εἴδωλον συγχωρεῖν αὐτὸν ἀξιοῦν πολυχρονιώτερον καταλιπεῖν ὡς δή τι τῶν ἀξιοθεάτων ἔργων.",
+   "notes": [
+    "\"An image of the image\": Plato's Republic X (597e-598b) puts the painter's work third from the truth, the imitation of an appearance. For Plotinus the body is already an image (εἴδωλον) that nature has put around us."
+   ]
+  },
+  {
+   "seg": "Life.1.p2",
+   "chapter": "Life.1",
+   "modern": "So, since he refused and would not sit for it, Amelius, who had a friend, Carterius, the best of the painters of that time, had him come in and attend the meetings (anyone who wished could come to the meetings), and trained him, by paying closer and closer attention, to take in more striking impressions from what he saw. Then, as Carterius drew the likeness from the image stored in his memory, and Amelius helped him correct the sketch towards a resemblance, Carterius' talent made a portrait of him very like him, without Plotinus knowing.",
+   "greek": "ὅθεν ἀπαγορεύοντος καὶ καθεδεῖσθαι ἕνεκα τούτου ἀρνουμένου ἔχων φίλον ὁ Ἀμέλιος Καρτέριον τὸν ἄριστον τῶν τότε γεγονότων ζωγράφων εἰσιέναι καὶ ἀπαντᾶν εἰς τὰς συνουσίας ποιήσας· ἐξῆν γὰρ τῷ βουλομένῳ φοιτᾶν εἰς τὰς συνουσίας· τὰς ἐκ τοῦ ὁρᾶν φαντασίας πληκτικωτέρας λαμβάνειν διὰ τῆς ἐπὶ πλέον προσοχῆς συνείθισεν. ἔπειτα γράφοντος ἐκ τοῦ τῇ μνήμῃ ἐναποκειμένου ἰνδάλματος τὸ εἴκασμα καὶ συνδιορθοῦντος εἰς ὁμοιότητα τὸ ἴχνος τοῦ Ἀμελίου εἰκόνα αὐτοῦ γενέσθαι ἡ εὐφυΐα τοῦ Καρτερίου παρέσχεν ἀγνοοῦντος τοῦ Πλωτίνου ὁμοιοτάτην."
+  },
+  {
+   "seg": "Life.2.p1",
+   "chapter": "Life.2",
+   "modern": "He often suffered from a disease of the bowels, but he would not put up with an enema, saying that it was not fitting for an old man to undergo such treatments; nor would he take the antidotes made from wild beasts, saying that he did not accept food from the bodies even of tame animals. He kept away from the baths, and had himself rubbed down every day at home; but when the plague grew heavy and the men who rubbed him died, he gave up this treatment, and little by little the savage form of the throat disease took hold of him. While I was with him nothing of this kind showed itself yet; but after I had sailed away the illness grew so fierce, as our companion Eustochius, who stayed with him until his death, told me when I came back, that his voice lost its clearness and its ring as he grew hoarse, his sight was clouded, and his hands and feet were covered with sores. So, since his friends avoided meeting him, because he had the habit of greeting everyone mouth to mouth, he left the city and went to Campania, and stayed at the estate of Zethus, an old companion of his who had died. What he needed was provided from Zethus' estate, and brought from Minturnae, from Castricius' lands; for Castricius had his property at Minturnae.",
+   "greek": "κοιλιακῇ δὲ νόσῳ πολλάκις καταπονούμενος οὔτε κλυστῆρος ἠνέσχετο, οὐκ εἶναι πρὸς τοῦ πρεσβύτου λέγων ὑπομένειν τὰς τοιαύτας θεραπείας, οὔτε τὰς θηριακὰς ἀντιδότους λαβεῖν ὑπέμεινε, μηδὲ τῶν ἡμέρων ζῴων τὰς ἐκ τοῦ σώματος τροφὰς προσίεσθαι λέγων. λουτροῦ δὲ ἀπεχόμενος καὶ τρίψεσι καθ’ ἑκάστην ἡμέραν χρώμενος ἐπὶ τῆς οἰκίας, ἐπειδὴ τοῦ λοιμοῦ ἐπιβρίσαντος συνέβη τοὺς τρίβοντας αὐτὸν ἀποθανεῖν, ἀμελήσας τῆς τοιαύτης θεραπείας κατ’ ὀλίγον τὴν τοῦ κυνάγχου ἀγριότητα κατασκευαζομένην ἔσχε. κἀμοῦ μὲν παρόντος οὐδέν πω τοιοῦτον ὑπεφαίνετο· ἀποπλεύσαντος δὲ εἰς τοσοῦτον ἠγριώθη τὸ πάθος, ὡς ἔλεγεν ἐπανελθόντι Εὐστόχιος ὁ ἑταῖρος ὁ καὶ παραμείνας αὐτῷ ἄχρι θανάτου, ὡς καὶ τῆς φωνῆς περιαιρεθῆναι τὸ τορὸν καὶ εὔηχον βραγχῶντος αὐτοῦ καὶ τὴν ὄψιν συγχυθῆναι καὶ τὰς χεῖρας καὶ τοὺς πόδας ἑλκωθῆναι· ὅθεν ἐκτρεπομένων αὐτοῦ τὰς συναντήσεις τῶν φίλων διὰ τὸ ἀπὸ στόματος πάντας προσαγορεύειν ἔθος ἔχειν, τῆς μὲν πόλεως ἀπαλλάττεται, εἰς δὲ τὴν Καμπανίαν ἐλθὼν εἰς Ζήθου χωρίον ἑταίρου παλαιοῦ αὐτῷ γεγονότος καὶ τεθνηκότος κατάγεται. τὰ δ’ ἀναγκαῖα αὐτῷ ἔκ τε τῶν τοῦ Ζήθου ἐτελεῖτο καὶ ἐκ Μιντουρνῶν ἐκομίζετο ἐκ τῶν Καστρικίου· ἐν Μιντούρναις γὰρ ὁ Καστρίκιος τὰς κτήσεις εἶχε.",
+   "flags": [
+    {
+     "taylor": "in a short while he contracted malign diphtheria",
+     "in": "MacKenna",
+     "why": "The Greek says \"little by little\" (κατ’ ὀλίγον) the disease grew on him, not \"in a short while\"; and its name is κυνάγχη (\"dog-choke\"), the ancient name for a severe inflammation of the throat. \"Malign diphtheria\" is a modern diagnosis put into Porphyry's mouth."
+    },
+    {
+     "taylor": "addressing everyone by word of mouth",
+     "in": "MacKenna",
+     "why": "The Greek ἀπὸ στόματος πάντας προσαγορεύειν is most naturally \"greeting everyone mouth to mouth\", with a kiss, which is why his friends, afraid of his sores, kept away; \"by word of mouth\" makes it speech."
+    }
+   ],
+   "notes": [
+    "The \"antidotes from wild beasts\" (θηριακαὶ ἀντίδοτοι) are theriacs, compound remedies against poison made with the flesh of wild animals, above all of vipers. Porphyry himself wrote a book On abstinence from animal food."
+   ]
+  },
+  {
+   "seg": "Life.2.p2",
+   "chapter": "Life.2",
+   "modern": "When he was about to die, as Eustochius told us, since Eustochius, who lived at Puteoli, was slow in coming to him, he said: \"I am still waiting for you.\" And saying that he was trying to bring the divine in us back up to the divine in the All, as a snake passed under the bed on which he lay and slipped into a hole in the wall, he breathed his last. He was, as Eustochius said, sixty-six years old, and the second year of Claudius' reign was coming to its end. When he died I, Porphyry, happened to be staying at Lilybaeum, Amelius at Apamea in Syria, and Castricius in Rome; only Eustochius was there.",
+   "greek": "μέλλων δὲ τελευτᾶν, ὡς ὁ Εὐστόχιος ἡμῖν διηγεῖτο, ἐπειδὴ ἐν Ποτιόλοις κατοικῶν ὁ Εὐστόχιος βραδέως πρὸς αὐτὸν ἀφίκετο, εἰπὼν ὅτι σὲ ἔτι περιμένω καὶ φήσας πειρᾶσθαι τὸ ἐν ἡμῖν θεῖον ἀνάγειν πρὸς τὸ ἐν τῷ παντὶ θεῖον, δράκοντος ὑπὸ τὴν κλίνην διελθόντος ἐν ᾗ κατέκειτο καὶ εἰς ὀπὴν ἐν τῷ τοίχῳ ὑπάρχουσαν ὑποδεδυκότος ἀφῆκε τὸ πνεῦμα ἔτη γεγονώς, ὡς ὁ Εὐστόχιος ἔλεγεν, ἓξ τε καὶ ἑξήκοντα, τοῦ δευτέρου ἔτους τῆς Κλαυδίου βασιλείας πληρουμένου. τελευτῶντι δὲ αὐτῷ ἐγὼ μὲν ὁ Πορφύριος ἐτύγχανον ἐν Λιλυβαίῳ διατρίβων, Ἀμέλιος δὲ ἐν Ἀπαμείᾳ τῆς Συρίας, Καστρίκιος δὲ ἐν τῇ Ῥώμῃ· μόνος δὲ παρῆν ὁ Εὐστόχιος.",
+   "notes": [
+    "The last words are read differently in the manuscripts and by modern editors: some read them as Plotinus' charge to those present (\"try to bring back...\"), some read \"the god in us\" for \"the divine in us\". The modern version keeps Volkmann's text: \"saying that he was trying\" (φήσας πειρᾶσθαι).",
+    "The second year of the emperor Claudius (Claudius II) is AD 270, in the modern reckoning."
+   ]
+  },
+  {
+   "seg": "Life.2.p3",
+   "chapter": "Life.2",
+   "modern": "Counting back sixty-six years from the second year of Claudius' reign, the time of his birth falls in the thirteenth year of the reign of Severus. But he did not tell anyone the month in which he was born, nor his birthday, since he did not think it right to sacrifice or give a feast on his own birthday; and yet on the traditional birthdays of Plato and Socrates he sacrificed and gave his companions a feast, when those of the companions who were able also had to read out a discourse before those who had come together.",
+   "greek": "ἀναψηφίζουσι δὲ ἡμῖν ἀπὸ τοῦ δευτέρου ἔτους τῆς Κλαυδίου βασιλείας εἰς τοὐπίσω ἔτη ἓξ τε καὶ ἑξήκοντα ὁ χρόνος αὐτῷ τῆς γενέσεως εἰς τὸ τρισκαιδέκατον ἔτος τῆς Σευήρου βασιλείας πίπτει. οὔτε δὲ τὸν μῆνα δεδήλωκέ τινι καθ’ ὃν γεγένηται, οὔτε τὴν γενέθλιον ἡμέραν, ἐπεὶ οὐδὲ θύειν ἢ ἑστιᾶν τινα τοῖς αὐτοῦ γενεθλίοις ἠξίου, καίπερ ἐν τοῖς Πλάτωνος καὶ Σωκράτους παραδεδομένοις γενεθλίοις θύων τε καὶ ἑστιῶν τοὺς ἑταίρους, ὅτε καὶ λόγον ἔδει τῶν ἑταίρων τοὺς δυνατοὺς ἐπὶ τῶν συνελθόντων ἀναγνῶναι.",
+   "notes": [
+    "The thirteenth year of the emperor Septimius Severus is AD 205, in the modern reckoning. The birthdays of Socrates and Plato were kept on the sixth and seventh of the Athenian month Thargelion (Plutarch, Table Talk VIII.1)."
+   ]
+  },
+  {
+   "seg": "Life.3.p1",
+   "chapter": "Life.3",
+   "modern": "These things, however, he often told us about himself in conversation. He kept going to his nurse, though he was already going to school to a teacher of letters, until he was eight years old, and baring her breasts was eager to suck; but once, hearing someone say that he was a wretched child, he was ashamed and stopped.",
+   "greek": "ἃ μέντοι ἡμῖν αὐτὸς ἀφ’ ἑαυτοῦ ἐν ταῖς ὁμιλίαις πολλάκις διηγεῖτο, ἦν τοιαῦτα. προσφοιτᾶν μὲν γὰρ τῇ τροφῷ καίπερ εἰς γραμματοδιδασκάλου ἀπιόντα ἄχρις ὀγδόου ἔτους ἀπὸ γενέσεως ὄντα καὶ τοὺς μαζοὺς γυμνοῦντα θηλάζειν προθυμεῖσθαι· ἀκούσαντα δέ ποτε, ὅτι ἀτηρόν ἐστι παιδίον, ἀποσχέσθαι αἰδεσθέντα.",
+   "flags": [
+    {
+     "taylor": "he was told he was a \" perverted imp,\"",
+     "in": "MacKenna",
+     "why": "The Greek ἀτηρὸν παιδίον is \"a naughty (or wretched) child\", a nurse's scolding; \"perverted\" is MacKenna's."
+    }
+   ]
+  },
+  {
+   "seg": "Life.3.p2",
+   "chapter": "Life.3",
+   "modern": "In his twenty-eighth year he set out for philosophy, and was introduced to the teachers who had a name at Alexandria at that time; and he came away from their lectures downcast and full of sorrow, so that he told one of his friends what he was going through. The friend, understanding what his soul wanted, took him to Ammonius, whom he had not yet tried. He went in, heard him, and said to his companion: \"This is the man I was looking for.\" And from that day he stayed with Ammonius continually, and gained such a mastery in philosophy that he was eager to get experience as well of the philosophy practised among the Persians and of the philosophy that flourishes among the Indians.",
+   "greek": "εἰκοστὸν δὲ καὶ ὄγδοον ἔτος αὐτὸν ἄγοντα ὁρμῆσαι ἐπὶ φιλοσοφίαν καὶ τοῖς τότε κατὰ τὴν Ἀλεξάνδρειαν εὐδοκιμοῦσι συσταθέντα κατιέναι ἐκ τῆς ἀκροάσεως αὐτῶν κατηφῆ καὶ λύπης πλήρη, ὡς καί τινι τῶν φίλων διηγεῖσθαι ἃ πάσχει· τὸν δὲ συνέντα αὐτοῦ τῆς ψυχῆς τὸ βούλημα ἀπενέγκαι πρὸς Ἀμμώνιον, οὗ μηδέπω πεπείρατο. τὸν δὲ εἰσελθόντα καὶ ἀκούσαντα φάναι πρὸς τὸν ἑταῖρον· τοῦτον ἐζήτουν. καὶ ἀπ’ ἐκείνης τῆς ἡμέρας συνεχῶς τῷ Ἀμμωνίῳ παραμένοντα τοσαύτην ἕξιν ἐν φιλοσοφίᾳ κτήσασθαι, ὡς καὶ τῆς παρὰ τοῖς Πέρσαις ἐπιτηδευομένης πεῖραν λαβεῖν σπεῦσαι καὶ τῆς παρ’ Ἰνδοῖς κατορθουμένης.",
+   "flags": [
+    {
+     "taylor": "At twenty he was caught by the passion for philosophy",
+     "in": "MacKenna",
+     "why": "The Greek says \"in his twenty-eighth year\" (εἰκοστὸν δὲ καὶ ὄγδοον ἔτος): MacKenna drops the eight. The count matters, since Porphyry then has him study eleven years with Ammonius and join Gordian's army at thirty-nine."
+    }
+   ],
+   "notes": [
+    "Ammonius (called Saccas by later writers) left no writings; what he taught is known only through his pupils, of whom Plotinus is the greatest."
+   ]
+  },
+  {
+   "seg": "Life.3.p3",
+   "chapter": "Life.3",
+   "modern": "When the emperor Gordian was about to march against the Persians, he gave himself to the army and went in with it, being already in his thirty-ninth year; for he had stayed studying with Ammonius for eleven whole years. When Gordian was killed in Mesopotamia, he escaped with difficulty and came through safely to Antioch. And when Philip had taken power, being forty years old, he went up to Rome.",
+   "greek": "Γορδιανοῦ δὲ τοῦ βασιλέως ἐπὶ τοὺς Πέρσας παριέναι μέλλοντος δοὺς ἑαυτὸν τῷ στρατοπέδῳ συνεισῄει ἔτος ἤδη τριακοστὸν ἄγων καὶ ἔννατον. ἕνδεκα γὰρ ὅλων ἐτῶν παραμένων τῷ Ἀμμωνίῳ συνεσχόλασε. τοῦ δὲ Γορδιανοῦ περὶ τὴν Μεσοποταμίαν ἀναιρεθέντος μόλις φεύγων εἰς τὴν Ἀντιόχειαν διεσώθη. καὶ Φιλίππου τὴν βασιλείαν κρατήσαντος τεσσαράκοντα γεγονὼς ἔτη εἰς τὴν Ῥώμην ἄνεισιν.",
+   "notes": [
+    "Gordian III marched against the Persians in 242 and died in Mesopotamia in 244; Philip the Arab followed him (modern dates)."
+   ]
+  },
+  {
+   "seg": "Life.3.p4",
+   "chapter": "Life.3",
+   "modern": "Erennius, Origen and Plotinus had made an agreement to reveal nothing of the teachings of Ammonius, which he had made clear to them in his lectures; and Plotinus kept to it: he met with some of those who came to him, but kept Ammonius' teachings undisclosed. Erennius was the first to break the agreement, and Origen followed Erennius, who had gone first. But Origen wrote nothing except the treatise On the daemons and, under Gallienus, That the king is the only maker. Plotinus went on for a long time writing nothing, but made his lectures from his time with Ammonius; and so he went on for ten whole years, meeting with some people but writing nothing. His lectures, since he urged those who were with him to ask questions themselves, were full of disorder and much idle talk, as Amelius told us.",
+   "greek": "Ἐρεννίῳ δὲ καὶ Ὠριγένει καὶ Πλωτίνῳ συνθηκῶν γεγονυιῶν μηδὲν ἐκκαλύπτειν τῶν Ἀμμωνίου δογμάτων, ἃ δὴ ἐν ταῖς ἀκροάσεσιν αὐτοῖς ἀνεκεκάθαρτο, ἔμενε καὶ ὁ Πλωτῖνος συνὼν μέν τισι τῶν προσιόντων, τηρῶν δὲ ἀνέκπυστα τὰ παρὰ τοῦ Ἀμμωνίου δόγματα. Ἐρεννίου δὲ πρώτου τὰς συνθήκας παραβάντος Ὠριγένης μὲν ἠκολούθει τῷ φθάσαντι Ἐρεννίῳ. ἔγραψε δὲ οὐδὲν πλὴν τὸ περὶ τῶν δαιμόνων σύγγραμμα καὶ ἐπὶ Γαλιήνου, ὅτι μόνος ποιητὴς ὁ βασιλεύς. Πλωτῖνος δὲ ἄχρι μὲν πολλοῦ γράφων οὐδὲν διετέλεσεν, ἐκ δὲ τῆς Ἀμμωνίου συνουσίας ποιούμενος τὰς διατριβάς· καὶ οὕτως ὅλων ἐτῶν δέκα διετέλεσε, συνὼν μέν τισι, γράφων δὲ οὐδέν. ἦν δὲ ἡ διατριβή, ὡς ἂν αὐτοὺς ζητεῖν προτρεπομένου τοὺς συνόντας, ἀταξίας πλήρης καὶ πολλῆς φλυαρίας, ὡς Ἀμέλιος ἡμῖν διηγεῖτο.",
+   "notes": [
+    "This Origen is the Platonist, Plotinus' fellow pupil under Ammonius; whether he is the same man as Origen the Christian writer, who also heard Ammonius, is a question modern scholars still argue.",
+    "ποιητής is both \"maker\" and \"poet\": the title can mean that the king of all is the only maker of the world."
+   ]
+  },
+  {
+   "seg": "Life.3.p5",
+   "chapter": "Life.3",
+   "modern": "Amelius came to him when he was in his third year in Rome, in the third year of Philip's reign, and stayed until the first year of Claudius' reign, so that he was with him twenty-four whole years. When he came he already had a training from his time with Lysimachus, and in hard work he surpassed all those of his day, since he had copied and collected almost all the works of Numenius and learned most of them by heart. Making notes from the meetings, he put together about a hundred books of notes, which he has given to Ustillianus Hesychius of Apamea, whom he adopted as his son.",
+   "greek": "προσῆλθε δὲ αὐτῷ ὁ Ἀμέλιος τρίτον ἔτος ἄγοντι ἐν τῇ Ῥώμῃ κατὰ τὸ τρίτον τῆς Φιλίππου βασιλείας ἔτος καὶ ἄχρι τοῦ πρώτου ἔτους τῆς Κλαυδίου βασιλείας παραμείνας ἔτη ὅλα συγγέγονεν εἴκοσι καὶ τέσσαρα, ἕξιν μὲν ἔχων ὅτε προσῆλθεν ἀπὸ τῆς Λυσιμάχου συνουσίας, φιλοπονίᾳ δὲ ὑπερβαλλόμενος τῶν καθ’ αὐτὸν πάντων διὰ τὸ καὶ σχεδὸν πάντα τὰ Νουμηνίου καὶ γράψαι καὶ συναγαγεῖν καὶ σχεδὸν τὰ πλεῖστα ἐκμαθεῖν· σχόλια δὲ ἐκ τῶν συνουσιῶν ποιούμενος ἑκατόν που βιβλία συνέταξε τῶν σχολίων, ἃ Οὐστιλλιανῷ Ἡσυχίῳ τῷ Ἀπαμεῖ, ὃν υἱὸν ἔθετο, κεχάρισται.",
+   "flags": [
+    {
+     "taylor": "presented to Hostilianus of Apamea",
+     "in": "MacKenna",
+     "why": "The Greek names him Ustillianus Hesychius (Οὐστιλλιανῷ Ἡσυχίῳ) of Apamea; MacKenna gives one name, in another form."
+    }
+   ],
+   "notes": [
+    "Numenius of Apamea was a Platonist of the second century, known now only from fragments; in chapter 17 Porphyry answers those who said that Plotinus took his ideas from him."
+   ]
+  },
+  {
+   "seg": "Life.4.p1",
+   "chapter": "Life.4",
+   "modern": "In the tenth year of Gallienus' reign I, Porphyry, coming from Greece with Antonius of Rhodes, found Amelius in his eighteenth year with Plotinus, though he had not yet dared to write anything except his notes, which had not yet come to a hundred in number. In the tenth year of Gallienus' reign Plotinus was about fifty-nine years old. And I, Porphyry, was thirty years old myself when I first met him.",
+   "greek": "τῷ δεκάτῳ δὲ ἔτει τῆς Γαλιήνου βασιλείας ἐγὼ Πορφύριος ἐκ τῆς Ἑλλάδος μετὰ Ἀντωνίου τοῦ Ῥοδίου γεγονὼς καταλαμβάνω μὲν τὸν Ἀμέλιον ὀκτωκαιδέκατον ἔτος ἔχοντα τῆς πρὸς Πλωτῖνον συνουσίας, μηδὲν δέ πω γράφειν τολμήσαντα πλὴν τῶν σχολίων, ἃ οὐδέπω εἰς ἑκατὸν τὸ πλῆθος αὐτῷ συνῆκτο. ἦν δὲ ὁ Πλωτῖνος τῷ δεκάτῳ ἔτει τῆς Γαλιήνου βασιλείας ἀμφὶ τὰ πεντήκοντα ἔτη καὶ ἐννέα. ἐγὼ δὲ Πορφύριος τὸ πρῶτον αὐτῷ συγγέγονα αὐτὸς ὢν τότε ἐτῶν τριάκοντα.",
+   "notes": [
+    "The tenth year of Gallienus is AD 262-263, in the modern reckoning."
+   ]
+  },
+  {
+   "seg": "Life.4.p2",
+   "chapter": "Life.4",
+   "modern": "From the first year of Gallienus' reign, however, Plotinus had been urged to write on the subjects that came up, and by the tenth year of Gallienus' reign, when I, Porphyry, first came to know him, he is found to have written twenty-one books, which I also got hold of, though they had been given out to few. For the giving out was not yet easy, nor done lightly, nor simply and readily, but with every care in judging those who received them.",
+   "greek": "ἀπὸ μέντοι τοῦ πρώτου ἔτους τῆς Γαλιήνου ἀρχῆς προτραπεὶς ὁ Πλωτῖνος γράφειν τὰς ἐμπιπτούσας ὑποθέσεις [εἰς] τὸ δέκατον ἔτος τῆς Γαλιήνου ἀρχῆς, ὅτε τὸ πρῶτον αὐτῷ ἐγὼ ὁ Πορφύριος ἐγνωρίσθην, γράψας εὑρίσκεται εἴκοσι καὶ ἓν βιβλίον, ἃ καὶ κατείληφα ἐκδεδομένα ὀλίγοις. οὐδὲ γὰρ ἦν πω ῥᾳδία ἡ ἔκδοσις οὐδὲ εὐσυνειδήτως ἐγίγνετο οὐδ’ ἁπλῶς κἀκ τοῦ ῥᾴστου, ἀλλὰ μετὰ πάσης κρίσεως τῶν λαμβανόντων.",
+   "flags": [
+    {
+     "taylor": "the distribution was grudging and secret",
+     "in": "MacKenna",
+     "why": "The Greek says only that the books were not given out easily or lightly, \"but with every care in judging those who received them\"; \"secret\" is MacKenna's."
+    }
+   ]
+  },
+  {
+   "seg": "Life.4.p3",
+   "chapter": "Life.4",
+   "modern": "These were the writings; and since he did not give them titles himself, each person gave each a title of his own. The titles that won out are these; and I shall set down the first words of the books as well, so that each of the books named can easily be recognised from its first words:\n[1, I.6] On beauty. It begins: \"Beauty is mostly in sight.\"\n[2, IV.7] On the immortality of the soul. It begins: \"Whether each of us is immortal.\"\n[3, III.1] On destiny. It begins: \"All the things that come to be.\"\n[4, IV.2] On the being of the soul. It begins: \"The being of the soul.\"\n[5, V.9] On intellect, the forms, and what is. It begins: \"All human beings, from the time they come to be.\"\n[6, IV.8] On the descent of the soul into bodies. It begins: \"Often, waking up.\"\n[7, V.4] How what comes after the first comes from the first; and on the One. It begins: \"If there is anything after the first.\"\n[8, IV.9] Whether all souls are one. It begins: \"Is it so, that just as the soul.\"\n[9, VI.9] On the Good, or the One. It begins: \"All the things that are.\"\n[10, V.1] On the three first realities. It begins: \"What is it, then, that has made the souls.\"\n[11, V.2] On the coming to be and the order of what comes after the first. It begins: \"The One is all things.\"\n[12, II.4] On the two kinds of matter. It begins: \"What is called matter.\"\n[13, III.9] Various considerations. It begins: \"Intellect, he says, sees the forms that are in.\"\n[14, II.2] On the circular movement. It begins: \"Why does it move in a circle.\"\n[15, III.4] On the daemon allotted to us. It begins: \"Of some, the realities.\"\n[16, I.9] On going out of life reasonably. It begins: \"You shall not lead it out, lest it go out.\"\n[17, II.6] On quality. It begins: \"Are being and substance.\"\n[18, V.7] Whether there are forms of individuals too. It begins: \"Whether there is a form of the individual too.\"\n[19, I.2] On the virtues. It begins: \"Since evils are here.\"\n[20, I.3] On dialectic. It begins: \"What art, or method.\"\n[21, IV.1] How the soul is said to be between the undivided and the divided being. It begins: \"In the intelligible world.\"",
+   "greek": "ἦν δὲ καὶ τὰ γεγραμμένα ταῦτα, ἃ διὰ τὸ μὴ αὐτὸν ἐπιγράφειν ἄλλος ἄλλο ἑκάστῳ τοὐπίγραμμα ἐτίθει. αἱ δ’ οὖν κρατήσασαι ἐπιγραφαί εἰσιν αἵδε· θήσω δὲ καὶ τὰς ἀρχὰς τῶν βιβλίων, εἰς τὸ εὐεπίγνωστον εἶναι ἀπὸ τῶν ἀρχῶν ἕκαστον τῶν δηλουμένων βιβλίων· περὶ τοῦ καλοῦ. οὗ ἡ ἀρχή· τὸ καλόν ἐστι μὲν ἐν ὄψει πλεῖστον. περὶ ψυχῆς ἀθανασίας. οὗ ἡ ἀρχή· εἰ δέ ἐστιν ἀθάνατος ἕκαστος. περὶ εἱμαρμένης. οὗ ἡ ἀρχή· πάντα τὰ γινόμενα. περὶ οὐσίας τῆς ψυχῆς. οὗ ἡ ἀρχή· τὴν τῆς ψυχῆς οὐσίαν. περὶ νοῦ καὶ τῶν ἰδεῶν καὶ τοῦ ὄντος. οὗ ἡ ἀρχή· πάντες ἄνθρωποι ἐξ ἀρχῆς γενόμενοι. περὶ τῆς εἰς τὰ σώματα καθόδου τῆς ψυχῆς. οὗ ἡ ἀρχή· πολλάκις ἐγειρόμενος. πῶς ἀπὸ τοῦ πρώτου τὸ μετὰ τὸ πρῶτον· καὶ περὶ τοῦ ἑνός. οὗ ἡ ἀρχή· εἴ τι ἐστὶ μετὰ τὸ πρῶτον. εἰ πᾶσαι αἱ ψυχαὶ μία. οὗ ἡ ἀρχή· ἆρα ὥσπερ ψυχήν. περὶ τἀγαθοῦ ἢ τοῦ ἑνός. οὗ ἡ ἀρχή· ἅπαντα τὰ ὄντα. περὶ τῶν τριῶν ἀρχικῶν ὑποστάσεων. οὗ ἡ ἀρχή· τί ποτε ἄρα ἐστὶ τὸ πεποιηκὸς τὰς ψυχάς. περὶ γενέσεως καὶ τάξεως τῶν μετὰ τὸ πρῶτον. οὗ ἡ ἀρχή· τὸ ἓν πάντα. περὶ τῶν δύο ὑλῶν. οὗ ἡ ἀρχή· τὴν λεγομένην ὕλην. ἐπισκέψεις διάφοροι. οὗ ἡ ἀρχή· νοῦς, φησιν, ὁρᾷ ἐνούσας ἰδέας. περὶ τῆς κυκλοφορίας. οὗ ἡ ἀρχή· διὰ τί κύκλῳ κινεῖται. περὶ τοῦ εἰληχότος ἡμᾶς δαίμονος. οὗ ἡ ἀρχή· τῶν μὲν αἱ ὑποστάσεις. περὶ εὐλόγου ἐξαγωγῆς. οὗ ἡ ἀρχή· οὐκ ἐξάξεις, ἵνα μὴ ἐξίῃ. περὶ ποιότητος. οὗ ἡ ἀρχή· ἆρα τὸ ὂν καὶ ἡ οὐσία. εἰ καὶ τῶν καθέκαστα εἰσὶν ἰδέαι. οὗ ἡ ἀρχή· εἰ καὶ τῶν καθέκαστον. περὶ ἀρετῶν. οὗ ἡ ἀρχή· ἐπειδὴ τὰ κακὰ ἐνταῦθα. περὶ διαλεκτικῆς. οὗ ἡ ἀρχή· τίς τέχνη ἢ μέθοδος. πῶς ἡ ψυχὴ τῆς ἀμερίστου καὶ μεριστῆς οὐσίας μέση εἶναι λέγεται. οὗ ἡ ἀρχή· ἐν τῷ κόσμῳ τῷ νοητῷ.",
+   "flags": [
+    {
+     "taylor": "On our Tutelary Spirit (II. 2)",
+     "in": "MacKenna",
+     "why": "The fifteenth book, \"On the daemon allotted to us\", is III.4 in the Enneads, not II.2, which is the fourteenth, \"On the circular movement\". The Ennead places are MacKenna's additions."
+    }
+   ],
+   "notes": [
+    "The numbers and Ennead places in square brackets are the Workshop's, not Porphyry's: the place of each book in his count by date of writing, and where he set it in his edition (the Workshop numbers the Enneads as First1KGreek's text does, in which IV.1 is the short treatise that begins \"In the intelligible world\"). MacKenna leaves out the first words, and adds his own Ennead places; he gives IV.1 for both the fourth book and the twenty-first.",
+    "The title of the fifteenth book recalls Plato's Phaedo (107d): the daemon \"allotted\" to each in life leads the soul after death. The sixteenth echoes the Phaedo too (61c-62c): we must not take ourselves out of life."
+   ]
+  },
+  {
+   "seg": "Life.4.p4",
+   "chapter": "Life.4",
+   "modern": "These, then, twenty-one in all, are found to have been written when I, Porphyry, first came to him; Plotinus was then in his fifty-ninth year.",
+   "greek": "ταῦτα μὲν οὖν εἴκοσι καὶ ἓν ὄντα, ὅτε αὐτῷ τὸ πρῶτον προσῆλθον ὁ Πορφύριος, εὕρηται γεγραμμένα· πεντηκοστὸν δὲ καὶ ἔννατον ἔτος ἦγε τότε ὁ Πλωτῖνος."
+  },
+  {
+   "seg": "Life.5.p1",
+   "chapter": "Life.5",
+   "modern": "I was with him this year and five years after it (for I, Porphyry, had come to Rome a little before the tenth year, while Plotinus was keeping the summer months free of lectures, though meeting people otherwise in conversation). In these six years, as many questions were examined in the meetings, and Amelius and I asked him to write, he wrote two books, [22-23, VI.4-5] That being, one and the same, is everywhere whole. The first of these has the beginning: \"Is it the soul that is everywhere\"; the second's beginning is: \"The one and the same everywhere.\" Next he wrote two more: one [24, V.6], That what is beyond being does not think, and what is the first thinker and what the second, which begins: \"One thing thinks something other\"; the other [25, II.5], On the potential and the actual, which begins: \"Something is said to be potential.\"",
+   "greek": "συγγεγονὼς δὲ αὐτῷ τοῦτό τε τὸ ἔτος καὶ ἐφεξῆς ἄλλα ἔτη πέντε — ὀλίγον γάρ τι πρότερον τῆς δεκαετίας ἐγεγόνειν ὁ Πορφύριος ἐν τῇ Ῥώμῃ, τοῦ Πλωτίνου τὰς θερινὰς μὲν ἄγοντος ἀργούς, συνόντος δὲ ἄλλως ἐν ταῖς ὁμιλίαις — ἐν δὴ τοῖς ἓξ ἔτεσι τούτοις πολλῶν ἐξετάσεων ἐν ταῖς συνουσίαις γιγνομένων καὶ γράφειν αὐτὸν ἀξιούντων Ἀμελίου τε καὶ ἐμοῦ, γράφει μὲν περὶ τοῦ τὸ ὂν πανταχοῦ ὅλον εἶναι ἓν καὶ ταὐτὸν βιβλία δύο. τούτων δὲ τὸ πρῶτον ἀρχὴν ἔχει· ἆρά γε ἡ ψυχὴ πανταχοῦ· τοῦ δὲ δευτέρου ἡ ἀρχή· τὸ ἓν καὶ ταὐτὸν πανταχοῦ. γράφει δὲ ἐφεξῆς ἄλλα δύο, ὧν τὸ μὲν περὶ τοῦ τὸ ἐπέκεινα τοῦ ὄντος μὴ νοεῖν καὶ τί τὸ πρώτως νοοῦν καὶ τί τὸ δευτέρως, οὗ ἡ ἀρχή· τὸ μέν ἐστι νοοῦν ἄλλο· τὸ δὲ περὶ τοῦ δυνάμει καὶ ἐνεργείᾳ, οὗ ἡ ἀρχή· λέγεται τὸ μὲν δυνάμει.",
+   "flags": [
+    {
+     "taylor": "Unity (II. 4, 5)",
+     "in": "MacKenna",
+     "why": "The two books \"That being, one and the same, is everywhere whole\" are VI.4 and VI.5 of the Enneads, not II.4 and II.5 (which are \"On matter\" and \"On the potential and the actual\")."
+    }
+   ]
+  },
+  {
+   "seg": "Life.5.p2",
+   "chapter": "Life.5",
+   "modern": "[26, III.6] On the impassibility of the bodiless. It begins: \"Saying that perceptions are not affections.\"\n[27, IV.3] On the soul, first. It begins: \"About the soul, all the questions we must raise.\"\n[28, IV.4] On the soul, second. It begins: \"What, then, will it say.\"\n[29, IV.5] On the soul, third; or, How we see. It begins: \"Since we put off.\"\n[30, III.8] On contemplation. It begins: \"Playing, then, at first.\"\n[31, V.8] On intelligible beauty. It begins: \"Since we say.\"\n[32, V.5] That the intelligibles are not outside intellect, and on the Good. It begins: \"Intellect, the true intellect.\"\n[33, II.9] Against the Gnostics. It begins: \"Since, then, it has appeared to us.\"\n[34, VI.6] On numbers. It begins: \"Is multiplicity.\"\n[35, II.8] How things seen far off look small. It begins: \"Is it that things seen far off.\"\n[36, I.5] Whether being happy lies in length of time. It begins: \"Being happy.\"\n[37, II.7] On complete blending. It begins: \"About what is called.\"\n[38, VI.7] How the many forms came to be, and on the Good. It begins: \"Sending into coming to be, the god.\"\n[39, VI.8] On what is willed. It begins: \"Is it, even in the case of the gods.\"\n[40, II.1] On the cosmos. It begins: \"Saying that the cosmos always.\"\n[41, IV.6] On perception and memory. It begins: \"Saying that perceptions are not imprints.\"\n[42, VI.1] On the kinds of being, first. It begins: \"About the things that are, how many and which.\"\n[43, VI.2] On the kinds of being, second. It begins: \"Since, about the so-called.\"\n[44, VI.3] On the kinds of being, third. It begins: \"About substance, how it seems.\"\n[45, III.7] On eternity and time. It begins: \"Eternity and time.\"",
+   "greek": "περὶ τῆς τῶν ἀσωμάτων ἀπαθείας. οὗ ἡ ἀρχή· τὰς αἰσθήσεις οὐ πάθη λέγοντες. περὶ ψυχῆς πρῶτον. οὗ ἡ ἀρχή· περὶ ψυχῆς ὅσα ἀπορήσαντας δεῖ. περὶ ψυχῆς δεύτερον· οὗ ἡ ἀρχή· τί οὖν ἐρεῖ. περὶ ψυχῆς τρίτον ἢ περὶ τοῦ πῶς ὁρῶμεν. οὗ ἡ ἀρχή· ἐπειδήπερ ὑπερεθέμεθα. περὶ θεωρίας. οὗ ἡ ἀρχή· παίζοντες δὴ τὴν πρώτην. περὶ τοῦ νοητοῦ κάλλους. οὗ ἡ ἀρχή· ἐπειδή φαμεν. ὅτι οὐκ ἔξω τοῦ νοῦ τὰ νοητὰ καὶ περὶ νοῦ καὶ τἀγαθοῦ. οὗ ἡ ἀρχή· τὸν νοῦν τὸν ἀληθῆ νοῦν. πρὸς τοὺς γνωστικούς. οὗ ἡ ἀρχή· ἐπειδὴ τοίνυν ἐφάνη ἡμῖν. περὶ ἀριθμῶν. οὗ ἡ ἀρχή· ἆρά ἐστι τὸ πλῆθος. πῶς τὰ πόρρω ὁρώμενα μικρὰ φαίνεται. οὗ ἡ ἀρχή· ἆρά γε τὰ πόρρω ὁρώμενα. εἰ ἐν παρατάσει χρόνου τὸ εὐδαιμονεῖν. οὗ ἡ ἀρχή· τὸ εὐδαιμονεῖν. περὶ τῆς δι’ ὅλων κράσεως. οὗ ἡ ἀρχή· περὶ τῆς δι’ ὅλων λεγομένης. πῶς τὸ πλῆθος τῶν ἰδεῶν ὑπέστη καὶ περὶ τἀγαθοῦ. οὗ ἡ ἀρχή· εἰς γένεσιν πέμπων ὁ θεός. περὶ τοῦ ἑκουσίου. οὗ ἡ ἀρχή· ἆρ’ ἐστι περὶ θεῶν. περὶ τοῦ κόσμου. οὗ ἡ ἀρχή· τὸν κόσμον ἀεὶ λέγοντες. περὶ αἰσθήσεως καὶ μνήμης. οὗ ἡ ἀρχή· τὰς αἰσθήσεις οὐ τυπώσεις. περὶ τῶν τοῦ ὄντος γενῶν πρῶτον. οὗ ἡ ἀρχή· περὶ τῶν ὄντων πόσα καὶ τίνα. περὶ τῶν τοῦ ὄντος γενῶν δεύτερον. οὗ ἡ ἀρχή· ἐπειδὴ περὶ τῶν λεγομένων. περὶ τῶν τοῦ ὄντος γενῶν τρίτον. οὗ ἡ ἀρχή· περὶ μὲν τῆς οὐσίας ὅπῃ δοκεῖ. περὶ αἰῶνος καὶ χρόνου. οὗ ἡ ἀρχή· τὸν αἰῶνα καὶ τὸν χρόνον.",
+   "flags": [
+    {
+     "taylor": "After these come the following twenty",
+     "in": "MacKenna",
+     "why": "Porphyry simply goes on with the list; the heading, and the count of twenty, are MacKenna's."
+    },
+    {
+     "taylor": "On the Impassibility of the Bodiless (III. 5)",
+     "in": "MacKenna",
+     "why": "This book is III.6 of the Enneads; III.5 is \"On love\", the fiftieth."
+    }
+   ]
+  },
+  {
+   "seg": "Life.5.p3",
+   "chapter": "Life.5",
+   "modern": "These twenty-four, which he wrote in the six-year period of my, Porphyry's, presence, taking their subjects from problems that came up at the time, as we have shown from the headings of each of the books, together with the twenty-one from before our stay, make forty-five in all.",
+   "greek": "ταῦτα τὰ εἴκοσι καὶ τέτταρα ὄντα, ὅσα ἐν τῷ ἑξαέτει χρόνῳ τῆς παρουσίας ἐμοῦ Πορφυρίου ἔγραψεν, ἐκ προσκαίρων προβλημάτων τὰς ὑποθέσεις λαβόντα, ὡς ἐκ τῶν κεφαλαίων ἑκάστου τῶν βιβλίων ἐδηλώσαμεν, μετὰ τῶν πρὸ τῆς ἐπιδημίας ἡμῶν εἴκοσι καὶ ἑνὸς τὰ πάντα γίνεται τεσσαράκοντα πέντε."
+  },
+  {
+   "seg": "Life.6.p1",
+   "chapter": "Life.6",
+   "modern": "While I was living in Sicily (for I had withdrawn there about the fifteenth year of Gallienus' reign), Plotinus wrote five books and sent them to me:\n[46, I.4] On happiness. It begins: \"Living well and being happy.\"\n[47, III.2] On providence, first. It begins: \"To chance.\"\n[48, III.3] On providence, second. It begins: \"What, then, do we think about these things.\"\n[49, V.3] On the knowing realities and what is beyond. It begins: \"Must what thinks itself be manifold.\"\n[50, III.5] On love. It begins: \"About love, whether it is a god.\"",
+   "greek": "ἐν δὲ τῇ Σικελίᾳ διατρίβοντός μου· ἐκεῖ γὰρ ἀνεχώρησα περὶ τὸ πεντεκαιδέκατον ἔτος τῆς βασιλείας Γαλιήνου· ὁ Πλωτῖνος γράψας πέντε βιβλία ἀπέστειλέ μοι ταῦτα· περὶ εὐδαιμονίας. οὗ ἡ ἀρχή· τὸ εὖ ζῆν καὶ εὐδαιμονεῖν. περὶ προνοίας πρῶτον. οὗ ἡ ἀρχή· τὸ μὲν αὐτομάτῳ. περὶ προνοίας δεύτερον. οὗ ἡ ἀρχή· τί τοίνυν δοκεῖ περὶ τούτων. περὶ τῶν γνωριστικῶν ὑποστάσεων καὶ τοῦ ἐπέκεινα. οὗ ἡ ἀρχή· ἆρα τὸ νοοῦν ἑαυτὸ ποικίλον δεῖ εἶναι. περὶ ἔρωτος. οὗ ἡ ἀρχή· περὶ ἔρωτος πότερον θεός."
+  },
+  {
+   "seg": "Life.6.p2",
+   "chapter": "Life.6",
+   "modern": "These, then, he sent in the first year of Claudius' reign; at the beginning of the second, when he died soon after, he sent these:\n[51, I.8] What evils are. It begins: \"Those who ask where evils come from.\"\n[52, II.3] Whether the stars act. It begins: \"The movement of the stars.\"\n[53, I.1] What is the living being, and what is the human being. It begins: \"Pleasures and pains.\"\n[54, I.7] On the first good, or on happiness. It begins: \"Could anyone say that another.\"",
+   "greek": "ταῦτα μὲν οὖν τῷ πρώτῳ ἔτει τῆς Κλαυδίου πέμπει βασιλείας· ἀρχομένου δὲ τοῦ δευτέρου, ὅτε καὶ μετ’ ὀλίγον θνήσκει, πέμπει ταῦτα· τίνα τὰ κακά. οὗ ἡ ἀρχή· οἱ ζητοῦντες πόθεν τὰ κακά. εἰ ποιεῖ τὰ ἄστρα. οὗ ἡ ἀρχή· ἡ τῶν ἄστρων φορά. τί τὸ ζῷον καὶ τίς ὁ ἄνθρωπος. οὗ ἡ ἀρχή· ἡδοναὶ καὶ λῦπαι. περὶ τοῦ πρώτου ἀγαθοῦ ἢ περὶ εὐδαιμονίας. οὗ ἡ ἀρχή· ἆρα ἄν τις ἕτερον εἴποι.",
+   "flags": [
+    {
+     "taylor": "On the First Good ; or, On Happiness (I. 8)",
+     "in": "MacKenna",
+     "why": "The last book, \"On the first good\", is I.7 of the Enneads; I.8 is \"What evils are\", the fifty-first."
+    }
+   ]
+  },
+  {
+   "seg": "Life.6.p3",
+   "chapter": "Life.6",
+   "modern": "These, with the forty-five of the first and second writing, make fifty-four. And as they were written, some in his earlier age, some in his prime, and some when his body was worn out by illness, so the books have their strength. The first twenty-one are of slighter power, not yet having enough greatness for full vigour; those that came out in the middle period show his power at its height, and the twenty-four, except for the short ones, are the most complete; but the last nine were written when his power was already failing, and the last four more so than the five before them.",
+   "greek": "ταῦτα μετὰ τῶν τετταράκοντα πέντε τῶν πρώτων καὶ δευτέρων γραφέντων γίνεται τέτταρα καὶ πεντήκοντα. ὥσπερ δὲ ἐγράφη, τὰ μὲν κατὰ πρώτην ἡλικίαν, τὰ δὲ ἀκμάζοντος, τὰ δὲ ὑπὸ τοῦ σώματος καταπονουμένου, οὕτω καὶ τῆς δυνάμεως ἔχει τὰ βιβλία. τὰ μὲν γὰρ πρῶτα εἴκοσι καὶ ἓν ἐλαφροτέρας ἐστὶ δυνάμεως καὶ οὐδέπω πρὸς εὐτονίαν ἀρκοῦν μέγεθος ἐχούσης, τὰ δὲ τῆς μέσης ἐκδόσεως τυχόντα τὸ ἀκμαῖον τῆς δυνάμεως ἐμφαίνει καὶ ἔστι τὰ εἰκοσιτέσσαρα πλὴν τῶν βραχέων τελεώτατα, τὰ μέντοι τελευταῖα ἐννέα ὑφειμένης ἤδη τῆς δυνάμεως γέγραπται καὶ μᾶλλόν γε τὰ τελευταῖα τέσσαρα ἢ τὰ πρὸ τούτων πέντε.",
+   "flags": [
+    {
+     "taylor": "early manhood, vigorous prime, worn-out constitution",
+     "in": "MacKenna",
+     "why": "The Greek κατὰ πρώτην ἡλικίαν is \"in his earlier age\": by Porphyry's own count Plotinus was about forty-eight to fifty-nine when he wrote the first twenty-one, not in \"early manhood\"."
+    }
+   ],
+   "notes": [
+    "Modern readers have doubted this judgement, which ranks the books by Porphyry's own years with Plotinus: the first twenty-one include On beauty (I.6) and On the Good, or the One (VI.9)."
+   ]
+  },
+  {
+   "seg": "Life.7.p1",
+   "chapter": "Life.7",
+   "modern": "He had many hearers, and as followers who were with him for the sake of philosophy, Amelius from Etruria, whose proper name was Gentilianus, though he himself wanted to be called Amerius, with an r, saying that it suited him to be named from amereia, being without parts, rather than from ameleia, carelessness. He had also a doctor, Paulinus of Scythopolis, whom Amelius used to call Mikkalos, \"little one\", a man full of things he had misheard. And he had as a companion a doctor from Alexandria, Eustochius, who came to know him towards the end of his life and stayed, caring for him, until his death; giving his time to Plotinus' teachings alone, he took on the character of a true philosopher.",
+   "greek": "ἔσχε δὲ ἀκροατὰς μὲν πλείους, ζηλωτὰς δὲ καὶ διὰ φιλοσοφίαν συνόντας Ἀμέλιόν τε ἀπὸ τῆς Τουσκίας, οὗ τὸ ὄνομα ἦν Γεντιλιανὸς τὸ κύριον, αὐτὸς δὲ διὰ τοῦ ρ Ἀμέριον αὐτὸν καλεῖν ἠξίου ἀπὸ τῆς ἀμερείας ἢ τῆς ἀμελείας πρέπειν αὐτῷ καλεῖσθαι λέγων. ἔσχε δὲ καὶ ἰατρικόν τινα Σκυθοπολίτην Παυλῖνον, ὃν ὁ Ἀμέλιος Μίκκαλον προσηγόρευε, παρακουσμάτων πλήρη γεγονότα. ἀλλὰ μὴν καὶ Ἀλεξανδρέα Εὐστόχιον ἰατρικὸν ἔσχεν ἑταῖρον, ὃς περὶ τὰ τελευταῖα τῆς ἡλικίας γνωρισθεὶς αὐτῷ διέμενε θεραπεύων ἄχρι τοῦ θανάτου καὶ μόνοις τοῖς Πλωτίνου σχολάζων ἕξιν περιεβάλλετο γνησίου φιλοσόφου.",
+   "flags": [
+    {
+     "taylor": "from Amereia, Unification,",
+     "in": "MacKenna",
+     "why": "ἀμέρεια is \"being without parts\", indivisibility, which the intelligible has; MacKenna's \"Unification\" is near the sense, but not the word."
+    }
+   ]
+  },
+  {
+   "seg": "Life.7.p2",
+   "chapter": "Life.7",
+   "modern": "Zoticus, too, was with him, a critic and a poet, who made corrected editions of Antimachus and turned the story of Atlantis into a poem, very poetically; his sight failed him, and he died a little before Plotinus' death. Paulinus also died before Plotinus. He had also a companion Zethus, an Arab by birth, who married the daughter of Theodosius, a companion of Ammonius. He too was a doctor, and Plotinus loved him dearly; and since he was a man of civic affairs, with leanings towards civic life, Plotinus tried to hold him back from it. He treated him as one of his own, so that he would even withdraw to his country place six miles from Minturnae, the fields that Castricius, called Firmus, had owned. Castricius was of all the men of our time the greatest lover of beautiful things; he revered Plotinus, served Amelius in everything like a good servant, and was devoted to me, Porphyry, in everything as to a true brother. He too, then, revered Plotinus, though he had chosen the civic life.",
+   "greek": "συνῆν δὲ καὶ Ζωτικὸς κριτικός τε καὶ ποιητικός, ὃς καὶ τὰ Ἀντιμάχου διορθωτικὰ πεποίηται καὶ τὸν Ἀτλαντικὸν εἰς ποίησιν μετέβαλε πάνυ ποιητικῶς, συγχυθεὶς δὲ τὰς ὄψεις πρὸ ὀλίγου τῆς Πλωτίνου τελευτῆς ἀπέθανεν. ἔφθασε δὲ καὶ ὁ Παυλῖνος προαποθανὼν τοῦ Πλωτίνου. ἔσχε δὲ καὶ Ζῆθον ἑταῖρον, Ἀράβιον τὸ γένος, Θεοδοσίου τοῦ Ἀμμωνίου γενομένου ἑταίρου εἰς γάμον λαβόντα θυγατέρα. ἦν δὲ καὶ οὗτος ἰατρικὸς καὶ σφόδρα πεφίλητο τῷ Πλωτίνῳ· πολιτικὸν δὲ ὄντα καὶ ῥοπὰς ἔχοντα πολιτικὰς ἀναστέλλειν ὁ Πλωτῖνος ἐπειρᾶτο. ἐχρῆτο δὲ αὐτῷ οἰκείως, ὡς καὶ εἰς τοὺς ἀγροὺς πρὸς αὐτὸν ἀναχωρεῖν πρὸ ἓξ σημείων Μιντουρνῶν ὑπάρχοντας, οὓς Καστρίκιος ἐκέκτητο ὁ Φίρμος καλούμενος, ἀνδρῶν τῶν καθ’ ἡμᾶς φιλοκαλώτατος γεγονὼς καὶ τόν τε Πλωτῖνον σεβόμενος καὶ Ἀμελίῳ οἷα οἰκέτης ἀγαθὸς ἐν πᾶσιν ὑπηρετούμενος καὶ Πορφυρίῳ ἐμοὶ οἷα γνησίῳ ἀδελφῷ ἐν πᾶσι προσεσχηκώς. καὶ οὗτος οὖν ἐσέβετο Πλωτῖνον τὸν πολιτικὸν ᾑρημένος βίον.",
+   "flags": [
+    {
+     "taylor": "the political career in which he stood high",
+     "in": "MacKenna",
+     "why": "The Greek says only that Zethus was a man of politics, \"with political leanings\" (ῥοπὰς ἔχοντα πολιτικάς), which Plotinus tried to check; that he \"stood high\" in it is MacKenna's."
+    }
+   ],
+   "notes": [
+    "Antimachus of Colophon was an epic poet of about 400 BC; the story of Atlantis is told by Plato in the Timaeus (20d-25d) and Critias."
+   ]
+  },
+  {
+   "seg": "Life.7.p3",
+   "chapter": "Life.7",
+   "modern": "Not a few members of the Senate also attended his lectures, of whom Marcellus Orrontius and Sabinillus worked hardest at philosophy. There was also Rogatianus, of the Senate, who had gone so far in turning away from this life that he gave up all his property, sent away all his servants, and gave up his rank as well; when he was about to go out as praetor, with the attendants waiting, he would neither go out nor take any care of the office. He would not even choose a house of his own to live in, but went round to some of his friends and acquaintances, dining and sleeping there, and eating only every other day. And from this renunciation, and this carelessness about the needs of life, though he had had gout so badly that he was carried in a chair, he recovered his strength; and though he had not been able to stretch out his hands, he came to use them much more easily than those who live by the crafts of their hands. Plotinus welcomed him, and kept praising him above all, holding him up as a good pattern to those who do philosophy.",
+   "greek": "ἠκροῶντο δὲ αὐτοῦ καὶ τῶν ἀπὸ τῆς συγκλήτου οὐκ ὀλίγοι, ὧν ἔργον ἐν φιλοσοφίᾳ μάλιστα ἐποίουν Μάρκελλος Ὀρρόντιος καὶ Σαβινίλλος. ἦν δὲ καὶ Ῥογατιανὸς ἐκ τῆς συγκλήτου, ὃς εἰς τοσοῦτον ἀποστροφῆς τοῦ βίου τούτου προκεχωρήκει, ὡς πάσης μὲν κτήσεως ἀποστῆναι, πάντα δὲ οἰκέτην ἀποπέμψασθαι, ἀποστῆναι δὲ καὶ τοῦ ἀξιώματος, καὶ πραίτωρα προϊέναι μέλλοντα παρόντων τῶν ὑπηρετῶν μήτε προελθεῖν μήτε φροντίσαι τῆς λειτουργίας, ἀλλὰ μηδὲ οἰκίαν ἑαυτοῦ ἑλέσθαι κατοικεῖν, ἀλλὰ πρός τινας τῶν φίλων καὶ συνήθων φοιτῶντα ἐκεῖ τε δειπνεῖν κἀκεῖ καθεύδειν, σιτεῖσθαι δὲ παρὰ μίαν· ἀφ’ ἧς δὴ ἀποστάσεως καὶ ἀφροντιστίας τοῦ βίου ποδαγρῶντα μὲν οὕτως, ὡς καὶ δίφρῳ βαστάζεσθαι, ἀναρρωσθῆναι, τὰς χεῖρας δὲ ἐκτεῖναι μὴ οἷόν τε ὄντα χρῆσθαι ταύταις πολὺ μᾶλλον εὐμαρῶς ἢ οἱ τὰς τέχνας διὰ τῶν χειρῶν μετιόντες. τοῦτον ἀπεδέχετο ὁ Πλωτῖνος καὶ ἐν τοῖς μάλιστα ἐπαινῶν διετέλει εἰς ἀγαθὸν παράδειγμα τοῖς φιλοσοφοῦσι προβαλλόμενος.",
+   "flags": [
+    {
+     "taylor": "only one meal a day",
+     "in": "MacKenna",
+     "why": "The Greek σιτεῖσθαι παρὰ μίαν is \"to eat every other day\", skipping a day between meals; MacKenna's \"one meal a day\" is a milder fast."
+    }
+   ]
+  },
+  {
+   "seg": "Life.7.p4",
+   "chapter": "Life.7",
+   "modern": "There was also Serapion of Alexandria, at first a rhetorician, and later given to philosophical discussions as well, but he could not give up his weakness for money and money-lending. He had me too, Porphyry of Tyre, among his closest companions, and he asked me to correct his writings.",
+   "greek": "συνῆν δὲ καὶ Σεραπίων Ἀλεξανδρεὺς ῥητορικὸς μὲν τὰ πρῶτα, μετὰ ταῦτα δὲ καὶ ἐπὶ φιλοσόφοις συνὼν λόγοις, τοῦ δὲ περὶ χρήματα καὶ τὸ δανείζειν μὴ δυνηθεὶς ἀποστῆναι ἐλαττώματος. ἔσχε δὲ καὶ ἐμὲ Πορφύριον Τύριον ὄντα ἐν τοῖς μάλιστα ἑταῖρον, ὃν καὶ διορθοῦν αὐτοῦ τὰ συγγράμματα ἠξίου."
+  },
+  {
+   "seg": "Life.8.p1",
+   "chapter": "Life.8",
+   "modern": "For once he had written something, he could never bear to take it up a second time, nor even to read it through once, because his sight did not serve him for reading. He wrote without forming the letters beautifully, without dividing the syllables clearly, and without caring for spelling: he held only to the sense [and the matter]; and he kept on doing the thing we all marvelled at to the end.",
+   "greek": "γράψας γὰρ ἐκεῖνος δὶς τὸ γραφὲν μεταλαβεῖν οὐδέποτ’ ἂν ἠνέσχετο, ἀλλ’ οὐδὲ ἅπαξ γοῦν ἀναγνῶναι καὶ διελθεῖν διὰ τὸ τὴν ὅρασιν μὴ ὑπηρετεῖσθαι αὐτῷ πρὸς τὴν ἀνάγνωσιν. ἔγραφε δὲ οὔτε εἰς κάλλος ἀποτυπούμενος τὰ γράμματα οὔτε εὐσήμως τὰς συλλαβὰς διαιρῶν οὔτε τῆς ὀρθογραφίας φροντίζων, ἀλλὰ μόνον τοῦ νοῦ [καὶ τῶν πραγμάτων] ἐχόμενος, καί, ὃ πάντες ἐθαυμάζομεν, ἐκεῖνο ποιῶν ἄχρι τελευτῆς διετέλεσε.",
+   "flags": [
+    {
+     "taylor": "in these habits, to our general surprise, he remained unchanged to the very end",
+     "in": "MacKenna",
+     "why": "What \"we all marvelled at\" (ὃ πάντες ἐθαυμάζομεν) is what follows, \"for he would complete the argument in himself...\": his writing straight from a finished thought, not his careless habits."
+    }
+   ]
+  },
+  {
+   "seg": "Life.8.p2",
+   "chapter": "Life.8",
+   "modern": "For he would complete the inquiry within himself from beginning to end, and then, putting what he had thought into writing, he would write out what he had set in order in his soul so continuously that he seemed to be copying from a book. Even when he was talking with someone and keeping the conversation going, he was at his own inquiry, so that he could meet what the conversation needed and at the same time keep his thought on what he was examining unbroken. When the person he was talking with had gone, he did not go over what he had written, because, as we have said, his sight was not enough for rereading; he would join on what came next, as if he had left no time between, while he was in conversation.",
+   "greek": "συντελέσας γὰρ παρ’ ἑαυτῷ ἀπ’ ἀρχῆς ἄχρι τέλους τὸ σκέμμα, ἔπειτα εἰς γραφὴν παραδιδοὺς ἃ ἔσκεπτο, συνεῖρεν οὕτως γράφων ἃ ἐν τῇ ψυχῇ διέθηκεν, ὡς ἀπὸ βιβλίου δοκεῖν μεταλαβεῖν τὰ γραφόμενα· ἐπεὶ καὶ διαλεγόμενος πρός τινα καὶ συνείρων τὰς ὁμιλίας πρὸς τῷ σκέμματι ἦν, ὡς ἅμα τε ἀποπληροῦν τὸ ἀναγκαῖον τῆς ὁμιλίας καὶ τῶν ἐν σκέψει προκειμένων ἀδιάκοπον τηρεῖν τὴν διάνοιαν· ἀποστάντος γοῦν τοῦ προσδιαλεγομένου οὐδ’ ἐπαναλαβὼν τὰ γεγραμμένα, διὰ τὸ μὴ ἐπαρκεῖν αὐτῷ πρὸς ἀνάληψιν, ὡς εἰρήκαμεν, τὴν ὅρασιν, τὰ ἑξῆς ἂν ἐπισυνῆψεν, ὡς μηδένα διαστήσας χρόνον μεταξὺ ὅτε τὴν ὁμιλίαν ἐποιεῖτο.",
+   "flags": [
+    {
+     "taylor": "by someone entering on business",
+     "in": "MacKenna",
+     "why": "The Greek says only \"even when talking with someone and keeping the conversation going\"; the visitor \"entering on business\" is MacKenna's."
+    }
+   ]
+  },
+  {
+   "seg": "Life.8.p3",
+   "chapter": "Life.8",
+   "modern": "So he was present at once to himself and to others, and he would never relax his attention to himself, except in sleep; and sleep was kept away by the smallness of his food (often he would not even touch bread) and by his continual turning towards intellect.",
+   "greek": "συνῆν οὖν καὶ ἑαυτῷ ἅμα καὶ τοῖς ἄλλοις, καὶ τήν γε πρὸς ἑαυτὸν προσοχὴν οὐκ ἄν ποτε ἐχάλασεν, ἢ μόνον ἐν τοῖς ὕπνοις, ὃν ἂν ἀπέκρουεν ἥ τε τῆς τροφῆς ὀλιγότης, οὐδὲ γὰρ ἄρτου πολλάκις ἂν ἥψατο, καὶ ἡ πρὸς τὸν νοῦν αὐτοῦ διαρκὴς ἐπιστροφή."
+  },
+  {
+   "seg": "Life.9.p1",
+   "chapter": "Life.9",
+   "modern": "He also had women who were greatly devoted to him: Gemina, in whose house he lived, and her daughter, also Gemina, named like her mother, and Amphiclea, who had become the wife of Ariston, the son of Iamblichus; they were greatly devoted to philosophy.",
+   "greek": "ἔσχε δὲ καὶ γυναῖκας σφόδρα προσκειμένας, Γεμίναν τε, ἧς καὶ ἐν τῇ οἰκίᾳ κατῴκει, καὶ τὴν ταύτης θυγατέρα Γεμίναν, ὁμοίως τῇ μητρὶ καλουμένην, Ἀμφίκλειάν τε τὴν Ἀρίστωνος τοῦ Ἰαμβλίχου υἱοῦ γεγονυῖαν γυναῖκα, σφόδρα φιλοσοφίᾳ προσκειμένας.",
+   "notes": [
+    "This Iamblichus is not the philosopher, who was younger; who he was is not known."
+   ]
+  },
+  {
+   "seg": "Life.9.p2",
+   "chapter": "Life.9",
+   "modern": "Many men and women of the noblest families, when they were about to die, brought him their children, boys and girls alike, and entrusted them to him with the rest of their property, as to a holy and divine guardian. So his house was full of boys and girls. Among them was Polemon, whose education he cared for, and he would often listen to him even when he was composing verses. He also put up with going over the accounts brought to him by those in charge of the children's affairs, and saw to it that they were exact, saying that, until the children took up philosophy, they must keep their possessions and incomes untouched and safe. And yet, though he provided for so many people the cares and attentions of life, he never relaxed, while he was awake, his tension towards intellect.",
+   "greek": "πολλοὶ δὲ καὶ ἄνδρες καὶ γυναῖκες ἀποθνήσκειν μέλλοντες τῶν εὐγενεστάτων φέροντες τὰ ἑαυτῶν τέκνα, ἄρρενάς τε ὁμοῦ καὶ θηλείας, ἐκείνῳ παρεδίδοσαν μετὰ τῆς ἄλλης οὐσίας ὡς ἱερῷ τινι καὶ θείῳ φύλακι. διὸ καὶ ἐπεπλήρωτο αὐτῷ ἡ οἰκία παίδων καὶ παρθένων. ἐν τούτοις δὲ ἦν καὶ Πολέμων, οὗ τῆς παιδεύσεως φροντίζων πολλάκις ἂν καὶ μέτρα ποιοῦντος ἠκροάσατο. ἠνείχετο δὲ καὶ τοὺς λογισμοὺς ἀναφερόντων τῶν ἐκείνοις παραμενόντων καὶ τῆς ἀκριβείας ἐπεμελεῖτο λέγων, ἕως ἂν μὴ φιλοσοφῶσιν, ἔχειν αὐτοὺς δεῖν τὰς κτήσεις καὶ τὰς προσόδους ἀνεπάφους τε καὶ σωζομένας. καὶ ὅμως τοσούτοις ἐπαρκῶν τὰς εἰς τὸν βίον φροντίδας τε καὶ ἐπιμελείας τὴν πρὸς τὸν νοῦν τάσιν οὐδέποτ’ ἂν ἐγρηγορὼς ἐχάλασεν.",
+   "flags": [
+    {
+     "taylor": "his intention towards the Supreme",
+     "in": "MacKenna",
+     "why": "The Greek is τὴν πρὸς τὸν νοῦν τάσιν, his \"tension towards intellect\"; MacKenna's \"the Supreme\" sets it higher, at the One."
+    }
+   ]
+  },
+  {
+   "seg": "Life.9.p3",
+   "chapter": "Life.9",
+   "modern": "He was gentle, too, and available to all who had any acquaintance at all with him. So, though he spent twenty-six whole years in Rome and settled many people's disputes with one another, he never made an enemy of any of the men in civic life.",
+   "greek": "ἦν δὲ καὶ πρᾷος καὶ πᾶσιν ἐκκείμενος τοῖς ὁπωσοῦν πρὸς αὐτὸν συνήθειαν ἐσχηκόσι. διὸ εἴκοσι καὶ ἓξ ἐτῶν ὅλων ἐν τῇ Ῥώμῃ διατρίψας καὶ πλείστοις διαιτήσας τὰς πρὸς ἀλλήλους ἀμφισβητήσεις οὐδένα τῶν πολιτικῶν ἐχθρόν ποτε ἔσχε.",
+   "notes": [
+    "Twenty-six years: from 244, when he came to Rome at forty, to 270 (modern dates)."
+   ]
+  },
+  {
+   "seg": "Life.10.p1",
+   "chapter": "Life.10",
+   "modern": "Among those who claimed to do philosophy, Olympius of Alexandria, who had been for a short time a pupil of Ammonius, behaved with contempt towards him from love of being first; and he went so far in attacking him that he even tried to bring a star-stroke on him by magic. But when he found the attempt turning back on himself, he said to his friends that the power of Plotinus' soul was great, so great that it could throw back the attacks made on it onto those trying to harm him. Plotinus, though, felt Olympius' attempt, and said that at that moment his body was being pulled tight like a drawstring purse, his limbs being squeezed against one another. And Olympius, after often being in danger of suffering something himself rather than doing anything to Plotinus, stopped.",
+   "greek": "τῶν δὲ φιλοσοφεῖν προσποιουμένων Ὀλύμπιος Ἀλεξανδρεύς, Ἀμμωνίου ἐπ’ ὀλίγον μαθητὴς γενόμενος, καταφρονητικῶς πρὸς αὐτὸν ἔσχε διὰ φιλοπρωτίαν· ὃς καὶ οὕτως αὐτῷ ἐπέθετο, ὥστε καὶ ἀστροβολῆσαι αὐτὸν μαγεύσας ἐπεχείρησεν. ἐπεὶ δὲ εἰς ἑαυτὸν στρεφομένην ᾔσθετο τὴν ἐπιχείρησιν, ἔλεγε πρὸς τοὺς συνήθεις μεγάλην εἶναι τὴν τῆς ψυχῆς τοῦ Πλωτίνου δύναμιν, ὡς ἀποκρούειν δύνασθαι τὰς εἰς ἑαυτὸν ἐπιφορὰς εἰς τοὺς κακοῦν αὐτὸν ἐπιχειροῦντας. Πλωτῖνος μέντοι τοῦ Ὀλυμπίου ἐγχειροῦντος ἀντελαμβάνετο λέγων αὐτῷ τὸ σῶμα τότε ὡς τὰ σύσπαστα βαλάντια ἕλκεσθαι τῶν μελῶν αὐτῷ πρὸς ἄλληλα συνθλιβομένων. κινδυνεύσας δὲ ὁ Ὀλύμπιος πολλάκις αὐτός τι παθεῖν ἢ δρᾶσαι τὸν Πλωτῖνον ἐπαύσατο."
+  },
+  {
+   "seg": "Life.10.p2",
+   "chapter": "Life.10",
+   "modern": "For Plotinus had something more than others even from birth. An Egyptian priest who had come up to Rome, and had been introduced to him through a friend, wishing to give a proof of his own wisdom, asked Plotinus to come and see the daemon who was with him, his own daemon, as it is called, made visible. Plotinus readily agreed, and the calling up was made in the temple of Isis: that was the only pure place, they say, that the Egyptian could find in Rome. When the daemon was called to show itself, a god came, and not one of the race of daemons; so the Egyptian said: \"Blessed are you, for you have a god as your daemon, and the one who is with you is not of the lower race.\" But they could neither ask it anything nor see it present any longer, because the friend who was watching with them strangled the birds he was holding as a safeguard, whether from envy or from some fear. So, having one of the more divine daemons as his companion, he himself kept raising his own divine eye towards it. It is for this reason that he wrote a book, too, On the daemon allotted to us, where he tries to give the causes of the differences between the companions of each.",
+   "greek": "ἦν γὰρ καὶ κατὰ γένεσιν πλέον τι ἔχων παρὰ τοὺς ἄλλους ὁ Πλωτῖνος. Αἰγύπτιος γάρ τις ἱερεὺς ἀνελθὼν εἰς τὴν Ῥώμην καὶ διά τινος φίλου αὐτῷ γνωρισθεὶς θέλων τε τῆς ἑαυτοῦ σοφίας ἀπόδειξιν δοῦναι ἠξίωσε τὸν Πλωτῖνον ἐπὶ θέαν ἀφικέσθαι τοῦ συνόντος αὐτῷ οἰκείου δαίμονος καλουμένου. τοῦ δὲ ἑτοίμως ὑπακούσαντος γίνεται μὲν ἐν τῷ Ἰσείῳ ἡ κλῆσις· μόνον γὰρ ἐκεῖνον τὸν τόπον καθαρόν φασιν εὑρεῖν ἐν τῇ Ῥώμῃ τὸν Αἰγύπτιον. κληθέντα δὲ εἰς αὐτοψίαν τὸν δαίμονα θεὸν ἐλθεῖν καὶ μὴ τοῦ δαιμόνων εἶναι γένους· ὅθεν τὸν Αἰγύπτιον εἰπεῖν· μακάριος εἶ θεὸν ἔχων τὸν δαίμονα καὶ οὐ τοῦ ὑφειμένου γένους τὸν συνόντα. μήτε δὲ ἐρέσθαι τι ἐκγενέσθαι μήτε ἐπιπλέον ἰδεῖν παρόντα τοῦ συνθεωροῦντος φίλου τὰς ὄρνεις, ἃς κατεῖχε φυλακῆς ἕνεκα, πνίξαντος εἴτε διὰ φθόνον εἴτε καὶ διὰ φόβον τινά. τῶν οὖν θειοτέρων δαιμόνων ἔχων τὸν συνόντα καὶ αὐτὸς διετέλει ἀνάγων αὐτοῦ τὸ θεῖον ὄμμα πρὸς ἐκεῖνον. ἔστι γοῦν αὐτῷ ἀπὸ τῆς τοιαύτης αἰτίας καὶ βιβλίον γραφὲν περὶ τοῦ εἰληχότος ἡμᾶς δαίμονος, ὅπου πειρᾶται αἰτίας φέρειν περὶ τῆς διαφορᾶς τῶν συνόντων.",
+   "notes": [
+    "The book is III.4. Plato's Timaeus (90a) calls the highest part of the soul the daemon God has given each of us; in the Republic's myth of Er (617e, 620d-e) each soul chooses a life and is given a daemon as its guardian."
+   ]
+  },
+  {
+   "seg": "Life.10.p3",
+   "chapter": "Life.10",
+   "modern": "When Amelius had become fond of sacrifices, and went round the temples at the new moon and at the feasts, and once asked to take Plotinus with him, Plotinus said: \"They must come to me, not I to them.\" From what thought he spoke so loftily, we could neither understand by ourselves nor did we dare to ask him.",
+   "greek": "φιλοθύτου δὲ γεγονότος τοῦ Ἀμελίου καὶ τὰ ἱερὰ κατὰ νουμηνίαν καὶ τὰς ἑορτὰς ἐκπεριιόντος καί ποτε ἀξιοῦντος τὸν Πλωτῖνον σὺν αὐτῷ παραλαβεῖν ἔφη· ἐκείνους δεῖ πρὸς ἐμὲ ἔρχεσθαι, οὐκ ἐμὲ πρὸς ἐκείνους. τοῦτο δὲ ἐκ ποίας διανοίας οὕτως ἐμεγαληγόρησεν, οὔτ’ αὐτοὶ συνεῖναι δεδυνήμεθα οὔτ’ αὐτὸν ἐρέσθαι ἐτολμήσαμεν."
+  },
+  {
+   "seg": "Life.11.p1",
+   "chapter": "Life.11",
+   "modern": "He had so great an abundance of insight into character that once, when a costly necklace was stolen from Chione, who lived with him with her children, passing her widowhood with dignity, and the servants were gathered before Plotinus' eyes, he looked at them all and said, \"This is the one who stole it,\" pointing out one of them. The man was whipped, and for a long time at first denied it, but later confessed, brought back what he had stolen and gave it back.",
+   "greek": "περιῆν δὲ αὐτῷ τοσαύτη περιουσία ἠθῶν κατανοήσεως, ὡς κλοπῆς ποτε γεγονυίας πολυτελοῦς περιδεραίου Χιόνης, ἥτις αὐτῷ συνῴκει μετὰ τῶν τέκνων σεμνῶς τὴν χηρείαν διεξάγουσα, καὶ ὑπ’ ὄψιν τοῦ Πλωτίνου συνηγμένων τῶν οἰκετῶν ἐμβλέψας ἅπασιν· οὗτος, ἔφη, ἐστὶν ὁ κεκλοφώς, δείξας ἕνα τινά. μαστιζόμενος δὲ ἐκεῖνος καὶ ἐπιπλεῖον ἀρνούμενος τὰ πρῶτα ὕστερον ὡμολόγησε καὶ φέρων τὸ κλαπὲν ἀπέδωκε."
+  },
+  {
+   "seg": "Life.11.p2",
+   "chapter": "Life.11",
+   "modern": "He would also foretell, of each of the children who were with him, how he would turn out; so of Polemon, what he would be like: that he would be a lover, given to love, and short-lived, as indeed happened.",
+   "greek": "προεῖπε δ’ ἂν καὶ τῶν συνόντων παίδων περὶ ἑκάστου οἷος ἀποβήσεται· ὡς καὶ περὶ τοῦ Πολέμωνος οἷος ἔσται, ὅτι ἐρωτικὸς ἔσται καὶ ὀλιγοχρόνιος, ὅπερ καὶ ἀπέβη."
+  },
+  {
+   "seg": "Life.11.p3",
+   "chapter": "Life.11",
+   "modern": "And once he noticed that I, Porphyry, was thinking of taking myself out of life; and he came to me suddenly while I was staying in the house, said that this desire did not come from a state of intellect, but from some melancholic illness, and told me to go away on a journey. I obeyed him and went to Sicily, since I heard that a man of note, Probus, was living near Lilybaeum; and I both gave up that desire and was kept from being with Plotinus until his death.",
+   "greek": "καί ποτε ἐμοῦ Πορφυρίου ᾔσθετο ἐξάγειν ἐμαυτὸν διανοουμένου τοῦ βίου· καὶ ἐξαίφνης ἐπιστάς μοι ἐν τῷ οἴκῳ διατρίβοντι καὶ εἰπὼν μὴ εἶναι ταύτην τὴν προθυμίαν ἐκ νοερᾶς καταστάσεως, ἀλλ’ ἐκ μελαγχολικῆς τινος νόσου, ἀποδημῆσαι ἐκέλευσε. πεισθεὶς δὲ αὐτῷ ἐγὼ εἰς τὴν Σικελίαν ἀφικόμην Πρόβον τινὰ ἀκούων ἐλλόγιμον ἄνδρα περὶ τὸ Λιλύβαιον διατρίβειν· καὶ αὐτός τε τῆς τοιαύτης προθυμίας ἀπεσχόμην τοῦ τε παρεῖναι ἄχρι θανάτου τῷ Πλωτίνῳ ἐνεποδίσθην.",
+   "flags": [
+    {
+     "taylor": "to my house where I had secluded myself",
+     "in": "MacKenna",
+     "why": "The Greek says only that Plotinus came to Porphyry \"while I was staying in the house\" (ἐν τῷ οἴκῳ διατρίβοντι); that he had shut himself away is MacKenna's."
+    }
+   ],
+   "notes": [
+    "Plotinus' own book On going out of life (I.9, the sixteenth he wrote) teaches that the soul must not be led out of the body by force."
+   ]
+  },
+  {
+   "seg": "Life.12.p1",
+   "chapter": "Life.12",
+   "modern": "The emperor Gallienus and his wife Salonina honoured and revered Plotinus greatly. Making use of their friendship, he asked them to raise up again a city of philosophers that was said to have existed in Campania, but was otherwise in ruins, and to give the country round it to the city once it was settled; those who would live there were to use Plato's laws, and it was to be given the name Platonopolis; and he promised that he would withdraw there himself with his companions. And the philosopher's wish would have come about very easily, had not some of those around the emperor stopped it, from envy, or resentment, or some other wicked cause.",
+   "greek": "ἐτίμησαν δὲ τὸν Πλωτῖνον μάλιστα καὶ ἐσέφθησαν Γαλιῆνός τε ὁ αὐτοκράτωρ καὶ ἡ τούτου γυνὴ Σαλωνίνα. ὁ δὲ τῇ φιλίᾳ τῇ τούτων καταχρώμενος φιλοσόφων τινὰ πόλιν κατὰ τὴν Καμπανίαν γεγενῆσθαι λεγομένην, ἄλλως δὲ κατηριπωμένην ἠξίου ἀνεγείρειν καὶ τὴν πέριξ χώραν χαρίσασθαι οἰκισθείσῃ τῇ πόλει, νόμοις δὲ χρῆσθαι τοὺς κατοικεῖν μέλλοντας τοῖς Πλάτωνος καὶ τὴν προσηγορίαν αὐτῇ Πλατωνόπολιν θέσθαι, ἐκεῖ τε αὐτὸς μετὰ τῶν ἑταίρων ἀναχωρήσειν ὑπισχνεῖτο. καὶ ἐγένετ’ ἂν τὸ βούλημα ἐκ τοῦ ῥᾴστου τῷ φιλοσόφῳ, εἰ μή τινες τῶν συνόντων τῷ βασιλεῖ φθονοῦντες ἢ νεμεσῶντες ἢ δι’ ἄλλην τινὰ αἰτίαν μοχθηρὰν ἐνεπόδισαν.",
+   "notes": [
+    "Plato's Laws describe the founding of a new city in Crete, Magnesia; the Republic (473c-d) holds that cities will have no rest from evils until philosophers rule."
+   ]
+  },
   {
    "seg": "I.1.1.p1",
    "chapter": "I.1.1",
