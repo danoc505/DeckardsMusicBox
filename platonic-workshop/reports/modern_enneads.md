@@ -4,14 +4,14 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 
 - Made from: Volkmann's Greek (Leipzig, 1883-1884), as First1KGreek gives it; checked against MacKenna's English (1917, 1921; the Internet Archive's OCR of the printed volumes, read by rule (tools/mackenna.py), not proofread).
 - Porphyry's Life of Plotinus: Volkmann's own Greek (vol. I, 1883), proofread from the scan (`sources/neoplatonists/proofread/porphyry-life-plotinus.txt`).
-- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny, III.2 On providence, first part.
-- The whole Enneads: 17 treatises here, 15 beside Taylor (milestone 27), 23 to come.
-- Chapters: 163, each with a short title and a summary.
-- Paragraphs: 428, each with its Greek.
-- Words: 60,339 modern, 45,770 Greek, 70,523 in MacKenna's English of the same chapters.
-- Sentences (each can be marked in the reader): 2,245.
-- Flags (where MacKenna and the Greek differ, or the Greek is hard): 355.
-- Notes (Plato's, Aristotle's and Homer's places, hard readings): 245.
+- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny, III.2 On providence, first part, III.3 On providence, second part, III.4 On the daemon allotted to us.
+- The whole Enneads: 19 treatises here, 15 beside Taylor (milestone 27), 21 to come.
+- Chapters: 176, each with a short title and a summary.
+- Paragraphs: 471, each with its Greek.
+- Words: 65,895 modern, 49,806 Greek, 84,422 in MacKenna's English of the same chapters.
+- Sentences (each can be marked in the reader): 2,459.
+- Flags (where MacKenna and the Greek differ, or the Greek is hard): 410.
+- Notes (Plato's, Aristotle's and Homer's places, hard readings): 269.
 - Problems found: 0.
 
 ## Flags
@@ -373,6 +373,61 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | III.2.18.p1 | its expression may take any one of three main forms | The Greek says only that we must bear in mind "the second and the third" (τὰ δεύτερα καὶ τὰ τρίτα), and that soul does not always act with the same parts; the "three main forms" are MacKenna's. |
 | III.2.18.p2 | We may perhaps think of actors having the right to add something to the poet's words | The Greek doubts whether there is any need "to bring in actors who will say something other than the poet's words" (μὴ γὰρ οὐδὲν δεῖ ἐπεισάγειν τοιούτους ὑποκριτάς): the thought is put in question, not granted as a right. |
 | III.2.18.p3 | when the All is itself a Soul | The Greek says "the All belonging to a soul" (τοῦ παντὸς ψυχῆς τινος ὄντος): the All is a soul's, not itself a soul. |
+| III.3.1.p1 | does not engender them but encompasses them | The Greek says the whole reason does not beget them "but is the whole with them" (ἀλλ’ ὁ πᾶς ἐστι μετὰ τούτων): it is a whole of which they are parts, not a container round them; "this Universal Idea" is MacKenna's. |
+| III.3.1.p1 | its parts (i.e. events good and evil) are expressions of these Soul-parts | The Greek says the reasons are the activity of a whole soul, "and their parts of its parts" (τῶν δὲ μερῶν τὰ μέρη); the gloss "events good and evil" is MacKenna's. |
+| III.3.1.p1 | show malice and angry envy | The Greek says the horses "contend for victory" (φιλονεικῶσι) and "rage with jealousy" (ζήλῳ θυμῶνται): rivalry, not malice. |
+| III.3.2.p1 | The Leading-Principle holds all the threads while the minor agents, the individuals, serve according to their own capacities | The Greek says the leading principle "weaves all together" (συμπλέκει) while "the things on either side" (τῶν ἐφ̓ ἑκάτερα) come together by nature; "the minor agents, the individuals" and "their own capacities" are MacKenna's. |
+| III.3.2.p1 | so as to make it probable that the final event may be success | The Greek says "so that what results from them may have room to be placed well" (ἔχῃ χώραν τοῦ τεθῆναι εὖ): the plan leaves a place for every outcome; it does not make success probable. |
+| III.3.3.p1 | Your personality does not come from outside into the universal scheme | The Greek says your part is not "an episode" (ἐπεισόδιον) in the All, an added scene, "but you have been counted in, such as you are" (ἠρίθμησαι ὁ τοιόσδε). |
+| III.3.3.p2 | Reason acquits plant and animal and, their maker | The Greek asks why "we reasonably blame" (εὐλόγως αἰτιώμεθα) neither the things nor their maker; MacKenna makes reason itself the judge. |
+| III.3.3.p2 | universal equality there cannot be | The Greek says "it was not right that all things should be equal" (οὐ γὰρ πάντα ἴσα ἔδει): a thing of what ought to be, not only of what can be. |
+| III.3.3.p3 | the Reason-Principle of this Universe follows upon a phase of the Soul | The Greek says this reason "follows on another soul" (ἀκόλουθος ... ψυχῇ ἄλλῃ), a soul other than the reason itself, not "a phase" of one. |
+| III.3.3.p4 | In sum nothing can secure to a thing of process the quality of the prior order | The Greek says the reverse inference fails: "if what has come to be is of this kind, it does not follow that what is before it is of this kind too" (οὐ τοίνυν, εἰ τοιοῦτον τὸ γενόμενον, καὶ τὸ πρὸ αὐτοῦ τοιοῦτον). It defends the cause from the faults of the effect. |
+| III.3.3.p4 | the debt is the heavier | The Greek says "we must welcome it all the more" (ἔτι μᾶλλον ἀποδεκτέον): gratitude, not a debt. |
+| III.3.4.p1 | subject to reproach and punishment than the mere animals | The Greek says only that "there would be no cause for censure" (ἀπῆν ἂν αἰτία ἡ κατὰ τὴν ἐπιτίμησιν); "punishment" is MacKenna's. |
+| III.3.4.p1 | cannot be dependent upon the World of Sense | The Greek says "those are not cut off from these" (οὐ γὰρ ἀπήρτηται ἐκεῖνα τούτων): the higher things are not detached from the lower, which is why the free principle is within providence. MacKenna turns it into a question of which depends on which. |
+| III.3.4.p2 | So this Principle is not the only effective force in all men | The Greek asks two questions, "then is it not the only one in all?" and "but why not the only one?", and answers that "in some it is the only one" (ἐφ̓ ὧν δὲ μόνη); MacKenna's "There is no reason why it should not be" answers a question the Greek does not put. |
+| III.3.4.p3 | drive him down the troubled paths | The Greek says "as if to throw him into muddy water" (οἷον εἰς θολερὸν ἐμβάλλειν): a body whose mixture clouds the soul, like silt stirred up in water. |
+| III.3.4.p4 | the Soul which later will shine out again is for the present at a feebler power | The Greek says the reason has become dim, "as when a soul has become weaker" (οἷον ψυχῆς ἀσθενεστέρας γενομένης), and will "shine out" (ἐκλάμψει) later; it is a comparison, not a statement about the soul now. |
+| III.3.4.p5 | how does the higher fall to it | The Greek asks "how did it go wrong" (πῶς ἐσφάλη), of the worse itself; nothing is said of the higher falling to it. |
+| III.3.4.p5 | it is not that the greater and prior suffers any diminution of its own nature | The Greek says "it did not lessen something that was" (οὐκ ὄντος ἠλάττωσεν): the less was not made less from something greater, but was less from the start; "the greater and prior" is MacKenna's. |
+| III.3.5.p1 | the personal voice, life and history of the living form | The Greek says "one voice of the animal, as it were, and one life and way of living" (μία τοῦ ζῴου οἷον φωνὴ καὶ ζωὴ καὶ βίος); the stress is on "one", and "personal" is MacKenna's. |
+| III.3.5.p2 | Divine Mind and unmingled Soul | The Greek says "intellect and pure soul" (νοῦς γὰρ καὶ ψυχὴ καθαρά); "Divine Mind" is MacKenna's. |
+| III.3.5.p2 | the Reason-Principle of providence is god-serving | The Greek says it is "dear to god" (θεοφιλής), loved by god, not serving god. |
+| III.3.5.p3 | In the total, then, the right rules | The Greek says "virtue rules everywhere" (πανταχοῦ ἀρετὴν κρατεῖν), and what went wrong is changed and set right. |
+| III.3.5.p4 | consults the desire of the agent alone | The Greek says what follows is strung on "according to the will of those who acted" (κατὰ τὴν τῶν πραξάντων), the same word as providence's will; "alone" is MacKenna's. |
+| III.3.5.p5 | two handsome people of loose character and two living honourably | The Greek says "a licentious man meeting a licentious, a handsome a handsome" (ἀκόλαστος ἀκολάστῳ, καλὸς καλῷ), and then "the self-controlled handsome man" (ὁ δὲ σώφρων καλός) with one like him: the virtue named is self-control. |
+| III.3.6.p1 | Clearly the reason is that all contraries coalesce | The Greek says all contraries are "woven together" (συμπεπλέχθαι), the weaving of III.3.2 and III.3.4; they do not coalesce, but stay contraries in one web. |
+| III.3.6.p1 | Take, for example, Shape and (its contrary) Matter | The Greek has "form and matter" (τὴν μορφὴν καὶ τὴν ὕλην) as an example of things woven together; "its contrary" is MacKenna's. |
+| III.3.6.p3 | the scriptures of Nature | The Greek has "a reading of natural letters" (ἀνάγνωσις φυσικῶν γραμμάτων): reading, not scripture. |
+| III.3.6.p3 | Here conspires with There and There with Here | The Greek says "these things move together with those, and those with these" (συμφέρεται γὰρ καὶ ταῦτα ἐκείνοις κἀκεῖνα τούτοις): the signs and the things signified, here below and in the heaven; the intelligible "There" is not meant. |
+| III.3.6.p4 | Universal interdependence, there could not be, but universal resemblance there must | The Greek says the opposite of the first half: "it was not right that all things should be cut off from one another" (οὐ γὰρ ἔδει ἀπηρτῆσθαι ἀλλήλων τὰ πάντα), but they must be made like one another somehow. |
+| III.3.6.p4 | Correspondences maintain the Universe | The Greek says "proportion holds all things together" (συνέχει τὰ πάντα ἀναλογία), the proportion of the Timaeus. |
+| III.3.6.p4 | virtue with right action and vice with unrighteousness | The Greek has "as virtue to justice, so vice to injustice" (ὡς ἀρετὴ πρὸς δικαιοσύνην καὶ κακία πρὸς ἀδικίαν): justice, the virtue, not "right action". |
+| III.3.7.p1 | We cannot complain about the lower in the higher | The Greek says "we must not blame the worse in the better" (οὐκ αἰτιατέον τὸ χεῖρον ἐν τῷ βελτίονι), the worse that is in the better whole; MacKenna's "complain" softens a charge of blame. |
+| III.3.7.p2 | each single outgrowth bearing its trace of the common source | The Greek says each bears "an image" (εἴδωλον) of it, the word for the image of a pattern, not a trace. |
+| III.3.7.p3 | operation is to be traced only from point to next point | The Greek says that one "would think" (ὡς ... οἴεσθαι) the affection came only from the neighbour: an appearance, which the next sentence corrects. |
+| III.4.1.p1 | in our view, the Soul generates by its motion | The Greek says soul "was said" (ἐλέγετο) to make while moving: a reference to what has been shown before, not a view put forward here. |
+| III.4.1.p1 | but is not the dominant since it is not the whole man | The Greek says nature "does not rule, being a part" (οὐ κρατεῖ δὲ μέρος οὖσα); "the whole man", and the Intellectual Principle in MacKenna's brackets, are his. |
+| III.4.1.p2 | Let it be raised to its highest degree and it becomes body | The Greek says "being completed (τελειούμενον) it becomes body": brought to its end, given a shape. Nothing is "raised"; the indefinite is made definite. |
+| III.4.2.p1 | forms varying with the variety of place | The Greek, quoting the Phaedrus, says "at different times" (ἄλλοτε) in different forms: the soul changes over time, from life to life, not from place to place. |
+| III.4.2.p2 | the lower element also has a footing | The Greek says the worse parts "have a place of their own" (χώραν τινὰ ἔχοντα); MacKenna's sentence makes them a footing for the better, where the Greek says only that neither rules always. |
+| III.4.2.p3 | futile and flighty visionaries ever soaring skyward | The Greek says "students of the things on high without wisdom" (μετεωρολόγους δὲ ἄνευ φρονήσεως), those who study the heavens, as in the Timaeus; "futile" and "visionaries" are MacKenna's. |
+| III.4.2.p3 | observance of civic and secular virtue | The Greek has only "civic virtue" (τὴν πολιτικὴν ἀρετήν); "secular" is MacKenna's. |
+| III.4.3.p1 | What, then, is the spirit | The Greek has δαίμων, "daemon", Plato's word in the passages Plotinus is reading (Phaedo 107d, Republic X 617e, 620d-e, Timaeus 90a); MacKenna's "spirit" is not the word, and it hides that the daemon here is a power of our own soul. |
+| III.4.3.p1 | the dominant is the spirit which takes possession of the human being at birth | The Greek says the daemon "that was allotted to him while he lived" (ὅσπερ ζῶντα εἰλήχει), the Phaedo's words; nothing is said of taking possession at birth. |
+| III.4.3.p2 | the spirit of the previous life pays the penalty | The Greek says only "he has his punishment" (ἔχει ἐκεῖνος τὴν δίκην): the man whose worse character weighs him down. It is not the daemon that is punished. |
+| III.4.3.p3 | by what is the highest, to the Divine Intellect | The Greek says we are joined "by what is above to the intelligible" (τοῖς δὲ ἄνω τῷ νοητῷ), the intelligible world, not "the Divine Intellect". |
+| III.4.4.p1 | simply lying unmoved before it | The Greek says the world "lies in safety" (ἐν ἀσφαλεῖ τοῦ κόσμου κειμένου), which is why it gives its soul no cares. |
+| III.4.4.p2 | Sensibility is present as the quality of growth is, unrecognised | The Greek says "the growing part is present not being present, and the perceiving part likewise" (πάρεστιν ... οὐ παρὸν): present without being there, not present unrecognised. |
+| III.4.5.p1 | merely an allegorical statement of the Soul's tendency and temperament | The Greek says the choice "hints in riddles" (αἰνίττεται) at the soul's "deliberate choice" (προαίρεσις) and disposition: Plato's myth is read for a truth, and the truth is a choice, which "tendency and temperament" lose. |
+| III.4.5.p2 | the sample lives are exhibited with the casual circumstances attending them and that the choice is made upon vision | The Greek has "the patterns of lives" (τὰ τῶν βίων παραδείγματα), the Republic's words, and says they choose "from what is there" (ἐκ τῶν παρόντων) according to their characters; "sample" and "made upon vision" are MacKenna's. |
+| III.4.5.p3 | Man cannot cease to be characteristically Man | The Greek says "it cannot become other than what it is" (οὐ γὰρ δύναται ἄλλο γενέσθαι ἢ ᾗ ἔστιν): the part that acts cannot be above itself; man is not named. |
+| III.4.6.p1 | It does not suffice to perfect virtue to have only this Spirit | The Greek asks whether he would not be good "when he has his daemon working with him" (συνεργοῦντα ἑαυτῷ τὸν δαίμονα ἔχων), and answers that intellect is active in him; "perfect virtue", "only", and "equivalent in all men" are MacKenna's. |
+| III.4.6.p1 | An instinct which the Sage finally rectifies in every respect | The Greek asks "does he then succeed in everything?" (πάντως οὖν κατορθοῖ): of the good man's acts, not of an instinct rectified. |
+| III.4.6.p3 | this star or the next highest power will stand to them as God or more exactly as. tutelary spirit | The Greek says they will have "such a god, and daemon" (τοιούτῳ θεῷ καὶ δαίμονί γε), "either this very one or the one above this power": the god or daemon is a power of the soul, not the star itself. |
+| III.4.6.p4 | its unity can always be reconstructed | The Greek says "the same is whole in all, and again one" (τὸ γὰρ αὐτὸ ἐν πᾶσιν ὅλον καὶ πάλιν ἕν): it is never broken, so nothing has to be reconstructed. |
+| III.4.6.p5 | this (personal answer to incident) it is that constitutes destiny | The Greek says "for such is destiny" (τοιοῦτον γὰρ ἡ εἱμαρμένη): destiny is the whole, ship, wind and passenger together, not the personal answer alone. |
 
 ## The plan, in Porphyry's order
 
@@ -399,8 +454,8 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | II.9 | Against the Gnostics | done beside Taylor (milestone 27) |
 | III.1 | On destiny | done here |
 | III.2 | On providence, first part | done here |
-| III.3 | On providence, second part | to come (E12) |
-| III.4 | On the daemon allotted to us | to come (E12) |
+| III.3 | On providence, second part | done here |
+| III.4 | On the daemon allotted to us | done here |
 | III.5 | On love | to come (E13) |
 | III.6 | On the impassibility of the bodiless | done beside Taylor (milestone 27) |
 | III.7 | On eternity and time | done beside Taylor (milestone 27) |
