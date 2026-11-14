@@ -294,8 +294,34 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   (Timaeus 70a-71d), Adrasteia (Phaedrus 248c), daemons (Symposium 202e-203a), Alcibiades I 132a and Iliad II.547, οἰκείωσις,
   going out of life (I.9, Phaedo 62b-c), no one errs willingly (Protagoras 358c-d), Euripides' soundless path (Trojan Women
   887-888), the puppet's cords (Laws I 644d-645a), the myth of Er, and punishment as medicine (Gorgias 478d-480b).
-- E18: IV.5 On sight, IV.6 On perception and memory (4,686). Next.
-- E19: IV.8 On the descent of the soul into bodies, IV.9 Whether all souls are one (4,062).
+- **E18: IV.5 On sight, IV.6 On perception and memory (4,675) (done).** 11 chapters, 48 paragraphs, 46 flags, 34 notes.
+  MacKenna's chapters are the Greek's in both treatises (8 and 3); his running head "PROBLEMS OF THE SOUL" was caught by the
+  OCR inside his IV.5.5 and IV.5.7, which the flags avoid, and in IV.5.8 he gives a tentative rendering of "an obscure and
+  corrupt place" in square brackets. E.g. MacKenna has the body between "a favouring circumstance" where the Greek says it
+  contributes nothing, clay for earthy bodies, the man who also sees on "the side opposite" where the Greek has him in front of
+  us, "a certain degree of identity" for like affection, "scarcely less sensation" where the Greek says less but in measure,
+  trees and roots for the logs of a fire, "no reason for the existence of light" for no need of it, "We may hold one thing
+  certain" for a doubt raised, "the greater laws, the spiritual" for necessities of soul, understanding for the light within
+  the eye, "the sole attractive agent" for bare distance, "mind" for soul, "sent pulsing outwards" for before the air is
+  poured away, "the same conclusion" for a question left open, light that "would vanish" where the Greek says an affection
+  would stay, "Perhaps" agreeing with the objection that light is no one's, light "in circuit", "an incipient on which colour
+  might be formed" for colouring over, "certainly" for perhaps, "light and colour" for colour, "mind and no mind" for soul and
+  not soul, "attack" for directing the sight, "the living object" for the visible, "every concept ... the soul about its Act"
+  where the soul is each intelligible, the soul's nature made "one of the Beings of the Intellectual Realm", "besetting" for
+  settling in, "more radiant" for more dimly, "long memory" for better memory, "leading indications" for reports, and "the
+  dominant idea" for forms of make. Notes on Aristotle's transparent (On the soul II.7) and the thing laid on the eye, the
+  torpedo (Meno 80a-c, History of Animals IX.37), like affected by like, the three theories of sight (Timaeus 45b-46a, the
+  Stoics' staff in Diogenes Laertius VII.157, Epicurus' images), the one living being (Timaeus 30b-d), ἀντιπερίστασις
+  (Timaeus 79e-80c, Physics IV.8, VIII.10), beacons (Agamemnon 281-316), the back of the heaven (Phaedrus 247b-c), the wax
+  (Theaetetus 191c-d, On the soul II.12), sound (On the soul II.8), light as the transparent's activity (On the soul II.7)
+  against double activity (V.4.2, V.1.6), the body's trace of soul (IV.4.18-20), the mirror (I.4.10, IV.3.12), the All that
+  needs no eyes (Timaeus 33c), nothing outside the heaven (On the heaven I.9), the Stoic imprint (Diogenes Laertius VII.45-50),
+  the wax block (Theaetetus 191c-196c, 194e-195a) and Aristotle's memory (On memory 449b6-8, 450a27-b11, 451a18-453a14), the
+  cave's shadows (Republic VII 515a-c), voice (Diogenes Laertius VII.55), V.3.1-6, recollection (Phaedo 72e-76e, Phaedrus
+  249b-c), the bewitched soul (Phaedo 81b), virtues made by exercise (Republic VII 518d-e) and the writing tablet (On the soul
+  III.4).
+- E19: IV.8 On the descent of the soul into bodies, IV.9 Whether all souls are one (4,047). Next. MacKenna's chapters
+  look to be the Greek's (8 and 5 in both); check them against the Greek.
 - E20: V.4 How what comes after the first comes from it, V.5 That the intelligibles are not outside intellect (5,314);
   MacKenna's vol. IV (1926).
 - E21: V.7 Whether there are forms of individuals, V.8 On intelligible beauty (5,221).

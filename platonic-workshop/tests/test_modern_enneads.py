@@ -563,7 +563,7 @@ class Files(unittest.TestCase):
 
     def test_milestone_e15_on_the_being_of_the_soul_and_difficulties_about_the_soul_chapters_1_to_17(self):
         d = load()
-        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][20:], ["III.9", "IV.1", "IV.4"])
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][20:23], ["III.9", "IV.1", "IV.4"])
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "IV.1"], ["IV.1.1"])
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "IV.4"][:17], [f"IV.4.{k}" for k in range(1, 18)])
         # IV.4 is done over E15 to E17: complete since E17 (E16 brought 18-31, E17 32-45).
@@ -573,7 +573,7 @@ class Files(unittest.TestCase):
         c = {c["id"]: c for c in d["contents"]}
         self.assertEqual(c["IV.4"]["status"], "here")
         self.assertNotIn("chapters_done", c["IV.4"])
-        self.assertEqual(c["IV.5"]["milestone"], "E18")
+        self.assertEqual(c["IV.8"]["milestone"], "E19")
         ch = {c["id"]: c for c in d["chapters"]}
         # MacKenna's vol. III beside them. The Greek's seventh chapter begins with the last two sentences of his sixth;
         # the OCR lost his numbers 15 and 17, whose text runs on in his 14 and 16.
@@ -613,14 +613,14 @@ class Files(unittest.TestCase):
 
     def test_milestone_e16_difficulties_about_the_soul_chapters_18_to_31(self):
         d = load()
-        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][20:], ["III.9", "IV.1", "IV.4"])
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][20:23], ["III.9", "IV.1", "IV.4"])
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "IV.4"][:31], [f"IV.4.{k}" for k in range(1, 32)])
-        # IV.4 is done over E15 to E17, complete since E17; IV.5 is still E18's.
+        # IV.4 is done over E15 to E17, complete since E17; IV.8 is still E19's.
         t = {t["id"]: t for t in d["treatises"]}
         self.assertNotIn("chapters_done", t["IV.4"])
         c = {c["id"]: c for c in d["contents"]}
         self.assertEqual(c["IV.4"]["status"], "here")
-        self.assertEqual(c["IV.5"]["milestone"], "E18")
+        self.assertEqual(c["IV.8"]["milestone"], "E19")
         ch = {c["id"]: c for c in d["chapters"]}
         # MacKenna's chapters are the Greek's from 18 to 30; the OCR lost his number 31, whose text runs on in his 30.
         for k in range(18, 31):
@@ -661,9 +661,9 @@ class Files(unittest.TestCase):
 
     def test_milestone_e17_difficulties_about_the_soul_chapters_32_to_45(self):
         d = load()
-        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][20:], ["III.9", "IV.1", "IV.4"])
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][20:23], ["III.9", "IV.1", "IV.4"])
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "IV.4"], [f"IV.4.{k}" for k in range(1, 46)])
-        # IV.4 is complete: no chapters_done; its summary no longer says that chapters are to come; IV.5 is still E18's.
+        # IV.4 is complete: no chapters_done; its summary no longer says that chapters are to come; IV.8 is still E19's.
         t = {t["id"]: t for t in d["treatises"]}
         self.assertNotIn("chapters_done", t["IV.4"])
         self.assertNotIn("to come", t["IV.4"]["summary"])
@@ -671,7 +671,7 @@ class Files(unittest.TestCase):
         c = {c["id"]: c for c in d["contents"]}
         self.assertEqual(c["IV.4"]["status"], "here")
         self.assertNotIn("chapters_done", c["IV.4"])
-        self.assertEqual(c["IV.5"]["milestone"], "E18")
+        self.assertEqual(c["IV.8"]["milestone"], "E19")
         ch = {c["id"]: c for c in d["chapters"]}
         # MacKenna's chapters are the Greek's, but his 37 runs on into the Greek's 38 and his 40 into the Greek's 41.
         for k in (32, 33, 34, 35, 36, 37, 39, 40, 42, 43, 44, 45):
@@ -711,6 +711,62 @@ class Files(unittest.TestCase):
                          for n in p.get("notes", []))
         for place in ("Laws X 903b-d", "Sophist 247d-e", "Republic X 617e", "fragment B17", "Alcibiades I (132a)",
                       "Trojan Women (887-888)", "Laws (I 644d-645a)", "Gorgias 478d-480b", "Life 10"):
+            self.assertIn(place, notes)
+
+    def test_milestone_e18_on_sight_and_on_perception_and_memory(self):
+        d = load()
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][20:], ["III.9", "IV.1", "IV.4", "IV.5", "IV.6"])
+        self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "IV.5"], [f"IV.5.{k}" for k in range(1, 9)])
+        self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "IV.6"], ["IV.6.1", "IV.6.2", "IV.6.3"])
+        t = {t["id"]: t for t in d["treatises"]}
+        self.assertNotIn("chapters_done", t["IV.5"])
+        self.assertNotIn("chapters_done", t["IV.6"])
+        self.assertIn("sympathy of the All", t["IV.5"]["summary"])
+        self.assertIn("not imprints", t["IV.6"]["summary"])
+        c = {c["id"]: c for c in d["contents"]}
+        self.assertEqual((c["IV.5"]["status"], c["IV.6"]["status"]), ("here", "here"))
+        self.assertEqual(c["IV.7"]["status"], "taylor")
+        self.assertEqual(c["IV.8"]["milestone"], "E19")
+        ch = {c["id"]: c for c in d["chapters"]}
+        # MacKenna's chapters are the Greek's in both treatises (vol. III).
+        for cid in [f"IV.5.{k}" for k in range(1, 9)] + ["IV.6.1", "IV.6.2", "IV.6.3"]:
+            self.assertEqual([o["n"] for o in ch[cid]["older"]], [int(cid.split(".")[2])])
+        para = {p["seg"]: p for p in d["paragraphs"]}
+        self.assertTrue(para["IV.5.1.p1"]["greek"].startswith("Ἐπεὶ δὲ ὑπερεθέμεθα"))
+        self.assertTrue(para["IV.5.8.p4"]["greek"].endswith("τὸ ὑποτεθὲν ἐν αὑτῷ ἀναιρεῖν."))
+        self.assertTrue(para["IV.6.1.p1"]["greek"].startswith("Τὰς αἰσθήσεις οὐ τυπώσεις"))
+        self.assertTrue(para["IV.6.3.p8"]["greek"].endswith("οὔτε οἱ ἀσώματον."))
+        self.assertIn("the fisherman, they say, is numbed", para["IV.5.1.p3"]["modern"])
+        self.assertIn("for the rush upward comes from the logs too", para["IV.5.2.p4"]["modern"])
+        self.assertIn("each bit of the air holds the whole of the face that is seen", para["IV.5.3.p4"]["modern"])
+        self.assertIn("needs light like a staff", para["IV.5.4.p5"]["modern"])
+        self.assertIn("Bronze sounds one way against bronze", para["IV.5.5.p2"]["modern"])
+        self.assertIn("the activity is from a subject, not into a subject", para["IV.5.6.p3"]["modern"])
+        self.assertIn("an image of the shining; it is simply no longer there", para["IV.5.7.p5"]["modern"])
+        self.assertIn("an All and not an All", para["IV.5.8.p4"]["modern"])
+        self.assertIn("there must be two, the seer and the seen", para["IV.6.1.p4"]["modern"])
+        self.assertIn("reads, as it were, the imprints written in the air", para["IV.6.2.p2"]["modern"])
+        self.assertIn("and being them, more dimly", para["IV.6.3.p1"]["modern"])
+        self.assertIn("So perception and memory are both a kind of strength", para["IV.6.3.p6"]["modern"])
+        flags = {s: p.get("flags", []) for s, p in para.items()}
+        # MacKenna puts the man who also sees on the far side, trees for the logs of a fire, "no reason for the
+        # existence of light", understanding for the light in the eye, light that "would vanish" where the Greek says it
+        # would stay, light in circuit, the soul "more radiant" where the Greek says more dimly, and mind for soul.
+        self.assertTrue(any("in front of us" in f["why"] for f in flags["IV.5.1.p3"]))
+        self.assertTrue(any("logs of a fire" in f["why"] for f in flags["IV.5.2.p4"]))
+        self.assertTrue(any("no need of light" in f["why"] for f in flags["IV.5.2.p5"]))
+        self.assertTrue(any("light inside the eye" in f["why"] for f in flags["IV.5.4.p2"]))
+        self.assertTrue(any("would have had to stay" in f["why"] for f in flags["IV.5.6.p2"]))
+        self.assertTrue(any("if light did flow" in f["why"] for f in flags["IV.5.7.p1"]))
+        self.assertTrue(any("soul and not soul" in f["why"] for f in flags["IV.5.8.p4"]))
+        self.assertTrue(any("more dimly" in f["why"] for f in flags["IV.6.3.p1"]))
+        self.assertTrue(any("is itself each of them" in f["why"] for f in flags["IV.6.2.p3"]))
+        ours = [s for s in flags if s.startswith(("IV.5.", "IV.6."))]
+        self.assertEqual(len(ours), 48)
+        self.assertGreaterEqual(sum(len(flags[s]) for s in ours), 40)
+        notes = " ".join(n for p in d["paragraphs"] if p["chapter"].startswith(("IV.5.", "IV.6.")) for n in p.get("notes", []))
+        for place in ("On the soul II.7", "Meno 80a-c", "Diogenes Laertius VII.157", "Physics IV.8", "Timaeus 33c",
+                      "Theaetetus 191c-196c", "On memory 449b6-8", "beyond the heaven (247b-c)", "Republic VII 515a-c", "V.4.2"):
             self.assertIn(place, notes)
 
     def test_the_life_greek_is_proofread(self):

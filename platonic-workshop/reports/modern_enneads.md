@@ -4,14 +4,14 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 
 - Made from: Volkmann's Greek (Leipzig, 1883-1884), as First1KGreek gives it; checked against MacKenna's English (1917, 1921, 1924; the Internet Archive's OCR of the printed volumes, read by rule (tools/mackenna.py), not proofread).
 - Porphyry's Life of Plotinus: Volkmann's own Greek (vol. I, 1883), proofread from the scan (`sources/neoplatonists/proofread/porphyry-life-plotinus.txt`).
-- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny, III.2 On providence, first part, III.3 On providence, second part, III.4 On the daemon allotted to us, III.5 On love, III.8 On nature, contemplation and the One, III.9 Various considerations, IV.1 On the being of the soul, first part, IV.4 On difficulties about the soul, second part.
-- The whole Enneads: 24 treatises here, 15 beside Taylor (milestone 27), 16 to come.
-- Chapters: 245, each with a short title and a summary.
-- Paragraphs: 695, each with its Greek.
-- Words: 96,441 modern, 72,630 Greek, 125,207 in MacKenna's English of the same chapters.
-- Sentences (each can be marked in the reader): 3,432.
-- Flags (where MacKenna and the Greek differ, or the Greek is hard): 652.
-- Notes (Plato's, Aristotle's and Homer's places, hard readings): 429.
+- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny, III.2 On providence, first part, III.3 On providence, second part, III.4 On the daemon allotted to us, III.5 On love, III.8 On nature, contemplation and the One, III.9 Various considerations, IV.1 On the being of the soul, first part, IV.4 On difficulties about the soul, second part, IV.5 On difficulties about the soul, third part, or on sight, IV.6 On perception and memory.
+- The whole Enneads: 26 treatises here, 15 beside Taylor (milestone 27), 14 to come.
+- Chapters: 256, each with a short title and a summary.
+- Paragraphs: 743, each with its Greek.
+- Words: 102,685 modern, 77,305 Greek, 132,752 in MacKenna's English of the same chapters.
+- Sentences (each can be marked in the reader): 3,627.
+- Flags (where MacKenna and the Greek differ, or the Greek is hard): 698.
+- Notes (Plato's, Aristotle's and Homer's places, hard readings): 463.
 - Problems found: 0.
 
 ## Flags
@@ -670,6 +670,52 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | IV.4.45.p3 | transpose the cords | The Greek says the good man's changes are "as if moved by certain drawings of nature, as by cords" (ὥσπερ ἐκ μηρίνθων ὁλκαῖς τισι φύσεως): other cords, not the same ones transposed. |
 | IV.4.45.p3 | a wonder of power and wisdom | The Greek says the All is wonderful "in power and order" (δυνάμεως καὶ τάξεως); "wisdom" is MacKenna's. |
 | IV.4.45.p4 | taking this sphere in free election | MacKenna has the soul leave a purer place for this one; the Greek says it "took in exchange for this place another, a pure one" (ἄλλον τόπον καὶ καθαρὸν ἠλλάξατο τοῦτον), which it chose: it goes up from here. |
+| IV.5.1.p1 | by means of whatever may bridge the gap | The Greek says "through things made like them" (διὰ τῶν προσομοίων): the organs are made like the sensibles, and it is this likeness, not a bridge, that joins the soul to them; the likeness comes back in IV.5.8. |
+| IV.5.1.p1 | a certain degree of identity (which is the basis of knowledge) | The Greek says "a kind of like affection" (ὁμοπαθείας τινός): the organ is affected as the thing is, which is likeness of affection, not identity; the bracket is MacKenna's. |
+| IV.5.1.p2 | such an intervening material may be a favouring circumstance | The Greek νύττοι is "might prod" or "touch on" (the text is uncertain), but nothing in it says the body between favours seeing: the same sentence says it contributes nothing. |
+| IV.5.1.p2 | such as clay | The Greek says "earthy ones" (τὰ γεηρά), bodies of earth, the densest of the elements. |
+| IV.5.1.p3 | anyone facing to the object from the side opposite to ourselves sees it equally | The Greek says "if someone is in front of us (ἔμπροσθέν τις ἡμῶν), looking towards the colour": a man standing between us and the colour, in the very space the affection must cross, sees it too; not one on the far side. The bracket before it is MacKenna's. |
+| IV.5.2.p1 | this all the more, since as things are | The Greek says "even if" (εἰ καὶ): granted that the air in front of the eyes is in fact changed now, when there is air there, that does not make it needed. The bracket that follows is MacKenna's. |
+| IV.5.2.p2 | there will scarcely be less sensation because of the intervening substance | The Greek asks whether it would be affected less, and answers that it would (ἧττον μὲν ἂν πάθοι), but in measure, "as much as nature wanted" (ὅσον ἐβούλετο ἡ φύσις), the between keeping off the excess. |
+| IV.5.2.p2 | where the element introduced is of a kind to overleap the bridge | The Greek says "unless what is given were such that what is between is not affected at all" (ὥστε ὅλως τὸ μεταξὺ μὴ πάσχειν); nothing overleaps. |
+| IV.5.2.p4 | in trees the upthrust from the root depends on no such external propulsion | The Greek ξύλα are the logs of a fire: the flame rushes up from the wood, though the wood does not push it (οὐκ ὠθούντων); nothing of trees or roots. |
+| IV.5.2.p5 | If it were not for this dark substance there would probably be no reason for the existence of light | The Greek says that if the air were not dark, perhaps "there would have been no need of light" (οὐδ’ ἂν ἐδέησε φωτός) for seeing; not that light would have no reason to exist. |
+| IV.5.3.p2 | We may hold one thing certain | The Greek says "one might pause at this" (ἐπιστήσειεν): a doubt raised, not something held certain: perhaps with nothing between we could not see, not because nothing is between, but because sympathy would be taken away. |
+| IV.5.3.p3 | would our sphere see that other as from a mutually present distance | The Greek asks whether the sight "on the back of the heaven" would see that other "from a measured distance" (ἐκ διαστήματος συμμέτρου), one suited to seeing; not "our sphere", nor a distance "mutually present". |
+| IV.5.3.p4 | the greater laws, the spiritual, of a living being one and self-sensitive | The Greek says "greater necessities" (μείζους ἀνάγκας), "of soul" (ψυχικάς), and of one living being "in sympathy" (συμπαθοῦς): necessities, not laws, and sympathy, not self-sensitiveness. |
+| IV.5.4.p2 | as it does in its more inward acts such as understanding — which is what vision really is | The Greek compares the light inside the eye: the soul is in the joining light "as with the light within too" (ὥσπερ καὶ ἐπὶ τοῦ ἔνδον), in the grasping "which is seeing" (ὅπερ ἐστὶν ὁρᾶν); nothing is said of understanding. |
+| IV.5.4.p3 | if the intervenient is the sole attractive agent | The Greek says "if simply because there is distance" (εἰ δ’ ὅτι διάστημα ἁπλῶς): the sight travels because of the bare interval, not drawn by anything in it. |
+| IV.5.4.p5 | the percipient mind or soul remains within itself | The Greek says only "the soul" (ἡ ψυχή); "mind" is MacKenna's, as often in these chapters. The bracket before it is his too. |
+| IV.5.4.p5 | but this process of memory and comparison is excluded by the theory of first knowledge through the agency of a medium | The Greek says "but in fact it is not so" (νῦν δὲ οὐχ οὕτως): we do not in fact first come near what we see, and know it later by memory or reasoning; it is a fact, not a theory, that rules this out. |
+| IV.5.5.p2 | until (by its distinctive character) it is sent pulsing outwards | The Greek says air sounds when it stands like a solid "before it is poured away" (πρὶν χυθῆναι), before it scatters; the bracket, and the pulsing, are MacKenna's. |
+| IV.5.5.p2 | we are brought to the same conclusion as in the case of sight | The Greek says "let this be left in doubt" (ἠπορήσθω), the question here having become the same as for sight: a question left open, not a conclusion. |
+| IV.5.6.p1 | The fact is that primarily light is no appanage of air | The Greek says light is not the air's "first, nor its as air" (οὐκ αὐτοῦ πρώτως οὐδ’ ᾗ αὐτός): air may be lit, but light belongs to it neither first nor by its own nature. |
+| IV.5.6.p2 | it is powerful, and may very well pass over unhelped | The Greek says it is "taut" (ἀτενές), stretched straight, and asks why it should not cross "riding on nothing" (οὐκ ἐποχούμενον). |
+| IV.5.6.p2 | it would vanish when the object or substance disappeared ; but it does not | The Greek argues the other way: if light were the air's affection, it "would have had to stay" once it had come (ἔδει μένειν), as an affection stays in what has it; "but in fact it goes away" (νῦν δὲ ἄπεισιν), with its source; so it is no affection of the air. |
+| IV.5.6.p3 | Perhaps ; and (from this untenable consequence) we may gather that the light never was an appanage of anything | The Greek does not agree: that "the light will not be anything's" (οὐδὲ τὸ φῶς τινος ἔσται) is a further absurdity of the objection, which Plotinus answers: the activity is "from a subject" (ἔκ τινος ὑποκειμένου), the sun's, though not into one. |
+| IV.5.7.p1 | but in circuit, with more of it | The Greek's bracketed clause tells what would happen if light did flow (περιέρρει γὰρ ἄν): it would flow round and pour inside, more than was being sent from the source; MacKenna makes it a description of light as it is. |
+| IV.5.7.p2 | the other lies next to the surface, the outer image of the inner content | The Greek says the second activity is "after the limit of the body" (μετὰ τὸ πέρας τοῦ σώματος): outside it, going out from it, not lying on its surface. |
+| IV.5.7.p3 | it gives merely an incipient on which colour might be formed | The Greek says the activity alone "as it were colours over" (οἷον ἐπιχρώννυσιν), a tint on the surface, not a base on which colour might be formed; and the "other" whose activity it is, is the luminous body, not MacKenna's "(primal light)". |
+| IV.5.7.p5 | it is clear that the life-principle can no longer remain | The Greek asks it: "how could life still stay?" (πῶς ἂν ἔτι ζωὴ μένοι;), and goes on to answer that it has not perished either. |
+| IV.5.8.p1 | which condition being met, it certainly would be | The Greek says "perhaps they would" (τάχα ἄν). |
+| IV.5.8.p1 | exhibiting light and colour | The Greek says "a coloured body, having the other qualities too" (σῶμα κεχρωσμένον καὶ τὰς ἄλλας ποιότητας ἔχον); light is MacKenna's. |
+| IV.5.8.p2 | What the conditions would be otherwise, remains to be considered | The Greek says "this must be looked into: whether it is for this reason" (εἰ παρὰ τοῦτο), that is, whether the absurdity comes from our being within one living being. |
+| IV.5.8.p3 | thus perception is reduced to a mental awareness | The Greek says "the soul's grasping" (ψυχῆς ἀντίληψις) through organs like the things grasped; "mental" is MacKenna's. |
+| IV.5.8.p3 | because the mind itself has related them | The Greek says the soul (αὕτη, ἡ ψυχή) has made them "like" (ὅμοια πεποίηκεν), not "related"; it is the soul's making of likenesses, not the mind's relating. |
+| IV.5.8.p4 | it presents mind and no mind | The Greek says "soul and not soul" (ψυχὴν καὶ οὐ ψυχήν). |
+| IV.6.1.p2 | it is there that we attack it | The Greek says we "direct our sight" there (τῇ ὄψει προσβάλλομεν), casting it on the thing; there is no attack. |
+| IV.6.1.p2 | the mind looks outward | The Greek says "the soul" (τῆς ψυχῆς) looks outward; MacKenna has "mind", or "soul or mind", for soul throughout this treatise. |
+| IV.6.1.p4 | we cannot see if the living object is in contact with the eye | The Greek says "the visible thing" (τὸ ὁρατόν) put on the pupil; nothing is said of a living object. |
+| IV.6.2.p2 | as they reach the point at which they become matter of its knowledge | The Greek says they come to where "they are of a nature to be seen" (πεφύκασιν ὁρᾶσθαι): the image of reading holds, and the soul sees the letters. |
+| IV.6.2.p3 | every concept of this Intellectual order is the soul about its Act | The Greek says the soul "is itself each of them in its activity" (ἔστιν αὐτὴ ἐνεργοῦσα ἕκαστον): it does not merely act about them; it is them. |
+| IV.6.3.p1 | its own essential Nature is one of the Beings of the Intellectual Realm | The Greek says "the nature of soul" is the last reason-principle "of the intelligibles and of what is in the intelligible" (ἔσχατος μὲν τῶν νοητῶν καὶ τῶν ἐν τῷ νοητῷ): one statement, of which MacKenna makes a separate clause between dashes. |
+| IV.6.3.p1 | its knowledge is not attained by besetting them | The Greek says it knows them "not by their settling in it" (οὐ τῷ ἐνιζάνειν αὐτά): sitting in the soul as imprints, the theory just refuted. |
+| IV.6.3.p1 | they are itself in a more radiant mode | The Greek says the soul is them "more dimly" (ἀμυδρότερον), and becomes clearer as it wakes; MacKenna makes them the brighter. |
+| IV.6.3.p2 | This is why, it is agreed, children have long memory | The Greek says children "are said to remember better" (μνημονεύειν λέγεται μᾶλλον): more, not longer; the length is of the soul's disposition to what it holds strongly. |
+| IV.6.3.p4 | It is no answer to say that the parts present themselves sooner than the entire imprint | The Greek says it is not "because he had parts of the imprint before" (τῷ μέρη ἐσχηκέναι πρότερον τοῦ τύπου): the answer of the imprint theory, that the earlier hearings left part of the stamp, which Plotinus refutes: then those parts should be remembered. |
+| IV.6.3.p5 | memory follows upon attention ; those who have memorised much, by dint of their training in the use of leading indications (suggestive words and the like) | The Greek has no "memory follows upon attention"; it says memory comes not only for what we have practised, and that those used to "reports" (ἀπαγγελίαις), to telling things over, recover others easily; MacKenna's "leading indications" and his bracket are not there. |
+| IV.6.3.p6 | in no pursuit do technical exercises tend to make a man less the master of his acts and states | The Greek says "nowhere does training for anything make what has trained easily affected" (εὐπαθές): the point is that training makes it less passive, which is the opposite of what imprints would need. |
+| IV.6.3.p7 | the dominant idea differs from man to man | The Greek says "different forms prevail in different men" (ἐπικρατοῦσι γὰρ ἄλλαι ἐν ἄλλῳ ἰδέαι): kinds of make or constitution, as a boxer's and a runner's, not ideas. |
 
 ## The plan, in Porphyry's order
 
@@ -707,8 +753,8 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | IV.2 | On the being of the soul, second part | done beside Taylor (milestone 27) |
 | IV.3 | On difficulties about the soul, first part | done beside Taylor (milestone 27) |
 | IV.4 | On difficulties about the soul, second part | done here |
-| IV.5 | On difficulties about the soul, third part, or on sight | to come (E18) |
-| IV.6 | On perception and memory | to come (E18) |
+| IV.5 | On difficulties about the soul, third part, or on sight | done here |
+| IV.6 | On perception and memory | done here |
 | IV.7 | On the immortality of the soul | done beside Taylor (milestone 27) |
 | IV.8 | On the descent of the soul into bodies | to come (E19) |
 | IV.9 | Whether all souls are one | to come (E19) |

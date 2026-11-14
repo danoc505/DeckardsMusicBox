@@ -497,6 +497,16 @@ through the Greek's 38 and his 40 through the Greek's 41, which are shown with t
 whole (Laws X 903b-d), the mark of being (Sophist 247d-e), virtue without a master (Republic X 617e), Empedocles' love and
 strife, Olympius' spells (Life 10), the people of Erechtheus (Alcibiades I 132a), Euripides' soundless path (Trojan Women
 887-888), the puppet's cords (Laws I) and punishment as medicine (Gorgias 478d-480b).
+**IV.5, On difficulties about the soul, third part, or on sight, and IV.6, On perception and memory** (E18), beside
+MacKenna's vol. III: 11 chapters, 48 paragraphs, 46 flags, among them his man who also sees the colour put on the far side
+where the Greek sets him in front of us, trees and roots for the logs of a fire, "no reason for the existence of light" where
+the Greek says only that seeing would need none, understanding for the light within the eye, light that "would vanish" with
+its source where the Greek says an affection would stay, light "in circuit" for what would happen if it flowed, the soul's
+intelligibles "more radiant" where the Greek has the soul be them more dimly, and "mind" for soul throughout IV.6. MacKenna's
+chapters are the Greek's. The notes give Aristotle's transparent and the coloured thing laid on the eye (On the soul II.7),
+the torpedo (Meno 80a-c), the Stoics' staff (Diogenes Laertius VII.157), the atomists' images, the pushing round (Physics
+IV.8), the back of the heaven (Phaedrus 247b-c), the All that needs no eyes (Timaeus 33c), double activity (V.4.2), the wax
+block (Theaetetus 191c-196c) and Aristotle's slow memories and quick recollectors (On memory 449b6-8).
 **III.8, On nature, contemplation and the One, and III.9, Various considerations** (E14), beside MacKenna's vol. II: 14
 chapters, 41 paragraphs, 70 flags, among them his "the Highest" for intellect that began as one and unrolled itself,
 "pregnant" for weighed down, the living principle "brother ... to that which gives mere shape" where it is brother to
@@ -582,7 +592,7 @@ hyphened terms such as "Sense-Perception" kept; not proofread). The master copy 
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: IV.5 On sight and IV.6 On perception and memory (E18).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: IV.8 On the descent of the soul into bodies and IV.9 Whether all souls are one (E19).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,

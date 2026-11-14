@@ -219,14 +219,14 @@
   {
    "id": "IV.5",
    "title": "On difficulties about the soul, third part, or on sight",
-   "status": "to come",
-   "milestone": "E18"
+   "status": "here",
+   "first": "IV.5.1"
   },
   {
    "id": "IV.6",
    "title": "On perception and memory",
-   "status": "to come",
-   "milestone": "E18"
+   "status": "here",
+   "first": "IV.6.1"
   },
   {
    "id": "IV.7",
@@ -760,6 +760,31 @@
     "IV.4.43",
     "IV.4.44",
     "IV.4.45"
+   ]
+  },
+  {
+   "id": "IV.5",
+   "title": "On difficulties about the soul, third part, or on sight",
+   "summary": "The third of the books On difficulties about the soul, also called On sight. Does seeing need a body between the eye and what is seen, air or some other transparent body? Plotinus argues that it does not. The air between is not stamped like wax and does not pass the form along: at night we see fires and stars across the dark, and every bit of the air holds the whole face that is seen, which no stamp could do. Seeing comes from the sympathy of the All, one living being whose parts feel one another, and so does hearing. Light is not an affection of the air but the activity of a shining body, going out from it as an image of the life within it; it is bodiless, does not perish or run back, and is wherever its source is active and nothing hinders, like an image in a mirror, or the life that a soul gives a body. Last, a puzzle put off from the third chapter: could sight from here see a body outside the heaven, which is not part of the one living being? The hypothesis contradicts itself and must be let go.",
+   "chapters": [
+    "IV.5.1",
+    "IV.5.2",
+    "IV.5.3",
+    "IV.5.4",
+    "IV.5.5",
+    "IV.5.6",
+    "IV.5.7",
+    "IV.5.8"
+   ]
+  },
+  {
+   "id": "IV.6",
+   "title": "On perception and memory",
+   "summary": "A short treatise in one argument: perceptions are not imprints on the soul, and so memory is not the keeping of imprints. In sight, the clearest of the senses, the soul looks outward and sees the thing where it is, at its distance and in its size, which no stamp inside could give; and to see there must be two, the seer and the seen. Perceiving is the activity of a power, which speaks of what it does not have and masters what it is set over; in hearing the air carries the stroke like letters written in it, and the soul reads them. The soul is the last reason-principle of the intelligibles and the first of the things perceived: it knows the intelligibles by being them, more dimly, and waking to them, and it makes the things perceived shine out and holds them before its eyes. Memory, then, is a power made strong: children remember because they look at few things, practice strengthens it as exercise strengthens hands and feet, and the old lose memory as they lose their senses; if memory were imprints kept, those most easily affected would remember best. The soul has no size, and those who think of perceiving and remembering as letters on tablets miss the absurdities of their view.",
+   "chapters": [
+    "IV.6.1",
+    "IV.6.2",
+    "IV.6.3"
    ]
   }
  ],
@@ -5110,6 +5135,193 @@
      "page": 100,
      "year": 1924,
      "text": "From this discussion it becomes perfectly clear that the individual member of the All contributes to that All in the degree of its kind and condition ; thus it acts and is acted upon. In any particular animal each of the limbs and organs, in the measure of its kind and purpose, aids the entire being by service performed and counts in rank and utility : it gives what is in it its gift and takes from its fellows in the degree of receptive power belonging to its kind ; there is something like a common sensitiveness Unking the parts, and in the orders in which each of the parts is also animate, each will have, in addition to its rank as part, the very particular functions of a living being.\n\nWe have learned, further, something of our human standing ; we know that we too accomplish within the All a work not confined to the activity and receptivity of body in relation to body ; we know that we bring to it that higher nature of ours, linked as we are by affinities within us towards the answering affinities outside us ; becoming by our soul and the conditions of our kind thus linked — or, better, being linked by Nature — with our next highest in the celestial or daemonic realm, and thence onwards with those above the Celestials, we cannot fail to manifest our quality. Still, we are not all able to offer the same gifts or to accept identically : if we do not possess good, we cannot bestow it ; nor can we ever purvey any good thing to one that has no power of receiving good. Anyone that adds his evil to the total of things is known for what he is and, in accordance with his kind, is pressed down into the evil which he has made his own, and hence, upon death, goes to whatever region fits his quality — and all this happens under the pull of natural forces.\n\nFor the good man, the giving and the taking and the changes of state go quite the other way ; the particular tendencies of the nature, we may put it, transpose the cords (so that we are moved by that only which, in Plato's metaphor of the puppets, draws towards the best).\n\nThus this universe of ours is a wonder of power and wisdom, every thing by a noiseless road coming to pass according to a law which none may elude — which the base man never conceives though it is leading him, all unknowingly, to that place in the All where his lot must be cast — which the just man knows, and, knowing, sets out to the place he must, understanding, even as he begins the journey, where he is to be housed at the end, and having the good hope that he will be with gods.\n\nIn a living being of small scope the parts vary but slightly, and have but a faint individual consciousness, and, unless possibly in a few and for a short time, are not themselves alive. But in a living universe, of high expanse, where every entity has vast scope and many of the members have life, there must be wider movement and greater changes. We see the sun and the moon and the other stars shifting place and course in an ordered progression. It is therefore within reason that the souls, also, of the All should have their changes, not retaining unbrokenly the same quality, but ranged in some analogy with their action and experience — some taking rank as head and some as foot in a disposition consonant with the Universal Being which has its degrees in better and less good. A soul, which neither chooses the highest that is here, nor has lent itself to the lowest, is one which has abandoned another, a purer, place, taking this sphere in free election.\n\nThe punishments of wrong-doing are like the treatment of diseased parts of the body — here, medicines to knit sundered flesh ; there, amputations ; elsewhere, change of environment and condition — and the penalties are planned to bring health to the All by settling every member in the fitting place : and this health of the All requires that one man be made over anew and another, sick here, be taken hence to where he shall be weakly no longer."
+    }
+   ]
+  },
+  {
+   "id": "IV.5.1",
+   "treatise": "IV.5",
+   "title": "Does seeing need something between?",
+   "summary": "Perceiving needs a body, for without a body the soul is in the intelligible; it comes about through organs made like the things perceived. But does sight need a body between the eye and the colour? Thick bodies hinder seeing, and thinner ones hinder it less; what lies between need not be affected, as the rod between the torpedo fish and the hand is not. If seeing comes by sympathy, the unlike thing between will not be affected, and what is made to be affected will be affected all the more with nothing between.",
+   "greek_unit": "4.5.1",
+   "greek_part": 31,
+   "older": [
+    {
+     "n": 1,
+     "label": "IV.5, chapter 1",
+     "page": 102,
+     "year": 1924,
+     "text": "(Also entitled ON Sight) i.\n\nWe undertook to discuss the question whether sight is possible in the absence of any intervening medium, such as air or some other form of what is known as transparent body : this is the time and place.\n\nIt has been explained that seeing and all sense-perception can occur only through the medium of some bodily substance, since in the absence of body the soul is utterly absorbed in the Intellectual Sphere. Senseperception being the gripping not of the Intellectual but of the sensible alone, the soul, if it is to form any relationship of knowledge, or of im pression, with objects of sense, must be brought in some kind of contact with them by means of whatever may bridge the gap.\n\nThe knowledge, then, is realised by means of bodily organs : through these, which (in the embodied soul) are almost of one growth with it, being at least its continuations, it comes into something like unity with the alien, since this mutual approach brings about a certain degree of identity (which is the basis of knowledge) .\n\nAdmitting, then, that some contact with an object is necessary for knowing it, the question of a medium falls to the ground in the case of things identified by any form of touch ; but in the case of sight — we leave hearing over for the present — we are still in doubt ; is there need of some bodily substance between the eye and the illumined object ?\n\nNo : such an intervening material may be a favouring circumstance, but essentially it adds nothing to seeing power.\n\nDense bodies, such as clay, actually prevent sight ; the less material the intervening substance is, the more clearly we see ; the intervening substance, then, is a hindrance, or, if not that, at least not a help.\n\nIt will be objected that vision implies that whatever intervenes between seen and seer must first (and progressively) experience the object and be, as it were, shaped to it ; we will be reminded that (vision is not a direct and single relation between agent and object, but is the perception of something radiated since) anyone facing to the object from the side opposite to ourselves sees it equally ; we will be asked to deduce that if all the space intervening between seen and seer did not carry the impression of the object we could not receive it.\n\nBut all the need is met when the impression reaches that which is adapted to receive it ; there is no need for the intervening space to be impressed. If it is, the impression will be of quite another order : the rod between the fisher's hand and the torpedo fish is not affected in the same way as the hand that feels the shock. And yet there too, if rod and line did not intervene, the hand would not be affected — though even that may be questioned, since after all the fisherman, we are told, is numbed if the torpedo merely lies in his net.\n\nThe whole matter seems to bring us back to that sympathy of which we have treated. If a certain thing is of a nature to be sympathetically affected by another in virtue of some similitude between them, then anything intervening, not sharing in that similitude, will not be affected, or at least not similarly. If this be so, anything naturally disposed to be affected will take the impression more vividly in the absence of inter vening substance, even of some substance capable, itself, of being affected."
+    }
+   ]
+  },
+  {
+   "id": "IV.5.2",
+   "treatise": "IV.5",
+   "title": "No theory of sight needs a medium",
+   "summary": "Whatever theory of sight one holds, nothing need lie between: not for those who send light out of the eye, nor for the atomists' images, which want the void; and for those who explain sight by sympathy, what is between can only dim it, though in a living being nature may want it so. Air is not affected by what passes through it, but only parted, as by a falling stone or rising fire. If we perceived through the air being affected first, we would perceive the air next to us, as with warmth; but sight is not by contact, and the air must be lit only because it is dark.",
+   "greek_unit": "4.5.2",
+   "greek_part": 31,
+   "older": [
+    {
+     "n": 2,
+     "label": "IV.5, chapter 2",
+     "page": 104,
+     "year": 1924,
+     "text": "If sight depends upon the Unking of the light of vision with the light Jeading progressively to the illumined object, then by the very hypothesis one intervening substance, the light, is indispensable : but if the illu minated body, which is the object of vision, serves as an agent operating certain changes, some such change might very well impinge immediately upon the eye, requiring no medium ; this all the more, since as things are the intervening substance, which actually does exist, is in some degree changed at the point of contact with the eye (and so cannot be in itself a requisite to vision).\n\nThose who have made vision a forth-going act (and not an in-coming from the object) need not postulate an intervening substance — unless, indeed, to provide against the ray from the eye failing on its path — but this is a ray of light and light flies straight. Those who make vision depend upon resistance are obliged to postulate an intervening substance.\n\nThe champions of the image, with its transit through a void, are seeking the way of least resistance ; but since the entire absence of intervenient gives a still easier path they will not oppose that hypothesis.\n\nSo, too, those that explain vision by sympathy must recognise that an intervening substance will be a hindrance as tending to check or block or enfeeble that sympathy ; this theory, especially, requires the admission that any intervenient, and particularly one of kindred nature, must blunt the perception by itself absorbing part of the activity. Apply fire to a body continuous through and through, and no doubt the core will be less affected than the surface : but where we are dealing with the sympathetic parts of one living being, there will scarcely be less sensation because of the intervening substance, or, if there should be, the degree of sensation will still be proportionate to the nature of the separate part, with the intervenient acting merely as a certain limitation ; this, though, will not be the case where the element introduced is of a kind to overleap the bridge.\n\nBut this is saying that the sympathetic quality of the universe depends upon its being one living thing, and that our amenability to experience depends upon our belonging integrally to that unity ; would it not follow that continuity is a condition of any perception of a remote object ?\n\nThe explanation is that continuity and its concomitant, the bridging substance, come into play because a living being must be a continuous thing, but that, none the less, the receiving of impression is not an essen tially necessary result of continuity ; if it were, everything would receive such impression from everything else, and if thing is affected by thing in various separate orders, there can be no further question of any universal need of intervening substance.\n\nWhy it should be specially requisite in the act of seeing would have to be explained : in general, an object passing through the air does not affect it beyond dividing it ; when a stone falls, the air simply yields ; nor is it reasonable to explain the natural direction of movement by resistance ; to do so would bring us to the absurdity that resistance accounts for the upward movement of fire, which, on the contrary, overcomes the resistance of the air by its own essentially quick energy. If we are told that the resistance is brought more swiftly into play by the very swiftness of the ascending body, that would be a mere accidental circumstance, not a cause of the upward motion : in trees the upthrust from the root depends on no such external propulsion ; we, too, in our movements cleave the air and are in no wise forwarded by its resistance ; it simply flows in from behind to fill the void we make.\n\nIf the severance of the air by such bodies leaves it unaffected, why must there be any severance before the images of sight can reach us ?\n\nAnd, further, pnce we reject the theory that these images reach us by way of some outstreaming from the objects seen, there is no reason to think of the air being affected and passing on to us, in a progression of impression, what has been impressed upon itself.\n\nIf our perception is to depend upon previous impressions made upon the air, then we have no direct knowledge of the object of vision, but know it only as through an intermediary, in the same way as we are aware of warmth where it is not the distant fire itself that warms us, but the warmed intervening air. That is a matter of contact ; but sight is not produced by contact : the application of an object to the eye would not produce sight ; what is required is the illumination of the intervening medium ; for the air in itself is a dark substance. If it were not for this dark substance there would probably be no reason for the existence of light : the dark intervening matter is a barrier, and vision requires that it be overcome by light. Perhaps also the reason why an object brought close to the eye cannot be seen is that it confronts us with a double obscuration, its own and that of the air."
+    }
+   ]
+  },
+  {
+   "id": "IV.5.3",
+   "treatise": "IV.5",
+   "title": "Fires at night, and the whole face in every part of the air",
+   "summary": "The strongest witness: at night, in the dark, we see fires, the stars and their shapes, and the beacons and the signal towers for ships, though their light does not light the dark between; if the air passed the form on, we should see a dim copy, not the bright thing. If seeing with nothing between failed, it would be because sympathy was gone. Nor is the air stamped like wax: each bit of it would hold a bit of the thing, yet everyone around sees the whole, so that each bit holds the whole face; this comes from greater necessities, of soul and of one living being.",
+   "greek_unit": "4.5.3",
+   "greek_part": 31,
+   "older": [
+    {
+     "n": 3,
+     "label": "IV.5, chapter 3",
+     "page": 106,
+     "year": 1924,
+     "text": "For the most convincing proof that vision does not depend upon the transmission of impressions of any kind made upon the air, we have only to consider that in the darkness of night we can see a fire and the stars and their very shapes.\n\nNo one will pretend that these forms are reproduced upon the darkness and come to us in linked progression ; if the fire thus rayed out its own form, there would be an end to the darkness. /In the blackest night, when the very stars are hidden and show no gleam of their light, we can see the fire of the beacon-stations and of maritime signal-towers.\n\nNow if, in defiance of all that the senses tell us, we are to believe that in these examples the fire (as light) traverses the air, then, in so far as anything is visible, it must be that dimmed reproduction in the air, not the fire itself. But if an object can be seen on the other side of some intervening darkness, much more would it be visible with nothing intervening.\n\nWe may hold one thing certain : the impossibility of vision without an intervening substance does not depend upon that absence in itself : the sole reason is that, with that absence, there would be an end to the sympathy reigning in the living whole and relating the parts to each other in an existent unity.\n\nPerception of every kind seems to depend on the fact that our universe is a whole sympathetic to itself : that it is so, appears from the universal participation in power from member to member, and especially in remote power.\n\nNo doubt it would be worth enquiry — though we pass it for the present — what would take place if there were another kosmos, another living whole having no contact with this one, and the far ridges of our heavens had sight : would our sphere see that other as from a mutually present distance, or could there be no dealing at all from this to that ?\n\nTo return ; there is a further consideration showing that sight is not brought about by this alleged modification of the intervenient.\n\nAny modification of the air substance would necessarily be cor poreal : there must be such an impression as is made upon sealing wax. But this would require that each part of the object of vision be impressed on some corresponding portion of the intervenient : the intervenient, however, in actual contact with the eye would be just that portion whose dimensions the pupil is capable of receiving. But as a matter of fact the entire object appears before the pupil ; and it is seen entire by all within that air space for a great extent, in front, sideways, close at hand, from the back, as long as the line of vision is not blocked. This shows that any given portion of the air contains the object of vision, in face view so to speak, and, at once, we are confronted by no merely corporeal phenomena ; the facts are explicable only as depending upon the greater laws, the spiritual, of a living being one and self-sensitive."
+    }
+   ]
+  },
+  {
+   "id": "IV.5.4",
+   "treatise": "IV.5",
+   "title": "The light that joins the eye to the thing",
+   "summary": "If the light that joins sight to its object is ensouled, the soul in it, seeing is like touch and needs nothing between to be affected; light from outside is needed for seeing far. The seen thing is not idle: touch reports differences, and would feel what is far if nothing blocked it; we feel a fire as soon as the air between does. At dawn we see the light far off before it reaches the air round us. If the soul used light like a staff, the perceiving would be by pushing, and it would need to have been near the thing before.",
+   "greek_unit": "4.5.4",
+   "greek_part": 31,
+   "older": [
+    {
+     "n": 4,
+     "label": "IV.5, chapter 4",
+     "page": 108,
+     "year": 1924,
+     "text": "But there is the question of the linked light that must relate the visual organ to its object.\n\nNow, firstly : since the intervening air is not necessary — unless in the purely accidental sense that air may be necessary to light — the light that acts as intermediate in vision will be unmodified : vision depends upon no modification whatever. This one intermediate, light, would seem to be necessary, but, unless light is corporeal, no intervening body is requisite : and we must remember that intervenient and borrowed light is essential not to seeing in general but to distant vision ; the question whether light absolutely requires the presence of air we will discuss later. For the present one matter must occupy us : —\n\nIf in the act of vision that linked light becomes ensouled, if the soul or mind permeates it and enters into union with it, as it does in its more inward acts such as understanding — which is what vision really is — then the intervening light is not a necessity : the process of seeing will be like that of touch ; the visual faculty of the soul will perceive by the fact of having entered into the light ; all that intervenes remains unaffected, serving simply as the field over which the vision ranges.\n\nThis brings up the question whether the sight is made active over its field by the sheer presence of a distance spread before it, or by the presence of a body of some kind within that distance.\n\nIf by the presence of such a body, then there will be vision though there be no intervenient ; if the intervenient is the sole attractive agent, then we are forced to think of the visible object as being a Kind utterly without energy, performing no act. But so inactive a body cannot be : touch tells us that, for it does not merely announce that something is by and is touched : it is acted upon by the object so that it reports distinguishing qualities in it, qualities so effective that even at a distance touch itself would register them but for the accidental that it demands proximity.\n\nWe catch the heat of a fire just as soon as the intervening air does ; no need to wait for it to be warmed : the denser body, in fact, takes in more warmth than the air has to give ; in other words, the air transmits the heat but is not the source of our warmth.\n\nWhen on the one side, that of the object, there is the power in any degree of an outgoing act, and on the other, that of the sight, the capa bility of being acted upon, surely the object needs no medium through which to be effective upon what it is fully equipped to affect : this would be needing not a help but a hindrance.\n\nOr, again, consider the Dawn : there is no need that the light first flood the air and then come to us ; the event is simultaneous to both : often, in fact, we see (in the distance) when the light is not as yet round our eyes at all but very far off, before, that is, the air has been acted upon : here we have vision without any modified inter venient, vision before the organ has received the light with which it is to be linked.\n\nIt is difficult to reconcile with this theory the fact of seeing stars or any fire by night.\n\nIf (as by the theory of an intervenient) the percipient mind or soul remains within itself and needs the light only as one might need a stick in the hand to touch something at a distance, then the perception will be a sort of tussle : the light must be conceived as something thrusting, something aimed at a mark, and similarly, the object, considered as an illuminated thing, must be conceived to be resistant ; for this is the normal process in the case of contact by the agency of an intervenient.\n\nBesides, even on this explanation, the mind must have previously been in contact with the object in the entire absence of intervenient ; only if that has happened could contact through an intervenient bring knowledge, a knowledge by way of memory, and, even more emphatically, by way of reasoned comparison (ending in identification) : but this process of memory and comparison is excluded by the theory of first knowledge through the agency of a medium.\n\nFinally, we may be told that the impinging light is modified by the thing to be seen and so becomes able to present something perceptible before the visual organ ; but this simply brings us back to the theory of an intervenient changed midway by the object, an explanation whose difficulties we have already indicated."
+    }
+   ]
+  },
+  {
+   "id": "IV.5.5",
+   "treatise": "IV.5",
+   "title": "Hearing is the same question",
+   "summary": "In hearing the air struck first, between two bodies that clash, seems needed; but what is between, from there on, may be there only by accident. If the air were master of the sound, why would bronze on bronze sound different from bronze on something else? The air sounds when it is struck as a solid before it scatters, so the clash itself is the sound, as the sounds inside animals show, of bones rubbing and grinding, with no air between. The question is the same as for sight: a kind of co-perception within one living being.",
+   "greek_unit": "4.5.5",
+   "greek_part": 31,
+   "older": [
+    {
+     "n": 5,
+     "label": "IV.5, chapter 5",
+     "page": 110,
+     "year": 1924,
+     "text": "But some doubt arises when we consider the phenomena of hearing.\n\nPerhaps we are to understand the process thus : the air is modified by the first movement ; layer by layer it is successively acted upon by the object causing the sound ; it finally impinges in that modified form upon the sense, the entire progression being governed by the fact that all the air from starting point to hearing point is similarly affected.\n\nPerhaps, on the other hand, the intervenient is modified only by the accident of its midway position, so that, failing any intervenient, whatsoever sound two bodies in clash might make would impinge without medium upon our sense ?\n\nStill air is necessary ; there could be no sound in the absence of the air set vibrating in the first movement, however different be the case with the intervenient from that onwards to the perception point.\n\nThe air would thus appear to be the dominant in the production of sound : two bodies would clash without even an incipient sound, but that the air, struck in their rapid meeting and hurled outward, passes on the movement successively till it reaches the ears and the sense of hearing.\n\nBut if the determinant is the air, and the impression is simply of air-movements, what accounts for the differences among voices and other sounds ? The sound of bronze against bronze is different from that of bronze against some other substance : and so on ; the air and its vibration remain the one thing, yet the difference in sounds is much more than a matter of greater or less intensity.\n\nIf we decide that sound is caused by a percussion upon the air, then obviously nothing turning upon the distinctive nature of air is in question : it sounds at a moment in which it is simply a solid body, until (by its distinctive character) it is sent pulsing outwards : thus air in itself is not essential to the production of sound ; all is done by clashing solids as they meet and that percussion, reaching the sense, is the sound. This is shown also by the sounds formed within living beings not in air but by the friction of parts ; for example, the grinding of teeth and the IV. 5. 6] PROBLEMS OF THE SOUL in crunching of bones against each other in the bending of the body, cases in which the air does not intervene.\n\nBut all this may now be left over ; we are brought to the same conclusion as in the case of sight ; the phenomena of hearing arise similarly in a certain co-sensitiveness inherent in a living whole."
+    }
+   ]
+  },
+  {
+   "id": "IV.5.6",
+   "treatise": "IV.5",
+   "title": "Light is not the air's affection",
+   "summary": "Would there be light without air? If light were the air's affection, without air there would be none; but light belongs first to fiery and shining bodies, and to some stones. If it is a quality it needs a body; if it is an activity from something, it would cross a void too and go beyond. It does not fall, is not drawn along by the air, and goes when its source goes; it is the activity of the sun's body, from a subject but not into one, as life is the activity of soul whether a body is there or not. The dark air does not make light but dims it, and air that is lit stays as it was.",
+   "greek_unit": "4.5.6",
+   "greek_part": 31,
+   "older": [
+    {
+     "n": 6,
+     "label": "IV.5, chapter 6",
+     "page": 110,
+     "year": 1924,
+     "text": "We return, then, to the question whether there could be light if there were no air, the sun illuminating corporeal surfaces across an intermediate void which, as things are, takes the light accidentally by the mere fact of being in the path. Supposing air to be the cause of the rest of things being thus affected, the substantial existence of light is due to the air ; light becomes a modification of the air, and of course if the thing to be modified did not exist neither could the modification.\n\nThe fact is that primarily light is no appanage of air, and does not depend upon the existence of air : it belongs to every fiery and shining body, it constitutes even the gleaming surface of certain stones.\n\nNow if, thus, it enters into other substances from something gleaming, could it exist in the absence of its container ?\n\nThere is a distinction to be made : if it is a quality, some quality of some substance, then light, equally with other qualities, will need a body in which to lodge : if, on the contrary, it is an activity rising from something else, we can surely conceive it existing, though there be no neighbouring body but, if that is possible, a blank void which it will overleap and so appear on the further side : it is powerful, and may very well pass over unhelped. If it were of a nature to fall, nothing would keep it up, certainly not the air or anything that takes its light ; there is no reason why they should draw the light from its source and speed it onwards.\n\nLight is not an accidental to something else, requiring therefore to be lodged in a base ; nor is it a modification, demanding a base in which the modification occurs : if this were so, it would vanish when the object or substance disappeared ; but it does not ; it strikes onward ; so, too (requiring neither air nor object) it would always have its movement.\n\nBut movement, where ?\n\nIs space, pure and simple, all that is necessary ?\n\nWith unchecked motion of the light outward, the material sun will be losing its energy, for the light is its expression.\n\nPerhaps ; and (from this untenable consequence) we may gather that the light never was an appanage of anything, but is the expressive Act proceeding from a base (the sun) but not seeking to enter into a base, though having some operation upon any base that may be present.\n\nLife is also an Act, the Act of the soul, and it remains so when anything — the human body, for instance — comes in its path to be affected by it ; and it is equally an Act though there be nothing for it to modify : surely this may be true of light, one of the Acts of whatever luminary source there be (i.e. light, affecting things, may be quite independent of them and require no medium, air or other). Certainly light is not brought into being by the dark thing, air, which on the con trary tends to gloom it over with some touch of earth so that it is no longer the brilliant reality : as reasonable to talk of some substance being sweet because it is mixed with something bitter.\n\nIf we are told that light is a mode of the air, we answer that this would necessarily imply that the air itself is changed to produce the new mode ; in other words, its characteristic darkness must change into non-darkness ; but we know that the air maintains its character, in no wise affected : the modification of a thing is an experience within that thing itself : light therefore is not a modification of the air, but a selfexistent in whose path the air happens to be present.\n\nOn this point we need dwell no longer ; but there remains still a question."
+    }
+   ]
+  },
+  {
+   "id": "IV.5.7",
+   "treatise": "IV.5",
+   "title": "Light, the outward activity of a shining body",
+   "summary": "Light does not perish or run back: it is an activity that does not flow, so it is there while its source is, and where nothing hinders. Every being has an activity that is its likeness, an image of the life within, reaching far or near; so in eyes that shine, and in creatures that glow in the dark when they swell and not when they shrink. Light from bodies is the outward activity of a luminous body; in such bodies it is their being; mixed with matter it gives colour. It is bodiless, and does not properly come or go, like the image in a mirror. So too a soul that is the activity of a soul before it stays while that stays; and the body's life, when the body perishes, is simply no longer there.",
+   "greek_unit": "4.5.7",
+   "greek_part": 31,
+   "older": [
+    {
+     "n": 7,
+     "label": "IV.5, chapter 7",
+     "page": 111,
+     "year": 1924,
+     "text": "Our investigation may be furthered by enquiring : Whether light finally perishes or simply returns to its source.\n\nIf it be a thing requiring to be caught and kept, domiciled within a recipient, we might think of it finally passing out of existence : if it be an Act not flowing out and away — but in circuit, with more of it IV. 5. 7l PROBLEMS OF THE SOUL 113 within than is in outward progress from the luminary of which it is the Act — then it will not cease to exist as long as that centre is in being. And as the luminary moves, the light will reach new points — not in virtue of any change of course in or out or around, but simply because the act of the luminary exists and where there is no impediment is effective. Even if the distance of the sun from us were far greater than it is, the light would be continuous all that further way, as long as nothing checked or blocked it in the interval.\n\nWe distinguish two forms of activity ; one is gathered within the luminary and is comparable to the life of the shining body ; this is the vaster and is, as it were, the foundation or wellspring of all the act ; the other lies next to the surface, the outer image of the inner content, a secondary activity though inseparable from the former. For every existent has an Act which is in its likeness : as long as the one exists, so does the other ; yet while the original is stationary the activity reaches forth, in some things over a wide range, in others less far. There are weak and faint activities, and there are some, even, that do not appear ; but there are also things whose activities are great and far-going ; in the case of these the activity must be thought of as being lodged, both in the active and powerful source and in the point at which it settles. This may be observed in the case of an animal's eyes where the pupils gleam : they have a light which shows outside the orbs. Again there are living things which have an inner fire that in darkness shines out when they expand themselves and ceases to ray outward when they contract : the fire has not perished ; it is a mere matter of it being rayed out or not.\n\nBut has the light gone inward ?\n\nNo : it is simply no longer on the outside because the fire (of which it is the activity) is no longer outward going but has withdrawn towards the centre.\n\nBut surely the light has gone inward too ?\n\nNo : only the fire, and when that goes inward the surface consists only of the non-luminous body ; the fire can no longer act towards the outer. Q The light, then, raying from bodies is an outgoing activity of a luminous body ; the light within luminous bodies — understand, such as are primarily luminous — is the essential being embraced under the idea of that body. When such a body is brought into association with Matter, its activity produces colour : when there is no such association it does not give colour — it gives merely an incipient on which colour might be formed — for it belongs to another being (primal light) with which it retains its link, unable to desert from it, or from its (inner) activity.\n\nAnd light is incorporeal even when it is the light of a body ; there is therefore no question, strictly speaking, of its withdrawal or of its being present — these terms do not apply to its modes — and its essential existence is to be an activity. As an example : the image upon a mirror may be described as an activity exercised by the reflected object upon the potential recipient : there is no outgoing from the object (or ingoing into the reflecting body) ; it is simply that, as long as the object stands there, the image also is visible, in the form of colour shaped to a certain pattern, and when the object is not there, the reflecting surface no longer holds what it held when the conditions were favourable.\n\nSo it is with the soul considered as the activity of another and prior soul : as long as that prior retains its place, its next, which is its activity, abides.\n\nBut what of a soul which is not an activity but the derivative of an activity — as we maintained the life-principle domiciled in the body to be — is its presence similar to that of the light caught and held in material things ?\n\nNo ; for in those things the colour is due to an actual intermixture of the active element (the light being alloyed with Matter) ; whereas the life-principle of the body is something that holds from another soul closely present to it.\n\nBut when the body perishes — by the fact that nothing without part in soul can continue in being — when the body is perishing, no longer supported by that primal life-giving soul, or by the presence of any secondary phase of it, it is clear that the life-principle can no longer remain ; but does this mean that the life perishes ?\n\nNo : not even it ; for it, too, is an image of that first out-shining ; it is merely no longer where it was."
+    }
+   ]
+  },
+  {
+   "id": "IV.5.8",
+   "treatise": "IV.5",
+   "title": "Could we see a body outside the heaven?",
+   "summary": "Could sight from here see a body outside the heaven, with nothing in the way? If seeing comes by sympathy within one living being, it could not, unless that body were a part of it, even if it were coloured like the things here. One might call it absurd that sight should not see a colour present to it; but it seems absurd because here we act and are acted on within one and as of one. If perception is by likeness, it is the soul of this living being that makes things like, and what is there would be nothing to it. The hypothesis says soul and not soul, akin and not akin, all and not all, and must be let go.",
+   "greek_unit": "4.5.8",
+   "greek_part": 31,
+   "older": [
+    {
+     "n": 8,
+     "label": "IV.5, chapter 8",
+     "page": 115,
+     "year": 1924,
+     "text": "Imagine that beyond the heavenly system there existed some solid mass, and that from this sphere there was directed to it a vision utterly unimpeded and unrestricted : it is a question whether that solid form could be perceived by what has no sympathetic relation with it, since we have held that sympathetic relation comes about in virtue of the nature inherent in some one living being.\n\nObviously, if the sympathetic relationship depends upon the fact that percipients and things perceived are all members of one living being, no acts of perception could take place : that far body could be known only if it were a member of this living universe of ours — which condition being met, it certainly would be. But what if, without being thus in membership, it were a corporeal entity, exhibiting light and colour and the qualities by which we perceive things, and belonging to the same ideal category as the organ of vision ?\n\nIf our supposition (of perception by sympathy) is true, there would still be no perception — though we may be told that the hypothesis is clearly untenable since there is absurdity in supposing that sight can fail in grasping an illuminated object lying before it, and that the other senses in the presence of their particular objects remain unresponsive.\n\n(The following passage, to nearly the end, is offered tentatively as a possible help to the interpretation of an obscure and corrupt place.)\n\n[But why does such a failing appear impossible to us ? We answer, because here and now in all the act and experience of our senses, we are within a unity, and members of it. What the conditions would be otherwise, remains to be considered : if living sympathy suffices the theory is established ; if not, there are other considerations to support it.\n\nThat every living being is self-sensitive allows of no doubt ; if the universe is a living being, no more need be said ; and what is true of the total must be true of the members, as inbound in that one life.\n\nBut what if we are invited to accept the theory of knowledge by likeness (rejecting knowledge by the self -sensitiveness of a living unity ?)\n\nAwareness must be determined by the nature and character of the living being in which it occurs ; perception, then, means that the likeness demanded by the hypothesis is within this self-identical living being (and not in the object) — for the organ by which the perception takes place is in the likeness of the living being (is merely the agent adequately expressing the nature of the living being) : thus perception is reduced to a mental awareness by means of organs akin to the object. '\n\nIf, then, something that is a living whole perceives not its own content but things like to its content, it must perceive them under the conditions of that living whole ; this means that, in so far as it has perception, the objects appear not as its content but as related to its content.\n\nAnd the objects are thus perceived as related because the mind itself has related them in order to make them amenable to its handling : in other words the causative soul or mind in that other sphere is utterly alien, and the things there, supposed to be related to the content of this living whole, can be nothing to our minds.]\n\nThis absurdity shows that the hypothesis contains a contradiction which naturally leads to untenable results. In fact, under one and the same heading, it presents mind and no mind, it makes things kin and no kin, it confuses similar and dissimilar : containing these irreconcilable elements, it amounts to no hypothesis at all. At one and the same moment it postulates and denies a soul, it tells of an All that is partial, of a something which is at once distinct and not distinct, of a nothingness which is no nothingness, of a complete thing that is incomplete : the hypothesis therefore must be dismissed ; no deduction is possible where a thesis cancels its own propositions."
+    }
+   ]
+  },
+  {
+   "id": "IV.6.1",
+   "treatise": "IV.6",
+   "title": "Perceptions are not imprints",
+   "summary": "Perceptions are not stamps on the soul, and so memories are not the holding of stamps that stay. In sight, the clearest of the senses, we look to where the thing lies, outside the soul; with a stamp inside we would not need to look out, could not see the thing at its distance or in its size, as with the sky, and would see only shadows of things. As one cannot see a thing set on the pupil, so the soul cannot see a stamp on itself: seeing needs two, the seer and the seen.",
+   "greek_unit": "4.6.1",
+   "greek_part": 32,
+   "older": [
+    {
+     "n": 1,
+     "label": "IV.6, chapter 1",
+     "page": 118,
+     "year": 1924,
+     "text": "Perceptions are no imprints, we have said, are not to be thought of as seal-impressions on soul or mind : accepting this statement, there is one theory of memory which must be definitely rejected.\n\nMemory is not to be explained as the retaining of information in virtue of the lingering of an impression which in fact was never made ; the two things stand or fall together ; either an impression is made upon the mind and lingers when there is remembrance, or, denying the impression, we cannot hold that memory is its lingering. Since we reject equally the impression and the retention we are obliged to seek for another explanation of perception and memory, one excluding the notions that the sensible object striking upon soul or mind makes a mark upon it, and that the retention of this mark is memory.\n\nIf we study what occurs in the case of the most vivid form of per ception, we can transfer our results to the other cases, and so solve our problem.\n\nIn any perception we attain by sight, the object is grasped there where it lies in the direct line of vision ; it is there that we attack it ; there, then, the perception is formed ; the mind looks outward ; this is ample proof that it has taken and takes no inner imprint, and does not see in virtue of some mark made upon it like that of the ring on the wax ; it need not look outward at all if, even as it looked, it already held the image of the object, seeing by virtue of an impression made upon itself. It includes with the object the interval, for it tells at what distance the vision takes place : how could it see as outlying an impres sion within itself, separated by no interval from itself ? Then, the point of magnitude : how could the mind, on this hypothesis, define the external size of the object or perceive that it has any — the magnitude of the sky, for instance, whose stamped imprint would be too vast for it to contain ? And, most convincing of all, if to see is to accept imprints of the objects of our vision, we can never see these objects themselves ; we see only vestiges they leave within us, shadows : the things them selves would be very different from our vision of them. And, for a con clusive consideration, we cannot see if the living object is in contact with the eye ; we must look from a certain distance ; this must be more applicable to the mind ; supposing the mind to be stamped with an imprint of the object, it could not grasp as an object of vision what is stamped upon itself. For vision demands a duality, of seen and seeing : the seeing agent must be distinct and act upon an impression outside it, not upon one occupying the same point with it : sight can deal only with an object not inset but outlying."
+    }
+   ]
+  },
+  {
+   "id": "IV.6.2",
+   "treatise": "IV.6",
+   "title": "A power that acts, not a wax that takes",
+   "summary": "Perceiving is a power's work: it speaks of what it does not have, and is not affected but works on what it is set over; so the soul tells the seen from the heard. In hearing the imprint is in the air, a stroke shaped like letters written by the speaker, and the soul reads them. In taste and smell the affections are one thing, the perceptions and judgements of them another. Knowledge of the intelligibles is freer still of affection and imprint: it comes forward from within, and the soul, in its activity, is each of them.",
+   "greek_unit": "4.6.2",
+   "greek_part": 32,
+   "older": [
+    {
+     "n": 2,
+     "label": "IV.6, chapter 2",
+     "page": 118,
+     "year": 1924,
+     "text": "But if perception does not go by impression, what is the process ?\n\nThe mind affirms something not contained within it : this is pre cisely the characteristic of a power — not to accept impression but, within its allotted sphere, to act.\n\nBesides, the very condition of the mind being able to exercise discrimination upon what it is to see and hear is not, of course, that these objects be equally impressions made upon it ; on the contrary, there must be no impressions, nothing to which the mind is passive ; there can be only acts of that in which the objects become known.\n\nOur tendency is to think of any of the faculties as unable to know its appropriate object by its own uncompelled act ; to us it seems to submit to its environment rather than simply to perceive it, though in reality it is the master, not the victim.\n\nAs with sight, so with hearing. It is the air which takes the impres sion, a kind of articulated stroke which may be compared to letters traced upon it by the object causing the sound ; but it belongs to the faculty, and the soul-essence, to read the imprints thus appearing before it, as they reach the point at which they become matter of its knowledge.\n\nIn taste and smell also we distinguish between the impressions received and the sensations and judgements ; these last are mental acts, and belong to an order apart from the experiences upon which they are exercised.\n\nThe knowing of the things belonging to the Intellectual is not in any such degree attended by impact or impression : they come forward, on the contrary, as from within, unlike the sense-objects known as from without : they have more emphatically the character of acts ; they are acts in the stricter sense, for their origin is in the soul, and every concept of this Intellectual order is the soul about its Act.\n\nWhether, in this self-vision, the soul is a duality and views itself as from the outside — while seeing the Intellectual-Principle as a unity, and itself with the Intellectual-Principle as a unity — this question is investigated elsewhere."
+    }
+   ]
+  },
+  {
+   "id": "IV.6.3",
+   "treatise": "IV.6",
+   "title": "Memory is a power made strong",
+   "summary": "No wonder the soul grasps what it has not taken in: it is the last reason-principle of the intelligibles and the first of the things perceived, raised by the one and charmed down by the other. It knows the intelligibles by being them more dimly and waking to them; it makes the things perceived shine out and keeps them before its eyes, longer the more strongly it holds to them. Children remember better because they look at few things; practice strengthens the soul as exercise strengthens hands and feet; the old are weaker in memory as in the senses. Imprints kept would mean weakness, the most yielding remembering best. The soul has no size, and memory is a power; those who think of letters on tablets, whether they make the soul a body or not, miss the absurdities.",
+   "greek_unit": "4.6.3",
+   "greek_part": 32,
+   "older": [
+    {
+     "n": 3,
+     "label": "IV.6, chapter 3",
+     "page": 119,
+     "year": 1924,
+     "text": "With this prologue we come to our discussion of Memory.\n\nThat the soul, or mind, having taken no imprint, yet achieves perception of what it in no way contains need not surprise us ; or rather, surprising though it is, we cannot refuse to believe in this remarkable power.\n\nThe Soul is the Reason-Principle of the universe, ultimate among the Intellectual Beings — its own essential Nature is one of the Beings of the Intellectual Realm — but it is the primal Reason-Principle of the entire realm of sense.\n\nThus it has dealings with both orders — benefited and quickened by the one, but by the other beguiled, falling before resemblances, and so led downwards as under spell. Poised midway, it is aware of both spheres.\n\nOf the Intellectual it is said to have intuition by memory upon approach, for it knows them by a certain natural identity with them ; its knowledge is not attained by besetting them, so to speak, but by in a definite degree possessing them ; they are its natural vision ; they are itself in a more radiant mode, and it rises from its duller pitch to that greater brilliance in a sort of awakening, a progress from its latency to its act.\n\nTo the sense-order it stands in a similar nearness and to such things it gives a radiance out of its own store and, as it were, elaborates them to visibility : the power is always ripe and, so to say, in travail towards them, so that, whenever it puts out its strength in the direction of what has once been present in it, it sees that object as present still ; and the more intent its effort the more durable is the presence. This is why, it is agreed, children have long memory ; the things presented to them are not constantly withdrawn but remain in sight ; in their case the attention is limited but not scattered : those whose faculty and mental activity are busied upon a multitude of subjects pass quickly over all, lingering on none.\n\nNow, if memory were a matter of seal-impressions retained, the multiplicity of objects would have no weakening effect on the memory. Further, on the same hypothesis, we would have no need of thinking back to revive remembrance ; nor would we be subject to forgetting and recalling ; all would lie engraved within.\n\nThe very fact that we train ourselves to remember shows that what we get by the process is a strengthening of the mind : just so, exercises for feet and hands enable us to do easily acts which are in no sense con tained or laid up in those members, but to which they may be fitted by persevering effort.\n\nHow else can it be explained that we forget a thing heard once or twice but remember what is often repeated, and that we recall a long time afterwards what at first hearing we failed to hold ?\n\nIt is no answer to say that the parts present themselves sooner than the entire imprint — why should they too be forgotten ? — (there is no question of parts, for) the last hearing, or our effort to remember, brings the thing back to us in a flash.\n\nAll these considerations testify to an evocation of that faculty of the soul, or mind, in which remembrance is vested : the mind is strengthened, either generally or to this particular purpose.\n\nObserve these facts : memory follows upon attention ; those who have memorised much, by dint of their training in the use of leading indications (suggestive words and the like), reach the point of being easily able to retain without such aid : must we not conclude that the basis of memory is the soul-power brought to full strength ?\n\nThe lingering imprints of the other explanation would tell of weak ness rather than power ; for to take imprint easily is to be yielding. An impression is something received passively; the strongest memory, then, would go with the least active nature. But what happens is the very reverse : in no pursuit do technical exercises tend to make a man less the master of his acts and states. It is as with sense-perception ; the advantage is not to the weak, the weak eye for example, but to that which has the fullest power towards its exercise. In the old, it is sig nificant, the senses are dulled and so is the memory.\n\nSensation and memory, then, are not passivity but power.\n\nAnd, once it is admitted that sensations are not impressions, the memory of a sensation cannot consist in the retention of an impression that was never made.\n\nYes : but if it is an active power of the mind, a fitness towards its particular purpose, why does it not come at once — and not with delay — to the recollection of its unchanging objects ?\n\nSimply because the power needs to be poised and prepared : in this it is only like all the others, which have to be readied for the task to which their power reaches, some operating very swiftly, others only after a certain self -concent ration.\n\nQuick memory does not in general go with quick wit : the two do not fall under the same mental faculty ; runner and boxer are not often united in one person ; the dominant idea differs from man to man.\n\nYet there could be nothing to prevent men of superior faculty from reading impressions on the mind ; why should one thus gifted be in capable of what would be no more than a passive taking and holding ?\n\nThat memory is a power of the Soul (not a capacity for taking imprint) is established at a stroke by the consideration that the soul is without magnitude.\n\nAnd — one general reflection — it is not extraordinary that everything concerning soul should proceed in quite other ways than appears to people who either have never enquired, or have hastily adopted delusive analogies from the phenomena of sense, and persist in thinking of per ception and remembrance in terms of characters inscribed on plates or tablets ; the impossibilities that beset this theory escape those that make the soul incorporeal equally with those to whom it is corporeal."
     }
    ]
   }
@@ -14770,6 +14982,696 @@
    "greek": "αἱ δὲ κολάσεις ὥσπερ νενοσηκότων μερῶν, τῶν μὲν ἐπιστύψεις φαρμάκοις, τῶν δὲ ἐξαιρέσεις ἢ καὶ ἀλλοιώσεις, ἵνα ὑγιαίνῃ τὸ πᾶν ἑκάστου διατιθεμένου οὗ δεῖ: τὸ δ’ ὑγιεινὸν τοῦ παντὸς τοῦ μὲν ἀλλοιουμένου, τοῦ δὲ ἐξαιρουμένου ἐντεῦθεν, ὡς ἐνθαδὶ νοσοῦντος, οὗ δὲ μὴ νοσήσει τιθεμένου.",
    "notes": [
     "Punishment as the soul's medicine is Plato's (Gorgias 478d-480b; Laws X 904a-905c), and so is the part cut away for the health of the whole (Laws V 735d-736a)."
+   ]
+  },
+  {
+   "seg": "IV.5.1.p1",
+   "chapter": "IV.5.1",
+   "modern": "Since we put off the question whether one can see when there is nothing between, such as air or another of the bodies called transparent, we must look into it now. That seeing, and perceiving in general, must come about through some body, has been said: for without a body the soul would be wholly in the intelligible. And since perceiving is the grasping not of intelligibles but of sensibles only, the soul must somehow be brought into contact with the sensibles, through things made like them, and make some sharing with them, of knowledge or of affection. That is why the knowledge comes through bodily organs: through these, which are as it were grown together with it or continuous with it, it goes as it were into one with the sensibles themselves, and so a kind of like affection with them comes about.",
+   "greek": "Ἐπεὶ δὲ ὑπερεθέμεθα σκέψασθαι, εἰ μηδενὸς ὄντος μεταξὺ ἔστιν ὁρᾶν, οἷον ἀέρος ἢ ἄλλου του λεγομένου διαφανοῦς σώματος, νῦν σκεπτέον. ὅτι μὲν οὖν διὰ σώματός τινος δεῖ τὸ ὁρᾶν καὶ ὅλως τὸ αἰσθάνεσθαι γίγνεσθαι, εἴρηται: ἄνευ μὲν γὰρ σώματος πάντη ἐν τῷ νοητῷ τὴν ψυχὴν εἶναι. τοῦ δὲ αἰσθάνεσθαι ὄντος ἀντιλήψεως οὐ νοητῶν, ἀλλὰ αἰσθητῶν μόνον, δεῖ πως τὴν ψυχὴν συναφῆ γενομένην τοῖς αἰσθητοῖς διὰ τῶν προσομοίων κοινωνίαν τινὰ πρὸς αὐτὰ γνώσεως ἢ παθήματος ποιεῖσθαι. διὸ καὶ δἰ ὀργάνων σωματικῶν ἡ γνῶσις: διὰ γὰρ τούτων οἷον συμφυῶν ἢ συνεχῶν ὄντων οἷον εἰς ἕν πως πρὸς αὐτὰ τὰ αἰσθητὰ ἰέναι, ὁμοπαθείας τινὸς οὕτω πρὸς αὐτὰ γινομένης.",
+   "flags": [
+    {
+     "taylor": "by means of whatever may bridge the gap",
+     "in": "MacKenna",
+     "why": "The Greek says \"through things made like them\" (διὰ τῶν προσομοίων): the organs are made like the sensibles, and it is this likeness, not a bridge, that joins the soul to them; the likeness comes back in IV.5.8."
+    },
+    {
+     "taylor": "a certain degree of identity (which is the basis of knowledge)",
+     "in": "MacKenna",
+     "why": "The Greek says \"a kind of like affection\" (ὁμοπαθείας τινός): the organ is affected as the thing is, which is likeness of affection, not identity; the bracket is MacKenna's."
+    }
+   ],
+   "notes": [
+    "\"Has been said\": in IV.4.23, where the soul, to perceive sensibles, must use a body as its instrument, being likened to them through it. \"The bodies called transparent\" (διαφανῆ) are Aristotle's: for him sight needs a medium, the transparent made actual by light, and in a void nothing would be seen, as Democritus wrongly thought (On the soul II.7, 418b4-419a21)."
+   ]
+  },
+  {
+   "seg": "IV.5.1.p2",
+   "chapter": "IV.5.1",
+   "modern": "If, then, there must be some contact with the things known, why would one inquire about the things known by some kind of touch? But about sight (and whether about hearing too, later): about seeing, then, whether there must be some body between the sight and the colour. Or the body between might perhaps touch on it by accident, but contributes nothing to seeing for those who see. But if dense bodies, like earthy ones, hinder seeing, and the thinner what lies between, the better we see, one would count what lies between as a hindrance to seeing; or, if not a hindrance, one would not call it a help either.",
+   "greek": "εἰ οὖν δεῖ συναφήν τινα πρὸς τὰ γινωσκόμενα γίνεσθαι, περὶ μὲν τῶν ὅσα ἁφῇ τινι γινώσκεται, τί ἄν τις ζητοῖ; περὶ δὲ τῆς ὁράσεως — εἰ δὲ καὶ περὶ τῆς ἀκοῆς, ὕστερον: ἀλλὰ περὶ τοῦ ὁρᾶν, εἰ δεῖ τι μεταξὺ εἶναι σῶμα τῆς ὄψεως καὶ τοῦ χρώματος. ἢ νύττοι κατὰ συμβεβηκὸς ἂν τὸ μεταξὺ σῶμα, συμβάλλεται δὲ οὐδὲν πρὸς ὅρασιν τοῖς ὁρῶσιν. ἀλλ’ εἰ πυκνὰ μὲν ὄντα τὰ σώματα, ὥσπερ τὰ γεηρά, κωλύει ὁρᾶν, ὅσῳ δὲ λεπτότερα ἀεὶ τὰ μεταξύ, μᾶλλον ὁρῶμεν, κωλυτικὰ ἄν τις τοῦ ὁρᾶν τὰ μεταξὺ θείη, ἤ, εἰ οὐ κωλυτικὰ οὐ συνεργὰ ταῦτα ἄν τις εἴποι.",
+   "flags": [
+    {
+     "taylor": "such an intervening material may be a favouring circumstance",
+     "in": "MacKenna",
+     "why": "The Greek νύττοι is \"might prod\" or \"touch on\" (the text is uncertain), but nothing in it says the body between favours seeing: the same sentence says it contributes nothing."
+    },
+    {
+     "taylor": "such as clay",
+     "in": "MacKenna",
+     "why": "The Greek says \"earthy ones\" (τὰ γεηρά), bodies of earth, the densest of the elements."
+    }
+   ]
+  },
+  {
+   "seg": "IV.5.1.p3",
+   "chapter": "IV.5.1",
+   "modern": "But suppose the medium receives the affection first and is as it were stamped. A sign of it, they say, is that if someone is in front of us, looking towards the colour, he sees it too: if no affection came to be in what is between, it would not reach us either. Or the medium need not be affected, if what is made to be affected is affected; or, if it is affected, it is affected with something else: for the rod between the torpedo fish and the hand is not affected with what the hand is affected with. And yet there too, if the rod and the line were not between, the hand would not be affected. Or this too might be disputed: for if the fish comes inside a net, the fisherman, they say, is numbed.",
+   "greek": "ἀλλ’ εἰ τὸ πάθος πρότερον τὸ μεταξὺ παραδέχεται καὶ οἷον τυποῦται: σημεῖον δὲ τό, εἰ καὶ ἔμπροσθέν τις ἡμῶν ἔσται πρὸς τὸ χρῶμα βλέπων, κἀκεῖνον ὁρᾶν: πάθους ἐν τῷ μεταξὺ μὴ γενομένου οὐδ’ ἂν εἰς ἡμᾶς τοῦτο ἀφικνοῖτο. ἢ οὐκ ἀνάγκη τὸ μεταξὺ πάσχειν, εἰ τὸ πεφυκὸς πάσχειν πάσχει, ἤ, εἰ πάσχοι, ἄλλο πάσχει: ἐπεὶ οὐδ’ ὁ κάλαμος ὁ μεταξὺ τῆς νάρκης καὶ τῆς χειρὸς πάσχει, ὃ πάσχει ἡ χείρ. καὶ μὴν κἀκεῖ, εἰ μὴ μεταξὺ ὁ κάλαμος εἴη καὶ ἡ θρίξ, οὐκ ἂν πάθοι ἡ χείρ. ἢ τοῦτο μὲν καὶ αὐτὸ ἀμφισβητοῖτο ἄν: καὶ γάρ, εἰ ἐντὸς δικτύου γένοιτο, ὁ θηρευτὴς πάσχειν λέγεται τὸ ναρκᾶν.",
+   "flags": [
+    {
+     "taylor": "anyone facing to the object from the side opposite to ourselves sees it equally",
+     "in": "MacKenna",
+     "why": "The Greek says \"if someone is in front of us (ἔμπροσθέν τις ἡμῶν), looking towards the colour\": a man standing between us and the colour, in the very space the affection must cross, sees it too; not one on the far side. The bracket before it is MacKenna's."
+    }
+   ],
+   "notes": [
+    "The torpedo (νάρκη), the numbing ray, is Meno's image for Socrates (Meno 80a-c); Aristotle tells how it numbs the fish it hunts (History of Animals IX.37, 620b19-24). The line (ἡ θρίξ) is the horsehair line of the rod."
+   ]
+  },
+  {
+   "seg": "IV.5.1.p4",
+   "chapter": "IV.5.1",
+   "modern": "But the argument is in danger of going to the so-called sympathies. If this thing is made to be affected sympathetically by that one because it has some likeness to it, what is between, being unlike, would not be affected; or it would not be affected in the same way. And if so, the thing made to be affected would be affected much more if nothing is between, even if what is between is such as to be affected somewhat itself.",
+   "greek": "ἀλλὰ γὰρ κινδυνεύει ὁ λόγος ἐπὶ τὰς λεγομένας συμπαθείας ἰέναι. εἰ δὲ τοδὶ ὑπὸ τουδὶ πέφυκε πάσχειν συμπαθῶς τῷ τινα ὁμοιότητα ἔχειν πρὸς αὐτό, οὐκ ἂν τὸ μεταξὺ ἀνόμοιον ὂν πάθοι, ἢ τὸ αὐτὸ οὐκ ἂν πάθοι. εἰ δὲ τοῦτο, πολλῷ μᾶλλον μηδενὸς ὄντος μεταξὺ πάθοι ἂν τὸ πεφυκὸς πάσχειν, κἂν τὸ μεταξὺ τοιοῦτον ᾖ, οἷον καὶ αὐτὸ παθεῖν τι.",
+   "notes": [
+    "Sympathy (συμπάθεια), the feeling-together of the parts of the All as of one living being, was the subject of IV.4.32-45; that \"like is affected by like\" goes back to the early philosophers (Aristotle, On generation and corruption I.7, 323b1-15)."
+   ]
+  },
+  {
+   "seg": "IV.5.2.p1",
+   "chapter": "IV.5.2",
+   "modern": "If, then, seeing is such that the light of the eye joins up with the light as far as the sensible thing, this light must be between, and this hypothesis requires this between. But if the coloured body lying there works a change, what prevents the change from going straight to the eye, with nothing between? Even if, now, when there is something there, what lies in front of the eyes is of necessity changed somehow. And those who pour the sight out would not be bound to say that something must in any case be between, unless they feared the ray might fall; but it is a ray of light, and light goes straight. Those who make resistance the cause would in any case need what is between. The champions of the images, who say they pass through the void, look for room so that they may not be hindered; so, if having nothing between hinders them still less, they will not dispute the hypothesis.",
+   "greek": "εἰ μὲν οὖν τοιοῦτόν ἐστι τὸ ὁρᾶν, οἷον τὸ τῆς ὄψεως φῶς συνάπτειν πρὸς τὸ φῶς μέχρι τοῦ αἰσθητοῦ, δεῖ μεταξὺ τοῦτο εἶναι τὸ φῶς, καὶ ἡ ὑπόθεσις αὕτη τὸ μεταξὺ τοῦτο ζητεῖ: εἰ δὲ τροπὴν ἐργάζεται τὸ ὑποκείμενον σῶμα κεχρωσμένον, τί κωλύει τὴν τροπὴν εὐθὺς πρὸς τὸ ὄμμα ἰέναι μηδενὸς ὄντος μεταξύ; εἰ καὶ νῦν ἐξ ἀνάγκης ὅτε ἐστὶ τρέπεταί πως τὸ τῶν ὀμμάτων πρόσθεν κείμενον. καὶ οἱ ἐκχέοντες δὲ τὰς ὄψεις οὐκ ἂν ἔχοιεν ἀκολουθοῦν τὸ πάντως μεταξύ τι εἶναι, εἰ μὴ φοβοῖντο, μὴ πέσοι ἡ ἀκτίς: ἀλλὰ φωτός ἐστι καὶ τὸ φῶς εὐθυποροῦν. οἱ δὲ τὴν ἔνστασιν αἰτιώμενοι δέοιντο ἂν πάντως τοῦ μεταξύ. οἱ δὲ τῶν εἰδώλων προστάται διὰ τοῦ κενοῦ λέγοντες διιέναι χώραν ζητοῦσιν, ἵνα μὴ κωλυθῇ: ὥστε, εἰ ἔτι μᾶλλον οὐ κωλύσει τὸ μηδὲν εἶναι μεταξύ, οὐκ ἀμφισβητοῦσι τῇ ὑποθέσει.",
+   "flags": [
+    {
+     "taylor": "this all the more, since as things are",
+     "in": "MacKenna",
+     "why": "The Greek says \"even if\" (εἰ καὶ): granted that the air in front of the eyes is in fact changed now, when there is air there, that does not make it needed. The bracket that follows is MacKenna's."
+    }
+   ],
+   "notes": [
+    "Three theories of sight: the ray poured out from the eye (Plato's Timaeus 45b-46a, and the mathematicians' optics); the Stoics', for whom the air, stretched by the breath from the eye, is pressed on like a staff (Diogenes Laertius VII.157); and the atomists', for whom thin images (εἴδωλα) flow from things through the void into the eye (Epicurus, Letter to Herodotus 46-50)."
+   ]
+  },
+  {
+   "seg": "IV.5.2.p2",
+   "chapter": "IV.5.2",
+   "modern": "Those who say seeing comes by sympathy will say that we see less if something is between, insofar as it hinders, impedes and dims the sympathy; or rather, it follows for them to say that even what is akin always dims it, insofar as it too is affected. For if a body continuous in depth were burned by fire falling on it, still its depth would be less affected than the front, on which the fire falls. But if they were sympathetic parts of one living being, would it be affected less because something is between? Or it would be affected less, but the affection would be in measure, as much as nature wanted, what is between keeping off the excess; unless perhaps what is given were such that what is between is not affected at all.",
+   "greek": "ὅσοι δὲ συμπαθείᾳ τὸ ὁρᾶν λέγουσιν, ἧττον μὲν ὁρᾶν φήσουσιν, εἴ τι μεταξὺ εἴη, ᾗ κωλύει καὶ ἐμποδίζει καὶ ἀμυδρὰν ποιεῖ τὴν συμπάθειαν: μᾶλλον δὲ ἀκόλουθον λέγειν ποιεῖν πάντως ἀμυδρὰν καὶ τὸ συγγενές, ᾗ καὶ αὐτὸ πάσχον. καὶ γὰρ εἰ σῶμα συνεχὲς ἐν βάθει ἐκ προσβολῆς πυρὸς καίοιτο, ἀλλὰ τὸ ἐν βάθει αὐτοῦ τῇ προσβολῇ τοῦ πρόσθεν ἧττον ἂν πάσχοι. ἀλλ’ εἰ ζῴου ἑνὸς μόρια εἴη συμπαθῆ, ἆῤ ἂν ἧττον πάθοι, ὅτι μεταξύ τί ἐστιν; ἢ ἧττον μὲν ἂν πάθοι, σύμμετρον δ’ ἂν εἴη τὸ πάθος, ὅσον ἐβούλετο ἡ φύσις, κωλύοντος τὸ ἄγαν τοῦ μεταξύ: εἰ μή που τοιοῦτον εἴη τὸ διδόμενον, ὥστε ὅλως τὸ μεταξὺ μὴ πάσχειν.",
+   "flags": [
+    {
+     "taylor": "there will scarcely be less sensation because of the intervening substance",
+     "in": "MacKenna",
+     "why": "The Greek asks whether it would be affected less, and answers that it would (ἧττον μὲν ἂν πάθοι), but in measure, \"as much as nature wanted\" (ὅσον ἐβούλετο ἡ φύσις), the between keeping off the excess."
+    },
+    {
+     "taylor": "where the element introduced is of a kind to overleap the bridge",
+     "in": "MacKenna",
+     "why": "The Greek says \"unless what is given were such that what is between is not affected at all\" (ὥστε ὅλως τὸ μεταξὺ μὴ πάσχειν); nothing overleaps."
+    }
+   ]
+  },
+  {
+   "seg": "IV.5.2.p3",
+   "chapter": "IV.5.2",
+   "modern": "But if we are affected because the All is sympathetic by being one living being, since we are in one and of one, must there not be continuity when there is perception of what is far? Or continuity, and the between, are there because the living being must be continuous, but the affection belongs to the continuous by accident; or else we shall say that everything is affected by everything. But if this thing is affected by that, and another by another, not the same, one would not need the between everywhere.",
+   "greek": "ἀλλ’ εἰ συμπαθὲς τῷ ἓν ζῷον εἶναι καὶ ἡμεῖς πάσχομεν, ὅτι ἐν ἑνὶ καὶ ἑνός, πῶς οὐ δεῖ, ὅταν τοῦ πόρρω αἴσθησις ᾖ, συνέχειαν εἶναι; ἢ τὴν συνέχειαν καὶ τὸ μεταξὺ διὰ τὸ τὸ ζῷον δεῖν συνεχὲς εἶναι, τὸ δὲ πάθος κατὰ συμβεβηκὸς συνεχοῦς, ἢ πᾶν ὑπὸ παντὸς φήσομεν πάσχειν. εἰ δὲ τόδε μὲν ὑπὸ τοῦδε, ἄλλο δὲ ὑπ’ ἄλλου οὐ τὸ αὐτό, οὐκ ἂν δέοιτό τις τοῦ μεταξὺ πανταχοῦ.",
+   "notes": [
+    "\"In one and of one\": we are parts within the one living being, the All, and belong to it, as in IV.4.32 and IV.4.45. That the All is one living being with a soul is the Timaeus' (30b-d)."
+   ]
+  },
+  {
+   "seg": "IV.5.2.p4",
+   "chapter": "IV.5.2",
+   "modern": "If, then, someone were to say that sight needs it, he must say why: for it does not appear that what goes through air always affects the air; it only parts it. If a stone falls from above, what else happens than that the air does not stand its ground? For it is not reasonable either that it falls by the pushing round, since its movement is natural; for then fire too would go up by the pushing round. But that is absurd: fire outruns the pushing round of the air by its own movement, which is swift. And if someone says the pushing round is quickened by the swiftness, that would happen by accident, not to carry it up: for the rush upward comes from the logs too, though they do not push. And we too, when we move, cut the air, and the pushing round does not push us; the air only follows and fills what is emptied by us.",
+   "greek": "εἰ οὖν ἐπὶ ὄψεως λέγοι τις δεῖσθαι, διὰ τί φατέον: ἐπεὶ οὐδὲ πανταχοῦ φαίνεται τὸ δἰ ἀέρος ἰὸν πάσχειν ποιοῦν τὸν ἀέρα, ἀλλ’ ἢ μόνον διαιρεῖν: οἷον λίθος εἰ ἄνωθεν πίπτοι, τί ἄλλο ἢ οὐχ ὑπομένει ὁ ἀήρ; ἐπεὶ οὐδὲ τῇ ἀντιπεριστάσει εὔλογον κατὰ φύσιν οὔσης τῆς φορᾶς: ἐπεὶ οὕτω καὶ τὸ πῦρ ἄνω τῇ ἀντιπεριστάσει: ἀλλ’ ἄτοπον: φθάνει γὰρ τὸ πῦρ τῇ αὑτοῦ κινήσει ταχείᾳ οὔσῃ τὴν ἀντιπερίστασιν τοῦ ἀέρος. εἰ δ’ ὑπὸ τοῦ τάχους ταχύνεσθαί τις τὴν ἀντιπερίστασίν φησιν, ἀλλὰ κατὰ συμβεβηκὸς ἂν γίνοιτο, οὐκ εἰς τὸ ἄνωθεν: ἐπεὶ καὶ ἀπὸ τῶν ξύλων ἡ ὁρμὴ πρὸς τὸ ἄνω οὐκ ὠθούντων: καὶ ἡμεῖς δὲ κινούμενοι τέμνομεν τὸν ἀέρα, καὶ οὐχ ἡ ἀντιπερίστασις ὠθεῖ, πληροῖ δὲ μόνον ἐφεπόμενος τὸ παῤ ἡμῶν κενούμενον.",
+   "flags": [
+    {
+     "taylor": "in trees the upthrust from the root depends on no such external propulsion",
+     "in": "MacKenna",
+     "why": "The Greek ξύλα are the logs of a fire: the flame rushes up from the wood, though the wood does not push it (οὐκ ὠθούντων); nothing of trees or roots."
+    }
+   ],
+   "notes": [
+    "\"The pushing round\" (ἀντιπερίστασις) is the replacement by which air, pushed aside, closes in behind a moving body and drives it on: Plato's Timaeus 79e-80c, and Aristotle, who uses it for thrown things (Physics IV.8, 215a14-17; VIII.10, 266b27-267a20). Plotinus denies that it moves natural motions, which go of themselves."
+   ]
+  },
+  {
+   "seg": "IV.5.2.p5",
+   "chapter": "IV.5.2",
+   "modern": "If, then, the air stands apart for such bodies without being affected, what prevents it from letting the forms that come to sight pass even without standing apart? And if the forms do not even come by as in a stream, what need is there for the air to be affected, and for the affection to come to us through it by its being affected first? For if our perceiving came from the air being affected first, we would not see the seen thing by looking at it, but would get the perception from what lies next to us, as with being warmed. There it is not the fire far off but the air next to us, warmed, that seems to warm us: for this is by touch; but in seeing it is not by touch. That is why the sensible thing, put on the eye, does not make us see; but what is between must be lit, because the air is dark. If it were not dark, perhaps there would have been no need of light at all: for the dark, being a hindrance to seeing, must be mastered by light. And perhaps a thing brought up to the sight is not seen because it brings the air's shadow and its own.",
+   "greek": "εἰ οὖν τοῖς σώμασι διίσταται τοῖς τοιούτοις μηδὲν παθών, τί κωλύει καὶ ἄνευ διαστάσεως συγχωρεῖν παριέναι τοῖς εἰς ὄψιν εἴδεσιν; εἰ δὲ μηδὲ πάρεισιν ὡς ἐν ῥοῇ τὰ εἴδη, τίς πάσχειν ἀνάγκη καὶ δἰ αὐτοῦ τὸ πάθος πρὸς ἡμᾶς τῷ προπαθεῖν ἰέναι; εἰ γὰρ τῷ προπαθεῖν τὸν ἀέρα ἡ αἴσθησις ἡμῖν, οὐκ ἂν πρὸς αὐτὸ βλέποντες τὸ ὁρώμενον εἴδομεν, ἀλλ’ ἐκ τοῦ παρακειμένου ἔσχομεν ἂν τὴν αἴσθησιν, ὥσπερ ἐπὶ τοῦ θερμαίνεσθαι. ἐκεῖ γὰρ οὐ τὸ πόρρωθεν πῦρ, ἀλλ’ ὁ ἀὴρ ὁ παρακείμενος θερμανθεὶς θερμαίνειν δοκεῖ: ἁφῇ γὰρ τοῦτο, ἐν δὲ τοῖς ὁράμασιν οὐχ ἁφῇ: ὅθεν οὐδ’ ἐπιτεθὲν τῷ ὄμματι τὸ αἰσθητὸν ὁρᾶν ποιεῖ, ἀλλὰ φωτισθῆναι δεῖ τὸ μεταξύ, ὅτι σκοτεινὸν ὁ ἀήρ. μὴ ὄντος δὲ τούτου σκοτεινοῦ οὐδ’ ἂν ἐδέησε φωτὸς ἴσως. τὸ γὰρ σκοτεινὸν ἐμπόδιον ὂν τοῦ ὁρᾶν δεῖ κρατηθῆναι τῷ φωτί. τάχα δὲ καὶ προσαχθὲν τῇ ὄψει οὐχ ὁρᾶται, ὅτι σκιὰν φέρει τὴν τοῦ ἀέρος καὶ τὴν αὑτοῦ.",
+   "flags": [
+    {
+     "taylor": "If it were not for this dark substance there would probably be no reason for the existence of light",
+     "in": "MacKenna",
+     "why": "The Greek says that if the air were not dark, perhaps \"there would have been no need of light\" (οὐδ’ ἂν ἐδέησε φωτός) for seeing; not that light would have no reason to exist."
+    }
+   ],
+   "notes": [
+    "That a coloured thing laid on the eye is not seen is Aristotle's (On the soul II.7, 419a12-13); for him this shows the medium is needed, for Plotinus that sight is not by contact."
+   ]
+  },
+  {
+   "seg": "IV.5.3.p1",
+   "chapter": "IV.5.3",
+   "modern": "The greatest evidence that we do not see the form of the sensible thing through the air being affected, as by passing it on, is that at night, in the dark, fire and the stars are seen, and their shapes. No one will say that the forms came to be in the dark and so joined on to the eye; or else there would be no dark, the fire having shone its form into it. For even when the dark is very deep, and the stars too are hidden, and the light from the fires does not shine out into it, the fire is seen from the beacon towers, and from the towers that give signals to ships. And if someone, going against what perception shows, says that in these cases too the fire passes through the air, the sight should have grasped the dim thing in the air, not the fire itself, as bright as it is.",
+   "greek": "μέγιστον δὲ μαρτύριον τοῦ μὴ διὰ τοῦ ἀέρος παθόντος τὸ εἶδος τοῦ αἰσθητοῦ ὁρᾶν ὥσπερ διαδόσει τὸ νύκτωρ ἐν σκότῳ πῦρ τε καὶ τὰ ἄστρα ὁρᾶσθαι καὶ τὰς τούτων μορφάς. οὐ γὰρ δὴ φήσει τις ἐν τῷ σκοτεινῷ τὰ εἴδη γενόμενα οὕτω συνάψασθαι ἢ οὐκ ἂν ἦν σκότος τοῦ πυρὸς ἐλλάμψαντος τὸ αὑτοῦ εἶδος. ἐπεὶ καὶ πάνυ πολλοῦ σκότου ὄντος καὶ κεκρυμμένων καὶ τῶν ἄστρων ʽκαὶ τοῦ πυρὸσ̓ καὶ τοῦ φωτὸς τοῦ παῤ αὐτῶν μὴ ἐλλάμποντος ἐκ τῶν φρυκτωρίων ὁρᾶται τὸ πῦρ, καὶ ἐκ τῶν πύργων τῶν ταῖς ναυσὶ σημαινόντων. εἰ δὲ καὶ διιέναι τις λέγοι καὶ ἐν τούτοις τὸ πῦρ ἐναντιούμενος τῇ αἰσθήσει, ἐχρῆν τὴν ὄψιν τοῦ ἀμυδροῦ τοῦ ἐν τῷ ἀέρι ποιεῖσθαι τὴν ἀντίληψιν, οὐκ ἐκείνου αὐτοῦ, οἷόν ἐστιν ἐναργές.",
+   "notes": [
+    "The Greek of the third sentence has \"and the fire\" in Volkmann's brackets, as a doubtful word. Beacon fires (φρυκτωρίαι) carried news from height to height, as in Aeschylus' Agamemnon (281-316), and lighthouses, such as the Pharos of Alexandria, signalled to ships."
+   ]
+  },
+  {
+   "seg": "IV.5.3.p2",
+   "chapter": "IV.5.3",
+   "modern": "But if what is beyond is seen with darkness between, much more would it be seen with nothing between. But one might pause at this: that with nothing between it will not be possible to see, not because nothing is between, but because the sympathy of the living being with the things, and of its parts with one another by being one, is taken away. For perceiving, in whatever way, seems to be for this reason: that this All is a living being in sympathy with itself. If it were not, how would one thing share in the power of another, and above all of one far off?",
+   "greek": "εἰ δὲ μεταξὺ σκότου ὄντος ὁρᾶται τὸ ἐπέκεινα, πολλῷ μᾶλλον μηδενός. ἀλλ’ ἐκείνῳ ἄν τις ἐπιστήσειε, μὴ τῷ μεταξὺ μηδενὶ οὐκ ἔσται ὁρᾶν, οὐχ ὅτι μηδέν ἐστι μεταξύ, ἀλλ’ ὅτι ἡ συμπάθεια τοῦ ζῴου ἀναιρεῖται πρὸς αὐτὰ καὶ ἡ πρὸς ἄλληλα τῶν μερῶν τῷ ἓν εἶναι. τούτῳ γὰρ ἔοικε καὶ τὸ αἰσθάνεσθαι ὁπωσοῦν εἶναι, ὅτι συμπαθὲς ζῷον τόδε τὸ πᾶν ἑαυτῷ. εἰ γὰρ μὴ τοῦτο, πῶς ἂν ἄλλο ἄλλου τῆς δυνάμεως μετελάμβανε καὶ μάλιστα τῆς πόρρω;",
+   "flags": [
+    {
+     "taylor": "We may hold one thing certain",
+     "in": "MacKenna",
+     "why": "The Greek says \"one might pause at this\" (ἐπιστήσειεν): a doubt raised, not something held certain: perhaps with nothing between we could not see, not because nothing is between, but because sympathy would be taken away."
+    }
+   ]
+  },
+  {
+   "seg": "IV.5.3.p3",
+   "chapter": "IV.5.3",
+   "modern": "This, then, must be looked into: if there were another cosmos, another living being, not contributing to this one, and there were sight on the back of the heaven, would it see that other from a measured distance, or would this have no relation to that? But this later.",
+   "greek": "τοῦτο δὴ ἐπισκεπτέον, εἰ ἄλλος κόσμος ἦν καὶ ἄλλο ζῷον μὴ συντελοῦν πρὸς τοῦτο καὶ ὄψις ἦν ἐπὶ τοῖς νώτοις τοῦ οὐρανοῦ, εἰ ἐθεάσατο ἐκεῖνον ἐκ διαστήματος συμμέτρου, ἢ οὐδὲν ἂν εἴη πρὸς ἐκεῖνον τούτῳ. ἀλλὰ τοῦτο μὲν ὕστερον.",
+   "flags": [
+    {
+     "taylor": "would our sphere see that other as from a mutually present distance",
+     "in": "MacKenna",
+     "why": "The Greek asks whether the sight \"on the back of the heaven\" would see that other \"from a measured distance\" (ἐκ διαστήματος συμμέτρου), one suited to seeing; not \"our sphere\", nor a distance \"mutually present\"."
+    }
+   ],
+   "notes": [
+    "\"The back of the heaven\" (τὰ νῶτα τοῦ οὐρανοῦ) is where the souls stand in the Phaedrus and see what is beyond the heaven (247b-c). The question is taken up in IV.5.8."
+   ]
+  },
+  {
+   "seg": "IV.5.3.p4",
+   "chapter": "IV.5.3",
+   "modern": "For now one might bring in this witness too, that seeing does not come about by the medium being affected. If the air were affected, it would surely have to be affected bodily: that is, as an impression comes to be in wax. Then a part of the seen thing would have to be stamped on each bit of the air, so that the bit touching the sight would be just as large as the bit of the seen thing that the pupil could receive in its own size. But in fact the whole is seen, and all who are in the air, straight opposite and from the sides, see it over a long way, near and behind, if they are not blocked: so that each bit of the air holds the whole of the face that is seen, as it were; and this not by a body's affection, but by greater necessities, of soul, and of one living being in sympathy.",
+   "greek": "νῦν δὲ κἀκεῖνο ἄν τις μαρτύραιτο εἰς τὸ μὴ τῷ πάσχειν τὸ μεταξὺ τούτῳ τὸ ὁρᾶν γίνεσθαι. εἰ γὰρ δὴ πάσχοι τὸ τοῦ ἀέρος, σωματικῶς δήπουθεν ἀνάγκη πάσχειν: τοῦτο δέ ἐστιν οἷον ἐν κηρῷ τύπον γενέσθαι. μέρος δὴ δεῖ τοῦ ὁρατοῦ καθ̓ ἕκαστον μόριον τυποῦσθαι: ὥστε καὶ τὸ συναφὲς τῇ ὄψει μόριον τοσοῦτον, ὅσον καὶ ἡ κόρη τὸ καθ̓ αὑτὸ μόριον τοῦ ὁρατοῦ δέχοιτο ἄν. νῦν δὲ πᾶν τε ὁρᾶται καὶ ὅσοι ἐν τῷ ἀέρι, κατά τε τὸ καταντικρὺ ἔκ τε πλαγίων ἐπὶ πολὺ ὁρῶσιν ἐγγύς τε καὶ κατόπιν οὐκ ἐπιπροσθούμενοι: ὥστε ἕκαστον μόριον τοῦ ἀέρος ὅλον οἷον τὸ πρόσωπον τὸ ὁρώμενον ἔχειν, τοῦτο δὲ οὐ κατὰ σώματος πάθημα, ἀλλὰ κατὰ μείζους καὶ ψυχικὰς καὶ ζῴου ἑνὸς συμπαθοῦς ἀνάγκας.",
+   "flags": [
+    {
+     "taylor": "the greater laws, the spiritual, of a living being one and self-sensitive",
+     "in": "MacKenna",
+     "why": "The Greek says \"greater necessities\" (μείζους ἀνάγκας), \"of soul\" (ψυχικάς), and of one living being \"in sympathy\" (συμπαθοῦς): necessities, not laws, and sympathy, not self-sensitiveness."
+    }
+   ],
+   "notes": [
+    "The impression in wax is Plato's (Theaetetus 191c-d) and Aristotle's, for whom sense takes the form without the matter, as wax takes the seal's sign without its iron or gold (On the soul II.12, 424a17-21). IV.6 turns the same argument against imprints in the soul."
+   ]
+  },
+  {
+   "seg": "IV.5.4.p1",
+   "chapter": "IV.5.4",
+   "modern": "But how is it with the light that joins the sight to what is around the sight, as far as the sensible thing? First, it does not need the air between, unless perhaps light could not be spoken of without air (in that way the air is between by accident); but the light itself would be between without being affected: there is no need of affection here at all, but all the same of what is between; and if light is not a body, not of a body. And the sight would need the light from outside and between not for seeing simply, but for seeing far. Whether light could come to be without air, later; now we must look at this.",
+   "greek": "ἀλλὰ τὸ συναφὲς τῆς ὄψεως φῶς πρὸς τὸ περὶ τὴν ὄψιν καὶ μέχρι τοῦ αἰσθητοῦ πῶς; ἢ πρῶτον μὲν τοῦ μεταξὺ ἀέρος οὐ δεῖται, εἰ μὴ ἄρα τὸ φῶς οὐκ ἂν ἀέρος ἄνευ λέγοιτο — οὕτω δὲ τοῦτο μεταξὺ κατὰ συμβεβηκός — αὐτὸ δὲ ἂν εἴη μεταξὺ οὐ πάσχον, οὐδ’ ὅλως πάθους ἐνταῦθα δεῖ, ἀλλ’ ὅμως τοῦ μεταξύ: εἰ δὲ τὸ φῶς οὐ σῶμα, οὐ σώματος. καὶ δὴ οὐ πρὸς τὸ ὁρᾶν ἁπλῶς δέοιτο ἂν τοῦ φωτὸς τοῦ ἀλλοτρίου καὶ μεταξὺ ἡ ὄψις, ἀλλὰ πρὸς τὸ πόρρω ὁρᾶν. τὸ μὲν οὖν εἰ τὸ φῶς γένοιτο ἂν ἄνευ τοῦ ἀέρος, ὕστερον: νῦν δὲ ἐκεῖνο σκεπτέον.",
+   "notes": [
+    "\"Later\": in IV.5.6. \"The light of the sight\" is the fire within the eye of Plato's Timaeus (45b-d), which joins with the daylight like with like and forms one body stretching to the thing seen."
+   ]
+  },
+  {
+   "seg": "IV.5.4.p2",
+   "chapter": "IV.5.4",
+   "modern": "If this joining light becomes ensouled, and the soul is carried through it and comes to be in it, as with the light within too, then in grasping, which is seeing, it would not need the light as something between: seeing will be like touch, the power of sight grasping in the light, with nothing between affected; but the sight goes out there.",
+   "greek": "εἰ μὲν γὰρ τὸ φῶς τοῦτο τὸ συναφὲς ἔμψυχον γίνεται, καὶ ἡ ψυχὴ δἰ αὐτοῦ φερομένη καὶ ἐν αὐτῷ γιγνομένη, ὥσπερ καὶ ἐπὶ τοῦ ἔνδον, ἐν τῷ ἀντιλαμβάνεσθαι δήπουθεν, ὅπερ ἐστὶν ὁρᾶν, οὐδὲν ἂν δέοιτο τοῦ μεταξὺ φωτός, ἀλλ’ ἁφῇ ἔσται ἐοικὸς τὸ ὁρᾶν, τῆς ὁρατικῆς δυνάμεως ἐν φωτὶ ἀντιλαμβανομένης πάσχοντος οὐδὲν τοῦ μεταξύ, ἀλλὰ γίνεται τῆς ὄψεως φορὰ ἐκεῖ.",
+   "flags": [
+    {
+     "taylor": "as it does in its more inward acts such as understanding — which is what vision really is",
+     "in": "MacKenna",
+     "why": "The Greek compares the light inside the eye: the soul is in the joining light \"as with the light within too\" (ὥσπερ καὶ ἐπὶ τοῦ ἔνδον), in the grasping \"which is seeing\" (ὅπερ ἐστὶν ὁρᾶν); nothing is said of understanding."
+    }
+   ]
+  },
+  {
+   "seg": "IV.5.4.p3",
+   "chapter": "IV.5.4",
+   "modern": "Here we must ask whether the sight has to travel there because there is some distance, or because there is some body in the distance. If because there is a body in the distance, it will see if this separating thing is taken away; but if simply because there is distance, one must suppose the nature of the visible to be idle, doing nothing at all. But that cannot be: for touch does not only say that something is near and touch it, but, being affected, reports the differences of what is touched; and if nothing separated them, it would perceive what is far too. For we perceive fire at the same time as the air between does, not waiting for that to be warmed. Indeed, the solid body is warmed more than the air: so it is warmed through the air, rather, but not because of it. If, then, the one has the power to act, and the other to be acted upon, in any way at all, why does it need some other medium for what it is able to act on? That is to need a hindrance.",
+   "greek": "οὗ δὴ ζητητέον, πότερα τῷ διάστημά τι εἶναι ἐκεῖ δεῖ πορευθῆναι τὴν ὄψιν ἢ τῷ σῶμά τι εἶναι ἐν τῷ διαστήματι. καὶ εἰ μὲν τῷ σῶμα ἐν τῷ διαστήματι εἶναι, τὸ διεῖργον εἰ ἀφαιρεθείη τοῦτο, ὄψεται: εἰ δ’ ὅτι διάστημα ἁπλῶς, ἀργὴν δεῖ ὑποθέσθαι τὴν τοῦ ὁρατοῦ φύσιν καὶ οὐδὲν δρῶσαν ὅλως. ἀλλ’ οὐχ οἷόν τε: οὐ γὰρ μόνον ἡ ἁφὴ ὅτι ἐγγύς τι λέγει καὶ ἅπτεται, ἀλλὰ τὰς τοῦ ἁπτοῦ πάσχουσα ἀπαγγέλλει διαφοράς, καὶ εἰ μὴ διείργοι τι, κἂν τοῦ πόρρω ᾔσθετο. ἅμα γὰρ ὁ ἀὴρ ὁ μεταξὺ καὶ ἡμεῖς πυρὸς αἰσθανόμεθα οὐκ ἀναμείναντες θερμανθῆναι ἐκεῖνον. μᾶλλον γοῦν τὸ σῶμα θερμαίνεται τὸ στερεὸν ἢ ὁ ἀήρ: ὥστε δἰ αὐτοῦ μᾶλλον, ἀλλ’ οὐ δἰ αὐτόν. εἰ οὖν ἔχει δύναμιν εἰς τὸ δρᾶν, τὸ δὲ εἰς τὸ πάσχειν καὶ ὁπωσοῦν, διὰ τί ἄλλου δεῖται μέσου εἰς ὃ δύναται πρὸς τὸ ποιῆσαι; τοῦτο γὰρ ἐμποδίου ἐστὶ δεῖσθαι.",
+   "flags": [
+    {
+     "taylor": "if the intervenient is the sole attractive agent",
+     "in": "MacKenna",
+     "why": "The Greek says \"if simply because there is distance\" (εἰ δ’ ὅτι διάστημα ἁπλῶς): the sight travels because of the bare interval, not drawn by anything in it."
+    }
+   ]
+  },
+  {
+   "seg": "IV.5.4.p4",
+   "chapter": "IV.5.4",
+   "modern": "For when the sun's light comes on, it is not that the air must perceive first and then we, but at the same time; and often before it comes near the sight, while it is still elsewhere, so that we see without the air being affected, with what is unaffected between, and the light, to which the sight must join, not yet come. And seeing the stars, or any fire, at night is hard to square with this hypothesis.",
+   "greek": "ἐπεὶ καὶ ὅταν τὸ φῶς προσίῃ τὸ τοῦ ἡλίου, οὐ πρότερον δεῖ τὸν ἀέρα εἶτα καὶ ἡμᾶς αἰσθάνεσθαι, ἀλλ’ ἅμα, καὶ πρὶν ἐγγὺς τῆς ὄψεως γενέσθαι πολλάκις ὄντος ἀλλαχοῦ, ὡς μὴ παθόντος τοῦ ἀέρος ἡμᾶς ὁρᾶν, μεταξὺ ὄντος τοῦ μὴ πεπονθότος καὶ τοῦ φωτὸς μήπω ἐληλυθότος, πρὸς ὃ δεῖ τὴν ὄψιν συνάψαι. ἐπεὶ καὶ τὸ τῆς νυκτὸς ὁρᾶν τὰ ἄστρα ἢ ὅλως πῦρ χαλεπὸν ταύτῃ τῇ ὑποθέσει ἀπευθῦναι.",
+   "notes": [
+    "The sun's coming light is dawn: we see the sunlit hills far off before the light is round us. The light \"to which the sight must join\" is the Timaeus' daylight again (45c)."
+   ]
+  },
+  {
+   "seg": "IV.5.4.p5",
+   "chapter": "IV.5.4",
+   "modern": "But if the soul stays by itself and needs light like a staff to reach the thing, the grasping would have to be forceful, the light pressing back and stretched, and the sensible thing, as colour, would have to push back itself: for that is how touches through a medium are. And then it must first have come near, with nothing between at that time: for in that way touching through a medium later makes knowledge, as by memory, and still more by reasoning; but in fact it is not so. And if the light next to the sensible thing must be affected and then pass it on as far as the sight, the hypothesis becomes the same as the one by which the sensible thing first changes what is between, against which difficulties have already been raised elsewhere.",
+   "greek": "εἰ δὲ μένει μὲν ἡ ψυχὴ ἐφ̓ ἑαυτῆς, φωτὸς δὲ δεῖται ὥσπερ βακτηρίας πρὸς τὸ φθάσαι, ἔδει τὴν ἀντίληψιν βίαιον καὶ ἀντερείδοντος εἶναι καὶ τεταμένου τοῦ φωτός, καὶ τὸ αἰσθητόν, ᾗ χρῶμα, ἀντιτυποῦν καὶ αὐτὸ εἶναι: οὕτω γὰρ διὰ μέσου αἱ ἁφαί. εἶτα καὶ πρότερον ἐγγὺς γέγονε μηδενὸς μεταξὺ ὄντος τότε: οὕτω γὰρ ὕστερον τὸ διὰ μέσου ἅπτεσθαι ποιεῖ τὴν γνῶσιν, οἷον τῇ μνήμῃ καὶ ἔτι μᾶλλον συλλογισμῷ: νῦν δὲ οὐχ οὕτως. ἀλλ’ εἰ παθεῖν δεῖ τὸ πρὸς τὸ αἰσθητὸν φῶς, εἶτα διαδοῦναι μέχρις ὄψεως, ἡ αὐτὴ γίνεται ὑπόθεσις τῇ ὑπὸ τοῦ αἰσθητοῦ τὸ μεταξὺ πρότερον τρεπούσῃ, πρὸς ἣν ἤδη καὶ ἐν ἄλλοις ἠπόρηται.",
+   "flags": [
+    {
+     "taylor": "the percipient mind or soul remains within itself",
+     "in": "MacKenna",
+     "why": "The Greek says only \"the soul\" (ἡ ψυχή); \"mind\" is MacKenna's, as often in these chapters. The bracket before it is his too."
+    },
+    {
+     "taylor": "but this process of memory and comparison is excluded by the theory of first knowledge through the agency of a medium",
+     "in": "MacKenna",
+     "why": "The Greek says \"but in fact it is not so\" (νῦν δὲ οὐχ οὕτως): we do not in fact first come near what we see, and know it later by memory or reasoning; it is a fact, not a theory, that rules this out."
+    }
+   ],
+   "notes": [
+    "The staff (βακτηρία) and the light \"pressing back\" (ἀντερείδοντος) are the Stoics': the air between the eye and the thing, stretched by the breath, is like a staff, by which what is seen is reported as a blind man feels by his stick (Diogenes Laertius VII.157). Plotinus answers that a staff tells us only of what we have touched before; \"reasoning\" (συλλογισμός) is inference from a sign to a thing known already."
+   ]
+  },
+  {
+   "seg": "IV.5.5.p1",
+   "chapter": "IV.5.5",
+   "modern": "About hearing, then: must we grant here that the air next to what makes the noise suffers the first movement from it, and that the noise comes to perception because the air as far as the hearing suffers the same? Or is what is between there by accident, because it is present in the middle, and, if it were taken away, once the noise had come about, as when two bodies clash, would the perception meet us at once? Or the first air, the air that is struck, is needed, but from there on what is between is another matter. For here the air seems to be master of the noise: two bodies clashing together would not make even the beginning of a noise unless the air, struck in their swift meeting and pushed out, struck the next and passed it on as far as the ears and hearing.",
+   "greek": "περὶ δὲ τοῦ ἀκούειν ἆρα ἐνταῦθα συγχωρητέον πάσχοντος τοῦ ἀέρος τὴν κίνησιν τὴν πρώτην τὸν παρακείμενον ὑπὸ τοῦ τὸν ψόφον ποιοῦντος τῷ τὸν μέχρι ἀκοῆς ἀέρα πάσχειν τὸ αὐτὸ οὕτως εἰς αἴσθησιν ἀφικνεῖσθαι, ἢ κατὰ συμβεβηκὸς μὲν τὸ μεταξὺ τῷ παρεῖναι ἐν μέσῳ, ἀναιρεθέντος δὲ τοῦ μεταξύ, ἅπαξ δὲ γενομένου τοῦ ψόφου, οἷον συμβαλόντων δύο σωμάτων, εὐθέως ἀπαντᾶν πρὸς ἡμᾶς τὴν αἴσθησιν; ἢ καὶ δεῖ μὲν ἀέρος τὴν πρώτην τοῦ πληττομένου, τὸ δὲ ἐντεῦθεν ἤδη ἄλλως τὸ μεταξύ. ἐνταῦθα μὲν γὰρ δοκεῖ κύριος εἶναι ὁ ἀὴρ τοῦ ψόφου: μὴ γὰρ ἂν μηδὲ τὴν ἀρχὴν γενέσθαι ψόφον δύο σωμάτων συρραγέντων, εἰ μὴ ὁ ἀὴρ πληγεὶς ἐν τῇ ταχείᾳ συνόδῳ αὐτῶν καὶ ἐξωσθεὶς πλήξας ἔδωκε τῷ ἐφεξῆς μέχρις ὤτων καὶ ἀκοῆς."
+  },
+  {
+   "seg": "IV.5.5.p2",
+   "chapter": "IV.5.5",
+   "modern": "But if the air is master of the noise, and the stroke comes from its being moved, what would the differences of voices and noises come from? Bronze sounds one way against bronze, another against something else, and one thing another way against another; but the air is one, and so is the stroke in it: for the differences are not only by loud and soft. And if a stroke made a noise because it came against air, it must be said that it did not do so as air: for air sounds when it takes the stand of a solid body, staying like something solid before it is poured away; so that the things that clash, and their collision, are enough, and this stroke, come to perception, is the noise. The sounds inside animals bear witness too, which are not in air, but come when one part clashes with and strikes another: as the bendings of bones rubbing on each other, with no air between, and grindings. But let this be left in doubt, the question having become the same here too as was said for sight, the affection in hearing too being a kind of co-perception, as in a living being.",
+   "greek": "ἀλλ’ εἰ ὁ ἀὴρ κύριος τοῦ ψόφου καὶ τούτου κινηθέντος ἡ πληγή, παρὰ τί ἂν εἶεν αἱ διαφοραὶ τῶν φωνῶν καὶ τῶν ψόφων; ἄλλο γὰρ ἠχεῖ χαλκὸς πρὸς χαλκὸν ἢ πρὸς ἄλλο, ἄλλο δὲ ἄλλο: ὁ δὲ ἀὴρ εἷς καὶ ἡ ἐν αὐτῷ πληγή: οὐ γὰρ μόνον τῷ μεγάλῳ καὶ τῷ μικρῷ διαφοραί. εἰ δ’ ὅτι πρὸς ἀέρα γενομένη πληγὴ ψόφον ἐποίησεν, οὐχ ᾗ ἀὴρ φατέον: τότε γὰρ φωνεῖ, ὅταν στάσιν λάβῃ στερεοῦ σώματος, πρὶν χυθῆναι μένων ὥσπερ στερεόν τι: ὥστε ἀρκεῖν τὰ συγκρούοντα καὶ τὴν σύρρηξιν καὶ ταύτην τὴν πληγὴν εἶναι τὸν ψόφον εἰς αἴσθησιν ἐλθοῦσαν: μαρτυρεῖν δὲ καὶ τοὺς ἔνδον ἤχους τῶν ζῴων οὐκ ἐν ἀέρι, ἀλλὰ συγκρούσαντος καὶ πλήξαντος ἄλλο ἄλλου: οἷον καὶ ὀστῶν κάμψεις πρὸς ἄλληλα παρατριβομένων ἀέρος μὴ ὄντος μεταξὺ καὶ πρίσεις. ἀλλὰ περὶ μὲν τούτου ἠπορήσθω ὁμοίου ἤδη καὶ ἐνταῦθα τοῦ ζητήματος γενομένου, ὅπερ ἐλέγετο ἐπὶ τῆς ὄψεως εἶναι, συναισθήσεώς τινος ὡς ἐν ζῴῳ καὶ τοῦ κατὰ τὴν ἀκοὴν πάθους ὄντος.",
+   "flags": [
+    {
+     "taylor": "until (by its distinctive character) it is sent pulsing outwards",
+     "in": "MacKenna",
+     "why": "The Greek says air sounds when it stands like a solid \"before it is poured away\" (πρὶν χυθῆναι), before it scatters; the bracket, and the pulsing, are MacKenna's."
+    },
+    {
+     "taylor": "we are brought to the same conclusion as in the case of sight",
+     "in": "MacKenna",
+     "why": "The Greek says \"let this be left in doubt\" (ἠπορήσθω), the question here having become the same as for sight: a question left open, not a conclusion."
+    }
+   ],
+   "notes": [
+    "Aristotle: sound comes from a stroke of one solid on another, in air, and the air must be struck quickly and firmly, before it scatters; bronze and smooth hard things sound best (On the soul II.8, 419b4-25). \"Co-perception\" (συναίσθησις) is the shared awareness of the parts of one living being, as in IV.4.45."
+   ]
+  },
+  {
+   "seg": "IV.5.6.p1",
+   "chapter": "IV.5.6",
+   "modern": "But would light come to be if there were no air, the sun shining on the surfaces of bodies, with a void between, which now too is lit by accident, because it is there? But if the other things are affected because the air is affected, light too would have its existence through the air, being its affection; so the affection would not be, if what is to be affected were not. Or, first, light is not the air's first, nor its as air: for it belongs also to each fiery and shining body itself; and indeed the colour of such stones is bright.",
+   "greek": "εἰ δὲ καὶ τὸ φῶς γένοιτο ἂν μὴ ὄντος ἀέρος, οἷον ἡλίου ἐν ἐπιφανείᾳ τῶν σωμάτων ἐπιλάμποντος, τοῦ μεταξὺ ὄντος κενοῦ καὶ νῦν κατὰ συμβεβηκός, ὅτι πάρεστι, φωτιζομένου; ἀλλ’ εἰ δἰ αὐτὸν παθόντα καὶ τὰ ἄλλα, καὶ τὴν ὑπόστασιν εἶναι τῷ φωτὶ διὰ τὸν ἀέρα: πάθημα γὰρ αὐτοῦ εἶναι: μὴ ἂν οὖν ἔσεσθαι τὸ πάθημα μὴ ὄντος τοῦ πεισομένου. ἢ πρῶτον μὲν οὐκ αὐτοῦ πρώτως οὐδ’ ᾗ αὐτός. ἔστι γὰρ καὶ αὐτοῦ ἑκάστου σώματος πυρίνου καὶ λαμπροῦ: καὶ δὴ καὶ λίθων τοιούτων φωτεινὴ χρόα.",
+   "flags": [
+    {
+     "taylor": "The fact is that primarily light is no appanage of air",
+     "in": "MacKenna",
+     "why": "The Greek says light is not the air's \"first, nor its as air\" (οὐκ αὐτοῦ πρώτως οὐδ’ ᾗ αὐτός): air may be lit, but light belongs to it neither first nor by its own nature."
+    }
+   ]
+  },
+  {
+   "seg": "IV.5.6.p2",
+   "chapter": "IV.5.6",
+   "modern": "But would what goes into another, from what has such a colour, be there if that other were not? If it is only a quality, and the quality of something, then, since every quality is in a subject, we must look for the body that light will be in. But if it is an activity from another, why should it not be, and fall on what lies beyond too, if there is no body next to it but, as it were, a void between, if that is possible? For being taut, why will it not cross, riding on nothing? And if it were such as to fall, it would be carried down: for neither the air nor anything at all that is lit will be what draws it from the source of light and forces it to go forward. Since it is not an accident either, so as to be always on another, nor another's affection, so as to need something to be affected; or else it would have had to stay when it had come; but in fact it goes away: so it could come as well.",
+   "greek": "ἀλλὰ τὸ εἰς ἄλλο ἀπὸ τοῦ ἔχοντος χρόαν τοιαύτην ἰὸν ἆρα ἂν εἴη μὴ ὄντος ἐκείνου; ἀλλ’ εἰ μὲν ποιότης μόνον καί τινος ποιότης, ἐν ὑποκειμένῳ οὔσης πάσης ποιότητος ἀνάγκη καὶ τὸ φῶς ζητεῖν ἐν ᾧ ἔσται σώματι: εἰ δὲ ἐνέργεια ἀπ’ ἄλλου, διὰ τί οὐκ ὄντος ἐφεξῆς σώματος, ἀλλὰ οἷον κενοῦ μεταξύ, εἴπερ οἷόν τε, οὐκ ἔσται καὶ ἐπιβαλεῖ καὶ εἰς τὸ ἐπέκεινα; ἀτενὲς γὰρ ὂν διὰ τί οὐ περάσει οὐκ ἐποχούμενον; εἰ δὲ δὴ καὶ τοιοῦτον οἷον πεσεῖν, καταφερόμενον ἔσται: οὐ γὰρ δὴ ὁ ἀὴρ οὐδ’ ὅλως τὸ φωτιζόμενον ἔσται τόδε ἕλκον ἀπὸ τοῦ φωτίζοντος καὶ βιαζόμενον προελθεῖν: ἐπεὶ οὐδὲ συμβεβηκός, ὥστε πάντως ἐπ’ ἄλλῳ, ἢ πάθημα ἄλλου, ὥστε δεῖν εἶναι τὸ πεισόμενον: ἢ ἔδει μένειν ἐληλυθότος: νῦν δὲ ἄπεισιν: ὥστε καὶ ἔλθοι ἄν.",
+   "flags": [
+    {
+     "taylor": "it is powerful, and may very well pass over unhelped",
+     "in": "MacKenna",
+     "why": "The Greek says it is \"taut\" (ἀτενές), stretched straight, and asks why it should not cross \"riding on nothing\" (οὐκ ἐποχούμενον)."
+    },
+    {
+     "taylor": "it would vanish when the object or substance disappeared ; but it does not",
+     "in": "MacKenna",
+     "why": "The Greek argues the other way: if light were the air's affection, it \"would have had to stay\" once it had come (ἔδει μένειν), as an affection stays in what has it; \"but in fact it goes away\" (νῦν δὲ ἄπεισιν), with its source; so it is no affection of the air."
+    }
+   ],
+   "notes": [
+    "Against Aristotle, for whom light is not a body but the activity of the transparent as transparent, and colour moves the transparent which is actual (On the soul II.7, 418b4-20): Plotinus makes light the activity of the shining body, not of the medium."
+   ]
+  },
+  {
+   "seg": "IV.5.6.p3",
+   "chapter": "IV.5.6",
+   "modern": "Where, then? Or there need only be place. Or in that way the body of the sun will lose the activity that goes out of it; and this was the light. And if so, the light will not be anything's either. But the activity is from a subject, not into a subject; though the subject would be affected somewhat, if it were there.",
+   "greek": "ποῦ οὖν; ἢ τόπον δεῖ μόνον εἶναι. ἢ οὕτω γε ἀπολεῖ τὴν ἐνέργειαν τὴν ἐξ αὑτοῦ τὸ τοῦ ἡλίου σῶμα: τοῦτο δὲ ἦν τὸ φῶς. εἰ δὲ τοῦτο, οὐδὲ τὸ φῶς τινος ἔσται. ἔστι δὲ ἡ ἐνέργεια ἔκ τινος ὑποκειμένου, οὐκ εἰς ὑποκείμενον δέ: πάθοι δ’ ἄν τι τὸ ὑποκείμενον, εἰ παρείῃ.",
+   "flags": [
+    {
+     "taylor": "Perhaps ; and (from this untenable consequence) we may gather that the light never was an appanage of anything",
+     "in": "MacKenna",
+     "why": "The Greek does not agree: that \"the light will not be anything's\" (οὐδὲ τὸ φῶς τινος ἔσται) is a further absurdity of the objection, which Plotinus answers: the activity is \"from a subject\" (ἔκ τινος ὑποκειμένου), the sun's, though not into one."
+    }
+   ]
+  },
+  {
+   "seg": "IV.5.6.p4",
+   "chapter": "IV.5.6",
+   "modern": "But just as life, being the activity of soul, is the activity of something that would be affected, the body for example, if it were there, and is so also when it is not, what would prevent it being so with light too, if indeed it is some activity of what is luminous? For even now it is not the darkness of the air that begets light; rather, being mixed with earth, it makes the light dark and not truly pure: so that it is like saying that something is sweet if it is mixed with something bitter. And if someone says light is a change of the air, we must say that the air itself would have had to be changed by the change, and its darkness, altered, to have become not dark. But in fact the air stays as it is, as if it had suffered nothing. And the affection must be of that whose affection it is: so neither is light the air's colour, but it is on its own, and the air is there. Let this, then, be looked at in this way.",
+   "greek": "ἀλλ’ ὥσπερ ζωὴ ἐνέργεια οὖσα ψυχῆς ἐστιν ἐνέργεια παθόντος ἄν τινος, οἷον τοῦ σώματος, εἰ παρείη, καὶ μὴ παρόντος δέ ἐστι, τί ἂν κωλύοι καὶ ἐπὶ φωτὸς οὕτως, εἴπερ ἐνέργειά τις τοῦ φωτεινοῦ εἴη; οὐδὲ γὰρ νῦν τὸ σκοτεινὸν τοῦ ἀέρος γεννᾷ τὸ φῶς, ἀλλὰ γῇ συμμιγνύμενον σκοτεινὸν ποιεῖ καὶ οὐ καθαρὸν ὄντως: ὥστε ὅμοιον εἶναι λέγειν τι γλυκὺ εἶναι, εἰ πικρῷ μιγείη. εἰ δέ τις τροπὴν λέγοι τοῦ ἀέρος τὸ φῶς, λεκτέον, ὡς ἐχρῆν αὐτὸν τρέπεσθαι τὸν ἀέρα τῇ τροπῇ, καὶ τὸ σκοτεινὸν αὐτοῦ μὴ σκοτεινὸν γεγονέναι ἠλλοιωμένον. νῦν δὲ ὁ ἀὴρ οἷός ἐστι μένει, ὡς ἂν οὐδὲν παθών. τὸ δὲ πάθημα ἐκείνου δεῖ εἶναι, οὗ πάθημα: οὐ τοίνυν οὐδὲ χρῶμα αὐτοῦ, ἀλλ’ αὐτὸ ἐφ̓ ἑαυτοῦ: πάρεστι δὲ ὁ ἀήρ. καὶ τοῦτο μὲν οὑτωσὶ ἐπεσκέφθω.",
+   "notes": [
+    "The life of the soul goes out whether or not a body is there to take it, as in IV.4.18-20, where the body has a trace of soul as air has light. That light is from a subject but not into one is Plotinus' \"double activity\": the activity of a thing, which is the thing, and the activity from it, as heat from fire (V.4.2, V.1.6)."
+   ]
+  },
+  {
+   "seg": "IV.5.7.p1",
+   "chapter": "IV.5.7",
+   "modern": "Does it perish, then, or run back? Perhaps from this too we might gain something for what came before. If it were inside, so that what had received it had it as its own already, perhaps one would have said that it perishes. But if it is an activity that does not flow (for then it would flow round, and be poured inside, more than what was being cast on it from the active thing), it would not perish while the source of light stays in being. And when that is moved, it is in another place, not as if an ebb or a change of flow had come about, but because the activity is that thing's, and comes to be present as far as nothing hinders. For even if the sun's distance from us were many times what it is now, there would be light as far as there, with nothing hindering or standing in the way between.",
+   "greek": "πότερα δὲ ἀπόλλυται ἢ ἀνατρέχει; τάχα γὰρ ἄν τι καὶ ἐκ τούτου λάβοιμεν εἰς τὸ πρόσθεν. ἢ εἰ μὲν ἦν ἔνδοθεν, ὥστε τὸ μετειληφὸς ἔχειν οἰκεῖον ἤδη, τάχα ἄν τις εἶπεν ἀπόλλυσθαι: εἰ δέ ἐστιν ἐνέργεια οὐ ῥέουσα: περιέρρει γὰρ ἂν καὶ ἐχεῖτο εἴσω πλέον ἢ ὅσον τὸ παρὰ τοῦ ἐνεργοῦντος ἐπεβάλλετο: οὐκ ἂν ἀπολλύοιτο μένοντος ἐν ὑποστάσει τοῦ φωτίζοντος. μετακινουμένου δὲ ἐν ἄλλῳ ἐστὶ τόπῳ, οὐχ ὡς παλιρροίας ἢ μεταρροίας γενομένης, ἀλλ’ ὡς τῆς ἐνεργείας ἐκείνου οὔσης καὶ παραγινομένης, εἰς ὅσον κωλύει οὐδέν. ἐπεὶ καὶ εἰ πολλαπλασία ἡ ἀπόστασις ἦν ἢ νῦν ἐστι πρὸς ἡμᾶς τοῦ ἡλίου, ἦν ἂν καὶ μέχρι ἐκεῖ φῶς μηδενὸς κωλύοντος μηδὲ ἐμποδὼν ἐν τῷ μεταξὺ ἱσταμένου.",
+   "flags": [
+    {
+     "taylor": "but in circuit, with more of it",
+     "in": "MacKenna",
+     "why": "The Greek's bracketed clause tells what would happen if light did flow (περιέρρει γὰρ ἄν): it would flow round and pour inside, more than was being sent from the source; MacKenna makes it a description of light as it is."
+    }
+   ]
+  },
+  {
+   "seg": "IV.5.7.p2",
+   "chapter": "IV.5.7",
+   "modern": "The activity in the luminous body itself is like the life of the body, and greater, and like the beginning and spring of its activity; the one beyond the limit of the body, an image of the one within, is a second activity, which does not stand apart from the first. For each of the things that are has an activity which is its likeness, so that while it is, that is too, and while it stays, that reaches far, further in one thing, less far in another; some activities are weak and dim, some even unnoticed, but in some things they are greater and reach far; and when they reach far, one must think the activity is there where the active and powerful thing is, and also where it reaches. One can see it too in the eyes of animals whose eyes shine, where light comes to be outside their eyes as well; and indeed in animals that have fire gathered inside, which shines out into the outside in the dark when they swell, and when they contract there is no light outside; nor has it perished, but it either is or is not outside.",
+   "greek": "ἔστι δὲ ἡ μὲν ἐν αὐτῷ ἐνέργεια καὶ οἷον ζωὴ τοῦ σώματος τοῦ φωτεινοῦ πλείων καὶ οἷον ἀρχὴ τῆς ἐνεργείας καὶ πηγή: ἡ δὲ μετὰ τὸ πέρας τοῦ σώματος, εἴδωλον τοῦ ἐντός, ἐνέργεια δευτέρα οὐκ ἀφισταμένη τῆς προτέρας. ἔχει γὰρ ἕκαστον τῶν ὄντων ἐνέργειαν, ἥ ἐστιν ὁμοίωμα αὐτοῦ, ὥστε αὐτοῦ ὄντος κἀκεῖνο εἶναι καὶ μένοντος φθάνειν εἰς τὸ πόρρω, τὸ μὲν ἐπὶ πλέον, τὸ δὲ εἰς ἔλαττον: καὶ αἱ μὲν ἀσθενεῖς καὶ ἀμυδραί, αἱ δὲ καὶ λανθάνουσαι, τῶν δ’ εἰσὶ μείζους καὶ εἰς τὸ πόρρω: καὶ ὅταν εἰς τὸ πόρρω, ἐκεῖ δεῖ νομίζειν εἶναι, ὅπου τὸ ἐνεργοῦν καὶ δυνάμενον, καὶ αὖ οὗ φθάνει. ἔστι δὲ καὶ ἐπὶ ὀφθαλμῶν ἰδεῖν ζῴων λαμπόντων τοῖς ὄμμασι, γινομένου αὐτοῖς φωτὸς καὶ ἔξω τῶν ὀμμάτων: καὶ δὴ καὶ ἐπὶ ζῴων, ἃ ἔνδον συνεστραμμένον πῦρ ἔχοντα ταῖς ἀνοιδάνσεσιν ἐν σκότῳ ἐκλάμπει εἰς τὸ ἔξω, καὶ ἐν ταῖς συστολαῖς αὐτῶν οὐδέν ἐστι φῶς ἔξω, οὐδ’ αὖ ἐφθάρη, ἀλλ’ ἢ ἔστιν ἢ οὐκ ἔστιν ἔξω.",
+   "flags": [
+    {
+     "taylor": "the other lies next to the surface, the outer image of the inner content",
+     "in": "MacKenna",
+     "why": "The Greek says the second activity is \"after the limit of the body\" (μετὰ τὸ πέρας τοῦ σώματος): outside it, going out from it, not lying on its surface."
+    }
+   ],
+   "notes": [
+    "Every being has an activity that is its likeness: Plotinus' double activity again (V.4.2), by which each thing gives out an image of itself, as the One gives intellect and intellect soul (V.1.6-7). Animals whose eyes shine in the dark, and things seen in darkness, are in Aristotle (On the soul II.7, 419a2-6); those with fire inside are glow-worms and fireflies."
+   ]
+  },
+  {
+   "seg": "IV.5.7.p3",
+   "chapter": "IV.5.7",
+   "modern": "What then? Has it gone in? Or it is not outside because the fire is not turned to the outside either, but has sunk inward. Has the light, then, sunk in too? Or no, only the fire; and when that has sunk in, the rest of the body is in front of it, so that it is not active towards the outside. So the light from bodies is the activity of a luminous body towards the outside; but the light in such bodies themselves, those that are such primarily, is wholly their being, the being according to the form of the primarily luminous body. When such a body is mixed with matter, it gives colour; but the activity alone does not give colour, but as it were colours over the surface, since it belongs to another and hangs from that, as it were, and what stands away from that stands away from its activity too.",
+   "greek": "τί οὖν; εἰσελήλυθεν; ἢ οὐκ ἔστιν ἔξω, ὅτι μηδὲ τὸ πῦρ πρὸς τὸ ἔξω, ἀλλ’ ἔδυ εἰς τὸ εἴσω. τὸ οὖν φῶς ἔδυ καὶ αὐτό; ἢ οὔ, ἀλλ’ ἐκεῖνο μόνον: δύντος δὲ ἐπίπροσθέν ἐστι τὸ ἄλλο σῶμα, ὡς μὴ ἐνεργεῖν ἐκεῖνο πρὸς τὸ ἔξω. ἔστιν οὖν τὸ ἀπὸ τῶν σωμάτων φῶς ἐνέργεια φωτεινοῦ σώματος πρὸς τὸ ἔξω: αὐτὸ δὲ ὅλως τὸ ἐν τοῖς τοιούτοις σώμασιν, ἃ δὴ πρώτως ἐστὶ τοιαῦτα, οὐσία ἡ κατὰ τὸ εἶδος τοῦ φωτεινοῦ πρώτως σώματος. ὅταν δὲ μετὰ τῆς ὕλης τὸ τοιοῦτον σῶμα ἀναμιχθῇ, χρόαν ἔδωκε: μόνη δὲ ἡ ἐνέργεια οὐ δίδωσιν, ἀλλ’ οἷον ἐπιχρώννυσιν, ἅτε οὖσα ἄλλου κἀκείνου οἷον ἐξηρτημένη, οὗ τὸ ἀποστὰν κἀκείνου τῆς ἐνεργείας ἄπεστιν.",
+   "flags": [
+    {
+     "taylor": "it gives merely an incipient on which colour might be formed",
+     "in": "MacKenna",
+     "why": "The Greek says the activity alone \"as it were colours over\" (οἷον ἐπιχρώννυσιν), a tint on the surface, not a base on which colour might be formed; and the \"other\" whose activity it is, is the luminous body, not MacKenna's \"(primal light)\"."
+    }
+   ]
+  },
+  {
+   "seg": "IV.5.7.p4",
+   "chapter": "IV.5.7",
+   "modern": "One must set it down as wholly bodiless, even if it is a body's. That is why \"it has gone away\" and \"it is present\" are not said of it properly, but in another way, and its existence is as an activity. For the image in the mirror too must be called the activity of the thing seen in it, acting on what can be affected, without flowing; but if the thing is present, the image too appears there, and is there in this way, as an image of colour shaped thus; and if the thing goes away, the transparent no longer has what it had before, when the seen thing was there to act upon it.",
+   "greek": "ἀσώματον δὲ πάντως δεῖ τιθέναι, κἂν σώματος ᾖ. διὸ οὐδὲ τὸ ἀπελήλυθε κυρίως οὐδὲ τὸ πάρεστιν, ἀλλὰ τρόπον ἕτερον ταῦτα, καὶ ἔστιν ὑπόστασις αὐτοῦ ὡς ἐνέργεια. ἐπεὶ καὶ τὸ ἐν τῷ κατόπτρῳ εἴδωλον ἐνέργειαν λεκτέον τοῦ ἐνορωμένου ποιοῦντος εἰς τὸ πάσχειν δυνάμενον οὐ ῥέοντος: ἀλλ’ εἰ πάρεστι, κἀκεῖνο ἐκεῖ φαίνεται καὶ ἔστιν οὕτως ὡς εἴδωλον χρόας ἐσχηματισμένης ὡδί. κἂν ἀπέλθῃ, οὐκέτι τὸ διαφανὲς ἔχει, ὃ ἔσχε πρότερον, ὅτε παρεῖχεν εἰς αὐτὸ ἐνεργεῖν τὸ ὁρώμενον.",
+   "notes": [
+    "The mirror image is the soul's figure in I.4.10 and in IV.3.12, where the souls see their images in the mirror of Dionysus; matter as a mirror is in III.6.7-13."
+   ]
+  },
+  {
+   "seg": "IV.5.7.p5",
+   "chapter": "IV.5.7",
+   "modern": "So too with the soul: insofar as it is the activity of another soul before it, while the earlier stays, the activity that comes next stays too. But what if something is not an activity, but from an activity, such as we said the body's own life is, like the light that is already mixed with bodies? Or here it is because what makes the colour is mixed in as well. But what of the body's life? It has it from another soul lying beside it. When, then, the body perishes (for nothing can be without a share of soul): when the body perishes, and neither the soul that gave it life is enough for it nor any that may lie beside it, how could life still stay? What then? Has this life perished? No, not this either: for this too is an image of the shining; it is simply no longer there.",
+   "greek": "ἀλλὰ καὶ ἐπὶ τὴς ψυχῆς, ὅσον ἐνέργεια ἄλλης προτέρας, μενούσης τῆς προτέρας μένει καὶ ἡ ἐφεξῆς ἐνέργεια. εἴ τις δὲ μὴ ἐνέργεια, ἀλλ’ ἐξ ἐνεργείας, οἵαν ἐλέγομεν τὴν τοῦ σώματος οἰκείαν ἤδη ζωήν, ὥσπερ τὸ φῶς τὸ ἀναμεμιγμένον ἤδη τοῖς σώμασιν; ἢ ἐνταῦθα τῷ καὶ συμμεμῖχθαι τὸ ποιοῦν τὸ χρῶμα. ἐπὶ δὲ τῆς ζωῆς τῆς τοῦ σώματος τί; ἢ παρακειμένης ψυχῆς ἄλλης ἔχει. ὅταν οὖν τὸ σῶμα φθαρῇ: οὐ γὰρ δὴ ψυχῆς τι ἄμοιρον δύναται εἶναι — φθειρομένου οὖν τοῦ σώματος καὶ οὐκ ἐπαρκούσης αὐτῷ οὔτε τῆς δούσης οὔτ’ εἴ τις παράκειται, πῶς ἂν ἔτι ζωὴ μένοι; τί οὖν; ἐφθάρη αὕτη; ἢ οὐδὲ αὕτη: εἴδωλον γὰρ ἐκλάμψεως καὶ τοῦτο: οὐκέτι δέ ἐστιν ἐκεῖ μόνον.",
+   "flags": [
+    {
+     "taylor": "it is clear that the life-principle can no longer remain",
+     "in": "MacKenna",
+     "why": "The Greek asks it: \"how could life still stay?\" (πῶς ἂν ἔτι ζωὴ μένοι;), and goes on to answer that it has not perished either."
+    }
+   ],
+   "notes": [
+    "\"As we said\": the body's own life, a trace of soul, which makes it a living body of such a kind, is in IV.4.18-20 and 28-29. Soul as the activity of a soul before it is the soul of the All and nature, its image (IV.4.13-14, III.8.4-5)."
+   ]
+  },
+  {
+   "seg": "IV.5.8.p1",
+   "chapter": "IV.5.8",
+   "modern": "But if there were a body outside the heaven, and some sight from here, with nothing hindering it from seeing, would it see what is not in sympathy with it, if sympathy now comes by the nature of one living being? Or, if sympathy comes because the things that perceive and the things perceived are of one living being, the perceptions too would not be so, unless this body outside were a part of this living being: if it were, perhaps they would. But if it were not a part, but a coloured body, having the other qualities too, of the same kind as the organ here? Or not even so, if the hypothesis is right: unless someone should try to do away with the hypothesis by this very thing, saying it is absurd if sight will not see a colour that is present, and the other senses will not be active towards their sensibles when these are present to them. But where does this absurdity appear from? We shall say: because here, being in one and of one, we act and are acted on in these ways.",
+   "greek": "εἰ δ’ εἴη σῶμα ἔξω τοῦ οὐρανοῦ, καὶ ὄψις τις ἐντεῦθεν μηδενὸς κωλύοντος εἰς τὸ ἰδεῖν, ἆῤ ἂν θεάσαιτο ὅ τι μὴ συμπαθὲς πρὸς ἐκεῖνο, εἰ τὸ συμπαθὲς νῦν διὰ τὴν ζῴου ἑνὸς φύσιν; ἢ εἰ τὸ συμπαθὲς διὰ τὸ ἑνὸς ζῴου τὰ αἰσθανόμενα καὶ τὰ αἰσθητά, καὶ αἱ αἰσθήσεις οὕτως οὐκ ἄν, εἰ μὴ τὸ σῶμα τοῦτο τὸ ἔξω μέρος τοῦδε τοῦ ζῴου: εἰ γὰρ εἴη, τάχα ἄν. εἰ μέντοι μὴ μέρος εἴη, σῶμα δὲ κεχρωσμένον καὶ τὰς ἄλλας ποιότητας ἔχον, οἷον τὸ ἐνταῦθα ὁμοειδὲς ὂν τῷ ὀργάνῳ; ἢ οὐδ’ οὕτως, εἰ ὀρθὴ ἡ ὑπόθεσις: εἰ μή τις τούτῳ γε αὐτῷ τὴν ὑπόθεσιν ἀνελεῖν πειρῷτο ἄτοπον εἶναι λέγων, εἰ μὴ χρῶμα ὄψεται ἡ ὄψις παρόν, καὶ αἱ ἄλλαι αἰσθήσεις τῶν αἰσθητῶν παρόντων αὐταῖς οὐκ ἐνεργήσουσι πρὸς αὐτά. ἀλλὰ τὸ ἄτοπον τοῦτο πόθεν δὴ φαίνεται; φήσομεν. ἢ ὅτι ἐνταῦθα ἐν ἑνὶ ὄντες καὶ ἑνὸς ταῦτα ποιοῦμεν καὶ πάσχομεν.",
+   "flags": [
+    {
+     "taylor": "which condition being met, it certainly would be",
+     "in": "MacKenna",
+     "why": "The Greek says \"perhaps they would\" (τάχα ἄν)."
+    },
+    {
+     "taylor": "exhibiting light and colour",
+     "in": "MacKenna",
+     "why": "The Greek says \"a coloured body, having the other qualities too\" (σῶμα κεχρωσμένον καὶ τὰς ἄλλας ποιότητας ἔχον); light is MacKenna's."
+    }
+   ],
+   "notes": [
+    "The question was put off in IV.5.3. There is nothing outside the heaven for Plato, and so the world needs no eyes, \"for nothing visible was left outside it\" (Timaeus 33c); Aristotle too puts no body outside the heaven (On the heaven I.9, 278b21-279a11)."
+   ]
+  },
+  {
+   "seg": "IV.5.8.p2",
+   "chapter": "IV.5.8",
+   "modern": "This, then, must be looked into: whether it is for this reason. If it is enough, it has been shown; if not, it must be shown by other means as well. That the living being is in sympathy with itself is clear, and if the All is a living being, that is enough; so its parts are too, insofar as they are of one living being.",
+   "greek": "τοῦτο οὖν σκεπτέον, εἰ παρὰ τοῦτο. καὶ εἰ μὲν αὐτάρκως, δέδεικται: εἰ δὲ μή, καὶ δἰ ἄλλων δεικτέον. τὸ μὲν οὖν ζῷον ὅτι συμπαθὲς αὑτῷ δῆλον, καὶ εἰ εἴη ζῷον, ἀρκεῖ: ὥστε καὶ τὰ μέρη, ᾗ ἑνὸς ζῴου.",
+   "flags": [
+    {
+     "taylor": "What the conditions would be otherwise, remains to be considered",
+     "in": "MacKenna",
+     "why": "The Greek says \"this must be looked into: whether it is for this reason\" (εἰ παρὰ τοῦτο), that is, whether the absurdity comes from our being within one living being."
+    }
+   ],
+   "notes": [
+    "MacKenna gives his English in square brackets from \"But why does such a failing appear impossible to us\", at the end of the first paragraph of this chapter, to the end of the third, \"offered tentatively as a possible help to the interpretation of an obscure and corrupt place\". The Greek of this chapter is hard, and the modern version follows it as Volkmann prints it."
+   ]
+  },
+  {
+   "seg": "IV.5.8.p3",
+   "chapter": "IV.5.8",
+   "modern": "But what if someone says it is by likeness? Then the grasping and the perception are by the living being, because it is the same thing that shares in the like: for the organ is like it. So perception will be the soul's grasping through organs like the things grasped. If, then, being a living being, it perceives not the things in itself but things like those in itself, it will grasp them insofar as it is a living being; but insofar as it grasps them, the things grasped will be grasped not as its own, but as like the things in itself. Or the things grasped are grasped as being like, because the soul itself has made them like, so that they are not foreign to it: so that, if the soul that makes the things there is wholly other, the things supposed there to be like are nothing to it.",
+   "greek": "ἀλλ’ εἰ δἰ ὁμοιότητά τις λέγοι; ἀλλ’ η ἀντίληψις κατὰ τὸ ζῷον καὶ ἡ αἴσθησις, ὅτι τοῦ ὁμοίου μετέχει τὸ αὐτό: τὸ γὰρ ὄργανον ὅμοιον αὐτοῦ: ὥστε ἡ αἴσθησις ψυχῆς ἀντίληψις ἔσται δἰ ὀργάνων ὁμοίων τοῖς ἀντιληπτοῖς. ἐὰν οὖν ζῷον ὂν αἰσθάνηται μὲν μὴ τῶν ἐν αὑτῷ, τῶν δὲ ὁμοίων τοῖς ἐν αὐτῷ, ᾗ μὲν ζῷον, ἀντιλήψεται: ᾗ μέντοι ἀντιλήψεται τὰ ἀντιληπτὰ ἔσται οὐχ ᾗ αὐτοῦ, ἀλλ’ ᾗ ὅμοια τοῖς ἐν αὐτῷ. ἢ καὶ τὰ ἀντιληπτὰ οὕτως ἀντιληπτὰ ὅμοια ὄντα, ὅτι αὕτη αὐτὰ ὅμοια πεποίηκεν, ὥστε μὴ οὐ προσήκοντα εἶναι: ὥστε εἰ τὸ ποιοῦν ἐκεῖ ἡ ψυχὴ πάντη ἑτέρα, καὶ τὰ ἐκεῖ ὑποτεθέντα ὅμοια οὐδὲν πρὸς αὐτήν.",
+   "flags": [
+    {
+     "taylor": "thus perception is reduced to a mental awareness",
+     "in": "MacKenna",
+     "why": "The Greek says \"the soul's grasping\" (ψυχῆς ἀντίληψις) through organs like the things grasped; \"mental\" is MacKenna's."
+    },
+    {
+     "taylor": "because the mind itself has related them",
+     "in": "MacKenna",
+     "why": "The Greek says the soul (αὕτη, ἡ ψυχή) has made them \"like\" (ὅμοια πεποίηκεν), not \"related\"; it is the soul's making of likenesses, not the mind's relating."
+    }
+   ],
+   "notes": [
+    "Perception by likeness is the soul's grasping through organs made like their objects, as in IV.5.1; that the soul makes the likeness is the teaching of IV.4.23 and IV.6.3, where the soul is the first reason-principle of the things perceived."
+   ]
+  },
+  {
+   "seg": "IV.5.8.p4",
+   "chapter": "IV.5.8",
+   "modern": "But the absurdity shows that what conflicts within the hypothesis is its cause: for it says at once soul and not soul, akin and not akin, the same things like and unlike; so that, having opposites in itself, it would not even be a hypothesis. For it supposes the soul in that one as in this: so that it posits an All and not an All, other and not other, nothing and not nothing, complete and not complete. So the hypothesis must be let go, since one cannot look for what follows from it when it does away in itself with what it supposes.",
+   "greek": "ἀλλὰ γὰρ ἡ ἀτοπία τὸ μαχόμενον ἐν τῇ ὑποθέσει δείκνυσιν ὡς αἴτιόν ἐστιν αὐτῆς: ἅμα γὰρ ψυχὴν λέγει καὶ οὐ ψυχήν, καὶ συγγενῆ καὶ οὐ συγγενῆ, καὶ ὅμοια ταὐτὰ καὶ ἀνόμοια: ὥστε ἔχουσα τὰ ἀντικείμενα ἐν αὑτῇ οὐδ’ ἂν ὑπόθεσις εἴη. καὶ γὰρ ὡς ἡ ψυχὴ ἐν τούτῳ: ὥστε πᾶν καὶ οὐ πᾶν τίθησι, καὶ ἄλλο καὶ οὐκ ἄλλο, καὶ τὸ μηδὲν καὶ οὐ τὸ μηδέν, καὶ τέλειον καὶ οὐ τέλειον. ὥστε ἀφετέον τὴν ὑπόθεσιν, ὡς οὐκ ὂν ζητεῖν τὸ ἀκόλουθον τῷ αὐτὸ τὸ ὑποτεθὲν ἐν αὑτῷ ἀναιρεῖν.",
+   "flags": [
+    {
+     "taylor": "it presents mind and no mind",
+     "in": "MacKenna",
+     "why": "The Greek says \"soul and not soul\" (ψυχὴν καὶ οὐ ψυχήν)."
+    }
+   ],
+   "notes": [
+    "\"An All and not an All\": a second cosmos, with its own soul, is supposed at once to be of a piece with this one (soul, akin, like) and not (not soul, not akin, unlike). There is one All, as the Timaeus says (31a-b)."
+   ]
+  },
+  {
+   "seg": "IV.6.1.p1",
+   "chapter": "IV.6.1",
+   "modern": "Since we say that perceptions are not imprints or seal-stamps coming to be in the soul, we shall not say either, as would follow, that memories are the holding of things learned and perceived, the imprint having stayed in the soul, since it did not even come to be in the first place. So both belong to the same account: either the imprint comes to be in the soul and stays, if the thing is remembered, or, if one does not grant either of the two, one does not grant the other. We, then, who say neither, must ask what the way of each is, since we neither say that the imprint of the sensible thing comes to be in the soul and stamps it, nor that memory is the imprint staying in it.",
+   "greek": "Τὰς αἰσθήσεις οὐ τυπώσεις, οὐδ’ ἐνσφραγίσεις λέγοντες ἐν ψυχῇ γίνεσθαι, οὐδὲ τὰς μνήμας πάντως τε καὶ ἀκολούθως ἐροῦμεν κατοχὰς μαθημάτων καὶ αἰσθήσεων εἶναι τοῦ τύπου μείναντος ἐν τῇ ψυχῇ, ὃς μηδὲ τὸ πρῶτον ἐγένετο. διὸ τοῦ αὐτοῦ λόγου ἂν εἴη ἄμφω, ἢ ἐγγίνεσθαί τε ἐν τῇ ψυχῇ καὶ μένειν, εἰ μνημονεύοιτο, ἢ τὸ ἕτερον ὁποτερονοῦν μὴ διδόντα μὴ διδόναι μηδὲ θάτερον. ὅσοι δὴ λέγομεν μηδέτερον, ἀναγκαίως ζητήσομεν, τίς ὁ τρόπος ἑκατέρου, ἐπειδὴ οὔτε τὸν τύπον τοῦ αἰσθητοῦ ἐγγίνεσθαί φαμεν τῇ ψυχῇ καὶ τυποῦν αὐτήν, οὔτε τὴν μνήμην λέγομεν εἶναι τοῦ τύπου ἐμμείναντος.",
+   "notes": [
+    "\"Since we say\": perceptions are activities and judgements, not affections or imprints, in III.6.1-2 and IV.3.26. The imprint (τύπωσις) is the Stoics' account of the impression in the soul, \"like a seal in wax\" (Diogenes Laertius VII.45-50); the wax block of memory is Plato's (Theaetetus 191c-196c), and Aristotle makes memory a kind of picture stamped by perception, like a seal (On memory 450a27-b11)."
+   ]
+  },
+  {
+   "seg": "IV.6.1.p2",
+   "chapter": "IV.6.1",
+   "modern": "If we look at what happens in the clearest of the senses, perhaps, by carrying the same over to the other senses too, we shall find what we are looking for. It is clear, surely, in every case, that when we get a perception of anything through sight, we look there, and direct our sight there, where the visible thing lies in a straight line; for clearly the grasping comes about there, and the soul looks outward, since no imprint, I think, comes to be in it, nor does it see by taking a seal-stamp, like a ring's in wax. For it would not have needed to look outward if it already had the form of the seen thing within itself, seeing by the imprint's having come into it.",
+   "greek": "εἰ δ’ ἐπὶ τῆς ἐναργεστάτης αἰσθήσεως θεωροῖμεν τὸ συμβαῖνον, τάχ̓ ἂν καὶ ἐπὶ τῶν ἄλλων αἰσθήσεων μεταφέροντες τὸ αὐτὸ ἐξεύροιμεν ἂν τὸ ζητούμενον. δῆλον δὲ δήπου ἐν παντί, ὡς αἴσθησιν ὁτουοῦν λαμβάνοντες δἰ ὁράσεως ἐκεῖ ὁρῶμεν καὶ τῇ ὄψει προσβάλλομεν, οὗ τὸ ὁρατόν ἐστιν ἐπ’ εὐθείας κείμενον, ὡς ἐκεῖ δηλονότι τῆς ἀντιλήψεως γινομένης καὶ πρὸς τὸ ἔξω τῆς ψυχῆς βλεπούσης, ἅτε μηδενός, οἶμαι, τύπου ἐν αὐτῇ γινομένου, οὐδὲ τῷ σφραγῖδα λαμβάνειν, ὥσπερ ἐν κηρῷ δακτυλίου, βλεπούσης. οὐδὲν γὰρ ἂν ἐδεήθη τοῦ ἔξω βλέπειν ἤδη ἔχουσα παῤ ἑαυτῇ εἶδος τοῦ ὁρωμένου τούτῳ τῷ ἐκεῖ εἰσελθεῖν τὸν τύπον βλέπουσα.",
+   "flags": [
+    {
+     "taylor": "it is there that we attack it",
+     "in": "MacKenna",
+     "why": "The Greek says we \"direct our sight\" there (τῇ ὄψει προσβάλλομεν), casting it on the thing; there is no attack."
+    },
+    {
+     "taylor": "the mind looks outward",
+     "in": "MacKenna",
+     "why": "The Greek says \"the soul\" (τῆς ψυχῆς) looks outward; MacKenna has \"mind\", or \"soul or mind\", for soul throughout this treatise."
+    }
+   ]
+  },
+  {
+   "seg": "IV.6.1.p3",
+   "chapter": "IV.6.1",
+   "modern": "And adding the distance to the sight, and saying from how far off it sees, how would the soul see as far off what is in it, not standing off from it at all? And the size of the thing, as large as it is outside, how would it say how large it is, or that it is large, the sky's for example, when the imprint in it could not be so large? And the greatest of all: if we got imprints of what we see, it will not be possible to see the things themselves that we see, but phantoms and shadows of what is seen, so that the things themselves would be one thing, and what we see another.",
+   "greek": "τὸ δὲ δὴ διάστημα προστιθεῖσα τῷ ὁράματι καὶ ἐξ ὅσου ἡ θέα ἡ ψυχὴ λέγουσα πῶς ἂν τὸ ἐν αὐτῇ οὐδὲν ἀφεστηκὸς ἀπ’ αὐτῆς ὡς πόρρω ὂν βλέποι; τό τε μέγεθος αὐτοῦ, ὅσον ἐστὶν ἔξω, πῶς ἂν ὅσον ἐστὶ λέγοι, ἢ ὅτι μέγα, οἷον τὸ τοῦ οὐρανοῦ, τοῦ ἐν αὐτῇ τύπου τοσούτου γε εἶναι οὐ δυναμένου; τὸ δὲ μέγιστον ἁπάντων: εἰ γὰρ τύπους λαμβάνοιμεν ὧν ὁρῶμεν, οὐκ ἔσται βλέπειν αὐτὰ ἃ ὁρῶμεν, ἰνδάλματα δὲ ὁραμάτων καὶ σκιάς, ὥστε ἄλλα μὲν εἶναι αὐτὰ τὰ πράγματα, ἄλλα δὲ τὰ ἡμῖν ὁρώμενα.",
+   "notes": [
+    "\"Phantoms and shadows\" (ἰνδάλματα, σκιαί): the shadows of the cave, which the prisoners take for the things themselves (Republic VII 515a-c)."
+   ]
+  },
+  {
+   "seg": "IV.6.1.p4",
+   "chapter": "IV.6.1",
+   "modern": "In general, as it is said that one cannot see the visible thing by putting it on the pupil, but must stand it off to see it, this must be carried over to the soul too, and much more. For if we set the imprint of the visible thing in the soul, that in which it is stamped would not see it as a sight: for there must be two, the seer and the seen. So the seer must be something else, the imprint lying elsewhere, not in what sees. Seeing, then, must be of what does not lie in it, not of what does, that it may be seeing.",
+   "greek": "ὅλως δέ, ὥσπερ λέγεται, ὡς οὐκ ἔστιν ἐπιθέντα τῇ κόρῃ τὸ ὁρατὸν θεάσασθαι, ἀποστήσαντα δὲ δεῖ οὕτως ὁρᾶν, τοῦτο χρὴ καὶ πολὺ μᾶλλον ἐπὶ τὴν ψυχὴν μεταφέρειν. εἰ γὰρ τὸν τύπον τοῦ ὁρατοῦ θείμεθα ἐν αὐτῇ, ἐκεῖνο μέν, ᾧ ἐνεσφράγισται, οὐκ ἂν ὅραμα ἴδοι: δεῖ γὰρ δύο γενέσθαι τό τε ὁρῶν καὶ τὸ ὁρώμενον. ἄλλο ἄρα δεῖ εἶναι τὸ ὁρῶν ἀλλαχοῦ κείμενον τὸν τύπον, ἀλλ’ οὐκ ἐν ᾧ ἔστι κείμενον. δεῖ ἄρα τὴν ὅρασιν οὐ κειμένου εἶναι, ἀλλὰ μὴ κειμένου εἶναι, ἵνα ᾖ ὅρασις.",
+   "flags": [
+    {
+     "taylor": "we cannot see if the living object is in contact with the eye",
+     "in": "MacKenna",
+     "why": "The Greek says \"the visible thing\" (τὸ ὁρατόν) put on the pupil; nothing is said of a living object."
+    }
+   ],
+   "notes": [
+    "\"As it is said\": in IV.5.2, after Aristotle (On the soul II.7, 419a12-13)."
+   ]
+  },
+  {
+   "seg": "IV.6.2.p1",
+   "chapter": "IV.6.2",
+   "modern": "If not this way, then, what is the way? Or it speaks of what it does not have: for this is the mark of a power, not to be affected, but to be able, and to do the work it is set over. For in this way, I think, the soul could tell apart the visible and the audible: not if both were imprints, but if they are not imprints, nor affections, but activities about that with which they are of a nature to deal. But we, distrusting that each power can know its own object unless it is struck, make it be affected, and not know what is near it, though it was given to master it, not to be mastered.",
+   "greek": "εἰ οὖν μὴ οὕτως, τίς ὁ τρόπος; ἢ λέγει περὶ ὦν οὐκ ἔχει: τοῦτο γὰρ δυνάμεως, οὐ τὸ παθεῖν τι, ἀλλὰ τὸ δυνηθῆναι καὶ ἐφ̓ ᾧ τέτακται ἐργάσασθαι. οὕτως γὰρ ἄν, οἶμαι, καὶ διακριθείη τῇ ψυχῇ καὶ τὸ ὁρατὸν καὶ τὸ ἀκουστόν, οὐκ εἰ τύποι ἄμφω, ἀλλ’ εἰ μὴ τύποι, μηδὲ πείσεις, ἀλλ’ ἐνέργειαι περὶ ὃ ἔνεισι πεφύκασιν. ἡμεῖς δὲ ἀπιστοῦντες, μὴ οὐ δύνηται, ἐὰν μὴ πληγῇ, τὸ αὑτῆς γινώσκειν δύναμις ἑκάστη, πάσχειν, ἀλλ’ οὐ γινώσκειν τὸ ἐγγὺς ποιοῦμεν, οὗ κρατεῖν δέδοται, ἀλλ’ οὐ κρατεῖσθαι.",
+   "notes": [
+    "\"It speaks of what it does not have\": perceiving is a judgement (κρίσις) of what is outside, as in III.6.1 and IV.3.26; the soul is set over the body to rule it, not to be ruled (Phaedo 80a, 94b-e)."
+   ]
+  },
+  {
+   "seg": "IV.6.2.p2",
+   "chapter": "IV.6.2",
+   "modern": "In the same way one must think it happens with hearing too: the imprint is in the air, a kind of articulated stroke, like letters written in it by the one who made the voice; but the power, the being of the soul, reads, as it were, the imprints written in the air, when they have come near to the place where they are of a nature to be seen.",
+   "greek": "τὸν αὐτὸν δὴ τρόπον καὶ ἐπ’ ἀκοῆς δεῖ νομίζειν γίνεσθαι: τὸν μὲν τύπον εἶναι ἐν τῷ ἀέρι πληγήν τινα οὖσαν διηρθρωμένην, οἷον γραμμάτων ἐγγεγραμμένων ὑπὸ τοῦ τὴν φωνὴν πεποιηκότος, τὴν μέντοι δύναμιν καὶ τὴν τῆς ψυχῆς οὐσίαν οἷον ἀναγνῶναι τοὺς τύπους τοὺς ἐν τῷ ἀέρι γεγραμμένους, ἐλθόντας πλησίον, εἰς ὃ ἐλθόντες πεφύκασιν ὁρᾶσθαι.",
+   "flags": [
+    {
+     "taylor": "as they reach the point at which they become matter of its knowledge",
+     "in": "MacKenna",
+     "why": "The Greek says they come to where \"they are of a nature to be seen\" (πεφύκασιν ὁρᾶσθαι): the image of reading holds, and the soul sees the letters."
+    }
+   ],
+   "notes": [
+    "Voice as air struck and shaped into articulate sound is the Stoics' (Diogenes Laertius VII.55) and Aristotle's (On the soul II.8, 420b5-421a6); the letters written in the air answer the letters on tablets at the end of IV.6.3."
+   ]
+  },
+  {
+   "seg": "IV.6.2.p3",
+   "chapter": "IV.6.2",
+   "modern": "Of taste and smell, the affections are one thing; but the perceptions of them and the judgements are knowings of the affections, other than the affections. And the knowing of the intelligibles is still more free of affection and imprint: for, the other way round, they come forward as it were from within, while the others are seen from outside; and those are more truly activities, and more sovereign: for they are the soul's own, and it is itself each of them in its activity. Whether the soul sees itself as two, and as another, but intellect as one, and both, the two, as one, is for elsewhere.",
+   "greek": "γεύσεως δὲ καὶ ὀσφρήσεως τὰ μὲν πάθη, τὰ δ’ ὅσα αἰσθήσεις αὐτῶν καὶ κρίσεις, τῶν παθῶν εἰσι γνώσεις ἄλλαι τῶν παθῶν οὖσαι. τῶν δὲ νοητῶν ἡ γνῶσις ἀπαθὴς καὶ ἀτύπωτός ἐστι μᾶλλον — ἀνάπαλιν γὰρ ἔσωθεν οἷον προπίπτει, τὰ δὲ ἔξωθεν θεωρεῖται: καὶ ἔστιν ἐκεῖνα μᾶλλον ἐνέργειαι καὶ κυριώτεραι — αὐτῆς γὰρ καὶ ἔστιν αὐτὴ ἐνεργοῦσα ἕκαστον. πότερα δὲ αὑτὴν μὲν ἡ ψυχὴ ὡς δύο καὶ ὡς ἕτερον ὁρᾷ, νοῦν δὲ ἓν καὶ ἄμφω τὰ δύο ἕν, ἐν ἄλλοις.",
+   "flags": [
+    {
+     "taylor": "every concept of this Intellectual order is the soul about its Act",
+     "in": "MacKenna",
+     "why": "The Greek says the soul \"is itself each of them in its activity\" (ἔστιν αὐτὴ ἐνεργοῦσα ἕκαστον): it does not merely act about them; it is them."
+    }
+   ],
+   "notes": [
+    "\"Elsewhere\": in V.3.1-6, on how intellect knows itself, as one and two at once, and how the soul knows itself through intellect; the soul joined to intellect \"one and two\" is in IV.4.2."
+   ]
+  },
+  {
+   "seg": "IV.6.3.p1",
+   "chapter": "IV.6.3",
+   "modern": "Now that this has been said, we must speak next about memory, saying first that it is not to be wondered at, or rather, it is to be wondered at, but we must not disbelieve in such a power of the soul, if, taking nothing into itself, it grasps what it did not have. For it is a reason-principle of all things; and the nature of soul is the last reason-principle of the intelligibles and of what is in the intelligible, and the first of what is in the whole perceptible world. That is why it is turned towards both: by the one it is made well and comes to life again, by the other it is deceived by the likeness and goes down, as if charmed. Being in the middle, it perceives both; and it is said to think the intelligibles when it comes to memory of them, if it comes to be near them: for it knows them by being them in some way. It knows them not by their settling in it, but by having them in some way, and seeing them, and being them, more dimly, and becoming clearer out of the dim by a kind of waking up, and going from potency to act.",
+   "greek": "νῦν δὲ τούτων εἰρημένων περὶ μνήμης ἐφεξῆς λεκτέον εἰποῦσι πρότερον, ὡς οὐ θαυμαστόν, μᾶλλον δὲ θαυμαστὸν μέν, ἀπιστεῖν δὲ οὐ δεῖ τῇ τοιαύτῃ δυναμει τῆς ψυχῆς, εἰ μηδὲν λαβοῦσα εἰς αὑτὴν ἀντίληψιν ὧν οὐκ ἔσχε ποιεῖται. λόγος γάρ ἐστι πάντων, καὶ λόγος ἔσχατος μὲν τῶν νοητῶν καὶ τῶν ἐν τῷ νοητῷ ἡ ψυχῆς φύσις, πρῶτος δὲ τῶν ἐν τῷ αἰσθητῷ παντί. διὸ δὴ καὶ πρὸς ἄμφω ἔχει, ὑπὸ μὲν τῶν εὐπαθοῦσα καὶ ἀναβιωσκομένη, ὑπὸ δὲ τῶν. τῇ ὁμοιότητι ἀπατωμένη καὶ κατιοῦσα ὥσπερ θελγομένη. ἐν μέσῳ δὲ οὖσα αἰσθάνεται ἀμφοῖν, καὶ τὰ μὲν νοεῖν λέγεται εἰς μνήμην ἐλθοῦσα, εἰ πρὸς αὐτοῖς γίγνοιτο: γινώσκει γὰρ τῷ αὐτά πως εἶναι: γινώσκει γὰρ οὐ τῷ ἐνιζάνειν αὐτά, ἀλλὰ τῷ πως ἔχειν αὐτὰ καὶ ὁρᾶν αὐτὰ καὶ εἶναι αὐτὰ ἀμυδρότερον καὶ γίνεσθαι ἐκ τοῦ ἀμυδροῦ τῷ οἷον ἐγείρεσθαι ἐναργεστέρα καὶ ἐκ δυνάμεως εἰς ἐνέργειαν ἰέναι.",
+   "flags": [
+    {
+     "taylor": "its own essential Nature is one of the Beings of the Intellectual Realm",
+     "in": "MacKenna",
+     "why": "The Greek says \"the nature of soul\" is the last reason-principle \"of the intelligibles and of what is in the intelligible\" (ἔσχατος μὲν τῶν νοητῶν καὶ τῶν ἐν τῷ νοητῷ): one statement, of which MacKenna makes a separate clause between dashes."
+    },
+    {
+     "taylor": "its knowledge is not attained by besetting them",
+     "in": "MacKenna",
+     "why": "The Greek says it knows them \"not by their settling in it\" (οὐ τῷ ἐνιζάνειν αὐτά): sitting in the soul as imprints, the theory just refuted."
+    },
+    {
+     "taylor": "they are itself in a more radiant mode",
+     "in": "MacKenna",
+     "why": "The Greek says the soul is them \"more dimly\" (ἀμυδρότερον), and becomes clearer as it wakes; MacKenna makes them the brighter."
+    }
+   ],
+   "notes": [
+    "\"Said to think the intelligibles when it comes to memory of them\": Plato's recollection (Phaedo 72e-76e; Phaedrus 249b-c), which Plotinus reads as the soul's waking to what it is. Charmed (θελγομένη): the soul bewitched by the body (Phaedo 81b)."
+   ]
+  },
+  {
+   "seg": "IV.6.3.p2",
+   "chapter": "IV.6.3",
+   "modern": "The things perceived, in the same way, it as it were joins to itself, and makes them shine out from itself, as it were, and brings them before its eyes, the power being ready and as it were in labour towards them. When, then, it has been made strong towards any of the things that have appeared, it is disposed towards it for a long time as towards something present, and the more strongly, the longer. That is why children are said to remember better: because things do not stand away from them but lie before their eyes, since they do not yet look at a multitude, but at a few things; but those whose thought and power go out to many things run past them, as it were, and do not stay.",
+   "greek": "τὰ δ’ αἰσθητὰ τὸν αὐτὸν τρόπον οἷον συναψαμένη καὶ ταῦτα παῤ αὑτῆς οἷον ἐκλάμπειν ποιεῖ καὶ πρὸ ὀμμάτων εἶναι ἐργάζεται ἑτοίμης οὔσης καὶ οἷον ὠδινούσης πρὸς αὐτὰ τῆς δυνάμεως. ὅταν τοίνυν ῥωσθῇ πρὸς ὁτιοῦν τῶν φανέντων, ὥσπερ πρὸς παρὸν διάκειται ἐπὶ πολὺν χρόνον καὶ ὅσῳ μᾶλλον, τόσῳ ἀεί. διὸ καὶ τὰ παιδία μνημονεύειν λέγεται μᾶλλον, ὅτι μὴ ἀφίσταται, ἀλλὰ κεῖται αὐτοῖς πρὸ ὀμμάτων ὡς ἂν ὁρῶσιν οὔπω εἰς πλῆθος, ἀλλὰ πρὸς ὀλίγα: οἷς δὲ ἐπὶ πολλὰ ἡ διάνοια καὶ ἡ δύναμις, ὥσπερ παραθέουσι καὶ οὐ μένουσιν.",
+   "flags": [
+    {
+     "taylor": "This is why, it is agreed, children have long memory",
+     "in": "MacKenna",
+     "why": "The Greek says children \"are said to remember better\" (μνημονεύειν λέγεται μᾶλλον): more, not longer; the length is of the soul's disposition to what it holds strongly."
+    }
+   ]
+  },
+  {
+   "seg": "IV.6.3.p3",
+   "chapter": "IV.6.3",
+   "modern": "If the imprints stayed, the multitude would not have made them worse at remembering. Again, if imprints stayed, there would have been no need to search in order to recollect, nor to forget first and recollect later, if they lay there. And the exercises for getting things back show that what happens is a strengthening of the soul, as the training of hands or feet is for doing easily what does not lie in the hands or feet, but what they have been made ready for by persistence.",
+   "greek": "εἰ δέ γε ἔμενον οἱ τύποι, οὐκ ἂν ἐποίησε τὸ πλῆθος ἧττον μνήμονας. ἔτι, εἰ τύποι μένοντες, οὐδὲν ἔδει σκοπεῖν, ἵνα ἀναμνησθῶμεν, οὐδὲ πρότερον ἐπιλαθομένους ὕστερον ἀναμιμνήσκεσθαι κειμένων. καὶ αἱ εἰς ἀνάληψιν δὲ μελέται δηλοῦσι δυνάμωσιν ψυχῆς τὸ γινόμενον ὑπάρχειν, ὥσπερ χειρῶν ἢ ποδῶν τὰ γυμνάσια εἰς τὸ ποιεῖν ῥᾳδίως, ἃ μὴ ἐν ταῖς χερσὶν ἢ ποσὶ κεῖται, ἀλλὰ πρὸς ἃ τῇ συνεχείᾳ ἡτοίμασται.",
+   "notes": [
+    "To recollect (ἀναμιμνήσκεσθαι) here is the everyday recalling of what was forgotten, which Aristotle distinguishes from memory as a search (On memory 451a18-453a14). The soul as a power trained like the body is Plato's (Republic VII 518d-e, the virtues of the soul \"made by habit and exercise\")."
+   ]
+  },
+  {
+   "seg": "IV.6.3.p4",
+   "chapter": "IV.6.3",
+   "modern": "For why does someone who has heard a thing once or twice not remember it, but when he has heard it often, remembers it, and remembers long afterwards what he did not hold when he heard it before? It is not, surely, because he had parts of the imprint before: for then he should remember those; but it comes about as it were suddenly, from some later hearing or practice. These things bear witness to a calling-out of the power of the soul by which we remember, as if it had been strengthened, either simply or for this.",
+   "greek": "διὰ τί γὰρ ἅπαξ μὲν ἀκούσας ἢ δεύτερον οὐ μέμνηται, ὅταν δὲ πολλάκις, καὶ ὃ πρότερον ἀκούσας οὐκ ἔσχε πολλῷ ὕστερον χρόνῳ μέμνηται ἤδη; οὐ γὰρ δὴ τῷ μέρη ἐσχηκέναι πρότερον τοῦ τύπου: ἔδει γὰρ τούτων μεμνῆσθαι: ἀλλ’ οἷον ἐξαίφνης γίγνεται τοῦτο ἔκ τινος τῆς ὑστέρας ἀκροάσεως ἢ μελέτης. ταῦτα γὰρ μαρτυρεῖ πρόκλησιν τῆς δυνάμεως καθ̓ ἣν μνημονεύομεν τῆς ψυχῆς, ὡς ῥωσθείσης ἢ ἁπλῶς ἢ πρὸς τοῦτο.",
+   "flags": [
+    {
+     "taylor": "It is no answer to say that the parts present themselves sooner than the entire imprint",
+     "in": "MacKenna",
+     "why": "The Greek says it is not \"because he had parts of the imprint before\" (τῷ μέρη ἐσχηκέναι πρότερον τοῦ τύπου): the answer of the imprint theory, that the earlier hearings left part of the stamp, which Plotinus refutes: then those parts should be remembered."
+    }
+   ]
+  },
+  {
+   "seg": "IV.6.3.p5",
+   "chapter": "IV.6.3",
+   "modern": "And when memory comes to us not only for what we practised, but those who have taken in many things, from being used to reports, now easily make what are called the recoveries of the others too, what would one blame memory on, other than the power having been made strong?",
+   "greek": "ὅταν δὲ δὴ οὐ μόνον πρὸς ἃ ἐμελετήσαμεν τὸ τῆς μνήμης ἡμῖν παρῇ, ἀλλ’ οἵπερ πολλὰ ἀνειλήφασιν ἐκ τοῦ εἰθίσθαι ἀπαγγελίαις χρῆσθαι, ῥᾳδίας ἤδη καὶ τῶν ἄλλων τὰς λεγομένας ἀναλήψεις ποιῶνται, τί ἄν τις ἐπαιτιῷτο τῆς μνήμης ἢ τὴν δύναμιν τὴν ῥωσθεῖσαν εἶναι;",
+   "flags": [
+    {
+     "taylor": "memory follows upon attention ; those who have memorised much, by dint of their training in the use of leading indications (suggestive words and the like)",
+     "in": "MacKenna",
+     "why": "The Greek has no \"memory follows upon attention\"; it says memory comes not only for what we have practised, and that those used to \"reports\" (ἀπαγγελίαις), to telling things over, recover others easily; MacKenna's \"leading indications\" and his bracket are not there."
+    }
+   ]
+  },
+  {
+   "seg": "IV.6.3.p6",
+   "chapter": "IV.6.3",
+   "modern": "For the imprints, staying, would charge it with weakness rather than power: for what takes imprints most is so by yielding, and since the imprint is an affection, what has been more affected would be what remembers more. But the opposite of this appears to happen: nowhere does training for anything make what has trained easily affected; since with the senses too it is not the weak that sees, the eye for example, but what has more power for its activity. That is why the old are weaker in their perceptions, and in their memories likewise. So perception and memory are both a kind of strength.",
+   "greek": "οἱ μὲν γὰρ τύποι μένοντες ἀσθένειαν ἂν μᾶλλον ἢ δύναμιν κατηγοροῖεν: τὸ γὰρ ἐντυπώτατον τῷ εἴκειν ἐστὶ τοιοῦτον, καὶ πάθους ὄντος τοῦ τύπου τὸ μᾶλλον πεπονθὸς τοῦτό ἐστι τὸ μνημονεῦον μᾶλλον. τούτου δὲ τοὐναντίον φαίνεται συμβαῖνον: οὐδαμοῦ γὰρ ἡ πρὸς ὁτιοῦν γυμνασία εὐπαθὲς τὸ γυμνασάμενον ποιεῖ: ἐπεὶ καὶ ἐπὶ τῶν αἰσθήσεων οὐ τὸ ἀσθενὲς ὁρᾷ, οἷον ὁ ὀφθαλμός, ἀλλ’ ὅτῳ δύναμίς ἐστιν εἰς ἐνέργειαν πλείων. διὸ καὶ οἱ γεγηρακότες καὶ πρὸς τὰς αἰσθήσεις ἀσθενέστεροι καὶ πρὸς τὰς μνήμας ὡσαύτως. ἰσχὺς ἄρα τις καὶ ἡ αἴσθησις καὶ ἡ μνήμη.",
+   "flags": [
+    {
+     "taylor": "in no pursuit do technical exercises tend to make a man less the master of his acts and states",
+     "in": "MacKenna",
+     "why": "The Greek says \"nowhere does training for anything make what has trained easily affected\" (εὐπαθές): the point is that training makes it less passive, which is the opposite of what imprints would need."
+    }
+   ],
+   "notes": [
+    "What takes imprints best is soft and yielding: Plato's wax that is too soft keeps nothing clearly (Theaetetus 194e-195a); Aristotle puts the poor memories of the very young and very old in their flux and hardness (On memory 450a32-b11)."
+   ]
+  },
+  {
+   "seg": "IV.6.3.p7",
+   "chapter": "IV.6.3",
+   "modern": "Again, since perceptions are not imprints, how can memories be the holding of what was never put in at all? But if it is a power and a readiness for having things ready, why do we come to the recalling of the same things not at once, but later? Or because the power must be as it were set to it and made ready. We see this with the other powers too, which are made ready to do what they can, and work, some at once, others if they gather themselves. The same men are not, for the most part, good at remembering and quick-witted, because the power of each is not the same, as the same man is not often good at boxing and at running: different forms prevail in different men. And yet nothing would prevent one who had any advantage of soul from reading what lay there, nor one who had flowed that way from having got the weakness that being affected and keeping the affection would be.",
+   "greek": "ἔτι τῶν αἰσθήσεων τυπώσεων οὐκ οὐσῶν, πῶς οἷόν τε τὰς μνήμας κατοχὰς τῶν οὐκ ἐντεθέντων οὐδὲ τὴν ἀρχὴν εἶναι; ἀλλ’ εἰ δύναμίς τις καὶ παρασκευὴ πρὸς τὸ ἕτοιμον, πῶς οὐχ ἅμα, ἀλλ’ ὕστερον εἰς ἀναπόλησιν τῶν αὐτῶν ἐρχόμεθα; ἢ ὅτι τὴν δύναμιν δεῖ οἷον ἐπιστῆσαι καὶ ἑτοιμάσασθαι. τοῦτο γὰρ καὶ ἐπὶ τῶν ἄλλων δυνάμεων ὁρῶμεν, εἰς τὸ ποιῆσαι ὃ δύνανται ἑτοιμαζομένων καὶ τὰ μὲν εὐθύς, τὰ δέ, εἰ συλλέξαιντο ἑαυτάς, ἐργαζομένων. γίνονται δὲ ὡς ἐπὶ τὸ πολὺ οὐχ οἱ αὐτοὶ μνήμονες καὶ ἀγχίνοι, ὅτι οὐχ ἡ αὐτὴ δύναμις ἑκατέρου, ὥσπερ οὐδ’ ὁ αὐτὸς πυκτικὸς καὶ δρομικὸς πολλάκις: ἐπικρατοῦσι γὰρ ἄλλαι ἐν ἄλλῳ ἰδέαι. καίτοι οὐκ ἐκώλυε τὸν ἁστινασοῦν ἔχοντα πλεονεξίας ψυχῆς ἀναγινώσκειν τὰ κείμενα, οὐδὲ τὸν ταύτῃ ῥυέντα τὴν τοῦ πάσχειν καὶ ἔχειν τὸ πάθος ἀδυναμίαν κεκτῆσθαι.",
+   "flags": [
+    {
+     "taylor": "the dominant idea differs from man to man",
+     "in": "MacKenna",
+     "why": "The Greek says \"different forms prevail in different men\" (ἐπικρατοῦσι γὰρ ἄλλαι ἐν ἄλλῳ ἰδέαι): kinds of make or constitution, as a boxer's and a runner's, not ideas."
+    }
+   ],
+   "notes": [
+    "Aristotle says the same: the slow are better at remembering, the quick and clever at recollecting (On memory 449b6-8). The last sentence is hard: if memory were the reading of imprints, any better soul would read them, and one inclined to being affected would have, not a power, but the weakness of being affected and keeping it."
+   ]
+  },
+  {
+   "seg": "IV.6.3.p8",
+   "chapter": "IV.6.3",
+   "modern": "And the soul's having no size bears witness that soul is a power. And, in general, it is no wonder that all that concerns the soul is otherwise than men have supposed for want of examining it, or than the first impressions that come to them from sensibles, deceiving by likenesses, lead them to think: they think of perceiving and remembering as of letters written on boards or tablets; and neither those who take the soul for a body see how many impossible things follow for their hypothesis, nor those who take it as bodiless.",
+   "greek": "καὶ τὸ τῆς ψυχῆς δὲ ἀμέγεθες ʽκαὶ ὅλωσ̓ ψυχὴν μαρτυρεῖ δύναμιν εἶναι: καὶ ὅλως τὰ περὶ ψυχὴν πάντα οὐ θαυμαστὸν ἄλλον τρόπον ἔχειν, ἢ ὡς ὑπειλήφασιν ὑπὸ τοῦ μὴ ἐξετάζειν ἄνθρωποι, ἢ ὡς πρόχειροι αὐτοῖς ἐπιβολαὶ ἐξ αἰσθητῶν ἐγγίνονται δἰ ὁμοιοτήτων ἀπατῶσαι: οἷον γὰρ ἐν πίναξιν ἢ δέλτοις γεγραμμένων γραμμάτων, οὕτως περὶ τῶν αἰσθήσεων καὶ τοῦ μνημονεύειν διάκεινται, καὶ οὔτε οἱ σῶμα αὐτὴν θεωρούμενοι ὁρῶσιν, ὅσα ἀδύνατα τῇ ὑποθέσει αὐτῶν συμβαίνει, οὔτε οἱ ἀσώματον.",
+   "notes": [
+    "The Greek of the first sentence has \"and in general\" in Volkmann's brackets, repeated in the next. That the soul has no size, and so cannot hold imprints as a body does, is argued in IV.7.6-8 against the Stoics. The tablet is Plato's (Theaetetus 191c) and Aristotle's, for whom intellect is like a writing tablet on which nothing is yet written (On the soul III.4, 429b31-430a2). Those who take the soul as bodiless, and still speak of imprints, are the Platonists and Peripatetics who follow the wax block."
    ]
   }
  ],

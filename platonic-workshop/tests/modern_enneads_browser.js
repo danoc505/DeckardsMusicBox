@@ -34,7 +34,7 @@ async function run(b, viewport, touch, first) {
   const head = await p.$eval(".tg-read", (e) => e.innerText);
   check(/Modern English, the Workshop's own/.test(head) && /machine-assisted/i.test(head) && /not yet checked by a scholar/.test(head), `${tag}: labelled as the Workshop's own and machine-assisted`);
   check(/checked against Stephen MacKenna's translation \(1917, 1921, 1924\)/.test(head), `${tag}: and as checked against MacKenna, vols. I to III`);
-  check(await p.$$eval(".tg-mod", (es) => es.length) === 245 && await p.$$eval(".tg-mod .ms-sum", (es) => es.length) === 245, `${tag}: the Life, I.1, I.4 to I.9, II.1 to II.3, II.5 to II.8, III.1 to III.5, III.8, III.9, IV.1 and IV.4, two hundred and forty-five chapters, each with its gist`);
+  check(await p.$$eval(".tg-mod", (es) => es.length) === 256 && await p.$$eval(".tg-mod .ms-sum", (es) => es.length) === 256, `${tag}: the Life, I.1, I.4 to I.9, II.1 to II.3, II.5 to II.8, III.1 to III.5, III.8, III.9, IV.1, IV.4, IV.5 and IV.6, two hundred and fifty-six chapters, each with its gist`);
   // Porphyry's Life comes first (E5), with Volkmann's proofread Greek and MacKenna's flags.
   check(await p.$eval(".tg-mod", (e) => e.id) === "mc-Life.1", `${tag}: the Life comes first (E5)`);
   check(/Life, chapter 3\. /.test(await p.$eval("#mc-Life\\.3", (e) => e.textContent)), `${tag}: the Life's chapters are headed as such`);
@@ -85,6 +85,10 @@ async function run(b, viewport, touch, first) {
     && /MacKenna: “changing the members, the relationship remains the same/.test(await p.$eval("#mp-IV\\.4\\.34\\.p3", (e) => e.textContent))
     && /MacKenna: “taking this sphere in free election/.test(await p.$eval("#mp-IV\\.4\\.45\\.p4", (e) => e.textContent)), `${tag}: IV.4.32-45 are here, with their flags (E17)`);
   check(!/of 45 so far/.test(await p.$eval("#toc", (e) => e.textContent)), `${tag}: IV.4 is complete, no longer marked as partly done (E17)`);
+  check(/IV\.5\.3\. Fires at night, and the whole face in every part of the air/.test(await p.$eval("#mc-IV\\.5\\.3", (e) => e.textContent))
+    && /IV\.6\.3\. Memory is a power made strong/.test(await p.$eval("#mc-IV\\.6\\.3", (e) => e.textContent))
+    && /MacKenna: “in trees the upthrust from the root/.test(await p.$eval("#mp-IV\\.5\\.2\\.p4", (e) => e.textContent))
+    && /MacKenna: “they are itself in a more radiant mode/.test(await p.$eval("#mp-IV\\.6\\.3\\.p1", (e) => e.textContent)), `${tag}: IV.5 and IV.6 are here, with their flags (E18)`);
   check(/I\.1\.7\. The light of the soul/.test(await p.$eval("#mc-I\\.1\\.7", (e) => e.textContent)), `${tag}: chapters are headed by number and title`);
   check(/^Pleasures and pains, fears and boldness/.test(await p.$eval("#mp-I\\.1\\.1\\.p1 .mp-text", (e) => e.textContent)), `${tag}: the modern English of I.1.1`);
   check(await p.$$eval(".tg-mod .mp-flag", (es) => es.length) >= 10, `${tag}: flags where MacKenna and the Greek differ`);
@@ -98,9 +102,9 @@ async function run(b, viewport, touch, first) {
   check(await p.$$eval('#toc a[href="#neo-modern/enneads/I.1.1"]', (es) => es.length) === 1, `${tag}: I.1 links here`);
   check(await p.$$eval('#toc a[href="#neo-en/taylor-plotinus/0"]', (es) => es.length) === 1 && await p.$$eval('#toc a[href="#neo-en/taylor-plotinus/14"]', (es) => es.length) === 1,
     `${tag}: Taylor's treatises link to his English with the modern beside it`);
-  check(await p.$$eval("#toc .enn-later", (es) => es.length) === 16, `${tag}: the other sixteen are to come`);
+  check(await p.$$eval("#toc .enn-later", (es) => es.length) === 14, `${tag}: the other fourteen are to come`);
   await p.click(".enn-all summary");
-  check(/to come, E18/.test(await p.$eval(".enn-all", (e) => e.textContent)), `${tag}: the whole Enneads names the milestone of each one to come`);
+  check(/to come, E19/.test(await p.$eval(".enn-all", (e) => e.textContent)), `${tag}: the whole Enneads names the milestone of each one to come`);
   await wide("the Enneads in modern English");
 
   // The Greek of a paragraph, linking to its chapter in Volkmann's text.
@@ -118,7 +122,7 @@ async function run(b, viewport, touch, first) {
   // Side by side.
   await p.click('[data-nm-mode="both"]');
   await p.waitForSelector(".mod-both .tg-tcol");
-  check(await p.$$eval(".tg-tcol", (es) => es.length) === 245, `${tag}: side by side, MacKenna beside every chapter`);
+  check(await p.$$eval(".tg-tcol", (es) => es.length) === 256, `${tag}: side by side, MacKenna beside every chapter`);
   if (viewport.width >= 1024) {
     const cols = await p.$eval("#mc-I\\.1\\.3 .tg-cols", (e) => [...e.children].map((c) => Math.round(c.getBoundingClientRect().left)));
     check(cols.length === 2 && cols[1] > cols[0] + 100, `${tag}: in two columns`);
