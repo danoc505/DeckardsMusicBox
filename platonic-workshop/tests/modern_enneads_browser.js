@@ -122,9 +122,11 @@ async function run(b, viewport, touch, first) {
   await p.waitForSelector("#neo-1\\.1\\.5");
   check(await p.$$eval('#neo-1\\.1\\.5 a[href="#neo-modern/enneads/I.1.5"]', (es) => es.length) === 1, `${tag}: each chapter of the Greek links to its modern English`);
   // The Life on the shelf, and each of its proofread pages, link to it (E5).
+  await p.goto(base + "#neo/porphyry-life-plotinus");
+  await p.waitForSelector(".neo-text");
+  check(await p.$$eval('.neo-text a[href="#neo-modern/enneads/Life.1"]', (es) => es.length) === 1, `${tag}: the Life's Greek links to its modern English`);
   await p.goto(base + "#neo/porphyry-life-plotinus/0");
   await p.waitForSelector(".neo-text");
-  check(await p.$$eval('a[href="#neo-modern/enneads/Life.1"]', (es) => es.length) >= 2, `${tag}: the Life's Greek links to its modern English`);
   check(await p.$$eval('a[href="#neo-modern/enneads/Life.2"]', (es) => es.length) >= 1, `${tag}: its pages link to their chapters`);
   check(errors.length === 0, `${tag}: no script errors (${errors.join("; ")})`);
   await p.close();
