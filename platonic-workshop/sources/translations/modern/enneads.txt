@@ -3628,7 +3628,7 @@ So the soul made "of the undivided and of what is divided in bodies" is the same
 !note "Of the undivided and of what is divided in bodies": Plato's Timaeus (35a), where the craftsman mixes the world soul from the undivided being that is always the same and the divided being that comes to be in bodies. Plotinus reads the mixture as one soul that is at once above and below. The line from the centre comes back in IV.4.16 and VI.9.8.
 
 @treatise IV.4 | On difficulties about the soul, second part
-The second of the three books On difficulties about the soul (IV.3 to IV.5). It begins with memory. A soul in the intelligible remembers nothing of this world, not even itself: it is one with what it sees, and memory begins only when it leans out and wants to be its own; what it remembers, it becomes. The stars, the soul of the world and Zeus himself have no memory, and do not reason: their life is always the same, their knowledge is not learned, and their making is like nature's, which makes from within, not like a doctor's, who must deliberate. Nature is the last image of wisdom, a trace in wax; time belongs to soul, but the soul of the All is not in time, and its order is a circle round the centre of the Good. Our own reasonings come in time because many things rule in us, as many voices shout down the best counsellor in an assembly. Then the body's share: the living body is warmed, not merely lit, by soul, and pleasure, pain and the beginning of desire belong to it, while the soul knows them unaffected; nature tends the body's desire like a mother. The earth has a soul, perceives and hears prayers, and is a god, Hestia and Demeter; anger rises from the body's blood and bile and from reason's sight of injustice. If the stars answer prayers, do they remember, and do they help in wrongdoing? Not by hot and cold, nor by their choice. (Chapters 32 to 45, to come in E17, take up the sympathy of the All, prayer and magic.)
+The second of the three books On difficulties about the soul (IV.3 to IV.5). It begins with memory. A soul in the intelligible remembers nothing of this world, not even itself: it is one with what it sees, and memory begins only when it leans out and wants to be its own; what it remembers, it becomes. The stars, the soul of the world and Zeus himself have no memory, and do not reason: their life is always the same, their knowledge is not learned, and their making is like nature's, which makes from within, not like a doctor's, who must deliberate. Nature is the last image of wisdom, a trace in wax; time belongs to soul, but the soul of the All is not in time, and its order is a circle round the centre of the Good. Our own reasonings come in time because many things rule in us, as many voices shout down the best counsellor in an assembly. Then the body's share: the living body is warmed, not merely lit, by soul, and pleasure, pain and the beginning of desire belong to it, while the soul knows them unaffected; nature tends the body's desire like a mother. The earth has a soul, perceives and hears prayers, and is a god, Hestia and Demeter; anger rises from the body's blood and bile and from reason's sight of injustice. If the stars answer prayers, do they remember, and do they help in wrongdoing? Not by hot and cold, nor by their choice. Their answer is the sympathy of the All: the cosmos is one living being, whose parts feel together across distances, and whose figures change like those of a dance, so that the stars act and signify without choosing. Each thing has its own power, the heavenly most; prayers and spells work as one string sounds with another tuned to it, and the first sorcerer is the love and strife of nature. The stars give without knowing, and the All is unaffected. The good man is touched by magic only in his unreasoning part; all action is bewitched, and only contemplation, turned to itself, is free. By a soundless path and a justice none can escape, each soul is carried to the place it fits, the good man knowing it and hoping to be with gods.
 
 @ch IV.4.1 | No memory in the intelligible
 A soul in the intelligible contemplates the things there and remembers nothing of here, not even that it did philosophy. Thinking does not include "I have thought", and the things there are timeless, so there is no memory there at all. But it can see many things at once, as a face is seen with its eyes and nose, and the first and later among the forms is an order, not a time, like the order of a plant seen whole.
@@ -4232,3 +4232,313 @@ For we must not say that only hot and cold things act, and things of that kind, 
 Nor again must what befalls each of the things below them be referred to the choice of the stars, and to the judgement of the All, and to their reasonings. For it is strange that they should contrive human affairs so that some become thieves, others kidnappers, house-breakers and temple-robbers, others unmanly, womanish in what they do and suffer, doing shameful things. For to do and contrive such things belongs not only not to gods, but not even to decent men, and perhaps not to anyone at all, when no benefit at all would come to them from it.
 !flag a doom from the All | The Greek has "the judgement of the All" (τῇ τοῦ παντὸς γνώμῃ): the mind and will of the All, set with the stars' choice and reasonings; not a doom laid on us.
 !note The same argument against stars that will evil is in II.3.6 (E8) and III.1.5-6 (E10).
+
+# Milestone E17: IV.4 On difficulties about the soul, second part, chapters 32 to 45, beside MacKenna's vol. III (1924,
+# pp. 85-101), which completes the treatise. MacKenna's chapters are the Greek's, except that his 37 runs on into the
+# Greek's 38 and his 40 into the Greek's 41 (the OCR lost his numbers 38 and 41), so those are shown with his 37 and 40
+# (@older 37, @older 40).
+
+@ch IV.4.32 | The All is one living being, in sympathy with itself
+If the stars act neither by bodily causes nor by choice, what is left? The All is one living being with one soul reaching all its parts; each thing is a part of it by body, and by soul as far as it shares in the soul of the All. So the whole is in sympathy with itself, and the far is near, as in an animal, where like parts apart feel together. Parts harm and feed on one another, as bile and anger do in us; but all this coming to be and perishing makes the unhindered life of the one living being, whose staying is its moving.
+
+@p
+If, then, we are to refer neither to bodily causes nor to choices all that comes from outside, from the heaven, to us and to the other living beings and in general to the things on earth, what cause would be left that is reasonable? First, then, we must lay down that this All is one living being, embracing all the living beings within it, and having one soul that reaches all its parts, so far as each is a part of it. Each thing in the perceptible All is a part of it: in its body wholly; and so far as it also shares in the soul of the All, to that extent in this way too. Those that share in this soul alone are parts in every way; those that share in another soul as well have, by this, the power of not being parts in every way. But they are affected no less by the others, so far as they have something of the All, and according to what they have.
+!flag material agencies (blind elements) | The Greek says only "bodily causes" (σωματικαῖς αἰτίαις), the hot and cold of chapter 31; "blind elements" is MacKenna's.
+!flag partial where there is also a union with a lower soul | The Greek says those that share in "another" soul as well (ἄλλης), a soul of their own such as ours, are by this not wholly parts; nothing says that the other soul is lower.
+
+@p
+@greek συμπαθὲς δὴ πᾶν τοῦτο τὸ ἕν
+This one All, then, is in sympathy with itself, as one living being, and what is far is near: as in one single animal a nail, a horn, a finger, or some other part that is not next to it; the part between is passed over and is not affected at all, while what is not near has been affected. For when like things do not lie next to each other, but are separated by others between, and feel together by their likeness, what is done by the one not lying beside must reach the far one too. And since it is a living being, and goes to make one, nothing is so far in place as not to be near, by the nature of the one living being, so as to feel together. What has likeness to the agent, then, has an affection that is not foreign to it; but when the agent is unlike, what is affected has the affection as foreign and not agreeable.
+!note Sympathy (συμπάθεια, "feeling together") of the parts of the cosmos is the Stoics' word (Posidonius; Cicero, On divination II.34), which Plotinus takes over and grounds in the one soul of the All. Like acting on like goes back to Empedocles and to Plato's Timaeus (45b-d), where like fire meets like in sight.
+
+@p
+@greek βλαβερὰν δὲ ποίησιν
+That one thing should do harm to another, though it is one living being, need not surprise us: for in us too, in our own activities, one part might be harmed by another, since bile and anger, it seems, press and sting something else. And in the All too there is something analogous to anger and bile, and one thing to another; and in plants too one thing will be a hindrance to another, so as even to wither it. This All is seen to be not only one living being but also many: so that, so far as each is one, it is kept safe by the whole; but so far as they are many, and meet one another, they have often done harm by their difference. One thing has harmed another for its own need, and has even made food of what is akin and at the same time different. And each, hastening for itself according to nature, takes into itself as much of the other as is its own, and does away with as much as was foreign, by its goodwill towards itself.
+!flag bile and animal spirit seem to press and goad | The Greek has "bile and anger" (χολὴ καὶ ὁ θυμός), anger with its seat in the bile (IV.4.28); "animal spirit" is the physiology of MacKenna's day.
+!flag by sucking the moisture from it | The Greek says only that among plants one is "a hindrance" (ἐμπόδιον) to another, "so as even to wither it"; nothing of sucking moisture.
+!flag whatever is becoming a menace to it | The Greek says each does away with what was "foreign" (ἀλλότριον) to it, "by its goodwill towards itself" (εὐνοίᾳ τῇ ἑαυτοῦ), as food is made its own; not what threatens it.
+
+@p
+@greek ἔργον τε τὸ αὑτοῦ ποιοῦν
+And each, doing its own work, has benefited whatever could enjoy something of its works, and has done away with or harmed whatever could not withstand the rush of the work, as things would wither when a fire goes by, or smaller animals would be swept aside by the running of greater ones, or even trampled underfoot. The coming to be of all these, and their perishing, and their change to the worse or the better, complete the unhindered life, according to nature, of that one living being: since it was not possible for each thing to be as if it were alone, nor for the end to be for them, and for them to look to it, being parts, but to look to that of which they are parts; and being different, they could not always have all that is theirs in one life. Nor could anything remain wholly the same, if the All was to remain, which has its remaining in being moved.
+!flag for the permanence of an All demands varying forms | The Greek says the All "has its remaining in being moved" (ἐν τῷ κινεῖσθαι τὸ μένειν ἔχον): its permanence is its motion, not a variety of forms.
+!note "Changing, it rests" is Heraclitus' (fragment B84a); the parts that serve the whole are Plato's (Laws X 903b-d: "you were made for the sake of the whole, and not the whole for you").
+
+@ch IV.4.33 | The cosmos as a dance
+The revolution is not random but moves by the reason of the living being, so agent and patient are in concord, and each figure of the heaven brings a new disposition below, as in a varied choral dance. A dancer's limbs bend and rise as each figure requires, not by their own choice: so the heavenly bodies act, and also signify. Better: the whole cosmos lives its life in act, changing the figures of its great parts, and the rest follow; the cause is not the figured but the one who figures, and it is itself all that comes to be.
+
+@p
+Since the revolution has nothing random about it, but is carried on by the reason that belongs to the living being, there had to be concord too between what acts and what is affected, and an order that ranges things to one another and towards one another, so that at each relation of the revolution, and of the things in turn under the revolution, there is one disposition and then another, as of those who make one dance in a varied choral dance. For in our own dances too, why should one speak of the things outside, which plainly change differently at each movement, the things that contribute to the dance, pipes and songs and the rest joined to it?
+
+@p
+@greek ἀλλὰ τὰ μέρη τοῦ τὴν
+But the parts of the one who performs the dance could not, of necessity, be the same at each figure, as the limbs of the body follow along and bend, one pressed, another let go, one labouring, another taking a breath in the change of figure. The dancer's choice looks to something else; but the limbs are affected in following the dance, serve the dance, and help complete the whole of it, so that one skilled in dancing could say that in such a figure this limb of the body is lifted high, this one bends, this one is hidden, and another is made low: not because the dancer chose otherwise to do this, but because in the dance of the whole body this part, which carries the dance through, holds this position of necessity.
+!flag The dancer's mind is on his own purpose | The Greek says the dancer's choice "looks to something else" (πρὸς ἄλλο βλέπει), to the dance as a whole, while the limbs follow; not to a purpose of his own.
+
+@p
+@greek τοῦτον τοίνυν τὸν τρόπον
+In this way, then, we must say that the things in the heaven act, so far as they act, and that some things they also signify. Or rather, that the whole cosmos lives its whole life in act, moving its great parts within itself and always changing their figures; and that the relations of the parts to one another and to the whole, and their different positions, bring the other things after them, as when one living being moves: holding one way according to these relations, positions and figurings, another way according to those. So it is not the figured that act, but the one who figures; and the one who figures is not doing one thing and making another, for it is not acting on something else, but is itself all that comes to be: there the figures, here the affections that follow the figures of necessity, in the living being moved in this way, and again in the one so composed and constituted by nature, both affected and acting on itself by necessities.
+!flag a living being (an All) thus by its nature conjoined | MacKenna's "(an All)" is his own addition: the Greek speaks of one living being only, moved in this way and composed in this way, which acts on itself and is affected by itself.
+!note That the stars signify more than they cause is the theme of II.3, Whether the stars are causes (E8), where they are letters written in the heaven (II.3.7). The cosmic dance is the Timaeus' (40c), "the choral dances" of the stars.
+
+@ch IV.4.34 | Figures and the things figured
+We give the part of us that belongs to the body of the All to be affected by it, but not the whole of us, like sensible hired men, who are not wholly another's. The figures differ because the stars run at different speeds. Do things here follow those there in concord, or do the figures have powers? The same figure means different things for different things, so the power is in both, the figures and the figured: as in a dance the hands, the figures and what follows them each have power. Some figures both act and signify, others only signify.
+
+@p
+We, however, giving the part of ourselves that was ours of that body to be affected, and not thinking that the whole of us belongs to it, should be affected by it within measure: as sensible men among those in service serve their masters with a part of themselves, but with a part are their own, and for this reason receive more measured orders from the master, since they are not slaves and not wholly another's.
+!flag in part retain their personality | The Greek says that with a part "they are their own" (τὸ δ’ αὑτῶν ὄντες); "personality" is a modern word.
+!flag are thus less absolutely at beck and call | The Greek says that for this reason they "receive more measured orders" (μετριωτέρων ... ἐπιταγμάτων) from the master: it is the master's orders that are moderated.
+!note Those "in service" (θητεύοντες) are hired men, free men working for a wage, set against slaves (ἀνδράποδα). That we are not wholly of the All is III.1.8-10 (E10), and the "other soul" of chapter 32.
+
+@p
+@greek τὸ δὲ τῶν σχηματισμῶν διάφορον
+The difference of the figures had to come about, as it does now, since the runners are not of equal speed. And since they are carried by reason, and the relations of the living being become different, and then here too the things among us become sympathetic with what comes about there, it is reasonable to ask whether we should say that these follow along, in concord with those, or that the figures have the powers of what is done; and whether the figures simply, or the figures of these things. For the same figure of the same thing does not produce the same signification or effect upon one thing and again upon others, since each, by itself, seems to have a different nature.
+!note "The runners" (οἱ θέοντες) are the stars: Plato's Cratylus (397c-d) derives "gods" (θεοί) from "running" (θεῖν), since the first men saw the sun, moon and stars always running.
+
+@p
+@greek ἢ ὀρθῶς ἔχει λέγειν
+Or it is right to say that the figuring of these things is this disposition and of this kind, and that of others, though it is the same in its figure, is another. But if so, we will give the powers no longer to the figures, but to the figured things themselves. Or to both together. At any rate, when the same things take a different relation, different results come, and when the same thing takes only a different place, different ones. But what results? Effects or significations? Or to the pair together, the figuring of these things, both, effects and significations, in many cases, but elsewhere significations only.
+!flag changing the members, the relationship remains the same | The Greek says the opposite: the figuring of other things, though the same in figure, is "another" disposition (τὴν δὲ ἄλλων τὴν αὐτὴν οὖσαν ἐν σχηματισμῷ ἄλλην): change the members and the same figure means something else.
+
+@p
+@greek οὗτος τοίνυν ὁ λόγος
+This account, then, gives powers to the figures, and powers to the figured too: since in dancers too each hand has some power, and so do the other limbs, and the figures have much; and third come the things that follow along, both the parts of the limbs taken into the dance and the things these are made of, such as the squeezed parts of the hand, and the sinews and veins that feel with them.
+!flag the clutched fingers and the muscles and veins following suit | The Greek has "sinews" (νεῦρα) and veins "feeling with them" (συμπαθοῦντα), the same sympathy as in the All; not muscles that follow suit.
+
+@ch IV.4.35 | How the figures have power
+We gave the effects neither to the stars' bodies nor to their choices. But the All is one living being, in sympathy with itself, whose life runs in one harmony and order by reason, its parts dancing by numbers: the figures and the figured parts are the activity of the All, which lives so. Choice is outside these powers; the parts desire one another, but the whole seeks the Good, or rather looks at it, and so does right choice. The sun looks upward, and gives its warmth and its power without choosing. Figures have powers here too: some frighten and some move by beauty, for whatever is acts or is acted on. And there are powers besides figures, in stones and herbs.
+
+@p
+How, then, are these powers? We must say it more clearly again. What difference does one triangle have from another triangle? And what does this star do to that one, and by what does it act, and how far? For we gave the effects neither to their bodies nor to their choices: not to the bodies, since what comes about was not the work of body only; not to the choices, since it was absurd for gods to do absurd things by choice.
+!flag How can there be the exercise of power from man to man | The Greek "this one towards that one" (ὁδὶ πρὸς τονδί) is masculine because it speaks of the stars (ἀστήρ), one star in relation to another, as the triangles before it are their figures; no men are in it.
+!note The triangle is the astrologers' trine, two planets a third of the zodiac apart; II.3.4 (E8) asks the same of the square and the opposition.
+
+@p
+@greek εἰ δὲ μνημονεύοιμεν
+But if we were to remember that we laid down that the All is one living being, and that, being so, it had of necessity to be in sympathy with itself; and that the course of its life, being by reason, is all in concord with itself; and that there is nothing random in its life, but one harmony and order; and that the figures are by reason, and each thing is by numbers, and so are the parts of the living being that dance in the chorus: then we must agree to both, that the activity of the All is both the figures that come about in it and its parts that are figured, and what follows on these; and that the All lives in this way, and the powers contribute to this, just as they came to be, having them, when they were made by the one who made them in forming principles.
+!flag the producing agency within the Reason-Principles | The Greek says the powers were made "by the one who made them in forming principles" (ὑπὸ τοῦ ἐν λόγοις πεποιηκότος): a maker, who made them by forming principles, not an agency within the principles.
+
+@p
+@greek καὶ τὰ μὲν σχήματα οἷον λόγους
+And the figures are like forming principles, or distances of the living being, its rhythms and relations according to reason, and the members set apart and figured are another thing. And the living being has, apart from choice, other powers, those that are like parts of the living being, since choice is outside them and does not contribute to the nature of this living being. For the choice of one living being is one, but its other powers, directed to itself, are many. And all the choices in it look to the same thing to which the one choice of the All looks too. For desire is of one of the things in it towards another: one part wants to take something of the others, being in need of it; and anger is against another, when something pains it; and growth is from another, and generation into another of the parts. But the whole, in these, does these things, but itself seeks the Good, or rather looks at it.
+!flag the anger of a moment of annoyance | The Greek says anger is "against another, when something pains it" (ὅταν τι παραλυπῇ), one part of the All against another, like desire before it; not a passing annoyance.
+!note "The whole seeks the Good, or rather looks at it": the soul of the All contemplates, and its making follows (III.8.4, E14; IV.4.12 and 16).
+
+@p
+@greek τοῦτο τοίνυν καὶ ἡ ὀρθὴ προαίρεσις
+This, then, is what right choice too seeks, the choice that is above the affections, and in this it contributes to the same end. For of those in service with another, too, many of their works look to what the master has ordered, but their longing for the good is towards the same thing as the master's. If, then, the sun and the other stars do something to the things here, we must think that the sun itself is looking upward (for we must make the account about one); but that something is done from it, as the warming of things on earth, and so too anything after this, by the giving out of soul, as much as is in it, since its growing soul is abundant; and that another star likewise, as if shining out, gives a power from itself without choice; and that all things, having become one in being figured so, give one disposition and then another, so that the figures too have powers: for by being so or so, things are this way or that. And something comes about through the figured things themselves too: for from these comes one thing, and from others another. That figures by themselves have something like powers one could see in the things here too.
+!flag intent upon the Supreme | The Greek says the sun is "looking upward" (ἄνω βλέποντα); "the Supreme" is MacKenna's.
+!flag the vastly efficacious soul of Nature | The Greek says the sun's "growing soul" (φυτικῆς ψυχῆς), the soul that makes things grow, "is abundant" (πολλῆς οὔσης); not the soul of nature.
+
+@p
+@greek διὰ τί γὰρ τὰ μὲν
+For why are some figures frightening to those who see them, though those who fear have suffered nothing from them before, while others do not frighten when seen? And why do some frighten these men, and others those? Or because these act on a man of this kind and those on that one, since they cannot fail to act on what is by nature fit for it; and figured in this way a thing moved the sight, and figured in that way it did not move the same sight. For even if one were to say that it is beauty that moves, why did it move this man by this and that man by another, unless the power lies in the difference of figure? For why shall we say that colours have power and act, and not say so of figures? Since in general it is absurd for something to be among the things that are and yet have nothing it can do. For what is, is such as either to act or to be affected; and in some we must grant acting, in the others both.
+!note "What is, is such as either to act or to be affected": the Eleatic Stranger's mark of being, "power" to act or to be acted on (Sophist 247d-e).
+
+@p
+@greek καὶ ἐν τοῖς ὑποκειμένοις
+And in the underlying things there are powers besides the figures; and in the things among us there are many that hot or cold things do not give, but things that have come to be with different qualities, given form by forming principles and sharing in a power of nature, as the natures of stones and the activities of herbs give many wonderful things.
+!flag shaped to ideal-quality by the action of Reason-Principles | The Greek says such things are "given form" (εἰδοποιηθέντα) by forming principles, as every natural thing is; "ideal-quality" is MacKenna's.
+!note The powers of stones and herbs were the matter of the lapidaries and herbals, and of the magic that used them; chapter 40 comes to it.
+
+@ch IV.4.36 | Everything in the All lives
+The All is most varied, full of forming principles and of powers without limit: as every part of a man has its own power, so, and much more, in the All, which is a trace of the intelligible, and above all in the heavenly bodies. It is not a soulless house of stones and timber, but awake everywhere, each thing living in its own way. This answers how there can be something soulless in an ensouled living being: each thing lives, but hiddenly. The All acts without needing choice, being older than choice.
+
+@p
+For the All is most varied, and all the forming principles are in it, and powers without limit and varied. As they say that in a man too the eye has one power and this bone another, and that bone another; this part of the hand one, and the toe another; and that there is no part that has no power, and none that has the same power, though we do not know it, unless someone has learned such things: so too, and much more so, in the All; or rather, because these things here are a trace of those, in the All there must be an untold and wonderful variety of powers, and above all in the things carried round the heaven.
+!flag since all this order is but a representation of the higher | The Greek says these things here are "a trace of those" (ἴχνος ταῦτα ἐκείνων), the word Plotinus uses of nature as the last trace of soul (IV.4.13, 20); not a representation.
+
+@p
+@greek οὐ γὰρ δή, ὥσπερ ἄψυχον
+For it should not have come to be a cosmos like a great soulless house, large and roomy besides, made of a few kinds easily counted, stones and timbers, say, and some others if you like; but it must be awake everywhere, and living, one thing in one way and another in another, and nothing can be that is not in it. So here too the difficulty might be solved, how in an ensouled living being there is something soulless: for this account says that one thing lives in one way and another in another in the whole, and that we do not say a thing lives when it is not moved by itself perceptibly; but each of these lives hiddenly, and what lives perceptibly is made of things that do not live perceptibly, but give wonderful powers for living to such a living being.
+!note "Awake" (ἐγρηγορός) answers the sleeping life of nature (III.8.4, E14). The cosmos as one ensouled living being is the Timaeus' (30b-d).
+
+@p
+@greek μὴ γὰρ ἂν κινηθῆναι
+For a man would not be moved to so many things if he were moved by powers in him that were wholly soulless; nor again would the All live so if each of the things in it did not live its own life, even if choice is not present to it. For it acts without needing choice too, being older than choice; and so many things serve its powers.
+!flag Man would never have reached to his actual height | The Greek says a man "would not be moved to so many things" (ἐπὶ τοσαῦτα), so many kinds of movement, if the powers in him were soulless; nothing of his height.
+
+@ch IV.4.37 | Each thing has its power, without choice
+Nothing in the All is to be thrown away. If we ask what fire's acting is, we cannot say, unless we grant it a power from its being in the All. We do not wonder at the familiar, but would, if someone showed us their powers. Each thing, shaped in the All and sharing in its soul, has a power in proportion, the heavenly more than the earthly; and much comes about by these powers, not by choice, and without the givers turning to it, as a living thing is born of a living thing without choosing or knowing it.
+
+@p
+Nothing, then, of the All is to be thrown away. For fire too, and the things of that kind that we say act: if someone among those who now seem to know were to ask what their acting is, he would be at a loss, unless he granted that this power is theirs by their being in the All, and spoke in the same way of the other things in use. But the familiar things we neither think fit to inquire into nor disbelieve; the other powers, outside the familiar, we disbelieve, as to how each is, and add wonder to the unfamiliar; though we would wonder at these too if someone brought out each of them to us who had no experience of them, and explained their powers.
+
+@p
+@greek ἔχειν μὲν οὖν ἕκαστον
+We must say, then, that each thing has some power in proportion, having been moulded and shaped in the All, and having shared somehow in soul from the whole, which is ensouled, and being embraced by such a thing, and being a part of something ensouled (for there is nothing in it that is not a part); some things being more powerful than others for acting, and the heavenly more than the earthly, since they have a clearer nature; and that many things come about by these powers, not by the choice of those from whom what is done seems to come: for there is acting in things that have no choice too; nor need they turn to the giving of the power, even if something of soul goes from them.
+!flag Some such power, not necessarily accompanied by reason | The Greek says each thing has "some power in proportion" (δύναμίν τινα ἀνάλογον), as its place in the All allows; MacKenna seems to have read ἄλογον, "without reason".
+!flag even attention is not necessary to the communication of power | The Greek says the givers need not even "turn" (ἐπιστραφέντων) to the giving of the power: the word for the soul's turning towards something.
+!flag since they draw upon a purer nature | The Greek says the heavenly things have "a clearer" or "more vivid" nature (ἐναργεστέρᾳ φύσει), not a purer one.
+
+@p
+@greek γένοιτο γὰρ ἂν καὶ ζῷα
+For living things might come from a living thing too, without its choice making them, and without its being lessened, or even being aware of it: for its choice, if it had one, would either be the living thing itself, or would not be what made them. And if a living thing has no choice, still less is it aware.
+!note Being aware (παρακολουθεῖν) is following along with oneself, self-consciousness (I.4.10, E2; IV.3.30). That the begetter is not lessened is the image of the One's giving (III.8.10, V.1.6).
+
+@ch IV.4.38 | All is woven into one, but virtue has no master
+What comes from the All, of its own life or moved by prayers and spells, is to be referred to the nature of what is done. The useful things are its giving, from a greater part to a lesser; harm comes where the subject cannot take in what is useful; mixtures add, and we add much ourselves. Yet all is woven into one, in a wonderful concord; what falls short is matter not mastered. Since all is ordered together, all is signified; but virtue has no master, and its works too are woven in, since the things here hang from the divine.
+
+@older 37
+@p
+The things, then, that come from the All with nothing moving it, from the rest of its life, and in general all that come from it, and those that come when something else moves it, as by prayers, either simple or sung with art: these are to be referred not to each of those, but to the nature of what is done. And whatever is useful for life or for some other need is to be referred to the giving, going from a greater part to another, lesser one; and whatever harmful thing is said to go from them into the births of living things, is so because the subject cannot receive what is useful: for what comes about does not come about simply, but into this thing and in this way, and what is affected and what will be affected must have some underlying nature of a certain kind.
+!flag Whatever springs automatically from the All | MacKenna's chapter 37 runs on here without a break: the Greek's chapter 38 begins with these words (the OCR lost his number 38, shown only as "38. -").
+!flag a certain natural tendency in the product | The Greek says only that these things are to be referred to "the nature of what is done" (τὴν τοῦ δρωμένου φύσιν), not to each of the powers; the "tendency to exist with its own quality" is MacKenna's gloss.
+
+@p
+@greek πολλὰ δὲ καὶ αἱ μίξεις
+Mixtures too do much, each thing giving something useful for living. And something might befall someone though the things that profit do not suit his nature; and the ordering of the wholes does not always give each what it wants; and we ourselves add much to what is given. But all the same, all is woven together into one, and has a wonderful concord, different things coming from different sources, even if they come from opposites: for all are of one.
+
+@p
+@greek καὶ εἴ τι δὲ ἐλλεῖπον
+And if something among the things that come about falls short of the better, not formed to its end, because the matter was not mastered, it is as if falling short of the noble, deprived of which it falls into ugliness: so that some things are made by those above, the underlying nature brings in others, and others the things themselves add of their own. And since all things are always being ordered together, and all contribute to one, all things are signified; but virtue has no master; and its works too are woven into the order, since the things here hang from there, those in this All from the more divine, and this All too shares in those.
+!flag whose absence brings to shame | The Greek says that, deprived of the noble, the thing falls "into ugliness" (εἰς αἰσχρότητα): the form was not mastered in the matter; not shame.
+!flag this does not make virtue a matter of compulsion | The Greek says "virtue has no master" (ἀρετὴ δὲ ἀδέσποτον), the words of Lachesis in Plato's myth of Er; MacKenna's paraphrase loses the quotation.
+!note "Virtue has no master; as each honours it or dishonours it, he will have more or less of it": Republic X 617e. The same answer to fate is in II.3.9 (E8) and III.1.10 (E10).
+
+@ch IV.4.39 | Like a lawgiver who knows what the citizens will do
+Things come about not by seed principles but by principles that embrace them, prior to those of the seeds. The reason of the All is like a lawgiver who knows what the citizens will do and why, and weaves their deeds, honours and dishonours into the laws. Signifying is not the aim: one thing is known from another because all is one. So the difficulty about evils given by the gods is solved: no choice acts, but natural necessity; we add much; good gifts mix into something else; life is for the whole; and matter cannot master what it is given.
+
+@p
+The things in the All, then, come about not according to seed principles, but according to principles that embrace them, and those prior to the principles of the seeds. For there is not, in the seed principles, any of the things that come about apart from the seed principles themselves, nor of what matter contributes to the whole, nor of what the things that have come to be do to one another. But the principle of the All would rather be like one who sets the order of a city by reason, and lays down its law, already knowing what the citizens will do and why they will do it, and legislating with a view to all this, and weaving into the laws all their affections and deeds, and the honours and dishonours for their deeds, all things going to concord as if by a road of themselves.
+!flag to the principles by which that seed itself takes shape | The Greek says principles "that embrace" (περιληπτικούς) the things that come about, "and of prior things": wider principles that take in matter and chance as well, not those that shape the seeds.
+!flag in perfect adaptation of law to custom | The Greek says the lawgiver legislates "with a view to all this" (πρὸς ταῦτα πάντα), what the citizens will do and why; nothing of custom.
+!note The seed principles (λόγοι σπερματικοί) are the Stoics' (IV.4.29). The lawgiver who foresees is Plato's (Laws X 903b-905c), where the "king" arranges each soul's place so that virtue wins and vice loses.
+
+@p
+@greek ἡ δὲ σημασία οὐ τούτου χάριν
+The signifying is not for this, that it should signify as its first aim; but as things come about in this way, some are signified from others. For because all is one and of one, one thing could be known from another, the cause from the caused, what follows from what went before, and the composite from one of its parts, since the one and the other are together.
+!flag the compound from the constituents which must make themselves known in the linked total | The Greek says the composite is known "from one of its two parts" (ἀπὸ θατέρου), "since the one and the other are together": from one part we know the whole.
+
+@p
+@greek εἰ δὴ ταῦτα ὀρθῶς
+If this is rightly said, the difficulties would now be solved, among them the one about the giving of evils by the gods: because it is not choices that act, but what comes from there comes by natural necessities, as of parts to parts, and following on the life of one; because we add much of our own to what comes about; because, of the things given by each, which are not evil, something else comes about in the mixture; because the life is not for the sake of each, but for the sake of the whole; and because the underlying nature, receiving one thing, is affected as another, and cannot even master what is given.
+!note That evil comes from the mixture with matter, not from the givers, is III.2.2-3 (E11) and II.3.10-11 (E8).
+
+@ch IV.4.40 | Magic works by sympathy
+Sorcery works by sympathy, the natural concord of like things and opposition of unlike, and by the variety of powers in one living being. The true magic is the love and strife in the All, the first sorcerer, whom men watch and copy: love-charms join souls as one ties plants together; the magician uses figures, and figures himself, drawing powers within the one, and outside the All he could draw nothing. Song, sound and gesture lead the unreasoning soul, as music does. Prayers are not heard by choice: the one bewitched by a snake knows it only after, and the sun does not hear.
+
+@p
+And sorceries, how do they work? By sympathy, and because there is by nature a concord of like things and an opposition of unlike, and by the variety of the many powers that go to make one living being. For many things are drawn and bewitched with no one else contriving it; and the true magic is the love in the All, and the strife too. This is the first sorcerer and enchanter, whom men have observed, and on one another they use his drugs and his sorceries.
+!flag its attractions and, not less, its repulsions | The Greek has "love" and "strife" (φιλία καὶ τὸ νεῖκος), Empedocles' two powers that join and part the elements; MacKenna's physics hides the reference.
+!note Love and Strife are Empedocles' (fragment B17). The magicians of Plotinus' day claimed to draw down the gods; Porphyry tells how Olympius tried his star-spells on Plotinus and had them turned back on himself (Life 10).
+
+@p
+@greek καὶ γάρ, ὅτι ἐρᾶν
+For since things are by nature such as to love, and what makes them love draws them to one another, an art of drawing lovers by sorcery has come about, of men who add by contact natures that draw others together and have love lying in them; and they join one soul to another, as if tying together plants that stand apart. And they make use of figures that have powers, and, figuring themselves so, they bring powers on themselves without a sound, being in one and acting on one: since if someone supposed such a man outside the All, he could neither draw nor bring down by invocations or binding spells; but as it is, because he does not lead as from somewhere else, he can lead, knowing where in the living being one thing is led towards another.
+!flag by the force of contact implant in others | The Greek says they "add by contact" (προστιθέντων ἐπαφαῖς) natures, substances or charms that draw together and "have love lying in them"; they do not implant a temperament.
+
+@p
+@greek πέφυκε δὲ καὶ ἐπῳδῆς
+The soul is of a nature to be led, too, by the melody of a spell, by such a sound, and by the figure of the one who acts: for such things draw it, as pitiable figures and voices do. For it is not choice, nor reason, that is charmed by musical sounds, but the unreasoning soul; and magic of this kind is not wondered at. And yet men love to be enchanted, even if they do not ask this of those who practise the musician's art. And other prayers too we must not think are heard by a choice: for those charmed by spells are not so either, nor, when a snake bewitches men, does the one bewitched understand or perceive, but he knows that he has been affected only after he has been, while his ruling part itself is unaffected. And from the one to whom he prayed, something came to him, or to another; but the sun or another star does not hear.
+!flag is welcomed, exacted, from the performers | The Greek says men love to be charmed "even if they do not ask this" (κἂν μὴ τοῦτο αἰτῶνται) of those who use music: the charm comes whether asked for or not.
+!flag his highest mind is never caught | The Greek says "the ruling part itself is unaffected" (ἀπαθὲς δ’ αὐτὸ τὸ ἡγούμενον), the Stoics' ruling part of the soul, which knows the affection afterwards.
+!note Music that charms the unreasoning soul: Republic III 398c-401a and Laws II 659d-e, where songs are "charms" (ἐπῳδαί) for souls.
+
+@ch IV.4.41 | One string sounds with another
+A prayer is fulfilled because part is in sympathy with part, as on one stretched string, moved below, which moves above. One string moved makes another tuned with it perceive, as it were; and if a movement goes from one lyre to another, the All too has one harmony, though of opposites, for all in it are akin. What harms men, like spirit drawn with bile to the liver, comes not in order to harm, as when one takes fire from a fire and burns another without meaning to.
+
+@older 40
+@p
+And what is prayed for comes about because part is in sympathy with part, as on one stretched string: moved from below, it has the movement above as well. And often, when one string is moved, another has, as it were, a perception of it, by their concord, and by their being tuned to one harmony. And if the movement goes even from one lyre to another, so far as the sympathy reaches, then in the All too there is one harmony, even if it is of opposites: and it is of like things too, and all are akin, even the opposites.
+!flag The prayer is answered by the mere fact | MacKenna's chapter 40 runs on here: the Greek's chapter 41 begins with these words (the OCR read his number 41 as "4*.").
+!flag for it contains its unisons as well | The Greek says the harmony of the All is "of like things too" (ἐξ ὁμοίων), and all its members are akin, even the opposites; not unisons.
+!note The sympathetic string answers IV.4.8, where the music of the stars is "like strings in a lyre moved in sympathy". The harmony of opposites is Heraclitus' (fragment B51, "as of the bow and the lyre").
+
+@p
+@greek καὶ ὅσα λωβᾶται
+And the things that maim men, such as the spirited part drawn with bile into the nature of the liver, came not as things that would maim: as if someone took fire from a fire and harmed another without contriving that it should go to him. Or the one who took it does act, at least by having given something, transferring it as it were from one to another; and so does what has come, if the one to whom it was carried could not receive it.
+!flag blundered in taking it | The Greek says only that the one to whom the fire was carried "could not receive it" (μὴ οἷός τε ἐγένετο δέξασθαι), as matter cannot master what it is given (chapter 39); no blunder.
+!note The liver as the seat of desire, and bile with anger, are the Timaeus' (70a-71d); spirit with bile is IV.4.28.
+
+@ch IV.4.42 | The stars give without knowing; the All is unaffected
+So the stars need no memory, nor perceptions sent up to them, nor do they nod to prayers by choice: something comes from them with prayer or without, since they are parts of one. As in one living being, the arts of doctors and enchanters force one part to give another some of its power, so the All gives to a part when another draws on it. A bad man may receive, as bad men draw water from rivers; but if he takes what he should not, justice follows him by necessary law. The ruling part of the All is unaffected; the stars are affected as parts, but their choices, bodies and natures are unharmed, and their soul is not lessened.
+
+@p
+So the stars will not need memory for this, which is what all this has been worked out for, nor perceptions sent up to them; nor do they nod assent to prayers in this way, by some choice, as some think; but we must grant that something comes from them both with prayer and without prayer, in that they too are parts of one. And there are many powers without choice, both without contrivance and with art, as in one living being: one thing enjoys another, and is harmed by it, by being of such a nature; and by the arts of doctors and of enchanters one thing is forced to give another something of its own power.
+!flag any sense of petitions addressed to them | The Greek says the stars need no "perceptions sent up" to them (αἰσθήσεων ἀναπεμπομένων), as if our prayers had to be carried up to their senses.
+
+@p
+@greek καὶ τὸ πᾶν δὲ ὡσαύτως
+And the All too gives to its parts in the same way, both of itself and when another draws on it for some part of it that lies there: to its own parts, by the same nature, since the one asking is nothing foreign to it. If the one asking is bad, we need not wonder: for bad men draw water from rivers too, and what gives does not itself know what it gives, but only gives; but all the same it has been ordered together with, and given to, the nature of the All. So if someone has taken from what lies there for all, when he should not, justice follows him by a necessary law.
+!flag There is, therefore, no necessity by ineluctable law | The Greek is better read "if someone took what he should not" (οὐ δέον) "from what lies there for all, justice follows him by a necessary law": the gift is not withheld, but punishment comes; MacKenna turns it into its opposite.
+!note The justice "no one can escape" is Adrasteia (III.2.13, E11; Phaedrus 248c), and it closes the treatise in chapter 45.
+
+@p
+@greek οὔκουν δοτέον τὸ πᾶν πάσχειν
+We must not grant, then, that the All is affected. Or we must grant that its ruling part is wholly unaffected; and that when affections come about in its parts, the affection reaches those, but since nothing is against its nature, what has come about is no affection as regards the All itself. For the stars too, so far as they are parts, have affections, but they themselves are unaffected: because their choices are unaffected, and their bodies and natures are unharmed; and because, even if they give something through their soul, their soul is not lessened, and their bodies stay the same, and if anything flows away, it goes away unperceived, and what comes to them, if anything comes, comes unnoticed.
+!flag since nothing existent can be at strife with the total of existence | The Greek says "since nothing is against its nature" (παρὰ φύσιν δὲ μηδενὸς αὐτῷ ὄντος): what happens in the parts is natural to the All, and so no affection of it.
+!note That the heavenly bodies lose nothing, and what flows from them is made up again, is II.1.3-5 (E7).
+
+@ch IV.4.43 | The good man and the spells of nature
+The good man is unaffected by sorcery in his soul, and his reason cannot be turned; his unreasoning part, which is of the All, can be affected, but he will not love by philtres, and he will undo spells by counter-spells, though death or illness may come. Daemons too are affected in their unreasoning part, may remember and perceive, and hear those who call. Everything turned towards another is bewitched by it: so all action and the whole practical life are bewitched, as by "the people of great-hearted Erechtheus". Nature gives the deception and the love-charms.
+
+@p
+And the good man, how is he affected by sorcery and drugs? In his soul he is unaffected by enchantment, and his reasoning part could not be affected, nor could he be brought to change his opinion; but by whatever unreasoning part of the All is in him he might be affected, or rather that might be affected. But he will not feel loves from drugs, if loving needs the other soul too to assent to the affection of the other. And as the unreasoning part is affected by spells, so he himself, singing counter-spells, will undo the powers there. But death from such things, or illnesses, or whatever is bodily, he might suffer: for the part of the All might be affected by another part, or by the All, but he himself is unharmed. And that the effect comes not at once, but later, is not out of keeping with nature.
+!flag the Proficient (the Sage) | The Greek has "the good man" (ὁ σπουδαῖος), the serious, earnest man of the philosophers; "the Proficient" is MacKenna's word throughout.
+!note Plotinus himself turned back the spells of Olympius, who tried star-magic on him (Porphyry, Life 10). That death and illness may touch the good man without harming him is I.4.7-8 (E2).
+
+@p
+@greek δαίμονες δὲ οὐκ
+Daemons, too, are not unaffected in their unreasoning part: it is not absurd to give them memories and perceptions, and to have them charmed, being drawn by nature, and hearing those who call them; those of them that are nearer to the things here, and so far as they are concerned with the things here.
+!flag Even the Celestials, the Daimones | The Greek says only "daemons" (δαίμονες), the powers between gods and men; "the Celestials" is MacKenna's.
+!note Daemons are between gods and men, and carry prayers up and gifts down (Symposium 202e-203a); that they have memory and perception is IV.3.18.
+
+@p
+@greek πᾶν γὰρ τὸ πρὸς ἄλλο
+For everything directed towards another is bewitched by another: for what it is directed to bewitches it and leads it; only what is directed towards itself is free of bewitchment. So every action is bewitched, and the whole life of the practical man: for he moves towards the things that charm him. Hence the line: "For fair of face is the people of great-hearted Erechtheus." For why does anyone stand towards another? He is drawn, not by the arts of magicians, but by nature, which gives the deception, and joins one thing to another, not in places, but by the love-charms it gave.
+!flag the burgher of great-hearted Erechtheus | The Greek has "the people" (δῆμος) of Erechtheus, the Athenian people, not a citizen of the middle class.
+!flag but you should see him naked | Not in the Greek: MacKenna adds, in brackets, the next words of Plato's dialogue, where Socrates says one should see the people stripped.
+!note The line is Plato's Alcibiades I (132a), where Socrates fears that Alcibiades, in love with the people of Athens, will be corrupted by them; it echoes the Iliad (II.547), "the people of great-hearted Erechtheus".
+
+@ch IV.4.44 | Only contemplation is free of magic
+Only contemplation is unbewitched: the one turned to himself is one, and what he contemplates is himself. Action begins from the unreasoning and the proposals of the affections: care for children, marriage, pleasure, anger, love of rule, fear, gain, and the needs of nature. Whoever does fine actions as necessary, knowing that the truly fine is elsewhere, is not bewitched; whoever loves the fineness in actions, deceived by its traces, is. To pursue what is not good as good is to be led where one did not want: nature's magic. He alone is free who, though drawn by his other parts, calls nothing good but what he knows, not pursuing but having it.
+
+@p
+There remains, then, contemplation alone as unbewitched, because no one directed towards himself has been bewitched: for he is one, and what he contemplates is himself, and his reason is not deceived, but does what it should, and makes its own life and its work. But there, in action, it is not one's own self, and not reason, that gives the impulse; the unreasoning too is a beginning, and the premises are those of the affection. For cares for children and efforts towards marriage have a plain drawing, and so do all the things that lure men, becoming pleasant to their desires. Of actions, some are moved unreasoningly by anger, others likewise by desires; political life and the longing for office have the love of rule in us calling them out. And those done so as not to suffer have fear as their beginning, and those done for having more, desire. And those done for the sake of necessities, seeking to fill up nature's lack, plainly have the force of nature, which has made us at home with living.
+!flag that unity is all he perceives | The Greek says "what he contemplates is himself" (τὸ θεωρούμενον αὐτός ἐστι): seer and seen are one, as in III.8.6-8 (E14).
+!flag this is the first condition of the misfortune | The Greek speaks of "the premises of the affection" (αἱ τοῦ πάθους προτάσεις): action reasons from what affection proposes, as from a premise; πάθος here is affection, not misfortune.
+!note "Making us at home" (οἰκείωσις) is the Stoics' word for nature's first gift, which makes each living thing its own and dear to itself (Cicero, On ends III.16).
+
+@p
+@greek εἰ δέ τις λέγοι
+And if someone were to say that actions for fine things are unbewitched, or else that contemplation too, being of fine things, must be called bewitched: if one does even the so-called fine actions as necessary ones, having the truly fine as something else, he is not bewitched; for he knows the necessity, and does not look to what is here, nor is his life directed to other things; but he acts by the force of human nature, and by its being at home in the life of others, or even his own (for it seems reasonable, perhaps, not to take oneself out of life because of this being at home in it); because in this way he was bewitched.
+!flag rather than to withdraw from it | MacKenna ends the sentence here and leaves out its last words, "because in this way he was bewitched" (ὅτι οὕτως ἐγοητεύθη): staying in life for its sake is itself nature's spell, though one that the good man sees through.
+!note "To take oneself out" (ἐξάγειν ἑαυτόν) is the word for taking one's own life, which I.9 forbids (E4); the Phaedo (62b-c) keeps us at our post.
+
+@p
+@greek εἰ δὲ τὸ ἐν ταῖς πράξεσιν
+But if, having loved the fineness in actions, he chooses the actions, deceived by the traces of the fine, he has been bewitched, pursuing the fine that is below: for in general all busying about what is like the true, and all drawing towards it, belongs to one deceived by those things that draw towards them. This is what nature's magic does: for to pursue what is not good as good, drawn by its appearance with unreasoning impulses, belongs to one led where he did not want to go, without knowing it. And what else would one call this but magic? Only he, then, is unbewitched who, drawn by the other parts of himself, says that none of the things they call good is good, but only what he knows himself, not deceived and not pursuing, but having it. So he would not be drawn anywhere.
+!flag cheated by the mere track and trace of the Authentic Good | The Greek says "deceived by the traces of the fine" (τοῖς ἴχνεσι τοῦ καλοῦ), the beautiful; the Good comes after, where the not-good is pursued as good.
+!note "Led where he did not want to go": no one does wrong willingly, but by ignorance of the good (Plato, Protagoras 358c-d; Gorgias 468c-d).
+
+@ch IV.4.45 | Each goes where it belongs, by a soundless path
+Each thing in the All acts and is affected according to its nature, as each part of an animal serves the whole and gives and receives, in a kind of co-awareness of all with all. We too bring into the All not only bodily acting but our other nature, joined by what is akin in us to what is akin outside, up to the daemonic place and beyond: we cannot hide what we are. The bad man is pushed by nature's drawings to his place, the good man drawn otherwise, as by cords; all goes by a soundless path, by a justice none can escape, and the good man knows where he goes and hopes to be with gods. Souls change places like the stars, and punishments are cures of sick parts, for the health of the whole.
+
+@p
+From all that has been said, then, this is clear: that as each of the things in the All is in its nature and disposition, so it contributes to the All, and is affected, and acts; just as in each living being each of its parts, as it is in nature and make, so contributes to the whole and serves it, and has been given its rank and its use. It gives what is its own, and receives what comes from the others, as much of it as its nature can receive; and there is as it were a co-awareness of all with all; and if each of the parts were a living being too, it would also have the works of a living being, which are other than those of the part.
+!flag in the orders in which each of the parts is also animate | The Greek is a supposition: "if each of the parts were a living being too" (εἰ ... ζῷον ἦν), it would have a living being's works besides a part's.
+!note Co-awareness (συναίσθησις) is the self-awareness of the All, as in IV.4.24-25; the body whose parts serve the whole is Plato's (Timaeus 30c-31a).
+
+@p
+@greek καὶ δὴ κἀκεῖνο ἀναφαίνεται
+And this too comes to light, how it is with us: that we too do something in the All, not only what body does to body, and suffers in turn of the same kind, but we bring in our other nature as well, joined by the kindred things we have to the kindred things outside; and indeed, becoming joined, or rather being joined, by our souls and dispositions to what comes next in the daemonic place, and to what is beyond them, there is no way we can escape notice as to what kind of men we are. We do not all, then, give the same things, nor receive the same: for how could we share with another what we do not have, such as good? Nor again shall we bring anything good to what cannot receive good.
+!flag thence onwards with those above the Celestials | The Greek says "to what comes next in the daemonic place, and what is beyond them" (τὰ ἐπέκεινα αὐτῶν): beyond the daemons, the gods; nothing of the Celestials.
+
+@p
+@greek τὴν οὖν αὑτοῦ τις κακίαν
+Someone, then, who has joined his own wickedness to the whole is known for who he is, and, according to his own nature, is pushed into what he has, and from here, when he is set free, into another place of the same kind, by nature's drawings. But for the good man the takings and the givings and the changes of place are different, as if he were moved by certain drawings of nature, as by cords. So wonderful in power and order is this All, all things coming about by a soundless path, according to a justice that no one can escape; of which the bad man understands nothing, but is led, not knowing, to where he must be carried in the All; but the good man both knows, and goes away where he must, and knows before he goes away where he must live when he has come there, and is of good hope that he will be with gods.
+!flag transpose the cords | The Greek says the good man's changes are "as if moved by certain drawings of nature, as by cords" (ὥσπερ ἐκ μηρίνθων ὁλκαῖς τισι φύσεως): other cords, not the same ones transposed.
+!flag a wonder of power and wisdom | The Greek says the All is wonderful "in power and order" (δυνάμεως καὶ τάξεως); "wisdom" is MacKenna's.
+!note "By a soundless path, according to justice": Hecuba's prayer to Zeus in Euripides' Trojan Women (887-888), "treading a soundless path you lead all mortal things by justice". The cords are the puppet's of Plato's Laws (I 644d-645a); good hope to be with gods is the Phaedo's (63b-c, 69c).
+
+@p
+@greek ἐν μὲν γὰρ ὀλίγῳ ζῴῳ
+For in a small living being the changes of its parts are small, and their co-awarenesses, and its parts cannot be living beings, except perhaps for a short while in some; but in one where the distances are so great, and each thing in it has room to move, and there are many living beings, the movements and the changes of place must be greater. We see the sun and the moon and the other stars changing place and moving in order. It is not unreasonable, then, that souls too should change place, not keeping always the same character, but ranked in proportion to what they have suffered and what they do, some taking the place as of the head, others as of the feet, in concord with the All: for the All too has differences towards the better and the worse. But a soul that neither chooses the better here, nor has a share in the worse, has exchanged this place for another, a pure one, taking the one it chose.
+!flag taking this sphere in free election | MacKenna has the soul leave a purer place for this one; the Greek says it "took in exchange for this place another, a pure one" (ἄλλον τόπον καὶ καθαρὸν ἠλλάξατο τοῦτον), which it chose: it goes up from here.
+!note The souls' changes of place are the Phaedo's (113d-114c) and the myth of Er's (Republic X 617d-620d), where each chooses its next life.
+
+@p
+@greek αἱ δὲ κολάσεις ὥσπερ
+The punishments are like those of sick parts: for some, astringent drugs; for others, removals, or changes; so that the All may be healthy, each being put where it should be. And the health of the All comes by one thing being changed, and another being taken away from here, as being sick here, and set where it will not be sick.
+!note Punishment as the soul's medicine is Plato's (Gorgias 478d-480b; Laws X 904a-905c), and so is the part cut away for the health of the whole (Laws V 735d-736a).

@@ -277,9 +277,24 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   liver (Timaeus 70a-71b), Aristotle's two definitions of anger (On the soul I.1), ὁμοούσιος, co-ordinate division
   (Categories 13), the seminal principles, ψυχαγωγία (Phaedrus 261a) and the astrologers' hot and cold planets (Tetrabiblos
   I.4).
-- E17: IV.4 chapters 32-45 (about 4,600). Next. MacKenna's chapter numbers 38 and 41 were lost by the OCR: his 37 holds the
-  Greek's 38 (@older 37) and his 40 the Greek's 41 (@older 40); check the rest against the Greek.
-- E18: IV.5 On sight, IV.6 On perception and memory (4,686).
+- **E17: IV.4 chapters 32-45 (4,555) (done).** 14 chapters, 48 paragraphs, 53 flags, 30 notes; IV.4 is complete, and the reader
+  no longer marks it as partly done. MacKenna's chapters are the Greek's, but the OCR lost his numbers 38 and 41: his 37 holds
+  the Greek's 38 (@older 37) and his 40 the Greek's 41 (@older 40). E.g. MacKenna has "blind elements" for bodily causes, a
+  "lower" soul where the Greek says another, "animal spirit" for anger, the permanence of the All in varying forms where its
+  staying is its moving, the relationship "the same" when the members change where the Greek makes the same figure another,
+  the stars' power "from man to man", "the soul of Nature" for the sun's growing soul, "not necessarily accompanied by reason"
+  for ἀνάλογον, "attention" for turning, "shame" for ugliness, virtue not "a matter of compulsion" for Lachesis' "virtue has
+  no master", attractions and repulsions for Empedocles' love and strife, "no necessity" where justice follows the one who
+  takes what he should not, "the Proficient" and "the Celestials", "the burgher" for the people of Erechtheus with Plato's
+  next words added, "the misfortune" for the premises of the affection, "transpose the cords", "wisdom" for order, and the
+  pure soul coming down where the Greek has it go up. Notes on sympathy (the Stoics), Heraclitus' rest in change, the parts
+  made for the whole (Laws X 903b-d), the stars' dance (Timaeus 40c) and signs (II.3.7), the running gods (Cratylus 397c-d),
+  the trine, the mark of being (Sophist 247d-e), the lapidaries, Republic X 617e, the lawgiver (Laws X), Empedocles (B17),
+  Olympius (Life 10), charms (Republic III, Laws II), the lyre strings of IV.4.8, Heraclitus' bow and lyre (B51), the liver
+  (Timaeus 70a-71d), Adrasteia (Phaedrus 248c), daemons (Symposium 202e-203a), Alcibiades I 132a and Iliad II.547, οἰκείωσις,
+  going out of life (I.9, Phaedo 62b-c), no one errs willingly (Protagoras 358c-d), Euripides' soundless path (Trojan Women
+  887-888), the puppet's cords (Laws I 644d-645a), the myth of Er, and punishment as medicine (Gorgias 478d-480b).
+- E18: IV.5 On sight, IV.6 On perception and memory (4,686). Next.
 - E19: IV.8 On the descent of the soul into bodies, IV.9 Whether all souls are one (4,062).
 - E20: V.4 How what comes after the first comes from it, V.5 That the intelligibles are not outside intellect (5,314);
   MacKenna's vol. IV (1926).

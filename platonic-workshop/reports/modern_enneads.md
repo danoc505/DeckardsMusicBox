@@ -6,12 +6,12 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 - Porphyry's Life of Plotinus: Volkmann's own Greek (vol. I, 1883), proofread from the scan (`sources/neoplatonists/proofread/porphyry-life-plotinus.txt`).
 - Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny, III.2 On providence, first part, III.3 On providence, second part, III.4 On the daemon allotted to us, III.5 On love, III.8 On nature, contemplation and the One, III.9 Various considerations, IV.1 On the being of the soul, first part, IV.4 On difficulties about the soul, second part.
 - The whole Enneads: 24 treatises here, 15 beside Taylor (milestone 27), 16 to come.
-- Chapters: 231, each with a short title and a summary.
-- Paragraphs: 647, each with its Greek.
-- Words: 90,359 modern, 68,075 Greek, 117,007 in MacKenna's English of the same chapters.
-- Sentences (each can be marked in the reader): 3,284.
-- Flags (where MacKenna and the Greek differ, or the Greek is hard): 599.
-- Notes (Plato's, Aristotle's and Homer's places, hard readings): 399.
+- Chapters: 245, each with a short title and a summary.
+- Paragraphs: 695, each with its Greek.
+- Words: 96,441 modern, 72,630 Greek, 125,207 in MacKenna's English of the same chapters.
+- Sentences (each can be marked in the reader): 3,432.
+- Flags (where MacKenna and the Greek differ, or the Greek is hard): 652.
+- Notes (Plato's, Aristotle's and Homer's places, hard readings): 429.
 - Problems found: 0.
 
 ## Flags
@@ -617,6 +617,59 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | IV.4.30.p2 | such a memory as we ascribed to Demeter and Hestia | The earlier account gave Demeter and Hestia no memory (chapter 27 only names them). The Greek says that memory would be needed too for benefits to men such as Demeter's and Hestia's, the earth's, "unless one were to say that only the earth does good to human things". |
 | IV.4.31.p1 | Our problem embraces all act and all experience throughout the entire kosmos | MacKenna's chapter 30 runs on here without a break: the Greek's chapter 31 begins with these words (the OCR lost his number 31). |
 | IV.4.31.p5 | a doom from the All | The Greek has "the judgement of the All" (τῇ τοῦ παντὸς γνώμῃ): the mind and will of the All, set with the stars' choice and reasonings; not a doom laid on us. |
+| IV.4.32.p1 | material agencies (blind elements) | The Greek says only "bodily causes" (σωματικαῖς αἰτίαις), the hot and cold of chapter 31; "blind elements" is MacKenna's. |
+| IV.4.32.p1 | partial where there is also a union with a lower soul | The Greek says those that share in "another" soul as well (ἄλλης), a soul of their own such as ours, are by this not wholly parts; nothing says that the other soul is lower. |
+| IV.4.32.p3 | bile and animal spirit seem to press and goad | The Greek has "bile and anger" (χολὴ καὶ ὁ θυμός), anger with its seat in the bile (IV.4.28); "animal spirit" is the physiology of MacKenna's day. |
+| IV.4.32.p3 | by sucking the moisture from it | The Greek says only that among plants one is "a hindrance" (ἐμπόδιον) to another, "so as even to wither it"; nothing of sucking moisture. |
+| IV.4.32.p3 | whatever is becoming a menace to it | The Greek says each does away with what was "foreign" (ἀλλότριον) to it, "by its goodwill towards itself" (εὐνοίᾳ τῇ ἑαυτοῦ), as food is made its own; not what threatens it. |
+| IV.4.32.p4 | for the permanence of an All demands varying forms | The Greek says the All "has its remaining in being moved" (ἐν τῷ κινεῖσθαι τὸ μένειν ἔχον): its permanence is its motion, not a variety of forms. |
+| IV.4.33.p2 | The dancer's mind is on his own purpose | The Greek says the dancer's choice "looks to something else" (πρὸς ἄλλο βλέπει), to the dance as a whole, while the limbs follow; not to a purpose of his own. |
+| IV.4.33.p3 | a living being (an All) thus by its nature conjoined | MacKenna's "(an All)" is his own addition: the Greek speaks of one living being only, moved in this way and composed in this way, which acts on itself and is affected by itself. |
+| IV.4.34.p1 | in part retain their personality | The Greek says that with a part "they are their own" (τὸ δ’ αὑτῶν ὄντες); "personality" is a modern word. |
+| IV.4.34.p1 | are thus less absolutely at beck and call | The Greek says that for this reason they "receive more measured orders" (μετριωτέρων ... ἐπιταγμάτων) from the master: it is the master's orders that are moderated. |
+| IV.4.34.p3 | changing the members, the relationship remains the same | The Greek says the opposite: the figuring of other things, though the same in figure, is "another" disposition (τὴν δὲ ἄλλων τὴν αὐτὴν οὖσαν ἐν σχηματισμῷ ἄλλην): change the members and the same figure means something else. |
+| IV.4.34.p4 | the clutched fingers and the muscles and veins following suit | The Greek has "sinews" (νεῦρα) and veins "feeling with them" (συμπαθοῦντα), the same sympathy as in the All; not muscles that follow suit. |
+| IV.4.35.p1 | How can there be the exercise of power from man to man | The Greek "this one towards that one" (ὁδὶ πρὸς τονδί) is masculine because it speaks of the stars (ἀστήρ), one star in relation to another, as the triangles before it are their figures; no men are in it. |
+| IV.4.35.p2 | the producing agency within the Reason-Principles | The Greek says the powers were made "by the one who made them in forming principles" (ὑπὸ τοῦ ἐν λόγοις πεποιηκότος): a maker, who made them by forming principles, not an agency within the principles. |
+| IV.4.35.p3 | the anger of a moment of annoyance | The Greek says anger is "against another, when something pains it" (ὅταν τι παραλυπῇ), one part of the All against another, like desire before it; not a passing annoyance. |
+| IV.4.35.p4 | intent upon the Supreme | The Greek says the sun is "looking upward" (ἄνω βλέποντα); "the Supreme" is MacKenna's. |
+| IV.4.35.p4 | the vastly efficacious soul of Nature | The Greek says the sun's "growing soul" (φυτικῆς ψυχῆς), the soul that makes things grow, "is abundant" (πολλῆς οὔσης); not the soul of nature. |
+| IV.4.35.p6 | shaped to ideal-quality by the action of Reason-Principles | The Greek says such things are "given form" (εἰδοποιηθέντα) by forming principles, as every natural thing is; "ideal-quality" is MacKenna's. |
+| IV.4.36.p1 | since all this order is but a representation of the higher | The Greek says these things here are "a trace of those" (ἴχνος ταῦτα ἐκείνων), the word Plotinus uses of nature as the last trace of soul (IV.4.13, 20); not a representation. |
+| IV.4.36.p3 | Man would never have reached to his actual height | The Greek says a man "would not be moved to so many things" (ἐπὶ τοσαῦτα), so many kinds of movement, if the powers in him were soulless; nothing of his height. |
+| IV.4.37.p2 | Some such power, not necessarily accompanied by reason | The Greek says each thing has "some power in proportion" (δύναμίν τινα ἀνάλογον), as its place in the All allows; MacKenna seems to have read ἄλογον, "without reason". |
+| IV.4.37.p2 | even attention is not necessary to the communication of power | The Greek says the givers need not even "turn" (ἐπιστραφέντων) to the giving of the power: the word for the soul's turning towards something. |
+| IV.4.37.p2 | since they draw upon a purer nature | The Greek says the heavenly things have "a clearer" or "more vivid" nature (ἐναργεστέρᾳ φύσει), not a purer one. |
+| IV.4.38.p1 | Whatever springs automatically from the All | MacKenna's chapter 37 runs on here without a break: the Greek's chapter 38 begins with these words (the OCR lost his number 38, shown only as "38. -"). |
+| IV.4.38.p1 | a certain natural tendency in the product | The Greek says only that these things are to be referred to "the nature of what is done" (τὴν τοῦ δρωμένου φύσιν), not to each of the powers; the "tendency to exist with its own quality" is MacKenna's gloss. |
+| IV.4.38.p3 | whose absence brings to shame | The Greek says that, deprived of the noble, the thing falls "into ugliness" (εἰς αἰσχρότητα): the form was not mastered in the matter; not shame. |
+| IV.4.38.p3 | this does not make virtue a matter of compulsion | The Greek says "virtue has no master" (ἀρετὴ δὲ ἀδέσποτον), the words of Lachesis in Plato's myth of Er; MacKenna's paraphrase loses the quotation. |
+| IV.4.39.p1 | to the principles by which that seed itself takes shape | The Greek says principles "that embrace" (περιληπτικούς) the things that come about, "and of prior things": wider principles that take in matter and chance as well, not those that shape the seeds. |
+| IV.4.39.p1 | in perfect adaptation of law to custom | The Greek says the lawgiver legislates "with a view to all this" (πρὸς ταῦτα πάντα), what the citizens will do and why; nothing of custom. |
+| IV.4.39.p2 | the compound from the constituents which must make themselves known in the linked total | The Greek says the composite is known "from one of its two parts" (ἀπὸ θατέρου), "since the one and the other are together": from one part we know the whole. |
+| IV.4.40.p1 | its attractions and, not less, its repulsions | The Greek has "love" and "strife" (φιλία καὶ τὸ νεῖκος), Empedocles' two powers that join and part the elements; MacKenna's physics hides the reference. |
+| IV.4.40.p2 | by the force of contact implant in others | The Greek says they "add by contact" (προστιθέντων ἐπαφαῖς) natures, substances or charms that draw together and "have love lying in them"; they do not implant a temperament. |
+| IV.4.40.p3 | is welcomed, exacted, from the performers | The Greek says men love to be charmed "even if they do not ask this" (κἂν μὴ τοῦτο αἰτῶνται) of those who use music: the charm comes whether asked for or not. |
+| IV.4.40.p3 | his highest mind is never caught | The Greek says "the ruling part itself is unaffected" (ἀπαθὲς δ’ αὐτὸ τὸ ἡγούμενον), the Stoics' ruling part of the soul, which knows the affection afterwards. |
+| IV.4.41.p1 | The prayer is answered by the mere fact | MacKenna's chapter 40 runs on here: the Greek's chapter 41 begins with these words (the OCR read his number 41 as "4*."). |
+| IV.4.41.p1 | for it contains its unisons as well | The Greek says the harmony of the All is "of like things too" (ἐξ ὁμοίων), and all its members are akin, even the opposites; not unisons. |
+| IV.4.41.p2 | blundered in taking it | The Greek says only that the one to whom the fire was carried "could not receive it" (μὴ οἷός τε ἐγένετο δέξασθαι), as matter cannot master what it is given (chapter 39); no blunder. |
+| IV.4.42.p1 | any sense of petitions addressed to them | The Greek says the stars need no "perceptions sent up" to them (αἰσθήσεων ἀναπεμπομένων), as if our prayers had to be carried up to their senses. |
+| IV.4.42.p2 | There is, therefore, no necessity by ineluctable law | The Greek is better read "if someone took what he should not" (οὐ δέον) "from what lies there for all, justice follows him by a necessary law": the gift is not withheld, but punishment comes; MacKenna turns it into its opposite. |
+| IV.4.42.p3 | since nothing existent can be at strife with the total of existence | The Greek says "since nothing is against its nature" (παρὰ φύσιν δὲ μηδενὸς αὐτῷ ὄντος): what happens in the parts is natural to the All, and so no affection of it. |
+| IV.4.43.p1 | the Proficient (the Sage) | The Greek has "the good man" (ὁ σπουδαῖος), the serious, earnest man of the philosophers; "the Proficient" is MacKenna's word throughout. |
+| IV.4.43.p2 | Even the Celestials, the Daimones | The Greek says only "daemons" (δαίμονες), the powers between gods and men; "the Celestials" is MacKenna's. |
+| IV.4.43.p3 | the burgher of great-hearted Erechtheus | The Greek has "the people" (δῆμος) of Erechtheus, the Athenian people, not a citizen of the middle class. |
+| IV.4.43.p3 | but you should see him naked | Not in the Greek: MacKenna adds, in brackets, the next words of Plato's dialogue, where Socrates says one should see the people stripped. |
+| IV.4.44.p1 | that unity is all he perceives | The Greek says "what he contemplates is himself" (τὸ θεωρούμενον αὐτός ἐστι): seer and seen are one, as in III.8.6-8 (E14). |
+| IV.4.44.p1 | this is the first condition of the misfortune | The Greek speaks of "the premises of the affection" (αἱ τοῦ πάθους προτάσεις): action reasons from what affection proposes, as from a premise; πάθος here is affection, not misfortune. |
+| IV.4.44.p2 | rather than to withdraw from it | MacKenna ends the sentence here and leaves out its last words, "because in this way he was bewitched" (ὅτι οὕτως ἐγοητεύθη): staying in life for its sake is itself nature's spell, though one that the good man sees through. |
+| IV.4.44.p3 | cheated by the mere track and trace of the Authentic Good | The Greek says "deceived by the traces of the fine" (τοῖς ἴχνεσι τοῦ καλοῦ), the beautiful; the Good comes after, where the not-good is pursued as good. |
+| IV.4.45.p1 | in the orders in which each of the parts is also animate | The Greek is a supposition: "if each of the parts were a living being too" (εἰ ... ζῷον ἦν), it would have a living being's works besides a part's. |
+| IV.4.45.p2 | thence onwards with those above the Celestials | The Greek says "to what comes next in the daemonic place, and what is beyond them" (τὰ ἐπέκεινα αὐτῶν): beyond the daemons, the gods; nothing of the Celestials. |
+| IV.4.45.p3 | transpose the cords | The Greek says the good man's changes are "as if moved by certain drawings of nature, as by cords" (ὥσπερ ἐκ μηρίνθων ὁλκαῖς τισι φύσεως): other cords, not the same ones transposed. |
+| IV.4.45.p3 | a wonder of power and wisdom | The Greek says the All is wonderful "in power and order" (δυνάμεως καὶ τάξεως); "wisdom" is MacKenna's. |
+| IV.4.45.p4 | taking this sphere in free election | MacKenna has the soul leave a purer place for this one; the Greek says it "took in exchange for this place another, a pure one" (ἄλλον τόπον καὶ καθαρὸν ἠλλάξατο τοῦτον), which it chose: it goes up from here. |
 
 ## The plan, in Porphyry's order
 
@@ -653,7 +706,7 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | IV.1 | On the being of the soul, first part | done here |
 | IV.2 | On the being of the soul, second part | done beside Taylor (milestone 27) |
 | IV.3 | On difficulties about the soul, first part | done beside Taylor (milestone 27) |
-| IV.4 | On difficulties about the soul, second part | done here, chapters 1-31 of 45 |
+| IV.4 | On difficulties about the soul, second part | done here |
 | IV.5 | On difficulties about the soul, third part, or on sight | to come (E18) |
 | IV.6 | On perception and memory | to come (E18) |
 | IV.7 | On the immortality of the soul | done beside Taylor (milestone 27) |
