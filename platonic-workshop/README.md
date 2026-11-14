@@ -440,7 +440,7 @@ and his note that Aristotle "cannot be serious" against the Forms in X.10. The n
 Proclus on the One beyond being, Proclus on the Form as cause, not one more member of its species). Taylor's chapters are
 Bekker's. Next, when the Aristotle work resumes: Book Λ (35m7).
 
-**The Enneads in modern English (milestones E1 to E34): I.1, I.4 to I.9, and Porphyry's Life of Plotinus 1-12 done; the current focus (November 2026).** The rest of Plotinus,
+**The Enneads in modern English (milestones E1 to E34): Porphyry's Life of Plotinus, I.1 and I.4 to I.9 done; the current focus (November 2026).** The rest of Plotinus,
 the thirty-nine treatises Taylor did not translate, is being put into plain modern English a treatise or two at a time, in
 Porphyry's order, as milestone 27 did for Taylor's fifteen: made from Volkmann's Greek, chapter by chapter, every idea kept,
 and checked against the older English beside it, here **Stephen MacKenna's** (1917-1930, made from the same Greek; public
@@ -469,17 +469,25 @@ paragraphs, 31 and 3 flags, among them his "First Act" given to the Good where t
 Greek chapter with `@older`. The notes give the Theaetetus' flight (176a-b), the Second Letter's king of all (312e), the
 Statesman's place of unlikeness (273d), the Republic's sleep in Hades (534c-d), the Phaedo's guard post (61c-62c), and
 Sophocles' holy grove (Oedipus at Colonus 54).
-**Porphyry's Life of Plotinus, chapters 1-12** (E5), which Porphyry set at the head of his edition and which comes first here:
-12 chapters, 37 paragraphs, 19 flags. Its Greek is not in First1KGreek, so it was brought in as Volkmann's own text (vol. I,
+**Porphyry's Life of Plotinus** (E5, chapters 1-12; E6, chapters 13-26), which Porphyry set at the head of his edition and
+which comes first here: 26 chapters, 83 paragraphs, 55 flags. Its Greek is not in First1KGreek, so it was brought in as Volkmann's own text (vol. I,
 Leipzig 1883, pp. 1-36), the Internet Archive scan `volkmann-enneades-gr-v.-1-1883`, on the Neoplatonists' shelf as
-`porphyry-life-plotinus`, and its chapters 1-12 (pp. 3-18, 16 pages) were proofread from the page images as Proclus'
-commentary was (`sources/neoplatonists/proofread/porphyry-life-plotinus.txt`, `tools/proofread.py`: 345 line corrections).
+`porphyry-life-plotinus`, and all of it (pp. 3-36, 34 pages) was proofread from the page images as Proclus'
+commentary was (`sources/neoplatonists/proofread/porphyry-life-plotinus.txt`, `tools/proofread.py`: 779 line corrections).
 `tools/mackenna.py` now reads MacKenna's Life too (26 chapters, from p. 1 of vol. I). Porphyry's list of the fifty-four
 books, in the order they were written, gives each its place in the Enneads in square brackets, the Workshop's addition.
 The flags include MacKenna's "At twenty" for Plotinus' twenty-eighth year, "malign diphtheria" for the "dog-choke", "one meal
 a day" for eating every other day, "the Supreme" for intellect, and Ennead places that are wrong (II.2 for III.4, II.4-5 for
-VI.4-5); the notes give the Republic's image of an image (597e-598b), the Phaedo's allotted daemon (107d), the Timaeus'
-daemon (90a) and Atlantis, Plato's birthday in Thargelion, and the dates. It opens at
+VI.4-5); in chapters 13-26 (Plotinus' teaching and writing, the Gnostics, Amelius' letter on Numenius, Porphyry's
+recantation, Longinus' letter and preface, Apollo's oracle, and the edition in six Enneads) his "I put faith in Plotinus'
+writings" where Porphyry was entrusted with them, "My own method has been different" where Longinus says he has done the
+same, "Alexander of Lydia" and "Lydus" for Alexander the Libyan and Demostratus the Lydian, "Celestial" for the oracle's
+"daemon", "crowned with unfading life" for "armed with mighty lives", and dropped words (arithmetic; the god "with neither
+shape nor form"). The notes give the Republic's image of an image (597e-598b), the Phaedo's allotted daemon (107d), the Timaeus'
+daemon (90a) and Atlantis, Plato's birthday in Thargelion, the dates, the Symposium's Alcibiades (217a-219d) and ascent
+(210a-212a), Agamemnon to Teucer (Iliad 8.282), the Muses at Achilles' funeral (Odyssey 24.60-62), the body as tomb
+(Gorgias 493a, Cratylus 400c), the judges of the dead (Gorgias 523e-524a), and the Sophist's greatest kinds (254b-255e).
+MacKenna's chapter 23 begins inside the oracle, so the Greek chapter 22 shows his 22 and 23. It opens at
 `#neo-modern/enneads` (from the Neoplatonists' shelf, under Plotinus, and from each chapter of the Greek): each treatise and
 chapter with a short title and a summary, the Greek of every paragraph one tap away (linking to its chapter in Volkmann's
 text), MacKenna's chapter one tap away (*MacKenna's words*, with his page) or beside it (*Side by side*), and *Mark a sentence*.
@@ -493,7 +501,7 @@ hyphened terms such as "Sense-Perception" kept; not proofread). The master copy 
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: Porphyry's Life of Plotinus, chapters 13-26 (E6).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: II.1 On the heaven and II.2 On the movement of the heaven (E7), with MacKenna's vol. II (1921).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,

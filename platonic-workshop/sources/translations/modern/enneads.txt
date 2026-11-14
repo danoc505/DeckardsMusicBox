@@ -22,7 +22,7 @@
 # lists the treatises by title and first words; the numbers and Ennead places in square brackets are the Workshop's.
 
 @treatise Life | Porphyry, On the life of Plotinus and the order of his books
-Porphyry, Plotinus' pupil, wrote this life of his teacher about thirty years after his death and set it before his edition of the treatises, the Enneads. He begins with Plotinus' death and works back: his illness and last words, his birth, his search for a teacher until he found Ammonius at Alexandria, his years in Rome. Then he lists the fifty-four treatises in the order Plotinus wrote them, with their first words, and describes the circle around him: his pupils, the senators, the women and the orphans in his care, his way of writing and of teaching, his gift for reading character, the attack of a rival by magic, and the god that was found to be his guardian daemon. Chapters 1 to 12 are done here; chapters 13 to 26 are to come (E6).
+Porphyry, Plotinus' pupil, wrote this life of his teacher about thirty years after his death and set it before his edition of the treatises, the Enneads. He begins with Plotinus' death and works back: his illness and last words, his birth, his search for a teacher until he found Ammonius at Alexandria, his years in Rome. Then he lists the fifty-four treatises in the order Plotinus wrote them, with their first words, and describes the circle around him: his pupils, the senators, the women and the orphans in his care, his way of writing and of teaching, his gift for reading character, the attack of a rival by magic, and the god that was found to be his guardian daemon; his way of teaching and writing, his answers to the Gnostics and to the charge of copying Numenius, the judgement of the critic Longinus, and Apollo's oracle on where his soul had gone. Last he explains how he arranged the treatises by subject into six sets of nine, the Enneads, and lists them.
 
 @ch Life.1 | Ashamed to be in a body
 Plotinus seemed ashamed of being in a body, and would not speak of his family or his country, or sit for a portrait: the body is already an image, and a portrait would be an image of an image. Amelius had a painter, Carterius, watch him at the meetings and paint him from memory.
@@ -283,6 +283,283 @@ The emperor Gallienus and his wife Salonina honoured Plotinus, and he asked them
 @p
 The emperor Gallienus and his wife Salonina honoured and revered Plotinus greatly. Making use of their friendship, he asked them to raise up again a city of philosophers that was said to have existed in Campania, but was otherwise in ruins, and to give the country round it to the city once it was settled; those who would live there were to use Plato's laws, and it was to be given the name Platonopolis; and he promised that he would withdraw there himself with his companions. And the philosopher's wish would have come about very easily, had not some of those around the emperor stopped it, from envy, or resentment, or some other wicked cause.
 !note Plato's Laws describe the founding of a new city in Crete, Magnesia; the Republic (473c-d) holds that cities will have no rest from evils until philosophers rule.
+
+@ch Life.13 | How he taught
+In the meetings Plotinus spoke well and found the point quickly, though he mispronounced some words; when he spoke, his intellect lit up his face. He would answer questions for days: when a visitor wanted a set lecture instead of Porphyry's questions, he said that without solving the questions there would be nothing to write.
+
+@p
+In the meetings he was able to put things into words, and most powerful at finding and thinking out what fitted the matter; but he made mistakes in some words: he would not say anamimnēsketai ("he recollects") but anamnēmisketai, and other wrongly stamped words, which he kept to in his writing too. When he spoke, the showing of his intellect lit up his face with its light: he was lovely to look at, but then most beautiful to see; a fine sweat ran down him, gentleness shone through him, and he showed kindness towards questions, and vigour.
+!flag a slight moisture gathered on his forehead | The Greek says only that "a fine sweat ran down" him (λεπτός τις ἱδρὼς ἐπέθει); the forehead is MacKenna's.
+!flag He was always as ready to entertain objections as he was powerful in meeting them | The Greek lists what showed in his face as he spoke: his gentleness, his kindness towards questions (τὸ προσηνὲς πρὸς τὰς ἐρωτήσεις) and his vigour (τὸ εὔτονον). MacKenna turns this into a sentence of his own about objections and his power in meeting them.
+!note The two words: ἀναμιμνήσκεται is the right form; Plotinus said ἀναμνημίσκεται, swapping the syllables. Porphyry's point is that the master of thought was no master of grammar.
+
+@p
+@greek τριῶν γοῦν ἡμερῶν
+For three days, for example, when I, Porphyry, asked him how the soul is present with the body, he kept on demonstrating, so that when a man named Thaumasius came in, who dealt in general discourses and said that he wanted to hear him speak in a way fit for books, and could not bear Porphyry answering and asking, Plotinus said: "But if we do not solve the difficulties when Porphyry asks, we shall not be able to say anything at all for the book."
+!flag a man called Thomasius | The Greek name is Θαυμάσιος, Thaumasius.
+!note Volkmann reads ἀποκρινομένου, "answering"; the modern version keeps it. The question how the soul is present with the body is the subject of Plotinus' IV.3, the first of the books On difficulties about the soul (done beside Taylor).
+
+@ch Life.14 | How he wrote, and what was read in his school
+His writing was brief and full of thought; the Stoics and Aristotle's Metaphysics are hidden in it; he knew the mathematical sciences. In his school commentaries on Plato and Aristotle were read, but he spoke from his own thought, in Ammonius' spirit. He called Longinus a scholar, not a philosopher, and blushed when Origen came to hear him.
+
+@p
+In writing he was concise and full of thought, brief, and richer in ideas than in words, mostly speaking with inspiration and passion. Mixed into his writings, though hidden, are the doctrines of the Stoics and the Peripatetics; and Aristotle's Metaphysics too is packed into them. No theorem, as they call it, of geometry escaped him, nor of arithmetic, nor of mechanics, optics or musical theory; but he was not set on working these out himself.
+!flag He followed his own path rather than that of tradition | There is nothing for this in Volkmann's Greek, which goes straight from "speaking with inspiration and passion" to the Stoic and Peripatetic doctrines.
+!flag is condensed in them, all but entire | The Greek says only that the Metaphysics "is packed into" his writings too (καταπεπύκνωται); "all but entire" is MacKenna's.
+!flag Geometry, Mechanics, Optics and Music | MacKenna leaves out arithmetic (ἀριθμητικόν), which the Greek names after geometry.
+!note "The Peripatetics" are Aristotle's school. Plotinus' VI.1 to VI.3, On the kinds of being, examine Aristotle's categories and the Stoics' at length.
+
+@p
+@greek ἐν δὲ ταῖς συνουσίαις
+In the meetings the commentaries were read out to him: they might be by Severus, or Cronius, or Numenius, or Gaius, or Atticus, and among the Peripatetics by Aspasius, Alexander, Adrastus and any that came to hand. But nothing was simply said from them: he was original and different in his study, and brought the intellect of Ammonius to his inquiries. He took the matter in quickly, and after giving the sense of a deep theorem in a few words, he would rise. When Longinus' On principles and his Lover of antiquity were read to him, he said: "Longinus is a scholar, but not a philosopher at all."
+!flag Longinus' work On Causes | The title is περὶ ἀρχῶν, On principles (or "On first principles"), not "On causes".
+!flag a few words sufficed him to make clear the significance of some profound theory and so to pass on | The Greek ἀνίστατο is "he rose": having given the sense in a few words, he stood up and ended the meeting.
+!note Severus, Cronius, Numenius, Gaius and Atticus are Platonists of the second century; Aspasius, Alexander (of Aphrodisias) and Adrastus are commentators on Aristotle. Longinus, the critic and scholar who taught Porphyry at Athens, appears again in chapters 19 to 21. "Lover of antiquity" (φιλάρχαιος) is the title of one of his books.
+
+@p
+@greek Ὠριγένους δὲ ἀπαντήσαντός
+Once when Origen came to the meeting, Plotinus went red and wanted to rise; and when Origen asked him to speak, he said that one's eagerness flags when the speaker knows that he is speaking to people who already know what he is going to say; and so, after talking a little, he got up and left.
+!note This Origen is the Platonist, Plotinus' fellow pupil under Ammonius (chapter 3).
+
+@ch Life.15 | A poem, a bad speech, and the astrologers
+When Porphyry read a mystical poem at Plato's feast, Plotinus called him poet, philosopher and hierophant. When a speaker defended Alcibiades' offer in the Symposium, Plotinus had Porphyry answer him. He read the Platonist Eubulus' writings through Porphyry, studied astrology closely, and refuted it.
+
+@p
+When at Plato's feast I read a poem, The sacred marriage, and someone said that Porphyry was mad, because much of it was said in the language of the mysteries, with inspiration and in a hidden way, Plotinus said so that all could hear: "You have shown yourself at once poet, philosopher and hierophant."
+!note "Plato's feast" (Πλατώνεια) is the feast Plotinus gave on Plato's birthday (chapter 2). The hierophant is the priest who shows the sacred things at the Mysteries of Eleusis.
+
+@p
+@greek ὅτε δὲ ὁ ῥήτωρ Διοφάνης
+When the orator Diophanes read a defence of Alcibiades in Plato's Symposium, laying it down that for the sake of learning virtue a pupil must give himself to a teacher who desires him, even for sexual union, Plotinus several times leapt up to leave the gathering, but held himself back; and after the audience broke up he told me, Porphyry, to write a reply. Since Diophanes would not give me the book, I recalled his arguments from memory, wrote the reply, and read it before the same hearers gathered again, and I pleased Plotinus so much that at the meetings he kept saying: "Shoot like that, and you may become a light to men."
+!flag should submit to the teacher without reserve | The Greek says the pupil should give himself "to the teacher who desires him" (ἐρῶντι ... τῷ καθηγεμόνι); "without reserve" is MacKenna's, and he leaves out the teacher's desire.
+!flag during the very reading he repeatedly quoted | The Greek says that Plotinus "kept saying it at the meetings" (κἀν ταῖς συνουσίαις συνεχῶς ἐπιλέγειν), afterwards and often, not during the reading.
+!note In the Symposium (217a-219d) Alcibiades tells how he offered himself to Socrates in exchange for his wisdom, and was refused. Plotinus' line is Homer's Iliad 8.282, Agamemnon to the archer Teucer ("shoot like that, and you may become a light to the Danaans"), with "men" for "Danaans".
+
+@p
+@greek γράφοντος δὲ Εὐβούλου
+When Eubulus, the Platonic successor, wrote from Athens and sent writings on some Platonic questions, Plotinus had them given to me, Porphyry, and asked me to examine them and report to him what was written. He paid attention to the tables of the stars, though not at all as a mathematician, but to the forecasts of the casters of nativities more closely; and having caught out how little their promise could be trusted, he did not hesitate to refute it in many places in his writings too.
+!flag the principles of Astronomy | The Greek κανόνες are "tables" (the astronomers' tables of the stars' movements), used to cast nativities; it is these that Plotinus studied "not at all as a mathematician".
+!note The "successor" (διάδοχος) is the head of the Platonic school at Athens, Plato's successor. Plotinus refutes the astrologers in II.3, Whether the stars are causes, and III.1, On destiny.
+
+@ch Life.16 | The Gnostics
+In his time there were sectarians, Christians, with revelations under the names of Zoroaster, Zostrianus and others, who said Plato had not reached the depth of intelligible being. Plotinus refuted them at the meetings and in the book Against the Gnostics; Amelius and Porphyry wrote against their revelations.
+
+@p
+In his time there were many others, Christians, and among them sectarians who had set out from the ancient philosophy, the followers of Adelphius and Aquilinus, who owned a great many writings of Alexander the Libyan, Philocomus and Demostratus the Lydian, and brought out revelations of Zoroaster, Zostrianus, Nicotheus, Allogenes, Mesus and others of that kind; they deceived many, and were deceived themselves, saying that Plato had not come near the depth of intelligible being.
+!flag works by Alexander of Lydia, by Philocomus, by Demostratus and by Lydus | Volkmann's Greek reads "Alexander the Libyan" (τοῦ Λίβυος) and "Demostratus the Lydian" (τοῦ Λυδοῦ): MacKenna makes Alexander a Lydian, and the Lydian a fourth author, "Lydus".
+!note The Greek can also be read "many Christians, and others": the sentence has been taken both ways. The sectarians (αἱρετικοί) are those whom Plotinus' book calls Gnostics.
+!note A modern finding, not in Porphyry: books called Zostrianus and Allogenes survive in Coptic, among the manuscripts found at Nag Hammadi in Egypt in 1945.
+
+@p
+@greek ὅθεν αὐτὸς μὲν
+So he himself made many refutations at the meetings, and also wrote the book which we have titled Against the Gnostics, and left the rest to us to judge. Amelius went on as far as forty books writing against the book of Zostrianus; and I, Porphyry, have made many refutations of the book of Zoroaster, showing that the book is spurious and recent, made up by those who founded the sect, so that it would be thought that the doctrines they had chosen to honour were those of the ancient Zoroaster.
+!note Against the Gnostics is II.9 (the thirty-third book by date), done beside Taylor. Volkmann sets ὅπως, "so that", in round brackets.
+
+@ch Life.17 | Numenius, and Amelius' letter
+Some in Greece said Plotinus was passing off Numenius' work as his own. Amelius answered in a book, and dedicated it to Porphyry as "Basileus", the Greek for his Syrian name Malchus, "king". Porphyry gives the covering letter.
+
+@p
+Since people in Greece were saying that he was passing off Numenius' work as his own, and Trypho, the Stoic and Platonist, reported this to Amelius, Amelius wrote a book which he titled On the difference between the doctrines of Plotinus and Numenius, and dedicated it to me, as Basileus. Basileus was the name I, Porphyry, had: in my native tongue I was called Malchus, which was my father's name too, and Malchus means basileus ("king") if one wants to turn it into Greek. So Longinus, dedicating his On impulse to Cleodamus and to me, Porphyry, wrote at its head "Cleodamus and Malchus"; and Amelius, translating the name, as Numenius turned Maximus into Megalos, writes Basileus for Malchus:
+!flag it is equivalent to Porphyry (Purple-robed) | Not in the Greek: Porphyry says only that Malchus, his native name, means "king". That "Porphyry" ("purple") also suits a king is MacKenna's addition.
+!note Porphyry was from Tyre, in Phoenicia; malk is "king" in the Semitic languages spoken there. Maximus is Latin for "greatest", Megalos Greek for "great".
+
+@p
+@greek Ἀμέλιος Βασιλεῖ εὖ πράττειν
+"Amelius to Basileus, greetings. For the sake of those highly praised men themselves who, as you say, have dinned into your ears that our companion's doctrines go back to Numenius of Apamea, I would never have let out a word, you may be sure. For plainly this too comes from the fine speech and fluency they pride themselves on: saying now that he is a great babbler, now that he is a plagiarist, and thirdly that what he passes off as his own is the poorest stuff there is, plainly to mock him when they speak against him.
+!flag he bases the universe on the meanest of existents | The Greek ὑποβαλλόμενος is the same word as in "passing off" Numenius' work: the third charge is most naturally that what he passes off is the poorest of things. MacKenna reads it as "putting under", a foundation for the universe.
+
+@p
+@greek σοῦ δὲ τῇ προφάσει
+"But since you think we should make use of this occasion, both to have what we hold more ready to hand for remembering, and to come to know more fully, for the sake of so great a companion as Plotinus, teachings that have long been noised abroad, I have done as you asked; and now I come giving you what I promised, worked out, as you know yourself, in three days. You must judge them fairly and kindly, as things neither set in order nor picked out by laying them beside those writings, but recalled from our reading long ago and set down here now in the order in which each first came to mind; all the more since the thought of the man whom some bring in as agreeing with us is not at all easy to grasp, because, as it may seem, he is carried now one way, now another about the same things.
+!flag a writer who, like Plotinus, now arraigned for the opinion we also hold | A hard place. Who "the man" is the Greek does not say plainly: most likely Numenius, whose thought some say agrees with ours. MacKenna takes him to be Plotinus.
+
+@p
+@greek ὅτι δέ, εἴ τι τῶν
+"That you will kindly set right anything from our own hearth that may have been put out falsely, I know well. I have been driven, it seems, as the tragedy says somewhere, busybody that I am, to set straight and to disown what departs from our leader's doctrines. Such, then, was my wish to please you in every way. Farewell."
+!flag A busy man and far from the teachings of our master I must needs correct and recant | A hard place. The "distance" (διαστάσει) is most naturally the distance of the charge from Plotinus' doctrines, which Amelius sets straight and disowns; MacKenna makes Amelius himself far from the master's teachings.
+!note The tragedy Amelius quotes is not identified here.
+
+@ch Life.18 | Porphyry's recantation
+Porphyry gave the letter to show that some thought Plotinus a babbler, because he taught like someone in conversation, without show. Porphyry himself at first wrote against him that the intelligibles are outside intellect; after three rounds with Amelius he changed his mind, and was trusted with Plotinus' books.
+
+@p
+I have been led to put in this letter not only to show that people at that time thought he was boasting of Numenius' doctrines as his own, but also that they thought him a great babbler and despised him, because they did not understand what he said, and because he was clean of all the stage-show and the puffing of the sophist: in the meetings he was like someone conversing, and did not quickly make plain to anyone the logical necessities in his argument.
+
+@p
+@greek ἔπαθον δ’ οὖν
+I, Porphyry, felt the same when I first heard him. So I wrote a reply and brought it to him, trying to show that the intelligibles exist outside intellect. He had Amelius read it to him, and when it had been read he smiled and said: "It is for you, Amelius, to solve the difficulties he has fallen into through not knowing what we hold." Amelius wrote a book of no small size against Porphyry's difficulties; I wrote again in reply to what he had written; Amelius answered that too; and at the third round I, Porphyry, at last understood what was said, changed my mind, wrote a recantation and read it in the school. From then on I was trusted with Plotinus' books, and I stirred the teacher himself to the ambition of setting out his views in order and writing them at greater length. And I made Amelius, too, eager to write.
+!flag From that time on I put faith in Plotinus' writings | The Greek ἐπιστεύθην with "the books" is "I was entrusted with Plotinus' books": the books were put in his care (as chapter 24 shows), not that he came to believe in them.
+!note Plotinus' own treatise on the question is V.5, That the intelligibles are not outside intellect (the thirty-second by date).
+
+@ch Life.19 | Longinus' letter
+What Longinus thought of Plotinus: in a letter asking Porphyry to come from Sicily to Phoenicia with Plotinus' books, he says his copies are full of errors and asks for good ones; he does not accept most of Plotinus' hypotheses, but admires his writing above all.
+
+@p
+What opinion Longinus too held of Plotinus, mostly from what I told him in my letters, a part of a letter he wrote to me will show; it runs like this. Asking me to come down from Sicily to him in Phoenicia, and to bring Plotinus' books, he says:
+
+@p
+@greek καὶ σὺ μὲν ταῦτά
+"Send these whenever you like; or rather, bring them; for I would never stop asking you to put the road to us before any other, if for no other reason (for what wisdom could you come expecting from us?), then for the sake of old friendship and the air, which is very mild for the bodily weakness you speak of. Whatever else you may happen to expect, expect nothing new from me, nor even those of my older writings that you say you have lost. For there is such a dearth of copyists here that, by the gods, all this time I have been getting together what was missing of Plotinus' books, and have only just managed it by taking my copyist away from his usual work and setting him to this alone.
+
+@p
+@greek καὶ κέκτημαι μὲν ὅσα
+"I have, I think, all of them, with those you have now sent; but I have them only half complete, for they are full of mistakes, and not a few. I thought our companion Amelius would correct the copyists' slips; but he had more pressing things to do than such close work. So I do not know how to deal with them, though I am very eager to look into the books On the soul and On being, for these above all are corrupt. I would very much like the copies made with care to come to me from you, just to compare them and then send them back. But again I say the same: do not send them, but rather come yourself, bringing these and anything else that escaped Amelius. For everything he brought I got for myself with care: how could I not want to have the notes of a man worthy of all reverence and honour?
+!note The books On the soul are IV.3 to IV.5, On difficulties about the soul; On being (περὶ τοῦ ὄντος) is most likely VI.4 and VI.5, That being, one and the same, is everywhere whole.
+
+@p
+@greek τοῦτο γὰρ οὖν καὶ παρόντι
+"I have told you this before, surely, both when you were with me and when you were far away and staying at Tyre: that I do not much accept most of his hypotheses, but that I greatly admire and love the character of his writing, the density of his thoughts, and the philosophical ordering of his questions, and I would say that those who seek must count his books among the most highly esteemed."
+
+@ch Life.20 | Longinus on the philosophers of his time
+Longinus, the sharpest critic of the time, at first thought little of Plotinus. The preface of his On the end sorts the philosophers he had known into those who wrote and those who only taught, and says that only Plotinus and Amelius wrote with a method of their own and are worth reading.
+
+@p
+I have set this out at some length to show what the judgement on Plotinus was of the most critical man of our time, who examined the work of nearly all his contemporaries; though at first, from the ignorance of others, he was scornful of him. He thought that the copies he got from Amelius were faulty because he did not understand the man's usual way of putting things; for if any were corrected, Amelius' copies were, being taken from the originals.
+
+@p
+@greek ἔτι δὲ τοῦ Λογγίνου
+Next, what Longinus wrote in a book about Plotinus, Amelius and the philosophers of his time must be set down, so that the judgement on them of a man so eminent and so searching may be complete. The book is titled: Longinus, Against Plotinus and Gentilianus Amelius, On the end. It has this preface:
+!note The end (τέλος) is the goal of life, the good for whose sake everything else is done.
+
+@p
+@greek πολλῶν καθ’ ἡμᾶς
+"There have been many philosophers in our time, Marcellus, and above all in the first years of our life; for the present time, words cannot say how scarce it has become in the matter. When we were still youths, not a few were leaders in philosophical discussion; I happened to see them all, because from childhood I travelled to many places with my parents, and I came to know those who lived on as I mixed with many peoples and cities. Some of them undertook to treat their views in writing, leaving to those who came after a share in their help; others thought it enough to lead those who were with them to grasp what they held.
+
+@p
+@greek ὧν τοῦ μὲν προτέρου
+"Of the first kind were, among the Platonists, Euclides, Democritus and Proclinus, who lived in the Troad, and those who still teach in public in Rome, Plotinus and Gentilianus Amelius, his pupil; among the Stoics, Themistocles and Phoebion, and Annius and Medius, who flourished until lately; and among the Peripatetics, Heliodorus of Alexandria. Of the second kind were, among the Platonists, Ammonius and Origen, whom I attended for most of my time, men who far surpassed those of their time in understanding, and the successors at Athens, Theodotus and Eubulus. For even if one of them wrote something, as Origen the book On the daemons, and Eubulus the books on the Philebus and the Gorgias and on Aristotle's objections to Plato's Republic, that is not enough to count them among those who worked their teaching out: they took up writing as a by-work, and did not set out with the aim of writing.
+!flag the Platonic Successors at Athens, Theodorus and Eubulus | The Greek name is Θεόδοτος, Theodotus.
+!flag Origen wrote on Spirit-Beings | The title is περὶ δαιμόνων, On the daemons, the book named in chapter 3.
+!flag some writing of a metaphysical order | "Of a metaphysical order" is MacKenna's: the Greek says only "if one of them wrote something".
+
+@p
+@greek τῶν δὲ Στωικῶν Ἑρμῖνος
+"Of the Stoics, Herminus and Lysimachus, and Athenaeus and Musonius, who lived out their lives in the city; and of the Peripatetics, Ammonius and Ptolemy, the two most learned men of their time, Ammonius above all, for no one has come near him in breadth of learning; yet they wrote nothing systematic, only poems and display speeches, which were kept, I think, against those men's will; for they would not have wanted to become known later through such books, when they had passed over storing up their thought in more serious writings.
+!flag the two living at Athens | The Greek καταβιώσαντες is "who lived out their lives" in the city: they were dead when Longinus wrote, not "living".
+!flag merely verses and duty-speeches | The Greek λόγους ἐπιδεικτικούς are "display speeches", the orator's showpieces, not speeches of duty.
+
+@p
+@greek τῶν δ’ οὖν γραψάντων
+"Of those who wrote, some did no more than collect and copy out what their elders had composed, as Euclides, Democritus and Proclinus; others, recording very small matters from the history of the ancients, tried to put together books on the same topics as they, like Annius, Medius and Phoebion, the last wanting to be known for the craft of his style rather than for the ordering of his thought; with these one might class Heliodorus too, since he adds nothing beyond what his elders said in their lectures to the articulation of the argument. But those who showed their seriousness about writing by the number of questions they took up, and used a way of inquiry of their own, are Plotinus and Gentilianus Amelius.
+
+@p
+@greek ὁ μὲν τὰς Πυθαγορείους
+"Plotinus, it seems, set out the Pythagorean and Platonic principles more clearly than those before him; for the writings of Numenius, Cronius, Moderatus and Thrasyllus on the same subjects come nowhere near Plotinus' in exactness. Amelius chose to walk in his footsteps, and held to most of the same doctrines, but, lavish in working them out and in the wordiness of his style, he was drawn to a zeal opposite to his. These are the only ones whose writings we think worth examining. For why should anyone think it needful to stir up the rest, and leave off examining those from whom they took what they wrote? They added nothing of their own, not the main points, not even the arguments, and took no care either to gather what most hold or to judge what is better.
+!flag Content with setting side by side the most generally adopted theories and marking off the better from the worse | The Greek says the opposite: they took no care "either to gather what most hold or to judge what is better" (οὐδ’ οὖν ἢ συναγωγῆς ... ἢ κρίσεως τοῦ βελτίονος ἐπιμεληθέντες).
+
+@p
+@greek ἤδη μὲν οὖν καὶ δι’ ἄλλων
+"We have done this already in other writings too: as when we replied to Gentilianus on justice according to Plato, and examined Plotinus' book On the forms. For Basileus of Tyre, a companion common to us and to them, who himself wrote not a little in imitation of Plotinus, and who, preferring him to our own teaching, tried to show in a book that Plotinus held a better opinion on the forms than the one we hold, we seem to have refuted fairly in a reply, showing that his recantation was not right. In these we have stirred up not a few of these men's opinions, as also in the letter to Amelius, which has the size of a book and answers some of the things he sent us from Rome; he himself titled it a letter On the character of Plotinus' philosophy, but we were content with the common title of the writing, calling it To Amelius' letter."
+!flag My own method has been different | The Greek says the opposite: "we have done this already in other writings too" (ἤδη μὲν οὖν καὶ δι’ ἄλλων τουτὶ πεποιήκαμεν), that is, examined these men's opinions.
+!note Basileus of Tyre is Porphyry himself (chapter 17). His recantation is the one told in chapter 18.
+
+@ch Life.21 | What Longinus' judgement shows
+Porphyry draws out Longinus' verdict: Plotinus and Amelius surpassed everyone; Plotinus did not take his doctrines from Numenius; and Porphyry himself was praised for avoiding Amelius' wordiness. Had Longinus met him, he would not have written against what he had not yet grasped.
+
+@p
+In these words, then, he granted that Plotinus and Amelius surpassed all of their time by the number of questions they took up, and that they above all used a way of inquiry of their own; that, far from passing off Numenius' doctrines and championing his views, they chose to follow the doctrines of the Pythagoreans, and his own; and that the writings of Numenius, Cronius, Moderatus and Thrasyllus come nowhere near Plotinus' on the same subjects in exactness.
+!flag followed the Pythagorean and Platonic schools | The Greek has "the doctrines of the Pythagoreans, and his own" (τὰ τῶν Πυθαγορείων αὐτοῦ τε): "Platonic" is MacKenna's, and he leaves out "his own".
+
+@p
+@greek εἰπὼν δὲ περὶ Ἀμελίου
+And after saying of Amelius that he walked in Plotinus' footsteps, but, lavish in working things out and in the wordiness of his style, was drawn to a zeal opposite to his, he remembered me, Porphyry, who was then still at the start of my time with Plotinus, and said: "Basileus of Tyre, a companion common to us and to them, has himself composed not a little in imitation of Plotinus"; truly seeing that I wholly avoided the unphilosophical wordiness of Amelius and looked to Plotinus' manner as my model in writing. So it is enough that so great a man, first in judgement and held so until now, writes such things about Plotinus; and if I, Porphyry, had been able to meet with him when he called me, he would not even have written the reply that he undertook before he had grasped the doctrine exactly.
+
+@ch Life.22 | Apollo's oracle on Plotinus' soul
+@older 22 23
+Why rely on men's judgement? When Amelius asked Apollo where Plotinus' soul had gone, the god who called Socrates wisest of all men answered in a long hymn: Plotinus, once a man, is now a daemon; the gods guided him in life, and he has joined Minos, Rhadamanthus, Aeacus, Plato and Pythagoras among the blessed.
+
+@p
+But why should I talk of these things "about oak or rock", as Hesiod says? If we are to use the testimony of the wise, who could be wiser than a god? And of the god who said truly: "I know the number of the sand and the measures of the sea; I understand the dumb, and hear him who does not speak." For when Amelius asked where Plotinus' soul had gone, Apollo, who said of Socrates "Of all men Socrates is wisest", declared this about Plotinus; hear how much, and what:
+!note "About oak or rock": Hesiod, Theogony 35, a proverb for idle talk. The god's verses are the oracle Apollo gave to Croesus (Herodotus 1.47). The verse on Socrates is the form of the oracle given by Diogenes Laertius (2.37); Plato's Apology (21a) reports it in prose: no one is wiser.
+
+@p
+@greek ἄμβροτα φορμίζειν
+"I begin to strike up on the lyre an immortal hymn of song for a gentle friend, weaving it with the honey-sweetest sounds of the well-tuned lyre under the golden plectrum. I call the Muses too to raise their voice together, with cries of every sound and rushes of every harmony, as they were called to set up a dance for Aeacus' grandson in the immortal frenzies and songs of Homer. Come, holy chorus of the Muses, let us cry out, breathing together to the last end of all song; I, Phoebus of the thick hair, am in your midst.
+!flag I Phoebus, Bathychaites, singing in the midst | βαθυχαίτης is an epithet, "thick-haired" (of deep hair), not a name; and "singing" is MacKenna's: the god says only that he is in their midst.
+!note Aeacus' grandson (Αἰακίδης, "of Aeacus' line") is Achilles: the Muses sang his dirge at his funeral (Odyssey 24.60-62).
+
+@p
+@greek δαῖμον, ἄνερ τὸ πάροιθεν
+"Daemon, a man before, but now nearer the diviner lot of a daemon, since you loosed the bond of human necessity, and, strong in mind, out of the loud-roaring tumult of the body's limbs you swam hard to the shore of a sea-washed headland, far from the crowd of sinners, to set foot on the easy path of the pure soul, where the light of god shines round, where right is, in the pure place, far from lawless sin. Even then, as you struggled to escape the bitter wave of the blood-fed life and its sickening whirls, in the midst of the surge and the unlooked-for tumult, often the goal appeared to you from the blessed ones, dwelling near. Often, when the throws of your mind were rushing to be carried by their own impulses along crooked paths, the immortals lifted them up into straight courses, to the heavenly circles and the immortal path, granting a thick ray of light for your eyes to see out of the gloomy darkness.
+!flag Celestial ! Man at first | The Greek δαῖμον is "daemon", the first word of the poem's turn: Plotinus, a man before, is now a daemon, which the next line says outright ("the diviner lot of a daemon").
+!note The swim to the shore recalls Odysseus' swim through the storm to the Phaeacians' land (Odyssey 5). Plotinus himself, in I.6.8, uses Odysseus' flight home as the image of the soul's return.
+
+@p
+@greek οὐδέ σε παμπήδην
+"Sweet sleep never wholly held your eyelids; but, scattering from your eyes the heavy blot of mist, carried in the whirls you saw with your eyes many lovely things, which none of the men who have sought wisdom could easily see. But now that you have loosed the tent, and left the tomb of your daemonic soul, you go already to the company of daemons, which breathes with lovely breezes, where there is friendship, and tender longing, delightful to see, full of pure gladness, ever filled with ambrosial streams from the gods, from which come the persuasions of loves, and sweet breath, and windless air; where the brothers Minos and Rhadamanthus dwell, of the golden race of great Zeus, where just Aeacus is, and Plato, holy strength, and fair Pythagoras, and all who set up the dance of immortal love, who were allotted a common birth with the most blessed daemons, where the heart is warmed forever in festivals and joys. O blessed one, after enduring so many contests, you go among the holy daemons, armed with mighty lives. Let us end the song and the well-turning circle of the dance for Plotinus, Muses of many joys; this much my golden lyre has told of the one whose life is blessed."
+!flag not granted to all that labour in wisdom's quest | The Greek οὔτις is "no one": the things Plotinus saw were such as "none" of the seekers of wisdom could easily see, not "not all".
+!flag crowned with unfading life | The Greek κορυσσάμενος is "armed" (helmeted, as a warrior), and ζαμενέσσι ... ζωῇσι "mighty lives": nothing is crowned or unfading.
+!note "Tent" and "tomb" for the body: the Phaedo (81c) and the play on σῶμα, body, and σῆμα, tomb, in the Gorgias (493a) and the Cratylus (400c). Minos, Rhadamanthus and Aeacus are the judges of the dead in the Gorgias' myth (523e-524a).
+
+@ch Life.23 | What the oracle means
+Porphyry reads the oracle: it says Plotinus was gentle, wakeful and pure, and strove to escape this life; the god beyond intellect appeared to him four times while Porphyry was with him, and once to Porphyry himself; the gods guided his writing; and after death he went, not to be judged, but to the company of the blessed.
+
+@p
+In these verses it is said that he was good, and gentle, and mild above all, and kindly, which we too knew him truly to be; it is said that he was wakeful, and kept his soul pure, and always pressed on towards the divine, which he loved with all his soul, and that he did everything to be set free, "to escape the bitter wave" of the "blood-fed" life here. So it was above all to this daemonic man, who often lifted himself up in his thoughts to the first god, the god beyond, by the ways Plato lays out in the Symposium, that that god appeared who has neither shape nor any form, but is set above intellect and all the intelligible. I, Porphyry, say that I too once drew near to him and was united with him, in my sixty-eighth year.
+!flag that God appeared, the God throned above the Intellectual-Principle | MacKenna leaves out that this god has "neither shape nor any form" (ὁ μήτε μορφὴν μήτε τινὰ ἰδέαν ἔχων).
+!note Volkmann prints a "and" in square brackets, as a word to be cut ("to be set free [and] to escape"); it is left out here. The ways of the Symposium are Diotima's ascent from beautiful bodies to beauty itself (210a-212a). The god beyond intellect is Plotinus' One, or Good (VI.9).
+
+@p
+@greek ἐφάνη γοῦν τῷ Πλωτίνῳ
+"The goal appeared" to Plotinus, "dwelling near": for his end and goal was to be united with the god who is over all, and to come near him. And he reached this goal four times, I think, while I was with him, by an unspeakable act (and not in potency). And it is said that the gods often set him straight when he was carried aslant, "granting a thick ray of light", so that what he wrote was written under their oversight and watching.
+!flag by no mere latent fitness but by the ineffable Act | The Greek ἐνεργείᾳ ... καὶ οὐ δυνάμει is Aristotle's pair, "in act and not in potency": the union really happened, and was not only possible.
+!note Volkmann sets "and not in potency" (καὶ οὐ δυνάμει) in round brackets.
+
+@p
+@greek ἐκ δὲ τῆς ἀγρύπνου
+From his wakeful contemplation, within and without, "you saw", it says, "with your eyes many lovely things", which none of the men who give themselves to philosophy "could easily see". For the contemplation of men may be better than human; but compared with divine knowledge it may be lovely, but not so as to be able to grasp the depth that the gods grasp. So the oracle has made plain what he did while he still wore a body, and what he attained. After he was set free from the body, it says, he came into the company of daemons, where friendship, longing, gladness and love hanging on the god live as citizens; and where those called the judges of souls are stationed, sons of the god, Minos, Rhadamanthus and Aeacus, to whom he has gone not to be judged, but to be with them, as are the others who are pleasing to the gods. These are Plato, Pythagoras, and all others who "set up the dance of immortal love"; there the most blessed daemons have their birth, and live a life packed with festivals and joys, and go on in it forever, blessed by the gods.
+!flag not vouchsafed to all that take the philosophic path | As in the oracle, the Greek is "none" (οὔτις), not "not all".
+!note Volkmann prints "they are" (εἰσί) in square brackets, as a word to be cut; English needs it.
+
+@ch Life.24 | The edition: the first three Enneads
+Plotinus left the arrangement and correction of his books to Porphyry. Porphyry did not keep their order by date, but, like the editors of Epicharmus and of Aristotle, gathered them by subject into six sets of nine, the easier first: the first Ennead on ethics, the second and third on the cosmos.
+
+@p
+Such, then, is the life of Plotinus as we have told it. But since he himself entrusted us with the arranging and correcting of his books, and I promised him while he was alive, and announced to the others, that I would do it, first I thought it right not to leave the books in confusion by their dates, as they had been given out. Following Apollodorus of Athens and Andronicus the Peripatetic, of whom the one gathered Epicharmus the comic poet into ten volumes, and the other divided the works of Aristotle and Theophrastus into treatises, bringing related subjects together, so I too, having the fifty-four books of Plotinus, divided them into six Enneads, gladly finding the perfection of the number six and the nines; and to each Ennead I brought together the books that belong together, giving first place to the lighter questions.
+!note Six is a "perfect" number: it is the sum of its parts (1 + 2 + 3). An Ennead is a set of nine. Porphyry's list by date of writing is in chapters 4 to 6.
+
+@p
+@greek ἡ μὲν γὰρ πρώτη ἐννεὰς
+The first Ennead holds these, the more ethical: 1. What is the living being, and what is the human being [I.1]. 2. On virtues [I.2]. 3. On dialectic [I.3]. 4. On happiness [I.4]. 5. Whether happiness grows with time [I.5]. 6. On beauty [I.6]. 7. On the first good and the other goods [I.7]. 8. Where evils come from [I.8]. 9. On the reasonable going out of life [I.9].
+!flag 8. On Evil. | Porphyry's title is "Where evils come from" (πόθεν τὰ κακά).
+!note The numbers and the Ennead places in square brackets here and below are the Workshop's; Porphyry lists the titles only.
+
+@p
+@greek ἡ μὲν οὖν πρώτη ἐννεὰς τάδε
+The first Ennead, then, contains these, taking in the more ethical subjects. The second, gathering the writings on nature, contains those on the cosmos and on what belongs to the cosmos. They are these: 1. On the cosmos [II.1]. 2. On the circular movement [II.2]. 3. Whether the stars act [II.3]. 4. On the two kinds of matter [II.4]. 5. On what is in potency and in act [II.5]. 6. On quality and form [II.6]. 7. On complete blending [II.7]. 8. How things seen far off look small [II.8]. 9. Against those who say that the maker of the cosmos is evil and that the cosmos is evil [II.9].
+!flag 3. On the Stars. | Porphyry's title is "Whether the stars act" (εἰ ποιεῖ τὰ ἄστρα), the question the treatise asks.
+
+@p
+@greek ἡ δὲ τρίτη ἐννεὰς
+The third Ennead, still holding to the cosmos, has taken in these, on what is studied in the cosmos: 1. On destiny [III.1]. 2. On providence, first [III.2]. 3. On providence, second [III.3]. 4. On the daemon allotted to us [III.4]. 5. On love [III.5]. 6. On the impassibility of the bodiless [III.6]. 7. On eternity and time [III.7]. 8. On nature, contemplation and the One [III.8]. 9. Various considerations [III.9].
+
+@ch Life.25 | The fourth and fifth Enneads
+Why some books stand in the third Ennead: the daemon, love, eternity and time, and nature. The fourth Ennead holds the books on the soul; the fifth those on intellect, each touching also on what is beyond it and on the forms.
+
+@p
+These three Enneads we arranged in one volume. In the third Ennead we also put the book On the daemon allotted to us, because what concerns the daemon is studied in a general way, and the problem is one also for those who look into the births of men. Likewise the discussion of love. The book On eternity and time we put here because of what it says about time; and the book On nature, contemplation and the One is put here because of its main point about nature.
+!flag the class dealing with the origin of man | The Greek says the problem of the daemon is studied "in general" (καθόλου) and is one also "for those who look into the births of men" (τοῖς τὰ κατὰ τὰς γενέσεις τῶν ἀνθρώπων σκεπτομένοις), the casters of nativities; MacKenna has "not discussed as it is in itself" and "the origin of man".
+
+@p
+@greek ἡ δὲ τετάρτη ἐννεὰς
+The fourth Ennead, after those on the cosmos, has been allotted the writings on soul. It has these: 1. On the being of the soul, first [IV.1]. 2. On the being of the soul, second [IV.2]. 3. On difficulties about the soul, first [IV.3]. 4. On difficulties about the soul, second [IV.4]. 5. On difficulties about the soul, third, or On sight [IV.5]. 6. On perception and memory [IV.6]. 7. On the immortality of the soul [IV.7]. 8. On the descent of the soul into bodies [IV.8]. 9. Whether all souls are one [IV.9].
+!note The Workshop numbers IV.1 and IV.2 as First1KGreek's text does: IV.1 is the short book that begins "In the intelligible world", IV.2 the longer (the fourth by date). See the note on chapter 4.
+
+@p
+@greek ἡ μὲν οὖν τετάρτη ἐννεὰς
+The fourth Ennead, then, has taken all the subjects on soul itself. The fifth has those on intellect, but each of its books contains also something on what is beyond, on the intellect in the soul, and on the forms. They are these: 1. On the three first hypostases [V.1]. 2. On the coming to be and order of what comes after the first [V.2]. 3. On the knowing hypostases and what is beyond [V.3]. 4. How what comes after the first comes from the first, and on the One [V.4]. 5. That the intelligibles are not outside intellect, and on the Good [V.5]. 6. That what is beyond being does not think, and what thinks first and what thinks second [V.6]. 7. Whether there are forms of individuals too [V.7]. 8. On intelligible beauty [V.8]. 9. On intellect, the forms and being [V.9].
+
+@ch Life.26 | The sixth Ennead, and Porphyry's other work on the books
+The sixth Ennead fills the third volume. Porphyry has also written commentaries on some books, and headings and arguments for all but On beauty, in the order of their dates; now he will go through each book, punctuate it and correct its wording.
+
+@p
+The fourth and fifth Enneads, then, we arranged in one volume. The remaining sixth Ennead we put in one more volume, so that all of Plotinus' writings are in three volumes, of which the first has three Enneads, the second two, and the third one. The books of the third volume, the sixth Ennead, are these: 1. On the kinds of being, first [VI.1]. 2. On the kinds of being, second [VI.2]. 3. On the kinds of being, third [VI.3]. 4. That being, one and the same, is everywhere whole at once, first [VI.4]. 5. That being, one and the same, is everywhere whole at once, second [VI.5]. 6. On numbers [VI.6]. 7. How the multitude of the forms came to be, and on the Good [VI.7]. 8. On the voluntary and the will of the One [VI.8]. 9. On the Good, or the One [VI.9].
+!note "The kinds of being" recalls the "greatest kinds" of Plato's Sophist (254b-255e): being, rest, motion, sameness and difference.
+
+@p
+@greek τὰ μὲν οὖν βιβλία
+So we arranged the books, fifty-four in all, into six Enneads in this way. We have also set down commentaries on some of them, not in order, because companions pressed us to write on points they wanted made clear. And we have made the headings of all of them too, except On beauty, which we did not have, following the edition of the books by date; and in this not only are the headings of each book set out, but also arguments, which are counted as headings. Now we shall try to go through each of the books, add the punctuation, and correct any mistake in the wording; and whatever else may move us, the work itself will show.
+!flag will be found Developments | The Greek ἐπιχειρήματα are "arguments" (Porphyry's outlines of the reasoning), not developments.
 
 @treatise I.1 | What is the living being, and what is the human being?
 Where do our feelings, perceptions and thoughts belong: to the soul, to the body, or to something made of both? Plotinus argues that the soul in itself cannot be affected: it lights up the body and makes of it, together with that light, a living being, and the feelings and sensations belong to this living being. "We" are found higher up, where the soul judges the impressions of sense and reasons, and above us is intellect, which is also ours. Evil, error and punishment belong to the compound, not to the soul itself, which is never cut off from what is above it.

@@ -18,6 +18,10 @@ so that each thread starts small.
 Daniel: "Ok lets put a pause to this and move over to the Enniads, translating it into modern english".
 
 - The Aristotle work is **paused** after 35m6 (see the section below); everything else paused stays paused.
+- Daniel (November 14, 2026): "There should be zero texts that are in greek only or archaic English". Every text in the
+  Workshop gets a modern English version checked against the Greek, one milestone per thread, without stopping to ask between
+  milestones. The order: the Enneads first (these E milestones), then Aristotle's Metaphysics from Book Λ (35m7) onward, then
+  the rest of Aristotle in the Platonists' order of reading, then the remaining Plato and Neoplatonist texts.
 - The work now is the **Enneads in modern English**, milestones E1 to E34 below, in Porphyry's order (the order of his edition,
   six sets of nine; the order Daniel wants unless he says otherwise). Fifteen treatises are already done, beside Taylor's English
   (milestone 27, sessions 1 and 2: I.2, I.3, II.4, II.9, III.6, III.7, IV.2, IV.3, IV.7, V.1, V.2, V.3, V.6, V.9, VI.9); the
@@ -93,10 +97,23 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   (597e-598b), the Phaedo's allotted daemon (107d) and guard post, the Timaeus' daemon (90a) and Atlantis, the Laws and the
   philosopher kings (473c-d), Plato's and Socrates' birthdays in Thargelion, Ammonius, the two Origens, Numenius, and the dates.
   The reader lists the Life "Before the Enneads"; each paragraph's Greek links to its proofread page, and each page to its chapter.
-- E6: Porphyry's Life of Plotinus, chapters 13-26 (Porphyry's account of the order of the treatises, and his edition); first proofread
-  the rest of p. 18 and pp. 19-36 of Volkmann's vol. I (leaves 48-66 of the scan) into `porphyry-life-plotinus.txt`. MacKenna's
-  chapter 22 is the oracle's verse, its lines kept as he set them.
-- E7: II.1 On the heaven, II.2 On the movement of the heaven (3,747); MacKenna's vol. II (1921).
+- **E6: Porphyry's Life of Plotinus, chapters 13-26 (4,053) (done).** The rest of p. 18 and pp. 19-36 of Volkmann's vol. I
+  (leaves 48-66) proofread from the page images into `porphyry-life-plotinus.txt` (the whole Life now proofread: 34 pages,
+  779 line corrections; Volkmann's quotation marks ‘ ’ kept; the oracle's turned-over half line "λάσσης" kept as a line).
+  14 chapters, 46 paragraphs, 36 flags, 28 notes; the Life is complete (26 chapters, 83 paragraphs, 55 flags). MacKenna's
+  chapter 23 begins inside the oracle ("from the Ever-Blessed"), so the Greek chapter 22 shows his 22 and 23 (`@older 22 23`).
+  E.g. MacKenna has "I put faith in Plotinus' writings" where Porphyry was entrusted with them, "My own method has been
+  different" where Longinus says he has done the same, "Content with setting side by side ..." where the Greek says they took
+  no such care, "Alexander of Lydia" and "Lydus" for Alexander the Libyan and Demostratus the Lydian, "Thomasius" for
+  Thaumasius, "Theodorus" for Theodotus, "Celestial" for the oracle's "daemon", "Bathychaites" left as a name, "crowned with
+  unfading life" for "armed with mighty lives", "On Evil" and "On the Stars" for Porphyry's titles, "Developments" for
+  arguments, and he drops arithmetic and the god "with neither shape nor form". Hard places flagged: who "the man" is in
+  Amelius' letter, and its "distance" from the master's doctrines. Porphyry's lists of the Enneads give each book its
+  Workshop place in square brackets. Notes on the Symposium (Alcibiades 217a-219d, the ascent 210a-212a), the Iliad (8.282),
+  the Odyssey (5; 24.60-62), Hesiod (Theogony 35), Herodotus (1.47), Diogenes Laertius (2.37) and the Apology (21a), the
+  Phaedo (81c), the Gorgias (493a, 523e-524a), the Cratylus (400c), the Sophist (254b-255e), Nag Hammadi, and V.5, IV.3, II.3,
+  III.1 and II.9 as the treatises the Life names.
+- E7: II.1 On the heaven, II.2 On the movement of the heaven (3,747); MacKenna's vol. II (1921). Next.
 - E8: II.3 Whether the stars are causes (4,489).
 - E9: II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On
   sight (4,430).
