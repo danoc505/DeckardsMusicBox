@@ -34,11 +34,13 @@ async function run(b, viewport, touch, first) {
   const head = await p.$eval(".tg-read", (e) => e.innerText);
   check(/Modern English, the Workshop's own/.test(head) && /machine-assisted/i.test(head) && /not yet checked by a scholar/.test(head), `${tag}: labelled as the Workshop's own and machine-assisted`);
   check(/checked against Stephen MacKenna's translation \(1917\)/.test(head), `${tag}: and as checked against MacKenna`);
-  check(await p.$$eval(".tg-mod", (es) => es.length) === 79 && await p.$$eval(".tg-mod .ms-sum", (es) => es.length) === 79, `${tag}: the Life 1-12, I.1, I.4 to I.9, seventy-nine chapters, each with its gist`);
+  check(await p.$$eval(".tg-mod", (es) => es.length) === 93 && await p.$$eval(".tg-mod .ms-sum", (es) => es.length) === 93, `${tag}: the Life, I.1, I.4 to I.9, ninety-three chapters, each with its gist`);
   // Porphyry's Life comes first (E5), with Volkmann's proofread Greek and MacKenna's flags.
   check(await p.$eval(".tg-mod", (e) => e.id) === "mc-Life.1", `${tag}: the Life comes first (E5)`);
   check(/Life, chapter 3\. /.test(await p.$eval("#mc-Life\\.3", (e) => e.textContent)), `${tag}: the Life's chapters are headed as such`);
   check(/MacKenna: “At twenty he was caught by the passion for philosophy/.test(await p.$eval("#mp-Life\\.3\\.p2", (e) => e.textContent)), `${tag}: the Life has its flags (E5)`);
+  check(/Life, chapter 22\. /.test(await p.$eval("#mc-Life\\.22", (e) => e.textContent))
+    && /MacKenna: “From that time on I put faith in Plotinus' writings/.test(await p.$eval("#mp-Life\\.18\\.p2", (e) => e.textContent)), `${tag}: the Life's chapters 13-26 are here, with their flags (E6)`);
   await p.click("#mp-Life\\.1\\.p1 .mp-greek summary");
   check(/Πλωτῖνος ὁ καθ’ ἡμᾶς/.test(await p.$eval("#mp-Life\\.1\\.p1 .mp-greek", (e) => e.textContent))
     && /Proofread from the page images: Volkmann's vol\. I, chapter 1, from p\. 3/.test(await p.$eval("#mp-Life\\.1\\.p1 .mp-greek", (e) => e.textContent))
@@ -59,7 +61,7 @@ async function run(b, viewport, touch, first) {
   // The contents column: all fifty-four in Porphyry's order; I.1 here, Taylor's fifteen to his English, the rest to come.
   const toc = await p.$eval("#toc", (e) => e.textContent);
   check(await p.$$eval("#toc .enn-contents li", (es) => es.length) === 55 && /Your marks/.test(toc), `${tag}: the contents column lists the Life and the fifty-four treatises`);
-  check(/Before the Enneads/.test(toc) && await p.$$eval('#toc a[href="#neo-modern/enneads/Life.1"]', (es) => es.length) === 1 && /chapters 1-12 of 26 so far/.test(toc), `${tag}: the Life, before the Enneads, links here`);
+  check(/Before the Enneads/.test(toc) && await p.$$eval('#toc a[href="#neo-modern/enneads/Life.1"]', (es) => es.length) === 1 && !/chapters 1-12 of 26/.test(toc), `${tag}: the Life, before the Enneads, links here`);
   check(await p.$$eval('#toc a[href="#neo-modern/enneads/I.1.1"]', (es) => es.length) === 1, `${tag}: I.1 links here`);
   check(await p.$$eval('#toc a[href="#neo-en/taylor-plotinus/0"]', (es) => es.length) === 1 && await p.$$eval('#toc a[href="#neo-en/taylor-plotinus/14"]', (es) => es.length) === 1,
     `${tag}: Taylor's treatises link to his English with the modern beside it`);
@@ -83,7 +85,7 @@ async function run(b, viewport, touch, first) {
   // Side by side.
   await p.click('[data-nm-mode="both"]');
   await p.waitForSelector(".mod-both .tg-tcol");
-  check(await p.$$eval(".tg-tcol", (es) => es.length) === 79, `${tag}: side by side, MacKenna beside every chapter`);
+  check(await p.$$eval(".tg-tcol", (es) => es.length) === 93, `${tag}: side by side, MacKenna beside every chapter`);
   if (viewport.width >= 1024) {
     const cols = await p.$eval("#mc-I\\.1\\.3 .tg-cols", (e) => [...e.children].map((c) => Math.round(c.getBoundingClientRect().left)));
     check(cols.length === 2 && cols[1] > cols[0] + 100, `${tag}: in two columns`);

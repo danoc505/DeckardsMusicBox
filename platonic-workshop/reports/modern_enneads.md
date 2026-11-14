@@ -6,12 +6,12 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 - Porphyry's Life of Plotinus: Volkmann's own Greek (vol. I, 1883), proofread from the scan (`sources/neoplatonists/proofread/porphyry-life-plotinus.txt`).
 - Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life.
 - The whole Enneads: 8 treatises here, 15 beside Taylor (milestone 27), 32 to come.
-- Chapters: 79, each with a short title and a summary.
-- Paragraphs: 196, each with its Greek.
-- Words: 26,226 modern, 19,858 Greek, 31,180 in MacKenna's English of the same chapters.
-- Sentences (each can be marked in the reader): 1,037.
-- Flags (where MacKenna and the Greek differ, or the Greek is hard): 112.
-- Notes (Plato's, Aristotle's and Homer's places, hard readings): 91.
+- Chapters: 93, each with a short title and a summary.
+- Paragraphs: 242, each with its Greek.
+- Words: 31,286 modern, 23,911 Greek, 37,114 in MacKenna's English of the same chapters.
+- Sentences (each can be marked in the reader): 1,263.
+- Flags (where MacKenna and the Greek differ, or the Greek is hard): 148.
+- Notes (Plato's, Aristotle's and Homer's places, hard readings): 119.
 - Problems found: 0.
 
 ## Flags
@@ -37,6 +37,42 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | Life.8.p2 | by someone entering on business | The Greek says only "even when talking with someone and keeping the conversation going"; the visitor "entering on business" is MacKenna's. |
 | Life.9.p2 | his intention towards the Supreme | The Greek is τὴν πρὸς τὸν νοῦν τάσιν, his "tension towards intellect"; MacKenna's "the Supreme" sets it higher, at the One. |
 | Life.11.p3 | to my house where I had secluded myself | The Greek says only that Plotinus came to Porphyry "while I was staying in the house" (ἐν τῷ οἴκῳ διατρίβοντι); that he had shut himself away is MacKenna's. |
+| Life.13.p1 | a slight moisture gathered on his forehead | The Greek says only that "a fine sweat ran down" him (λεπτός τις ἱδρὼς ἐπέθει); the forehead is MacKenna's. |
+| Life.13.p1 | He was always as ready to entertain objections as he was powerful in meeting them | The Greek lists what showed in his face as he spoke: his gentleness, his kindness towards questions (τὸ προσηνὲς πρὸς τὰς ἐρωτήσεις) and his vigour (τὸ εὔτονον). MacKenna turns this into a sentence of his own about objections and his power in meeting them. |
+| Life.13.p2 | a man called Thomasius | The Greek name is Θαυμάσιος, Thaumasius. |
+| Life.14.p1 | He followed his own path rather than that of tradition | There is nothing for this in Volkmann's Greek, which goes straight from "speaking with inspiration and passion" to the Stoic and Peripatetic doctrines. |
+| Life.14.p1 | is condensed in them, all but entire | The Greek says only that the Metaphysics "is packed into" his writings too (καταπεπύκνωται); "all but entire" is MacKenna's. |
+| Life.14.p1 | Geometry, Mechanics, Optics and Music | MacKenna leaves out arithmetic (ἀριθμητικόν), which the Greek names after geometry. |
+| Life.14.p2 | Longinus' work On Causes | The title is περὶ ἀρχῶν, On principles (or "On first principles"), not "On causes". |
+| Life.14.p2 | a few words sufficed him to make clear the significance of some profound theory and so to pass on | The Greek ἀνίστατο is "he rose": having given the sense in a few words, he stood up and ended the meeting. |
+| Life.15.p2 | should submit to the teacher without reserve | The Greek says the pupil should give himself "to the teacher who desires him" (ἐρῶντι ... τῷ καθηγεμόνι); "without reserve" is MacKenna's, and he leaves out the teacher's desire. |
+| Life.15.p2 | during the very reading he repeatedly quoted | The Greek says that Plotinus "kept saying it at the meetings" (κἀν ταῖς συνουσίαις συνεχῶς ἐπιλέγειν), afterwards and often, not during the reading. |
+| Life.15.p3 | the principles of Astronomy | The Greek κανόνες are "tables" (the astronomers' tables of the stars' movements), used to cast nativities; it is these that Plotinus studied "not at all as a mathematician". |
+| Life.16.p1 | works by Alexander of Lydia, by Philocomus, by Demostratus and by Lydus | Volkmann's Greek reads "Alexander the Libyan" (τοῦ Λίβυος) and "Demostratus the Lydian" (τοῦ Λυδοῦ): MacKenna makes Alexander a Lydian, and the Lydian a fourth author, "Lydus". |
+| Life.17.p1 | it is equivalent to Porphyry (Purple-robed) | Not in the Greek: Porphyry says only that Malchus, his native name, means "king". That "Porphyry" ("purple") also suits a king is MacKenna's addition. |
+| Life.17.p2 | he bases the universe on the meanest of existents | The Greek ὑποβαλλόμενος is the same word as in "passing off" Numenius' work: the third charge is most naturally that what he passes off is the poorest of things. MacKenna reads it as "putting under", a foundation for the universe. |
+| Life.17.p3 | a writer who, like Plotinus, now arraigned for the opinion we also hold | A hard place. Who "the man" is the Greek does not say plainly: most likely Numenius, whose thought some say agrees with ours. MacKenna takes him to be Plotinus. |
+| Life.17.p4 | A busy man and far from the teachings of our master I must needs correct and recant | A hard place. The "distance" (διαστάσει) is most naturally the distance of the charge from Plotinus' doctrines, which Amelius sets straight and disowns; MacKenna makes Amelius himself far from the master's teachings. |
+| Life.18.p2 | From that time on I put faith in Plotinus' writings | The Greek ἐπιστεύθην with "the books" is "I was entrusted with Plotinus' books": the books were put in his care (as chapter 24 shows), not that he came to believe in them. |
+| Life.20.p4 | the Platonic Successors at Athens, Theodorus and Eubulus | The Greek name is Θεόδοτος, Theodotus. |
+| Life.20.p4 | Origen wrote on Spirit-Beings | The title is περὶ δαιμόνων, On the daemons, the book named in chapter 3. |
+| Life.20.p4 | some writing of a metaphysical order | "Of a metaphysical order" is MacKenna's: the Greek says only "if one of them wrote something". |
+| Life.20.p5 | the two living at Athens | The Greek καταβιώσαντες is "who lived out their lives" in the city: they were dead when Longinus wrote, not "living". |
+| Life.20.p5 | merely verses and duty-speeches | The Greek λόγους ἐπιδεικτικούς are "display speeches", the orator's showpieces, not speeches of duty. |
+| Life.20.p7 | Content with setting side by side the most generally adopted theories and marking off the better from the worse | The Greek says the opposite: they took no care "either to gather what most hold or to judge what is better" (οὐδ’ οὖν ἢ συναγωγῆς ... ἢ κρίσεως τοῦ βελτίονος ἐπιμεληθέντες). |
+| Life.20.p8 | My own method has been different | The Greek says the opposite: "we have done this already in other writings too" (ἤδη μὲν οὖν καὶ δι’ ἄλλων τουτὶ πεποιήκαμεν), that is, examined these men's opinions. |
+| Life.21.p1 | followed the Pythagorean and Platonic schools | The Greek has "the doctrines of the Pythagoreans, and his own" (τὰ τῶν Πυθαγορείων αὐτοῦ τε): "Platonic" is MacKenna's, and he leaves out "his own". |
+| Life.22.p2 | I Phoebus, Bathychaites, singing in the midst | βαθυχαίτης is an epithet, "thick-haired" (of deep hair), not a name; and "singing" is MacKenna's: the god says only that he is in their midst. |
+| Life.22.p3 | Celestial ! Man at first | The Greek δαῖμον is "daemon", the first word of the poem's turn: Plotinus, a man before, is now a daemon, which the next line says outright ("the diviner lot of a daemon"). |
+| Life.22.p4 | not granted to all that labour in wisdom's quest | The Greek οὔτις is "no one": the things Plotinus saw were such as "none" of the seekers of wisdom could easily see, not "not all". |
+| Life.22.p4 | crowned with unfading life | The Greek κορυσσάμενος is "armed" (helmeted, as a warrior), and ζαμενέσσι ... ζωῇσι "mighty lives": nothing is crowned or unfading. |
+| Life.23.p1 | that God appeared, the God throned above the Intellectual-Principle | MacKenna leaves out that this god has "neither shape nor any form" (ὁ μήτε μορφὴν μήτε τινὰ ἰδέαν ἔχων). |
+| Life.23.p2 | by no mere latent fitness but by the ineffable Act | The Greek ἐνεργείᾳ ... καὶ οὐ δυνάμει is Aristotle's pair, "in act and not in potency": the union really happened, and was not only possible. |
+| Life.23.p3 | not vouchsafed to all that take the philosophic path | As in the oracle, the Greek is "none" (οὔτις), not "not all". |
+| Life.24.p2 | 8. On Evil. | Porphyry's title is "Where evils come from" (πόθεν τὰ κακά). |
+| Life.24.p3 | 3. On the Stars. | Porphyry's title is "Whether the stars act" (εἰ ποιεῖ τὰ ἄστρα), the question the treatise asks. |
+| Life.25.p1 | the class dealing with the origin of man | The Greek says the problem of the daemon is studied "in general" (καθόλου) and is one also "for those who look into the births of men" (τοῖς τὰ κατὰ τὰς γενέσεις τῶν ἀνθρώπων σκεπτομένοις), the casters of nativities; MacKenna has "not discussed as it is in itself" and "the origin of man". |
+| Life.26.p2 | will be found Developments | The Greek ἐπιχειρήματα are "arguments" (Porphyry's outlines of the reasoning), not developments. |
 | I.1.2.p1 | which Reason manifests | The Greek ἥντινα ἂν φήνῃ ὁ λόγος means "whatever the argument shows it to be": the "reason" (λόγος) here is the discussion now under way, not the soul's faculty of Reason. |
 | I.1.4.p2 | Compare the passage (in Plato) where we read that " it is absurd to suppose that the Soul weaves " | MacKenna puts the saying in Plato; it is Aristotle's, in On the Soul I.4 (408b11-15), where he says that to call the soul angry is like saying that it weaves or builds. |
 | I.1.7.p2 | Discursive-Reasoning, Sense-Knowledge and Intellection | The Greek has διάνοιαι καὶ δόξαι καὶ νοήσεις, "reasonings, opinions and acts of thought": δόξαι are opinions, not "sense-knowledge". |
@@ -135,7 +171,7 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 
 | Treatise | Title | Modern English |
 |---|---|---|
-| Life | Porphyry, On the life of Plotinus and the order of his books | done here, chapters 1-12 of 26 |
+| Life | Porphyry, On the life of Plotinus and the order of his books | done here |
 | I.1 | What is the living being, and what is the human being? | done here |
 | I.2 | On the virtues | done beside Taylor (milestone 27) |
 | I.3 | On dialectic | done beside Taylor (milestone 27) |

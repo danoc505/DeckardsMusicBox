@@ -28,9 +28,7 @@
    "id": "Life",
    "title": "Porphyry, On the life of Plotinus and the order of his books",
    "status": "here",
-   "first": "Life.1",
-   "chapters_done": 12,
-   "chapters_all": 26
+   "first": "Life.1"
   },
   {
    "id": "I.1",
@@ -346,7 +344,7 @@
   {
    "id": "Life",
    "title": "Porphyry, On the life of Plotinus and the order of his books",
-   "summary": "Porphyry, Plotinus' pupil, wrote this life of his teacher about thirty years after his death and set it before his edition of the treatises, the Enneads. He begins with Plotinus' death and works back: his illness and last words, his birth, his search for a teacher until he found Ammonius at Alexandria, his years in Rome. Then he lists the fifty-four treatises in the order Plotinus wrote them, with their first words, and describes the circle around him: his pupils, the senators, the women and the orphans in his care, his way of writing and of teaching, his gift for reading character, the attack of a rival by magic, and the god that was found to be his guardian daemon. Chapters 1 to 12 are done here; chapters 13 to 26 are to come (E6).",
+   "summary": "Porphyry, Plotinus' pupil, wrote this life of his teacher about thirty years after his death and set it before his edition of the treatises, the Enneads. He begins with Plotinus' death and works back: his illness and last words, his birth, his search for a teacher until he found Ammonius at Alexandria, his years in Rome. Then he lists the fifty-four treatises in the order Plotinus wrote them, with their first words, and describes the circle around him: his pupils, the senators, the women and the orphans in his care, his way of writing and of teaching, his gift for reading character, the attack of a rival by magic, and the god that was found to be his guardian daemon; his way of teaching and writing, his answers to the Gnostics and to the charge of copying Numenius, the judgement of the critic Longinus, and Apollo's oracle on where his soul had gone. Last he explains how he arranged the treatises by subject into six sets of nine, the Enneads, and lists them.",
    "chapters": [
     "Life.1",
     "Life.2",
@@ -359,10 +357,22 @@
     "Life.9",
     "Life.10",
     "Life.11",
-    "Life.12"
-   ],
-   "chapters_done": 12,
-   "chapters_all": 26
+    "Life.12",
+    "Life.13",
+    "Life.14",
+    "Life.15",
+    "Life.16",
+    "Life.17",
+    "Life.18",
+    "Life.19",
+    "Life.20",
+    "Life.21",
+    "Life.22",
+    "Life.23",
+    "Life.24",
+    "Life.25",
+    "Life.26"
+   ]
   },
   {
    "id": "I.1",
@@ -758,6 +768,339 @@
      "page": 12,
      "year": 1917,
      "text": "The Emperor Galienus and his wife Salonina greatly honoured and venerated Plotinus, who thought to turn their friendly feeling to some good purpose. In Campania there had once stood, according to tradition, a City of Philosophers, a ruin now ; Plotinus asked the Emperor to rebuild this city and to make over the surrounding district to the newfounded state ; the population was to live under Plato's laws : the city was to be called Platonopolis ; and Plotinus undertook to settle down there with his associates. He would have had his way without more ado but that opposition at court, prompted by jealousy, spite, or some such paltry motive, put an end to the plan."
+    }
+   ]
+  },
+  {
+   "id": "Life.13",
+   "treatise": "Life",
+   "title": "How he taught",
+   "summary": "In the meetings Plotinus spoke well and found the point quickly, though he mispronounced some words; when he spoke, his intellect lit up his face. He would answer questions for days: when a visitor wanted a set lecture instead of Porphyry's questions, he said that without solving the questions there would be nothing to write.",
+   "greek_unit": "ia-volkmann-t1:48",
+   "greek_part": 1,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 18",
+   "greek_pages": [
+    "ia-volkmann-t1:48"
+   ],
+   "older": [
+    {
+     "n": 13,
+     "label": "Life, chapter 13",
+     "page": 13,
+     "year": 1917,
+     "text": "At the Conferences he showed the most remarkable power of going to the heart of a subject, whether in exposition or in explanation, and his phrasing was apt ; but he made mistakes in certain words ; for example, he said \" anamnemisketai \" for \" anamimnesketai \" — just such errors as he committed in his writing.\n\nWhen he was speaking his intellect visibly illuminated his face : always of winning presence, he became at these times still more engaging : a slight moisture gathered on his forehead ; he radiated benignity.\n\nHe was always as ready to entertain objections as he was powerful in meeting them. At one time I myself kept interrogating him during three days as to how the soul is associated with the body, and he continued explaining ; a man called Thomasius entered in the midst of our discussions ; the visitor was more interested in the general drift of the system than in particular points, and said he wished to hear Plotinus expounding some theory as he would in a set treatise, but that he could not endure Porphyry's questions and answers : Plotinus asked, \" But if we cannot first solve the difficulties Porphyry raises what could go into the treatise ? \""
+    }
+   ]
+  },
+  {
+   "id": "Life.14",
+   "treatise": "Life",
+   "title": "How he wrote, and what was read in his school",
+   "summary": "His writing was brief and full of thought; the Stoics and Aristotle's Metaphysics are hidden in it; he knew the mathematical sciences. In his school commentaries on Plato and Aristotle were read, but he spoke from his own thought, in Ammonius' spirit. He called Longinus a scholar, not a philosopher, and blushed when Origen came to hear him.",
+   "greek_unit": "ia-volkmann-t1:48",
+   "greek_part": 1,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 18",
+   "greek_pages": [
+    "ia-volkmann-t1:48",
+    "ia-volkmann-t1:49"
+   ],
+   "older": [
+    {
+     "n": 14,
+     "label": "Life, chapter 14",
+     "page": 13,
+     "year": 1917,
+     "text": "In style Plotinus is concise, dense with thought, terse, more lavish of ideas than of words, most often expressing himself with a fervid inspiration. He followed his own path rather than that of tradition, but in his writings both the Stoic and Peripatetic doctrines are sunk ; Aristotle's Metaphysic, especially, is condensed in them, all but entire.\n\nHe had a thorough theoretical knowledge of Geometry, Mechanics, Optics and Music, though it was not in his temperament to go practically into these subjects.\n\nAt the Conferences he used to have treatises by various authors read aloud — among the Platonists it might be Severus or Cronius, Numenius, Caius or Atticus ; and — among the Peripatetics Aspasius, Alexander, Adrastus or some such writer, at the call of the moment. But it was far from his way to follow any of these authors blindly ; he took a personal, original view, applying Ammonius' method to the investigation of every problem.\n\nHe was quick to absorb ; a few words sufficed him to make clear the significance of some profound theory and so to pass on. After hearing Longinus' work On Causes, and his Philarchaios, he remarked : \" Longinus is a man of letters, but in no sense a philosopher.\"\n\nOne day Origen came to the conference-room ; Plotinus blushed deeply and was on the point of bringing his lecture to an end ; when Origen begged him to continue, he said : \" The zest dies down when the speaker feels that his hearers have nothing to learn from him.\""
+    }
+   ]
+  },
+  {
+   "id": "Life.15",
+   "treatise": "Life",
+   "title": "A poem, a bad speech, and the astrologers",
+   "summary": "When Porphyry read a mystical poem at Plato's feast, Plotinus called him poet, philosopher and hierophant. When a speaker defended Alcibiades' offer in the Symposium, Plotinus had Porphyry answer him. He read the Platonist Eubulus' writings through Porphyry, studied astrology closely, and refuted it.",
+   "greek_unit": "ia-volkmann-t1:49",
+   "greek_part": 1,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 19",
+   "greek_pages": [
+    "ia-volkmann-t1:49",
+    "ia-volkmann-t1:50"
+   ],
+   "older": [
+    {
+     "n": 15,
+     "label": "Life, chapter 15",
+     "page": 14,
+     "year": 1917,
+     "text": "Once on Plato's feast I read a poem, \" The Sacred Marriage \" ; my piece abounded in mystic doctrine conveyed in veiled words and was couched in terms of enthusiasm ; someone exclaimed : \" Porphyry has gone mad \" ; Plotinus said to me so that all might hear : \" You have shown yourself at once poet, philosopher and hierophant.\"\n\nThe orator Diophanes one day read a justification of the Alcibiades of Plato's Banquet and maintained that the pupil, for the sake of advancement in virtue, should submit to the teacher without reserve, even to the extent of carnal commerce : Plotinus started up several times to leave the room but forced himself to remain ; on the breaking up of the company he directed me to write a refutation. Diophanes refused to lend me his address and I had to depend on my recollection of his argument ; but my refutation, delivered before the same audience, delighted Plotinus so much that during the very reading he repeatedly quoted : \" So strike and be a light to men.\"\n\nWhen Eubulus, the Platonic Successor, wrote from Athens, sending treatises on some questions in Platonism, Plotinus had the writings put into my hands with instructions to examine them and report to him upon them.\n\nHe paid some attention to the principles of Astronomy, though he did not study the subject very deeply on the mathematical side. He went more searchingly into Horoscopy ; when once he was convinced that its results were not to be trusted he had no hesitation in attacking the system frequently both at the Conferences and in his writings."
+    }
+   ]
+  },
+  {
+   "id": "Life.16",
+   "treatise": "Life",
+   "title": "The Gnostics",
+   "summary": "In his time there were sectarians, Christians, with revelations under the names of Zoroaster, Zostrianus and others, who said Plato had not reached the depth of intelligible being. Plotinus refuted them at the meetings and in the book Against the Gnostics; Amelius and Porphyry wrote against their revelations.",
+   "greek_unit": "ia-volkmann-t1:50",
+   "greek_part": 1,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 20",
+   "greek_pages": [
+    "ia-volkmann-t1:50",
+    "ia-volkmann-t1:51"
+   ],
+   "older": [
+    {
+     "n": 16,
+     "label": "Life, chapter 16",
+     "page": 15,
+     "year": 1917,
+     "text": "Many Christians of this period — amongst them sectaries who had abandoned the old philosophy, men of the schools of Adelphius and Aquilinus — had possessed themselves of works by Alexander of Lydia, by Philocomus, by Demostratus and by Lydus, and exhibited also Revelations bearing the names of Zoroaster, Zostrianus, Nikotheus, Allogenes, Mesus and others of that order. Thus they fooled many, themselves fooled first ; Plato, according to them, had failed to penetrate into the depth of Intellectual Being.\n\nPlotinus frequently attacked their position at the Conferences and finally wrote the treatise which I have headed Against the Gnostics : he left to us of the circle the task of examining what he himself passed over. Amelius proceeded as far as a fortieth treatise in refutation of the book of Zostrianus : I myself have shown on many counts that the Zoroastrian volume is spurious and modern, concocted by the sectaries in order to pretend that the doctrines they had embraced were those of the ancient sage."
+    }
+   ]
+  },
+  {
+   "id": "Life.17",
+   "treatise": "Life",
+   "title": "Numenius, and Amelius' letter",
+   "summary": "Some in Greece said Plotinus was passing off Numenius' work as his own. Amelius answered in a book, and dedicated it to Porphyry as \"Basileus\", the Greek for his Syrian name Malchus, \"king\". Porphyry gives the covering letter.",
+   "greek_unit": "ia-volkmann-t1:51",
+   "greek_part": 2,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 21",
+   "greek_pages": [
+    "ia-volkmann-t1:51",
+    "ia-volkmann-t1:52"
+   ],
+   "older": [
+    {
+     "n": 17,
+     "label": "Life, chapter 17",
+     "page": 15,
+     "year": 1917,
+     "text": "Some of the Greeks began to accuse Plotinus of appropriating the ideas of Numenius.\n\nAmelius being informed of this charge by the Stoic and Platonist Trupho, challenged it in a treatise which he entitled The Difference between the Doctrines of Plotinus and Numenius. He dedicated the work to me, under the name of Basileus (or King). This really is my name ; it is equivalent to Porphyry (Purple-robed) and translates the name I bear in my own tongue ; for I am called Malchos, like my father, and \" Malchos \" would give \" Basileus \" in Greek. Longinus, in dedicating his work On Impulse to Cleodamus and myself, addressed us as \" Cleodamus and Malchus,\" just as Numenius translated the Latin \" Maximus \" into its Greek equivalent \" Megalos.\"\n\nHere follows Amelius' letter :\n\nAmelius to Basileus, with all good wishes.\n\nYou have been, in your own phrase, pestered by the persistent assertion that our friend's doctrine is to be traced to Numenius of Apamea.\n\nNow, if it were merely for those illustrious personages who spread this charge, you may be very sure I would never utter a word in reply. It is sufficiently clear that they are actuated solely by that famous and astonishing facility of speech of theirs when they assert, at one moment, that he is an idle babbler, next that he is a plagiarist, and finally that he bases the universe on the meanest of existents. Clearly in all this we have nothing but scoffing and abuse.\n\nBut your judgement has persuaded me that we should profit by this occasion firstly to provide ourselves with a useful memorandum of the doctrines that have won our adhesion, and secondly to bring about a more complete knowledge of the system — long celebrated though it be — to the glory of our friend, a man so great as Plotinus.\n\nHence I now bring you the promised Reply, executed, as you yourself know, in three days. You must judge it with reasonable indulgence ; this is no orderly and elaborate defence composed in step by step correspondence with the written indictment : I have simply set down, as they occurred to me, my recollections of our frequent discussions. You will admit, also, that it is by no means easy to grasp the meaning of a writer who, like Plotinus, now arraigned for the opinion we also hold, varies in the terms he uses to express the one idea.\n\nIf I have falsified any essential of the doctrine, I trust to your good nature to set me right : I am reminded of the phrase in the tragedy : A busy man and far from the teachings of our master I must needs correct and recant. Judge how much I wish to give you pleasure. Good health."
+    }
+   ]
+  },
+  {
+   "id": "Life.18",
+   "treatise": "Life",
+   "title": "Porphyry's recantation",
+   "summary": "Porphyry gave the letter to show that some thought Plotinus a babbler, because he taught like someone in conversation, without show. Porphyry himself at first wrote against him that the intelligibles are outside intellect; after three rounds with Amelius he changed his mind, and was trusted with Plotinus' books.",
+   "greek_unit": "ia-volkmann-t1:52",
+   "greek_part": 2,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 22",
+   "greek_pages": [
+    "ia-volkmann-t1:52",
+    "ia-volkmann-t1:53"
+   ],
+   "older": [
+    {
+     "n": 18,
+     "label": "Life, chapter 18",
+     "page": 16,
+     "year": 1917,
+     "text": "This letter seemed worth insertion as showing, not merely that some contemporary judgement pronounced Plotinus to be parading on the strength of Numenius' ideas, but that he was even despised as a wordspinner.\n\nThe fact is that these people did not understand his teaching : he was entirely free from all the inflated pomp of the professor : his lectures had the air of conversation, and he never forced upon his hearers the severely logical substructure of his thesis.\n\nI myself, when I first heard him, had the same experience. It led me to combat his doctrine in a paper in which I tried to show that The Intelligibles exist outside of the Intellectual-Principle. He had my work read to him by Amelius : at the end he smiled and said : \" You must clear up these difficulties, Amelius : Porphyry doesn't understand our position.\" Amelius wrote a tract of considerable length, \" In Answer to Porphyry's Objections \" ; I wrote a reply to the reply : Amelius replied to my reply ; at my third attempt I came, though even so with difficulty, to grasp the doctrine : then only, I was converted, wrote a recantation and read it before the circle. From that time on I put faith in Plotinus' writings and sought to stir in the master himself the ambition of organising his doctrine and setting it down in more extended form. Amelius, too, under my prompting, was encouraged in composition."
+    }
+   ]
+  },
+  {
+   "id": "Life.19",
+   "treatise": "Life",
+   "title": "Longinus' letter",
+   "summary": "What Longinus thought of Plotinus: in a letter asking Porphyry to come from Sicily to Phoenicia with Plotinus' books, he says his copies are full of errors and asks for good ones; he does not accept most of Plotinus' hypotheses, but admires his writing above all.",
+   "greek_unit": "ia-volkmann-t1:53",
+   "greek_part": 2,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 23",
+   "greek_pages": [
+    "ia-volkmann-t1:53",
+    "ia-volkmann-t1:54",
+    "ia-volkmann-t1:55"
+   ],
+   "older": [
+    {
+     "n": 19,
+     "label": "Life, chapter 19",
+     "page": 17,
+     "year": 1917,
+     "text": "Longinus' estimate of Plotinus, formed largely upon indications I myself had given him in my letters, will be gathered from the following extract from one of his to me. He is asking me to leave Sicily and join him in Phoenicia, and to bring Plotinus' works with me. He says :\n\n\" And send them at your convenience or, better, bring them ; for I can never cease urging you to give the road towards us the preference over any other. If there is no better reason — and what intellectual gain can you anticipate from a visit to us ? — at least there are old acquaintances and the mild climate which would do you good in the weak state of health you report. Whatever else you may be expecting, do not hope for anything new of my own, or even for the earlier works which you tell me you have lost ; for there is a sad dearth of copyists here. I assure you it has taken me all this time to complete my set of Plotinus, and it was done only by calling off my scribe from all his routine work, and keeping him steadily to this one task.\n\nI think that now, with what you have sent me, I have everything, though in a very imperfect state, for the manuscript is exceeding faulty. I had expected our friend Amelius to correct the scribal errors, but he evidently had something better to do. The copies are quite useless to me ; I have been especially eager to examine the treatises on the Soul and on The Authentic-Existent, and these are precisely the most corrupted. It would be a great satisfaction to me if you would send me faithful transcripts for collation and return — though again I suggest to you not to send but to come in person, bringing me the correct copies of these treatises and of any that Amelius may have passed over. All that have reached me I have been careful to make my own : how could I be content not to possess myself of all the writings of a man so worthy of the deepest veneration ?\n\nI repeat, what I have often said in your presence and in your absence, as on that occasion when you were at Tyre, that while much of the theory does not convince me, yet I am filled with admiration and delight over the general character of the work, the massive thinking of the man, the philosophic handling of problems ; in my judgement investigators must class Plotinus' work with that holding the very highest rank.\""
+    }
+   ]
+  },
+  {
+   "id": "Life.20",
+   "treatise": "Life",
+   "title": "Longinus on the philosophers of his time",
+   "summary": "Longinus, the sharpest critic of the time, at first thought little of Plotinus. The preface of his On the end sorts the philosophers he had known into those who wrote and those who only taught, and says that only Plotinus and Amelius wrote with a method of their own and are worth reading.",
+   "greek_unit": "ia-volkmann-t1:55",
+   "greek_part": 2,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 25",
+   "greek_pages": [
+    "ia-volkmann-t1:55",
+    "ia-volkmann-t1:56",
+    "ia-volkmann-t1:57",
+    "ia-volkmann-t1:58"
+   ],
+   "older": [
+    {
+     "n": 20,
+     "label": "Life, chapter 20",
+     "page": 18,
+     "year": 1917,
+     "text": "This extended quotation from the most acute of the critics of our day — a writer who has passed judgement on nearly all his contemporaries — serves to show the estimate he came to set upon Plotinus of whom, at first, misled by ignorant talk, he had held a poor opinion.\n\nHis notion, by the way, that the transcripts Amelius sent him were faulty sprang from his misunderstanding of Plotinus' style and phraseology ; if there were ever any accurate copies, these were they, faithful reproductions from the author's own manuscript.\n\nAnother passage from a work of Longinus, dealing with Amelius, Plotinus and other metaphysicians of the day, must be inserted here to give a complete view of the opinion formed upon these philosophers by the most authoritative and most searching of critics. The work was entitled On the End: in Answer to Plotinus and Gentilianus Amelius. It opens with the following preface :\n\nIn our time, Marcellus, there have been many philosophers — especially in our youth — for there is a strange scarcity at present. When I was a boy, my parents' long journeys gave me the opportunity of seeing all the better-known teachers ; and in later life those that still lived became known to me as my visits to this and that city and people brought me where they happened to live.\n\nSome of these undertook the labour of developing their theories in formal works and so have bequeathed to the future the means of profiting by their services. Others thought they had done enough when they had convinced their own immediate hearers of the truth of their theories.\n\nFirst of those that have written.\n\nAmong the Platonists there are Euclides, Democritus, Proclinus the philosopher of the Troad, and the two who still profess philosophy at Rome, Plotinus and his friend Gentilianus Amelius. Among the Stoics there are Themistocles and Phoibion and the two who nourished only a little while ago, Annius and Medius. And there is the Peripatetic, Heliodorus of Alexandria.\n\nFor those that have not written, there are among the Platonists Ammonius and Origen, two teachers whose lectures I myself attended during a long period, men greatly surpassing their contemporaries in mental power ; and there are the Platonic Successors at Athens, Theodorus and Eubulus.\n\nNo doubt some writing of a metaphysical order stands to the credit of this group : Origen wrote on Spirit-Beings ; Eubulus commented on both the Philebus and Gorgias, and examined the objections urged by Aristotle to Plato's Republic ; but this is not enough to class either of them with systematic authors. This was side-play ; authorship was not in the main plan of their careers.\n\nAmong Stoic teachers that refrained from writing we have Herminus and Lysimachus, and the two living at Athens, Musonius and Athensus ; among Peripatetics, Ammonius and Ptolemaeus.\n\nThe two last were the most accomplished scholars of their time, Ammonius especially being unapproached in breadth of learning ; but neither produced any systematic work ; we have from them merely verses and duty-speeches ; and these I cannot think to have been preserved with their consent ; they did not concern themselves about formal statement of their doctrine, and it is not likely they would wish to be known in after times by compositions of so trivial a nature.\n\nTo return to the writers ; some of them, like Euclides, Democritus and Proclinus, confined themselves to the mere compilation and transcription of passages from earlier authorities. Others diligently worked over various minor points in the investigations of the ancients, and put together books dealing with the same subjects. Such were Annius, Medius and Phoibion, the last especially choosing to be distinguished for style rather than for systematic thinking. In the same class must be ranked Heliodorus ; his writings contribute nothing to the organisation of the thought which he found to his hand in the teaching of earlier workers.\n\nPlotinus and Gentilianus Amelius alone display the true spirit of authorship ; they treat of a great number of questions and they bring a method of their own to the treatment.\n\nPlotinus, it would seem, set the principles of Pythagoras and of Plato in a clearer light than anyone before him ; on the same subjects, Numenius, Cronius, Moderatus and Thrasyllus fall far short of him in precision and fulness. Amelius set himself to walk in Plotinus' steps and adopted most of Plotinus' opinions ; his method, however, was diffuse and, unlike his friend, he indulges in an extravagance of explanation.\n\nOnly these two seem to me worth study. What profit can anyone expect from troubling the works of any of the others to the neglect of the originals on which they drew ? Content with setting side by side the most generally adopted theories and marking off the better from the worse, they bring us nothing of their own, not even a novel argument, much less a leading idea.\n\nMy own method has been different ; as for example when I replied to Gentilianus upon Plato's treatment of Justice and in a review I undertook of Plotinus' theory of the Idea. This latter was in the form of a reply to Basileus of Tyre, my friend as theirs. He had preferred Plotinus' system to mine and had written several works in the manner of his master, amongst them a treatise supporting Plotinus' theory of the Idea against that which I taught. I endeavoured, not, I think, unsuccessfully, to show that his change of mind was mistaken.\n\nIn these two essays I have ranged widely over the doctrines of this school, as also in my Letter to Amelius which, despite the simple title with which I contented myself, has the dimensions of a book, being a reply to a treatise he addressed to me from Rome under the title \" On Plotinus* Philosophic Method.\""
+    }
+   ]
+  },
+  {
+   "id": "Life.21",
+   "treatise": "Life",
+   "title": "What Longinus' judgement shows",
+   "summary": "Porphyry draws out Longinus' verdict: Plotinus and Amelius surpassed everyone; Plotinus did not take his doctrines from Numenius; and Porphyry himself was praised for avoiding Amelius' wordiness. Had Longinus met him, he would not have written against what he had not yet grasped.",
+   "greek_unit": "ia-volkmann-t1:58",
+   "greek_part": 2,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 28",
+   "greek_pages": [
+    "ia-volkmann-t1:58",
+    "ia-volkmann-t1:59"
+   ],
+   "older": [
+    {
+     "n": 21,
+     "label": "Life, chapter 21",
+     "page": 21,
+     "year": 1917,
+     "text": "This Preface leaves no doubt of Longinus' final verdict : he ranks Plotinus and Amelius above all authors of his time in the multitude of questions they discuss ; he credits them with an original method of investigation : in his judgement they by no means took their system from Numenius or gave a first place to his opinions, but followed the Pythagorean and Platonic schools ; finally he declares the writings of Numenius, Cronius, Moderatus and Thrasyllus greatly inferior in precision and fulness to those of Plotinus.\n\nNotice, by the way, that while Amelius is described as following in Plotinus' footsteps, it is indicated that his temperamental prolixity led him to delight in an extravagance of explanation foreign to his master : in the reference to myself, though I was then only at the beginning of my association with Plotinus — \" Basileus of Tyre, my friend as theirs, who has written a good deal, has taken Plotinus as his model \" — Longinus recognises that I entirely avoided Amelius' unphilosophical prolixity and made Plotinus' manner my standard.\n\nSuch a pronouncement upon the value of Plotinus' work, coming from so great an authority, the first of critics then as now, must certainly carry weight, and I may remark that if I had been able to confer with him, during such a visit as he proposed, he would not have written to combat doctrines which he had not thoroughly penetrated."
+    }
+   ]
+  },
+  {
+   "id": "Life.22",
+   "treatise": "Life",
+   "title": "Apollo's oracle on Plotinus' soul",
+   "summary": "Why rely on men's judgement? When Amelius asked Apollo where Plotinus' soul had gone, the god who called Socrates wisest of all men answered in a long hymn: Plotinus, once a man, is now a daemon; the gods guided him in life, and he has joined Minos, Rhadamanthus, Aeacus, Plato and Pythagoras among the blessed.",
+   "greek_unit": "ia-volkmann-t1:59",
+   "greek_part": 2,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 29",
+   "greek_pages": [
+    "ia-volkmann-t1:59",
+    "ia-volkmann-t1:60",
+    "ia-volkmann-t1:61"
+   ],
+   "older": [
+    {
+     "n": 22,
+     "label": "Life, chapter 22",
+     "page": 22,
+     "year": 1917,
+     "text": "But why talk, to use Hesiod's phrase, \" About Oak and Rock \" ? If we are to accept the evidence of the wise — who could be wiser than a God ? And here the witness is the same God that said with truth :\n\n\" I have numbered the sands and taken the measure of the sea ; I understand the dumb and hear where there has been no speech.\"\n\nApollo was consulted by Amelius, who desired to learn where Plotinus' soul had gone. And Apollo, who uttered of Socrates that great praise, \"Of all men, Socrates the wisest\" — you shall hear what a full and lofty oracle Apollo rendered upon Plotinus.\n\nI raise an undying song, to the memory of a gentle friend, a hymn of praise woven to the honey-sweet tones of my lyre under the touch of the golden plectrum.\n\nThe Muses, too, I call to lift the voice with me in strains of many-toned exultation, in passion ranging over all the modes of song :\n\neven as of old they raised the famous chant to the glory of Aeakides in the immortal ardours of the Homeric line.\n\nCome, then, Sacred Chorus, let us intone with one great sound the utmost of all song, I Phoebus, Bathychaites, singing in the midst.\n\nCelestial ! Man at first but now nearing the diviner ranks ! the bonds of human necessity are loosed for you and, strong of heart, you beat your eager way from out the roaring tumult of the fleshly life to the shores of that wave-washed coast free from the thronging of the guilty, thence to take the grateful path of the sinless soul :\n\nwhere glows the splendour of God, where Right is throned in the stainless place, far from the wrong that mocks at law.\n\nOft-times as you strove to rise above the bitter waves of this blood-drenched life, above the sickening whirl, toiling in the midmost of the rushing flood and the unimaginable turmoil, oft-times,"
+    },
+    {
+     "n": 23,
+     "label": "Life, chapter 23",
+     "page": 22,
+     "year": 1917,
+     "text": "from the Ever-Blessed, there was shown to you the Term still close at hand :\n\nOft-times, when your mind thrust out awry and was like to be rapt down unsanctioned paths, the Immortals themselves prevented, guiding you on the straightgoing way to the celestial spheres, pouring down before you a dense shaft of light that your eyes might see from amid the mournful gloom.\n\nSleep never closed those eyes : high above the heavy murk of the mist you held them ; tossed in the welter, you still had vision ; still you saw sights many and fair not granted to all that labour in wisdom's quest.\n\nBut now that you have cast the screen aside, quitted the tomb that held your lofty soul, you enter at once the heavenly consort :\n\nwhere fragrant breezes play, where all is unison and winning tenderness and guileless joy, and the place is lavish of the nectarstreams the unfailing Gods bestow, with the blandishments of the Loves, and delicious airs, and tranquil sky :\n\nwhere Minos and Rhadamanthus dwell, great brethren of the golden race of mighty Zeus ; where dwells the just Aeacus, and Plato, consecrated power, and stately Pythagoras and all else that form the Choir of Immortal Love, there where the heart is ever lifted in joyous festival.\n\nO Blessed One, you have fought your many fights ; now, crowned with unfading life, your days are with the Ever-Holy.\n\nRejoicing Muses, let us stay our song and the subtle windings of our dance ; thus much I could but tell, to my golden lyre, of Plotinus, the hallowed soul.\n\nGood and kindly, singularly gentle and engaging : thus the oracle presents him, and so in fact we found him. Sleeplessly alert — Apollo tells — pure of soul, ever striving towards the divine which he loved with all his being, he laboured strenuously to free himself and rise above the bitter waves of this blood-drenched life : and this is why to Plotinus —\n\nGod-like and lifting himself often, by the ways of meditation and by the methods Plato teaches in the Banquet, to the first and all-transcendent God — that God appeared, the God throned above the Intellectual-Principle and all the Intellectual-Sphere.\n\n\" There was shown to Plotinus the Term ever near \" : for the Term, the one end, of his life was to become Uniate, to approach to the God over all : and four times, during the period I passed with him, he achieved this Term, by no mere latent fitness but by the ineffable Act.\n\nTo this God, I also declare, I Porphyry, that in my sixty-eighth year I too was once admitted and entered into Union.\n\nWe are told that often when he was leaving the way, the Gods set him on the true path again, pouring down before him a dense shaft of light ; here we are to understand that in his writing he was overlooked and guided by the divine powers.\n\n\" In this sleepless vision within and without,\" — the oracle says, — \" your eyes have beheld sights many and fair not vouchsafed to all that take the philosophic path \" : contemplation in man may sometimes be more than human, but compare it with the True-Knowing of the Gods and, wonderful though it be, it can never plunge into the depths their divine vision fathoms.\n\nThus far the Oracle recounts what Plotinus accomplished and to what heights he attained while still in the body : emancipated from the body, we are told how he entered the celestial circle where all is friendship, tender delight, happiness and loving union with God, where Minos and Rhadamanthus and Aeacus, the sons of God, are enthroned as judges of souls — not, however, to hold him to judgement but as welcoming him to their consort to which are bidden spirits pleasing to the Gods — Plato, Pythagoras and all the people of the Choir of Immortal Love, there where the blessed spirits have their birth-home and live in days made happy by the Gods."
+    }
+   ]
+  },
+  {
+   "id": "Life.23",
+   "treatise": "Life",
+   "title": "What the oracle means",
+   "summary": "Porphyry reads the oracle: it says Plotinus was gentle, wakeful and pure, and strove to escape this life; the god beyond intellect appeared to him four times while Porphyry was with him, and once to Porphyry himself; the gods guided his writing; and after death he went, not to be judged, but to the company of the blessed.",
+   "greek_unit": "ia-volkmann-t1:61",
+   "greek_part": 3,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 31",
+   "greek_pages": [
+    "ia-volkmann-t1:61",
+    "ia-volkmann-t1:62"
+   ],
+   "older": [
+    {
+     "n": 23,
+     "label": "Life, chapter 23",
+     "page": 22,
+     "year": 1917,
+     "text": "from the Ever-Blessed, there was shown to you the Term still close at hand :\n\nOft-times, when your mind thrust out awry and was like to be rapt down unsanctioned paths, the Immortals themselves prevented, guiding you on the straightgoing way to the celestial spheres, pouring down before you a dense shaft of light that your eyes might see from amid the mournful gloom.\n\nSleep never closed those eyes : high above the heavy murk of the mist you held them ; tossed in the welter, you still had vision ; still you saw sights many and fair not granted to all that labour in wisdom's quest.\n\nBut now that you have cast the screen aside, quitted the tomb that held your lofty soul, you enter at once the heavenly consort :\n\nwhere fragrant breezes play, where all is unison and winning tenderness and guileless joy, and the place is lavish of the nectarstreams the unfailing Gods bestow, with the blandishments of the Loves, and delicious airs, and tranquil sky :\n\nwhere Minos and Rhadamanthus dwell, great brethren of the golden race of mighty Zeus ; where dwells the just Aeacus, and Plato, consecrated power, and stately Pythagoras and all else that form the Choir of Immortal Love, there where the heart is ever lifted in joyous festival.\n\nO Blessed One, you have fought your many fights ; now, crowned with unfading life, your days are with the Ever-Holy.\n\nRejoicing Muses, let us stay our song and the subtle windings of our dance ; thus much I could but tell, to my golden lyre, of Plotinus, the hallowed soul.\n\nGood and kindly, singularly gentle and engaging : thus the oracle presents him, and so in fact we found him. Sleeplessly alert — Apollo tells — pure of soul, ever striving towards the divine which he loved with all his being, he laboured strenuously to free himself and rise above the bitter waves of this blood-drenched life : and this is why to Plotinus —\n\nGod-like and lifting himself often, by the ways of meditation and by the methods Plato teaches in the Banquet, to the first and all-transcendent God — that God appeared, the God throned above the Intellectual-Principle and all the Intellectual-Sphere.\n\n\" There was shown to Plotinus the Term ever near \" : for the Term, the one end, of his life was to become Uniate, to approach to the God over all : and four times, during the period I passed with him, he achieved this Term, by no mere latent fitness but by the ineffable Act.\n\nTo this God, I also declare, I Porphyry, that in my sixty-eighth year I too was once admitted and entered into Union.\n\nWe are told that often when he was leaving the way, the Gods set him on the true path again, pouring down before him a dense shaft of light ; here we are to understand that in his writing he was overlooked and guided by the divine powers.\n\n\" In this sleepless vision within and without,\" — the oracle says, — \" your eyes have beheld sights many and fair not vouchsafed to all that take the philosophic path \" : contemplation in man may sometimes be more than human, but compare it with the True-Knowing of the Gods and, wonderful though it be, it can never plunge into the depths their divine vision fathoms.\n\nThus far the Oracle recounts what Plotinus accomplished and to what heights he attained while still in the body : emancipated from the body, we are told how he entered the celestial circle where all is friendship, tender delight, happiness and loving union with God, where Minos and Rhadamanthus and Aeacus, the sons of God, are enthroned as judges of souls — not, however, to hold him to judgement but as welcoming him to their consort to which are bidden spirits pleasing to the Gods — Plato, Pythagoras and all the people of the Choir of Immortal Love, there where the blessed spirits have their birth-home and live in days made happy by the Gods."
+    }
+   ]
+  },
+  {
+   "id": "Life.24",
+   "treatise": "Life",
+   "title": "The edition: the first three Enneads",
+   "summary": "Plotinus left the arrangement and correction of his books to Porphyry. Porphyry did not keep their order by date, but, like the editors of Epicharmus and of Aristotle, gathered them by subject into six sets of nine, the easier first: the first Ennead on ethics, the second and third on the cosmos.",
+   "greek_unit": "ia-volkmann-t1:62",
+   "greek_part": 3,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 32",
+   "greek_pages": [
+    "ia-volkmann-t1:62",
+    "ia-volkmann-t1:63",
+    "ia-volkmann-t1:64"
+   ],
+   "older": [
+    {
+     "n": 24,
+     "label": "Life, chapter 24",
+     "page": 24,
+     "year": 1917,
+     "text": "I have related Plotinus' life ; something remains to tell of my revision and arrangement of his writings. This task he himself had imposed upon me during his lifetime and I had pledged myself to him and to the circle to carry it out.\n\nI judged that in the case of treatises which, like these, had been issued without consideration of logical sequence it was best to disregard the time-order.\n\nApollodorus, the Athenian, edited in ten volumes the collected works of Epicharmus, the comedy writer ; Andronicus, the Peripatetic, classified the works of Aristotle and of Theophrastus according to subject, bringing together the discussions of related topics : I have adopted a similar plan.\n\nI had fifty-four treatises before me : I divided them into six sets of nine, an arrangement which pleased me by the happy combination of the perfect number six with the nines : to each such ennead I assigned matter of one general nature, leading off with the themes presenting the least difficulty.\n\nThe First Ennead, on this method, contains the treatises of a more ethical tendency : —\n\n1. On the Animate and the Man.\n\n2. On the Virtues.\n\n3. On Dialectic.\n\n4. On Happiness.\n\n5. Whether Happiness depends on Extension of Time.\n\n6. On Beauty.\n\n7. On the Primal Good and Secondary forms of Good.\n\n8. On Evil.\n\n9. On the Reasoned Withdrawal from Life.\n\nThe Second Ennead, following the more strictly ethical First, is physical, containing the disquisitions on the world and all that belongs to the world : —\n\n1. On the World.\n\n2. On the Circular Movement.\n\n3. On the Stars.\n\n4. On the Two Orders of Matter.\n\n5. On Potentiality and Actuality.\n\n6. On Quality and Form.\n\n7. On Coalescence.\n\n8. Why Distant Objects appear Small.\n\n9. Against those Declaring the Creator of the World, and the World itself, to be Evil.\n\nThe Third Ennead, still keeping to the World, discusses the philosophical implications of some of its features : —\n\n1. On Fate.\n\n2. The First Treatise on Providence.\n\n3. The Second Treatise on Providence.\n\n4. On Our Tutelary Spirit.\n\n5. On Love.\n\n6. On the Impassibility of the Bodiless.\n\n7. On Eternity and Time.\n\n8. On Nature, Contemplation and The One.\n\n9. Various Questions."
+    }
+   ]
+  },
+  {
+   "id": "Life.25",
+   "treatise": "Life",
+   "title": "The fourth and fifth Enneads",
+   "summary": "Why some books stand in the third Ennead: the daemon, love, eternity and time, and nature. The fourth Ennead holds the books on the soul; the fifth those on intellect, each touching also on what is beyond it and on the forms.",
+   "greek_unit": "ia-volkmann-t1:64",
+   "greek_part": 3,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 34",
+   "greek_pages": [
+    "ia-volkmann-t1:64",
+    "ia-volkmann-t1:65"
+   ],
+   "older": [
+    {
+     "n": 25,
+     "label": "Life, chapter 25",
+     "page": 26,
+     "year": 1917,
+     "text": "These first three Enneads constitute in my arrangement one selfcontained section.\n\nThe treatise on Our Tutelary Spirit is placed in the Third Ennead because this Spirit is not discussed as it is in itself, and the essay by its main content falls into the class dealing with the origin of man. Similar reasons determined the inclusion in this set of the treatise on Love. That on Time and Eternity is placed in this Third Ennead in virtue of its treatment of Time : that On Nature, Contemplation and The One, because of the discussion of Nature contained in it.\n\nNext to the two dealing with the world comes the Fourth Ennead containing the treatises dealing with the Soul : —\n\n1. On the Essence of the Soul (I.).\n\n2. On the Essence of the Soul (II.).\n\n3. Questions referring to the Soul (I.).\n\n4. Questions referring to the Soul (II.).\n\n5. Questions referring to the Soul (III.) ; or, On Vision.\n\n6. On Sensation and Memory.\n\n7. On the Immortality of the Soul.\n\n8. On the Descent of the Soul into Bodies.\n\n9. Whether all Souls are One.\n\nThe Fifth Ennead — following upon that dealing with the Soul — contains the treatises upon the Intellectual-Principle, each of which has also some reference to the All-Transcending and to the Intellectual-Principle in the Soul, and to the Ideas : —\n\n1. On the three Primal Hypostases.\n\n2. On the Origin and Order of the Post-Primals.\n\n3. On the Conscious Hypostases and the All-Transcending.\n\n4. How the Post-Primal derives from the Primal, and On the One.\n\n5. That the Intelligibles are not outside the Intellectual-Principle and on the Good.\n\n6. That there is no Intellectual Act in the Principle which transcends the Authentic-Existent ; and On the Nature that has the Intellectual Act Primally and that which has it Secondarily.\n\n7. Whether there are Ideas even of Particulars.\n\n8. On Intellectual Beauty.\n\n9. On the Intellectual-Principle, on the Ideas and on the Authentic-Existent."
+    }
+   ]
+  },
+  {
+   "id": "Life.26",
+   "treatise": "Life",
+   "title": "The sixth Ennead, and Porphyry's other work on the books",
+   "summary": "The sixth Ennead fills the third volume. Porphyry has also written commentaries on some books, and headings and arguments for all but On beauty, in the order of their dates; now he will go through each book, punctuate it and correct its wording.",
+   "greek_unit": "ia-volkmann-t1:65",
+   "greek_part": 3,
+   "greek_text": "porphyry-life-plotinus",
+   "greek_label": "p. 35",
+   "greek_pages": [
+    "ia-volkmann-t1:65",
+    "ia-volkmann-t1:66"
+   ],
+   "older": [
+    {
+     "n": 26,
+     "label": "Life, chapter 26",
+     "page": 27,
+     "year": 1917,
+     "text": "These Fourth and Fifth Enneads, again, I have arranged in the form of one distinct section.\n\nThe Last Ennead, the Sixth, constitutes one other section, so that we have the entire work of Plotinus in three sections, the first containing three Enneads, the second two, the third one Ennead.\n\nThe content of the third section, that is of the Sixth Ennead, is as follows : —\n\n1, 2, 3. On the Kinds of the Authentic-Existent.\n\n4, 5. That the Authentic-Existent, one and identical, is everywhere present, integrally.\n\n6. On Numbers.\n\n7. How the Multitude of Ideas Exists ; and On the Good.\n\n8. On Free-Will and the Will of The One.\n\n9. On The Good, or The One.\n\nThus, in sum, I have arranged the fifty-four treatises, constituting Plotinus' entire work, into six sets of nine : to some of the treatises I have further added commentaries — irregularly, as friends asked for enlightenment on this or that point — finally for all the treatises, except that on Beauty, which was not to hand, I have written Summaries which follow the chronological order : in this department of my work besides the Summaries will be found Developments ; the numbering of these also adopts the chronological order.\n\nNow I have only to go once more through the entire work, see to the punctuation and correct any verbal errors ; what else has solicited my attention, the reader will discover for himself."
     }
    ]
   },
@@ -2305,6 +2648,598 @@
    "greek": "ἐτίμησαν δὲ τὸν Πλωτῖνον μάλιστα καὶ ἐσέφθησαν Γαλιῆνός τε ὁ αὐτοκράτωρ καὶ ἡ τούτου γυνὴ Σαλωνίνα. ὁ δὲ τῇ φιλίᾳ τῇ τούτων καταχρώμενος φιλοσόφων τινὰ πόλιν κατὰ τὴν Καμπανίαν γεγενῆσθαι λεγομένην, ἄλλως δὲ κατηριπωμένην ἠξίου ἀνεγείρειν καὶ τὴν πέριξ χώραν χαρίσασθαι οἰκισθείσῃ τῇ πόλει, νόμοις δὲ χρῆσθαι τοὺς κατοικεῖν μέλλοντας τοῖς Πλάτωνος καὶ τὴν προσηγορίαν αὐτῇ Πλατωνόπολιν θέσθαι, ἐκεῖ τε αὐτὸς μετὰ τῶν ἑταίρων ἀναχωρήσειν ὑπισχνεῖτο. καὶ ἐγένετ’ ἂν τὸ βούλημα ἐκ τοῦ ῥᾴστου τῷ φιλοσόφῳ, εἰ μή τινες τῶν συνόντων τῷ βασιλεῖ φθονοῦντες ἢ νεμεσῶντες ἢ δι’ ἄλλην τινὰ αἰτίαν μοχθηρὰν ἐνεπόδισαν.",
    "notes": [
     "Plato's Laws describe the founding of a new city in Crete, Magnesia; the Republic (473c-d) holds that cities will have no rest from evils until philosophers rule."
+   ]
+  },
+  {
+   "seg": "Life.13.p1",
+   "chapter": "Life.13",
+   "modern": "In the meetings he was able to put things into words, and most powerful at finding and thinking out what fitted the matter; but he made mistakes in some words: he would not say anamimnēsketai (\"he recollects\") but anamnēmisketai, and other wrongly stamped words, which he kept to in his writing too. When he spoke, the showing of his intellect lit up his face with its light: he was lovely to look at, but then most beautiful to see; a fine sweat ran down him, gentleness shone through him, and he showed kindness towards questions, and vigour.",
+   "greek": "γέγονε δ’ ἐν ταῖς συνουσίαις φράσαι μὲν ἱκανὸς καὶ εὑρεῖν καὶ νοῆσαι τὰ πρόσφορα δυνατώτατος, ἐν δέ τισι λέξεσιν ἁμαρτάνων· οὐ γὰρ ἂν εἶπεν ἀναμιμνήσκεται, ἀλλ’ ἀναμνημίσκεται, καὶ ἄλλα τινὰ παράσημα ὀνόματα, ἃ καὶ ἐν τῷ γράφειν ἐτήρει. ἦν δ’ ἐν τῷ λέγειν ἡ ἔνδειξις τοῦ νοῦ ἄχρι τοῦ προσώπου αὐτοῦ τὸ φῶς ἐπιλάμποντος· ἐράσμιος μὲν ὀφθῆναι, καλλίων δὲ τότε μάλιστα ὁρώμενος· καὶ λεπτός τις ἱδρὼς ἐπέθει καὶ ἡ πρᾳότης διέλαμπε καὶ τὸ προσηνὲς πρὸς τὰς ἐρωτήσεις ἐδείκνυτο καὶ τὸ εὔτονον.",
+   "flags": [
+    {
+     "taylor": "a slight moisture gathered on his forehead",
+     "in": "MacKenna",
+     "why": "The Greek says only that \"a fine sweat ran down\" him (λεπτός τις ἱδρὼς ἐπέθει); the forehead is MacKenna's."
+    },
+    {
+     "taylor": "He was always as ready to entertain objections as he was powerful in meeting them",
+     "in": "MacKenna",
+     "why": "The Greek lists what showed in his face as he spoke: his gentleness, his kindness towards questions (τὸ προσηνὲς πρὸς τὰς ἐρωτήσεις) and his vigour (τὸ εὔτονον). MacKenna turns this into a sentence of his own about objections and his power in meeting them."
+    }
+   ],
+   "notes": [
+    "The two words: ἀναμιμνήσκεται is the right form; Plotinus said ἀναμνημίσκεται, swapping the syllables. Porphyry's point is that the master of thought was no master of grammar."
+   ]
+  },
+  {
+   "seg": "Life.13.p2",
+   "chapter": "Life.13",
+   "modern": "For three days, for example, when I, Porphyry, asked him how the soul is present with the body, he kept on demonstrating, so that when a man named Thaumasius came in, who dealt in general discourses and said that he wanted to hear him speak in a way fit for books, and could not bear Porphyry answering and asking, Plotinus said: \"But if we do not solve the difficulties when Porphyry asks, we shall not be able to say anything at all for the book.\"",
+   "greek": "τριῶν γοῦν ἡμερῶν ἐμοῦ Πορφυρίου ἐρωτήσαντος, πῶς ἡ ψυχὴ σύνεστι τῷ σώματι, παρέτεινεν ἀποδεικνύς, ὥστε καὶ Θαυμασίου τινὸς τοὔνομα ἐπεισελθόντος τοὺς καθόλου λόγους πράττοντος καὶ εἰς βιβλία ἀκοῦσαι αὐτοῦ λέγοντος θέλειν, Πορφυρίου δὲ ἀποκρινομένου καὶ ἐρωτῶντος μὴ ἀνέχεσθαι, ἔφη· ἀλλὰ ἂν μὴ Πορφυρίου ἐρωτῶντος λύσωμεν τὰς ἀπορίας, εἰπεῖν τι καθάπαξ εἰς τὸ βιβλίον οὐ δυνησόμεθα.",
+   "flags": [
+    {
+     "taylor": "a man called Thomasius",
+     "in": "MacKenna",
+     "why": "The Greek name is Θαυμάσιος, Thaumasius."
+    }
+   ],
+   "notes": [
+    "Volkmann reads ἀποκρινομένου, \"answering\"; the modern version keeps it. The question how the soul is present with the body is the subject of Plotinus' IV.3, the first of the books On difficulties about the soul (done beside Taylor)."
+   ]
+  },
+  {
+   "seg": "Life.14.p1",
+   "chapter": "Life.14",
+   "modern": "In writing he was concise and full of thought, brief, and richer in ideas than in words, mostly speaking with inspiration and passion. Mixed into his writings, though hidden, are the doctrines of the Stoics and the Peripatetics; and Aristotle's Metaphysics too is packed into them. No theorem, as they call it, of geometry escaped him, nor of arithmetic, nor of mechanics, optics or musical theory; but he was not set on working these out himself.",
+   "greek": "ἐν δὲ τῷ γράφειν σύντομος γέγονε καὶ πολύνους βραχύς τε καὶ νοήμασι πλεονάζων ἢ λέξεσι, τὰ πολλὰ ἐνθουσιῶν καὶ ἐκπαθῶς φράζων. ἐμμέμικται δ’ ἐν τοῖς συγγράμμασι καὶ τὰ Στωικὰ λανθάνοντα δόγματα καὶ τὰ Περιπατητικά· καταπεπύκνωται δὲ καὶ ἡ μετὰ τὰ φυσικὰ τοῦ Ἀριστοτέλους πραγματεία. ἔλαθε δὲ αὐτὸν οὔτε γεωμετρικόν τι λεγόμενον θεώρημα οὔτ’ ἀριθμητικόν, οὐ μηχανικόν, οὐκ ὀπτικόν, οὐ μουσικόν· αὐτὸς δὲ ταῦτα ἐξεργάζεσθαι οὐ παρεσκεύαστο.",
+   "flags": [
+    {
+     "taylor": "He followed his own path rather than that of tradition",
+     "in": "MacKenna",
+     "why": "There is nothing for this in Volkmann's Greek, which goes straight from \"speaking with inspiration and passion\" to the Stoic and Peripatetic doctrines."
+    },
+    {
+     "taylor": "is condensed in them, all but entire",
+     "in": "MacKenna",
+     "why": "The Greek says only that the Metaphysics \"is packed into\" his writings too (καταπεπύκνωται); \"all but entire\" is MacKenna's."
+    },
+    {
+     "taylor": "Geometry, Mechanics, Optics and Music",
+     "in": "MacKenna",
+     "why": "MacKenna leaves out arithmetic (ἀριθμητικόν), which the Greek names after geometry."
+    }
+   ],
+   "notes": [
+    "\"The Peripatetics\" are Aristotle's school. Plotinus' VI.1 to VI.3, On the kinds of being, examine Aristotle's categories and the Stoics' at length."
+   ]
+  },
+  {
+   "seg": "Life.14.p2",
+   "chapter": "Life.14",
+   "modern": "In the meetings the commentaries were read out to him: they might be by Severus, or Cronius, or Numenius, or Gaius, or Atticus, and among the Peripatetics by Aspasius, Alexander, Adrastus and any that came to hand. But nothing was simply said from them: he was original and different in his study, and brought the intellect of Ammonius to his inquiries. He took the matter in quickly, and after giving the sense of a deep theorem in a few words, he would rise. When Longinus' On principles and his Lover of antiquity were read to him, he said: \"Longinus is a scholar, but not a philosopher at all.\"",
+   "greek": "ἐν δὲ ταῖς συνουσίαις ἀνεγινώσκετο μὲν αὐτῷ τὰ ὑπομνήματα, εἴτε Σεβήρου εἴη, εἴτε Κρονίου ἢ Νουμηνίου ἢ Γαίου ἢ Ἀττικοῦ, κἀν τοῖς Περιπατητικοῖς τά τε Ἀσπασίου καὶ Ἀλεξάνδρου Ἀδράστου τε καὶ τῶν ἐμπεσόντων. ἐλέγετο δὲ ἐκ τούτων οὐδὲν καθάπαξ, ἀλλ’ ἴδιος ἦν καὶ ἐξηλλαγμένος ἐν τῇ θεωρίᾳ καὶ τὸν Ἀμμωνίου φέρων νοῦν ἐν ταῖς ἐξετάσεσιν. ἐπληροῦτο δὲ ταχέως καὶ δι’ ὀλίγων δοὺς νοῦν βαθέος θεωρήματος ἀνίστατο. ἀναγνωσθέντος δὲ αὐτῷ τοῦ τε περὶ ἀρχῶν Λογγίνου καὶ τοῦ φιλαρχαίου ‘φιλόλογος μέν’, ἔφη, ‘ὁ Λογγῖνος, φιλόσοφος δὲ οὐδαμῶς.’",
+   "flags": [
+    {
+     "taylor": "Longinus' work On Causes",
+     "in": "MacKenna",
+     "why": "The title is περὶ ἀρχῶν, On principles (or \"On first principles\"), not \"On causes\"."
+    },
+    {
+     "taylor": "a few words sufficed him to make clear the significance of some profound theory and so to pass on",
+     "in": "MacKenna",
+     "why": "The Greek ἀνίστατο is \"he rose\": having given the sense in a few words, he stood up and ended the meeting."
+    }
+   ],
+   "notes": [
+    "Severus, Cronius, Numenius, Gaius and Atticus are Platonists of the second century; Aspasius, Alexander (of Aphrodisias) and Adrastus are commentators on Aristotle. Longinus, the critic and scholar who taught Porphyry at Athens, appears again in chapters 19 to 21. \"Lover of antiquity\" (φιλάρχαιος) is the title of one of his books."
+   ]
+  },
+  {
+   "seg": "Life.14.p3",
+   "chapter": "Life.14",
+   "modern": "Once when Origen came to the meeting, Plotinus went red and wanted to rise; and when Origen asked him to speak, he said that one's eagerness flags when the speaker knows that he is speaking to people who already know what he is going to say; and so, after talking a little, he got up and left.",
+   "greek": "Ὠριγένους δὲ ἀπαντήσαντός ποτε εἰς τὴν συνουσίαν πληρωθεὶς ἐρυθήματος ἀνίστασθαι μὲν ἐβούλετο, λέγειν δὲ ὑπὸ Ὠριγένους ἀξιούμενος ἔφη ἀνίλλεσθαι τὰς προθυμίας, ὅταν εἰδῇ ὁ λέγων, ὅτι πρὸς εἰδότας ἐρεῖ, ἃ αὐτὸς μέλλει λέγειν· καὶ οὕτως ὀλίγα διαλεχθεὶς ἐξανέστη.",
+   "notes": [
+    "This Origen is the Platonist, Plotinus' fellow pupil under Ammonius (chapter 3)."
+   ]
+  },
+  {
+   "seg": "Life.15.p1",
+   "chapter": "Life.15",
+   "modern": "When at Plato's feast I read a poem, The sacred marriage, and someone said that Porphyry was mad, because much of it was said in the language of the mysteries, with inspiration and in a hidden way, Plotinus said so that all could hear: \"You have shown yourself at once poet, philosopher and hierophant.\"",
+   "greek": "ἐμοῦ δὲ ἐν Πλατωνείοις ποίημα ἀναγνόντος τὸν ἱερὸν γάμον, καί τινος διὰ τὸ μυστικῶς πολλὰ μετ’ ἐνθουσιασμοῦ ἐπικεκρυμμένως εἰρῆσθαι εἰπόντος μαίνεσθαι τὸν Πορφύριον, ἐκεῖνος εἰς ἐπήκοον ἔφη πάντων· ‘ἔδειξας ὁμοῦ καὶ τὸν ποιητὴν καὶ τὸν φιλόσοφον καὶ τὸν ἱεροφάντην.’",
+   "notes": [
+    "\"Plato's feast\" (Πλατώνεια) is the feast Plotinus gave on Plato's birthday (chapter 2). The hierophant is the priest who shows the sacred things at the Mysteries of Eleusis."
+   ]
+  },
+  {
+   "seg": "Life.15.p2",
+   "chapter": "Life.15",
+   "modern": "When the orator Diophanes read a defence of Alcibiades in Plato's Symposium, laying it down that for the sake of learning virtue a pupil must give himself to a teacher who desires him, even for sexual union, Plotinus several times leapt up to leave the gathering, but held himself back; and after the audience broke up he told me, Porphyry, to write a reply. Since Diophanes would not give me the book, I recalled his arguments from memory, wrote the reply, and read it before the same hearers gathered again, and I pleased Plotinus so much that at the meetings he kept saying: \"Shoot like that, and you may become a light to men.\"",
+   "greek": "ὅτε δὲ ὁ ῥήτωρ Διοφάνης ἀνέγνω ὑπὲρ Ἀλκιβιάδου τοῦ ἐν τῷ Συμποσίῳ τοῦ Πλάτωνος ἀπολογίαν δογματίζων χρῆναι ἀρετῆς ἕνεκα μαθήσεως εἰς συνουσίαν αὐτὸν παρέχειν ἐρῶντι ἀφροδισίου μίξεως τῷ καθηγεμόνι, ἤιξε μὲν πολλάκις ἀναστὰς ἀπαλλαγῆναι τῆς συνόδου, ἐπισχὼν δ’ ἑαυτὸν μετὰ τὴν διάλυσιν τοῦ ἀκουστηρίου ἐμοὶ Πορφυρίῳ ἀντιγράψαι προσέταξε. μὴ θέλοντος δὲ τοῦ Διοφάνους τὸ βιβλίον δοῦναι διὰ τῆς μνήμης ἀναληφθέντων τῶν ἐπιχειρημάτων ἀντιγράψας ἐγὼ καὶ ἐπὶ τῶν αὐτῶν ἀκροατῶν συνηγμένων ἀναγνοὺς τοσοῦτον τὸν Πλωτῖνον ηὔφρανα, ὡς κἀν ταῖς συνουσίαις συνεχῶς ἐπιλέγειν· βάλλ’ οὕτως, αἴ κέν τι φόως ἄνδρεσσι γένηαι.",
+   "flags": [
+    {
+     "taylor": "should submit to the teacher without reserve",
+     "in": "MacKenna",
+     "why": "The Greek says the pupil should give himself \"to the teacher who desires him\" (ἐρῶντι ... τῷ καθηγεμόνι); \"without reserve\" is MacKenna's, and he leaves out the teacher's desire."
+    },
+    {
+     "taylor": "during the very reading he repeatedly quoted",
+     "in": "MacKenna",
+     "why": "The Greek says that Plotinus \"kept saying it at the meetings\" (κἀν ταῖς συνουσίαις συνεχῶς ἐπιλέγειν), afterwards and often, not during the reading."
+    }
+   ],
+   "notes": [
+    "In the Symposium (217a-219d) Alcibiades tells how he offered himself to Socrates in exchange for his wisdom, and was refused. Plotinus' line is Homer's Iliad 8.282, Agamemnon to the archer Teucer (\"shoot like that, and you may become a light to the Danaans\"), with \"men\" for \"Danaans\"."
+   ]
+  },
+  {
+   "seg": "Life.15.p3",
+   "chapter": "Life.15",
+   "modern": "When Eubulus, the Platonic successor, wrote from Athens and sent writings on some Platonic questions, Plotinus had them given to me, Porphyry, and asked me to examine them and report to him what was written. He paid attention to the tables of the stars, though not at all as a mathematician, but to the forecasts of the casters of nativities more closely; and having caught out how little their promise could be trusted, he did not hesitate to refute it in many places in his writings too.",
+   "greek": "γράφοντος δὲ Εὐβούλου Ἀθήνηθεν τοῦ Πλατωνικοῦ διαδόχου καὶ πέμποντος συγγράμματα ὑπέρ τινων Πλατωνικῶν ζητημάτων ἐμοὶ Πορφυρίῳ ταῦτα δίδοσθαι ἐποίει καὶ σκοπεῖν καὶ ἀναφέρειν αὐτῷ τὰ γεγραμμένα ἠξίου. προσεῖχε δὲ τοῖς μὲν περὶ τῶν ἀστέρων κανόσιν οὐ πάνυ τι μαθηματικῶς, τοῖς δὲ τῶν γενεθλιαλόγων ἀποτελεστικοῖς ἀκριβέστερον. καὶ φωράσας τῆς ἐπαγγελίας τὸ ἀνεχέγγυον ἐλέγχειν πολλαχοῦ καὶ ἐν τοῖς συγγράμμασιν οὐκ ὤκνησε.",
+   "flags": [
+    {
+     "taylor": "the principles of Astronomy",
+     "in": "MacKenna",
+     "why": "The Greek κανόνες are \"tables\" (the astronomers' tables of the stars' movements), used to cast nativities; it is these that Plotinus studied \"not at all as a mathematician\"."
+    }
+   ],
+   "notes": [
+    "The \"successor\" (διάδοχος) is the head of the Platonic school at Athens, Plato's successor. Plotinus refutes the astrologers in II.3, Whether the stars are causes, and III.1, On destiny."
+   ]
+  },
+  {
+   "seg": "Life.16.p1",
+   "chapter": "Life.16",
+   "modern": "In his time there were many others, Christians, and among them sectarians who had set out from the ancient philosophy, the followers of Adelphius and Aquilinus, who owned a great many writings of Alexander the Libyan, Philocomus and Demostratus the Lydian, and brought out revelations of Zoroaster, Zostrianus, Nicotheus, Allogenes, Mesus and others of that kind; they deceived many, and were deceived themselves, saying that Plato had not come near the depth of intelligible being.",
+   "greek": "γεγόνασι δὲ κατ’ αὐτὸν τῶν Χριστιανῶν πολλοὶ μὲν καὶ ἄλλοι, αἱρετικοὶ δὲ ἐκ τῆς παλαιᾶς φιλοσοφίας ἀνηγμένοι οἱ περὶ Ἀδέλφιον καὶ Ἀκυλῖνον, οἳ τὰ Ἀλεξάνδρου τοῦ Λίβυος καὶ Φιλοκώμου καὶ Δημοστράτου τοῦ Λυδοῦ συγγράμματα πλεῖστα κεκτημένοι ἀποκαλύψεις τε προφέροντες Ζωροάστρου καὶ Ζωστριανοῦ καὶ Νικοθέου καὶ Ἀλλογενοῦς καὶ Μέσου καὶ ἄλλων τοιούτων πολλοὺς ἐξηπάτων καὶ αὐτοὶ ἠπατημένοι, ὡς δὴ τοῦ Πλάτωνος εἰς τὸ βάθος τῆς νοητῆς οὐσίας οὐ πελάσαντος.",
+   "flags": [
+    {
+     "taylor": "works by Alexander of Lydia, by Philocomus, by Demostratus and by Lydus",
+     "in": "MacKenna",
+     "why": "Volkmann's Greek reads \"Alexander the Libyan\" (τοῦ Λίβυος) and \"Demostratus the Lydian\" (τοῦ Λυδοῦ): MacKenna makes Alexander a Lydian, and the Lydian a fourth author, \"Lydus\"."
+    }
+   ],
+   "notes": [
+    "The Greek can also be read \"many Christians, and others\": the sentence has been taken both ways. The sectarians (αἱρετικοί) are those whom Plotinus' book calls Gnostics.",
+    "A modern finding, not in Porphyry: books called Zostrianus and Allogenes survive in Coptic, among the manuscripts found at Nag Hammadi in Egypt in 1945."
+   ]
+  },
+  {
+   "seg": "Life.16.p2",
+   "chapter": "Life.16",
+   "modern": "So he himself made many refutations at the meetings, and also wrote the book which we have titled Against the Gnostics, and left the rest to us to judge. Amelius went on as far as forty books writing against the book of Zostrianus; and I, Porphyry, have made many refutations of the book of Zoroaster, showing that the book is spurious and recent, made up by those who founded the sect, so that it would be thought that the doctrines they had chosen to honour were those of the ancient Zoroaster.",
+   "greek": "ὅθεν αὐτὸς μὲν πολλοὺς ἐλέγχους ποιούμενος ἐν ταῖς συνουσίαις, γράψας δὲ καὶ βιβλίον, ὅπερ πρὸς τοὺς Γνωστικοὺς ἐπεγράψαμεν, ἡμῖν τὰ λοιπὰ κρίνειν καταλέλοιπεν. Ἀμέλιος δὲ ἄχρι τεσσαράκοντα βιβλίων προκεχώρηκε πρὸς τὸ Ζωστριανοῦ βιβλίον ἀντιγράφων. Πορφύριος δὲ ἐγὼ πρὸς τὸ Ζωροάστρου συχνοὺς πεποίημαι ἐλέγχους, (ὅπως) νόθον τε καὶ νέον τὸ βιβλίον παραδεικνὺς πεπλασμένον τε ὑπὸ τῶν τὴν αἵρεσιν συστησαμένων εἰς δόξαν τοῦ εἶναι τοῦ παλαιοῦ Ζωροάστρου τὰ δόγματα, ἃ αὐτοὶ εἵλοντο πρεσβεύειν.",
+   "notes": [
+    "Against the Gnostics is II.9 (the thirty-third book by date), done beside Taylor. Volkmann sets ὅπως, \"so that\", in round brackets."
+   ]
+  },
+  {
+   "seg": "Life.17.p1",
+   "chapter": "Life.17",
+   "modern": "Since people in Greece were saying that he was passing off Numenius' work as his own, and Trypho, the Stoic and Platonist, reported this to Amelius, Amelius wrote a book which he titled On the difference between the doctrines of Plotinus and Numenius, and dedicated it to me, as Basileus. Basileus was the name I, Porphyry, had: in my native tongue I was called Malchus, which was my father's name too, and Malchus means basileus (\"king\") if one wants to turn it into Greek. So Longinus, dedicating his On impulse to Cleodamus and to me, Porphyry, wrote at its head \"Cleodamus and Malchus\"; and Amelius, translating the name, as Numenius turned Maximus into Megalos, writes Basileus for Malchus:",
+   "greek": "τῶν δ’ ἀπὸ τῆς Ἑλλάδος τὰ Νουμηνίου αὐτὸν ὑποβάλλεσθαι λεγόντων καὶ τοῦτο πρὸς Ἀμέλιον ἀγγέλλοντος Τρύφωνος τοῦ Στωικοῦ τε καὶ Πλατωνικοῦ γέγραφεν ὁ Ἀμέλιος βιβλίον, ὃ ἐπέγραψε μὲν περὶ τῆς κατὰ τὰ δόγματα τοῦ Πλωτίνου πρὸς τὸν Νουμήνιον διαφορᾶς, προσεφώνησε δὲ αὐτὸ Βασιλεῖ ἐμοί· Βασιλεὺς δὲ τοὔνομα τῷ Πορφυρίῳ ἐμοὶ προσῆν, κατὰ μὲν πάτριον διάλεκτον Μάλχῳ κεκλημένῳ, ὅπερ μοι καὶ ὁ πατὴρ ὄνομα κέκλητο, τοῦ δὲ Μάλχου ἑρμηνείαν ἔχοντος βασιλεύς, εἴ τις εἰς Ἑλληνίδα διάλεκτον μεταβάλλειν ἐθέλοι. ὅθεν ὁ Λογγῖνος μὲν προσφωνῶν τὰ περὶ ὁρμῆς Κλεοδάμῳ τε κἀμοὶ Πορφυρίῳ ‘Κλεόδαμέ τε καὶ Μάλχε’ προὔγραψεν· ὁ δ’ Ἀμέλιος ἑρμηνεύσας τοὔνομα, ὡς ὁ Νουμήνιος τὸν Μάξιμον εἰς τὸν Μέγαλον, οὕτως τὸν Μάλχον οὗτος εἰς τὸν Βασιλέα γράφει· ‘",
+   "flags": [
+    {
+     "taylor": "it is equivalent to Porphyry (Purple-robed)",
+     "in": "MacKenna",
+     "why": "Not in the Greek: Porphyry says only that Malchus, his native name, means \"king\". That \"Porphyry\" (\"purple\") also suits a king is MacKenna's addition."
+    }
+   ],
+   "notes": [
+    "Porphyry was from Tyre, in Phoenicia; malk is \"king\" in the Semitic languages spoken there. Maximus is Latin for \"greatest\", Megalos Greek for \"great\"."
+   ]
+  },
+  {
+   "seg": "Life.17.p2",
+   "chapter": "Life.17",
+   "modern": "\"Amelius to Basileus, greetings. For the sake of those highly praised men themselves who, as you say, have dinned into your ears that our companion's doctrines go back to Numenius of Apamea, I would never have let out a word, you may be sure. For plainly this too comes from the fine speech and fluency they pride themselves on: saying now that he is a great babbler, now that he is a plagiarist, and thirdly that what he passes off as his own is the poorest stuff there is, plainly to mock him when they speak against him.",
+   "greek": "Ἀμέλιος Βασιλεῖ εὖ πράττειν. Αὐτῶν μὲν ἕνεκα τῶν πανευφήμων ἀνδρῶν, οὓς διατεθρυλληκέναι σεαυτὸν φής, τὰ τοῦ ἑταίρου ἡμῶν δόγματα εἰς τὸν Ἀπαμέα Νουμήνιον ἀναγόντων, οὐκ ἂν προηκάμην φωνήν, σαφῶς ἐπίστασο. δῆλον γάρ, ὅτι καὶ τοῦτο ἐκ τῆς παρ’ αὐτοῖς ἀγαλλομένης προελήλυθεν εὐστομίας τε καὶ εὐγλωττίας, νῦν μὲν ὅτι πλατὺς φλήναφος, αὖθις δὲ ὅτι ὑποβολιμαῖος, ἐκ τρίτων δὲ ὅτι καὶ τὰ φαυλότατα τῶν ὄντων ὑποβαλλόμενος τῷ διασιλλαίνειν αὐτὸν δηλαδὴ κατ’ αὐτοῦ λεγόντων.",
+   "flags": [
+    {
+     "taylor": "he bases the universe on the meanest of existents",
+     "in": "MacKenna",
+     "why": "The Greek ὑποβαλλόμενος is the same word as in \"passing off\" Numenius' work: the third charge is most naturally that what he passes off is the poorest of things. MacKenna reads it as \"putting under\", a foundation for the universe."
+    }
+   ]
+  },
+  {
+   "seg": "Life.17.p3",
+   "chapter": "Life.17",
+   "modern": "\"But since you think we should make use of this occasion, both to have what we hold more ready to hand for remembering, and to come to know more fully, for the sake of so great a companion as Plotinus, teachings that have long been noised abroad, I have done as you asked; and now I come giving you what I promised, worked out, as you know yourself, in three days. You must judge them fairly and kindly, as things neither set in order nor picked out by laying them beside those writings, but recalled from our reading long ago and set down here now in the order in which each first came to mind; all the more since the thought of the man whom some bring in as agreeing with us is not at all easy to grasp, because, as it may seem, he is carried now one way, now another about the same things.",
+   "greek": "σοῦ δὲ τῇ προφάσει ταύτῃ οἰομένου δεῖν ἀποχρῆσθαι πρὸς τὸ καὶ τὰ ἡμῖν ἀρέσκοντα ἔχειν προχειρότερα εἰς ἀνάμνησιν καὶ τὸ ἐπ’ ὀνόματι ἑταίρου ἀνδρὸς οἵου τοῦ Πλωτίνου μεγάλου εἰ καὶ πάλαι διαβεβοημένα ὁλοσχερέστερον γνῶναι ὑπήκουσα, καὶ νῦν ἥκω ἀποδιδούς σοι τὰ ἐπηγγελμένα ἐν τρισὶν ἡμέραις, ὡς καὶ αὐτὸς οἶσθα, πεπονημένα. χρὴ δὲ αὐτὰ ὡς ἂν μὴ ἐκ τῆς τῶν συνταγμάτων ἐκείνων παραθέσεως οὔτ’ οὖν συντεταγμένα οὔτ’ ἐξειλεγμένα, ἀλλ’ ἀπὸ τῆς παλαιᾶς ἐντεύξεως ἀναπεπολημένα καὶ ὡς πρῶτα προὔπεσεν ἕκαστα οὕτω ταχθέντα ἐνταῦθα νῦν συγγνώμης δικαίας παρὰ σοῦ τυχεῖν, ἄλλως τε καὶ τοῦ βουλήματος τοῦ ὑπὸ τὴν πρὸς ἡμᾶς ὁμολογίαν ὑπαγομένου πρός τινων ἀνδρὸς οὐ μάλα προχείρου ἑλεῖν ὑπάρχοντος διὰ τὴν ἄλλοτε ἄλλως περὶ τῶν αὐτῶν ὡς ἂν δόξειε φοράν.",
+   "flags": [
+    {
+     "taylor": "a writer who, like Plotinus, now arraigned for the opinion we also hold",
+     "in": "MacKenna",
+     "why": "A hard place. Who \"the man\" is the Greek does not say plainly: most likely Numenius, whose thought some say agrees with ours. MacKenna takes him to be Plotinus."
+    }
+   ]
+  },
+  {
+   "seg": "Life.17.p4",
+   "chapter": "Life.17",
+   "modern": "\"That you will kindly set right anything from our own hearth that may have been put out falsely, I know well. I have been driven, it seems, as the tragedy says somewhere, busybody that I am, to set straight and to disown what departs from our leader's doctrines. Such, then, was my wish to please you in every way. Farewell.\"",
+   "greek": "ὅτι δέ, εἴ τι τῶν ἀπὸ τῆς οἰκείας ἑστίας παραχαράττοιτο, διορθώσῃ εὐμενῶς, εὖ οἶδα. ἠνάγκασμαι δ’ ὡς ἔοικεν, ὥς πού φησιν ἡ τραγῳδία, ὢν φιλοπράγμων τῇ ἀπὸ τῶν τοῦ καθηγεμόνος ἡμῶν δογμάτων διαστάσει εὐθύνειν τε καὶ ἀποποιεῖσθαι. τοιοῦτον ἄρα ἦν τὸ σοὶ χαρίζεσθαι ἐξ ἅπαντος βούλεσθαι. ἔρρωσο.’",
+   "flags": [
+    {
+     "taylor": "A busy man and far from the teachings of our master I must needs correct and recant",
+     "in": "MacKenna",
+     "why": "A hard place. The \"distance\" (διαστάσει) is most naturally the distance of the charge from Plotinus' doctrines, which Amelius sets straight and disowns; MacKenna makes Amelius himself far from the master's teachings."
+    }
+   ],
+   "notes": [
+    "The tragedy Amelius quotes is not identified here."
+   ]
+  },
+  {
+   "seg": "Life.18.p1",
+   "chapter": "Life.18",
+   "modern": "I have been led to put in this letter not only to show that people at that time thought he was boasting of Numenius' doctrines as his own, but also that they thought him a great babbler and despised him, because they did not understand what he said, and because he was clean of all the stage-show and the puffing of the sophist: in the meetings he was like someone conversing, and did not quickly make plain to anyone the logical necessities in his argument.",
+   "greek": "ταύτην τὴν ἐπιστολὴν θεῖναι προήχθην οὐ μόνον πίστεως χάριν τοῦ τοὺς τότε καὶ ἐπ’ αὐτοῦ γεγονότας τὰ Νουμηνίου οἴεσθαι ὑποβαλλόμενον κομπάζειν, ἀλλὰ καὶ ὅτι πλατὺν αὐτὸν φλήναφον εἶναι ἡγοῦντο καὶ κατεφρόνουν τῷ μὴ νοεῖν ἃ λέγει καὶ τῷ πάσης σοφιστικῆς αὐτὸν σκηνῆς καθαρεύειν καὶ τύφου, ὁμιλοῦντι δὲ ἐοικέναι ἐν ταῖς συνουσίαις καὶ μηδενὶ ταχέως ἐπιφαίνειν τὰς συλλογιστικὰς ἀνάγκας αὐτοῦ τὰς ἐν τῷ λόγῳ λαμβανομένας."
+  },
+  {
+   "seg": "Life.18.p2",
+   "chapter": "Life.18",
+   "modern": "I, Porphyry, felt the same when I first heard him. So I wrote a reply and brought it to him, trying to show that the intelligibles exist outside intellect. He had Amelius read it to him, and when it had been read he smiled and said: \"It is for you, Amelius, to solve the difficulties he has fallen into through not knowing what we hold.\" Amelius wrote a book of no small size against Porphyry's difficulties; I wrote again in reply to what he had written; Amelius answered that too; and at the third round I, Porphyry, at last understood what was said, changed my mind, wrote a recantation and read it in the school. From then on I was trusted with Plotinus' books, and I stirred the teacher himself to the ambition of setting out his views in order and writing them at greater length. And I made Amelius, too, eager to write.",
+   "greek": "ἔπαθον δ’ οὖν τὰ ὅμοια ἐγὼ Πορφύριος, ὅτε πρῶτον αὐτοῦ ἠκροασάμην. διὸ καὶ ἀντιγράψας προσήγαγον δεικνύναι πειρώμενος, ὅτι ἔξω τοῦ νοῦ ὑφέστηκε τὰ νοητά. Ἀμέλιον δὲ ποιήσας ταῦτ’ ἀναγνῶναι, ἐπειδὴ ἀνέγνω, μειδιάσας ‘σὸν ἂν εἴη’, ἔφη, ‘ὦ Ἀμέλιε, λῦσαι τὰς ἀπορίας, εἰς ἃς δι’ ἄγνοιαν τῶν ἡμῖν δοκούντων ἐμπέπτωκε.’ γράψαντος δὲ βιβλίον οὐ μικρὸν τοῦ Ἀμελίου πρὸς τὰς τοῦ Πορφυρίου ἀπορίας, καὶ αὖ πάλιν πρὸς τὰ γραφέντα ἀντιγράψαντός μου, τοῦ δὲ Ἀμελίου καὶ πρὸς ταῦτα ἀντειπόντος, ἐκ τρίτων μόλις συνεὶς τὰ λεγόμενα ἐγὼ ὁ Πορφύριος μετεθέμην καὶ παλινῳδίαν γράψας ἐν τῇ διατριβῇ ἀνέγνων· κἀκεῖθεν λοιπὸν τά τε βιβλία τὰ Πλωτίνου ἐπιστεύθην, καὶ αὐτὸν τὸν διδάσκαλον εἰς φιλοτιμίαν προήγαγον τοῦ διαρθροῦν καὶ διὰ πλειόνων γράφειν τὰ δοκοῦντα. οὐ μὴν ἀλλὰ καὶ Ἀμέλιον εἰς τὸ συγγράφειν πρόθυμον ἐποίησα.",
+   "flags": [
+    {
+     "taylor": "From that time on I put faith in Plotinus' writings",
+     "in": "MacKenna",
+     "why": "The Greek ἐπιστεύθην with \"the books\" is \"I was entrusted with Plotinus' books\": the books were put in his care (as chapter 24 shows), not that he came to believe in them."
+    }
+   ],
+   "notes": [
+    "Plotinus' own treatise on the question is V.5, That the intelligibles are not outside intellect (the thirty-second by date)."
+   ]
+  },
+  {
+   "seg": "Life.19.p1",
+   "chapter": "Life.19",
+   "modern": "What opinion Longinus too held of Plotinus, mostly from what I told him in my letters, a part of a letter he wrote to me will show; it runs like this. Asking me to come down from Sicily to him in Phoenicia, and to bring Plotinus' books, he says:",
+   "greek": "ἣν δὲ ἔσχε καὶ Λογγῖνος περὶ τοῦ Πλωτίνου δόξαν ἐξ ὧν μάλιστα πρὸς αὐτὸν ἐγὼ γράφων ἐσήμαινον, δηλώσει μέρος ἐπιστολῆς γραφείσης πρός με ἐπέχον τοῦτον τὸν τρόπον. ἀξιῶν γάρ με ἀπὸ τῆς Σικελίας κατιέναι πρὸς αὐτὸν εἰς τὴν Φοινίκην καὶ κομίζειν τὰ βιβλία τοῦ Πλωτίνου φησί· ‘"
+  },
+  {
+   "seg": "Life.19.p2",
+   "chapter": "Life.19",
+   "modern": "\"Send these whenever you like; or rather, bring them; for I would never stop asking you to put the road to us before any other, if for no other reason (for what wisdom could you come expecting from us?), then for the sake of old friendship and the air, which is very mild for the bodily weakness you speak of. Whatever else you may happen to expect, expect nothing new from me, nor even those of my older writings that you say you have lost. For there is such a dearth of copyists here that, by the gods, all this time I have been getting together what was missing of Plotinus' books, and have only just managed it by taking my copyist away from his usual work and setting him to this alone.",
+   "greek": "καὶ σὺ μὲν ταῦτά τε πέμπειν, ὅταν σοι δοκῇ, μᾶλλον δὲ κομίζειν· οὐ γὰρ ἂν ἀποσταίην τοῦ πολλάκις δεῖσθαί σου τὴν πρὸς ἡμᾶς ὁδὸν τῆς ἑτέρωσε προκρῖναι, κἂν εἰ μηδὲν δι’ ἄλλο· τί γὰρ ἂν καὶ σοφὸν παρ’ ἡμῶν προσδοκῶν ἀφίκοιο; τήν γε παλαιὰν συνήθειαν καὶ τὸν ἀέρα μετριώτατον ὄντα πρὸς ἣν λέγεις τοῦ σώματος ἀσθένειαν· κἂν ἄλλο τι τύχῃς οἰηθείς, παρ’ ἐμοῦ δὲ μηδὲν προσδοκᾶν καινότερον, μηδ’ οὖν τῶν παλαιῶν ὅσα φὴς ἀπολωλεκέναι. τῶν γὰρ γραψόντων τοσαύτη σπάνις ἐνταῦθα καθέστηκεν, ὥστε νὴ τοὺς θεοὺς πάντα τὸν χρόνον τοῦτον τὰ λειπόμενα τῶν Πλωτίνου κατασκευάζων μόλις αὐτῶν ἐπεκράτησα τὸν ὑπογραφέα τῶν μὲν εἰωθότων ἀπάγων ἔργων, πρὸς ἑνὶ δὲ τούτῳ τάξας γενέσθαι."
+  },
+  {
+   "seg": "Life.19.p3",
+   "chapter": "Life.19",
+   "modern": "\"I have, I think, all of them, with those you have now sent; but I have them only half complete, for they are full of mistakes, and not a few. I thought our companion Amelius would correct the copyists' slips; but he had more pressing things to do than such close work. So I do not know how to deal with them, though I am very eager to look into the books On the soul and On being, for these above all are corrupt. I would very much like the copies made with care to come to me from you, just to compare them and then send them back. But again I say the same: do not send them, but rather come yourself, bringing these and anything else that escaped Amelius. For everything he brought I got for myself with care: how could I not want to have the notes of a man worthy of all reverence and honour?",
+   "greek": "καὶ κέκτημαι μὲν ὅσα δοκεῖν πάντα καὶ τὰ νῦν ὑπὸ σοῦ πεμφθέντα, κέκτημαι δὲ ἡμιτελῶς· οὐ γὰρ μετρίως ἦν διημαρτημένα, καίτοι τὸν ἑταῖρον Ἀμέλιον ᾤμην ἀναλήψεσθαι τὰ τῶν γραφέων πταίσματα· τῷ δ’ ἦν ἄλλα προυργιαίτερα τῆς τοιαύτης προσεδρείας. οὔκουν ἔχω τίνα χρὴ τρόπον αὐτοῖς ὁμιλῆσαι καίπερ ὑπερεπιθυμῶν τά τε περὶ ψυχῆς καὶ τὰ περὶ τοῦ ὄντος ἐπισκέψασθαι· ταῦτα γὰρ οὖν καὶ μάλιστα διημάρτηται. καὶ πάνυ βουλοίμην ἂν ἐλθεῖν μοι παρὰ σοῦ τὰ μετ’ ἀκριβείας γεγραμμένα τοῦ παραναγνῶναι μόνον, εἶτα ἀποπέμψαι πάλιν. αὖθις δὲ τὸν αὐτὸν ἐρῶ λόγον, ὅτι μὴ πέμπειν, ἀλλ’ αὐτὸν ἥκειν ἔχοντα μᾶλλον ἀξιῶ ταῦτά τε καὶ τῶν λοιπῶν εἴ τι διαπέφευγε τὸν Ἀμέλιον. ἃ μὲν γὰρ ἤγαγεν, ἅπαντα διὰ σπουδῆς ἐκτησάμην. πῶς δ’ οὐκ ἔμελλον ἀνδρὸς ὑπομνήματα πάσης αἰδοῦς ἀξίου καὶ τιμῆς κτήσεσθαι;",
+   "notes": [
+    "The books On the soul are IV.3 to IV.5, On difficulties about the soul; On being (περὶ τοῦ ὄντος) is most likely VI.4 and VI.5, That being, one and the same, is everywhere whole."
+   ]
+  },
+  {
+   "seg": "Life.19.p4",
+   "chapter": "Life.19",
+   "modern": "\"I have told you this before, surely, both when you were with me and when you were far away and staying at Tyre: that I do not much accept most of his hypotheses, but that I greatly admire and love the character of his writing, the density of his thoughts, and the philosophical ordering of his questions, and I would say that those who seek must count his books among the most highly esteemed.\"",
+   "greek": "τοῦτο γὰρ οὖν καὶ παρόντι σοι καὶ μακρὰν ἀπόντι καὶ περὶ τὴν Τύρον διατρίβοντι τυγχάνω δήπουθεν ἐπεσταλκώς, ὅτι τῶν μὲν ὑποθέσεων οὐ πάνυ με τὰς πολλὰς προσίεσθαι συμβέβηκε· τὸν δὲ τύπον τῆς γραφῆς καὶ τῶν ἐννοιῶν τἀνδρὸς τὴν πυκνότητα καὶ τὸ φιλόσοφον τῆς τῶν ζητημάτων διαθέσεως ὑπερβαλλόντως ἄγαμαι καὶ φιλῶ καὶ μετὰ τῶν ἐλλογιμωτάτων ἄγειν τὰ τούτου βιβλία φαίην ἂν δεῖν τοὺς ζητητικούς.’"
+  },
+  {
+   "seg": "Life.20.p1",
+   "chapter": "Life.20",
+   "modern": "I have set this out at some length to show what the judgement on Plotinus was of the most critical man of our time, who examined the work of nearly all his contemporaries; though at first, from the ignorance of others, he was scornful of him. He thought that the copies he got from Amelius were faulty because he did not understand the man's usual way of putting things; for if any were corrected, Amelius' copies were, being taken from the originals.",
+   "greek": "ταῦτα ἐπιπλέον παρατέθεικα τοῦ καθ’ ἡμᾶς κριτικωτάτου γενομένου καὶ τὰ τῶν ἄλλων σχεδὸν πάντα τῶν καθ’ αὑτὸν διελέγξαντος· δεικνὺς οἵα γέγονεν ἡ περὶ Πλωτίνου κρίσις· καίτοι τὰ πρῶτα ἐκ τῆς τῶν ἄλλων ἀμαθίας καταφρονητικῶς ἔχων πρὸς αὐτὸν διετέλει. ἐδόκει δὲ ἃ ἐκτήσατο ἐκ τῶν Ἀμελίου λαβὼν ἡμαρτῆσθαι διὰ τὸ μὴ νοεῖν τοῦ ἀνδρὸς τὴν συνήθη ἑρμηνείαν. εἰ γάρ τινα καὶ ἄλλα, καὶ τὰ παρ’ Ἀμελίου διώρθωτο ὡς ἂν ἐκ τῶν αὐτογράφων μετειλημμένα."
+  },
+  {
+   "seg": "Life.20.p2",
+   "chapter": "Life.20",
+   "modern": "Next, what Longinus wrote in a book about Plotinus, Amelius and the philosophers of his time must be set down, so that the judgement on them of a man so eminent and so searching may be complete. The book is titled: Longinus, Against Plotinus and Gentilianus Amelius, On the end. It has this preface:",
+   "greek": "ἔτι δὲ τοῦ Λογγίνου ἃ ἐν συγγράμματι γέγραφε περὶ Πλωτίνου τε καὶ Ἀμελίου καὶ τῶν καθ’ ἑαυτὸν γεγονότων φιλοσόφων ἀναγκαῖον παραθεῖναι, ἵνα καὶ πλήρης γένηται ἡ περὶ αὐτῶν κρίσις οἵα γέγονε τοῦ ἐλλογιμωτάτου ἀνδρὸς καὶ ἐλεγκτικωτάτου. ἐπιγράφεται δὲ τὸ βιβλίον Λογγίνου πρὸς Πλωτῖνον καὶ Γεντιλιανὸν Ἀμέλιον περὶ τέλους. ἔχει δὲ τοιόνδε προοίμιον· ‘",
+   "notes": [
+    "The end (τέλος) is the goal of life, the good for whose sake everything else is done."
+   ]
+  },
+  {
+   "seg": "Life.20.p3",
+   "chapter": "Life.20",
+   "modern": "\"There have been many philosophers in our time, Marcellus, and above all in the first years of our life; for the present time, words cannot say how scarce it has become in the matter. When we were still youths, not a few were leaders in philosophical discussion; I happened to see them all, because from childhood I travelled to many places with my parents, and I came to know those who lived on as I mixed with many peoples and cities. Some of them undertook to treat their views in writing, leaving to those who came after a share in their help; others thought it enough to lead those who were with them to grasp what they held.",
+   "greek": "πολλῶν καθ’ ἡμᾶς, ὦ Μάρκελλε, γεγενημένων φιλοσόφων οὐχ ἥκιστα παρὰ τοὺς πρώτους τῆς ἡλικίας ἡμῶν χρόνους· ὁ μὲν γὰρ νῦν καιρὸς οὐδ’ εἰπεῖν ἔστιν ὅσην σπάνιν ἔσχηκε τοῦ πράγματος· ἔτι δὲ μειρακίων ὄντων ἡμῶν οὐκ ὀλίγοι τῶν ἐν φιλοσοφίᾳ λόγων προέστησαν, οὓς ἅπαντας μὲν ὑπῆρξεν ἰδεῖν ἡμῖν διὰ τὴν ἐκ παίδων ἐπὶ πολλοὺς τόπους ἅμα τοῖς γονεῦσιν ἐπιδημίαν, συγγενέσθαι δὲ αὐτῶν τοῖς ἐπιβιώσασι κατὰ ταὐτὸ συχνοῖς ἔθνεσι καὶ πόλεσιν ἐπιμίξαντας· οἱ μὲν καὶ διὰ γραφῆς ἐπεχείρησαν τὰ δοκοῦντα σφίσι πραγματεύεσθαι καταλιπόντες τοῖς ἐπιγιγνομένοις τῆς παρ’ αὐτῶν ὠφελείας μετασχεῖν, οἱ δ’ ἀποχρῆναι σφίσιν ἡγήσαντο τοὺς συνόντας προβιβάζειν εἰς τὴν τῶν ἀρεσκόντων ἑαυτοῖς κατάληψιν."
+  },
+  {
+   "seg": "Life.20.p4",
+   "chapter": "Life.20",
+   "modern": "\"Of the first kind were, among the Platonists, Euclides, Democritus and Proclinus, who lived in the Troad, and those who still teach in public in Rome, Plotinus and Gentilianus Amelius, his pupil; among the Stoics, Themistocles and Phoebion, and Annius and Medius, who flourished until lately; and among the Peripatetics, Heliodorus of Alexandria. Of the second kind were, among the Platonists, Ammonius and Origen, whom I attended for most of my time, men who far surpassed those of their time in understanding, and the successors at Athens, Theodotus and Eubulus. For even if one of them wrote something, as Origen the book On the daemons, and Eubulus the books on the Philebus and the Gorgias and on Aristotle's objections to Plato's Republic, that is not enough to count them among those who worked their teaching out: they took up writing as a by-work, and did not set out with the aim of writing.",
+   "greek": "ὧν τοῦ μὲν προτέρου γεγόνασι τρόπου Πλατωνικοὶ μὲν Εὐκλείδης καὶ Δημόκριτος καὶ Προκλῖνος ὁ περὶ τὴν Τρῳάδα διατρίψας οἵ τε μέχρι νῦν ἐν τῇ Ῥώμῃ δημοσιεύοντες Πλωτῖνος καὶ Γεντιλιανὸς Ἀμέλιος ὁ τούτου γνώριμος, Στωικῶν δὲ Θεμιστοκλῆς καὶ Φοιβίων οἵ τε μέχρι πρῴην ἀκμάσαντες Ἄννιός τε καὶ Μήδιος, Περιπατητικῶν δὲ ὁ Ἀλεξανδρεὺς Ἡλιόδωρος· τοῦ δὲ δευτέρου Πλατωνικοὶ μὲν Ἀμμώνιος καὶ Ὠριγένης, οἷς ἡμεῖς τὸ πλεῖστον τοῦ χρόνου προσεφοιτήσαμεν, ἀνδράσιν οὐκ ὀλίγῳ τῶν καθ’ ἑαυτοὺς εἰς σύνεσιν διενεγκοῦσιν, οἵ τε Ἀθήνησι διάδοχοι Θεόδοτος καὶ Εὔβουλος· καὶ γὰρ εἴ τι τούτων γέγραπταί τισιν, ὥσπερ Ὠριγένει μὲν τὸ περὶ δαιμόνων, Εὐβούλῳ δὲ τὸ περὶ τοῦ Φιλήβου καὶ τοῦ Γοργίου καὶ τῶν Ἀριστοτέλει πρὸς τὴν Πλάτωνος πολιτείαν ἀντειρημένων, οὐκ ἐχέγγυα πρὸς τὸ μετὰ τῶν ἐξειργασμένων τὸν λόγον αὐτοὺς ἀριθμεῖν ἂν γένοιτο πάρεργον τῇ τοιαύτῃ χρησαμένων σπουδῇ καὶ μὴ προηγουμένην περὶ τοῦ γράφειν ὁρμὴν λαβόντων·",
+   "flags": [
+    {
+     "taylor": "the Platonic Successors at Athens, Theodorus and Eubulus",
+     "in": "MacKenna",
+     "why": "The Greek name is Θεόδοτος, Theodotus."
+    },
+    {
+     "taylor": "Origen wrote on Spirit-Beings",
+     "in": "MacKenna",
+     "why": "The title is περὶ δαιμόνων, On the daemons, the book named in chapter 3."
+    },
+    {
+     "taylor": "some writing of a metaphysical order",
+     "in": "MacKenna",
+     "why": "\"Of a metaphysical order\" is MacKenna's: the Greek says only \"if one of them wrote something\"."
+    }
+   ]
+  },
+  {
+   "seg": "Life.20.p5",
+   "chapter": "Life.20",
+   "modern": "\"Of the Stoics, Herminus and Lysimachus, and Athenaeus and Musonius, who lived out their lives in the city; and of the Peripatetics, Ammonius and Ptolemy, the two most learned men of their time, Ammonius above all, for no one has come near him in breadth of learning; yet they wrote nothing systematic, only poems and display speeches, which were kept, I think, against those men's will; for they would not have wanted to become known later through such books, when they had passed over storing up their thought in more serious writings.",
+   "greek": "τῶν δὲ Στωικῶν Ἑρμῖνος καὶ Λυσίμαχος οἵ τε ἐν ἄστει καταβιώσαντες Ἀθήναιος καὶ Μουσώνιος, καὶ Περιπατητικῶν Ἀμμώνιος καὶ Πτολεμαῖος φιλολογώτατοι μὲν τῶν καθ’ ἑαυτοὺς ἄμφω γενόμενοι καὶ μάλιστα ὁ Ἀμμώνιος· οὐ γὰρ ἔστιν ὅστις ἐκείνῳ γέγονεν εἰς πολυμάθειαν παραπλήσιος· οὐ μὴν καὶ γράψαντές γε τεχνικὸν οὐδέν, ἀλλὰ ποιήματα καὶ λόγους ἐπιδεικτικούς, ἅπερ οὖν καὶ σωθῆναι τῶν ἀνδρῶν τούτων οὐχ ἑκόντων οἶμαι· μὴ γὰρ ἂν αὐτοὺς δέξασθαι διὰ τοιούτων βιβλίων ὕστερον γενέσθαι γνωρίμους, ἀφέντας σπουδαιοτέροις συγγράμμασι τὴν ἑαυτῶν ἀποθησαυρίσαι διάνοιαν.",
+   "flags": [
+    {
+     "taylor": "the two living at Athens",
+     "in": "MacKenna",
+     "why": "The Greek καταβιώσαντες is \"who lived out their lives\" in the city: they were dead when Longinus wrote, not \"living\"."
+    },
+    {
+     "taylor": "merely verses and duty-speeches",
+     "in": "MacKenna",
+     "why": "The Greek λόγους ἐπιδεικτικούς are \"display speeches\", the orator's showpieces, not speeches of duty."
+    }
+   ]
+  },
+  {
+   "seg": "Life.20.p6",
+   "chapter": "Life.20",
+   "modern": "\"Of those who wrote, some did no more than collect and copy out what their elders had composed, as Euclides, Democritus and Proclinus; others, recording very small matters from the history of the ancients, tried to put together books on the same topics as they, like Annius, Medius and Phoebion, the last wanting to be known for the craft of his style rather than for the ordering of his thought; with these one might class Heliodorus too, since he adds nothing beyond what his elders said in their lectures to the articulation of the argument. But those who showed their seriousness about writing by the number of questions they took up, and used a way of inquiry of their own, are Plotinus and Gentilianus Amelius.",
+   "greek": "τῶν δ’ οὖν γραψάντων οἱ μὲν οὐδὲν πλέον ἢ συναγωγὴν καὶ μεταγραφὴν τῶν τοῖς πρεσβυτέροις συντεθέντων ἐποιήσαντο, καθάπερ Εὐκλείδης καὶ Δημόκριτος καὶ Προκλῖνος, οἱ δὲ μικρὰ κομιδῇ πράγματα τῆς τῶν παλαιῶν ἱστορίας ἀπομνημονεύσαντες εἰς τοὺς αὐτοὺς τόπους ἐκείνοις ἐπεχείρησαν συντιθέναι βιβλία, καθάπερ Ἄννιός τε καὶ Μήδιος καὶ Φοιβίων, οὗτος μὲν ἀπὸ τῆς ἐν τῇ λέξει κατασκευῆς γνωρίζεσθαι μᾶλλον ἢ τῆς ἐν τῇ διανοίᾳ συντάξεως ἀξιῶν· οἷς καὶ τὸν Ἡλιόδωρον συγκατανείμειέ τις ἄν, οὐδ’ ἐκεῖνον παρὰ τὰ τοῖς πρεσβυτέροις ἐν ταῖς ἀκροάσεσιν εἰρημένα πλέον τι συμβαλλόμενον εἰς τὴν τοῦ λόγου διάρθρωσιν· οἱ δὲ καὶ πλήθει προβλημάτων ἃ μετεχειρίσαντο τὴν σπουδὴν τοῦ γράφειν ἀποδειξάμενοι καὶ τρόπῳ θεωρίας ἰδίῳ χρησάμενοι Πλωτῖνός εἰσι καὶ Γεντιλιανὸς Ἀμέλιος,"
+  },
+  {
+   "seg": "Life.20.p7",
+   "chapter": "Life.20",
+   "modern": "\"Plotinus, it seems, set out the Pythagorean and Platonic principles more clearly than those before him; for the writings of Numenius, Cronius, Moderatus and Thrasyllus on the same subjects come nowhere near Plotinus' in exactness. Amelius chose to walk in his footsteps, and held to most of the same doctrines, but, lavish in working them out and in the wordiness of his style, he was drawn to a zeal opposite to his. These are the only ones whose writings we think worth examining. For why should anyone think it needful to stir up the rest, and leave off examining those from whom they took what they wrote? They added nothing of their own, not the main points, not even the arguments, and took no care either to gather what most hold or to judge what is better.",
+   "greek": "ὁ μὲν τὰς Πυθαγορείους ἀρχὰς καὶ Πλατωνικάς, ὡς ἐδόκει, πρὸς σαφεστέραν τῶν πρὸ αὐτοῦ καταστησάμενος ἐξήγησιν· οὐδὲ γὰρ οὐδ’ ἐγγύς τι τὰ Νουμηνίου καὶ Κρονίου καὶ Μοδεράτου καὶ Θρασύλλου τοῖς Πλωτίνου περὶ τῶν αὐτῶν συγγράμμασιν εἰς ἀκρίβειαν· ὁ δὲ Ἀμέλιος κατ’ ἴχνη μὲν τούτου βαδίζειν προαιρούμενος καὶ τὰ πολλὰ μὲν τῶν αὐτῶν δογμάτων ἐχόμενος, τῇ δὲ ἐξεργασίᾳ πολὺς ὢν καὶ τῇ τῆς ἑρμηνείας περιβολῇ πρὸς τὸν ἐναντίον ἐκείνῳ ζῆλον ὑπαγόμενος, ὧν καὶ μόνων ἡμεῖς ἄξιον εἶναι νομίζομεν ἐπισκοπεῖσθαι τὰ συγγράμματα. τοὺς μὲν γὰρ λοιποὺς τί τις ἂν κινεῖν οἴοιτο δεῖν ἀφεὶς ἐξετάζειν ἐκείνους, παρ’ ὧν ταῦτα λαβόντες οὗτοι γεγράφασιν οὐδὲν αὐτοὶ παρ’ αὐτῶν προσθέντες οὐχ ὅτι τῶν κεφαλαίων, ἀλλ’ οὐδὲ τῶν ἐπιχειρημάτων, οὐδ’ οὖν ἢ συναγωγῆς τῶν παρὰ τοῖς πλείοσιν ἢ κρίσεως τοῦ βελτίονος ἐπιμεληθέντες.",
+   "flags": [
+    {
+     "taylor": "Content with setting side by side the most generally adopted theories and marking off the better from the worse",
+     "in": "MacKenna",
+     "why": "The Greek says the opposite: they took no care \"either to gather what most hold or to judge what is better\" (οὐδ’ οὖν ἢ συναγωγῆς ... ἢ κρίσεως τοῦ βελτίονος ἐπιμεληθέντες)."
+    }
+   ]
+  },
+  {
+   "seg": "Life.20.p8",
+   "chapter": "Life.20",
+   "modern": "\"We have done this already in other writings too: as when we replied to Gentilianus on justice according to Plato, and examined Plotinus' book On the forms. For Basileus of Tyre, a companion common to us and to them, who himself wrote not a little in imitation of Plotinus, and who, preferring him to our own teaching, tried to show in a book that Plotinus held a better opinion on the forms than the one we hold, we seem to have refuted fairly in a reply, showing that his recantation was not right. In these we have stirred up not a few of these men's opinions, as also in the letter to Amelius, which has the size of a book and answers some of the things he sent us from Rome; he himself titled it a letter On the character of Plotinus' philosophy, but we were content with the common title of the writing, calling it To Amelius' letter.\"",
+   "greek": "ἤδη μὲν οὖν καὶ δι’ ἄλλων τουτὶ πεποιήκαμεν, ὥσπερ καὶ τῷ μὲν Γεντιλιανῷ περὶ τῆς κατὰ Πλάτωνα δικαιοσύνης ἀντειπόντες, τοῦ δὲ Πλωτίνου τὸ περὶ τῶν ἰδεῶν ἐπισκεψάμενοι· τὸν μὲν γὰρ κοινὸν ἡμῶν τε κἀκείνων ἑταῖρον ὄντα, Βασιλέα τὸν Τύριον, οὐδ’ αὐτὸν ὀλίγα πεπραγματευμένον κατὰ τὴν τοῦ Πλωτίνου μίμησιν, ὃν ἀποδεξάμενος μᾶλλον τῆς παρ’ ἡμῖν ἀγωγῆς ἐπεχείρησε διὰ συγγράμματος ἀποδεῖξαι βελτίω δόξαν περὶ τῶν ἰδεῶν τῆς ἡμῖν ἀρεσκούσης ἔχοντα, μετρίως ἀντιγραφῇ διελέγξαι δοκοῦμεν οὐκ εὖ παλινῳδήσαντα κἀν τούτοις οὐκ ὀλίγας τῶν ἀνδρῶν τούτων κεκινηκότες δόξας, ὥσπερ κἀν τῇ πρὸς τὸν Ἀμέλιον ἐπιστολῇ, μέγεθος μὲν ἐχούσῃ συγγράμματος, ἀποκρινομένῃ δὲ πρὸς ἄττα τῶν ὑπ’ αὐτοῦ πρὸς ἡμᾶς ἀπὸ τῆς Ῥώμης ἐπεσταλμένων, ἣν αὐτὸς μὲν ἐπιστολὴν περὶ τοῦ τρόπου τῆς Πλωτίνου φιλοσοφίας ἐπέγραψεν, ἡμεῖς δὲ αὐτὸ μόνον προσηρκέσθημεν τῇ κοινῇ τοῦ συγγράμματος ἐπιγραφῇ πρὸς τὴν Ἀμελίου ἐπιστολὴν αὐτὸ προσαγορεύσαντες.’",
+   "flags": [
+    {
+     "taylor": "My own method has been different",
+     "in": "MacKenna",
+     "why": "The Greek says the opposite: \"we have done this already in other writings too\" (ἤδη μὲν οὖν καὶ δι’ ἄλλων τουτὶ πεποιήκαμεν), that is, examined these men's opinions."
+    }
+   ],
+   "notes": [
+    "Basileus of Tyre is Porphyry himself (chapter 17). His recantation is the one told in chapter 18."
+   ]
+  },
+  {
+   "seg": "Life.21.p1",
+   "chapter": "Life.21",
+   "modern": "In these words, then, he granted that Plotinus and Amelius surpassed all of their time by the number of questions they took up, and that they above all used a way of inquiry of their own; that, far from passing off Numenius' doctrines and championing his views, they chose to follow the doctrines of the Pythagoreans, and his own; and that the writings of Numenius, Cronius, Moderatus and Thrasyllus come nowhere near Plotinus' on the same subjects in exactness.",
+   "greek": "ἐν δὴ τούτοις τότε ὡμολόγησε μὲν πάντων τῶν ἐπ’ αὐτοῦ γεγονότων πλήθει τε προβλημάτων διενεγκεῖν Πλωτῖνόν τε καὶ Ἀμέλιον, τρόπῳ δὲ θεωρίας ἰδίῳ μάλιστα τούτους χρήσασθαι, τὰ Νουμηνίου δὲ οὐχ ὅτι ὑποβάλλεσθαι καὶ τἀκείνου πρεσβεύειν δόγματα, ἀλλὰ τὰ τῶν Πυθαγορείων αὐτοῦ τε ἑλομένους μετιέναι δόγματα, καὶ οὐδ’ ἐγγὺς εἶναι τὰ Νουμηνίου καὶ Κρονίου καὶ Μοδεράτου καὶ Θρασύλλου τοῖς Πλωτίνου περὶ τῶν αὐτῶν συγγράμμασιν εἰς ἀκρίβειαν.",
+   "flags": [
+    {
+     "taylor": "followed the Pythagorean and Platonic schools",
+     "in": "MacKenna",
+     "why": "The Greek has \"the doctrines of the Pythagoreans, and his own\" (τὰ τῶν Πυθαγορείων αὐτοῦ τε): \"Platonic\" is MacKenna's, and he leaves out \"his own\"."
+    }
+   ]
+  },
+  {
+   "seg": "Life.21.p2",
+   "chapter": "Life.21",
+   "modern": "And after saying of Amelius that he walked in Plotinus' footsteps, but, lavish in working things out and in the wordiness of his style, was drawn to a zeal opposite to his, he remembered me, Porphyry, who was then still at the start of my time with Plotinus, and said: \"Basileus of Tyre, a companion common to us and to them, has himself composed not a little in imitation of Plotinus\"; truly seeing that I wholly avoided the unphilosophical wordiness of Amelius and looked to Plotinus' manner as my model in writing. So it is enough that so great a man, first in judgement and held so until now, writes such things about Plotinus; and if I, Porphyry, had been able to meet with him when he called me, he would not even have written the reply that he undertook before he had grasped the doctrine exactly.",
+   "greek": "εἰπὼν δὲ περὶ Ἀμελίου, ὅτι κατ’ ἴχνη μὲν τοῦ Πλωτίνου ἐβάδιζε, τῇ δὲ ἐξεργασίᾳ πολὺς ὢν καὶ τῇ τῆς ἑρμηνείας περιβολῇ πρὸς τὸν ἐναντίον ἐκείνῳ ζῆλον ὑπήγετο, ὅμως μνησθεὶς ἐμοῦ Πορφυρίου ἔτι ἀρχὰς ἔχοντος τῆς πρὸς τὸν Πλωτῖνον συνουσίας φησὶν ὅτι ‘ὁ δὲ κοινὸς ἡμῶν τε κἀκείνων ἑταῖρος Βασιλεὺς ὁ Τύριος οὐδ’ αὐτὸς ὀλίγα πεπραγματευμένος κατὰ τὴν Πλωτίνου μίμησιν συνέθηκε’, ταῦτα ὄντως κατιδών, ὅτι τῆς Ἀμελίου περιβολῆς τὸ ἀφιλόσοφον παντελῶς ἐφυλαξάμην καὶ πρὸς ζῆλον τὸν Πλωτίνου γράφων ἀφεώρων. ἀρκεῖ τοίνυν ὁ τοσοῦτος ἀνὴρ καὶ ἐν κρίσει πρῶτος ὢν καὶ ὑπειλημμένος ἄχρι νῦν τοιαῦτα γράφων περὶ Πλωτίνου, ὡς εἰ καὶ καλοῦντί με τὸν Πορφύριον συνέβη δυνηθῆναι συμμῖξαι αὐτῷ, οὐδ’ ἂν ἀντέγραψεν, ἃ πρὶν ἀκριβῶσαι τὸ δόγμα γράψαι ἐπεχείρησεν."
+  },
+  {
+   "seg": "Life.22.p1",
+   "chapter": "Life.22",
+   "modern": "But why should I talk of these things \"about oak or rock\", as Hesiod says? If we are to use the testimony of the wise, who could be wiser than a god? And of the god who said truly: \"I know the number of the sand and the measures of the sea; I understand the dumb, and hear him who does not speak.\" For when Amelius asked where Plotinus' soul had gone, Apollo, who said of Socrates \"Of all men Socrates is wisest\", declared this about Plotinus; hear how much, and what:",
+   "greek": "ἀλλὰ τιή μοι ταῦτα περὶ δρῦν ἢ περὶ πέτραν — φησὶν ὁ Ἡσίοδος — λέγειν; εἰ γὰρ δεῖ ταῖς μαρτυρίαις χρῆσθαι ταῖς παρὰ τῶν σοφῶν γεγενημέναις, τίς ἂν εἴη σοφώτερος θεοῦ; καὶ θεοῦ τοῦ ἀληθῶς εἰρηκότος· οἶδα δ’ ἐγὼ ψάμμου τ’ ἀριθμὸν καὶ μέτρα θαλάσσης καὶ κωφοῦ ξυνίημι καὶ οὐ λαλέοντος ἀκούω. ὁ γὰρ δὴ Ἀπόλλων ἐρομένου τοῦ Ἀμελίου, ποῖ ἡ Πλωτίνου ψυχὴ κεχώρηκεν, ὁ τοσοῦτον εἰπὼν περὶ Σωκράτους· ἀνδρῶν ἁπάντων Σωκράτης σοφώτατος, ἐπάκουσον, ὅσα καὶ οἷα περὶ Πλωτίνου ἐθέσπισεν·",
+   "notes": [
+    "\"About oak or rock\": Hesiod, Theogony 35, a proverb for idle talk. The god's verses are the oracle Apollo gave to Croesus (Herodotus 1.47). The verse on Socrates is the form of the oracle given by Diogenes Laertius (2.37); Plato's Apology (21a) reports it in prose: no one is wiser."
+   ]
+  },
+  {
+   "seg": "Life.22.p2",
+   "chapter": "Life.22",
+   "modern": "\"I begin to strike up on the lyre an immortal hymn of song for a gentle friend, weaving it with the honey-sweetest sounds of the well-tuned lyre under the golden plectrum. I call the Muses too to raise their voice together, with cries of every sound and rushes of every harmony, as they were called to set up a dance for Aeacus' grandson in the immortal frenzies and songs of Homer. Come, holy chorus of the Muses, let us cry out, breathing together to the last end of all song; I, Phoebus of the thick hair, am in your midst.",
+   "greek": "ἄμβροτα φορμίζειν ἀναβάλλομαι ὕμνον ἀοιδῆς ἀμφ’ ἀγανοῖο φίλοιο μελιχροτάτῃσιν ὑφαίνων φωναῖς εὐφήμου κιθάρης χρυσέῳ ὑπὸ πλήκτρῳ. κλήζω καὶ Μούσας ξυνὴν ὄπα γηρύσασθαι παμφώνοις ἰαχῇσι παναρμονίοισί τ’ ἐρωαῖς, οἷον ἐπ’ Αἰακίδῃ στῆσαι χορὸν ἐκλήιχθεν ἀθανάτων μανίῃσιν Ὁμηρείῃσί τ’ ἀοιδαῖς. ἀλλ’ ἄγε Μουσάων ἱερὸς χορός, ἠπύσωμεν εἰς ἓν ἐπιπνείοντες ἀοιδῆς τέρματα πάσης· ὕμμι καὶ ἐν μέσσῃσιν ἐγὼ Φοῖβος βαθυχαίτης·",
+   "flags": [
+    {
+     "taylor": "I Phoebus, Bathychaites, singing in the midst",
+     "in": "MacKenna",
+     "why": "βαθυχαίτης is an epithet, \"thick-haired\" (of deep hair), not a name; and \"singing\" is MacKenna's: the god says only that he is in their midst."
+    }
+   ],
+   "notes": [
+    "Aeacus' grandson (Αἰακίδης, \"of Aeacus' line\") is Achilles: the Muses sang his dirge at his funeral (Odyssey 24.60-62)."
+   ]
+  },
+  {
+   "seg": "Life.22.p3",
+   "chapter": "Life.22",
+   "modern": "\"Daemon, a man before, but now nearer the diviner lot of a daemon, since you loosed the bond of human necessity, and, strong in mind, out of the loud-roaring tumult of the body's limbs you swam hard to the shore of a sea-washed headland, far from the crowd of sinners, to set foot on the easy path of the pure soul, where the light of god shines round, where right is, in the pure place, far from lawless sin. Even then, as you struggled to escape the bitter wave of the blood-fed life and its sickening whirls, in the midst of the surge and the unlooked-for tumult, often the goal appeared to you from the blessed ones, dwelling near. Often, when the throws of your mind were rushing to be carried by their own impulses along crooked paths, the immortals lifted them up into straight courses, to the heavenly circles and the immortal path, granting a thick ray of light for your eyes to see out of the gloomy darkness.",
+   "greek": "δαῖμον, ἄνερ τὸ πάροιθεν, ἀτὰρ νῦν δαίμονος αἴσῃ θειοτέρῃ πελάων, ὅτ’ ἐλύσαο δεσμὸν ἀνάγκης ἀνδρομέης, ῥεθέων δὲ πολυφλοίσβοιο κυδοιμοῦ ῥωσάμενος πραπίδεσσιν ἐς ἠόνα νηχύτου ἀκτῆς νήχε’ ἐπειγόμενος δήμου ἀπονόσφιν ἀλιτρῶν στηρίξαι καθαρῆς ψυχῆς εὐκαμπέα οἴμην, ἧχι θεοῖο σέλας περιλάμπεται, ἧχι θέμιστες ἐν καθαρῷ ἀπάτερθεν ἀλιτροσύνης ἀθεμίστου. καὶ τότε μὲν σκαίροντι πικρὸν κῦμ’ ἐξυπαλύξαι αἱμοβότου βιότοιο καὶ ἀσηρῶν ἰλίγγων ἐν μεσάτοισι κλύδωνος ἀνωίστου τε κυδοιμοῦ πολλάκις ἐκ μακάρων φάνθη σκοπὸς ἐγγύθι ναίων. πολλάκι σεῖο νόοιο βολὰς λοξῇσιν ἀταρποῖς ἱεμένας φορέεσθαι ἐρωῇσιν σφετέρῃσιν ὀρθοπόρους ἀνὰ κύκλα καὶ ἄμβροτον οἶμον ἄειραν ἀθάνατοι θαμινὴν φαέων ἀκτῖνα πορόντες ὄσσοισιν δέρκεσθαι ἀπὸ σκοτίης λυγαίης.",
+   "flags": [
+    {
+     "taylor": "Celestial ! Man at first",
+     "in": "MacKenna",
+     "why": "The Greek δαῖμον is \"daemon\", the first word of the poem's turn: Plotinus, a man before, is now a daemon, which the next line says outright (\"the diviner lot of a daemon\")."
+    }
+   ],
+   "notes": [
+    "The swim to the shore recalls Odysseus' swim through the storm to the Phaeacians' land (Odyssey 5). Plotinus himself, in I.6.8, uses Odysseus' flight home as the image of the soul's return."
+   ]
+  },
+  {
+   "seg": "Life.22.p4",
+   "chapter": "Life.22",
+   "modern": "\"Sweet sleep never wholly held your eyelids; but, scattering from your eyes the heavy blot of mist, carried in the whirls you saw with your eyes many lovely things, which none of the men who have sought wisdom could easily see. But now that you have loosed the tent, and left the tomb of your daemonic soul, you go already to the company of daemons, which breathes with lovely breezes, where there is friendship, and tender longing, delightful to see, full of pure gladness, ever filled with ambrosial streams from the gods, from which come the persuasions of loves, and sweet breath, and windless air; where the brothers Minos and Rhadamanthus dwell, of the golden race of great Zeus, where just Aeacus is, and Plato, holy strength, and fair Pythagoras, and all who set up the dance of immortal love, who were allotted a common birth with the most blessed daemons, where the heart is warmed forever in festivals and joys. O blessed one, after enduring so many contests, you go among the holy daemons, armed with mighty lives. Let us end the song and the well-turning circle of the dance for Plotinus, Muses of many joys; this much my golden lyre has told of the one whose life is blessed.\"",
+   "greek": "οὐδέ σε παμπήδην βλεφάρων ἔχε νήδυμος ὕπνος· ἀλλ’ ἄρ’ ἀπὸ βλεφάρων σκεδάσας κηλῖδα βαρεῖαν ἀχλύος ἐν δίνῃσι φορεύμενος ἔδρακες ὄσσοις πολλά τε καὶ χαρίεντα, τά κεν ῥέα οὔτις ἴδοιτο ἀνθρώπων, ὅσσοι σοφίης μαιήτορες ἔπλευν. νῦν δ’ ὅτε δὴ σκῆνος μὲν ἐλύσαο, σῆμα δ’ ἔλειψας ψυχῆς δαιμονίης, μεθ’ ὁμήγυριν ἔρχεαι ἤδη δαιμονίην ἐρατοῖσιν ἀναπνείουσαν ἀήταις, ἔνθ’ ἔνι μὲν φιλότης, ἔνι δ’ ἵμερος ἁβρὸς ἰδέσθαι, εὐφροσύνης πλείων καθαρῆς, πληρούμενος αἰὲν ἀμβροσίων ὀχετῶν θεόθεν, ὅθεν ἐστὶν ἐρώτων πείσματα, καὶ γλυκερὴ πνοιὴ καὶ νήνεμος αἰθήρ· χρυσείης γενεῆς μεγάλου Διὸς ἧχι νέμονται Μίνως καὶ Ῥαδάμανθυς ἀδελφεοί, ἧχι δίκαιος Αἰακός, ἧχι Πλάτων, ἱερὴ ἴς, ἧχί τε καλός Πυθαγόρης ὅσσοι τε χορὸν στήριξαν ἔρωτος ἀθανάτου, ὅσσοι γενεὴν ξυνὴν ἐλάχοντο δαίμοσιν ὀλβίστοις, ὅθι τοι κέαρ ἐν θαλίῃσιν αἰὲν ἐυφροσύνῃσιν ἰαίνεται. ὦ μάκαρ, ὅσσους ὀτλήσας ἀριθμοὺς ἀέθλων μετὰ δαίμονας ἁγνοὺς πωλέεαι ζαμενέσσι κορυσσάμενος ζωῇσι. στήσωμεν μολπήν τε χοροῦ τ’ εὐδινέα κύκλον Πλωτίνου, Μοῦσαι πολυγηθέες· αὐτὰρ ἐμεῖο χρυσείη κιθάρη τόσσον φράσεν εὐαίωνι.",
+   "flags": [
+    {
+     "taylor": "not granted to all that labour in wisdom's quest",
+     "in": "MacKenna",
+     "why": "The Greek οὔτις is \"no one\": the things Plotinus saw were such as \"none\" of the seekers of wisdom could easily see, not \"not all\"."
+    },
+    {
+     "taylor": "crowned with unfading life",
+     "in": "MacKenna",
+     "why": "The Greek κορυσσάμενος is \"armed\" (helmeted, as a warrior), and ζαμενέσσι ... ζωῇσι \"mighty lives\": nothing is crowned or unfading."
+    }
+   ],
+   "notes": [
+    "\"Tent\" and \"tomb\" for the body: the Phaedo (81c) and the play on σῶμα, body, and σῆμα, tomb, in the Gorgias (493a) and the Cratylus (400c). Minos, Rhadamanthus and Aeacus are the judges of the dead in the Gorgias' myth (523e-524a)."
+   ]
+  },
+  {
+   "seg": "Life.23.p1",
+   "chapter": "Life.23",
+   "modern": "In these verses it is said that he was good, and gentle, and mild above all, and kindly, which we too knew him truly to be; it is said that he was wakeful, and kept his soul pure, and always pressed on towards the divine, which he loved with all his soul, and that he did everything to be set free, \"to escape the bitter wave\" of the \"blood-fed\" life here. So it was above all to this daemonic man, who often lifted himself up in his thoughts to the first god, the god beyond, by the ways Plato lays out in the Symposium, that that god appeared who has neither shape nor any form, but is set above intellect and all the intelligible. I, Porphyry, say that I too once drew near to him and was united with him, in my sixty-eighth year.",
+   "greek": "ἐν δὴ τούτοις εἴρηται μὲν ὅτι ἀγαθὸς γέγονε καὶ ἤπιος καὶ πρᾶός γε μάλιστα καὶ μείλιχος, ἅπερ καὶ ἡμεῖς ὄντως ἔχοντι συνῄδειμεν· εἴρηται δ’ ὅτι ἄγρυπνος καὶ καθαρὰν τὴν ψυχὴν ἔχων καὶ ἀεὶ σπεύδων πρὸς τὸ θεῖον, οὗ διὰ πάσης τῆς ψυχῆς ἤρα, ὅτι τε πάντ’ ἐποίει ἀπαλλαγῆναι [καὶ] πικρὸν κῦμ’ ἐξυπαλύξαι τοῦ αἱμοβότου τῇδε βίου. οὕτως δὲ μάλιστα τούτῳ τῷ δαιμονίῳ φωτὶ πολλάκις ἀνάγοντι ἑαυτὸν εἰς τὸν πρῶτον καὶ ἐπέκεινα θεὸν ταῖς ἐννοίαις καὶ κατὰ τὰς ἐν τῷ Συμποσίῳ ὑφηγημένας ὁδοὺς τῷ Πλάτωνι ἐφάνη ἐκεῖνος ὁ θεὸς ὁ μήτε μορφὴν μήτε τινὰ ἰδέαν ἔχων, ὑπὲρ δὲ νοῦν καὶ πᾶν τὸ νοητὸν ἱδρυμένος. ᾧ δὴ καὶ ἐγὼ Πορφύριος ἅπαξ λέγω πλησιάσαι καὶ ἑνωθῆναι ἔτος ἄγων ἑξηκοστόν τε καὶ ὄγδοον.",
+   "flags": [
+    {
+     "taylor": "that God appeared, the God throned above the Intellectual-Principle",
+     "in": "MacKenna",
+     "why": "MacKenna leaves out that this god has \"neither shape nor any form\" (ὁ μήτε μορφὴν μήτε τινὰ ἰδέαν ἔχων)."
+    }
+   ],
+   "notes": [
+    "Volkmann prints a \"and\" in square brackets, as a word to be cut (\"to be set free [and] to escape\"); it is left out here. The ways of the Symposium are Diotima's ascent from beautiful bodies to beauty itself (210a-212a). The god beyond intellect is Plotinus' One, or Good (VI.9)."
+   ]
+  },
+  {
+   "seg": "Life.23.p2",
+   "chapter": "Life.23",
+   "modern": "\"The goal appeared\" to Plotinus, \"dwelling near\": for his end and goal was to be united with the god who is over all, and to come near him. And he reached this goal four times, I think, while I was with him, by an unspeakable act (and not in potency). And it is said that the gods often set him straight when he was carried aslant, \"granting a thick ray of light\", so that what he wrote was written under their oversight and watching.",
+   "greek": "ἐφάνη γοῦν τῷ Πλωτίνῳ σκοπὸς ἐγγύθι ναίων. τέλος γὰρ αὐτῷ καὶ σκοπὸς ἦν τὸ ἑνωθῆναι καὶ πελάσαι τῷ ἐπὶ πᾶσι θεῷ. ἔτυχε δὲ τετράκις που, ὅτε αὐτῷ συνήμην, τοῦ σκοποῦ τούτου ἐνεργείᾳ ἀρρήτῳ (καὶ οὐ δυνάμει). καὶ ὅτι λοξῶς φερόμενον πολλάκις οἱ θεοὶ κατηύθυναν θαμινὴν φαέων ἀκτῖνα πορόντες, ὡς ἐπισκέψει τῇ παρ’ ἐκείνων καὶ ἐπιβλέψει γραφῆναι τὰ γραφέντα, εἴρηται.",
+   "flags": [
+    {
+     "taylor": "by no mere latent fitness but by the ineffable Act",
+     "in": "MacKenna",
+     "why": "The Greek ἐνεργείᾳ ... καὶ οὐ δυνάμει is Aristotle's pair, \"in act and not in potency\": the union really happened, and was not only possible."
+    }
+   ],
+   "notes": [
+    "Volkmann sets \"and not in potency\" (καὶ οὐ δυνάμει) in round brackets."
+   ]
+  },
+  {
+   "seg": "Life.23.p3",
+   "chapter": "Life.23",
+   "modern": "From his wakeful contemplation, within and without, \"you saw\", it says, \"with your eyes many lovely things\", which none of the men who give themselves to philosophy \"could easily see\". For the contemplation of men may be better than human; but compared with divine knowledge it may be lovely, but not so as to be able to grasp the depth that the gods grasp. So the oracle has made plain what he did while he still wore a body, and what he attained. After he was set free from the body, it says, he came into the company of daemons, where friendship, longing, gladness and love hanging on the god live as citizens; and where those called the judges of souls are stationed, sons of the god, Minos, Rhadamanthus and Aeacus, to whom he has gone not to be judged, but to be with them, as are the others who are pleasing to the gods. These are Plato, Pythagoras, and all others who \"set up the dance of immortal love\"; there the most blessed daemons have their birth, and live a life packed with festivals and joys, and go on in it forever, blessed by the gods.",
+   "greek": "ἐκ δὲ τῆς ἀγρύπνου ἔσωθέν τε καὶ ἔξωθεν θέας ἔδρακες, φησίν, ὄσσοις πολλά τε καὶ χαρίεντα, τά κεν ῥέα οὔτις ἴδοιτο ἀνθρώπων τῶν φιλοσοφίᾳ προσεχόντων. ἡ γὰρ δὴ τῶν ἀνθρώπων θεωρία ἀνθρωπίνης μὲν ἂν γένοιτο ἀμείνων· ὡς δὲ πρὸς τὴν θείαν γνῶσιν χαρίεσσα μὲν ἂν εἴη, οὐ μὴν ὥστε τὸ βάθος ἑλεῖν ἂν δυνηθῆναι, ὅπερ αἱροῦσιν οἱ θεοί. ταῦτα μὲν οὖν ὅτι ἔτι σῶμα περικείμενος ἐνήργει καὶ τίνων ἐτύγχανε δεδήλωκε. μετὰ δὲ τὸ λυθῆναι ἐκ τοῦ σώματος ἐλθεῖν μὲν αὐτόν φησιν εἰς τὴν δαιμονίαν ὁμήγυριν, πολιτεύεσθαι δ’ ἐκεῖ φιλότητα, ἵμερον, εὐφροσύνην, ἔρωτα ἐξημμένον τοῦ θεοῦ, τετάχθαι δὲ καὶ τοὺς λεγομένους δικαστὰς τῶν ψυχῶν, παῖδας τοῦ θεοῦ, Μίνω καὶ Ῥαδάμανθυν καὶ Αἰακόν, πρὸς οὓς οὐ δικασθησόμενον οἴχεσθαι, συνεσόμενον δὲ τούτοις, οἷς καὶ οἱ ἄλλοι θεοῖς ἀρεστοὶ σύνεισιν. [εἰσὶ] δὲ οὗτοι Πλάτων, Πυθαγόρας ὁπόσοι τε ἄλλοι χορὸν στήριξαν ἔρωτος ἀθανάτου· ἐκεῖ δὲ τὴν γένεσιν τοὺς ὀλβίστους δαίμονας ἔχειν βίον τε μετιέναι τὸν ἐν θαλίαις καὶ εὐφροσύναις καταπεπυκνωμένον καὶ τοῦτον διατελεῖν καὶ ὑπὸ θεῶν μακαριζόμενον.",
+   "flags": [
+    {
+     "taylor": "not vouchsafed to all that take the philosophic path",
+     "in": "MacKenna",
+     "why": "As in the oracle, the Greek is \"none\" (οὔτις), not \"not all\"."
+    }
+   ],
+   "notes": [
+    "Volkmann prints \"they are\" (εἰσί) in square brackets, as a word to be cut; English needs it."
+   ]
+  },
+  {
+   "seg": "Life.24.p1",
+   "chapter": "Life.24",
+   "modern": "Such, then, is the life of Plotinus as we have told it. But since he himself entrusted us with the arranging and correcting of his books, and I promised him while he was alive, and announced to the others, that I would do it, first I thought it right not to leave the books in confusion by their dates, as they had been given out. Following Apollodorus of Athens and Andronicus the Peripatetic, of whom the one gathered Epicharmus the comic poet into ten volumes, and the other divided the works of Aristotle and Theophrastus into treatises, bringing related subjects together, so I too, having the fifty-four books of Plotinus, divided them into six Enneads, gladly finding the perfection of the number six and the nines; and to each Ennead I brought together the books that belong together, giving first place to the lighter questions.",
+   "greek": "τοιοῦτος μὲν οὖν ὁ Πλωτίνου ἡμῖν ἱστόρηται βίος. ἐπεὶ δὲ αὐτὸς τὴν διάταξιν καὶ τὴν διόρθωσιν τῶν βιβλίων ποιεῖσθαι ἡμῖν ἐπέτρεψεν, ἐγὼ δὲ κἀκείνῳ ζῶντι ὑπεσχόμην καὶ τοῖς ἄλλοις ἐπηγγειλάμην ποιῆσαι τοῦτο, πρῶτον μὲν τὰ βιβλία οὐ κατὰ χρόνους ἐᾶσαι φύρδην ἐκδεδομένα ἐδικαίωσα, μιμησάμενος δ’ Ἀπολλόδωρον τὸν Ἀθηναῖον καὶ Ἀνδρόνικον τὸν Περιπατητικόν, ὧν ὁ μὲν Ἐπίχαρμον τὸν κωμῳδιογράφον εἰς δέκα τόμους φέρων συνήγαγεν, ὁ δὲ τὰ Ἀριστοτέλους καὶ Θεοφράστου εἰς πραγματείας διεῖλε τὰς οἰκείας ὑποθέσεις εἰς ταὐτὸν συναγαγών· οὕτω δὴ καὶ ἐγὼ πεντήκοντα τέσσαρα ὄντα ἔχων τὰ τοῦ Πλωτίνου βιβλία διεῖλον μὲν εἰς ἓξ ἐννεάδας τῇ τελειότητι τοῦ ἓξ ἀριθμοῦ καὶ ταῖς ἐννεάσιν ἀσμένως ἐπιτυχών, ἑκάστῃ δὲ ἐννεάδι τὰ οἰκεῖα φέρων συνεφόρησα δοὺς καὶ τάξιν πρώτην τοῖς ἐλαφροτέροις προβλήμασιν.",
+   "notes": [
+    "Six is a \"perfect\" number: it is the sum of its parts (1 + 2 + 3). An Ennead is a set of nine. Porphyry's list by date of writing is in chapters 4 to 6."
+   ]
+  },
+  {
+   "seg": "Life.24.p2",
+   "chapter": "Life.24",
+   "modern": "The first Ennead holds these, the more ethical: 1. What is the living being, and what is the human being [I.1]. 2. On virtues [I.2]. 3. On dialectic [I.3]. 4. On happiness [I.4]. 5. Whether happiness grows with time [I.5]. 6. On beauty [I.6]. 7. On the first good and the other goods [I.7]. 8. Where evils come from [I.8]. 9. On the reasonable going out of life [I.9].",
+   "greek": "ἡ μὲν γὰρ πρώτη ἐννεὰς ἔχει τὰ ἠθικώτερα τάδε· τί τὸ ζῷον καὶ τίς ὁ ἄνθρωπος. περὶ ἀρετῶν. περὶ διαλεκτικῆς. περὶ εὐδαιμονίας. εἰ ἐν παρατάσει χρόνου τὸ εὐδαιμονεῖν. περὶ τοῦ καλοῦ. περὶ τοῦ πρώτου ἀγαθοῦ καὶ τῶν ἄλλων ἀγαθῶν. πόθεν τὰ κακά. περὶ τῆς ἐκ τοῦ βίου εὐλόγου ἐξαγωγῆς.",
+   "flags": [
+    {
+     "taylor": "8. On Evil.",
+     "in": "MacKenna",
+     "why": "Porphyry's title is \"Where evils come from\" (πόθεν τὰ κακά)."
+    }
+   ],
+   "notes": [
+    "The numbers and the Ennead places in square brackets here and below are the Workshop's; Porphyry lists the titles only."
+   ]
+  },
+  {
+   "seg": "Life.24.p3",
+   "chapter": "Life.24",
+   "modern": "The first Ennead, then, contains these, taking in the more ethical subjects. The second, gathering the writings on nature, contains those on the cosmos and on what belongs to the cosmos. They are these: 1. On the cosmos [II.1]. 2. On the circular movement [II.2]. 3. Whether the stars act [II.3]. 4. On the two kinds of matter [II.4]. 5. On what is in potency and in act [II.5]. 6. On quality and form [II.6]. 7. On complete blending [II.7]. 8. How things seen far off look small [II.8]. 9. Against those who say that the maker of the cosmos is evil and that the cosmos is evil [II.9].",
+   "greek": "ἡ μὲν οὖν πρώτη ἐννεὰς τάδε περιέχει ἠθικωτέρας ὑποθέσεις περιλαβοῦσα. ἡ δὲ δευτέρα τῶν φυσικῶν συναγωγὴν ἔχουσα τὰ περὶ κόσμου καὶ τὰ τῷ κόσμῳ ἀνήκοντα περιέχει. ἔστι δὲ ταῦτα· περὶ τοῦ κόσμου. περὶ τῆς κυκλοφορίας. εἰ ποιεῖ τὰ ἄστρα. περὶ τῶν δύο ὑλῶν. περὶ τοῦ δυνάμει καὶ ἐνεργείᾳ. περὶ ποιότητος καὶ εἴδους. περὶ τῆς δι’ ὅλων κράσεως. πῶς τὰ πόρρω ὁρώμενα μικρὰ φαίνεται. πρὸς τοὺς κακὸν τὸν δημιουργὸν τοῦ κόσμου καὶ τὸν κόσμον κακὸν εἶναι λέγοντας.",
+   "flags": [
+    {
+     "taylor": "3. On the Stars.",
+     "in": "MacKenna",
+     "why": "Porphyry's title is \"Whether the stars act\" (εἰ ποιεῖ τὰ ἄστρα), the question the treatise asks."
+    }
+   ]
+  },
+  {
+   "seg": "Life.24.p4",
+   "chapter": "Life.24",
+   "modern": "The third Ennead, still holding to the cosmos, has taken in these, on what is studied in the cosmos: 1. On destiny [III.1]. 2. On providence, first [III.2]. 3. On providence, second [III.3]. 4. On the daemon allotted to us [III.4]. 5. On love [III.5]. 6. On the impassibility of the bodiless [III.6]. 7. On eternity and time [III.7]. 8. On nature, contemplation and the One [III.8]. 9. Various considerations [III.9].",
+   "greek": "ἡ δὲ τρίτη ἐννεὰς ἔτι τὰ περὶ κόσμου ἔχουσα περιείληφε τὰ περὶ τῶν κατὰ κόσμον θεωρουμένων ταῦτα· περὶ εἱμαρμένης. περὶ προνοίας πρῶτον. περὶ προνοίας δεύτερον. περὶ τοῦ εἰληχότος ἡμᾶς δαίμονος. περὶ ἔρωτος. περὶ τῆς ἀπαθείας τῶν ἀσωμάτων. περὶ αἰῶνος καὶ χρόνου. περὶ φύσεως καὶ θεωρίας καὶ τοῦ ἑνός. ἐπισκέψεις διάφοροι."
+  },
+  {
+   "seg": "Life.25.p1",
+   "chapter": "Life.25",
+   "modern": "These three Enneads we arranged in one volume. In the third Ennead we also put the book On the daemon allotted to us, because what concerns the daemon is studied in a general way, and the problem is one also for those who look into the births of men. Likewise the discussion of love. The book On eternity and time we put here because of what it says about time; and the book On nature, contemplation and the One is put here because of its main point about nature.",
+   "greek": "ταύτας τὰς τρεῖς ἐννεάδας ἡμεῖς ἐν ἑνὶ σωματίῳ τάξαντες κατεσκευάσαμεν. ἐν δὲ τῇ τρίτῃ ἐννεάδι ἐτάξαμεν καὶ τὸ περὶ τοῦ εἰληχότος ἡμᾶς δαίμονος, ὅτι καθόλου θεωρεῖται τὰ περὶ αὐτοῦ καὶ ἔστι τὸ πρόβλημα καὶ παρὰ τοῖς τὰ κατὰ τὰς γενέσεις τῶν ἀνθρώπων σκεπτομένοις. ὁμοίως δὲ καὶ ὁ περὶ ἔρωτος τόπος. τὸ δὲ περὶ αἰῶνος καὶ χρόνου διὰ τὰ περὶ τοῦ χρόνου ἐνταῦθα ἐτάξαμεν. τὸ δὲ περὶ φύσεως καὶ θεωρίας καὶ τοῦ ἑνὸς διὰ τὸ περὶ φύσεως κεφάλαιον ἐνταῦθα τέτακται.",
+   "flags": [
+    {
+     "taylor": "the class dealing with the origin of man",
+     "in": "MacKenna",
+     "why": "The Greek says the problem of the daemon is studied \"in general\" (καθόλου) and is one also \"for those who look into the births of men\" (τοῖς τὰ κατὰ τὰς γενέσεις τῶν ἀνθρώπων σκεπτομένοις), the casters of nativities; MacKenna has \"not discussed as it is in itself\" and \"the origin of man\"."
+    }
+   ]
+  },
+  {
+   "seg": "Life.25.p2",
+   "chapter": "Life.25",
+   "modern": "The fourth Ennead, after those on the cosmos, has been allotted the writings on soul. It has these: 1. On the being of the soul, first [IV.1]. 2. On the being of the soul, second [IV.2]. 3. On difficulties about the soul, first [IV.3]. 4. On difficulties about the soul, second [IV.4]. 5. On difficulties about the soul, third, or On sight [IV.5]. 6. On perception and memory [IV.6]. 7. On the immortality of the soul [IV.7]. 8. On the descent of the soul into bodies [IV.8]. 9. Whether all souls are one [IV.9].",
+   "greek": "ἡ δὲ τετάρτη ἐννεὰς μετὰ τὰ περὶ κόσμου τὰ περὶ ψυχῆς εἴληχε συγγράμματα. ἔχει δὲ τάδε· περὶ οὐσίας ψυχῆς πρῶτον. περὶ οὐσίας ψυχῆς δεύτερον. περὶ ψυχῆς ἀποριῶν πρῶτον. περὶ ψυχῆς ἀποριῶν δεύτερον. περὶ ψυχῆς ἀποριῶν τρίτον ἢ περὶ ὄψεως. περὶ αἰσθήσεως καὶ μνήμης. περὶ ἀθανασίας ψυχῆς. περὶ τῆς εἰς τὰ σώματα καθόδου τῆς ψυχῆς. εἰ πᾶσαι αἱ ψυχαὶ μία.",
+   "notes": [
+    "The Workshop numbers IV.1 and IV.2 as First1KGreek's text does: IV.1 is the short book that begins \"In the intelligible world\", IV.2 the longer (the fourth by date). See the note on chapter 4."
+   ]
+  },
+  {
+   "seg": "Life.25.p3",
+   "chapter": "Life.25",
+   "modern": "The fourth Ennead, then, has taken all the subjects on soul itself. The fifth has those on intellect, but each of its books contains also something on what is beyond, on the intellect in the soul, and on the forms. They are these: 1. On the three first hypostases [V.1]. 2. On the coming to be and order of what comes after the first [V.2]. 3. On the knowing hypostases and what is beyond [V.3]. 4. How what comes after the first comes from the first, and on the One [V.4]. 5. That the intelligibles are not outside intellect, and on the Good [V.5]. 6. That what is beyond being does not think, and what thinks first and what thinks second [V.6]. 7. Whether there are forms of individuals too [V.7]. 8. On intelligible beauty [V.8]. 9. On intellect, the forms and being [V.9].",
+   "greek": "ἡ μὲν οὖν τετάρτη ἐννεὰς τὰς περὶ ψυχῆς αὐτῆς ὑποθέσεις ἔσχε πάσας. ἡ δὲ πέμπτη ἔχει μὲν τὰς περὶ νοῦ, περιέχει δὲ ἕκαστον τῶν βιβλίων ἔν τισι καὶ περὶ τοῦ ἐπέκεινα καὶ περὶ τοῦ ἐν ψυχῇ νοῦ καὶ περὶ τῶν ἰδεῶν. ἔστι δὲ τάδε· περὶ τῶν τριῶν ἀρχικῶν ὑποστάσεων. περὶ γενέσεως καὶ τάξεως τῶν μετὰ τὸ πρῶτον. περὶ τῶν γνωριστικῶν ὑποστάσεων καὶ τοῦ ἐπέκεινα. πῶς ἀπὸ τοῦ πρώτου τὸ μετὰ τὸ πρῶτον καὶ περὶ τοῦ ἑνός. ὅτι οὐκ ἔξω τοῦ νοῦ τὰ νοητὰ καὶ περὶ τἀγαθοῦ. περὶ τοῦ τὸ ἐπέκεινα τοῦ ὄντος μὴ νοεῖν· καὶ τί τὸ πρώτως νοοῦν καὶ τί τὸ δευτέρως. περὶ τοῦ εἰ καὶ τῶν καθ’ ἕκαστα ἔστιν εἴδη. περὶ τοῦ νοητοῦ κάλλους. περὶ νοῦ καὶ τῶν ἰδεῶν καὶ τοῦ ὄντος."
+  },
+  {
+   "seg": "Life.26.p1",
+   "chapter": "Life.26",
+   "modern": "The fourth and fifth Enneads, then, we arranged in one volume. The remaining sixth Ennead we put in one more volume, so that all of Plotinus' writings are in three volumes, of which the first has three Enneads, the second two, and the third one. The books of the third volume, the sixth Ennead, are these: 1. On the kinds of being, first [VI.1]. 2. On the kinds of being, second [VI.2]. 3. On the kinds of being, third [VI.3]. 4. That being, one and the same, is everywhere whole at once, first [VI.4]. 5. That being, one and the same, is everywhere whole at once, second [VI.5]. 6. On numbers [VI.6]. 7. How the multitude of the forms came to be, and on the Good [VI.7]. 8. On the voluntary and the will of the One [VI.8]. 9. On the Good, or the One [VI.9].",
+   "greek": "καὶ τὴν τετάρτην οὖν καὶ τὴν πέμπτην ἐννεάδα εἰς ἓν σωμάτιον κατετάξαμεν. λοιπὴν δὲ τὴν ἕκτην ἐννεάδα εἰς ἓν ἄλλο σωμάτιον, ὡς διὰ τριῶν σωματίων γεγράφθαι τὰ Πλωτίνου πάντα, ὧν τὸ μὲν πρῶτον σωμάτιον ἔχει τρεῖς ἐννεάδας, τὸ δὲ δεύτερον δύο, τὸ δὲ τρίτον μίαν. ἔστι δὲ τὰ τοῦ τρίτου σωματίου, ἐννεάδος δὲ ἕκτης, ταῦτα· περὶ τῶν γενῶν τοῦ ὄντος πρῶτον. περὶ τῶν γενῶν τοῦ ὄντος δεύτερον. περὶ τῶν γενῶν τοῦ ὄντος τρίτον. περὶ τοῦ τὸ ὂν ἓν καὶ ταὐτὸ ὂν ἅμα πανταχοῦ εἶναι ὅλον πρῶτον. περὶ τοῦ τὸ ὂν ἓν καὶ ταὐτὸ ὂν ἅμα πανταχοῦ εἶναι ὅλον δεύτερον. περὶ ἀριθμῶν. πῶς τὸ πλῆθος τῶν ἰδεῶν ὑπέστη καὶ περὶ τἀγαθοῦ. περὶ τοῦ ἑκουσίου καὶ θελήματος τοῦ ἑνός. περὶ τἀγαθοῦ ἢ τοῦ ἑνός.",
+   "notes": [
+    "\"The kinds of being\" recalls the \"greatest kinds\" of Plato's Sophist (254b-255e): being, rest, motion, sameness and difference."
+   ]
+  },
+  {
+   "seg": "Life.26.p2",
+   "chapter": "Life.26",
+   "modern": "So we arranged the books, fifty-four in all, into six Enneads in this way. We have also set down commentaries on some of them, not in order, because companions pressed us to write on points they wanted made clear. And we have made the headings of all of them too, except On beauty, which we did not have, following the edition of the books by date; and in this not only are the headings of each book set out, but also arguments, which are counted as headings. Now we shall try to go through each of the books, add the punctuation, and correct any mistake in the wording; and whatever else may move us, the work itself will show.",
+   "greek": "τὰ μὲν οὖν βιβλία εἰς ἓξ ἐννεάδας τοῦτον τὸν τρόπον κατετάξαμεν τέσσαρα καὶ πεντήκοντα ὄντα· καταβεβλήμεθα δὲ καὶ εἴς τινα αὐτῶν ὑπομνήματα ἀτάκτως διὰ τοὺς ἐπείξαντας ἡμᾶς ἑταίρους γράφειν εἰς ἅπερ αὐτοὶ τὴν σαφήνειαν αὐτοῖς γενέσθαι ἠξίουν. ἀλλὰ μὴν καὶ τὰ κεφάλαια τῶν πάντων πλὴν τοῦ περὶ τοῦ καλοῦ διὰ τὸ λεῖψαι ἡμῖν πεποιήμεθα κατὰ τὴν χρονικὴν ἔκδοσιν τῶν βιβλίων· ἀλλ’ ἐν τούτῳ οὐ τὰ κεφάλαια μόνον καθ’ ἕκαστον ἔκκειται τῶν βιβλίων, ἀλλὰ καὶ ἐπιχειρήματα, ἃ ὡς κεφάλαια συναριθμεῖται. νυνὶ δὲ πειρασόμεθα ἕκαστον τῶν βιβλίων διερχόμενοι τάς τε στιγμὰς αὐτῷ προσθεῖναι καὶ εἴ τι ἡμαρτημένον εἴη κατὰ λέξιν διορθοῦν· καὶ ὅ τι ἂν ἡμᾶς ἄλλο κινήσῃ, αὐτὸ σημανεῖ τὸ ἔργον.",
+   "flags": [
+    {
+     "taylor": "will be found Developments",
+     "in": "MacKenna",
+     "why": "The Greek ἐπιχειρήματα are \"arguments\" (Porphyry's outlines of the reasoning), not developments."
+    }
    ]
   },
   {
