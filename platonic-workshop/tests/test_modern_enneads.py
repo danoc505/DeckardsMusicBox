@@ -391,7 +391,7 @@ class Files(unittest.TestCase):
 
     def test_milestone_e11_on_providence_first_part(self):
         d = load()
-        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][14:], ["III.1", "III.2"])
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][14:16], ["III.1", "III.2"])
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "III.2"], [f"III.2.{k}" for k in range(1, 19)])
         ch = {c["id"]: c for c in d["chapters"]}
         # MacKenna's chapters of III.2 are Volkmann's (vol. II, pp. 11-35).
@@ -415,6 +415,43 @@ class Files(unittest.TestCase):
         notes = " ".join(n for p in d["paragraphs"] if p["chapter"].startswith("III.2.") for n in p.get("notes", []))
         for place in ("Timaeus 47e-48a", "Republic X 617e", "Theaetetus 176a", "Laws IX 872d-873a", "Phaedrus 248c",
                       "Laws I 626a", "Laws VII 803c-804b", "fr. B51", "Iliad XVIII.417-420"):
+            self.assertIn(place, notes)
+
+    def test_milestone_e12_on_providence_second_part_and_the_daemon(self):
+        d = load()
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][15:], ["III.2", "III.3", "III.4"])
+        self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "III.3"], [f"III.3.{k}" for k in range(1, 8)])
+        self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "III.4"], [f"III.4.{k}" for k in range(1, 7)])
+        ch = {c["id"]: c for c in d["chapters"]}
+        # The scan's OCR lost MacKenna's numbers 5 to 7 of III.3, so his chapter 4 (p. 39) holds the Greek's 4 to 7.
+        self.assertEqual([(o["n"], o["year"], o["page"]) for o in ch["III.3.1"]["older"]], [(1, 1921, 36)])
+        self.assertEqual([[o["n"] for o in ch[f"III.3.{k}"]["older"]] for k in range(4, 8)], [[4], [4], [4], [4]])
+        # His six chapters of III.4 are Volkmann's (pp. 46-50).
+        self.assertEqual([(o["n"], o["page"]) for o in ch["III.4.1"]["older"]], [(1, 46)])
+        self.assertEqual([(o["n"], o["page"]) for o in ch["III.4.6"]["older"]], [(6, 50)])
+        para = {p["seg"]: p for p in d["paragraphs"]}
+        self.assertTrue(para["III.3.1.p1"]["greek"].startswith("Τί τοίνυν δοκεῖ περὶ τούτων"))
+        self.assertTrue(para["III.3.7.p3"]["greek"].endswith("ἐκ τῶν αὐτῶν ὁρμηθέντες πεποιηκότων."))
+        self.assertTrue(para["III.4.1.p1"]["greek"].startswith("Τῶν μὲν αἱ ὑποστάσεις"))
+        self.assertTrue(para["III.4.6.p5"]["greek"].endswith("τοιοῦτον γὰρ ἡ εἱμαρμένη."))
+        self.assertIn("not an episode added to the All", para["III.3.3.p1"]["modern"])
+        self.assertIn("destiny begins from the worse", para["III.3.5.p2"]["modern"])
+        self.assertIn("each of us is an intelligible world", para["III.4.3.p3"]["modern"])
+        self.assertIn("For such is destiny.", para["III.4.6.p5"]["modern"])
+        flags = {s: p.get("flags", []) for s, p in para.items()}
+        # MacKenna has the higher "dependent upon the World of Sense" where it is not cut off from the lower; "Universal
+        # interdependence, there could not be" where all things must not be cut off; "spirit" for the daemon; the spirit
+        # paying the penalty where the man does; "the Divine Intellect" for the intelligible; "sample lives" for patterns.
+        self.assertTrue(any("not cut off" in f["why"] for f in flags["III.3.4.p1"]))
+        self.assertTrue(any("cut off from one another" in f["why"] for f in flags["III.3.6.p4"]))
+        self.assertTrue(any("daemon" in f["why"] for f in flags["III.4.3.p1"]))
+        self.assertTrue(any("not the daemon that is punished" in f["why"] for f in flags["III.4.3.p2"]))
+        self.assertTrue(any("intelligible world" in f["why"] for f in flags["III.4.3.p3"]))
+        self.assertTrue(any("patterns of lives" in f["why"] for f in flags["III.4.5.p2"]))
+        self.assertGreaterEqual(sum(len(flags[s]) for s in flags if s.startswith(("III.3.", "III.4."))), 45)
+        notes = " ".join(n for p in d["paragraphs"] if p["chapter"].startswith(("III.3.", "III.4.")) for n in p.get("notes", []))
+        for place in ("Poetics 9", "Metaphysics XII.10", "Iliad III.230-233", "Timaeus 31c-32a", "Phaedrus 246b",
+                      "Phaedo 81e-82b", "Phaedo 107d", "Republic X 617e", "Timaeus 90a", "Republic X 616c-617d"):
             self.assertIn(place, notes)
 
     def test_the_life_greek_is_proofread(self):

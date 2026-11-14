@@ -188,9 +188,22 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   (Gellius VII.1) and on bugs (Plutarch 1044d), Laws IX 872d-873a (the mother-killer born a woman), Adrasteia (Phaedrus
   248c), the undeclared war (Laws I 626a), the plaything of god (Laws VII 803c-804b), Heraclitus fr. B8 and B51, and
   Hephaestus' living statues (Iliad XVIII.417-420).
-- E12: III.3 On providence, second part, III.4 On the daemon allotted to us (4,044). Next. Compare MacKenna's chapter
-  openings with the Greek before translating.
-- E13: III.5 On love (3,531).
+- **E12: III.3 On providence, second part, III.4 On the daemon allotted to us (4,044) (done).** 13 chapters (7 and 6),
+  43 paragraphs, 55 flags, 24 notes, beside MacKenna's vol. II (pp. 36-52). The scan's OCR lost his chapter numbers 5 and
+  6 of III.3 and ran 7 into the text, so his chapter 4 (p. 39) holds the Greek's 4 to 7 (@older 4); his III.4 is
+  Volkmann's. E.g. MacKenna has the higher world "cannot be dependent upon the World of Sense" where the Greek says it is
+  not cut off from it, "Universal interdependence, there could not be" where all things must not be cut off from one
+  another, "Correspondences" for proportion, "virtue with right action" for virtue and justice, "the scriptures of Nature"
+  for natural letters, the debt "the heavier" where the giver is the more to be welcomed, "drive him down the troubled
+  paths" for muddy water, "god-serving" for dear to god, "spirit" for the daemon throughout, "takes possession of the
+  human being at birth" for the Phaedo's allotted while living, "the spirit of the previous life pays the penalty" where
+  the man does, "the Divine Intellect" for the intelligible, "forms varying with the variety of place" for different
+  times, "sample lives" for the Republic's patterns of lives, and "Man cannot cease to be characteristically Man" where
+  the part cannot become other than it is. Notes on the episodic plot (Poetics 9), the general (Metaphysics XII.10),
+  Helen and Idomeneus (Iliad III.230-233), proportion as bond (Timaeus 31c-32a), the stars as letters (II.3.7), Phaedrus
+  246b, the lives of beasts (Phaedo 81e-82b, Republic X 620a-b, Timaeus 91d-e), the daemon (Phaedo 107d, Republic X
+  617e, 620d-e, Timaeus 90a), the stars of souls (Timaeus 41d-42b) and the spindle (Republic X 616c-617d).
+- E13: III.5 On love (3,531). Next. Compare MacKenna's chapter openings with the Greek before translating.
 - E14: III.8 On nature, contemplation and the One, III.9 Various considerations (5,035).
 - E15: IV.1 On the being of the soul, first part, and IV.4 chapters 1-17 (about 5,000); MacKenna's vol. III (1924).
 - E16: IV.4 chapters 18-31 (about 4,700).
