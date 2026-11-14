@@ -302,7 +302,7 @@ class Files(unittest.TestCase):
 
     def test_milestone_e8_whether_the_stars_are_causes(self):
         d = load()
-        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][7:], ["II.1", "II.2", "II.3"])
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][7:10], ["II.1", "II.2", "II.3"])
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "II.3"], [f"II.3.{n}" for n in range(1, 19)])
         ch = {c["id"]: c for c in d["chapters"]}
         # MacKenna's vol. II beside it, his eighteen chapters Volkmann's.
@@ -327,6 +327,38 @@ class Files(unittest.TestCase):
         notes = " ".join(n for p in d["paragraphs"] if p["chapter"].startswith("II.3.") for n in p.get("notes", []))
         for place in ("Republic X, 616c-617d", "Timaeus (41c-d, 42a)", "Phaedrus (246e-247a)", "Physics (II.2, 194b13)",
                       "Menexenus (246e-247a)", "Tetrabiblos III.10", "On nourishment (23)"):
+            self.assertIn(place, notes)
+
+    def test_milestone_e9_potential_quality_blending_and_sight(self):
+        d = load()
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][9:], ["II.3", "II.5", "II.6", "II.7", "II.8"])
+        for t, n in (("II.5", 5), ("II.6", 3), ("II.7", 3), ("II.8", 2)):
+            self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == t], [f"{t}.{k}" for k in range(1, n + 1)])
+        ch = {c["id"]: c for c in d["chapters"]}
+        # MacKenna's vol. II beside them, his chapters Volkmann's.
+        self.assertEqual([(o["n"], o["year"], o["page"]) for o in ch["II.5.1"]["older"]], [(1, 1921, 196)])
+        self.assertEqual([(o["n"], o["page"]) for o in ch["II.8.2"]["older"]], [(2, 214)])
+        para = {p["seg"]: p for p in d["paragraphs"]}
+        self.assertTrue(para["II.5.1.p1"]["greek"].startswith("Λέγεται τὸ μὲν δυνάμει"))
+        self.assertIn("courage and acting bravely", para["II.5.2.p2"]["modern"])
+        self.assertTrue(para["II.6.1.p1"]["modern"].startswith("Is being different from substance?"))
+        self.assertIn("a trace only, a shadow and an image", para["II.6.3.p1"]["modern"])
+        self.assertTrue(para["II.7.3.p1"]["greek"].endswith("ἀλλὰ ταῦτα ἄλλοθι."))
+        self.assertTrue(para["II.8.2.p1"]["greek"].endswith("πῶς ἂν ἐλάττωσιν γωνίας αἰτιῷτο;"))
+        flags = {s: p.get("flags", []) for s, p in para.items()}
+        # MacKenna has matter unable to annex "a visible outline" where the Greek says it cannot even be coloured; a
+        # "temperament" for Aristotle's settled state; "lighting" for whitening; "matter" received where the Greek has
+        # body give and take; "salience and recession" for sight going over the parts.
+        self.assertTrue(any("coloured" in f["why"] for f in flags["II.5.5.p1"]))
+        self.assertTrue(any("settled state" in f["why"] for f in flags["II.5.2.p2"]))
+        self.assertTrue(any("whitening" in f["why"] for f in flags["II.6.2.p2"]))
+        self.assertTrue(any("not matter received" in f["why"] for f in flags["II.7.2.p2"]))
+        self.assertTrue(any("going through it" in f["why"] for f in flags["II.8.1.p1"]))
+        self.assertGreaterEqual(sum(len(flags[s]) for s in flags if s.startswith(("II.5.", "II.6.", "II.7.", "II.8."))), 35)
+        notes = " ".join(n for p in d["paragraphs"] if p["chapter"].startswith(("II.5.", "II.6.", "II.7.", "II.8."))
+                         for n in p.get("notes", []))
+        for place in ("Timaeus (58d-59c)", "Metaphysics XII.7, 1072b26-30", "Sophist (254b-255e)", "Categories 8, 8b26-9a13",
+                      "Diogenes Laertius VII.151", "On Generation and Corruption I.10, 328a23-28", "Euclid's Optics"):
             self.assertIn(place, notes)
 
     def test_the_life_greek_is_proofread(self):

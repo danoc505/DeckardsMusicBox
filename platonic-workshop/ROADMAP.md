@@ -148,9 +148,20 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   Menexenus (246e-247a), the Hippocratic On nourishment (23), Aristotle's Physics (194b13) and Metaphysics (1072b14), Homer
   (Iliad 5.302-304, 8.556; Odyssey 8.266-366) and Chrysippus' bedbugs (Plutarch, Stoic self-contradictions 1044d). The
   Workshop's Greek of II.3.18 has a damaged word ("δἑ??ʼ" for δεῖ), noted on its paragraph.
-- E9: II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On
-  sight (4,430). Next. MacKenna's chapters are Volkmann's (5, 3, 3, 2; vol. II pp. 196-213).
-- E10: III.1 On destiny (2,648).
+- **E9: II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On
+  sight (4,430) (done).** 13 chapters (5, 3, 3, 2), 29 paragraphs, 39 flags, 22 notes, beside MacKenna's vol. II (pp. 196-214),
+  whose chapters are Volkmann's. E.g. MacKenna has matter unable to annex "a visible outline" where the Greek says it cannot
+  even be coloured, matter "remoter (from Real-Being)" where it settles last, "the unchanging substratum" for matter kept
+  indestructible, "a temperament" for Aristotle's settled state (ἕξις), the power acting "by virtue of Actuality (the
+  abstract)" where it acts from itself, "a capacity for education" for the grammarian, "Reality" for substance (οὐσία) and a
+  certain "diminution" where the Greek says "perhaps", "lighting" for whitening, "receive matter" where body gives and takes,
+  "how we came to say" for the opponents' claim, "that other Principle in man" for the principle in intellect, and "salience
+  and recession" for sight going over the parts. Hard place flagged: taste's strength "by accident" (II.8.1). Notes on
+  Aristotle's potency and act (Metaphysics IX, XII.7, XII.9; On the Soul II.5-6; Physics VIII.4; Nicomachean Ethics II.1;
+  Categories 8), the fifth body, the Timaeus' metals as water (58d-59c) and visual ray (45b-d), the Sophist's greatest kinds
+  (254b-255e) and non-being (257b, 258b), the Stoics' complete blending (Diogenes Laertius VII.151; Plutarch 1078e),
+  Aristotle's drop of wine (On Generation and Corruption I.10, 328a23-28), Alexander's On mixture, and Euclid's Optics.
+- E10: III.1 On destiny (2,648). Next.
 - E11: III.2 On providence, first part (6,582).
 - E12: III.3 On providence, second part, III.4 On the daemon allotted to us (4,044).
 - E13: III.5 On love (3,531).

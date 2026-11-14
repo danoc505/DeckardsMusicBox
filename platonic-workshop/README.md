@@ -469,6 +469,12 @@ paragraphs, 31 and 3 flags, among them his "First Act" given to the Good where t
 Greek chapter with `@older`. The notes give the Theaetetus' flight (176a-b), the Second Letter's king of all (312e), the
 Statesman's place of unlikeness (273d), the Republic's sleep in Hades (534c-d), the Phaedo's guard post (61c-62c), and
 Sophocles' holy grove (Oedipus at Colonus 54).
+**II.5 to II.8** (E9), On what is potential and what is actual, On substance or quality, On complete blending and On sight,
+beside MacKenna's vol. II: 13 chapters, 29 paragraphs, 39 flags, among them his matter unable to annex "a visible outline"
+where the Greek says it cannot even be coloured, "a temperament" for Aristotle's settled state, "lighting" for whitening,
+matter received where body gives and takes, and "salience and recession" for sight going over the parts; the notes give
+Aristotle's potency and act, the fifth body, the Sophist's greatest kinds, the Stoics' complete blending and Aristotle's drop
+of wine, and Euclid's angle of sight.
 **II.3, Whether the stars are causes** (E8), beside MacKenna's vol. II: 18 chapters, 46 paragraphs, 47 flags, among them his
 cold star opposed "to the cold" where the Greek says to the hot, "virtue the unconquerable" for Plato's virtue with no master
 (Republic 617e), a "mighty spirit" for the Symposium's great daemon, the star's will "transmitted" through the body where the
@@ -516,7 +522,7 @@ hyphened terms such as "Sense-Perception" kept; not proofread). The master copy 
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: II.5, II.6, II.7 and II.8 (E9).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: III.1 On destiny (E10).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,
