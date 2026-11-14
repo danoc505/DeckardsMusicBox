@@ -112,26 +112,26 @@
   {
    "id": "II.5",
    "title": "On what is potential and what is actual",
-   "status": "to come",
-   "milestone": "E9"
+   "status": "here",
+   "first": "II.5.1"
   },
   {
    "id": "II.6",
    "title": "On substance, or on quality",
-   "status": "to come",
-   "milestone": "E9"
+   "status": "here",
+   "first": "II.6.1"
   },
   {
    "id": "II.7",
    "title": "On complete blending",
-   "status": "to come",
-   "milestone": "E9"
+   "status": "here",
+   "first": "II.7.1"
   },
   {
    "id": "II.8",
    "title": "On sight, or why distant things look small",
-   "status": "to come",
-   "milestone": "E9"
+   "status": "here",
+   "first": "II.8.1"
   },
   {
    "id": "II.9",
@@ -542,6 +542,47 @@
     "II.3.16",
     "II.3.17",
     "II.3.18"
+   ]
+  },
+  {
+   "id": "II.5",
+   "title": "On what is potential and what is actual",
+   "summary": "Things are said to be potentially and actually, and there is also activity among the things that are. What is potential is always potentially something else, as bronze is potentially a statue; it is clearer to set the potential against the actual, and power against activity. Where matter takes a form, what is actual is the compound, and the form is the activity of this thing. In the intelligible world nothing waits for a future: everything there is actual, and is also activity and life. Matter alone is only potential: none of the beings, not even an image of a forming principle, actually a phantom and a falsehood, truly non-being; to make it actual would destroy it, so it must be kept potential if it is to last.",
+   "chapters": [
+    "II.5.1",
+    "II.5.2",
+    "II.5.3",
+    "II.5.4",
+    "II.5.5"
+   ]
+  },
+  {
+   "id": "II.6",
+   "title": "On substance, or on quality",
+   "summary": "Is being different from substance, substance being being together with motion, rest, sameness and difference? In the intelligible world all is substance, because all are one; here the images are divided, as the parts of a body are one in the seed and apart in the grown living thing. Some qualities seem to complete a substance, as white completes white lead and heat fire, and others are only added, as white is in a man. Plotinus answers that what completes a substance is not a quality at all but its activity or form, coming from its forming principles; quality is a disposition added to a substance already there, a trace, a shadow and an image of an activity that has left its substance behind. Nothing is both quality and not: what is cut off from substance is quality, what is with it is form or activity.",
+   "chapters": [
+    "II.6.1",
+    "II.6.2",
+    "II.6.3"
+   ]
+  },
+  {
+   "id": "II.7",
+   "title": "On complete blending",
+   "summary": "Can two bodies, two liquids above all, be blended whole through whole, as the Stoics held? Some say the bodies only lie side by side, their matter apart, while their qualities mix: a blend through and through would cut the bodies into nothing, and the blend takes more room than either. Their opponents answer with sweat, with liquids soaking thin solids, and with the small quantity spread through the great. Plotinus' own view starts from water soaking wool and papyrus: the water's matter goes everywhere with its quality, and its size is added, not lost, as a quality is dimmed. Matter is bodiless, like the qualities; what stops bodies passing through one another is a quality, density. Last, corporeity is a forming principle which, coming to be in matter, makes a body.",
+   "chapters": [
+    "II.7.1",
+    "II.7.2",
+    "II.7.3"
+   ]
+  },
+  {
+   "id": "II.8",
+   "title": "On sight, or why distant things look small",
+   "summary": "Why do distant things look smaller, and close together? Perhaps because the light is drawn together to the size of the pupil, and the form arrives without its size; or because we know a size by going through it part by part; or because we see colour first and size only by accident, so that as colours come faint, sizes come small, as sounds do. It is plainest with varied things, mountains with houses and trees: where the forms of the parts do not reach us, sight cannot measure the whole; and things of one colour deceive too. The usual answer, the smaller angle of sight, fails: a mountain may fill the whole sight and still look smaller, and so does the sky.",
+   "chapters": [
+    "II.8.1",
+    "II.8.2"
    ]
   }
  ],
@@ -2787,6 +2828,227 @@
      "page": 177,
      "year": 1921,
      "text": "Are the evils in the Universe necessary because it is of later origin than the Higher Sphere ?\n\nPerhaps rather because without evil the All would be incomplete. For most or even all forms of evil serve the Universe — much as the poisonous snake has its use — though in most cases their function is unknown. Vice itself has many useful sides : it brings about much that is beautiful, in artistic creations for example, and it stirs us to thoughtful living, not allowing us to drowse in security.\n\nIf all this is so, then (the secret of creation is that) the Soul of the All abides in contemplation of the Highest and Best, ceaselessly striving towards the Intelligible Kind and towards God : but, thus absorbing and filled full, it overflows — so to speak — and the image it gives forth, its last utterance towards the lower, will be the creative puissance.\n\nThis ultimate phase, then, is the Maker, secondary to that aspect of the Soul which is primarily saturated from the Divine Intelligence. But the Creator above all is the Intellectual-Principle, as giver, to the Soul that follows it, of those gifts whose traces exist in the Third Kind.\n\nRightly, therefore, is this Kosmos described as an image continuously being imaged, the First and the Second Principles immobile, the Third, too, immobile essentially, but, accidentally and in Matter, having motion.\n\nFor as long as divine Mind and Soul exist, the divine Thought-Forms will pour forth into that phase of the Soul : as long as there is a sun all that streams from it will be some form of Light.\n\n2 A"
+    }
+   ]
+  },
+  {
+   "id": "II.5.1",
+   "treatise": "II.5",
+   "title": "What \"potentially\" means",
+   "summary": "Is being actual the same as being an activity? Is the potential in the intelligible world too? First, what is potential is always potentially something: bronze is potentially a statue, being already bronze; and it either stays itself while the other comes to be, or gives itself up and perishes, as water becomes bronze and air fire. It is clearer to set the potential against the actual, and power against activity. What is potential is like a substrate for the forms it is going to receive.",
+   "greek_unit": "2.5.1",
+   "greek_part": 13,
+   "older": [
+    {
+     "n": 1,
+     "label": "II.5, chapter 1",
+     "page": 196,
+     "year": 1921,
+     "text": "A distinction is made between things existing actually and things existing potentially ; a certain Actuality, also, is spoken of as a really existent entity. We must consider what content there is in these terms.\n\nCan we distinguish between Actuality (an absolute, abstract Principle) and the state of being-in-act ? And if there is such an Actuality, is this itself in Act, or are the two quite distinct so that this actually existent thing need not be, itself, an Act ?\n\nIt is indubitable that Potentiality exists in the Realm of Sense: but does the Intellectual Realm similarly include the potential or only the actual ? and if the potential exists there, does it remain merely potential for ever ? And, if so, is this resistance to actualisation due to its being precluded (as a member of the Divine or Intellectual world) from time-processes ?\n\nFirst we must make clear what potentiality is.\n\nWe cannot think of potentiality as standing by itself ; there can be no potentiality apart from something which a given thing may be or become. Thus bronze is the potentiality of a statue : but if nothing could be made out of the bronze, nothing wrought upon it, if it could never be anything as a future to what it has been, if it rejected all change, it would be bronze and nothing else : its own character it holds already as a present thing, • and that would be the full of its capacity : it would be destitute of potentiality. Whatsoever has a potentiality must first have a (definite) character of its own ; and its potentiality will consist in its having a reach beyond that character to some other.\n\nSometimes after it has turned its potentiality into actuality it will remain what it was ; sometimes it will sink itself to the fullest extent in the new form and itself disappear : these two different modes are exemplified in (1) bronze as potentially a statue and (2) water (= primalliquid) as potentially bronze or, again, air as potentially fire.\n\nBut if this be the significance of potentiality, may we describe it as a Power towards the thing that is to be ? Is the Bronze a power towards a statue ?\n\nNot in the sense of an effectively productive force : such a power could not be called a potentiality. Of course Potentiality may be a power, as, for instance, when we are referring not merely to a thing which may be brought into actualisation but to Actuality itself (the Principle or Abstract in which potentiality and the power of realising potentiality may be thought of as identical) : but it is better, as more conducive to clarity, to use \" Potentiality \" in regard to the process of Actualisation and \" Power \" in regard to the Principle, Actuality.\n\nPotentiality may be thought of as a Substratum to states and shapes and forms which are to be received, which it welcomes by its nature and even strives for — sometimes in gain but sometimes, also, to loss, to the annulling of some distinctive manner of Being already actually achieved."
+    }
+   ]
+  },
+  {
+   "id": "II.5.2",
+   "treatise": "II.5",
+   "title": "Matter, the compound, and the form as activity",
+   "summary": "Is matter actually something else? Does the potential become the actual, or does the actual come after it, as the statue, a compound, comes from the bronze? When a man potentially a grammarian becomes one, the same man is potential and actual, for his soul was fit to know. The form on the bronze may be called the activity of this thing; but activity more properly is what is set against a power that brings it on, as courage and acting bravely.",
+   "greek_unit": "2.5.2",
+   "greek_part": 13,
+   "older": [
+    {
+     "n": 2,
+     "label": "II.5, chapter 2",
+     "page": 197,
+     "year": 1921,
+     "text": "Then the question rises whether Matter — potentially what it becomes by receiving shape — is actually something else or whether it has no actuality at all. In general terms : When a potentiality has taken a definite form, does it retain its being ? Is the potentiality, itself, in actualisation ? The alternative is that, when we speak of the \" Actual Statue \" and of the \" Potential Statue,\" the Actuality is not predicated of the same subject as the \" Potentiality.\" If we have really two different subjects, then the potential does not really become the actual : all that happens is that an actual entity takes the place of a potential.\n\nThe actualised entity is not the Matter (the Potentiality, merely) but a combination, including the Form-Idea upon the Matter.\n\nThis is certainly the case when a quite different thing results from the actualisation — the statue, for example, the combination, is distinctly different from the bronze, the base ; where the resultant is something quite new, the Potentiality has clearly not, itself, become what is now actualised. But take the case where a person with a capacity for education becomes in fact educated : is not potentiality, here, identical with actualisation ? Is not the potentially wise Socrates the same man as the Socrates actually wise ?\n\nBut is an ignorant man a being of knowledge because he is so potentially ? Is he, in virtue of his non-essential ignorance, potentially an instructed being ?\n\nIt is not because of his accidental ignorance that he is a being of Knowledge : it is because, ignorant though he be by accident, his mind, apt to knowledge, is the potentiality through which he may become so. Thus, in the case of the potentially instructed who have become so in fact, the potentiality is taken up into the actual ; or, if we prefer to put it so, there is on the one side the potentiality while, on the other, there is the power in actual possession of the form.\n\nIf, then, the Potentiality is the Substratum while the thing in actualisation— the Statue for example — is a combination, how are we to describe the form that has entered the bronze ?\n\nThere will be nothing unsound in describing this shape, this Form which has brought the entity from potentiality to actuality, as the actualisation ; but of course as the actualisation of the definite particular entity, not as Actuality the abstract : we must not confuse it with the other actualisation, strictly so called, that which is contrasted with the power producing actualisation. The potential is led out into realisation by something other than itself ; power accomplishes, of itself, what is within its scope, but by virtue of Actuality (the abstract) : the relation is that existing between a temperament and its expression in act, between courage and courageous conduct. So far so good : —"
+    }
+   ]
+  },
+  {
+   "id": "II.5.3",
+   "treatise": "II.5",
+   "title": "In the intelligible world all is actual, and activity",
+   "summary": "There is no matter in the intelligible world in which the potential could be, and nothing there is waiting to become what it is not: so there is no potential there. Matter there is form, and its form is never separate but in thought; soul is not potentially what it becomes but a power of it. Intellect does not go from power to the activity of thinking: all the first things have from themselves, always, what they must have. If that nature is sleepless life, the best life, all there are actual and are activities, and the place there is the place of life.",
+   "greek_unit": "2.5.3",
+   "greek_part": 13,
+   "older": [
+    {
+     "n": 3,
+     "label": "II.5, chapter 3",
+     "page": 199,
+     "year": 1921,
+     "text": "We come now to the purpose of all this discussion ; to make clear in what sense or to what degree Actualisation is predicable in the Intellectual Realm and whether all is in Actualisation there, each and every member of that realm being an Act, or whether Potentiality also has place there.\n\nNow : if there is no Matter there to harbour potentiality : if nothing there has any future apart from its actual mode : if nothing there generates, whether by changes or in the permanence of its identity ; if nothing goes outside of itself to give being to what is other than itself ; then, potentiality has no place there : the Beings there possess actuality as belonging to eternity, not to time.\n\nThose, however, who (with us) assert Matter in the Intellectual Realm will be asked whether the existence of that Matter does not imply the potential there too ; for even if Matter there exists in another mode than here, every Being there will have its Matter, its form and the union of the two (and therefore the potential, separable from the actual). What answer is to be made ?\n\nSimply, that even the Matter there is Idea, just as the Soul, an Idea, is Matter to another (a higher) Being.\n\nBut relatively to that higher, the Soul is a potentiality ?\n\nNo : for the Idea (to which it is Matter) is integral to the Soul and does not look to a future ; the distinction between the Soul and its Idea is purely mental : the Idea and the Matter it includes are conceived as a conjunction but are essentially one Kind : remember that Aristotle makes his Fifth Body immaterial.\n\nBut surely Potentiality exists in the Soul ? Surely the Soul is potentially the living-being of this world before it has become so ? Is it not potentially musical, and everything else that it has not been and becomes ? Does not this imply potentiality even in the Intellectual Existences ?\n\nNo : the Soul is not potentially these things ; it is a Power towards them.\n\nBut after what mode does Actualisation exist in the Intellectual Realm ?\n\nIs it the Actualisation of a statue, where the combination is realised because the Form-Idea has mastered each separate constituent of the total?\n\nNo : it is that every constituent there is a Form-Idea and, thus, is perfect in its Being.\n\nThere is in the Intellectual Principle no progression from some power capable of intellection to the Actuality of intellection : such a progression would send us in search of a Prior Principle not progressing from Power to Act ; there all stands ever realised. Potentiality requires an intervention from outside itself to bring it to the actualisation which otherwise camiot be ; but what possesses, of itself, identity unchangeable for ever is an actualisation : all the Firsts then are actualisations, simply because eternally and of themselves they possess all that is necessary to their completion.\n\nThis applies equally to the Soul, not to that in Matter but to that in the Intellectual Sphere ; and even that in Matter, the Soul of Growth, is an actualisation in its difference ; it possesses actually (and not, like material things, merely in image) the Being that belongs to it.\n\nThen, everything, jn the intellectual is in actualisation and so all There is Actuality ?\n\nWhy not ? If that Nature is rightly said to be \" Sleepless,\" and to be Life and the noblest mode of Life, the noblest Activities must be there ; all then is actualisation there, everything is an Actuality, for everything is a Life, and all Place there is the Place of Life, in the true sense the ground and spring of Soul and of the Intellectual Principle."
+    }
+   ]
+  },
+  {
+   "id": "II.5.4",
+   "treatise": "II.5",
+   "title": "Matter: actually none of the beings",
+   "summary": "Everything else that is potentially something is actually something else; but matter is potentially all beings, so it cannot be actually any of them. It is none of the things that come to be upon it, and as formless it is not one of the forms either: so it is non-being twice over. It has fled the true beings and cannot reach even the false ones, since it is not even a phantom of a forming principle: what could it be actually?",
+   "greek_unit": "2.5.4",
+   "greek_part": 13,
+   "older": [
+    {
+     "n": 4,
+     "label": "II.5, chapter 4",
+     "page": 200,
+     "year": 1921,
+     "text": "Now, in general anything that has a potentiality is actually something else, and this potentiality of the future mode of being is an existing mode.\n\nBut what we think of as Matter, what we assert to be the potentiality of all things, cannot be said to be actually any one being among beings : if it were of itself any definite being, it could not be potentially all.\n\nIf, then, it is not among existences, it must necessarily be without existence.\n\nHow, therefore, can it be actually anything ?\n\nThe answer is that while Matter can not be any of the things which are founded upon it, it may quite well be something else, admitting that all existences are not rooted in Matter.\n\nBut once more, if it is excluded from the entities founded upon it and all these are Beings, it must itself be a Non-Being.\n\nIt is, further, by definition, formless and therefore not an Idea : it cannot then be classed among things of the Intellectual Realm, and so is, once more, a Non-Being. Falling, as regards both worlds, under Non-Being, it is all the more decidedly the Non-Being.\n\nIt has eluded the Nature of the Authentic Existences ; it has even failed to come up with the things to which a spurious existence can be attributed — for it is not even a phantasm of Reason as these are — how is it possible to include it under any mode of Being ?\n\nAnd if it falls under no mode of Being, what can it actually be ?"
+    }
+   ]
+  },
+  {
+   "id": "II.5.5",
+   "treatise": "II.5",
+   "title": "Only potential, a dim phantom: matter must stay so",
+   "summary": "Matter is only potential: its being is a promise of what is to come. It is non-being not as motion is different from being but as cast out from all being, never coloured by the forms it takes, caught at the end of both worlds. It is actually a phantom and a falsehood, and so truly non-being. To make it actual would destroy it, as taking away the falsehood takes away the being of false things: so, if matter is to last, it must be called only potential.",
+   "greek_unit": "2.5.5",
+   "greek_part": 13,
+   "older": [
+    {
+     "n": 5,
+     "label": "II.5, chapter 5",
+     "page": 201,
+     "year": 1921,
+     "text": "How can we talk of it ? How can it be the Matter of real things ?\n\nIt is talked of, and it serves, precisely, as a Potentiality.\n\nAnd, as being a Potentiality, it is not of the order of the thing it is to become: its existence is no more than an announcement of a future, as it were a thrust forward to what is to come into existence.\n\nAs Potentiality then, it is not any definite thing but the potentiality of everything : being nothing in itself — beyond what being Matter amounts to — it is not in actualisation. For if it were actually something, that actualised something would not be Matter, or at least not Matter out and out, but merely Matter in the limited sense in which bronze is the matter of the statue.\n\nAnd its Non-Being must be no mere difference from Being.\n\nMotion, for example, is different from Being, but plays about it, springing from it and living within it : Matter is, so to speak, the out2 D cast of Being, it is utterly removed, irredeemably what it was from the beginning : in origin it was Non-Being and so it remains.\n\nNor are we to imagine that, standing away at the very beginning from the universal circle of Beings, it was thus necessarily an active Something or that it became a Something. It has never been able to annex for itself even a visible outline from all the forms under which it has sought to creep : it has always pursued something other than itself ; it was never more than a Potentiality towards its next : where all the circle of Being ends, there only is it manifest ; discerned underneath things produced after it, it is remoter (from Real-Being) even than they.\n\nGrasped, then, as an underlie in each order of Being, it can be no actualisation of either : all that is allowed to it is to be a Potentiality, a weak and blurred phantasm, a thing incapable of a Shape of its own.\n\nIts actuality is that of being a phantasm, the actuality of being a falsity ; and the false in actualisation is the veritably false, which again is Authentic Non-Existence.\n\nSo that Matter, as the Actualisation of Non-Being, is all the more decidedly Non-Being, is Authentic Non-Existence.\n\nThus, since the very reality of its Nature is situated in Non-Being, it is in no degree the Actualisation of any definite Being.\n\nIf it is to be present at all, it cannot be an Actualisation, for then it would not be the stray from Authentic Being which it is, the thing having its Being in Non-Beingness : for, note, in the case of things whose Being is a falsity, to take away the falsity is to take away what Being they have, and if we introduce actualisation into things whose Being and Essence is Potentiality, we destroy the foundation of their nature since their Being is Potentiality.\n\nIf Matter is to be kept as the unchanging substratum, we must keep it as Matter : that means — does it not ? — that we must define it as a Potentiality and nothing more — or refute these considerations."
+    }
+   ]
+  },
+  {
+   "id": "II.6.1",
+   "treatise": "II.6",
+   "title": "Being and substance; the qualities that seem to complete a substance",
+   "summary": "Is substance being with motion, rest, sameness and difference? There, all are substance because all are one; here the images are separated, as head and hand are together in the seed. Some qualities seem to be differences that complete a substance, as two-footed, or white in white lead and heat in fire; others are only qualities, added to a substance already complete. But it is absurd that one nature should be quality in one place and not in another. Perhaps the forming principles are wholly of substance, and what they bring about is a \"something\" there but only qualified here, so that we slip from the \"something\" to the qualified when we look at fire.",
+   "greek_unit": "2.6.1",
+   "greek_part": 14,
+   "older": [
+    {
+     "n": 1,
+     "label": "II.6, chapter 1",
+     "page": 203,
+     "year": 1921,
+     "text": "Are not Being and Reality (to 6n and he oiisia) distinct ; must we not envisage Being as the substance stripped of all else, while Reality is this same thing, Being, accompanied by the others — Movement, Rest, Identity, Difference — so that these are the specific constituents of Reality ?\n\nThe universal fabric, then, is Reality in which Being, Movement, and so on are separate constituents.\n\nNow Movement has Being (not essentially but) as an accident and therefore should have Reality as an accident ; or is it something serving to the completion of Reality ?\n\nNo : Movement is a Reality ; everything in the Supreme is a Reality.\n\nWhy, then, does not Reality reside, equally, in this sphere ?\n\nIn the Supreme there is Reality because all things are one ; ours is the sphere of images whose separation produces grades of difference. Thus in the spermatic unity all the human members are present undistinguishably ; there is no separation of head and hand : their distinct existence begins in the life here, whose content is image, not Authentic Existence.\n\nAnd are the distinct Qualities in the Authentic Realm to be explained in the same way ? Are they differing Realities centred in one Reality or gathered round Being — differences which constitute Realities distinct from each other within the common fact of Reality ?\n\nThis is sound enough ; but it does not apply to all the qualities of this sphere, some of which, no doubt, are differentiations of Reality — such as the quality of two-footedness or four-footedness — but others are not such differentiations of Reality and, because they are not so, must be called qualities and nothing more.\n\nOn the other hand, one and the same thing may be sometimes a differentiation of Reality and sometimes not — a differentiation when it is a constitutive element, and no differentiation in some other thing, where it is not a constitutive element but an accidental. The distinction may be seen in the (constitutive) whiteness of a swan or of ceruse and the whiteness which in a man is an accidental.\n\nWhere whiteness belongs to the very Reason-Form of the thing it is a constitutive element and not a quality ; where it is a superficial appearance it is a quality.\n\nIn other words, qualification may be distinguished. We may think of a qualification that is of the very substance of the thing, something exclusively belonging to it. And there is a qualifying that is nothing more (not constituting but simply) giving some particular character to the real thing ; in this second case the qualification does not produce any alteration towards Reality or away from it ; the Reality has existed fully constituted before the incoming of the qualification which — whether in soul or body — merely introduces some state from outside, and by this addition elaborates the Reality into the particular thing.\n\nBut what if (the superficial appearance such as) the visible whiteness in ceruse is constitutive ? In the swan the whiteness is not constitutive since a swan need not be white : it is constitutive in ceruse, just as warmth is constitutive of the Reality, fire.\n\nNo doubt we may be told that the Reality in fire is (not warmth but) fieriness and in ceruse an analogous abstraction : yet the fact remains that in visible fire warmth or fieriness is constitutive and in the ceruse whiteness.\n\nThus the same entities (warmness, whiteness and fieriness) are represented at once as being not qualities but constituents of Reality and not constituents but qualities.\n\nNow it is absurd to talk as if one identical thing — (warmth, whiteness or the like) changed its own nature according to whether it is present as a constituent or as an accidental.\n\nThe truth is that while the Reason-Principles producing these entities contain nothing but what is of the nature of Reality, yet only in the Intellectual Realm do the produced things possess real existence : here they are not real ; they are qualified.\n\nAnd this is the starting-point of an error we constantly make : in our enquiries into things we let realities escape us and fasten on what is mere quality. Thus fire is not the thing we so name from the observation of certain qualities present ; fire is a Reality (not a combination of material phenomena) ; the phenomena observed here and leading us to name fire call us away from the authentic thing ; a quality is erected into the very matter of definition — a procedure, however, reasonable enough in regard to things of the realm of sense which are in no case realities but accidents of Reality.\n\nAnd this raises the question how Reality can ever spring from what are not Realities.\n\nIt has been shown that a thing coming into being cannot be identical with its origins : it must here be added that nothing thus coming into being (no \" thing of process \") can be a Reality.\n\nThen how do we assert the rising in the Supreme of what we have called Reality from what is not Reality (i.e. from the pure Being which is above Reality) ?\n\nThe Reality there — possessing Authentic Being in the strictest sense, with the least admixture — is Reality (not so much by being produced as) by existing among the differentiations of the Authentic Being ; or, better, Reality is affirmed in the sense that with the existence of the Supreme is included its Act so that Reality seems to be a perf ectionment of the Authentic Being, though in the truth it is a diminution ; the produced thing is deficient by the very addition, by being less simplex, by standing one step away from the Authentic."
+    }
+   ]
+  },
+  {
+   "id": "II.6.2",
+   "treatise": "II.6",
+   "title": "What quality is: a disposition added to a substance",
+   "summary": "If a quality completes not a substance but a qualified substance, what is the substance of fire before it is qualified? Not body, nor matter left when heat and brightness are taken away; the form, but the form is a forming principle, not a quality. What completes substances, like burning and whitening, are activities from the forming principles. Qualities are what come after substance: virtues and vices, beauty, health, being shaped, the arts. Quality is a disposition on substances already there, without which the substance would lack nothing, either easily moved or lasting.",
+   "greek_unit": "2.6.2",
+   "greek_part": 14,
+   "older": [
+    {
+     "n": 2,
+     "label": "II.6, chapter 2",
+     "page": 205,
+     "year": 1921,
+     "text": "But we must enquire into Quality in itself : to know its nature is certainly the way to settle our general question.\n\nThe first point is to assure ourselves whether or not one and the same thing may be held to be sometimes a mere qualification and sometimes a constituent of Reality — not staying on the point that qualification could not be constitutive of a Reality but of a qualified Reality only.\n\nNow in a Reality possessing a determined quality, the Reality and the fact of existence precede the qualified Reality.\n\nWhat, then, in the case of fire is the Reality which precedes the qualified Reality ?\n\nIts mere body, perhaps ? If so, body being the Reality, fire is a warmed body ; and the total thing is not the Reality ; and the fire has warmth (not essentially but) as a man might have a snub nose.\n\nRejecting its warmth, its glow, its lightness — all which certainly do seem to be qualities — and its resistance, there is left only its extension by three dimensions : in other words, its Matter is its Reality.\n\nBut that cannot be held : surely the form is much more likely than the Matter to be the Reality.\n\nBut is not the Form a Quality (and not therefore a Reality) ?\n\nNo, the Form is not a Quality : it is a Reason-Principle.\n\nAnd the outcome of this Reason-Principle entering into the underlying Matter, what is that ?\n\nCertainly not what is seen and burns, for that is the something in which these qualities inhere.\n\nWe might define the burning as an Act springing from the Reason-Principle : then the warming and lighting and other effects of fire will be its Acts and we still have found no foothold for its quality.\n\nSuch completions of a Reality cannot be called qualities since they are its Acts emanating from the Reason-Principles and from the essential powers. A quality is something persistently outside Reality ; it cannot appear as Reality in one place after having figured in another as quality ; its function is to bring in the something more after the Reality is established, such additions as virtue, vice, ugliness, beauty, health, a certain shape. On this last, however, it may be remarked that triangularity and quadrangularity are not in themselves qualities, but there is quality when a thing is triangular by having been brought to that shape ; the quality is not the triangularity but the patterning to it. The case is the same with the arts and avocations (by which human beings take the quality' of being instructed, etc.).\n\nThus : Quality is a condition superadded to a Reality whose existence does not depend upon it, whether this something more be a later acquirement or an accompaniment from the first ; it is something in whose absence the Reality would still be complete. It will sometimes come and go, sometimes be inextricably attached, so that there are two forms of Quality, the moveable and the fixed."
+    }
+   ]
+  },
+  {
+   "id": "II.6.3",
+   "treatise": "II.6",
+   "title": "Activity there, its trace here: quality as a shadow",
+   "summary": "The white on you is an activity from a power of whitening; the so-called qualities there are activities, which only look like qualities to us because each marks one substance off from another. Reason, taking what shows on the surface of a substance, begets a quality. Heat is the form and activity of fire, but in something else only a quality, a trace, shadow and image of its substance. Nothing is quality and not quality: what is stripped of substance is quality, what is with it is form or activity; what is never the form of anything is pure quality.",
+   "greek_unit": "2.6.3",
+   "greek_part": 14,
+   "older": [
+    {
+     "n": 3,
+     "label": "II.6, chapter 3",
+     "page": 207,
+     "year": 1921,
+     "text": "The Whiteness, therefore, in a human being is, clearly, to be classed not as a quality but as an activity — the act of a power which can make white ; and similarly what we think of as qualities in the Intellectual Realm should be known as activities ; they are activities which to our minds take the appearance of quality from the fact that, differing in character among themselves, each of them is a particularity which, so to speak, distinguishes those Realities from each other.\n\nWhat, then, distinguishes Quality in the Intellectual Realm from that here, if both are Acts ?\n\nThe difference is that these (\" Quality- Activities \") in the Supreme do not indicate the very nature of the Reality (as do the corresponding Activities here) nor do they indicate variations of substance or of (essential) character ; they merely indicate what we think of as Quality but in the Intellectual Realm must still be Activity.\n\nIn other words this thing, considered in its aspect as possessing the characteristic property of Reality is by that alone recognised as no mere Quality. But when our reason separates what is distinctive in these (\" Quality-Activities \") — not in the sense of abolishing them but rather as taking them to itself and making something new of them — this new something is Quality : reason has, so to speak, appropriated a portion of Reality, that portion manifest to it on the surface.\n\nBy this analogy, warmth, as a concomitant of the specific nature of fire, may very well be no quality in fire but an Idea-Form belonging to it, one of its activities, while being merely a Quality in other things than fire : as it is manifested in any warm object, it is not a mode of Reality but merely a trace, a shadow, an image, something that has gone forth from its own Reality — where it was an Act — and in the warm object is a quality.\n\nAll, then, that is accident and not Act ; all but what is Idea-form of the Reality ; all that merely confers pattern ; all this is Quality : qualities are characteristics and modes other than those constituting the substratum of a thing.\n\nBut the Archetypes of all such qualities, the foundation in which they exist primarily, these are (not qualities but) Activities of the Intellectual Beings.\n\nAnd ; one and the same thing cannot be both Quality and nonquality : the thing void of Real-Existence is Quality ; but the thing accompanying Reality is either Form or Activity : there is no longer self-identity when, from having its being in itself, anything comes to be in something else with a fall from its standing as Form and Activity.\n\nFinally, anything which is never Form but always accidental to something else is Quality unmixed and nothing more."
+    }
+   ]
+  },
+  {
+   "id": "II.7.1",
+   "treatise": "II.7",
+   "title": "The arguments on either side",
+   "summary": "Those who set bodies only side by side mix and do not blend. Those who blend only the qualities say that a blend through and through would cut the bodies to pieces, and that blends fill more room than either body, or else air goes out. Those who hold complete blending answer that sweat passes through the body without cutting it, and that size is brought along like the other qualities, so the blend has a size from both. But the others say a blend through and through would be like line laid on line, with no increase; and the small spread through the great is plain, but stretching it so far is not persuasive.",
+   "greek_unit": "2.7.1",
+   "greek_part": 15,
+   "older": [
+    {
+     "n": 1,
+     "label": "II.7, chapter 1",
+     "page": 208,
+     "year": 1921,
+     "text": "Some enquiry must be made into what is known as the complete transfusion of material substances.\n\nIs it possible that fluid be blended with fluid in such a way that each penetrate the other through and through ? or — a difference of no importance if any such penetration occurs — that one of them pass completely through the other ?\n\nThose that admit only contact need not detain us. They are dealing with mixture, not with the coalescence which makes the total a thing of like parts, each minutest particle being composed of all the combined elements.\n\nBut there are those who, admitting coalescence, confine it to the qualities : to them the material substances of two bodies are in contact merely, but in this contact of the matter they find footing for the qualities of each.\n\nTheir view is plausible because it rejects the notion of total admixture and because it recognises that the masses of the mixing bodies must be whittled away if there is to be mixture without any gap, if, that is to say, each substance must be divided within itself through and through for complete interpenetration with the other. Their theory is confirmed by the cases in which two mixed substances occupy a greater space than either singly, especially a space equal to the conjoined extent of each : for, as they point out, in an absolute interpenetration the infusion of the one into the other would leave the occupied space exactly what it was before and, where the space occupied is not increased by the juxtaposition, they explain that some expulsion of air has made room for the incoming substance. They ask further, how a minor quantity of one substance can be spread out so as to interpenetrate (speck by speck or drop by drop) a major quantity of another. In fact they have a multitude of arguments.\n\nThose, on the other hand, that accept \" complete transfusion,\" might object that it does not require the reduction of the mixed things to fragments, a certain cleavage being sufficient : thus, for instance, sweat does not split up the body or even pierce holes in it. And if it is answered that this may well be a special decree of Nature to allow of the sweat exuding, there is the case of those manufactured articles, slender but without puncture, in which we can see a liquid wetting them through and through so that it runs down from the upper to the under surface. How can this fact be explained, since both the liquid and the solid are bodily substances ? Interpenetration without disintegration is difficult to conceive, and if there is such mutual disintegration the two must obviously destroy each other.\n\nWhen they urge that often there is a mixing without augmentation their adversaries can counter at once with the exit of air.\n\nWhen there is an increase in the space occupied, nothing refutes the explanation — however unsatisfying — that this is a necessary consequence of two bodies bringing to a common stock their magnitude 2 E equally with their other attributes : size is as permanent as any other property ; and, exactly as from the blending of qualities there results a new form of thing, the combination of the two, so we find a new magnitude ; the blending gives us a magnitude representing each of the two. But at this point the others will answer, \" If you mean that substance lies side by side with substance and mass with mass, each carrying its quantum of magnitude, you are at one with us : if there were complete transfusion, one substance sinking its original magnitude in the other, we would have no longer the case of two lines joined end to end by their terminal points and thus producing an increased extension ; we would have line superimposed upon line with, therefore, no increase.\"\n\nBut a lesser quantity permeates the entire extent of a larger ; the smallest is sunk in the greatest ; transfusion is exhibited unmistakeably. In certain cases it is possible to pretend that there is no total penetration but there are manifest examples leaving no room for the pretence. In what they say of the spreading out of masses they cannot be thought very plausible ; the extension would have to be considerable indeed in the case of a very small quantity (to be in true mixture with a very large mass) ; for they do not suggest any such extension by change as that of water into air."
+    }
+   ]
+  },
+  {
+   "id": "II.7.2",
+   "treatise": "II.7",
+   "title": "Plotinus' own view: water in wool and papyrus",
+   "summary": "When water runs through wool or drips from papyrus, the whole wet body passes through, and the papyrus is wet everywhere: so the water's matter is everywhere, with its quality. The papyrus swells: the water's size is added, not swallowed up, for size joined to size does not vanish as a quality mixed with another is dimmed. Why should body passing through body cut it, when bodiless qualities do not? Matter too is bodiless. What stops solids is a quality, density, or the number of qualities: so things mix or fail to mix not as qualities or as matter, but as having such qualities.",
+   "greek_unit": "2.7.2",
+   "greek_part": 15,
+   "older": [
+    {
+     "n": 2,
+     "label": "II.7, chapter 2",
+     "page": 210,
+     "year": 1921,
+     "text": "This, however, raises a problem deserving investigation in itself : what has happened when a definite magnitude of water becomes air, and how do we explain the increase of volume ? But for the present we must be content with the matter thus far discussed out of all the varied controversy accumulated on either side.\n\nIt remains for us to make out on our own account the true explanation of the phenomenon of mixing, without regard to the agreement or disagreement of that theory with any of the current opinions mentioned.\n\nWhen water runs through wool or when papyrus-pulp gives up its moisture why is not the moist content expressed to the very last drop or even, without question of outflow, how can we possibly think that in a mixture the relation of matter with matter, mass with mass, is contact and that only the qualities are fused ? The pulp is not merely in touch with water outside it or even in its pores ; it is wet through and through so that every particle of its matter is drenched in that quality. Now if the matter is soaked all through with the quality, then the water is everywhere in the pulp.\n\n\" Not the water ; the quality of the water,\"\n\nBut then, where is the water ? and (if only a quality has entered) why is there a change of volume ? The pulp has been expanded by the addition : that is to say it has received magnitude from the incoming substance — but if it has received the magnitude, magnitude has been added ; and a magnitude added has not been absorbed ; therefore the combined matter must occupy two several places. And as the two mixing substances communicate quality and receive matter in mutual give and take so they may give and take magnitude. Indeed when a quality meets another quality it suffers some change ; it is mixed, and by that admixture it is no longer pure and therefore no longer itself but a blunter thing, whereas magnitude joining magnitude retains its full strength.\n\nBut let it be understood how we came to say that body passing through and through another body must produce disintegration, while we make qualities pervade their substances without producing disintegration : the bodilessness of qualities is the reason. Matter, too, is bodiless : it may, then, be supposed that as Matter pervades everything so the bodiless qualities associated with it — as long as they are few — have the power of penetration without disintegration. Anything solid would be stopped either in virtue of the fact that a solid has the precise quality which forbids it to penetrate or in that the mere coexistence of too many qualities in Matter (constitutes density and so) produces the same inhibition.\n\nIf, then, what we call a dense body is so by reason of the presence of many qualities, that plenitude of qualities will be the cause (of the inhibition).\n\nIf on the other hand density is itself a quality like what they call corporeity, then the cause will be that particular quality.\n\nThis would mean that the qualities of two substances do not bring about the mixing by merely being qualities but by being apt to mixture ; nor does Matter refuse to enter into a mixing as Matter but as being associated with a quality repugnant to mixture ; and this all the more since it has no magnitude of its own but only does not reject magnitude."
+    }
+   ]
+  },
+  {
+   "id": "II.7.3",
+   "treatise": "II.7",
+   "title": "What makes a body: corporeity",
+   "summary": "Is corporeity all the qualities together with matter, or a form and forming principle that, coming to be in matter, makes a body? If a forming principle, it holds all the qualities in itself; and, if it is not a definition but makes the thing, it does not contain matter but is about it, so that body is matter with the principle in it, while the principle is a form, bare, though never apart. The separable principle is another, the one in intellect.",
+   "greek_unit": "2.7.3",
+   "greek_part": 15,
+   "older": [
+    {
+     "n": 3,
+     "label": "II.7, chapter 3",
+     "page": 212,
+     "year": 1921,
+     "text": "We have thus covered our main ground, but since corporeity has been mentioned, we must consider its nature : is it the conjunction of all the qualities or is it an Idea, or Reason-Principle, whose presence in Matter constitutes a body ?\n\nNow if body is the compound, the thing made up of all the required qualities plus Matter, then corporeity is nothing more than their conjunction.\n\nAnd if it is a Reason-Principle, one whose incoming constitutes the body, then clearly this Principle contains embraced within itself all the qualities. If this Reason-Principle is to be no mere principle of definition exhibiting the nature of a thing but a veritable Reason constituting the thing, then it cannot itself contain Matter but must encircle Matter, and by being present to Matter elaborate the body : thus the body will be Matter associated with an indwelling Reason-Principle which will be in itself immaterial, pure Idea, even though irremoveably attached to the body. It is not to be confounded with that other Principle in man — treated elsewhere — which dwells in the Intellectual World by right of being itself an Intellectual Principle."
+    }
+   ]
+  },
+  {
+   "id": "II.8.1",
+   "treatise": "II.8",
+   "title": "Why distant things look small",
+   "summary": "Distant things look small because the light is drawn together to the pupil and only the form arrives; or because size is known by going through the parts; or because colour is seen first and size by accident, so that as colour fades size shrinks, as sound grows less. Hearing knows a sound's strength directly, its size only by accident. Varied things show it best: where the forms of houses and trees on a mountain do not reach us, sight cannot measure the whole. Things of one colour deceive too, and the distant looks near because the stretch between is not gone through.",
+   "greek_unit": "2.8.1",
+   "greek_part": 16,
+   "older": [
+    {
+     "n": 1,
+     "label": "II.8, chapter 1",
+     "page": 212,
+     "year": 1921,
+     "text": "Seen from a distance, objects appear reduced and close together, however far apart they be : within easy range, their sizes and the distances that separate them are observed correctly.\n\nDistant objects show in this reduction because they must be drawn together for vision and the light must be concentrated to suit the size of the pupil ; besides, as we are placed further and further away from the material mass under observation, it is more and more the bare form that reaches us, stripped, so to speak, of magnitude as of all other quality.\n\nOr it may be that we appreciate the magnitude of an object by observing the salience and recession of its several parts, so that to perceive its true size we must have it close at hand.\n\nOr again, it may be that magnitude is known incidentally (as a deduction) from the observation of colour. With an object at hand we know how much space is covered by the colour ; at a distance, only that something is coloured, for the parts, quantitatively distinct among themselves, do not give us the precise knowledge of that quantity, the colours themselves reaching us only in a blurred impression.\n\nWhat wonder, then, if size be like sound — reduced when the form reaches us but faintly — for in sound the hearing is concerned only about the form ; magnitude is not discerned except incidentally.\n\nWell, in hearing magnitude is known incidentally ; but how ? Touch conveys a direct impression of a visible object ; what gives us the same direct impression of an object of hearing ?\n\nThe magnitude of a sound is known not by actual quantity but by degree of impact, by intensity — and this in no indirect knowledge ; the ear appreciates a certain degree of force, exactly as the palate perceives by no indirect knowledge, a certain degree of sweetness. But the true magnitude of a sound is its extension ; this the hearing may define to itself incidentally by deduction from the degree of intensity but not to the point of precision. The intensity is merely the definite effect at a particular spot ; the magnitude is a matter of totality, the sum of space occupied.\n\nStill (it will be objected) the colours seen from a distance are faint ; but they are not small as the masses are.\n\nTrue ; but there is the common fact of diminution. There is colour with its diminution, faintness ; there is magnitude with its diminution, smallness ; and magnitude follows colour diminishing stage by stage with it.\n\nBut, the phenomenon is more easily explained by the example of things of wide variety. Take mountains dotted with houses, woods and other land-marks ; the observation of each detail gives us the means of calculating, by the single objects noted, the total extent covered : but, where no such detail of form reaches us, our vision, which deals with detail, has not the means towards the knowledge of the whole by measurement of any one clearly discerned magnitude. This applies even to objects of vision close at hand : where there is variety and the eye sweeps over all at one glance so that the forms are not all caught, the total appears the less in proportion to the detail which has escaped the eye ; observe each single point and then you can estimate the volume precisely. Again, magnitudes of one colour and unbroken form trick the sense of quantity : the vision can no longer estimate by the particular ; it slips away, not finding the stand-by of the difference between part and part.\n\nIt was the detail that prevented a near object deceiving our sense of magnitude : in the case of the distant object, because the eye does not pass stage by stage through the stretch of intervening space so as to note its forms, therefore it cannot report the magnitude of that space."
+    }
+   ]
+  },
+  {
+   "id": "II.8.2",
+   "treatise": "II.8",
+   "title": "Not the smaller angle: the mountain and the sky",
+   "summary": "The smaller angle of sight does not explain it. Whoever says so leaves part of the sight seeing something else outside the object, air at least. But a mountain may fill the whole sight, or stretch beyond it, and still look much smaller than it is; and the sky, even if the whole sight took in the whole hemisphere, looks many times smaller than it is.",
+   "greek_unit": "2.8.2",
+   "greek_part": 16,
+   "older": [
+    {
+     "n": 2,
+     "label": "II.8, chapter 2",
+     "page": 214,
+     "year": 1921,
+     "text": "The explanation by lesser angle of vision has been elsewhere dismissed ; one point, however, we may urge here.\n\nThose attributing the reduced appearance to the lesser angle occupied allow by their very theory that the unoccupied portion of the eye still sees something beyond or something quite apart from the object of vision, if only air-space.\n\nNow consider some very large object of vision, that mountain for example. No part of the eye is unoccupied ; the mountain adequately fills it so that it can take in nothing beyond, for the mountain as seen either corresponds exactly to the eye-space or stretches away out of range to right and to left. How does the explanation by lesser angle of vision hold good in this case, where the object still appears smaller, far, than it is and yet occupies the eye entire ?\n\nOr look up to the sky and no hesitation can remain. Of course we cannot take in the entire hemisphere at one glance ; the eye directed to it could not cover so vast an expanse. But suppose the possibility : the entire eye, then, embraces the hemisphere entire ; but the expanse of the heavens is far greater than it appears ; how can its appearing far less than it is be explained by a lessening of the angle of vision ?"
     }
    ]
   }
@@ -6733,6 +6995,493 @@
    "notes": [
     "The Workshop's Greek of this chapter has a damaged word, \"δἑ??ʼ\", at the start of this sentence; the word is δεῖ, \"must\", which the modern version follows.",
     "\"The craftsman\" (δημιουργός) is the maker of the cosmos in the Timaeus (28a-29a), who makes it after the eternal model; for Plotinus he is intellect. \"An image always being imaged\" recalls the Timaeus (37d), where time is \"a moving image of eternity\"."
+   ]
+  },
+  {
+   "seg": "II.5.1.p1",
+   "chapter": "II.5.1",
+   "modern": "Some things are said to be potentially, others actually; and something among the things that are is also called activity. So we must look at what the potential is and what the actual is. Is activity the same as being actually, so that whatever is an activity is also actual? Or is each different from the other, so that what is actually need not also be an activity? That there is the potential among the things perceived by the senses is clear. Whether it is also among the intelligibles must be looked into, or whether there is only the actual there; and if the potential is there, whether it is only potential for ever, and, if for ever, whether it would never come into activity because it is shut off from time. But first we must say what the potential is, since the potential must not be spoken of simply: nothing can be potential without being potentially something. Bronze, for example, is potentially a statue. For if nothing were going to come from it or upon it, if nothing were going to be after what it was, and nothing could come to be, it would be only what it was. And what it was was already present, and not still to come: what else, then, could it have been able to be after what was present? It would not, then, be potentially anything.",
+   "greek": "Λέγεται τὸ μὲν δυνάμει, τὸ δὲ ἐνεργείᾳ εἶναι: λέγεται δέ τι καὶ ἐνέργεια ἐν τοῖς οὖσι. σκεπτέον οὖν τί τὸ δυνάμει καὶ τί τὸ ἐνεργείᾳ. ἆρα τὸ αὐτὸ τῷ ἐνεργείᾳ εἶναι ἡ ἐνέργεια, καὶ εἴ τί ἐστιν ἐνέργεια, τοῦτο καὶ ἐνεργείᾳ, ἢ ἕτερον ἑκάτερον καὶ τὸ ἐνεργείᾳ ὂν οὐκ ἀνάγκη καὶ ἐνέργειαν εἶναι; ὅτι μὲν οὖν ἐν τοῖς αἰσθητοῖς τὸ δυνάμει, δῆλον: εἰ δὲ καὶ ἐν τοῖς νοητοῖς, σκεπτέον, ἢ εἰ ἐκεῖ τὸ ἐνεργείᾳ μόνον: καὶ εἰ ἔστι τὸ δυνάμει, εἰ δυνάμει μόνον ἀεί, κἂν ἀεί, εἰ οὐδέποτε ἂν ἔλθοι εἰς ἐνέργειαν τῷ τὸν χρόνον ἐξείργεσθαι. ἀλλὰ τί ἐστι τὸ δυνάμει πρῶτον λεκτέον, εἰ δὴ τὸ δυνάμει δεῖ μὴ ἁπλῶς λέγεσθαι: οὐ γὰρ ἔστι τὸ δυνάμει μηδενὸς εἶναι. οἷον δυνάμει ἀνδριὰς ὁ χαλκός: εἰ γὰρ μηδὲν ἐξ αὐτοῦ μηδ’ ἐπ’ αὐτῷ μηδ’ ἔμελλε μηδὲν ἔσεσθαι μεθ̓ ὃ ἦν μηδ’ ἐνεδέχετό τι γενέσθαι, ἦν ἂν ὃ ἦν μόνον. ὃ δὲ ἦν ἤδη παρῆν καὶ οὐκ ἔμελλε: τί οὖν ἠδύνατο ἄλλο μετὰ τὸ παρὸν αὐτό; οὐ τοίνυν ἦν ἂν δυνάμει.",
+   "flags": [
+    {
+     "taylor": "Actuality (an absolute, abstract Principle)",
+     "in": "MacKenna",
+     "why": "The Greek asks only whether activity (ἐνέργεια) is the same as being actually (τὸ ἐνεργείᾳ εἶναι); \"an absolute, abstract Principle\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "\"Potentially\" (δυνάμει) and \"actually\" (ἐνεργείᾳ), \"power\" (δύναμις) and \"activity\" (ἐνέργεια) are Aristotle's pairs (Metaphysics IX.1-9). The modern version keeps \"activity\" for ἐνέργεια, where MacKenna writes \"Actuality\" or \"Act\"."
+   ]
+  },
+  {
+   "seg": "II.5.1.p2",
+   "chapter": "II.5.1",
+   "modern": "So what is potentially something else must already be something, and be said to be potentially through being able to be something else after itself: either staying itself while it makes that other, or giving itself up to what it is able to be and perishing itself. For bronze is potentially a statue in one way, and water is potentially bronze, and air fire, in another. Being potential in this way, could it also be called a power towards what will be, as if the bronze were the power of the statue? Not at all, if the power is taken as the power to make: for the power taken as the power to make could not be called potential. But if the potential is said not only in relation to the actual but also in relation to activity, the potential would be a power too. It is better and clearer, though, to set the potential against the actual, and power against activity. What is potential, then, is something like a substrate for affections, shapes and forms, which it is going to receive and is of a nature to receive, or even hastens to take: some of them for the better, others for the worse, things that ruin it, while each such substrate is also actually something else.",
+   "greek": "δεῖ τοίνυν τὸ δυνάμει τι ὂν ἄλλο ἤδη τῷ τι καὶ ἄλλο μεθ̓ αὑτὸ δύνασθαι, ἤτοι μένον μετὰ τοῦ ἐκεῖνο ποιεῖν ἢ παρέχον αὑτὸ ἐκείνῳ ὃ δύναται φθαρὲν αὐτό, δυνάμει λέγεσθαι: ἄλλως γὰρ δυνάμει ἀνδριὰς ὁ χαλκός, ἄλλως τὸ ὕδωρ δυνάμει χαλκὸς καὶ ὁ ἀὴρ πῦρ. τοιοῦτον δὴ ὂν τὸ δυνάμει ἆρα καὶ δύναμις λέγοιτο ἂν πρὸς τὸ ἐσόμενον, οἷον ὁ χαλκὸς δύναμις τοῦ ἀνδριάντος; ἤ, εἰ μὲν ἡ δύναμις κατὰ τὸ ποιεῖν λαμβάνοιτο, οὐδαμῶς: οὐ γὰρ ἡ δύναμις ἡ κατὰ τὸ ποιεῖν λαμβανομένη λέγοιτο ἂν δυνάμει. εἰ δὲ τὸ δυνάμει μὴ μόνον πρὸς τὸ ἐνεργείᾳ λέγεται, ἀλλὰ καὶ πρὸς ἐνέργειαν, εἴη ἂν καὶ δύναμις τὸ δυνάμει. βέλτιον δὲ καὶ σαφέστερον τὸ μὲν δυνάμει πρὸς τὸ ἐνεργείᾳ, τὴν δὲ δύναμιν πρὸς ἐνέργειαν λέγειν. τὸ μὲν δὴ δυνάμει τοιοῦτον ὥσπερ ὑποκείμενόν τι πάθεσι καὶ μορφαῖς καὶ εἴδεσιν, ἃ μέλλει δέχεσθαι καὶ πέφυκεν ἢ καὶ σπεύδει ἑλεῖν, καὶ τὰ μὲν ὡς πρὸς τὸ βέλτιον, τὰ δὲ πρὸς τὰ χείρω καὶ λυμαντικὰ αὐτῶν, ὧν ἕκαστον καὶ ἐνεργείᾳ ἐστὶν ἄλλο.",
+   "flags": [
+    {
+     "taylor": "water (= primalliquid) as potentially bronze",
+     "in": "MacKenna",
+     "why": "The Greek says only \"water\" (τὸ ὕδωρ); \"primal liquid\" is MacKenna's gloss."
+    },
+    {
+     "taylor": "the Principle or Abstract in which potentiality",
+     "in": "MacKenna",
+     "why": "The Greek says that if the potential is spoken of in relation to activity, and not only to the actual, it would be a power too; the \"Principle or Abstract\" in MacKenna's brackets is his."
+    },
+    {
+     "taylor": "in regard to the process of Actualisation",
+     "in": "MacKenna",
+     "why": "The Greek pairs \"the potential\" with \"the actual\" (τὸ ἐνεργείᾳ) and \"power\" with \"activity\" (ἐνέργεια): two pairs of words, not a process and a principle."
+    }
+   ],
+   "notes": [
+    "Water as potentially bronze: in Plato's Timaeus (58d-59c) gold, bronze and the other metals are kinds of water, \"fusible\" water. Air becoming fire is the change of the elements into one another (Timaeus 49b-c)."
+   ]
+  },
+  {
+   "seg": "II.5.2.p1",
+   "chapter": "II.5.2",
+   "modern": "We must look into matter: whether, being actually something else, it is potentially the things it is shaped into, or actually nothing; and in general whether the other things we call potential, when they take the form and stay themselves, become actual; or whether \"actually\" will be said of the statue only by setting the actual statue against the potential statue, and not by saying \"actually\" of that of which \"potentially a statue\" was said. If so, it is not the potential that becomes actual; rather, from what was potential before, the actual came to be afterwards. For what is actually is the compound of both, not the matter; and the form is what is upon it. This is so when a different substance comes to be, as a statue from bronze: for the statue, as the compound, is a different substance. And with things that do not stay at all it is plain that the potential was altogether different. But when the man who is potentially a grammarian becomes one actually, how is the potential here not the same as the actual? For Socrates potentially wise is the same as Socrates actually wise.",
+   "greek": "περὶ δὲ τῆς ὕλης σκεπτέον, εἰ ἕτερόν τι οὖσα ἐνεργείᾳ δυνάμει ἐστὶ πρὸς ἃ μορφοῦται, ἢ οὐδὲν ἐνεργείᾳ, καὶ ὅλως καὶ τὰ ἄλλα ἃ λέγομεν δυνάμει λαβόντα τὸ εἶδος καὶ μένοντα αὐτὰ ἐνεργείᾳ γίνεται, ἢ τὸ ἐνεργείᾳ κατὰ τοῦ ἀνδριάντος λεχθήσεται ἀντιτιθεμένου μόνον τοῦ ἐνεργείᾳ ἀνδριάντος πρὸς τὸν δυνάμει ἀνδριάντα, ἀλλ’ οὐ τοῦ ἐνεργείᾳ κατηγορουμένου κατ’ ἐκείνου, καθ̓ οὗ τὸ δυνάμει ἀνδριὰς ἐλέγετο. εἰ δὴ οὕτως, οὐ τὸ δυνάμει γίνεται ἐνεργείᾳ, ἀλλ’ ἐκ τοῦ δυνάμει ὄντος πρότερον ἐγένετο τὸ ἐνεργείᾳ ὕστερον. καὶ γὰρ αὐτὸ τὸ ἐνεργείᾳ ὂν τὸ συναμφότερον, οὐχ ἡ ὕλη: τὸ δὲ εἶδος τὸ ἐπ’ αὐτῇ. καὶ τοῦτο μέν, εἰ ἑτέρα γίγνοιτο οὐσία, οἷον ἐκ χαλκοῦ ἀνδριάς. ἄλλη γὰρ οὐσία ὡς τὸ συναμφότερον ὁ ἀνδριάς: ἐπὶ δὲ τῶν ὅλως οὐ μενόντων φανερόν, ὡς τὸ δυνάμει παντάπασιν ἕτερον ἦν: ἀλλ’ ὅταν ὁ δυνάμει γραμματικὸς ἐνεργείᾳ γένηται, ἐνταῦθα τὸ δυνάμει πῶς οὐ καὶ ἐνεργείᾳ τὸ αὐτό; ὁ γὰρ δυνάμει Σωκράτης ὁ αὐτὸς καὶ ἐνεργείᾳ σοφός.",
+   "flags": [
+    {
+     "taylor": "a person with a capacity for education becomes in fact educated",
+     "in": "MacKenna",
+     "why": "The Greek is γραμματικός, one who knows letters, a grammarian: Aristotle's stock example of the learner."
+    }
+   ],
+   "notes": [
+    "The man who is potentially a grammarian, and so a knower in two senses, is Aristotle's (On the Soul II.5, 417a21-b2; Physics VIII.4, 255a33-b5)."
+   ]
+  },
+  {
+   "seg": "II.5.2.p2",
+   "chapter": "II.5.2",
+   "modern": "Is the man without knowledge, then, a knower, since he was potentially a knower? Or is it the man who is ignorant only by accident who is a knower? For it is not as ignorant that he is potentially a knower: it happened to him to be ignorant, but his soul, fit for it in itself, was what was potential, the very thing by which he is also a knower. So he still keeps the potential, and the man potentially a grammarian keeps it while already being a grammarian. Or nothing prevents it being so in another way too: in the first case only potentially, in this case the power having the form. If, then, the potential is the substrate, and the actual is the compound, the statue, what should we call the form on the bronze? It is not absurd to call the shape and the form the activity by which it is actually and not only potentially: not activity simply, but the activity of this thing. For we might perhaps more properly call something else activity, the one set against the power that brings on activity. For what is potential has its being actual from another; but a power has from itself the activity of what it can do: as a settled state and the activity named after it, courage and acting bravely. So much for that.",
+   "greek": "ἆρα οὖν καὶ ὁ ἀνεπιστήμων ἐπιστήμων; δυνάμει γὰρ ἦν ἐπιστήμων. ἢ ὁ κατὰ συμβεβηκὸς ἀμαθὴς ἐπιστήμων; οὐ γὰρ ᾗ ἀμαθὴς δυνάμει ἐπιστήμων, ἀλλὰ συμβεβήκει αὐτῷ ἀμαθεῖ εἶναι, ἡ δὲ ψυχὴ καθ̓ ἑαυτὴν ἐπιτηδείως ἔχουσα τὸ δυνάμει ἦν ᾗπερ καὶ ἐπιστήμων. ἔτι οὖν σώζει τὸ δυνάμει καὶ ὁ δυνάμει γραμματικὸς ἤδη γραμματικὸς ὤν. ἢ οὐδὲν κωλύει καὶ ἄλλον τρόπον: ἐκεῖ μὲν δυνάμει μόνον, ἐνταῦθα δὲ τῆς δυνάμεως ἐχούσης τὸ εἶδος. εἰ οὖν ἐστι τὸ μὲν δυνάμει τὸ ὑποκείμενον, τὸ δ’ ἐνεργείᾳ τὸ συναμφότερον, ὁ ἀνδριάς, τὸ εἶδος τὸ ἐπὶ τοῦ χαλκοῦ τί ἂν λέγοιτο; ἢ οὐκ ἄτοπον τὴν ἐνέργειαν, καθ̓ ἣν ἐνεργείᾳ ἐστὶ καὶ οὐ μόνον δυνάμει, τὴν μορφὴν καὶ τὸ εἶδος λέγειν, οὐχ ἁπλῶς ἐνέργειαν, ἀλλὰ τοῦδε ἐνέργειαν: ἐπεὶ καὶ ἄλλην ἐνέργειαν τάχα κυριώτερον ἂν λέγοιμεν, τὴν ἀντίθετον τῇ δυνάμει τῇ ἐπαγούσῃ ἐνέργειαν. τὸ μὲν γὰρ δυνάμει τὸ ἐνεργείᾳ ἔχει παῤ ἄλλου, τῇ δὲ δυνάμει ὃ δύναται παῤ αὐτῆς ἡ ἐνέργεια: οἷον ἕξις καὶ ἡ κατ’ αὐτὴν λεγομένη ἐνέργεια, ἀνδρεία καὶ τὸ ἀνδρίζεσθαι. ταῦτα μὲν μὲν οὖν οὕτως.",
+   "flags": [
+    {
+     "taylor": "but by virtue of Actuality (the abstract)",
+     "in": "MacKenna",
+     "why": "The Greek says the power has the activity \"from itself\" (παρ’ αὐτῆς): it does not act by virtue of an abstract Actuality."
+    },
+    {
+     "taylor": "between a temperament and its expression in act",
+     "in": "MacKenna",
+     "why": "The Greek is ἕξις, a settled state, Aristotle's word for the state a virtue is, not a temperament."
+    }
+   ],
+   "notes": [
+    "A settled state (ἕξις) and its activity: so Aristotle, Nicomachean Ethics II.1 (1103a31-b2), \"by doing brave acts we become brave\"."
+   ]
+  },
+  {
+   "seg": "II.5.3.p1",
+   "chapter": "II.5.3",
+   "modern": "Now we must say why all this was said first: how \"actually\" is said in the intelligibles, and whether each and all there are only actual, or each is also activity, and whether the potential is there too. If there is no matter there in which the potential is, and nothing there is going to be what it is not already, nor does anything there change into something else, or, staying, beget something other, or, standing out of itself, give way to another to be in its place, then the potential would not be there, where all things are really, things that have eternity and not time. If, then, someone asked those who set matter in the intelligibles too whether there is not the potential there as well, after the matter there (for even if matter is there in another way, still in each thing there will be one part as matter, one as form, and the compound of both), what will they say? That what is as matter there is form too; since soul, being a form, would also be matter in relation to another. Is it not, then, potentially that other? No: for the form was its own, and does not come later, and is not separated except in thought; and so it has matter in that it is thought of as double, but both are one nature: as Aristotle too says that the fifth body is without matter.",
+   "greek": "οὗ δ’ ἕνεκα ταῦτα προείρηται, νῦν λεκτέον, ἐν τοῖς νοητοῖς πῶς ποτε τὸ ἐνεργείᾳ λέγεται καὶ εἰ ἐνεργείᾳ μόνον ἢ καὶ ἐνέργεια ἕκαστον καὶ πάντα καὶ εἰ τὸ δυνάμει κἀκεῖ. εἰ δὲ μήτε ὕλη ἐκεῖ ἐν ᾗ τὸ δυνάμει, μήτε τι μέλλει τῶν ἐκεῖ, ὃ μὴ ἤδη ἔστι, μηδέ τι μεταβάλλον εἰς ἄλλο ἢ μένον ἕτερόν τι γεννᾷ ἢ ἐξιστάμενον ἑαυτοῦ ἔδωκεν ἄλλῳ ἀνθ̓ αὑτοῦ εἶναι, οὐκ ἂν εἴη ἐκεῖ τὸ δυνάμει, ἐν ᾧ ἐστι πάντα ὄντως, τῶν ὄντων καὶ αἰῶνα, οὐ χρόνον ἐχόντων. εἴ τις οὖν καὶ ἐπὶ τῶν νοητῶν τοὺς τιθεμένους κἀκεῖ ὕλην ἔροιτο, εἰ μὴ κἀκεῖ τὸ δυνάμει κατὰ τὴν ὕλην τὴν ἐκεῖ — καὶ γὰρ εἰ ἄλλον τρόπον ἡ ὕλη, ἀλλ’ ἔσται ἐφ̓ ἑκάστου τὸ μὲν ὡς ὕλη, τὸ δὲ ὡς εἶδος, τὸ δὲ συναμφότερον — τί ἐροῦσιν; ἢ καὶ τὸ ὡς ὕλη ἐκεῖ εἶδός ἐστιν, ἐπεὶ καὶ ἡ ψυχὴ εἶδος ὂν πρὸς ἕτερον ἂν εἴη ὕλη. οὐκοῦν πρὸς ἐκεῖνο καὶ δυνάμει; ἢ οὔ: εἶδος γὰρ ἦν αὐτῆς καὶ οὐκ εἰς ὕστερον δὲ τὸ εἶδος καὶ οὐ χωρίζεται δὲ ἀλλ’ ἢ λόγῳ, καὶ οὕτως ὕλην ἔχον, ὡς διπλοῦν νοούμενον, ἄμφω δὲ μία φύσις: οἷον καὶ Ἀριστοτέλης φησὶ τὸ πέμπτον σῶμα ἄυλον εἶναι.",
+   "flags": [
+    {
+     "taylor": "who (with us) assert Matter in the Intellectual Realm",
+     "in": "MacKenna",
+     "why": "\"With us\" is MacKenna's; it is true to Plotinus, who set out an intelligible matter in II.4 (chapters 2-5), but the Greek says only \"those who set matter there too\"."
+    }
+   ],
+   "notes": [
+    "The fifth body is Aristotle's heavenly body (On the Heavens I.2-3); Aristotle allows it matter only for movement in place, not for coming to be (Metaphysics VIII.4, 1044b7-8; XII.2, 1069b24-26)."
+   ]
+  },
+  {
+   "seg": "II.5.3.p2",
+   "chapter": "II.5.3",
+   "modern": "But what shall we say about soul? It is potentially a living being, when it is not yet one but is going to be; and potentially musical, and all the other things it becomes, not being them always: so the potential is in the intelligibles too. Or rather it is not potentially these things: soul is the power of them. How, then, is the actual there? Is it as the statue, the compound, is actual, because each thing has received its form? Or because each is a form, and complete as what it is. For intellect does not go from a power of being able to think to the activity of thinking; for then it would need another, prior to it, which did not come from a power; the whole is in it. For what is potential wants something else to come upon it and bring it into activity, so that it may become something actually; but what has from itself what is always so, that would be actual. All the first things, then, are actual: for they have what they must have, from themselves and always. And so is soul, the soul that is not in matter but in the intelligible; and the other soul too, the one in matter, is actual, the soul of growth, for instance: for this one too is actually what it is.",
+   "greek": "περὶ δὲ ψυχῆς πῶς ἐροῦμεν; δυνάμει γὰρ ζῷον, ὅταν μήπω, μέλλῃ δέ, καὶ μουσικὴ δυνάμει καὶ τὰ ἄλλα ὅσα γίνεται οὐκ ἀεὶ οὖσα: ὥστε καὶ ἐν νοητοῖς τὸ δυνάμει. ἢ οὐ δυνάμει ταῦτα, ἀλλὰ δύναμις ἡ ψυχὴ τούτων. τὸ δὲ ἐνεργείᾳ πῶς ἐκεῖ; ἆρα ὡς ὁ ἀνδριὰς τὸ συναμφότερον ἐνεργείᾳ, ὅτι τὸ εἶδος ἕκαστον ἀπείληφεν; ἢ ὅτι εἶδος ἕκαστον καὶ τέλειον ὃ ἔστι. νοῦς γὰρ οὐκ ἐκ δυνάμεως τῆς κατὰ τὸ οἷόν τε νοεῖν εἰς ἐνέργειαν τοῦ νοεῖν — ἄλλου γὰρ ἂν προτέρου τοῦ οὐκ ἐκ δυνάμεως δέοιτο — ἀλλ’ ἐν αὐτῷ τὸ πᾶν. τὸ γὰρ δυνάμει βούλεται ἑτέρου ἐπελθόντος εἰς ἐνέργειαν ἄγεσθαι, ἵνα ἐνεργείᾳ γίγνηταί τι, ὃ δ’ αὐτὸ παῤ αὑτοῦ τὸ ἀεὶ οὕτως ἔχει, τοῦτο ἐνεργείᾳ ἂν εἴη. πάντα οὖν τὰ πρῶτα ἐνεργείᾳ: ἔχει γὰρ ἃ δεῖ ἔχειν καὶ παῤ αὐτῶν καὶ ἀεί: καὶ ψυχὴ δὴ οὕτως ἡ μὴ ἐν ὕλῃ, ἀλλ’ ἐν τῷ νοητῷ. καὶ ἡ ἐν ὕλῃ δὲ ἄλλη ἐνεργείᾳ: οἷον ἡ φυτική: ἐνεργείᾳ γὰρ καὶ αὕτη ὃ ἔστιν.",
+   "flags": [
+    {
+     "taylor": "the Form-Idea has mastered each separate constituent",
+     "in": "MacKenna",
+     "why": "The Greek asks whether it is actual \"because each has received its form\" (ὅτι τὸ εἶδος ἕκαστον ἀπείληφεν); \"mastered\" is MacKenna's."
+    },
+    {
+     "taylor": "(and not, like material things, merely in image)",
+     "in": "MacKenna",
+     "why": "MacKenna's words in brackets are his; the Greek says only that the soul of growth \"too is actually what it is\"."
+    }
+   ]
+  },
+  {
+   "seg": "II.5.3.p3",
+   "chapter": "II.5.3",
+   "modern": "But if all are actual, are all of them in this way also activity? Or how? If that nature is rightly said to be sleepless, and life, and the best life, the most beautiful activities would be there. All, then, are both actual and activity, all are lives, and the place there is a place of life, and truly the principle and spring of soul and intellect.",
+   "greek": "ἀλλ’ ἐνεργείᾳ μὲν πάντα, καὶ οὕτως ἐνέργεια τὰ πάντα; ἢ πῶς; εἰ δὴ καλῶς εἴρηται ἐκείνη ἡ φύσις ἄγρυπνος εἶναι καὶ ζωὴ καὶ ζωὴ ἀρίστη, αἱ κάλλισται ἂν εἶεν ἐκεῖ ἐνέργειαι. καὶ ἐνεργείᾳ ἄρα καὶ ἐνέργεια τὰ πάντα καὶ ζωαὶ τὰ πάντα καὶ ὁ τόπος ὁ ἐκεῖ τόπος ἐστὶ ζωῆς καὶ ἀρχὴ καὶ πηγὴ ἀληθῶς ψυχῆς τε καὶ νοῦ.",
+   "notes": [
+    "\"Sleepless\" and \"the best life\" are said of Aristotle's god, whose life is \"best and eternal\" (Metaphysics XII.7, 1072b26-30) and who, if it thought nothing, would be like one asleep (XII.9, 1074b17-18). The \"spring\" (πηγή) of soul echoes Plato's Phaedrus (245c), where soul is \"the spring and principle of motion\"."
+   ]
+  },
+  {
+   "seg": "II.5.4.p1",
+   "chapter": "II.5.4",
+   "modern": "All the other things, then, that are something potentially, also have being actually something else, which, already being, is said to be potentially in relation to another. But what of what is called matter, which we say is potentially all the beings: how can it be said to be actually any of the beings? Otherwise not all the beings would be potentially in it. If, then, it is none of the beings, it must necessarily not be a being itself. How, then, could it be actually anything, being none of the beings? Still, it would be none of these beings that come to be upon it; but nothing prevents it being something else, if indeed not all the beings are upon matter. But if it is none of the things upon it, and these are beings, it would be non-being. Nor indeed, imagined as something formless, would it be a form: so it could not be counted among those either. So in this way too it will be non-being. Being non-being on both counts, then, it will be non-being all the more. If it has fled the nature of what truly is, and cannot reach even the things falsely said to be, because it is not even a phantom of a forming principle as they are, in what kind of being could it be caught? And if in none, what could it be actually?",
+   "greek": "τὰ μὲν οὖν ἄλλα πάντα, ὅσα δυνάμει τί ἐστιν, ἔχει καὶ τὸ ἐνεργείᾳ εἶναι ἄλλο τι, ὃ ἤδη ὂν πρὸς ἄλλο δυνάμει εἶναι λέγεται: περὶ δὲ τῆς λεγομένης εἶναι ὕλης, ἣν πάντα δυνάμει λέγομεν τὰ ὄντα, πῶς ἔστιν εἰπεῖν ἐνεργείᾳ τι τῶν ὄντων εἶναι; ἢ γὰρ οὐ πάντα τὰ ὄντα δυνάμει ἂν εἴη. εἰ οὖν μηδὲν τῶν ὄντων, ἀνάγκη μηδ’ ὂν αὐτὴν εἶναι. πῶς οὖν ἂν ἐνεργείᾳ τι εἴη μηδὲν τῶν ὄντων οὖσα; ἀλλ’ οὐδὲν τῶν ὄντων ἂν εἴη τούτων, ἃ γίνεται ἐπ’ αὐτῇ, ἄλλο δέ τι οὐδὲν κωλύει εἶναι, εἴπερ μηδὲ πάντα τὰ ὄντα ἐπὶ τῇ ὕλῃ. εἰ μὲν δὴ οὐδέν ἐστι τούτων τῶν ἐπ’ αὐτῇ, ταῦτα δὲ ὄντα, μὴ ὂν ἂν εἴη. οὐ μὲν δὴ ἀνείδεόν τι φανταζομένη εἶδος ἂν εἴη; οὐ τοίνυν οὐδ’ ἐν ἐκείνοις ἂν ἀριθμηθείη. μὴ ὂν ἄρα καὶ ταύτῃ ἔσται. ἐπ’ ἄμφω ἄρα μὴ ὂν οὖσα καὶ πλειόνως μὴ ὂν ἔσται. εἰ δὴ πέφευγε μὲν τὴν τῶν ὡς ἀληθῶς ὄντων φύσιν, οὐ δύναται δὲ ἐφικέσθαι οὐδὲ τῶν ψευδῶς λεγομένων εἶναι, ὅτι μηδὲ ἴνδαλμα λόγου ἐστὶν ὡς ταῦτα, ἐν τίνι τῷ εἶναι ἂν ἁλοίη; εἰ δὲ ἐν μηδενὶ τῷ εἶναι, τί ἂν ἐνεργείᾳ εἴη;",
+   "flags": [
+    {
+     "taylor": "this potentiality of the future mode of being is an existing mode",
+     "in": "MacKenna",
+     "why": "The Greek says the thing that is potential is already actually something else, and is said to be potentially in relation to another; it says nothing of a \"future mode of being\"."
+    },
+    {
+     "taylor": "it is not even a phantasm of Reason",
+     "in": "MacKenna",
+     "why": "The Greek is ἴνδαλμα λόγου, a phantom of a forming principle: the bodies that are \"falsely said to be\" are images of forming principles, and matter is not even that."
+    }
+   ],
+   "notes": [
+    "\"What truly is\" and what is falsely said to be: Plato's Timaeus (27d-28a, 52a-c) sets what always is against what comes to be and never is, and makes the receptacle a third kind, grasped \"by a bastard reasoning\"."
+   ]
+  },
+  {
+   "seg": "II.5.5.p1",
+   "chapter": "II.5.5",
+   "modern": "How, then, shall we speak of it? How is it the matter of the beings? Because it is potentially. Then, because it is potentially, is it already what it is going to be? No: its being is only the promise of what is going to be; its being, as it were, is put off to what will be. What is potential, then, is not something, but potentially all things; being nothing by itself, but being what it is, matter, it is not actually either. For if it is actually something, that which it is actually will not be matter; it will not be matter in every way, but only as the bronze is. It would be non-being, then, not as different from being, as motion is: for motion rides upon being, coming as it were from it and being in it; but matter is as if cast out and wholly separated, unable to change itself, but always as it was from the beginning; and it was non-being. It was not actually anything from the beginning, standing away from all the beings, nor did it become anything: it has not even been able to take a colour from the things it wished to put on; but staying, being potentially towards something else, towards what came next, it appeared when those beings had already come to an end, and, caught by the things that came to be after it, it settled as the last of these too.",
+   "greek": "πῶς οὖν λέγωμεν περὶ αὐτῆς; πῶς δὲ τῶν ὄντων ὕλη; ἢ ὅτι δυνάμει. οὔκουν, ὅτι δυνάμει, ἤδη ἔστι καθὸ μέλλει, ἀλλὰ τὸ εἶναι αὐτῇ μόνον τὸ μέλλον ἐπαγγελλόμενον: οἷον τὸ εἶναι αὐτῇ εἰς ἐκεῖνο ἀναβάλλεται, ὃ ἔσται. τὸ τοίνυν δυνάμει οὔ τι, ἀλλὰ δυνάμει πάντα: μηδὲν δὲ ὂν καθ̓ αὑτό, ἀλλ’ ὃ ἔστιν ὕλη ὄν, οὐδὲ ἐνεργείᾳ ἐστίν. εἰ γὰρ ἔστι τι ἐνεργείᾳ, ἐκεῖνο, ὃ ἔστιν ἐνεργείᾳ, οὐχ ὕλη ἔσται: οὐ πάντη οὖν ὕλη, ἀλλὰ οἷον ὁ χαλκός. εἴη ἂν οὖν τὸ μὴ ὄν, οὐχ ὡς ἕτερον τοῦ ὄντος, οἷον κίνησις: αὕτη γὰρ καὶ ἐποχεῖται τῷ ὄντι οἷον ἀπ’ αὐτοῦ καὶ ἐν αὐτῷ οὖσα, ἡ δέ ἐστιν οἷον ἐκριφεῖσα καὶ πάντη χωρισθεῖσα καὶ μεταβάλλειν ἑαυτὴν οὐ δυναμένη, ἀλλ’ ὅπερ ἐξ ἀρχῆς ἦν: μὴ ὂν δὲ ἦν: οὕτως ἀεὶ ἔχουσα. οὔτε δὲ ἦν ἐξ ἀρχῆς ἐνεργείᾳ τι ἀποστᾶσα πάντων τῶν ὄντων οὔτε ἐγένετο: ἃ γὰρ ὑποδῦναι ἠθέλησεν, οὐδὲ χρωσθῆναι ἀπ’ αὐτῶν δεδύνηται, ἀλλὰ μένουσα πρὸς ἄλλο δυνάμει οὖσα πρὸς τὰ ἐφεξῆς, τῶν δ’ ὄντων ἤδη παυσαμένων ἐκείνων φανεῖσα ὑπό τε τῶν μετ’ αὐτὴν γενομένων καταληφθεῖσα ἔσχατον καὶ τούτων κατέστη.",
+   "flags": [
+    {
+     "taylor": "annex for itself even a visible outline",
+     "in": "MacKenna",
+     "why": "The Greek says it could not even \"be coloured\" (χρωσθῆναι) by the things it wished to slip into: a colour, not an outline."
+    },
+    {
+     "taylor": "it is remoter (from Real-Being) even than they",
+     "in": "MacKenna",
+     "why": "The Greek says that, caught by the things that came to be after it, it \"settled as the last of these too\" (ἔσχατον καὶ τούτων κατέστη): last in the order, not further from real being."
+    }
+   ],
+   "notes": [
+    "Non-being as \"the different\" from being, and motion as different from being and yet partaking in it, are the Eleatic Stranger's in Plato's Sophist (255e-256d, 257b, 258b)."
+   ]
+  },
+  {
+   "seg": "II.5.5.p2",
+   "chapter": "II.5.5",
+   "modern": "Caught by both, then, it would be actually neither, but is left to be only potentially, something weak and dim, an image unable to be shaped. It is actually, then, an image; it is actually, then, a falsehood. And this is the same as being truly a falsehood, and this is really non-being. If, then, it is actually non-being, it is non-being more, and so really non-being. So it is far from being actually any of the beings, since its truth lies in non-being. If, then, it must be, it must not be actually, so that, having stepped out of true being, it may have its being in non-being; since, with things that are falsely, if you take away their falsehood, you take away whatever being they had; and if you bring activity into things that have their being and their substance in being potential, you have destroyed the cause of their existence, because their being was in potency. If, then, we must keep matter indestructible, we must keep it as matter: so we must say, it seems, that it is only potentially, so that it may be what it is; or else these arguments must be refuted.",
+   "greek": "ὑπ’ ἀμφοτέρων οὖν καταληφθεῖσα ἐνεργείᾳ μὲν οὐδετέρων ἂν εἴη, δυνάμει δὲ μόνον ἐγκαταλέλειπται εἶναι ἀσθενές τι καὶ ἀμυδρὸν εἴδωλον μορφοῦσθαι μὴ δυνάμενον. οὐκοῦν ἐνεργείᾳ εἴδωλον: οὐκοῦν ἐνεργείᾳ ψεῦδος. τοῦτο δὲ ταὐτὸν τῷ ἀληθινῶς ψεῦδος: τοῦτο δὲ ὄντως μὴ ὄν. εἰ οὖν ἐνεργείᾳ μὴ ὄν, μᾶλλον μὴ ὄν, καὶ ὄντως ἄρα μὴ ὄν. πολλοῦ ἄρα δεῖ αὐτῷ ἐνεργείᾳ τι τῶν ὄντων εἶναι τὸ ἀληθὲς ἔχοντι ἐν τῷ μὴ ὄντι. εἴπερ ἄρα δεῖ αὐτὸ εἶναι, δεῖ αὐτὸ ἐνεργείᾳ μὴ εἶναι, ἵνα ἐκβεβηκὸς τοῦ ἀληθῶς εἶναι ἐν τῷ μὴ εἶναι ἔχῃ τὸ εἶναι, ἐπείπερ τοῖς ψευδῶς οὖσιν, ἐὰν ἀφέλῃς τὸ ψεῦδος αὐτῶν, ἀφεῖλες αὐτῶν ἥντινα εἶχον οὐσίαν, καὶ τοῖς δυνάμει τὸ εἶναι καὶ τὴν οὐσίαν ἔχουσιν εἰσαγαγὼν τὴν ἐνέργειαν ἀπολώλεκας τῆς ὑποστάσεως αὐτῶν τὴν αἰτίαν, ὅτι τὸ εἶναι αὐτοῖς ἐν δυνάμει ἦν. εἴπερ ἄρα δεῖ ἀνώλεθρον τὴν ὕλην τηρεῖν, ὕλην αὐτὴν δεῖ τηρεῖν: δεῖ ἄρα δυνάμει, ὡς ἔοικεν,εἶναι λέγειν μόνον, ἵνα ᾖ ὃ ἔστιν, ἢ τούτους τοὺς λόγους ἐξελεγκτέον.",
+   "flags": [
+    {
+     "taylor": "kept as the unchanging substratum",
+     "in": "MacKenna",
+     "why": "The Greek is ἀνώλεθρον, \"indestructible\": matter must not perish, which it would if it became actual."
+    }
+   ],
+   "notes": [
+    "Matter as a weak and dim image, truly false, is Plotinus' account in III.6 (chapter 7), where it is a \"phantom\" (φάντασμα) that holds nothing and promises everything."
+   ]
+  },
+  {
+   "seg": "II.6.1.p1",
+   "chapter": "II.6.1",
+   "modern": "Is being different from substance? Is being stripped of the others, while substance is being together with the others, motion, rest, sameness and difference, and these are its elements? The whole, then, is substance, and of those each is being, or motion, or something else. Motion, then, is a being by accident: is it, then, a substance by accident? Or does it complete substance? Or is it too a substance, and all the things there are substance? Why not here too, then? Because there all are one, but here, the images being divided, one is one thing and another another; as in the seed all things are together, and each is all, and hand is not apart and head apart, while here they are separated from each other: for they are images, and not true.",
+   "greek": "Ἆρα τὸ ὂν καὶ ἡ οὐσία ἕτερον. καὶ τὸ μὲν ὂν ἀπηρημωμένον τῶν ἄλλων, ἡ δὲ οὐσία τὸ ὂν μετὰ τῶν ἄλλων, κινήσεως, στάσεως, ταὐτοῦ, ἑτέρου, καὶ στοιχεῖα ταῦτα ἐκείνης; τὸ οὖν ὅλον οὐσία, ἕκαστον δὲ ἐκείνων τὸ μὲν ὄν, τὸ δὲ κίνησις, τὸ δὲ ἄλλο τι. κίνησις μὲν οὖν κατὰ συμβεβηκὸς ὄν: οὐσία δὴ ἄρα κατὰ συμβεβηκός: ἢ συμπληρωτικὸν οὐσίας; ἢ καὶ αὐτὴ οὐσία καὶ τὰ ἐκεῖ πάντα οὐσία. πῶς οὖν οὐ καὶ ἐνταῦθα; ἢ ἐκεῖ, ὅτι ἓν πάντα, ἐνθάδε δὲ διαληφθέντων τῶν εἰδώλων τὸ μὲν ἄλλο, τὸ δὲ ἄλλο: ὥσπερ ἐν μὲν τῷ σπέρματι ὁμοῦ πάντα καὶ ἕκαστον πάντα καὶ οὐ χεὶρ χωρὶς καὶ χωρὶς κεφαλή, ἐνθάδε δὲ χωρίζεται ἀλλήλων: εἴδωλα γὰρ καὶ οὐκ ἀληθῆ.",
+   "flags": [
+    {
+     "taylor": "envisage Being as the substance stripped of all else",
+     "in": "MacKenna",
+     "why": "The Greek says only \"being stripped of the others\" (τὸ μὲν ὂν ἀπηρημωμένον τῶν ἄλλων). MacKenna's \"Reality\" in this treatise stands for οὐσία, which the modern version calls substance."
+    }
+   ],
+   "notes": [
+    "Being, motion, rest, sameness and difference are the five greatest kinds of Plato's Sophist (254b-255e); Plotinus takes them as the kinds of the intelligible world in VI.2 (chapters 7-8). The seed in which all the parts are together is the Stoics' \"seminal principle\"; Plotinus uses it again in III.2.2 and V.9.6."
+   ]
+  },
+  {
+   "seg": "II.6.1.p2",
+   "chapter": "II.6.1",
+   "modern": "Shall we say, then, that the qualities there are differences of substance, about substance or about being, differences that make substances different from one another, and substances on the whole? That is not absurd; but there is the question of the qualities here, some of which are differences of substances, as two-footed and four-footed, while others, not being differences, are called qualities for that very reason. And yet the same thing becomes a difference when it completes a substance, and is not a difference in something else, where it does not complete the substance but is an accident: as white completes a swan or white lead, but is an accident in you. Or rather the white in the forming principle completes it and is not a quality, while the white on the surface is a quality. Or we must divide quality: one kind belongs to the substance, being something proper to it; the other is only quality, by which a substance is qualified, the quality making no change into the substance or out of it, but, the substance being already there and completed, making a disposition from outside, an addition after the substance of the thing, whether it comes to be about a soul or about a body.",
+   "greek": "τὰς οὖν ποιότητας ἐκεῖ φήσομεν οὐσίας διαφορὰς περὶ οὐσίαν οὔσας ἢ περὶ ὄν, διαφορὰς δὲ ποιούσας ἑτέρας οὐσίας πρὸς ἀλλήλας καὶ ὅλως οὐσίας; ἢ οὐκ ἄτοπον, ἀλλὰ περὶ τῶν τῇδε ποιοτήτων, ὧν αἱ μὲν διαφοραὶ οὐσιῶν, ὡς τὸ δίπουν καὶ τὸ τετράπουν, αἱ δὲ οὐ διαφοραὶ οὖσαι αὐτὸ τοῦτο μόνον ποιότητες λέγονται. καίτοι τὸ αὐτὸ καὶ διαφορὰ γίνεται συμπληροῦσα καὶ οὐ διαφορὰ ἐν ἄλλῳ οὐ συμπληροῦσα τὴν οὐσίαν, σημβεβηκὸς δέ: οἷον τὸ λευκὸν ἐν μὲν κύκνῳ ἢ ψιμμυθίῳ συμπληροῦν, ἐν δὲ σοὶ συμβεβηκός. ἢ τὸ λευκὸν τὸ μὲν ἐν τῷ λόγῳ συμπληροῦν καὶ οὐ ποιότης, τὸ δὲ ἐν τῇ ἐπιφανείᾳ ποιόν. ἢ διαιρετέον τὸ ποιόν, ὡς τὸ μὲν οὐσιῶδες ἰδιότης τις οὖσα τῆς οὐσίας, τὸ δὲ μόνον ποιόν, καθ̓ ὃ ποιὰ οὐσία, τοῦ ποιοῦ οὐ διαλλαγὴν εἰς τὴν οὐσίαν ποιοῦντος οὐδ’ ἐκ τῆς οὐσίας, ἀλλ’ οὔσης ἤδη καὶ πεπληρωμένης διάθεσίν τινα ἔξωθεν ποιοῦντος καὶ μετὰ τὴν οὐσίαν τοῦ πράγματος προσθήκην, εἴτε περὶ ψυχὴν εἴτε περὶ σῶμα γίνοιτο.",
+   "flags": [
+    {
+     "taylor": "elaborates the Reality into the particular thing",
+     "in": "MacKenna",
+     "why": "The Greek says the quality is \"an addition after the substance of the thing\" (μετὰ τὴν οὐσίαν τοῦ πράγματος προσθήκην); it says nothing of making the particular thing."
+    }
+   ],
+   "notes": [
+    "Two-footed and four-footed, the differences that divide the kind \"animal\", are the stock examples of Aristotle (Metaphysics VII.12)."
+   ]
+  },
+  {
+   "seg": "II.6.1.p3",
+   "chapter": "II.6.1",
+   "modern": "But what if the visible white on white lead completes it? On the swan it does not, since a swan could come to be not white; but on white lead it does. And heat does on fire. But what if someone said that fieriness is the substance, and something answering to it on the white lead? Still, the fieriness or heat of the visible fire completes it, and the whiteness the other. The same things, then, will complete and not be qualities, and will not complete and be qualities; and it is absurd to say that they are one thing where they complete and another where they do not, the nature being the same.",
+   "greek": "ἀλλ’ εἰ καὶ τὸ ὁρώμενον λευκὸν ἐπὶ τοῦ ψιμμυθίου συμπληρωτικὸν εἴη αὐτοῦ; ἐπὶ μὲν γὰρ τοῦ κύκνου οὐ συμπληρωτικόν: γένοιτο γὰρ ἂν καὶ οὐ λευκός: ἀλλ’ ἐπὶ τοῦ ψιμμυθίου. καὶ τοῦ πυρὸς δὲ ἡ θερμότης. ἀλλ’ εἴ τις λέγοι τὴν πυρότητα τὴν οὐσίαν εἶναι καὶ ἐπὶ τοῦ ψιμμυθίου τὸ ἀνάλογον; ἀλλ’ ὅμως τοῦ ὁρωμένου πυρὸς πυρότης ἢ θερμότης συμπληροῦσα καὶ ἡ λευκότης ἐπὶ τοῦ ἑτέρου. αἱ αὐταὶ τοίνυν συμπληρώσουσι καὶ οὐ ποιότητες, καὶ οὐ συμπληρώσουσι καὶ ποιότητες: καὶ ἄτοπον ἐν μὲν οἷς συμπληροῦσι λέγειν ἄλλο εἶναι, ἐν δὲ οἷς μὴ ἄλλο, τῆς αὐτῆς φύσεως οὔσης.",
+   "notes": [
+    "White lead (ψιμμύθιον) is lead carbonate, ground for a white paint and for women's face powder; its whiteness is what it is."
+   ]
+  },
+  {
+   "seg": "II.6.1.p4",
+   "chapter": "II.6.1",
+   "modern": "Or are the forming principles that made them wholly of substance, while the things they bring about are there a \"something\", but here qualified, not a \"something\"? Hence we always go wrong about the \"something\": in seeking it we slip away and are carried down into the qualified. For fire is not what we call it when we look to the quality: fire is a substance; but what we see now, and look to when we speak, leads us away from the \"something\" and defines the qualified. And with things perceived by the senses this is reasonable: none of them is a substance, but affections of it. Hence that question too: how does substance come from what are not substances? It was said that what comes to be need not be the same as what it comes from; but now we must say that what comes to be is not a substance either. But how do we say that what we called substance there comes from what is not substance? We shall say that substance there, which has being more properly and more unmixed, is substance as being among the differences of being; or rather, it is called substance with the addition of activities: it seems to be the completion of being, but is perhaps more lacking by the addition and by not being simple, standing already away from being.",
+   "greek": "ἀλλ’ ἄρα τοὺς μὲν λόγους τοὺς ποιήσαντας αὐτὰ οὐσιώδεις ὅλους, τὰ δὲ ἀποτελέσματα ἔχειν ἤδη τὰ ἐκεῖ τὶ τὰ δ’ ἐνταῦθα ποιά, οὐ τί. ὅθεν καὶ ἁμαρτάνειν ἡμᾶς ἀεὶ περὶ τὸ τὶ ἀπολισθαίνοντας ἐν ταῖς ζητήσεσιν αὐτοῦ καὶ εἰς τὸ ποιὸν καταφερομένους. οὐ γὰρ εἶναι τὸ πῦρ ὃ λέγομεν εἰς τὸ ποιὸν ἀφορῶντες, ἀλλὰ τὸ μὲν εἶναι οὐσίαν, ἃ δὲ νῦν βλέπομεν, εἰς ἃ καὶ ἀφορῶντες λέγομεν, ἀπάγειν ἡμᾶς ἀπὸ τοῦ τὶ καὶ ὁρίζεσθαι τὸ ποιόν: καὶ ἐπὶ τῶν αἰσθητῶν εὐλόγως, οὐδὲν γὰρ αὐτῶν οὐσίαν εἶναι, ἀλλ’ αὐτῆς πάθη. ὅθεν κἀκεῖνο, πῶς ἐξ οὐκ οὐσιῶν οὐσία. ἐλέγετο μὲν οὖν, ὅτι οὐ δεῖ τὸ αὐτὸ τὸ γινόμενον εἶναι τοῖς ἐξ ὧν: νῦν δὲ λέγειν δεῖ, ὅτι οὐδὲ τὸ γενόμενον οὐσία. ἀλλὰ πῶς ἐκεῖ ἣν ἐλέγομεν οὐσίαν ἐξ οὐκ οὐσίας λέγομεν; τὴν γὰρ οὐσίαν φήσομεν ἐκεῖ κυριώτερον καὶ ἀμιγέστερον ἔχουσαν τὸ ὂν εἶναι οὐσίαν ὡς ἐν διαφοραῖς τοῦ ὄντος, μᾶλλον δὲ μετὰ προσθήκης ἐνεργειῶν λεγομένην οὐσίαν, τελείωσιν μὲν δοκοῦσαν εἶναι ἐκείνου, τάχα δ’ ἐνδεεστέραν τῇ προσθήκῃ καὶ τῷ οὐχ ἁπλῷ, ἀλλ’ ἤδη ἀφισταμένην τούτου.",
+   "flags": [
+    {
+     "taylor": "(not a combination of material phenomena)",
+     "in": "MacKenna",
+     "why": "The words in brackets are MacKenna's; the Greek says only \"fire is a substance\"."
+    },
+    {
+     "taylor": "from the pure Being which is above Reality",
+     "in": "MacKenna",
+     "why": "MacKenna's gloss in brackets; the Greek asks only how substance there comes \"from what is not substance\" (ἐξ οὐκ οὐσίας), being and its activities."
+    },
+    {
+     "taylor": "though in the truth it is a diminution",
+     "in": "MacKenna",
+     "why": "The Greek hedges: substance is \"perhaps\" (τάχα) more lacking than being; MacKenna makes it certain."
+    }
+   ],
+   "notes": [
+    "The \"something\" (τὸ τί) and the \"qualified\" (τὸ ποιόν) are Aristotle's categories of substance and quality (Categories 4, 1b25-27); the Stoics too named the substrate and the qualified as two of their kinds."
+   ]
+  },
+  {
+   "seg": "II.6.2.p1",
+   "chapter": "II.6.2",
+   "modern": "But we must look into what quality is on the whole: for once we know what it is, the difficulties may rather stop. First, then, we must ask whether the same thing is to be set down sometimes as only a quality and sometimes as completing a substance, without being troubled that a quality completes not a substance but rather a qualified substance. In the qualified substance, then, the substance, and what it is, must come before its being qualified. In fire, then, what is the substance, before the qualified substance? Is it the body? Then body will be the substance, and fire a hot body, and the whole not a substance; and the hot will be in it as the snub nose is in you. Take away, then, heat, brightness and lightness, which do seem to be qualities, and resistance, and what is left is what is extended three ways, and matter is the substance. But that does not seem right: the form is rather the substance. But the form is a quality. No: the form is not a quality but a forming principle.",
+   "greek": "ἀλλὰ περὶ τῆς ποιότητος σκεπτέον τί ὅλως: τάχα γὰρ γνωσθὲν ὅ τι ἐστὶ μᾶλλον παύσει τὰς ἀπορίας. πρῶτον οὗν ἐκεῖνο ζητητέον, εἰ τὸ αὐτὸ θετέον ὁτὲ μὲν ποιὸν μόνον, ὁτὲ δὲ συμπληροῦν οὐσίαν, οὐ δυσχεράναντας ποιὸν οὐ συμπληρωτικὸν οὐσίας εἶναι, ἀλλὰ ποιᾶς μᾶλλον οὐσίας. δεῖ τοίνυν ἐπὶ τῆς ποιᾶς οὐσίας τὴν οὐσίαν πρὸ τοῦ ποιὰν εἶναι καὶ τὸ τί ἐστι. τί οὖν ἐπὶ τοῦ πυρὸς πρὸ τῆς ποιᾶς οὐσίας ἡ οὐσία; ἆρα τὸ σῶμα; τὸ σῶμα τοίνυν οὐσία ἔσται, τὸ δὲ πῦρ σῶμα θερμὸν καὶ οὐκ οὐσία τὸ ὅλον, ἀλλ’ οὕτω τὸ θερμὸν ἐν αὐτῷ, ὡς καὶ ἐν σοὶ τὸ σιμόν. ἀφαιρεθείσης τοίνυν θερμότητος καὶ τοῦ λαμπροῦ καὶ κούφου, ἃ δὴ δοκεῖ ποιὰ εἶναι, καὶ ἀντιτυπίας τὸ τριχῆ διαστατὸν καταλείπεται καὶ ἡ ὕλη οὐσία. ἀλλ’ οὐ δοκεῖ: τὸ γὰρ εἶδος μᾶλλον οὐσία. ἀλλὰ τὸ εἶδος ποιότης. ἢ οὐ ποιότης, ἀλλὰ λόγος τὸ εἶδος.",
+   "flags": [
+    {
+     "taylor": "body being the Reality, fire is a warmed body",
+     "in": "MacKenna",
+     "why": "The Greek says \"a hot body\" (σῶμα θερμόν): heat that is in it, as the snub nose is in you, not heat given to it."
+    }
+   ],
+   "notes": [
+    "The snub nose, a quality that belongs only to a nose, is Aristotle's example (Metaphysics VII.5, 1030b16-1031a1); Socrates was snub-nosed (Plato, Theaetetus 143e). Body as what is extended three ways, with matter under it, is Aristotle's too (Metaphysics VII.3, 1029a11-26)."
+   ]
+  },
+  {
+   "seg": "II.6.2.p2",
+   "chapter": "II.6.2",
+   "modern": "What, then, is what comes from the forming principle and the substrate? Not what is seen and burns: that is a qualified thing. Unless someone says that burning is an activity from the forming principle; and then heating and whitening and the rest are makings, so that we shall have nowhere to leave quality. Or rather, those that are said to complete substances are not to be called qualities, since they are their activities, coming from the forming principles and from the powers of the substance; qualities are what are outside all substance, not appearing as qualities in some places and not qualities in others, but holding what is over and above, after the substance: such as virtues and vices, uglinesses and beauties, healths, and being shaped in a certain way. Triangle and square by themselves are not a quality; but being made triangular, in so far as it has been shaped, is to be called a quality: not the triangularity, but the shaping. So too the arts and the aptitudes. So quality is a disposition upon substances that already are, whether brought in or there from the beginning, such that if it were not there the substance would have nothing less. And it can be easily moved or hard to move: so it has two forms, one easily moved and one lasting.",
+   "greek": "τὰ οὖν ἐκ τοῦ λόγου καὶ τοῦ ὑποκειμένου τί ἐστιν; οὐ γὰρ τὸ ὁρώμενον καὶ τὸ καῖον: τοῦτο δὲ ποιόν. εἰ μή τις λέγοι τὸ καίειν ἐνέργειαν ἐκ τοῦ λόγου: καὶ τὸ θερμαίνειν καὶ τὸ λευκαίνειν τοίνυν καὶ τὰ ἄλλα ποιήσεις: ὥστε τὴν ποιότητα οὐχ ἕξομεν ὅπου καταλείψομεν. ἢ ταύτας μὲν οὐ λεκτέον ποιότητας, ὅσαι λέγονται συμπληροῦν οὐσίας, εἴπερ ἐνέργειαι αὐτῶν ἀπὸ τῶν λόγων καὶ τῶν δυνάμεων τῶν οὐσιωδῶν ἰοῦσαι, ἃ δέ ἐστιν ἔξωθεν πάσης οὐσίας οὐ πῂ μὲν ποιότητες, ἄλλοις δὲ οὐ ποιότητες φανταζόμεναι, τὸ δὲ περιττὸν μετὰ τὴν οὐσίαν ἔχουσαι, οἷον καὶ ἀρεταὶ καὶ κακίαι καὶ αἴσχη καὶ κάλλη καὶ ὑγίειαι καὶ οὕτως ἐσχηματίσθαι. καὶ τρίγωνον μὲν καὶ τετράγωνον καθ̓ αὑτὸ οὐ ποιόν, τὸ δὲ τετριγωνίσθαι ᾗ μεμόρφωται ποιὸν λεκτέον, καὶ οὐ τὴν τριγωνότητα, ἀλλὰ τὴν μόρφωσιν: καὶ τὰς τέχνας δὲ καὶ τὰς ἐπιτηδειότητας: ὥστε εἶναι τὴν ποιότητα διάθεσίν τινα ἐπὶ ταῖς οὐσίαις ἤδη οὔσαις εἴτε ἐπακτὴν εἴτε ἐξ ἀρχῆς συνοῦσαν, ἣ εἰ μὴ συνῆν, οὐδὲν ἔλαττον εἶχεν ἂν ἡ οὐσία. ταύτην δὲ καὶ εὐκίνητον καὶ δυσκίνητον εἶναι: ὡς διττὸν εἶναι εἶδος, τὸ μὲν εὐκίνητον, τὸ δὲ ἔμμονον αὐτῆς.",
+   "flags": [
+    {
+     "taylor": "that is the something in which these qualities inhere",
+     "in": "MacKenna",
+     "why": "The Greek says \"this is a qualified thing\" (τοῦτο δὲ ποιόν): what is seen and burns is already qualified, not the subject in which the qualities are."
+    },
+    {
+     "taylor": "the warming and lighting and other effects of fire",
+     "in": "MacKenna",
+     "why": "The Greek is τὸ λευκαίνειν, \"whitening\", not lighting."
+    },
+    {
+     "taylor": "by which human beings take the quality",
+     "in": "MacKenna",
+     "why": "The words in brackets are MacKenna's; the Greek names only \"the arts and the aptitudes\"."
+    }
+   ],
+   "notes": [
+    "Quality as a disposition easily moved, or a lasting state, is Aristotle's first kind of quality (Categories 8, 8b26-9a13), with shape his fourth (10a11-16)."
+   ]
+  },
+  {
+   "seg": "II.6.3.p1",
+   "chapter": "II.6.3",
+   "modern": "The white on you, then, is to be set down not as a quality but plainly as an activity, from a power of whitening; and there all the so-called qualities are activities, which take on being qualities from our opinion, because each is a mark of its own, as it were marking the substances off from one another and having a character proper to themselves. How, then, will quality there differ, since these too are activities? Because they do not show what kind a thing is, nor a change in the substrates, nor a character, but only what is called quality there, being activity. So when it has the distinctiveness of a substance, it is plain at once that it is not a quality; but when reason separates what is distinctive in them, not taking it away from there but rather taking it and begetting something else, it begets a quality, taking as a part of substance what appeared to it on the surface. If so, nothing prevents heat too, being inborn in fire, from being a form of fire and an activity, and not its quality; and again, taken otherwise, in something else, from being only a quality, no longer the shape of a substance but a trace only, a shadow and an image, which has left behind its own substance, whose activity it is.",
+   "greek": "τὸ οὖν λευκὸν τὸ ἐπὶ σοὶ θετέον οὐ ποιότητα, ἀλλ’ ἐνέργειαν δηλονότι ἐκ δυνάμεως τῆς τοῦ λευκαίνειν, κἀκεῖ πάσας τὰς λεγομένας ποιότητας ἐνεργείας τὸ ποιὸν λαβούσας παρὰ τῆς ἡμετέρας δόξης τῷ ἰδιώτητα εἶναι ἑκάστην οἷον διοριζούσας τὰς οὐσίας πρὸς ἀλλήλας καὶ πρὸς ἑαυτὰς ἴδιον χαρακτῆρα ἐχούσας. τί οὖν διοίσει ποιότης ἡ ἐκεῖ; ἐνέργειαι γὰρ καὶ αὗται. ἢ ὅτι μὴ οἷόν τί ἐστι δηλοῦσιν οὐδὲ ἐναλλαγὴν τῶν ὑποκειμένων οὐδὲ χαρακτῆρα, ἀλλ’ ὅσον μόνον τὴν λεγομένην ποιότητα ἐκεῖ ἐνέργειαν οὖσαν: ὥστε τὸ μέν, ὅταν ἰδιότητα οὐσίας ἔχῃ, δῆλον αὐτόθεν ὡς οὐ ποιόν, ὅταν δὲ χωρίσῃ ὁ λόγος τὸ ἐπ’ αὐτοῖς ἴδιον οὐκ ἐκεῖθεν ἀφελών, ἀλλὰ μᾶλλον λαβὼν καὶ γεννήσας ἄλλο, ἐγέννησε ποιὸν οἷον μέρος οὐσίας λαβὼν τὸ ἐπιπολῆς φανὲν αὐτῷ. εἰ δὲ τοῦτο, οὐδὲν κωλύει καὶ τὴν θερμότητα τῷ σύμφυτον εἶναι τῷ πυρὶ εἶδός τι εἶναι τοῦ πυρὸς καὶ ἐνέργειαν καὶ οὐ ποιότητα αὐτοῦ, καὶ αὖ ἄλλως ποιότητα μόνην ἐν ἄλλῳ ληφθεῖσαν οὐκέτι μορφὴν οὐσίας οὖσαν, ἀλλὰ ἴχνος μόνον καὶ σκιὰν καὶ εἰκόνα ἀπολιποῦσαν αὑτῆς τὴν οὐσίαν, ἧς ἡ ἐνέργεια, ποιότητα εἶναι.",
+   "flags": [
+    {
+     "taylor": "(as do the corresponding Activities here)",
+     "in": "MacKenna",
+     "why": "The words in brackets are MacKenna's; the Greek sets no activities here beside them."
+    }
+   ],
+   "notes": [
+    "\"Shadow\" and \"image\" (σκιά, εἰκών) are the words of Plato's line in the Republic (VI, 509e-510a) for what lies below the things themselves; for Plotinus the qualities of bodies stand so to the activities of the intelligible."
+   ]
+  },
+  {
+   "seg": "II.6.3.p2",
+   "chapter": "II.6.3",
+   "modern": "Whatever is accidental, then, and not the activities and forms of substances, while providing some shapes, is qualified: so the states and the other dispositions of the substrates are to be called qualities, but their archetypes, in which they first are, are the activities of those things. And the same thing does not become quality and not quality: what is stripped of substance is quality, what is with it is form or activity; for nothing is the same when it stays in itself and when it has fallen into another, out of being form and activity. But what is never the form of anything else, but always an accident, is purely quality, and only that.",
+   "greek": "ὅσα οὖν συμβέβηκε καὶ μὴ ἐνέργειαι καὶ εἴδη οὐσιῶν μορφάς τινας παρεχόμενα, ποιὰ ταῦτα: οἷον καὶ αἱ ἕξεις καὶ διαθέσεις ἄλλαι τῶν ὑποκειμένων λεκτέαι ποιότητες, τὰ δὲ ἀρχέτυπα αὐτῶν, ἐν οἷς πρώτως ἐστίν, ἐνεργείας ἐκείνων. καὶ οὐ γίνεται ταὐτὸ ποιότης καὶ οὐ ποιότης, ἀλλὰ τὸ ἀπηρημωμένον οὐσίας ποιόν, τὸ δὲ σὺν ταύτῃ ἢ εἶδος ἢ ἐνέργεια: οὐδὲν γάρ ἐστι ταὐτὸν ἐν αὑτῷ μένον καὶ ἐν ἄλλῳ ἐκπεσὸν τοῦ εἶδος καὶ ἐνέργεια εἶναι. ὃ μέντοι μηδέποτε εἶδος ἄλλου, ἀλλὰ συμβεβηκὸς ἀεί, καθαρῶς ποιότης καὶ μόνον τοῦτο.",
+   "flags": [
+    {
+     "taylor": "other than those constituting the substratum of a thing",
+     "in": "MacKenna",
+     "why": "The Greek says the states and dispositions \"of the substrates\" (τῶν ὑποκειμένων) are qualities: they are in the substrates, not set against what makes them."
+    }
+   ]
+  },
+  {
+   "seg": "II.7.1.p1",
+   "chapter": "II.7.1",
+   "modern": "We must look into what is called the complete blending of bodies, through and through. Can a liquid mixed with a liquid go whole through whole, each through the other, or one through the other? It makes no difference which, if it happens. Those who allow only setting side by side may be let go, as mixing rather than blending, if blending must make the whole of like parts, each smallest part made of the things said to be blended. Those who blend only the qualities, and set the matter of each body side by side, bringing on to it the qualities from each, might be persuasive in attacking complete blending: because the sizes of the masses would come to be cut into pieces, if there is no gap left in either body and the division is continuous, the one sinking into the other everywhere; and further, because the blended things take up a greater place than either one, as much as the places of both together. Yet if whole had gone through whole, they say, the place of the one into which the other was thrown should stay the same. And where the place does not become greater, they blame some going out of air, in place of which the other sank in. And how could the small, stretched out in the greater, pass through the whole of it? And they say many other things.",
+   "greek": "Περὶ τῆς δἰ ὅλων λεγομένης τῶν σωμάτων κράσεως ἐπισκεπτέον. ἆρα ἐνδέχεται ὅλον δἰ ὅλου ὑγρὸν ὑγρῷ συμμιχθὲν ἑκάτερον δἰ ἑκατέρου ἢ θάτερον διὰ θατέρου χωρεῖν; διαφέρει γὰρ οὐδὲν ὁποτερωσοῦν, εἰ γίγνοιτο. οἱ μὲν γὰρ τῇ παραθέσει διδόντες ὡς μιγνύντες μᾶλλον ἢ κιρνάντες ἐατέοι, εἴπερ δεῖ τὴν κρᾶσιν ὁμοιομερὲς τὸ πᾶν ποιεῖν, καὶ ἕκαστον μέρος τὸ σμικρότατον ἐκ τῶν κεκρᾶσθαι λεγομένων εἶναι. οἱ μὲν οὖν τὰς ποιότητας μόνας κιρνάντες τὴν δὲ ὕλην παρατιθέντες ἑκατέρου τοῦ σώματος καὶ ἐπ’ αὐτῶν ἐπάγοντες τὰς παῤ ἑκατέρου ποιότητας πιθανοὶ ἂν εἶεν τῷ διαβάλλειν τὴν δἰ ὅλων κρᾶσιν τῷ τε εἰς τομὰς τὰ μεγέθη συμβαίνειν τῶν ὄγκων ἰέναι, εἰ μηδὲν διάλειμμα μηδετέρῳ τῶν σωμάτων γίγνοιτο, εἰ συνεχὴς ἔσται ἡ διαίρεσις τῷ κατὰ πᾶν τὴν διάδυσιν γίνεσθαι θατέρῳ εἰς θάτερον, καὶ δή, ὅταν τὰ κραθέντα μείζω τόπον κατέχῃ ἢ θάτερον καὶ τοσοῦτον, ὅσον συνελθόντα τὸν ἑκατέρου τόπον. καίτοι, εἰ δἰ ὅλου ὅλον ἦν διεληλυθός, τὸν τοῦ ἑτέρου ἔδει, φασί, μένειν τὸν αὐτόν, εἰς ὃ θάτερον ἐνεβλήθη. οὗ δὲ μὴ μείζων ὁ τόπος γίνεται, ἀέρος τινὰς ἐξόδους αἰτιῶνται, ἀνθ̓ ὧν ἐσέδυ θάτερον. καὶ τὸ σμικρὸν δὲ ἐν τῷ μείζονι πῶς ἂν ἐκταθὲν δἰ ὅλου χωρήσειε; καὶ πολλὰ ἄλλα λέγουσιν.",
+   "flags": [
+    {
+     "taylor": "must be whittled away if there is to be mixture without any gap",
+     "in": "MacKenna",
+     "why": "The Greek says the masses would be cut \"into pieces\" (εἰς τομάς), divided without end, not whittled."
+    }
+   ],
+   "notes": [
+    "\"Complete blending\" (κρᾶσις δι’ ὅλων) is the Stoics': two bodies, wine and water, wholly through each other, so that a drop of wine could blend with the whole sea (Diogenes Laertius VII.151; Plutarch, On common conceptions 37, 1078e). Setting side by side (παράθεσις), as of grains, the Stoics called mixing, not blending. Blending only the qualities is the Peripatetic answer: Aristotle says a drop of wine in ten thousand measures of water does not blend but turns into water (On Generation and Corruption I.10, 328a23-28), and Alexander of Aphrodisias argued against the Stoics in his On mixture."
+   ]
+  },
+  {
+   "seg": "II.7.1.p2",
+   "chapter": "II.7.1",
+   "modern": "Those who bring in complete blending, on the other hand, could say that the bodies are cut but not used up in the cuts, even when the blending is through and through; for they will say that sweat too does not make cuts in the body, nor is the body pierced with holes. And if someone says that nothing prevents nature having made it so, so that sweat may pass through, still with things made by craft, when they are thin and continuous, a liquid is seen to wet them through and flow through to the other side. \"But since they are bodies, how can this happen? For it is not easy to conceive of passing through without cutting; and cutting everywhere, they will plainly destroy one another.\" When they say that increases often do not happen, they give the others the going out of air to blame. As to the increase in place, it is hard; but still, what prevents saying that, since each body brings its size along with its other qualities, the increase comes of necessity? For size is not destroyed either, any more than the other qualities; and as there a different form of quality comes, mixed from both, so a different size, the size from both that the mixture makes.",
+   "greek": "οἱ δ’ αὖ τὴν δἰ ὅλων κρᾶσιν εἰσάγοντες τέμνεσθαι μὲν καὶ μὴ εἰς τομὰς ἀναλίσκεσθαι λέγειν ἂν δύναιντο καὶ δἰ ὅλων τῆς κράσεως γιγνομένης: ἐπεὶ καὶ τοὺς ἱδρῶτας οὐ τοῦ σώματος τομὰς ποιεῖν οὐδ’ αὖ κατατετρῆσθαι φήσουσι. καὶ γὰρ εἴ τις λέγοι μηδὲν κωλύειν τὴν φύσιν οὕτω πεποιηκέναι τοῦ διιέναι τοὺς ἱδρῶτας χάριν, ἀλλὰ ἐπὶ τῶν τεχνητῶν, ὅταν λεπτὰ ᾖ καὶ συνεχῆ, ὁρᾶσθαι τὸ ὑγρὸν δἰ ὅλου δεῦον αὐτὰ καὶ διάρρεον ἐπὶ θάτερα: ἀλλὰ σωμάτων ὄντων πῶς οἷόν τε τοῦτο γίγνεσθαι; ὡς διιέναι μὴ τέμνοντα ἐπινοῆσαι οὐ ῥᾴδιον: τέμνοντα δὲ κατὰ πᾶν ἀναιρήσει ἄλληλα δηλονότι. τὰς δὲ αὔξας ὅταν λέγωσι μὴ γίγνεσθαι πολλαχοῦ, διδόασι τοῖς ἑτέροις ἀέρων ἐξόδους αἰτιᾶσθαι. πρός τε τὴν τῶν τόπων αὔξησιν χαλεπῶς μέν, ὅμως δὲ τί κωλύει λέγειν συνεισφερομένου ἑκατέρου σώματος καὶ τὸ μέγεθος μετὰ τῶν ἄλλων ποιοτήτων ἐξ ἀνάγκης τὴν αὔξην γίνεσθαι; μὴ γὰρ μηδὲ τοῦτο ἀπόλλυσθαι, ὥσπερ οὐδὲ τὰς ἄλλας ποιότητας, καὶ ὥσπερ ἐκεῖ ποιότητος ἄλλο εἶδος μικτὸν ἐξ ἀμφοῖν, οὕτω καὶ μέγεθος ἄλλο: οὗ δὴ τὸ μῖγμα ποιεῖ τὸ ἐξ ἀμφοῖν μέγεθος.",
+   "notes": [
+    "Sweat passing through the skin, which has no holes we can see, was used on both sides; the Stoics took it as a body through a body."
+   ]
+  },
+  {
+   "seg": "II.7.1.p3",
+   "chapter": "II.7.1",
+   "modern": "But here the others might say to them: \"If matter lies beside matter, and mass beside mass, with which the size goes, you would be saying what we say; but if matter too goes through and through, with the size that is first upon it, it would not happen as when line lies next to line, joining at the ends by their points, where there would be an increase, but as when line is laid on line, so that there is no increase.\" But the less goes through the whole of the greater, and the smallest through the greatest, where it is plain that it is blended. With things not seen it is possible to say that it does not reach everywhere; but where it plainly happens, it could not be said. And when they speak of the stretching of masses, they would not say very persuasive things, stretching the smallest mass so far: for they do not give the body a greater size by changing it, as if air came to be from water.",
+   "greek": "ἀλλ’ ἐνταῦθ̓ ἂν πρὸς αὐτοὺς οἱ ἕτεροι λέγοιεν, ὡς, εἰ μὲν ἡ ὕλη τῇ ὕλῃ παράκειται καὶ ὁ ὄγκος τῷ ὄγκῳ, ᾧ. σύνεστι τὸ μέγεθος, τὸ ἡμέτερον ἂν λέγοιτε: εἰ δὲ δἰ ὅλου καὶ ἡ ὕλη μετὰ τοῦ ἐπ’ αὐτῇ πρώτως μεγέθους, οὐχ οὕτως ἂν γένοιτο ὡς γραμμὴ γραμμῇ ἐφεξῆς ἂν κέοιτο κατὰ τὰ πέρατα τοῖς σημείοις ἑαυτῶν συνάψασαι, οὗ δὴ αὔξη ἂν γίνοιτο, ἀλλ’ ἐκείνως ὡς ἂν γραμμὴ γραμμῇ ἐφαρμοσθείη, ὥστε αὔξην μὴ γίνεσθαι. τὸ δὲ ἔλαττον διὰ παντὸς τοῦ μείζονος καὶ τοῦ μεγίστου τὸ μικρότατον χωρεῖ, ἐφ̓ ὧν φανερὸν ὅτι κίρναται. ἐπὶ γὰρ τῶν ἀδήλων ἔξεστι λέγειν μὴ εἰς πᾶν φθάνειν, ἀλλ’ ἐφ̓ ὧν γε φανερῶς συμβαίνει, οὐ λέγοιτ̓ ἄν. καὶ λέγοντες ἐκτάσεις τῶν ὄγκων, οὐ σφόδρα πιθανὰ λέγοιεν ἂν εἰς τοσοῦτον τὸν σμικρότατον ὄγκον ἐκτείνοντες: οὐδὲ γὰρ μεταβάλλοντες τὸ σῶμα μέγεθος αὐτῷ πλέον διδόασιν, ὥσπερ εἰ ἐξ ὕδατος ἀὴρ γίγνοιτο.",
+   "flags": [
+    {
+     "taylor": "one substance sinking its original magnitude in the other",
+     "in": "MacKenna",
+     "why": "The Greek says \"if matter too goes through and through, with the size that is first upon it\" (μετὰ τοῦ ἐπ’ αὐτῇ πρώτως μεγέθους): the matter goes with its size, rather than sinking it."
+    }
+   ]
+  },
+  {
+   "seg": "II.7.2.p1",
+   "chapter": "II.7.2",
+   "modern": "This itself must be looked into on its own, what happens when the mass of water that was becomes air, and how the greater is in what has come to be; for now let these things be said, among many others said by each side. Let us look for ourselves at what we should say about this: what opinion agrees with what is said, or what other will appear beside those now said. When water runs through wool, then, or papyrus lets the water in it drip out, how does the whole watery body not pass through it? Or even when it does not run, how shall we join matter to matter and mass to mass, and make only the qualities blend? For the water's matter will not lie outside the papyrus, nor in some gaps in it: for all of it is wet, and nowhere is matter empty of the watery quality. And if the matter is everywhere with the quality, the water is everywhere in the papyrus.",
+   "greek": "τοῦτο δὲ αὐτὸ ἐφ̓ ἑαυτοῦ ζητητέον, τί συμβαίνει, ὅταν ὅσπερ ἦν ὄγκος ὕδατος ἀὴρ γίγνηται, πῶς τὸ μεῖζον ἐν τῷ γενομένῳ: νῦν δὲ τὰ μὲν εἰρήσθω πολλῶν καὶ ἄλλων παῤ ἑκατέρων λεγομένων. ἡμεῖς δὲ ἐφ̓ ἑαυτῶν σκοπῶμεν, τί χρὴ λέγειν περὶ τούτου, τίς δόξα σύμφωνος τοῖς λεγομένοις ἢ καὶ τίς ἄλλη παρὰ τὰς νῦν λεγομένας φανεῖται; ὅταν τοίνυν διὰ τοῦ ἐρίου ῥέῃ τὸ ὕδωρ ἢ ἡ βίβλος ἐκστάζῃ τὸ ἐν αὐτῇ ὕδωρ, πῶς οὐ τὸ πᾶν ὑδάτινον σῶμα δίεισι δἰ αὐτῆς; ἢ καὶ ὅταν μὴ ῥέῃ, πῶς συνάψομεν τὴν ὕλην τῇ ὕλῃ καὶ τὸν ὄγκον τῷ ὄγκῳ, τὰς δὲ ποιότητας μόνας ἐν συγκράσει ποιησόμεθα; οὐ γὰρ δὴ ἔξω τῆς βίβλου ἡ τοῦ ὕδατος ὕλη παρακείσεται οὐδ’ αὖ ἔν τισι διαστήμασιν αὐτῆς: πᾶσα γὰρ ὑγρά ἐστι καὶ οὐδαμοῦ ὕλη κενὴ ὑδατίνης ποιότητος. εἰ δὲ πανταχοῦ ἡ ὕλη μετὰ τῆς ποιότητος, πανταχοῦ τῆς βίβλου τὸ ὕδωρ.",
+   "flags": [
+    {
+     "taylor": "without regard to the agreement or disagreement of that theory",
+     "in": "MacKenna",
+     "why": "The Greek asks \"what opinion agrees with what is said, or what other will appear\" (τίς δόξα σύμφωνος τοῖς λεγομένοις): the agreement is what Plotinus looks for."
+    },
+    {
+     "taylor": "when papyrus-pulp gives up its moisture",
+     "in": "MacKenna",
+     "why": "The Greek is ἡ βίβλος, papyrus, the reed or a sheet of it; the \"pulp\" is MacKenna's."
+    }
+   ]
+  },
+  {
+   "seg": "II.7.2.p2",
+   "chapter": "II.7.2",
+   "modern": "\"Not the water, but the water's quality.\" But where is the water, then? And how is the mass not the same? Or what was added stretched the papyrus: for it took size from what came in. But if it took it, some mass was added; and if added, it was not swallowed up in the other; so the matter must be in one place and in another. Or what prevents that, as one body gives some of its quality to the other and takes from it, so too with size? For a quality coming together with a quality is not that quality but with another, and in being with another, not being pure, is not wholly that, but has been dimmed; but a size coming together with another size does not vanish.",
+   "greek": "ἢ οὐ τὸ ὕδωρ, ἀλλ’ ἡ τοῦ ὕδατος ποιότης. ἀλλὰ ποῦ ὄντος τοῦ ὕδατος; πῶς οὖν οὐχ ὁ αὐτὸς ὄγκος; ἢ ἐξέτεινε τὴν βίβλον τὸ προστεθέν: ἔλαβε γὰρ μέγεθος παρὰ τοῦ εἰσελθόντος. ἀλλ’ εἰ ἔλαβε, προσετέθη τις ὄγκος: εἰ δὲ προσετέθη, οὐ κατεπόθη ἐν τῷ ἑτέρῳ, δεῖ οὖν ἐν ἄλλῳ καὶ ἄλλῳ τὴν ὕλην εἶναι. ἢ τί κωλύει, ὥσπερ δίδωσι τῆς ποιότητος καὶ λαμβάνει σῶμα θάτερον παρὰ θατέρου, οὕτω καὶ ἐπὶ τοῦ μεγέθους; ποιότης μὲν γὰρ ποιότητι συνελθοῦσα οὐκ ἐκείνη οὖσα, ἀλλὰ μετ’ ἄλλης, ἐν τῷ μετ’ ἄλλης εἶναι οὐ καθαρὰ οὖσα οὐκ ἔστι παντελῶς ἐκείνη, ἀλλ’ ἠμαύρωται: μέγεθος δὲ συνελθὸν ἄλλῳ μεγέθει οὐκ ἀφανίζεται.",
+   "flags": [
+    {
+     "taylor": "communicate quality and receive matter",
+     "in": "MacKenna",
+     "why": "The Greek says \"one body gives of the quality and takes from the other\" (δίδωσι τῆς ποιότητος καὶ λαμβάνει σῶμα θάτερον παρὰ θατέρου): \"body\" is what gives and takes, not matter received."
+    }
+   ]
+  },
+  {
+   "seg": "II.7.2.p3",
+   "chapter": "II.7.2",
+   "modern": "How it is said that body passing through body must make cuts, one might stop and ask: for we too say that the qualities pass through bodies and make no cuts. Because they are bodiless? But if matter itself is bodiless too, why, matter being bodiless and the qualities too, if they were such as to be few, do they not pass through with the matter in the same way? Do solids not pass through because they have qualities such that they are stopped from passing through, or because many together cannot do this with matter? If, then, the number of qualities makes what is called a dense body, the number would be the cause; but if density is a quality of its own, like what they call corporeity, the cause is that quality. So qualities will not make the mixing as qualities, but as qualities of a certain kind; nor again will matter fail to mix as matter, but as matter with a certain quality; and most of all if it has no size of its own, except that it does not throw off size. Let these things, then, be gone through in this way too, as difficulties.",
+   "greek": "τὸ δὲ σῶμα χωροῦν διὰ σώματος πάντως τομὰς ποιεῖν πῶς λέγεται, ἐπιστήσειεν ἄν τις: ἐπεὶ καὶ αὐτοὶ τὰς ποιότητας διὰ τῶν σωμάτων χωρεῖν λέγομεν καὶ οὐ τομὰς ποιεῖν. ἢ ὅτι ἀσώματοι. ἀλλ’ εἰ ἡ ὕλη καὶ αὐτὴ ἀσώματος, διὰ τί τῆς ὕλης ἀσωμάτου οὔσης καὶ τῶν ποιοτήτων, εἰ τοιαῦται εἶεν ὡς ὀλίγαι εἶναι, οὐ μετὰ τῆς ὕλης τὸν αὐτὸν τρόπον διίασι; μὴ διιέναι δὲ τὰ στερεά, ὅτι τοιαύτας ἔχει τὰς ποιότητας ὡς κωλυθῆναι διιέναι, ἢ πολλὰς ὁμοῦ ἀδυνατεῖν μετὰ τῆς ὕλης ποιεῖν τοῦτο; εἰ μὲν οὖν τὸ πλῆθος τῶν ποιοτήτων τὸ πυκνὸν λεγόμενον σῶμα ποιεῖ, τὸ πλῆθος ἂν εἴη αἴτιον: εἰ δὲ πυκνότης ἰδία ποιότης ἐστίν, ὥσπερ καὶ ἣν λέγουσι σωματότητα, ἡ ἰδία ποιότης: ὥστε οὐχ ᾗ ποιότητες τὴν μῖξιν ποιήσονται, ἀλλ’ ᾗ τοιαίδε, οὐδ’ αὖ ἡ ὕλη ᾗ ὕλη οὐ μιχθήσεται, ἀλλ’ ᾗ μετὰ τοιᾶσδε ποιότητος, καὶ μάλιστα, εἰ μέγεθος οἰκεῖον οὐκ ἔχει ἀλλ’ ἢ μὴ ἀποβαλοῦσα τὸ μέγεθος. ταῦτα μὲν οὖν ἔστω καὶ οὕτω διηπορημένα.",
+   "flags": [
+    {
+     "taylor": "how we came to say that body passing through",
+     "in": "MacKenna",
+     "why": "The Greek says \"one might stop and ask how it is said\" (πῶς λέγεται): the claim that body cuts body is the opponents', not Plotinus' own."
+    }
+   ],
+   "notes": [
+    "That matter is bodiless, and has no size of its own but takes it, is argued in II.4 (chapters 8-12), Taylor's On matter."
+   ]
+  },
+  {
+   "seg": "II.7.3.p1",
+   "chapter": "II.7.3",
+   "modern": "Since we have mentioned corporeity, we must look into whether corporeity is what is made up of all the qualities together with matter, or a form and a forming principle which, coming to be in matter, makes a body. If body is what is made up of all the qualities together with matter, corporeity would be that same thing. And if it is a forming principle which, coming on, makes the body, plainly the principle holds all the qualities embraced in itself. But this principle, if it is not merely like a definition showing what the thing is, but a principle making a thing, must not take in matter along with itself, but be about matter, and, coming to be in it, complete the body; and the body is matter and the principle in it, while the principle itself, being a form, is seen bare, without matter, even if it is as inseparable as can be. For the separable principle is another, the one in intellect; and it is in intellect because it is itself intellect. But these things belong elsewhere.",
+   "greek": "ἐπεὶ δὲ ἐμνήσθημεν σωματότητος, ἐπισκεπτέον, πότερα ἡ σωματότης ἐστὶ τὸ ἐκ πάντων σὺν ὕλῃ συγκείμενον ἢ εἶδός τι καὶ λόγος τις, ὃς ἐγγενόμενος τῇ ὕλῃ σῶμα ποιεῖ. εἰ μὲν οὖν τοῦτό ἐστι τὸ σῶμα τὸ ἐκ πασῶν τῶν ποιοτήτων σὺν ὕλῃ συγκείμενον, ταὐτὸ ἂν εἴη ἡ σωματότης. καὶ εἰ λόγος δὲ εἴη, ὃς προσελθὼν ποιεῖ τὸ σῶμα, δηλονότι ὁ λόγος ἐμπεριλαβὼν ἔχει τὰς ποιότητας ἁπάσας. δεῖ δὲ τὸν λόγον τοῦτον, εἰ μή ἐστιν ἄλλως ὥσπερ ὁρισμὸς δηλωτικὸς τοῦ τί ἔστι τὸ πρᾶγμα, ἀλλὰ λόγος ποιῶν πρᾶγμα, μὴ τὴν ὕλην συμπεριειληφέναι, ἀλλὰ περὶ ὕλην εἶναι καὶ ἐγγενόμενον ἀποτελεῖν τὸ σῶμα, καὶ εἶναι μὲν τὸ σῶμα ὕλην καὶ λόγον ἐνόντα, αὐτὸν δὲ εἶδος ὄντα ἄνευ ὕλης ψιλὸν θεωρεῖσθαι, κἂν ὅτι μάλιστα ἀχώριστος αὐτὸς ᾖ. ὁ γὰρ χωριστὸς ἄλλος, ὁ ἐν νῷ: ἐν νῷ δέ, ὅτι καὶ αὐτὸς νοῦς. ἀλλὰ ταῦτα ἄλλοθι.",
+   "flags": [
+    {
+     "taylor": "that other Principle in man",
+     "in": "MacKenna",
+     "why": "The Greek speaks of \"the separable\" forming principle, \"the one in intellect\" (ὁ ἐν νῷ); nothing is said of man."
+    }
+   ],
+   "notes": [
+    "A definition (ὁρισμός) that shows what a thing is, against a principle that makes it: Aristotle's formula (λόγος) is both the definition and the form (Metaphysics VII.10-11)."
+   ]
+  },
+  {
+   "seg": "II.8.1.p1",
+   "chapter": "II.8.1",
+   "modern": "Do distant things look smaller, and things far apart seem to have little between them, while things near look as large as they are, and as far apart as they are? Distant things seem smaller to those who see them because the light wants to be drawn together towards the sight and to the size of the pupil; and the further off the matter of what is seen is, the more the form arrives as if alone, stripped of the form of its size and of its quality too, so that only its forming principle arrives. Or else because we perceive how great a size is by going through it and passing over it part by part: so it must be present and near to be known for how great it is. Or else because size is seen by accident, colour being seen first. Near, then, we know how much is coloured; far off, only that it is coloured; and the parts, divided with it by quantity, do not give an exact discerning of the quantity, since the colours themselves arrive faint. What wonder, then, if sizes too, like sounds, are smaller as their form comes faint? For there too hearing seeks the form, and perceives the size by accident.",
+   "greek": "Ἆρα τὰ πόρρω φαίνεται ἐλάττω καὶ τὰ πολὺ ἀφεστηκότα ὀλίγον δοκεῖ ἔχειν τὸ μεταξύ, τὰ δὲ ἐγγύθεν ἡλίκα ἐστὶ φαίνεται, καὶ ὅσην ἔχει τὴν ἀπόστασιν; ἐλάττω μὲν δοκεῖ τοῖς ὁρῶσι τὰ πόρρω, ὅτι συναιρεῖσθαι πρὸς τὴν ὄψιν ἐθέλει καὶ πρὸς τὸ μέγεθος τῆς κόρης τὸ φῶς — καὶ ὅσῳ ἂν πόρρω ἡ ὕλη ᾖ τοῦ ὁρωμένου, τόσῳ τὸ εἶδος οἷον μεμονωμένον ἀφικνεῖται καὶ τοῦ πηλίκου εἴδους καὶ αὖ τοῦ ποιοῦ, ὡς τὸν λόγον αὐτοῦ ἀφικνεῖσθαι μόνον: ἢ καί, ὅτι τὸ μὲν μέγεθος ἐν διεξόδῳ καὶ ἐπελεύσει καθ̓ ἕκαστον μέρος ὅσον ἐστὶν αἰσθανόμεθα — παρεῖναι οὖν δεῖ αὐτὸ καὶ πλησίον εἶναι, ἵνα γνωσθῇ ὅσον: ἢ καί, ὅτι κατὰ συμβεβηκὸς ὁρᾶται τὸ μέγεθος τοῦ χρώματος πρώτως θεωρουμένου. πλησίον μὲν οὖν ὅσον κέχρωσται γινώσκεται, πόρρω δὲ ὅτι κέχρωσται, τὰ δὲ μέρη κατὰ ποσὸν συνδιαιρούμενα οὐκ ἀκριβῆ δίδωσι τὴν τοῦ ποσοῦ διάγνωσιν: ἐπεὶ καὶ τὰ χρώματα αὐτὰ ἀμυδρὰ προσέρχεται. τί οὖν θαυμαστόν, εἰ καὶ τὰ μεγέθη, ὥσπερ καὶ αἱ φωναί, ἐλάττω, ὅσῳ ἂν τὸ εἶδος αὐτῶν ἀμυδρὸν ἴῃ; εἶδος γὰρ κἀκεῖ ἡ ἀκοὴ ζητεῖ, τὸ δὲ μέγεθος κατὰ συμβεβηκὸς αἰσθάνεται.",
+   "flags": [
+    {
+     "taylor": "stripped, so to speak, of magnitude as of all other quality",
+     "in": "MacKenna",
+     "why": "The Greek goes on: \"so that only its forming principle arrives\" (ὡς τὸν λόγον αὐτοῦ ἀφικνεῖσθαι μόνον); MacKenna leaves it out."
+    },
+    {
+     "taylor": "by observing the salience and recession of its several parts",
+     "in": "MacKenna",
+     "why": "The Greek says we know a size \"by going through it and passing over it\" part by part (ἐν διεξόδῳ καὶ ἐπελεύσει): sight travels over the parts; nothing is said of parts standing out or falling back."
+    }
+   ],
+   "notes": [
+    "Size is one of Aristotle's \"common sensibles\", perceived by more than one sense, and colour the \"proper sensible\" of sight (On the Soul II.6, 418a7-20; III.1, 425a14-20)."
+   ]
+  },
+  {
+   "seg": "II.8.1.p2",
+   "chapter": "II.8.1",
+   "modern": "But as for hearing, does it perceive size by accident? For to what does the size in a sound belong first, as the size of what is seen seems to belong to touch? Or rather hearing perceives the seeming size not by quantity but by more and less, not by accident, as the strength of it, just as taste perceives the strength of the sweet; but the size of a sound in the proper sense is how far it reaches; and this it would signify by accident from the strength, but not exactly. For the strength is the same at each point, while the amount goes over all the place the sound has covered. \"But colours are not small but faint, while sizes are small.\" Or rather what is common to both is the less. In colour, the less is faint; in size, the less is small; and the size, following the colour, is lessened in proportion.",
+   "greek": "ἀλλὰ περὶ τῆς ἀκοῆς, εἰ τὸ μέγεθος κατὰ συμβεβηκός: τίνι γὰρ πρώτως τὸ ἐν τῇ φωνῇ μέγεθος, ὥσπερ δοκεῖ τῇ ἁφῇ τὸ ὁρώμενον; ἢ τὸ δοκοῦν μέγεθος ἡ ἀκοὴ οὐ κατὰ τὸ ποσόν, ἀλλὰ κατὰ τὸ μᾶλλον καὶ ἧττον, οὐ κατὰ συμβεβηκός, οἷον τὸ σφόδρα, ὡς καὶ ἡ γεῦσις τὸ σφόδρα τοῦ γλυκέος κατὰ συμβεβηκός: τὸ δὲ κυρίως μέγεθος φωνῆς τὸ ἐφ̓ ὅσον: τοῦτο δὲ κατὰ συμβεβηκὸς ἐκ τοῦ σφόδρα σημήνειεν ἄν, οὐκ ἀκριβῶς δέ. τὸ μὲν γὰρ σφόδρα ἑκάστῳ τὸ αὐτό, τὸ δὲ εἰς πλῆθος εἰς ἅπαντα τὸν τόπον, ὃν ἐπέσχεν. ἀλλ’ οὐ σμικρὰ τὰ χρώματα, ἀλλὰ ἀμυδρά, τὰ δὲ μεγέθη σμικρά. ἢ ἐν ἀμφοτέροις κοινὸν τὸ ἧττόν ἐστι. χρῶμα μὲν οὖν τὸ ἧττον ἀμυδρόν, μέγεθος δὲ τὸ ἧττον σμικρόν, καὶ ἑπόμενον τῷ χρώματι τὸ μέγεθος ἀνὰ λόγον ἠλάττωται.",
+   "flags": [
+    {
+     "taylor": "exactly as the palate perceives by no indirect knowledge",
+     "in": "MacKenna",
+     "why": "The Greek of the Workshop ends the comparison with \"by accident\" (κατὰ συμβεβηκός); the modern version, like MacKenna, takes the sense to be that taste, like hearing, knows the strength directly, and leaves the words out."
+    }
+   ]
+  },
+  {
+   "seg": "II.8.1.p3",
+   "chapter": "II.8.1",
+   "modern": "The experience is clearer with things that are varied: mountains, say, with many houses, a host of trees and many other things; each of these, if seen, lets one measure the whole from the things seen one by one; but when the form does not come for each, sight, which measures by each, is deprived of knowing how great the whole underlying size is. For even things near, when they are varied and one's glance falls on them all at once and not all the forms are seen, would look smaller in proportion to how much of each is stolen from view; but when all are seen, they are measured exactly and known for how great they are. And sizes of one look and one colour deceive about their quantity too, since sight cannot measure them part by part at all, because, measuring part by part, it slips off, for it has no difference at which to stop at each part. And the distant looks near because the stretch between is drawn together, how great it is, for the same reason. For how great the near is does not escape us, for the same reasons; but not going through the distant part of the interval, what it is like in form, sight could not say how great it is in size either.",
+   "greek": "σαφέστερον δὲ ἐπὶ τῶν ποικίλων γίνεται τὸ πάθος: οἷον ὀρῶν ἐχόντων πολλὰς οἰκήσεις καὶ δένδρων πλῆθος καὶ ἄλλα πολλά, ὧν ἕκαστον, εἰ μὲν ὁρῷτο, δίδωσιν ἐκ τῶν ὁρωμένων ἑκάστων μετρεῖν τὸ ὅλον: τοῦ δὲ εἴδους καθ̓ ἕκαστον οὐκ ἰόντος ἀπεστέρηται τοῦ καθ̓ ἕκαστον ὄψις μετροῦσα τὸ ὑποκείμενον μέγεθος τὸ πᾶν ὅσον ἐστὶ γινώσκειν. ἐπεὶ καὶ τὰ πλησίον, ὅταν ποικίλα ᾖ ἀθρόως τε γίνηται ἡ ἐπιβολὴ πρὸς αὐτὰ καὶ μὴ πάντα τὰ εἴδη ὁρῷτο, ἐλάττω ἂν φανείη κατὰ λόγον, ὅσον ἂν ἕκαστον κλαπῇ ἐν τῇ θέᾳ: ὅταν δὲ πάντα ὀφθῇ, ἀκριβῶς μετρηθέντα ὅσα ἐστὶ γινώσκεται. ὅσα δὲ τῶν μεγεθῶν ὁμοειδῆ ὁμοιόχροα ὄντα, ψεύδεται καὶ ταῦτα τὸ ποσὸς αὐτῆς οὐ κατὰ μέρος πάνυ τι μετρεῖν δυναμένης τῆς ὄψεως, ὅτι ἀπολισθάνει κατὰ μέρος μετροῦσα, ὅτι μὴ ἔχει ἵστασθαι καθ̓ ἕκαστον μέρος τῇ διαφορᾷ. ἐγγύθεν δὲ τὸ πόρρω, ὅτι τὸ μεταξὺ συναιρεῖται ὅσον ἐστὶ κατὰ τὴν αὐτὴν αἰτίαν. τὸ μὲν γὰρ πλησίον ὅσον ἐστὶν οὐ λανθάνει διὰ τὰ αὐτά: οὐ διεξοδεύουσα δὲ τὸ πόρρω τοῦ διαστήματος οἷόν ἐστι κατ’ εἶδος οὐκ ἂν δύναιτο οὐδ’ ὅσον ἐστὶ κατὰ μέγεθος εἰπεῖν.",
+   "flags": [
+    {
+     "taylor": "It was the detail that prevented a near object deceiving",
+     "in": "MacKenna",
+     "why": "The Greek says only that \"how great the near is does not escape us, for the same reasons\" (διὰ τὰ αὐτά): seeing the forms of its parts."
+    }
+   ]
+  },
+  {
+   "seg": "II.8.2.p1",
+   "chapter": "II.8.2",
+   "modern": "That things look smaller because the angles of sight are smaller has been said elsewhere not to be so; and now this must be said: whoever says that a thing looks smaller under a smaller angle leaves the sight seeing something outside it, or something else outside altogether, such as air. When, then, it leaves nothing, because the mountain is large, but either the mountain is equal to the sight and the sight can no longer see anything else, its extent fitting what is seen, or what is seen even stretches beyond the sight's reach on either side, what would one say here, when the thing looks much smaller than it is, and yet is seen with the whole sight? And if one looked at the heaven, one would learn it beyond dispute. For no one could see the whole hemisphere with one glance, nor could the sight be poured out so far, stretching up to it. But if anyone wishes, let it be granted. If, then, the whole sight took in the whole, and the size of the heaven is many times that of what appears, how could one make the lessening of the angle the cause of its looking much less than it is?",
+   "greek": "τὸ δὲ κατὰ τὰς τῆς ὄψεως γωνίας ἐλάττους εἴρηται μὲν καὶ ἐν ἄλλοις ὡς οὐκ ἔστι, καὶ νῦν δὲ ἐκεῖνο λεκτέον, ὡς ὁ λέγων ἔλαττον φαίνεσθαι ἐλάττονι γωνίᾳ καταλείπει τὴν ὄψιν ἔξωθέν τι ὁρῶσαν ἢ ἄλλο τι ὂν ἔξωθεν ὅλως, οἷον ἀέρα. ὅταν οὖν μηδὲν καταλείπῃ τῷ πολὺ εἶναι τὸ ὄρος, ἀλλ’ ἢ ἰσάζῃ καὶ μηκέτι ἄλλο οἷόν τε ᾖ αὐτῇ ὁρᾶν, ἅτε τοῦ διαστήματος αὐτῆς συναρμόσαντος τῷ ὁρωμένῳ, ἢ καὶ ὑπερτείνῃ τὸ ὁρώμενον ἐφ̓ ἑκάτερα τὴν τῆς ὄφεως προσβολήν, τί ἄν τις ἐνταῦθα λέγοι ἐλάττονος μὲν ἢ ἔστι πολλῷ φαινομένου τοῦ ὑποκειμένου, πάσῃ δὲ τῇ ὄψει ὁρωμένου; εἰ δὲ δὴ καὶ ἐπὶ τοῦ οὐρανοῦ θεωροῖ, ἀναμφισβητήτως μάθοι ἄν τις. πᾶν μὲν γὰρ τὸ ἡμισφαίριον οὐκ ἄν τις ὁρᾶν μιᾷ προσβολῇ δύναιτο, οὐδὲ ἐπὶ τοσοῦτον χυθῆναι ἡ ὄψις μέχρις αὐτοῦ ἐκτεινομένη. ἀλλ’ εἴ τις βούλεται, δεδόσθω. εἰ οὖν πᾶσα μὲν περιέλαβε πᾶν, πολλαπλάσιον δὲ τὸ μέγεθος τοῦ φαινομένου ὑπάρχει ἐν τῷ οὐρανῷ, τοῦ ἔλαττον πολλῷ ἢ ἔστι φαίνεσθαι πῶς ἂν ἐλάττωσιν γωνίας αἰτιῷτο;",
+   "flags": [
+    {
+     "taylor": "No part of the eye is unoccupied",
+     "in": "MacKenna",
+     "why": "The Greek speaks of the sight (ἡ ὄψις) that the mountain leaves nothing of, not the eye."
+    },
+    {
+     "taylor": "the eye directed to it could not cover so vast an expanse",
+     "in": "MacKenna",
+     "why": "The Greek says the sight could not \"be poured out\" (χυθῆναι) so far, \"stretching up to it\": sight goes out from the eye, as in Plato's Timaeus."
+    }
+   ],
+   "notes": [
+    "The angle of sight is the geometers' account: in Euclid's Optics (definitions 1-4) sight goes out from the eye in straight rays that make a cone, and things seen under a greater angle look greater. The ray of sight going out from the eye is also Plato's (Timaeus 45b-d). Which treatise \"elsewhere\" means is not known."
    ]
   }
  ],

@@ -4,14 +4,14 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 
 - Made from: Volkmann's Greek (Leipzig, 1883-1884), as First1KGreek gives it; checked against MacKenna's English (1917, 1921; the Internet Archive's OCR of the printed volumes, read by rule (tools/mackenna.py), not proofread).
 - Porphyry's Life of Plotinus: Volkmann's own Greek (vol. I, 1883), proofread from the scan (`sources/neoplatonists/proofread/porphyry-life-plotinus.txt`).
-- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes.
-- The whole Enneads: 11 treatises here, 15 beside Taylor (milestone 27), 29 to come.
-- Chapters: 122, each with a short title and a summary.
-- Paragraphs: 322, each with its Greek.
-- Words: 42,563 modern, 32,135 Greek, 50,201 in MacKenna's English of the same chapters.
-- Sentences (each can be marked in the reader): 1,635.
-- Flags (where MacKenna and the Greek differ, or the Greek is hard): 225.
-- Notes (Plato's, Aristotle's and Homer's places, hard readings): 182.
+- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small.
+- The whole Enneads: 15 treatises here, 15 beside Taylor (milestone 27), 25 to come.
+- Chapters: 135, each with a short title and a summary.
+- Paragraphs: 351, each with its Greek.
+- Words: 48,187 modern, 36,545 Greek, 57,047 in MacKenna's English of the same chapters.
+- Sentences (each can be marked in the reader): 1,842.
+- Flags (where MacKenna and the Greek differ, or the Greek is hard): 264.
+- Notes (Plato's, Aristotle's and Homer's places, hard readings): 204.
 - Problems found: 0.
 
 ## Flags
@@ -243,6 +243,45 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | II.3.18.p1 | Are the evils in the Universe necessary because it is of later origin than the Higher Sphere ? | The Greek asks whether they are necessary "because they follow on what went before" (ὅτι ἕπεται τοῖς προηγουμένοις), the things that came first in the chain of chapter 16; it says nothing of the All's being later than the higher sphere. |
 | II.3.18.p1 | it stirs us to thoughtful living | The Greek says vice moves us "to wisdom" (εἰς φρόνησιν). |
 | II.3.18.p2 | the divine Thought-Forms will pour forth into that phase of the Soul | The Greek says "the forming principles will flow" (ῥεύσονται οἱ λόγοι), the principles that chapter 17 says are not thoughts. |
+| II.5.1.p1 | Actuality (an absolute, abstract Principle) | The Greek asks only whether activity (ἐνέργεια) is the same as being actually (τὸ ἐνεργείᾳ εἶναι); "an absolute, abstract Principle" is MacKenna's. |
+| II.5.1.p2 | water (= primalliquid) as potentially bronze | The Greek says only "water" (τὸ ὕδωρ); "primal liquid" is MacKenna's gloss. |
+| II.5.1.p2 | the Principle or Abstract in which potentiality | The Greek says that if the potential is spoken of in relation to activity, and not only to the actual, it would be a power too; the "Principle or Abstract" in MacKenna's brackets is his. |
+| II.5.1.p2 | in regard to the process of Actualisation | The Greek pairs "the potential" with "the actual" (τὸ ἐνεργείᾳ) and "power" with "activity" (ἐνέργεια): two pairs of words, not a process and a principle. |
+| II.5.2.p1 | a person with a capacity for education becomes in fact educated | The Greek is γραμματικός, one who knows letters, a grammarian: Aristotle's stock example of the learner. |
+| II.5.2.p2 | but by virtue of Actuality (the abstract) | The Greek says the power has the activity "from itself" (παρ’ αὐτῆς): it does not act by virtue of an abstract Actuality. |
+| II.5.2.p2 | between a temperament and its expression in act | The Greek is ἕξις, a settled state, Aristotle's word for the state a virtue is, not a temperament. |
+| II.5.3.p1 | who (with us) assert Matter in the Intellectual Realm | "With us" is MacKenna's; it is true to Plotinus, who set out an intelligible matter in II.4 (chapters 2-5), but the Greek says only "those who set matter there too". |
+| II.5.3.p2 | the Form-Idea has mastered each separate constituent | The Greek asks whether it is actual "because each has received its form" (ὅτι τὸ εἶδος ἕκαστον ἀπείληφεν); "mastered" is MacKenna's. |
+| II.5.3.p2 | (and not, like material things, merely in image) | MacKenna's words in brackets are his; the Greek says only that the soul of growth "too is actually what it is". |
+| II.5.4.p1 | this potentiality of the future mode of being is an existing mode | The Greek says the thing that is potential is already actually something else, and is said to be potentially in relation to another; it says nothing of a "future mode of being". |
+| II.5.4.p1 | it is not even a phantasm of Reason | The Greek is ἴνδαλμα λόγου, a phantom of a forming principle: the bodies that are "falsely said to be" are images of forming principles, and matter is not even that. |
+| II.5.5.p1 | annex for itself even a visible outline | The Greek says it could not even "be coloured" (χρωσθῆναι) by the things it wished to slip into: a colour, not an outline. |
+| II.5.5.p1 | it is remoter (from Real-Being) even than they | The Greek says that, caught by the things that came to be after it, it "settled as the last of these too" (ἔσχατον καὶ τούτων κατέστη): last in the order, not further from real being. |
+| II.5.5.p2 | kept as the unchanging substratum | The Greek is ἀνώλεθρον, "indestructible": matter must not perish, which it would if it became actual. |
+| II.6.1.p1 | envisage Being as the substance stripped of all else | The Greek says only "being stripped of the others" (τὸ μὲν ὂν ἀπηρημωμένον τῶν ἄλλων). MacKenna's "Reality" in this treatise stands for οὐσία, which the modern version calls substance. |
+| II.6.1.p2 | elaborates the Reality into the particular thing | The Greek says the quality is "an addition after the substance of the thing" (μετὰ τὴν οὐσίαν τοῦ πράγματος προσθήκην); it says nothing of making the particular thing. |
+| II.6.1.p4 | (not a combination of material phenomena) | The words in brackets are MacKenna's; the Greek says only "fire is a substance". |
+| II.6.1.p4 | from the pure Being which is above Reality | MacKenna's gloss in brackets; the Greek asks only how substance there comes "from what is not substance" (ἐξ οὐκ οὐσίας), being and its activities. |
+| II.6.1.p4 | though in the truth it is a diminution | The Greek hedges: substance is "perhaps" (τάχα) more lacking than being; MacKenna makes it certain. |
+| II.6.2.p1 | body being the Reality, fire is a warmed body | The Greek says "a hot body" (σῶμα θερμόν): heat that is in it, as the snub nose is in you, not heat given to it. |
+| II.6.2.p2 | that is the something in which these qualities inhere | The Greek says "this is a qualified thing" (τοῦτο δὲ ποιόν): what is seen and burns is already qualified, not the subject in which the qualities are. |
+| II.6.2.p2 | the warming and lighting and other effects of fire | The Greek is τὸ λευκαίνειν, "whitening", not lighting. |
+| II.6.2.p2 | by which human beings take the quality | The words in brackets are MacKenna's; the Greek names only "the arts and the aptitudes". |
+| II.6.3.p1 | (as do the corresponding Activities here) | The words in brackets are MacKenna's; the Greek sets no activities here beside them. |
+| II.6.3.p2 | other than those constituting the substratum of a thing | The Greek says the states and dispositions "of the substrates" (τῶν ὑποκειμένων) are qualities: they are in the substrates, not set against what makes them. |
+| II.7.1.p1 | must be whittled away if there is to be mixture without any gap | The Greek says the masses would be cut "into pieces" (εἰς τομάς), divided without end, not whittled. |
+| II.7.1.p3 | one substance sinking its original magnitude in the other | The Greek says "if matter too goes through and through, with the size that is first upon it" (μετὰ τοῦ ἐπ’ αὐτῇ πρώτως μεγέθους): the matter goes with its size, rather than sinking it. |
+| II.7.2.p1 | without regard to the agreement or disagreement of that theory | The Greek asks "what opinion agrees with what is said, or what other will appear" (τίς δόξα σύμφωνος τοῖς λεγομένοις): the agreement is what Plotinus looks for. |
+| II.7.2.p1 | when papyrus-pulp gives up its moisture | The Greek is ἡ βίβλος, papyrus, the reed or a sheet of it; the "pulp" is MacKenna's. |
+| II.7.2.p2 | communicate quality and receive matter | The Greek says "one body gives of the quality and takes from the other" (δίδωσι τῆς ποιότητος καὶ λαμβάνει σῶμα θάτερον παρὰ θατέρου): "body" is what gives and takes, not matter received. |
+| II.7.2.p3 | how we came to say that body passing through | The Greek says "one might stop and ask how it is said" (πῶς λέγεται): the claim that body cuts body is the opponents', not Plotinus' own. |
+| II.7.3.p1 | that other Principle in man | The Greek speaks of "the separable" forming principle, "the one in intellect" (ὁ ἐν νῷ); nothing is said of man. |
+| II.8.1.p1 | stripped, so to speak, of magnitude as of all other quality | The Greek goes on: "so that only its forming principle arrives" (ὡς τὸν λόγον αὐτοῦ ἀφικνεῖσθαι μόνον); MacKenna leaves it out. |
+| II.8.1.p1 | by observing the salience and recession of its several parts | The Greek says we know a size "by going through it and passing over it" part by part (ἐν διεξόδῳ καὶ ἐπελεύσει): sight travels over the parts; nothing is said of parts standing out or falling back. |
+| II.8.1.p2 | exactly as the palate perceives by no indirect knowledge | The Greek of the Workshop ends the comparison with "by accident" (κατὰ συμβεβηκός); the modern version, like MacKenna, takes the sense to be that taste, like hearing, knows the strength directly, and leaves the words out. |
+| II.8.1.p3 | It was the detail that prevented a near object deceiving | The Greek says only that "how great the near is does not escape us, for the same reasons" (διὰ τὰ αὐτά): seeing the forms of its parts. |
+| II.8.2.p1 | No part of the eye is unoccupied | The Greek speaks of the sight (ἡ ὄψις) that the mountain leaves nothing of, not the eye. |
+| II.8.2.p1 | the eye directed to it could not cover so vast an expanse | The Greek says the sight could not "be poured out" (χυθῆναι) so far, "stretching up to it": sight goes out from the eye, as in Plato's Timaeus. |
 
 ## The plan, in Porphyry's order
 
@@ -262,10 +301,10 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | II.2 | On the movement of the heaven | done here |
 | II.3 | Whether the stars are causes | done here |
 | II.4 | On matter | done beside Taylor (milestone 27) |
-| II.5 | On what is potential and what is actual | to come (E9) |
-| II.6 | On substance, or on quality | to come (E9) |
-| II.7 | On complete blending | to come (E9) |
-| II.8 | On sight, or why distant things look small | to come (E9) |
+| II.5 | On what is potential and what is actual | done here |
+| II.6 | On substance, or on quality | done here |
+| II.7 | On complete blending | done here |
+| II.8 | On sight, or why distant things look small | done here |
 | II.9 | Against the Gnostics | done beside Taylor (milestone 27) |
 | III.1 | On destiny | to come (E10) |
 | III.2 | On providence, first part | to come (E11) |
