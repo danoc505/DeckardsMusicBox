@@ -74,8 +74,8 @@ ABOUT = ("A modern English version of Proclus' Theology of Plato (fifth century)
          "Greek is not yet on the site (the only free edition, Portus' of 1618, is a scan whose Greek OCR is badly garbled), so "
          "this version cannot yet be checked against the Greek; a flag marks a place where Taylor's English is hard or unclear, "
          "with his words. Taylor's footnotes are kept under his words. The chapters and their numbers are Taylor's (his "
-         "headings are in his table of contents); the short titles and summaries are the Workshop's. So far: Books I and II. "
-         "Book I, chapters 1-8: Proclus' preface and its praise of Plato and his heirs, how the work will proceed and what its hearer needs, who "
+         "headings are in his table of contents); the short titles and summaries are the Workshop's. So far: Books I and II, and Book III, "
+         "chapters 1-8. Book I, chapters 1-8: Proclus' preface and its praise of Plato and his heirs, how the work will proceed and what its hearer needs, who "
          "a theologian is in Plato's sense, the four ways Plato teaches about the gods, which dialogues hold his theology, and "
          "why the Parmenides holds all of it; chapters 9-12, against the merely logical reading of the Parmenides, and Syrianus' "
          "reading of its hypotheses as the orders of the gods; chapters 13-17, the Laws' three rules (the gods exist, provide "
@@ -84,7 +84,9 @@ ABOUT = ("A modern English version of Proclus' Theology of Plato (fifth century)
          "unbegotten, father and mother causes, and the divine names. Book II, chapters 1-3: three arguments that the "
          "first principle is the One itself, beyond being and beyond all multitude; chapters 4-12, against Origen, the two "
          "ways up (analogy and negation) and the two names (the One and the Good), the Republic's sun, the Second Letter's "
-         "king of all, and the first hypothesis of the Parmenides as a hymn of denials.")
+         "king of all, and the first hypothesis of the Parmenides as a hymn of denials. Book III, chapters 1-8: the henads "
+         "after the One, shared by being, life, intellect, soul and body, and the two principles after the One, limit and the "
+         "unlimited.")
 
 LINE = re.compile(r"^@(book|ch|p)\b\s*(.*)$")
 ROMAN = {"I": 1, "V": 5, "X": 10, "L": 50}
@@ -124,6 +126,17 @@ def footnotes(lines):
                 continue
             notes[cur].append(line)
     return {n: clean(" ".join(v)) for n, v in notes.items()}
+
+
+# Where Taylor's printed text runs chapters together that his table of contents divides (Gutenberg reproduces it):
+# Book III has headings for chapters I, II, III and then IX. The Workshop divides his paragraphs among the chapters his
+# contents name, by their matter: {book: {printed chapter: [(chapter, paragraphs), ...]}}. Book III's chapter 1 is the
+# introduction; 2, the axioms that prove the henads come after the One; 3, the henads joining beings to the One (the
+# Parmenides' second hypothesis); 4, the Republic's light: every god a shared henad; 5, nearer henads shared by simpler
+# beings; 6, being, life, intellect, soul and body; 7 and 8, the One again, and the two principles after it.
+SPLITS = {
+    "III": {1: [(1, 1), (2, 5), (3, 3)], 2: [(4, 1), (5, 2), (6, 7)], 3: [(7, 1), (8, 2)]},
+}
 
 
 def taylor():
@@ -166,6 +179,22 @@ def taylor():
                     text = clean(re.sub(r"\[(\d+)\]", "", block))
                     paras.append({"text": text, "notes": [{"n": r, "text": notes.get(r, "")} for r in refs]})
                 c["paras"] = paras
+    for bid, splits in SPLITS.items():
+        if bid not in books:
+            continue
+        chapters = []
+        for c in books[bid]["chapters"]:
+            parts = splits.get(c["n"])
+            if not parts:
+                chapters.append(c)
+                continue
+            if sum(k for _, k in parts) != len(c["paras"]):
+                raise ValueError(f"{c['id']}: SPLITS divides {sum(k for _, k in parts)} paragraphs, Taylor has {len(c['paras'])}")
+            at = 0
+            for n, k in parts:
+                chapters.append({"n": n, "id": f"{bid}.{n}", "paras": c["paras"][at:at + k], "divided": True})
+                at += k
+        books[bid]["chapters"] = chapters
     heads = chapter_heads()
     for bid, b in books.items():
         for c in b["chapters"]:

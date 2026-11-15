@@ -12,7 +12,7 @@
  "taylor_work": null,
  "taylor_title": "Taylor, The Theology of Plato (1816)",
  "taylor_source": "Thomas Taylor, The Six Books of Proclus, the Platonic Successor, on the Theology of Plato, 2 vols (London, 1816), Project Gutenberg's proofread transcription (sources/taylor-gutenberg/pg77393.txt and pg78800.txt)",
- "about": "A modern English version of Proclus' Theology of Plato (fifth century), the school's summa of the gods as Plato teaches them, written for the Workshop, because none in modern English may be reused. It is made from Thomas Taylor's translation (The Six Books of Proclus on the Theology of Plato, London, 1816), as Project Gutenberg's proofread transcription gives it, paragraph by paragraph: every idea is kept, the long sentences are broken into short ones, and old words are replaced by today's, the key words always the same way (Taylor's 'essence' is 'being', 'progression' is 'procession', 'participate' is 'share', 'unities' are 'henads', 'ideas' are 'Forms', 'superessential' is 'beyond being'), linked to the Term tab. Taylor's Latin names of the gods are given in Greek (Kronos for Saturn). Proclus' Greek is not yet on the site (the only free edition, Portus' of 1618, is a scan whose Greek OCR is badly garbled), so this version cannot yet be checked against the Greek; a flag marks a place where Taylor's English is hard or unclear, with his words. Taylor's footnotes are kept under his words. The chapters and their numbers are Taylor's (his headings are in his table of contents); the short titles and summaries are the Workshop's. So far: Books I and II. Book I, chapters 1-8: Proclus' preface and its praise of Plato and his heirs, how the work will proceed and what its hearer needs, who a theologian is in Plato's sense, the four ways Plato teaches about the gods, which dialogues hold his theology, and why the Parmenides holds all of it; chapters 9-12, against the merely logical reading of the Parmenides, and Syrianus' reading of its hypotheses as the orders of the gods; chapters 13-17, the Laws' three rules (the gods exist, provide for all things and cannot be bribed) and the Republic's axioms, beginning with the gods' goodness and the nature of evil; chapters 18-29, the gods' unchangeableness, simplicity and truth, the Phaedrus' beautiful, wise and good, faith, truth and love, the Phaedo's divine, immortal and intelligible, the unbegotten, father and mother causes, and the divine names. Book II, chapters 1-3: three arguments that the first principle is the One itself, beyond being and beyond all multitude; chapters 4-12, against Origen, the two ways up (analogy and negation) and the two names (the One and the Good), the Republic's sun, the Second Letter's king of all, and the first hypothesis of the Parmenides as a hymn of denials.",
+ "about": "A modern English version of Proclus' Theology of Plato (fifth century), the school's summa of the gods as Plato teaches them, written for the Workshop, because none in modern English may be reused. It is made from Thomas Taylor's translation (The Six Books of Proclus on the Theology of Plato, London, 1816), as Project Gutenberg's proofread transcription gives it, paragraph by paragraph: every idea is kept, the long sentences are broken into short ones, and old words are replaced by today's, the key words always the same way (Taylor's 'essence' is 'being', 'progression' is 'procession', 'participate' is 'share', 'unities' are 'henads', 'ideas' are 'Forms', 'superessential' is 'beyond being'), linked to the Term tab. Taylor's Latin names of the gods are given in Greek (Kronos for Saturn). Proclus' Greek is not yet on the site (the only free edition, Portus' of 1618, is a scan whose Greek OCR is badly garbled), so this version cannot yet be checked against the Greek; a flag marks a place where Taylor's English is hard or unclear, with his words. Taylor's footnotes are kept under his words. The chapters and their numbers are Taylor's (his headings are in his table of contents); the short titles and summaries are the Workshop's. So far: Books I and II, and Book III, chapters 1-8. Book I, chapters 1-8: Proclus' preface and its praise of Plato and his heirs, how the work will proceed and what its hearer needs, who a theologian is in Plato's sense, the four ways Plato teaches about the gods, which dialogues hold his theology, and why the Parmenides holds all of it; chapters 9-12, against the merely logical reading of the Parmenides, and Syrianus' reading of its hypotheses as the orders of the gods; chapters 13-17, the Laws' three rules (the gods exist, provide for all things and cannot be bribed) and the Republic's axioms, beginning with the gods' goodness and the nature of evil; chapters 18-29, the gods' unchangeableness, simplicity and truth, the Phaedrus' beautiful, wise and good, faith, truth and love, the Phaedo's divine, immortal and intelligible, the unbegotten, father and mother causes, and the divine names. Book II, chapters 1-3: three arguments that the first principle is the One itself, beyond being and beyond all multitude; chapters 4-12, against Origen, the two ways up (analogy and negation) and the two names (the One and the Good), the Republic's sun, the Second Letter's king of all, and the first hypothesis of the Parmenides as a hymn of denials. Book III, chapters 1-8: the henads after the One, shared by being, life, intellect, soul and body, and the two principles after the One, limit and the unlimited.",
  "source": "sources/translations/modern/proclus-theology.txt",
  "treatises": [
   {
@@ -68,6 +68,21 @@
     "II.10",
     "II.11",
     "II.12"
+   ]
+  },
+  {
+   "id": "III",
+   "title": "The henads, the two principles after the One, and the intelligible gods",
+   "summary": "Book III comes down from the One to the gods. Proclus proves that the One produces a multitude of henads, the gods, each shared by some order of being, the nearer henads by simpler beings: being, life, intellect, soul and body. After the One come two principles, limit and the unlimited, and from them the mixed, which is first being. Then he begins the orders of gods themselves with the intelligible gods, the three intelligible triads, found in the Philebus, the Timaeus, the Sophist and the Parmenides. Taylor's printed text heads only chapters 1-3 and 9 onward of chapters 1-9; the Workshop divides his paragraphs among the chapters his table of contents names, by their matter.",
+   "chapters": [
+    "III.1",
+    "III.2",
+    "III.3",
+    "III.4",
+    "III.5",
+    "III.6",
+    "III.7",
+    "III.8"
    ]
   }
  ],
@@ -1938,6 +1953,303 @@
      ]
     }
    ]
+  },
+  {
+   "id": "III.1",
+   "treatise": "III",
+   "title": "From the One to the gods",
+   "summary": "After the first God comes the multitude of gods, the most united to him. Before he sets out Plato's account of them, Proclus will prove that there are as many orders of gods as the second hypothesis of the Parmenides unfolds.",
+   "taylor_head": "That after the discussion in common of the one principle of things, it is requisite to treat of the divine orders, and to show how many they are, and how they are divided from each other.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book III, chapter 1, paragraph 1",
+     "text": "Such therefore is the theology with Plato concerning the first God, as it appears to me, and so great is the transcendency which it is allotted with respect to all other discussions of divine concerns; at one and the same time venerably preserving the ineffable union of this God exempt from the whole of things, uncircumscribed by all gnostic comprehensions, and apart from all beings; and unfolding the anagogic paths to him, perfecting that parturient desire which souls always possess of the father, and progenitor of all things, and enkindling that torch in them, by which they are especially conjoined with the unknown transcendency of the one. But after this imparticipable, ineffable, and truly superessential cause, which is separated from all essence, power and energy, the discussion of the Gods immediately follows. For to what other thing prior to the unities is it lawful to be conjoined with the one, or what else can be more united to the unical God than the multitude of Gods? Concerning these therefore, we shall in the next place unfold the inartificial theory of Plato, invoking the Gods themselves to enkindle in us the light of truth. I wish however prior to entering on the particulars of this theory, to convince the reader, and to make it evident to him through demonstration, that there are necessarily as many orders of the Gods, as the Parmenides of Plato unfolds to us in the second hypothesis.",
+     "notes": []
+    }
+   ]
+  },
+  {
+   "id": "III.2",
+   "treatise": "III",
+   "title": "The henads come after the One: four axioms",
+   "summary": "Four axioms: every cause first produces what is like it; every monad produces a number of its own kind; the nearer a procession is to its cause, the more it produces; and unshared causes come before shared ones. From these it follows that the One, before all things, produces a number of self-perfect henads, most like itself.",
+   "taylor_head": "That the multitude of unities according to which the Gods have their hypostasis, subsists after the one.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book III, chapter 2, paragraph 1",
+     "text": "This therefore is I think prior to all other things apparent to those whose conceptions are not perverted, that every where, but especially in the divine orders, second progressions, are completed through the similitude of these to their proper principles. For nature and intellect, and every generative cause, are naturally adapted to produce and conjoin to themselves things similar, prior to such as are dissimilar to themselves. For if it is necessary that the progression of beings should be continued, and that no vacuum should intervene either in incorporeal natures, or in bodies, it is necessary that every thing which proceeds naturally should proceed through similitude. For it is by no means lawful that the thing caused should be the same with its cause; since a remission and deficiency of the union of the producing cause generates secondary natures. For again, if that which is second were the same as that which is first, each would be similarly the same, and one would not be cause, but the other the thing caused. If however, the one by its very being, or essentially, has an exuberance of productive power, but the other falls short of the power that produced it, these are naturally separated from each other, and the generative cause precedes in excellence the thing generated, and there is not a sameness of things which so greatly differ. But if that which is second is not the same with that which is first, if indeed it is different only, they will not be conjoined to each other, nor will the one participate of the other. For contact and participation, are indeed a communion of things conjoined, and a sympathy of participants with the natures they participate. But if it is at the same time the same with and different from that which is first, if indeed the sameness is indigent, and vanquished by the power which is contrary to it, the one will no longer be the leader of the progression of beings, nor will every generative cause subsist prior to things of a secondary nature, in the order of the good. For the one is not the cause of division, but of friendship. And the good converts generated natures to their causes. But the conversion and friendship of things secondary to such as are primary is through similitude, but not through a dissimilar nature. If therefore the one is the cause of the whole of things, and if the good is in an exempt manner desirable to all things, it will every where give subsistence to the progeny of precedaneous causes, through similitude, in order that progression may be according to the one, and that the conversion of things which have proceeded may be to the good. For without similitude there will neither be the conversion of things to their proper principles, nor the generation of effects. Let this therefore be considered as a thing admitted in this place.",
+     "notes": []
+    },
+    {
+     "n": 2,
+     "label": "Book III, chapter 2, paragraph 2",
+     "text": "But the second thing besides this, and which is demonstrated through this, is, that it is necessary every monad should produce a number coordinate to itself, nature indeed a natural, but soul a psychical, and intellect an intellectual number. For if every thing generative generates similars prior to dissimilars, as has been before demonstrated, every cause will certainly deliver its own form and peculiarity to its own progeny, and before it gives subsistence to far distant progressions, and things which are separated from its nature, it will produce things essentially near to it, and conjoined with it through similitude. Every monad therefore, gives subsistence to a multitude indeed, as generating that which is second to itself, and which divides the powers that presubsist occultly in itself. For those things which are uniformly and contractedly in the monad, present themselves to the view separately in the progeny of the monad. And this indeed the wholeness of nature manifests, since it contains in one the reasons, [i.e. productive principles] of all things both in the heavens and in the sublunary region; but distributes the powers of itself to the natures which are divided from it about bodies. For the nature of earth, of fire, and of the moon, possesses from the wholeness of nature its peculiarity and form, and energizes together with this wholeness, and contains its own allottment. This also the monad of the mathematical sciences and of numbers manifests. For this being all things primarily, and spermatically producing in itself the forms of numbers, distributes different powers to different externally proceeding numbers. For it is not possible that what is generated, should at once receive all the abundance of its generator. And it is necessary that the prolific power of every thing that preexists in the cause itself should become apparent. The monad therefore gives subsistence to a multitude about itself, and to number which distributes the peculiarities that abide collectively in itself. Since however, as was before observed, the similar is always more allied to cause than the dissimilar, there will be one multitude of similars to the monad, proceeding from the monad; and another of dissimilars. But again, the multitude which is similar to the monad is that in a divided manner which the monad is indivisibly. For if the monad possesses a peculiar power and hyparxis, there will be the same form of hyparxis in the multitude together with a remission with reference to the whole.",
+     "notes": [
+      {
+       "n": 160,
+       "text": "For αιτιαν, it is necessary to read αιτιᾳ."
+      }
+     ]
+    },
+    {
+     "n": 3,
+     "label": "Book III, chapter 2, paragraph 3",
+     "text": "After this however, it is necessary to consider in the third place, that of progressions, such as are nearer to their cause are indicative of a greater multitude of things, and are at the same time in a certain respect equal to their containing causes; but that such as are more remote possess a less extended power of signification; and on account of the diminution of their power, change and diminish at the same time the amplitude of production. For if, of progressions, that which subsists the first in order is more similar to its principle, and that which gives subsistence to the greatest number is both with respect to essence and power more similar to the generating principle of all things, it is necessary that of secondary natures, such as are nearer to the monad, and which receive dominion after it, should give a greater extent to their productions; but that such things as are more separated from their primary monad should neither pervade in a similar manner through all things, nor extend their efficacious energies to far distant progressions. And again, as similar to this, it is necessary that the nature which gives subsistence to the greatest number of effects, should be arranged next to the monad its principle; and that the nature generative of a more numerous progeny, because it is more similar to the supplying cause of all things than that which is generative of a few, must be arranged nearer to the monad, according to hyparxis. For if it is more remote, it will be more dissimilar to the first principle; but if it is more dissimilar, it will neither possess a power comprehending the power of similar natures, nor an energy abundantly prolific. For an abundant cause is allied to the cause of all. And universally, that which is generative of a more abundant, is more naturally allied to its principle than that which is productive of a less numerous progeny. For the production of fewer effects is a defect of power; but a defect of power is a diminution of essence; and a diminution of essence becomes redundant on account of dissimilitude to its cause, and a departure from the first principle.",
+     "notes": []
+    },
+    {
+     "n": 4,
+     "label": "Book III, chapter 2, paragraph 4",
+     "text": "Again therefore, in addition to what has been said, we shall assert this which possesses the most indubitable truth, that prior to the causes which are participated, it is every where necessary that imparticipable causes should have a prior subsistence in the whole of things. For if it is necessary that a cause should have the same relation to its progeny as the one to all the nature of beings, and that it should naturally possess this order towards things secondary; but the one is imparticipable, being similarly exempt from all beings, as unically producing all things;--if this be the case, it is requisite that every other cause which imitates the transcendency of the one with respect to all things, should be exempt from the natures which are in secondary ranks, and which are participated by them. And again, as equivalent to this, it is requisite that every imparticipable and primary cause should establish monads of secondary natures similar to itself, prior to such as are dissimilar. I say, for instance, it is requisite that one soul should distribute many souls to different natures; and one intellect participated intellects to many souls. For thus the first exempt genus will every where have an order analogous to the one. And secondary natures which participate kindred causes will be analogous to these causes, and through the similitude of these will be conjoined with their imparticipable principle. Hence prior to the forms which are in other things, those are established which subsist in themselves; exempt causes prior to such as are coordinate; and imparticipable monads prior to such as are participable. And consequently (as that which is demonstrated at the same time with this) the exempt causes are generative of the coordinate, and imparticipable natures extend participable monads to their progeny. And natures which subsist from themselves produce the powers which are resident in other things. These things therefore being discussed, let us consider how each of the divine genera subsists through analogy, and survey following Plato himself, what are the first and most total orders of the Gods. For having discovered and demonstrated this, we shall perhaps be able to perceive the truth concerning these several orders.",
+     "notes": [
+      {
+       "n": 161,
+       "text": "For αναλυσεως it is necessary to read αναλογιας."
+      }
+     ]
+    },
+    {
+     "n": 5,
+     "label": "Book III, chapter 2, paragraph 5",
+     "text": "It is necessary therefore, from the before-mentioned axioms, since there is one unity the principle of the whole of things, and from which every hyparxis derives its subsistence, that this unity should produce from itself, prior to all other things, a multitude characterized by unity, and a number most allied to its cause. For if every other cause constitutes a progeny similar to itself prior to that which is dissimilar, much more must the one unfold into light after this manner things posterior to itself, since it is beyond similitude, and the one itself must produce according to union things which primarily proceed from it. For how can the one give subsistence to its progeny except unically? For nature generates things secondary to itself physically, soul psychically, and intellect intellectually. The one therefore is the cause of the whole of things according to union, and the progression from the one is uniform. But if that which primarily produces all things is the one, and the progression from it is unical, it is certainly necessary that the multitude thence produced should be self-perfect unities, most allied to their producing cause. Farther still, if every monad constitutes a number adapted to itself, as was before demonstrated, by a much greater priority must the one generate a number of this kind. For in the progression of things, that which is produced is frequently dissimilar to its producing cause, through the dominion of difference: for such are the last of things, and which are far distant from their proper principles. But the first number, and which is connascent with the one, is uniform, ineffable, superessential, and perfectly similar to its cause. For in the first causes, neither does difference intervening separate from the generator the things begotten, and transfer them into another order, nor does the motion of the cause effecting a remission of power, produce into dissimilitude and indefiniteness the generation of the whole of things; but the cause of all things being unically raised above all motion and division, has established about itself a divine number, and has united it to its own simplicity. The one therefore prior to beings has given subsistence to the unities of beings.",
+     "notes": []
+    }
+   ]
+  },
+  {
+   "id": "III.3",
+   "treatise": "III",
+   "title": "The henads join beings to the One",
+   "summary": "Being is unlike the One, so first beings share in the first cause through the henads nearest them, as bodies share in the whole soul through souls, and souls in intellect through intellects. This is why the Parmenides joins the one with being in the second hypothesis. But the henads must be shared by beings, each the flower and centre of a being; otherwise they would not differ from the One. Like things join the many to the One.",
+   "taylor_head": "How many the particulars are which ought to be demonstrated previous to the discovery of the multitude of the divine orders, and an uninterrupted narration of the doctrine of these.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book III, chapter 3, paragraph 1",
+     "text": "For again, according to another mode [of considering the subject] it is necessary that primary beings should participate of the first cause through their proximate unities. For secondary things are severally conjoined to the natures prior to them through similars; bodies indeed to the soul which ranks as a whole, through the several souls [which they participate]; but souls to universal intellect through intellectual monads; and first beings, through unical hyparxes to the one. For being is in its own nature dissimilar to the one. For essence and that which is in want of union externally derived, are unadapted to be conjoined with that which is superessential, and with the first union, and are far distant from it. But the unities of beings, since they derive their subsistence from the imparticipable unity, and which is exempt from the whole of things, are able to conjoin beings to the one, and to convert them to themselves.",
+     "notes": []
+    },
+    {
+     "n": 2,
+     "label": "Book III, chapter 3, paragraph 2",
+     "text": "It appears therefore to me, that Parmenides demonstrating these things through the second hypothesis, connects the one with being, surveys all things about the one, and evinces that this proceeding nature, and which extends its progressions as far as to the last of things is the one. For prior to true beings it was necessary to constitute the unities; since it neither was nor is lawful, says Timæus, for that which is the best of things to effect any thing else than that which is most beautiful. But this is in a remarkable degree most similar to that which is best. To the one however, a unical multitude is most similar; since the demiurgus of the universe also being good, constituted all things similar to himself through goodness itself. Much more therefore, does the fountain of all good produce goodnesses naturally united to itself, and establish them in beings. Hence there is one God, and many Gods, one unity and many unities prior to beings, and one goodness, and many after the one goodness, through which the demiurgic intellect is good, and every intellect is divine, whether it be an intellectual or intelligible intellect. And that which is primarily superessential is the one; and there are many superessentials after the one. Whether therefore, is this multitude of unities imparticipable in the same manner as the one itself, or is it participated by beings, and is each unity of beings the flower as it were of a certain being, and the summit and center of it, about which each being subsists? But if these unities also are imparticipable, in what do they differ from the one? For each of them is one, and primarily subsists from the one. Or in what being more redundant than the first cause were they constituted by it? For it is every where necessary that what is second being subordinate to that which is prior to itself, should fall short of the union of its producing cause, and by the addition of a certain thing should have a diminution of the monadic simplicity of the first. What addition therefore, can we adduce, or what redundancy besides the one, if each of these also is by itself one? For if each of them is one and many, we shall appear to transfer to them the peculiarity of being. But if each is one only, in the same manner as the one itself, why does this rank as the cause which is exempt from all things, but each of these is allotted a secondary dignity? Neither therefore shall we preserve the transcendency of the first with reference to the things posterior to it, nor can we admit that the unities proceeding from it are unconfused either with respect to themselves, or to the one principle of them.",
+     "notes": [
+      {
+       "n": 162,
+       "text": "For εν it is necessary to read ον."
+      },
+      {
+       "n": 163,
+       "text": "For παροντος it appears requisite to read παραγοντος."
+      }
+     ]
+    },
+    {
+     "n": 3,
+     "label": "Book III, chapter 3, paragraph 3",
+     "text": "But neither shall we be persuaded by Parmenides who produces the one together with being, and demonstrates that there are as many parts of the one as there are of being; that each being also participates of the one, but that the one is every where consubsistent with being; and in short, who asserts that the one of the second hypothesis participates of being, and is participated by being, the participation in each not being the same. For the one indeed participates of being, as not being primarily one, nor exempt from being, but as illuminating truly-existing essence. But being participates of the one, as that which is connected by it, and filled with divine union, and converted to the one itself which is imparticipable. For the participated monads conjoin beings to the one which is exempt from the whole of things, in the same manner as participated intellects conjoin souls to the intellect which ranks as a whole, and as participated souls conjoin bodies to the soul which ranks as a whole. For it is not possible that the dissimilar genera of secondary natures should be united without media to the cause which is exempt from multitude; but it is necessary that the contact should be effected through similars. For a similar multitude, so far indeed as it is multitude, communicates with the dissimilar; but so far as it is similar to the monad prior to itself, it is conjoined with it. Being established therefore, in the middle of both, it is united to the whole, and to the one which is prior to multitude. But it contains in itself remote progressions, and which are of themselves dissimilar to the one. Through itself also, it converts all things to that one, and thus all things are extended to the first cause of the whole of things, dissimilars indeed through similars, but similars through themselves. For similitude itself by itself conducts and binds the many to the one, and converts secondary natures to the monads prior to them. For the very being of similars so far as they are similars is derived from the one. Hence, it conjoins multitude to that from which it is allotted its progression. And on this account similitude is that which it is, causing many things to be allied, to possess sympathy with themselves, and friendship with each other and the one.",
+     "notes": [
+      {
+       "n": 164,
+       "text": "Here also for εν it is necessary to read ον."
+      },
+      {
+       "n": 165,
+       "text": "For ανομοιων it is necessary to read ομοιων."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "III.4",
+   "treatise": "III",
+   "title": "Every god is a shared henad: the Republic's light",
+   "summary": "In the Republic the light that comes from the Good unites intellect and beings, as the sun's light makes visible things seen. This light is the one in beings. So, apart from the One itself, which alone is truly beyond being, every god is a henad shared by being, binding beings to itself and through itself to the One.",
+   "taylor_head": "That all the unities are participable. And that there is only one truly superessential one; but that all the other unities are participated by essences.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book III, chapter 4, paragraph 1",
+     "text": "If however it be requisite, not only by employing the intellectual projections of Parmenides to unfold the multitude of Gods participated by beings, but also concisely to demonstrate the theory of Socrates about these particulars, we must recollect what is written in the Republic, where he says that the light proceeding from the good is unific of intellect and of beings. For through these things the good is demonstrated to be exempt from being and essence, in the same manner as the sun is exempt from visible natures. But this light being in intelligibles illuminates them, in the same manner as the solar-form light which is in visible natures. For visible natures no otherwise become apparent, and known to the sight, than through the light which is ingenerated in them. All intelligibles therefore become boniform through the participation of light, and through this light, every true being is most similar to the good. If, therefore, it makes no difference to speak of this light, or of the one (for this light conjoins intelligibles, and causes them to be one, as deriving its subsistence from the one) if this be the case, the deity proceeding from the first is participable, and all the multitude of unities is participable. And that indeed which is truly superessential is the one. But each of the other Gods, according to his proper hyparxis, by which he is a superessential God, is similar to the first; but they are participated by essence and being. According to this reasoning therefore, the Gods appear to us to be unities, and participable unities, binding indeed all beings to themselves, but conjoining through themselves to the one which similarly transcends all things, the natures posterior to themselves.",
+     "notes": [
+      {
+       "n": 166,
+       "text": "οντως is omitted in the original."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "III.5",
+   "treatise": "III",
+   "title": "Nearer henads are shared by simpler beings",
+   "summary": "The henads have an order, like numbers: those nearer the One are shared by simpler and more universal beings, those further off by more composite ones, which are less in power but more in number. So too souls: the heavenly souls have simple bodies, the souls of the elements ethereal and material ones, and partial souls a third, composite life; and intellects likewise.",
+   "taylor_head": "That the participations of the unities which are nearer to the one, proceed into more simple hypostases; but the participations of those that are remote from the one, proceed into more composite hypostases.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book III, chapter 5, paragraph 1",
+     "text": "Since therefore each of the Gods is indeed a unity, but is participated by some being, whether shall we say that the same being participates of each of the unities or that the participants of some of the unities are more, but of others less numerous? And if this be the case either the participants of the superior unities must be more, but of the inferior must be fewer in number, or vice versa. For it is necessary that there should be an order of the unities, in the same manner as we see that of numbers some are nearer to their principle, but others more remote from it. And that some are more simple, but others more composite, and exceed indeed in quantity, but suffer a diminution in power. But it is well that we have mentioned numbers. For if it is necessary to survey the order of the first monads with respect to each other, and their progression about beings, from these as images, in these also the monads which are nearer to the one will be participated by things which are more simple in essence, but those which are more remote from it, will be participated by more composite essences. For thus the participation will be according to the analogous; first monads being always participated by the first beings, but second monads by secondary beings. For again, if the first is exempt from all things, and is imparticipable, but that which is connascent with the most simple nature and the one is more similar to the imparticipable than that which is connascent with a more various and multiform nature, and which has more powers suspended from it,--if this be the case, it is perfectly obvious, that the unities which are nearer to the one are necessarily participated by the first and most simple essences; but that those which are more remote are participated by more composite essences, which are less in power, but are greater in number and multitude. For in short, additions in these unities are ablations of powers; and that which is nearer to the one, which surpasses the whole of things by an admirable simplicity, is more uniform, and is consubsistent with more total orders. And it happens according to the ratio of power, that the simplicity of the first unities is transcendent. For those things which are the causes of a greater number of effects, imitate as much as possible the cause of all things, but those which are the causes of fewer effects, have an essence more various than the natures that are prior to them. For this variety distributes into minute parts and diminishes the power which abides in one. Moreover, in participated souls also, such as are first and most divine subsist in simple and perpetual bodies. Others again are connected with bodies that are simple, but in conjunction with these with material bodies also. And others are connected at one and the same time with simple, material and composite bodies. For the celestial souls indeed rule over simple bodies, and such as have an immaterial and immutable subsistence. But the souls that govern the wholes of the elements, are at the same time invested with ethereal garments, and at the same time through these are carried in the wholes of the elements, which as wholes indeed are perpetual and simple, but as material receive generation and corruption, and composition from dissimilar natures. And the souls that rank in the third order, are those which proximately inspire with life their luciform vehicles, but also attract from the simple element material vestments, pour into these a secondary life, and through these communicate with composite and multiform bodies, and sustain through this participation another third life.",
+     "notes": [
+      {
+       "n": 167,
+       "text": "Instead of τα μεν γαρ πλειονων αιτια, και των παντων αιτιων κατα την δυναμιν των προ αυτων ποικιλωτερων κατα την ουσιαν εστιν, it is necessary to read τα μεν γαρ πλειονων αιτια, και των παντων αιτιον κατα δυναμιν μιμουνται, τα δε των ελασσονων των προ αυτων ποικιλωτερα κατα την ουσιαν εστιν."
+      },
+      {
+       "n": 168,
+       "text": "For αυτοειδεσιν it is requisite to read αυγοειδεσιν."
+      }
+     ]
+    },
+    {
+     "n": 2,
+     "label": "Book III, chapter 5, paragraph 2",
+     "text": "If, however, you are willing to survey the intellectual orders, some of these are arranged in the souls which rank as wholes, and in the most divine of mundane souls, which also they govern in a becoming manner. But others being arranged in the souls of the more excellent genera, are proximately participated by the rulers that are in them; and are participated secondarily by more partial essences. But again they arrange third intellectual orders in partial souls. And according as the power which they are allotted is diminished, in such proportion is participation in them more various, and far more composite than the participation of the natures that are prior to them. If, therefore, this is the mode of participation in all beings, it is certainly necessary that of the Gods also those that are nearer to the one, should be carried in the more simple parts of being, but that those which have proceeded to a greater distance should be carried in the more composite parts of being. For the participations of second genera are divided after this manner according to a similitude to them.",
+     "notes": []
+    }
+   ]
+  },
+  {
+   "id": "III.6",
+   "treatise": "III",
+   "title": "Being, life, intellect, soul and body",
+   "summary": "The orders of beings that share in the henads are, from the last up: body, which cannot give itself being; soul, which makes bodies better; intellect, above soul, eternal and without evil; life, above intellect, shared even by plants; and being, above life, shared even by things without life. The Sophist finds these four in perfect being. Each is unshared before it is shared, and there are as many orders of henads as of these.",
+   "taylor_head": "What the natures are which participate of the divine unities, and what the order of them is with respect to each other. And that being indeed, is the most ancient of these; life, the second; intellect, the third; soul, the fourth; and body, the last. And that there are also as many orders of the divine unities.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book III, chapter 6, paragraph 1",
+     "text": "Again therefore, we may summarily say, that after the one principle of the whole of things, the Gods present themselves to our view as self-perfect monads, participated by beings. How many orders therefore there are of beings we shall afterwards unfold, and show what beings are allotted a more simple, and what a more various hyparxis. Of all beings then, the last is that which is corporeal. For this derives its being, and all its perfection from another more ancient cause, and is neither allotted simplicity nor composition, nor perpetuity, nor incorruptibility from its own power. For no body is either self-subsistent, or self-begotten; but every thing which is so contracting in one, cause, and that which proceeds from cause, is incorporeal and impartible. And in short, that which is the cause of hyparxis to itself, imparts also to itself an infinite power of existence. For never deserting itself, it will never cease to be, or depart from its own subsistence. For every thing that is corrupted, is corrupted through being separated from the power that supplied it with being. But that which imparts being to itself, as it is not separated from itself, is allotted through itself a perpetual essence. No body however, since it is not the cause of perpetuity to itself, will be perpetual. For every thing which is perpetual possesses an infinite power. But body being finite is not the cause of infinite power. For infinite power is incorporeal, because all power is incorporeal. But this is evident, because greater powers are every where. But no body is capable of being wholly every where. If therefore, no body imparts to itself power, whether the power be infinite or finite, but that which is self-subsistent imparts to itself the power of being, and of existing perpetually, no body will be self-subsistent. Whence therefore is being imparted to bodies, and what is it which is adapted proximately to supply them with being? Must we not say that the cause of being to bodies primarily is that which by being present renders the nature of body more perfect than its kindred bodies [when they are deprived of it?] This indeed is obvious to every one. For it is the province of that which imparts perfection to connect also the essence of secondary natures, since perfection itself is the perfection of essence. What therefore is that of which bodies participating, are said to be better than the bodies which do not participate of it? Is it not evident that it is soul? For we say that animated bodies are more perfect than such as are inanimate. Soul therefore is primarily beyond bodies; and it must be admitted that all heaven and every thing corporeal is the vehicle of soul. Hence, these two orders of beings present themselves to our view; the one indeed being corporeal, but the other which is above this, psychical.",
+     "notes": [
+      {
+       "n": 169,
+       "text": "In the original here, about a line and a half is so defective, that not being able to supply the deficiency, I have not attempted to translate it."
+      }
+     ]
+    },
+    {
+     "n": 2,
+     "label": "Book III, chapter 6, paragraph 2",
+     "text": "With respect to soul itself however, whether is it the same with or different from intellect? For as the body which participates of soul is perfect, thus also the soul is perfect which participates of intellect. And of the soul indeed, which is able to live according to reason, all things do not participate: but of intellect and intellectual illumination rational souls participate, and also such things as partake of any kind of knowledge. And soul indeed energizes according to time; but intellect comprehends in eternity both its essence, and at the same time its stable energy. And not every soul indeed is adapted to preserve immutably and without diminution the perfection of itself; but every intellect is always perfect, and possesses a never-failing power of its own blessedness. The intellectual genus therefore is essentially beyond the psychical; since the former, neither in whole nor in partial intellects, admits the entrance of the nature of evil; but the latter being undefiled in whole souls, departs in partial souls from its own proper blessedness. What therefore is the first of beings? Shall we say intellect, or prior to this the extent of life? For soul indeed is self-vital, supplying itself with life; and intellect is the best and most perfect, and as we have said, an eternal life. But the life of intellect is indeed in a certain respect intellectual, and is mingled from the intellectual and vital peculiarity. It is necessary however, that there should be life itself. Whether therefore is life or intellect the more excellent thing? But if gnostic beings only participate of intellect, but such beings as are destitute of knowledge participate of life, (for we say that plants live) it is certainly necessary that life should be arranged above intellect, being the cause of a greater number of effects, and imparting by illumination more gifts from itself than intellect. What then? Is life the first of beings? And is to live the same thing as to be? But this is impossible. For if life is that which is primarily being, and to be vital is the same thing as to have being, and there is the same definition of both life and being, every thing which participates of life would also participate of being, and every thing which participates of existence would likewise participate of life. For if each is the same thing all things would similarly participate of being and life. All vital natures indeed have essence and being; but there are many beings that are destitute of life. Being therefore subsists prior to the first life. For that which is more universal, and the cause of a greater number of effects, is nearer to the one, as has been before demonstrated. Soul therefore is that which is primarily established above bodies; but intellect is beyond soul; life is more ancient than intellect; and being which is primarily being is established above all these. Every thing also which participates of soul, by a much greater priority participates of intellect; but not every thing which enjoys intellectual efficiency, is also adapted to participate of soul. For of soul rational animals only participate; since we say that the rational soul is truly soul. For Plato in the Republic says, that the work of soul is to reason and survey beings. And every soul [i.e. every rational soul] is immortal, as it is written in the Phædrus; the irrational soul being mortal, according to the demiurgus in the Timæus. And in short, it is in many places evident that Plato considers the rational soul to be truly soul, but others to be the images of souls, so far as these also are intellectual and vital, and together with whole souls produce the lives that are distributed about bodies. Of intellect however, we not only admit that rational animals participate, but also such other animals as possess a gnostic power; I mean such as possess the phantasy, memory and sense; since Socrates also in the Philebus refers all such animals to the intellectual series. For taking away intellect from the life which is according to pleasure, he likewise takes away not only the rational life, but every gnostic power of the irrational life. For all knowledge is the progeny of intellect, in the same manner as all reason is an image of soul.",
+     "notes": [
+      {
+       "n": 170,
+       "text": "Instead of ζωης here it is necessary to read ψυχης."
+      }
+     ]
+    },
+    {
+     "n": 3,
+     "label": "Book III, chapter 6, paragraph 3",
+     "text": "Moreover, all things which participate of intellect, by a much greater priority participate of life, some things indeed more obscurely, but others more manifestly. But all living beings do not participate of intellectual power, since plants indeed are animals, as Timæus says, but they neither participate of sense, or phantasy; unless some one should say that they have a co-sensation of what is pleasing and painful. And in short, the orectic powers every where are lives, and the images of the whole of life, and the last productions of life; but they are of themselves destitute of intellect and without any participation of the gnostic power. Hence also, they are of themselves indefinite, and deprived of all knowledge.",
+     "notes": []
+    },
+    {
+     "n": 4,
+     "label": "Book III, chapter 6, paragraph 4",
+     "text": "Again therefore, all animals indeed receive a portion of being, and different animals a different portion, according to their respective natures; but all beings are not similarly able to participate of life; since we say that qualities and all passions, and the last of bodies, receive the ultimate effective energy of being, but we do not also say that they participate of life. Being therefore is more ancient than life; life than intellect; and intellect than soul. For it is necessary that the causes of a greater number of effects being more ancient and according to order more principal, should preside over causes which are able to produce and adorn fewer effects. Very properly therefore, does Plato in the Timæus give subsistence to soul from intellect, as being secondary to it according to its own nature. But in the Laws he says that intellect is moved similarly to a sphere fashioned by a wheel. For that which is moved, is moved by participating of life, and is nothing else than real life about motion. And in the Sophista he exempts being from all the total genera of things, and from motion. For being, says he, according to its own nature, neither stands still, nor is moved. But that which neither stands still nor is moved, is beyond eternal life.",
+     "notes": [
+      {
+       "n": 171,
+       "text": "For εντονοις it is necessary to read εν τορνοις."
+      }
+     ]
+    },
+    {
+     "n": 5,
+     "label": "Book III, chapter 6, paragraph 5",
+     "text": "These four causes therefore being prior to a corporeal subsistence, viz. essence, life, intellect and soul, soul indeed participates of all the causes prior to itself, being allotted reason from its own peculiarity, but intellect, life and being, from more ancient causes. Hence it gives subsistence to things posterior to itself in a fourfold manner. For according to its being indeed, it produces all things as far as to bodies; according to its life, all things which are said to live, even as far as to plants; according to its intellect, all things which possess a gnostic power, even as far as to the most irrational natures; and according to its reason, the first of the natures that are able to participate of it. But intellect being established beyond soul, and existing as the plenitude of life and being, adorns all things in a threefold manner, imparting indeed by illumination the power of the intellectual peculiarity to all gnostic beings, but supplying the participation of life to a still greater number, and of being to all those to whom primary being imparts itself. But life being arranged above intellect, presubsists as the cause of the same things in a twofold respect, vivifying secondary natures indeed, together with intellect, and filling from itself with the rivers of life, such things as are naturally adapted to live, but together with being supernally producing essence in all things. But being itself which is primarily being generates all things by its very existence, all lives, and intellects and souls, and is uniformly present to all things, and is exempt from the whole of things according to one cause which gives subsistence to all things. Hence it is the most similar of all things to the one, and unites the comprehension of beings in itself to the first principle of the whole of things, through which all beings, and non-being, wholes and parts, forms and the privations of forms subsist, which privations do not necessarily participate of being, but it is entirely necessary that they should participate of the one.",
+     "notes": [
+      {
+       "n": 172,
+       "text": "For αυτοις read αυτης."
+      }
+     ]
+    },
+    {
+     "n": 6,
+     "label": "Book III, chapter 6, paragraph 6",
+     "text": "These things as it appears to me persuaded the Elean guest in the Sophista, when discussing that which is perfectly being, to admit that not only being is there, but also life, intellect and soul. For if true and real being is venerable and honorable, intellect is there in the first place, says he. For it is not lawful for that which is of itself venerable and immaterial to be without intellect. But if intellect is in that which is perfectly being, intellect will entirely be moved. For it is not possible for intellect ever to subsist, either without motion or permanency. But if intellect is moved and stands still, there are in being both life and motion. Hence, from what has been said, three things become apparent, viz. being, life and intellect. Moreover, soul also in the next place is discovered through these things. For it is necessary, says he, that life and intellect which before were by themselves, should also be in soul. For every soul is a plenitude of life and intellect, participating of both, which the Elean guest indicating adds, “Shall we say that both these are inherent in it, but yet it does not possess these in soul?” For to possess, as some one says in a certain place, is secondary to existing. And soul indeed participates of each of these according to the peculiarity of itself; but it mingles the rational form of its own hyparxis, with the intellectual vivific power. But both intellect and life subsist prior to soul, the former as being moved and standing still at one and the same time, and the latter as being motion and permanency. These four monads also, soul, intellect, life and being are not only mentioned by Plato here, but in many other places. And as in soul all things subsist according to participation, so in intellect the things which are prior to it subsist, and in life that which is prior to life. For we say that life exists, or has a being. Or how could it be said to be arranged in being unless it participated of being? We likewise say that intellect is and lives. For it is moved, and is a portion of being. Hence it is the third of the more comprehensive monads. Prior however to beings which are participated, it is every where necessary that imparticipable causes should subsist, as was before demonstrated, conformably to the similitude of beings to the one. Being therefore which is primarily being, is imparticipable; but life first participates of being, yet is imparticipable, being exempt from intellect. And intellect is filled indeed from being and life; but is imparticipable in souls, and in the natures posterior to itself. Intellect also presides over soul, imparting to it by illumination the participation of life and being; but being imparticipable subsists prior to bodies. The last order of beings therefore is that to which bodies are annexed; celestial bodies indeed primarily, but sublunary bodies with the addition of material [vestments.] This therefore is the progression of beings, through life, intellect and soul, ending in a corporeal nature.",
+     "notes": []
+    },
+    {
+     "n": 7,
+     "label": "Book III, chapter 6, paragraph 7",
+     "text": "If, however, it is necessary that the superessential unities of the Gods which derive their subsistence from the imparticipable cause of all things should be participated, some of them indeed, by the first orders in beings, others by the middle, and others by the last orders, as was before demonstrated, it is evident that some of them deify the imparticipable portion of being, but that others illuminate life, others intellect, others soul, and others bodies. And of the last unities indeed, not only bodies participate, but likewise soul, intellect, life and essence. For intellect in itself is a plenitude of life and being. But from the unities which are above this world intellect is suspended, and the psychical power, which preexists in intellect. From the unities above these, imparticipable and intellectual intellect is suspended. From those that are beyond these, the first and imparticipable life is suspended. And from the highest unities, the first being itself, and which is the most divine of beings, is suspended. Hence Parmenides beginning from the one being, produces from thence the whole orders of the Gods. These things therefore being previously determined by us, let us speak concerning the divine dialogues, beginning from on high, and producing from the one the whole orders of the Gods. Let us also, following Plato, in the first place demonstrate the several orders from other dialogues, by arguments which cannot be confuted. Afterwards, let us thus conjoin and assimilate the conclusions of Parmenides to the divine progressions, adapting the first conclusions to the first, but the last to the last progressions.",
+     "notes": [
+      {
+       "n": 173,
+       "text": "For αιτιων it is necessary to read αιτιας."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "III.7",
+   "treatise": "III",
+   "title": "The One again, honoured in silence",
+   "summary": "Before the second and third principles, Proclus recalls the first: the unshared cause, called the Good in the Republic, the One in the Parmenides, the king of all in the Second Letter, and the cause of all godhead in the Philebus. By whatever name, it is to be honoured in silence, and before silence by union.",
+   "taylor_head": "A resumption of the doctrine concerning the one, and a discussion of the biformed principles posterior to the one.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book III, chapter 7, paragraph 1",
+     "text": "Again therefore, the mystic doctrine concerning the one must be resumed by us, in order that proceeding from the first principle, we may celebrate the second and third principles of the whole of things. Of all beings therefore, and of the Gods that produce beings, one exempt and imparticipable cause preexists,--a cause ineffable indeed by all language, and unknown by all knowledge and incomprehensible, unfolding all things into light from itself, subsisting ineffably prior to, and converting all things to itself, but existing as the best end of all things. This cause therefore, which is truly exempt from all causes, and which gives subsistence unically to all the unities of divine natures, and to all the genera of beings, and their progressions, Socrates in the Republic calls the good, and through its analogy to the sun reveals its admirable and unknown transcendency with respect to all intelligibles. But again, Parmenides denominates it the one. And through negations demonstrates the exempt and ineffable hyparxis of this one which is the cause of the whole of things. But the discourse in the epistle to Dionysius proceeding through enigmas, celebrates it as that about which all things subsist, and as the cause of all beautiful things. In the Philebus however, Socrates celebrates it as that which gives subsistence to the whole of things, because it is the cause of all deity. For all the Gods derive their existence as Gods from the first God. Whether therefore, it be lawful to denominate it the fountain of deity, or the kingdom of beings, or the unity of all unities, or the goodness which is generative of truth, or an hyparxis exempt from all these things, and beyond all causes, both the paternal and the generative, let it be honored by us in silence, and prior to silence by union, and of the mystic end may it impart by illumination a portion adapted to our souls.",
+     "notes": []
+    }
+   ]
+  },
+  {
+   "id": "III.8",
+   "treatise": "III",
+   "title": "The two principles after the One: limit and the unlimited",
+   "summary": "After the One, Plato, following older theology and Philolaus, sets two principles: limit and the unlimited of the Philebus, from which god mixes all beings. Limit is the one before being, the cause of stable, unifying godhead; the unlimited is its power that generates being, the leader of all procession and multitude. Everything, from eternity to matter, has its remaining from limit and its procession from the unlimited.",
+   "taylor_head": "What the two principles are of all things posterior to the one; how Socrates the Philebus calls them bound and infinity; and of what things they are the causes to beings.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book III, chapter 8, paragraph 1",
+     "text": "But let us survey with intellect the biformed principles proceeding from and posterior to it. For what else is it necessary to arrange after the union of the whole theory, than the duad of principles? What the two principles therefore are of the divine orders after the first principle, we shall in the next place survey. For conformably to the theology of our ancestors, Plato also establishes two principles after the one. In the Philebus therefore, Socrates says, that God gives subsistence to bound and infinity, and through these mingling all beings, has produced them, the nature of beings, according to Philolaus subsisting from the connexion of things bounded, and things infinite. If, therefore, all beings subsist from these, it is evident that they themselves have a subsistence prior to beings. And if secondary natures participate of these mingled together, these will subsist unmingled prior to the whole of things. For the progression of the divine orders originates, not from things coordinated and which exist in others, but from things exempt, and which are established in themselves. As therefore the one is prior to things united, and as that which is passive to the one, has a second order after the imparticipable union, thus also the two principles of beings, prior to the participation of and commixture with beings, are themselves by themselves the causes of the whole of things. For it is necessary that bound should be prior to things bounded, and infinity prior to infinites, according to the similitude to the one of things which proceed from it. For again, if we should produce beings immediately after the one, we shall no where find the peculiarity of the one subsisting purely. For neither is being the same with the one, but it participates of the one, nor in reality is that which is the first the one; for, as has been frequently said, it is better than the one. Where therefore is that which is most properly and entirely one? Hence there is a certain one prior to being, which gives subsistence to being, and is primarily the cause of it; since that which is prior to it is beyond union, and is a cause without habitude with respect to all things, and imparticipable, being exempt from all things. If however this one is the cause of being, and constitutes it, there will be a power in it generative of being. For every thing which produces, produces according to its own power, which is allotted a subsistence between that which produces and the things produced, and is of the one the progression and as it were extension, but of the other is the pre-arranged generative cause. For being which is produced from these, and which is not the one itself, but uniform, possesses its progression indeed from the one, through the power which produces and unfolds it into light from the one; but its occult union from the hyparxis of the one. This one therefore which subsists prior to power, and first presubsists from the imparticipable and unknown cause of the whole of things, Socrates in the Philebus calls bound, but he denominates the power of it which is generative of being, infinity. But he thus speaks in that dialogue, “God we said has exhibited the bound, and also the infinite of beings.”",
+     "notes": [
+      {
+       "n": 174,
+       "text": "For τινος it is necessary to read τινες."
+      }
+     ]
+    },
+    {
+     "n": 2,
+     "label": "Book III, chapter 8, paragraph 2",
+     "text": "The first therefore and unical God, is without any addition denominated by him God; because each of the second Gods is participated by being, and has being suspended from its nature. But the first indeed, as being exempt from the whole of beings, is God, defined according to the ineffable itself, the unical alone, and superessential. But the bound and the infinite of beings, unfold into light that unknown and imparticipable cause; bound indeed, being the cause of stable, uniform, and connective deity; but the infinite being the cause of power proceeding to all things and capable of being multiplied, and in short, being the leader of every generative distribution. For all union and wholeness, and communion of beings, and all the divine measures, are suspended from the first bound. But all division, prolific production, and progression into multitude, derive their subsistence from this most principal infinity. Hence, when we say that each of the divine orders abides and at the same time proceeds, we must confess that it stably abides indeed, according to bound, but proceeds according to infinity, and that at one and the same time it has unity and multitude, and we must suspend the former from the principle of bound, but the latter from that of infinity. And in short, of all the opposition in the divine genera, we must refer that which is the more excellent to bound, but that which is subordinate to infinity. For from these two principles all things have their progression into being, even as far as to the last of things. For eternity itself participates at once of bound and infinity; so far indeed, as it is the intelligible measure, it participates of bound; but so far as it is the cause of a never-failing power of existing, it participates of infinity. And intellect, so far indeed as it is uniform, and whole, and so far as it is connective of paradigmatical measures, so far it is the progeny of bound. But again, so far as it produces all things eternally, and subsists conformably to the whole of eternity, supplying all things with existence at once, and always possessing its own power undiminished, so far it is the progeny of infinity. And soul indeed, in consequence of measuring its own life, by restitutions and periods, and introducing a boundary to its own motions, is referred to the cause of bound; but in consequence of having no cessation of motions, but making the end of one period the beginning of the whole of a second vital circulation, it is referred to the order of infinity. The whole of this heaven also, according to the wholeness of itself, its connexion, the order of its periods, and the measures of its restitutions, is bounded. But according to its prolific powers, its various evolutions, and the never-failing revolutions of its orbs, it participates of infinity. Moreover, the whole of generation, in consequence of all its forms being bounded, and always permanent after the same manner, and in consequence of its own circle which imitates the celestial circulation, is similar to bound. But again, in consequence of the variety of the particulars of which it consists, their unceasing mutation, and the intervention of the more and the less in the participations of forms, it is the image of infinity. And in addition to these things, every natural production, according to its form indeed, is similar to bound, but according to its matter, resembles infinity. For these are suspended in the last place from the two principles posterior to the one, and as far as to these the progression of their productive power extends. Each of these also is one, but form is the measure and boundary of matter, and is in a greater degree one. Matter however is all things in capacity, so far as it derives its subsistence from the first power. There, however, power is generative of all things. But the power of matter is imperfect, and is indigent of the hypostasis which is generative of all things according to energy. Very properly therefore is it said by Socrates that all beings are from bound and infinity, and that these two intelligible principles primarily derive their subsistence from God. For that which congregates both of them, and perfects them, and unfolds itself into light through all beings is the one prior to the duad. And union indeed is derived to all things through that which is first; but the division of the two orders of things is generated from these primary causes, and through these is extended to the unknown and ineffable principle. Let it therefore be manifest through these things, what the two principles of beings are, which become proximately apparent from the one, according to the theology of Plato.",
+     "notes": [
+      {
+       "n": 175,
+       "text": "For εξηρηται it is necessary to read εξηρτηται."
+      },
+      {
+       "n": 176,
+       "text": "Here also it is necessary for εξηρηται to read εξηρτηται."
+      },
+      {
+       "n": 177,
+       "text": "μενειν is omitted in the original."
+      },
+      {
+       "n": 178,
+       "text": "For εσχατων it is necessary to read εσχατως."
+      },
+      {
+       "n": 179,
+       "text": "The word γεννητικης is omitted in the original."
+      }
+     ]
+    }
+   ]
   }
  ],
  "paragraphs": [
@@ -3751,6 +4063,239 @@
      "why": "The Parmenides 141e-142a: the One does not share in being, and so \"is not even one\"; Proclus reads this as setting the One above the one being, the summit of the intelligible gods. Taylor's footnote corrects the Greek he translated (\"to the gods\")."
     }
    ]
+  },
+  {
+   "seg": "III.1.p1",
+   "chapter": "III.1",
+   "modern": "Such, then, as it seems to me, is Plato's theology concerning the first God, and so great is the transcendence it has over all other discussions of divine things. At one and the same time it reverently keeps the inexpressible union of this God, set apart from the whole of things, beyond the grasp of all acts of knowing, and apart from all beings; and it unfolds the paths that lead up to him, brings to fulfilment the desire, always in labour, that souls have for the father and forefather of all things, and kindles in them that torch by which they are most of all joined to the unknown transcendence of the One. After this unshared and inexpressible cause, truly beyond being, separated from all being, power and activity, the discussion of the gods follows at once. For what else before the henads is it lawful to join to the One, or what can be more united to the unified God than the multitude of gods? Concerning these, then, we will next unfold Plato's account, which is not a matter of art, calling on the gods themselves to kindle in us the light of truth. Before going into the details of this account, though, I want to convince the reader, and make it plain to him by proof, that there are necessarily as many orders of gods as the Parmenides of Plato unfolds to us in the second hypothesis.",
+   "flags": [
+    {
+     "taylor": "the inartificial theory of Plato",
+     "why": "Taylor's \"inartificial\" seems to mean unlaboured, natural (atechnos): Plato's account of the gods comes not from art or contrivance, but from the things themselves."
+    }
+   ]
+  },
+  {
+   "seg": "III.2.p1",
+   "chapter": "III.2",
+   "modern": "This, I think, is plain before all else to those whose ideas are not perverted: that everywhere, and especially in the divine orders, second processions are completed through their likeness to their own principles. For nature, intellect and every generating cause are by nature fit to produce and join to themselves like things before unlike things. For if the procession of beings must be continuous, with no void coming between, whether in bodiless natures or in bodies, then everything that proceeds by nature must proceed through likeness. For it is by no means lawful for what is caused to be the same as its cause, since it is a slackening and falling short of the union of the producing cause that generates second natures. Again, if the second were the same as the first, each would be the same alike, and one would not be cause and the other caused. But if one, by its very being, has an overflowing of productive power, and the other falls short of the power that produced it, they are separated from each other by nature, the generating cause goes before what is generated in excellence, and there is no sameness between things that differ so greatly. But if the second is not the same as the first, and is only different, they will not be joined to each other, nor will one share in the other. For contact and sharing are a communion of things joined, and a sympathy of the sharers with the natures they share in. But if it is at once the same as and different from the first, and the sameness is in need and overcome by the contrary power, the One will no longer lead the procession of beings, nor will every generating cause exist before second things in the rank of the good. For the One is the cause not of division but of friendship. And the Good turns what is generated back to its causes. But the return and friendship of second things to first is through likeness, not through an unlike nature. If, then, the One is the cause of the whole of things, and the Good is desired by all things in a set-apart way, it will everywhere give existence to the offspring of prior causes through likeness, so that procession may be by the One, and the return of what has proceeded may be to the Good. For without likeness there will be neither the return of things to their own principles nor the generation of effects. Let this, then, be taken as granted here.",
+   "notes": [
+    "Elements of Theology 28-29: every producing cause brings into existence things like itself before unlike things, and all procession is through likeness."
+   ]
+  },
+  {
+   "seg": "III.2.p2",
+   "chapter": "III.2",
+   "modern": "The second point, after this, which is shown through it, is that every monad must produce a number ranked with itself: nature a natural number, soul a soul's number, and intellect an intellectual number. For if everything generating generates like things before unlike ones, as has been shown, every cause will surely hand on its own form and character to its own offspring, and before it gives existence to far-off processions, separated from its nature, it will produce things near it in being and joined to it through likeness. Every monad, then, gives existence to a multitude, as generating what is second to itself, which divides the powers that exist beforehand in it in a hidden way. For what is in the monad one-like and drawn together appears separately in the monad's offspring. The wholeness of nature shows this: it holds in one the forming principles of all things, in the heavens and below the moon, but distributes its powers to the natures divided from it about bodies. For the nature of earth, of fire and of the moon has its character and form from the wholeness of nature, acts together with this wholeness, and holds its own lot. The monad of the mathematical sciences and of numbers shows this too. For it is all things first, and produces in itself the forms of numbers like seeds, and distributes different powers to different numbers that proceed outward. For what is generated cannot receive all at once the whole abundance of what generates it; and the fertile power of everything that exists beforehand in the cause itself must come to light. The monad, then, gives existence to a multitude about itself, and to a number that distributes the characters that remain gathered in itself. But since, as was said before, the like is always more akin to the cause than the unlike, there will be one multitude like the monad, proceeding from the monad, and another of unlike things. And again, the multitude like the monad is, in a divided way, what the monad is undividedly. For if the monad has a distinctive power and hyparxis, there will be the same form of hyparxis in the multitude, with a slackening with respect to the whole.",
+   "flags": [
+    {
+     "taylor": "it contains in one the reasons, [i.e. productive principles] of all things",
+     "why": "Taylor's \"reasons\" and \"productive principles\" are logoi, the forming principles that nature holds and spreads into bodies."
+    }
+   ],
+   "notes": [
+    "Elements of Theology 21: every order begins from a monad and proceeds into a multitude ranked with the monad. Taylor's footnote corrects a word of the Greek he translated."
+   ]
+  },
+  {
+   "seg": "III.2.p3",
+   "chapter": "III.2",
+   "modern": "After this, third, we must consider that among processions, those nearer their cause point to a greater multitude of things, and are in a way equal to the causes that hold them; while those further off have a less extended power of meaning, and, through the lessening of their power, change and lessen at the same time the breadth of their production. For if, of processions, the first in order is more like its principle, and what gives existence to the greatest number is more like, in being and power, to the principle that generates all things, then of second natures those nearer the monad, which receive rule after it, must give a greater extent to their productions; while those more separated from their first monad will neither reach through all things alike nor stretch their effective activities to far-off processions. And again, likewise, the nature that gives existence to the greatest number of effects must be ranked next to the monad, its principle; and the nature that generates a more numerous offspring, because it is more like the giver of all things than what generates few, must be ranked nearer the monad in hyparxis. For if it is further off, it will be more unlike the first principle; and if more unlike, it will have neither a power that holds the power of like natures nor a richly fertile activity. For an abundant cause is akin to the cause of all. And in general, what generates more is more akin by nature to its principle than what produces fewer offspring. For producing fewer effects is a lack of power; a lack of power is a lessening of being; and a lessening of being comes about through unlikeness to its cause and departure from the first principle.",
+   "flags": [
+    {
+     "taylor": "possess a less extended power of signification",
+     "why": "Taylor's \"signification\" seems to mean reach or scope: the further causes are from the first, the fewer things they extend to. Compare Elements of Theology 56-62."
+    }
+   ]
+  },
+  {
+   "seg": "III.2.p4",
+   "chapter": "III.2",
+   "modern": "Again, besides what has been said, we will state this, which has the most certain truth: that before shared causes, unshared causes must everywhere exist first in the whole of things. For if a cause must have the same relation to its offspring as the One to all the nature of beings, and must by nature have this order towards second things; and if the One is unshared, equally set apart from all beings, as producing all things in a unified way; then every other cause that imitates the transcendence of the One over all things must be set apart from the natures in the second ranks and shared by them. And again, likewise, every unshared and first cause must set up monads of second natures like itself before unlike ones. I mean, for instance, that one soul must distribute many souls to different natures, and one intellect shared intellects to many souls. For so the first set-apart kind will everywhere have an order answering to the One. And second natures that share in akin causes will answer to these causes, and through their likeness will be joined to their unshared principle. So before the Forms that are in other things are set those that exist in themselves; set-apart causes before ranked ones; and unshared monads before shared ones. And so, as is shown together with this, set-apart causes generate the ranked ones, and unshared natures stretch out shared monads to their offspring; and natures that exist from themselves produce the powers that reside in other things. These things discussed, let us consider how each of the divine kinds exists by analogy, and, following Plato himself, see what the first and most universal orders of the gods are. For having found and shown this, we will perhaps be able to see the truth about each of these orders.",
+   "notes": [
+    "Elements of Theology 23-24: every unshared term gives rise to shared ones, and the unshared comes before the shared. Taylor's footnote corrects \"analysis\" to \"analogy\" in the Greek he translated."
+   ]
+  },
+  {
+   "seg": "III.2.p5",
+   "chapter": "III.2",
+   "modern": "From the axioms set out, then, since there is one unity, the principle of the whole of things, from which every hyparxis has its existence, this unity must produce from itself, before all other things, a multitude marked by unity, and a number most akin to its cause. For if every other cause sets up offspring like itself before what is unlike, much more must the One bring into light in this way the things after it, since it is beyond likeness, and the One itself must produce by union the things that first proceed from it. For how could the One give existence to its offspring except in a unified way? For nature generates what is second to it naturally, soul as soul does, and intellect intellectually. So the One is the cause of the whole of things by union, and the procession from the One is one-like. But if what first produces all things is the One, and the procession from it is unified, the multitude produced from there must surely be self-perfect henads, most akin to their producing cause. Further, if every monad sets up a number suited to itself, as was shown before, far more must the One generate a number of this kind. For in the procession of things, what is produced is often unlike its producing cause through the rule of difference: such are the last of things, far from their own principles. But the first number, born together with the One, is one-like, inexpressible, beyond being, and wholly like its cause. For in the first causes, neither does difference come between to separate the begotten from the begetter and carry it into another order, nor does the motion of the cause, slackening its power, bring the generation of the whole of things out into unlikeness and indefiniteness. The cause of all things, raised in a unified way above all motion and division, has set up about itself a divine number, and united it to its own simplicity. So the One, before beings, has given existence to the henads of beings.",
+   "notes": [
+    "Elements of Theology 113-114: the whole number of the gods is one-like, and every god is a self-perfect henad."
+   ]
+  },
+  {
+   "seg": "III.3.p1",
+   "chapter": "III.3",
+   "modern": "Again, in another way, first beings must share in the first cause through their nearest henads. For second things are each joined to the natures before them through like things: bodies to the soul that ranks as a whole through the particular souls they share in; souls to the universal intellect through intellectual monads; and first beings to the One through unified hyparxes. For being is by its own nature unlike the One. For being, and what needs a union brought from outside, is not fit to be joined to what is beyond being and to the first union, and is far from it. But the henads of beings, since they have their existence from the unshared unity, set apart from the whole of things, are able to join beings to the One and turn them back to themselves.",
+   "notes": [
+    "Elements of Theology 64, 108-112: each order is joined to the order above it through its highest members."
+   ]
+  },
+  {
+   "seg": "III.3.p2",
+   "chapter": "III.3",
+   "modern": "It seems to me, then, that Parmenides, showing these things through the second hypothesis, joins the one with being, sees all things about the one, and shows that this nature that proceeds, and stretches its processions as far as the last of things, is the one. For before true beings the henads had to be set up, since it neither was nor is lawful, says Timaeus, for what is best to do anything but what is most beautiful. And this is, in a remarkable degree, most like what is best. But to the One a unified multitude is most like; since the Craftsman of the universe too, being good, made all things like himself through goodness itself. Much more, then, does the source of all good produce goodnesses united to itself by nature, and set them in beings. So there is one God, and many gods; one henad and many henads before beings; one goodness, and many after the one goodness, through which the making intellect is good and every intellect is divine, whether intellectual or intelligible. And what is first beyond being is the One; and there are many beyond being after the One. Is this multitude of henads, then, unshared, as the One itself is, or is it shared by beings, so that each henad of beings is, as it were, the flower of some being, its summit and centre, about which each being exists? If these henads too are unshared, in what do they differ from the One? For each of them is one, and exists first from the One. Or in what, more than the first cause, were they set up by it? For everywhere what is second, being lower than what is before it, must fall short of the union of its producing cause, and by the addition of something have a lessening of the first's simplicity as a monad. What addition, then, can we name, or what more besides the one, if each of these too is by itself one? For if each of them is one and many, we will seem to carry over to them the character of being. But if each is one only, as the One itself is, why does that rank as the cause set apart from all things, while each of these has a second dignity? So we will neither keep the transcendence of the first over what comes after it, nor can we grant that the henads proceeding from it are unconfused with each other or with their one principle.",
+   "flags": [
+    {
+     "taylor": "connects the one with being, surveys all things about the one",
+     "why": "Proclus means the one being of the Parmenides' second hypothesis (142b), \"if one is\", from which all the orders of gods are drawn. Taylor's two footnotes correct \"one\" to \"being\" and \"present\" to \"leading\" in the Greek he translated."
+    }
+   ],
+   "notes": [
+    "Timaeus 29e-30a: the Craftsman was good, and \"wanted all things to be as like himself as possible\"; \"it neither was nor is lawful for the best to do anything but the most beautiful\"."
+   ]
+  },
+  {
+   "seg": "III.3.p3",
+   "chapter": "III.3",
+   "modern": "Nor will we fail to be persuaded by the Parmenides, who produces the one together with being, and shows that there are as many parts of the one as of being; that each being shares in the one, and the one everywhere exists together with being; in short, who says that the one of the second hypothesis shares in being and is shared by being, the sharing not being the same in each. For the one shares in being, as not being first one, nor set apart from being, but as lighting up truly existing being. And being shares in the one, as held together by it, filled with divine union, and turned back to the unshared One itself. For the shared monads join beings to the One, set apart from the whole of things, as shared intellects join souls to the intellect that ranks as a whole, and shared souls join bodies to the soul that ranks as a whole. For the unlike kinds of second natures cannot be united without middles to the cause set apart from multitude; contact must be made through like things. For a like multitude, so far as it is multitude, shares with the unlike; but so far as it is like the monad before it, it is joined to it. Set, then, in the middle of both, it is united to the whole and to the One before multitude, but holds in itself far processions, of themselves unlike the One. Through itself, too, it turns all things back to that One, and so all things reach towards the first cause of the whole of things, the unlike through the like, and the like through themselves. For likeness by itself leads and binds the many to the one, and turns second natures back to the monads before them. For the very being of like things, as like, comes from the One. So it joins multitude to that from which it has its procession. And for this reason likeness is what it is, making many things akin, in sympathy with themselves, and friends with each other and with the One.",
+   "flags": [
+    {
+     "taylor": "But neither shall we be persuaded by Parmenides who produces the one together with being",
+     "why": "The sense required is the opposite: \"Nor shall we be persuaded otherwise by Parmenides\", or \"We shall not fail to be persuaded\": Proclus is calling on the second hypothesis, which joins one and being, as evidence that the henads are shared by beings. Taylor's footnote corrects \"unlike\" to \"like\" in the Greek he translated."
+    }
+   ],
+   "notes": [
+    "The Parmenides 142b-144e: the one being has two parts, one and being, each of which is again one and being, so that the one is divided as far as being is."
+   ]
+  },
+  {
+   "seg": "III.4.p1",
+   "chapter": "III.4",
+   "modern": "If we must not only unfold the multitude of gods shared by beings through Parmenides' intellectual reachings, but also show briefly Socrates' account of these things, we must recall what is written in the Republic, where he says that the light that comes from the Good unites intellect and beings. For through this the Good is shown to be set apart from being and what is, as the sun is set apart from visible things. But this light, being in the intelligibles, lights them up, as the sun-like light in visible things does. For visible things become plain and known to sight in no other way than through the light born in them. All intelligibles, then, become good-like by sharing in light, and through this light every true being is most like the Good. If, then, it makes no difference whether we speak of this light or of the one (for this light joins the intelligibles and makes them one, having its existence from the One), the godhead that proceeds from the first is shared, and all the multitude of henads is shared. And what is truly beyond being is the One. But each of the other gods, by his own hyparxis, by which he is a god beyond being, is like the first; yet they are shared by being and what is. By this reasoning, then, the gods appear to us as henads, and shared henads, binding all beings to themselves, and, through themselves, joining the natures after them to the One that is set apart from all things alike.",
+   "notes": [
+    "Republic VI 508d-509b. Taylor's footnote supplies \"truly\" in the Greek he translated."
+   ]
+  },
+  {
+   "seg": "III.5.p1",
+   "chapter": "III.5",
+   "modern": "Since, then, each of the gods is a henad, but is shared by some being, shall we say that the same being shares in each of the henads, or that those sharing in some henads are more, and in others fewer? And if so, either those sharing in the higher henads must be more and those of the lower fewer, or the reverse. For there must be an order of the henads, as we see that of numbers some are nearer their principle and others further from it; some simpler and others more composite, greater in quantity but lessened in power. And it is well that we have mentioned numbers. For if we must look at the order of the first monads among themselves, and their procession about beings, from these as images, then here too the monads nearer the One will be shared by things simpler in being, and those further from it by more composite beings. For so the sharing will be by analogy: first monads always shared by first beings, and second monads by second beings. Again, if the first is set apart from all things and unshared, and what is born together with the simplest nature, and the One, is more like the unshared than what is born together with a more varied and many-formed nature, with more powers hanging from it, then it is wholly plain that the henads nearer the One must be shared by the first and simplest beings, and those further off by more composite beings, which are less in power but greater in number and multitude. For in short, additions in these henads are takings away of powers; and what is nearer the One, which goes beyond the whole of things by a wonderful simplicity, is more one-like, and exists together with more universal orders. It follows, by the ratio of power, that the simplicity of the first henads is transcendent. For those that are the causes of more effects imitate as far as possible the cause of all things; but those that are the causes of fewer have a being more varied than the natures before them. For this variety breaks into small parts and lessens the power that remains in one. Moreover, among shared souls too, the first and most divine exist in simple and everlasting bodies. Others are joined to simple bodies, and together with these to material bodies too. And others are joined at once to simple, material and composite bodies. The heavenly souls rule over simple bodies, which exist immaterially and unchangingly. The souls that govern the wholes of the elements are clothed in ethereal garments, and through these are carried in the wholes of the elements, which as wholes are everlasting and simple, but as material receive generation, corruption, and composition from unlike natures. And the souls of the third rank are those that give life directly to their vehicles of light, but also draw from the simple element material garments, pour into these a second life, and through these share with composite, many-formed bodies, keeping up through this sharing another, third life.",
+   "flags": [
+    {
+     "taylor": "their luciform vehicles",
+     "why": "The soul's \"vehicle of light\" (augoeides ochēma), the subtle body of light that, for the later Platonists, the soul has always, before it takes on the material body. Taylor's footnote corrects the Greek he translated here (\"light-formed\" for \"self-formed\")."
+    }
+   ],
+   "notes": [
+    "Elements of Theology 196-210, on the soul's vehicles. Taylor's other footnote rewrites a corrupt sentence of the Greek he translated (\"those that are the causes of more ... imitate the cause of all\")."
+   ]
+  },
+  {
+   "seg": "III.5.p2",
+   "chapter": "III.5",
+   "modern": "If you are willing to look at the intellectual orders, some of these are set in the souls that rank as wholes, and in the most divine of the souls in the world, which they also govern as is fitting. Others, set in the souls of the higher kinds, are shared directly by the rulers among them, and secondarily by more partial beings. And again they set third intellectual orders in partial souls. And as the power they have is lessened, so the sharing in them is more varied, and far more composite than the sharing of the natures before them. If, then, this is the way of sharing in all beings, it is surely necessary that of the gods too, those nearer the One should be carried in the simpler parts of being, and those that have gone further should be carried in the more composite parts of being. For the sharings of second kinds are divided in this way, by likeness to the gods.",
+   "flags": [
+    {
+     "taylor": "in the souls of the more excellent genera",
+     "why": "The \"more excellent kinds\" are the angels, daemons and heroes, set between the gods and human souls."
+    }
+   ]
+  },
+  {
+   "seg": "III.6.p1",
+   "chapter": "III.6",
+   "modern": "Again, then, we may say in brief that after the One, the one principle of the whole of things, the gods appear to us as self-perfect monads, shared by beings. How many orders of beings there are we will unfold later, and show which beings have a simpler and which a more varied hyparxis. The last of all beings, then, is the bodily. For it has its being and all its perfection from another, older cause, and has neither simplicity nor composition, nor everlastingness nor incorruptibility from its own power. For no body is self-existent or self-begotten; everything of that kind, drawing together into one cause and what proceeds from the cause, is bodiless and undivided. In short, what is the cause of hyparxis to itself also gives itself an unlimited power of existence. For never leaving itself, it will never cease to be, nor depart from its own existence. For everything that perishes perishes through being separated from the power that gave it being. But what gives being to itself, since it is not separated from itself, has through itself an everlasting being. No body, however, since it is not the cause of everlastingness to itself, will be everlasting. For everything everlasting has an unlimited power; but body, being limited, is not the cause of unlimited power. For unlimited power is bodiless, because all power is bodiless. And this is plain, because greater powers are everywhere; but no body can be wholly everywhere. If, then, no body gives itself power, whether unlimited or limited, but what is self-existent gives itself the power of being and of existing for ever, no body will be self-existent. From where, then, is being given to bodies, and what is fit to give them being most directly? Must we not say that the first cause of being to bodies is what, by being present, makes the nature of body more perfect than akin bodies deprived of it? This is plain to everyone. For it belongs to what gives perfection also to hold together the being of second natures, since perfection is the perfection of being. What, then, is that by sharing in which bodies are said to be better than bodies that do not share in it? Is it not clear that it is soul? For we say that ensouled bodies are more perfect than those without soul. So soul is first beyond bodies; and we must grant that the whole heaven, and everything bodily, is the vehicle of soul. So these two orders of beings appear to us: one bodily, the other, above it, of soul.",
+   "notes": [
+    "Elements of Theology 40-46 (the self-existent is bodiless and imperishable) and 186-188. Taylor's footnote: about a line and a half of the Greek he translated is so defective that he left it untranslated."
+   ]
+  },
+  {
+   "seg": "III.6.p2",
+   "chapter": "III.6",
+   "modern": "Is soul itself, though, the same as intellect, or different? For as the body that shares in soul is perfect, so the soul that shares in intellect is perfect. And not all things share in the soul that can live by reason; but rational souls share in intellect and the light of intellect, and so do all things that have any kind of knowledge. And soul acts in time, while intellect holds in eternity both its being and its stable activity together. And not every soul is fit to keep its own perfection unchanged and undiminished; but every intellect is always perfect, and has an unfailing power of its own blessedness. So the intellectual kind is above the soul's kind in being; since the first, neither in whole intellects nor in partial ones, lets in the nature of evil, while the second, undefiled in whole souls, in partial souls falls away from its own blessedness. What, then, is the first of beings? Shall we say intellect, or, before this, the extent of life? For soul lives of itself, giving itself life; and intellect is the best and most perfect, and, as we have said, an eternal life. But the life of intellect is in a way intellectual, mixed from the intellectual and the living character. There must, though, be life itself. Which, then, is better, life or intellect? If only knowing beings share in intellect, but beings without knowledge share in life (for we say that plants live), life must surely be ranked above intellect, as the cause of more effects, giving more gifts from itself than intellect. What then? Is life the first of beings? Is to live the same as to be? This is impossible. For if life is what is first being, and to live is the same as to have being, with the same definition of life and being, then everything that shares in life would share in being, and everything that shares in existence would share in life. For if each is the same, all things would share alike in being and life. All living natures have being and existence; but there are many beings without life. So being exists before the first life. For what is more universal, and the cause of more effects, is nearer the One, as has been shown before. So soul is first set above bodies; intellect is beyond soul; life is older than intellect; and being, which is first being, is set above all these. Everything that shares in soul shares far before that in intellect; but not everything that enjoys the working of intellect is fit to share in soul. For only rational animals share in soul, since we say that the rational soul is truly soul. For Plato says in the Republic that the work of soul is to reason and look at beings; and every soul (every rational soul) is immortal, as is written in the Phaedrus, the irrational soul being mortal, according to the Craftsman in the Timaeus. In short, it is clear in many places that Plato takes the rational soul to be truly soul, and the others to be images of souls, so far as these too are intellectual and living, and together with whole souls produce the lives distributed about bodies. In intellect, however, we grant that not only rational animals share, but also such other animals as have a power of knowing, I mean those with imagination, memory and sense; since Socrates too, in the Philebus, refers all such animals to the intellectual series. For taking away intellect from the life of pleasure, he takes away not only the rational life but every power of knowing in the irrational life. For all knowledge is the offspring of intellect, as all reason is an image of soul.",
+   "notes": [
+    "Republic I 353d: the work of soul is to take care, rule and deliberate. The Phaedrus 245c: \"all soul is immortal\". Timaeus 69c-d: the gods made the mortal kind of soul. The Philebus 21b-d: without intellect, a life of pleasure would have no memory, opinion or knowledge of its pleasure. Taylor's footnote corrects \"life\" to \"soul\" in the Greek he translated."
+   ]
+  },
+  {
+   "seg": "III.6.p3",
+   "chapter": "III.6",
+   "modern": "Moreover, all things that share in intellect share far before that in life, some more dimly and others more clearly. But not all living things share in intellectual power, since plants are living beings, as Timaeus says, but share in neither sense nor imagination, unless someone says they have a dim feeling of what pleases and pains. And in short, the powers of appetite are everywhere lives, images of the whole of life and its last productions; but of themselves they are without intellect and have no share in the power of knowing. So they are of themselves indefinite and deprived of all knowledge.",
+   "flags": [
+    {
+     "taylor": "the orectic powers",
+     "why": "Taylor's \"orectic\" means of appetite or desire (orexis)."
+    }
+   ],
+   "notes": [
+    "Timaeus 77a-c: plants are living beings that share in the third kind of soul, the appetitive, with sensation of pleasure and pain but no opinion or reason."
+   ]
+  },
+  {
+   "seg": "III.6.p4",
+   "chapter": "III.6",
+   "modern": "Again, all animals receive a share of being, different animals a different share, according to their natures; but not all beings can share alike in life, since we say that qualities, all affections, and the last of bodies receive the last working of being, but we do not say that they share in life. So being is older than life, life than intellect, and intellect than soul. For the causes of more effects, being older and more ruling in order, must preside over causes able to produce and adorn fewer effects. So Plato rightly, in the Timaeus, gives soul its existence from intellect, as second to it by its own nature. In the Laws he says that intellect is moved like a sphere turned on a lathe. For what is moved is moved by sharing in life, and is nothing else than real life about motion. And in the Sophist he sets being apart from all the universal kinds of things, and from motion. For being, he says, by its own nature neither stands still nor is moved. And what neither stands still nor is moved is beyond eternal life.",
+   "notes": [
+    "The Laws X 898a-b: the motion of intellect is most like that of \"a sphere turned on a lathe\". The Sophist 250c: being, \"by its own nature, neither stands still nor is moved\". Taylor's footnote corrects the Greek he translated (\"on a lathe\")."
+   ]
+  },
+  {
+   "seg": "III.6.p5",
+   "chapter": "III.6",
+   "modern": "These four causes, then, being before bodily existence (being, life, intellect and soul), soul shares in all the causes before it: it has reason from its own character, but intellect, life and being from older causes. So it gives existence to what comes after it in a fourfold way. By its being, it produces all things down to bodies; by its life, all things said to live, down to plants; by its intellect, all things with a power of knowing, down to the most irrational natures; and by its reason, the first of the natures able to share in it. Intellect, set beyond soul, and existing as the fullness of life and being, adorns all things in a threefold way: it lights up all knowing beings with the power of the intellectual character, but gives sharing in life to still more, and in being to all those to whom first being gives itself. Life, set above intellect, exists before as the cause of the same things in a twofold way: giving life to second natures together with intellect, and filling from itself with the rivers of life the things by nature fit to live; and, together with being, producing being in all things from above. But being itself, which is first being, generates all things by its very existence, all lives, intellects and souls, is present to all things in a one-like way, and is set apart from the whole of things by one cause that gives existence to all things. So it is the most like the One of all things, and unites the embrace of beings in itself to the first principle of the whole of things, through which all beings and non-being exist, wholes and parts, Forms and the privations of Forms; and these privations do not need to share in being, but must certainly share in the One.",
+   "notes": [
+    "Elements of Theology 57: every cause acts before its effect and goes further down than it; the higher a cause, the further its working reaches. Taylor's footnote corrects a word of the Greek he translated."
+   ]
+  },
+  {
+   "seg": "III.6.p6",
+   "chapter": "III.6",
+   "modern": "These things, it seems to me, persuaded the Stranger from Elea in the Sophist, discussing what perfectly is, to grant that not only being is there, but also life, intellect and soul. For if true and real being is revered and honoured, intellect, he says, is there first. For it is not lawful for what is of itself revered and immaterial to be without intellect. And if intellect is in what perfectly is, intellect will surely be moved. For intellect cannot ever exist without motion, or without rest. But if intellect is moved and stands still, there are in being both life and motion. So from what has been said three things appear: being, life and intellect. Moreover, soul too is found next through these. For life and intellect, which before were by themselves, must, he says, also be in soul. For every soul is a fullness of life and intellect, sharing in both, which the Stranger points to when he adds: \"Shall we say that both these are in it, but that it does not have them in soul?\" For to have, as someone says somewhere, comes after to be. Soul shares in each of these by its own character, and mixes the rational form of its own hyparxis with the intellectual, life-giving power. But both intellect and life exist before soul, the first as moved and standing still at the same time, and the second as motion and rest. These four monads, soul, intellect, life and being, are mentioned by Plato not only here but in many other places. And as in soul all things exist by sharing, so in intellect the things before it exist, and in life what is before life. For we say that life exists, or has being. Or how could it be said to be ranked in being unless it shared in being? We likewise say that intellect is and lives. For it is moved, and is a portion of being. So it is the third of the more embracing monads. Before shared beings, though, unshared causes must everywhere exist, as was shown before, in keeping with the likeness of beings to the One. Being, then, which is first being, is unshared; life first shares in being, yet is unshared, set apart from intellect. Intellect is filled from being and life, but is unshared by souls and the natures after it. Intellect also presides over soul, giving it by its light a share in life and being; but being unshared, it exists before bodies. The last order of beings, then, is that to which bodies are attached: heavenly bodies first, and bodies below the moon with material garments added. This, then, is the procession of beings, through life, intellect and soul, ending in a bodily nature.",
+   "flags": [
+    {
+     "taylor": "the former as being moved and standing still at one and the same time, and the latter as being motion and permanency",
+     "why": "That is, intellect is moved and at rest, while life is motion and rest themselves. Taylor's \"permanency\" here is rest (stasis)."
+    }
+   ],
+   "notes": [
+    "The Sophist 248e-249b: \"Shall we be easily persuaded that motion, life, soul and thought are not present in what perfectly is?\""
+   ]
+  },
+  {
+   "seg": "III.6.p7",
+   "chapter": "III.6",
+   "modern": "If, then, the henads of the gods beyond being, which have their existence from the unshared cause of all things, must be shared, some by the first orders among beings, others by the middle, and others by the last, as was shown before, it is clear that some make divine the unshared portion of being, while others light up life, others intellect, others soul, and others bodies. In the last henads not only bodies share, but also soul, intellect, life and being. For intellect is in itself a fullness of life and being. From the henads above the world, intellect hangs, and the power of soul that exists beforehand in intellect. From the henads above these, unshared, intellectual intellect hangs. From those beyond these, the first, unshared life hangs. And from the highest henads hangs first being itself, the most divine of beings. So Parmenides, beginning from the one being, produces from it the whole orders of the gods. These things settled beforehand, let us speak about the divine dialogues, beginning from on high, and producing from the One the whole orders of the gods. And, following Plato, let us first show the several orders from other dialogues, by arguments that cannot be refuted. Then let us join and fit the conclusions of the Parmenides to the divine processions, fitting the first conclusions to the first processions and the last to the last.",
+   "notes": [
+    "Taylor's footnote corrects a word of the Greek he translated."
+   ]
+  },
+  {
+   "seg": "III.7.p1",
+   "chapter": "III.7",
+   "modern": "Again, then, the mystic teaching about the One must be taken up by us, so that, proceeding from the first principle, we may praise the second and third principles of the whole of things. Before all beings, and before the gods who produce beings, there exists one set-apart and unshared cause: a cause inexpressible by all speech, unknown by all knowledge and beyond grasp, bringing all things into light from itself, existing inexpressibly before all things and turning all things back to itself, as the best end of all things. This cause, truly set apart from all causes, which gives existence in a unified way to all the henads of divine natures and to all the kinds of beings and their processions, Socrates in the Republic calls the Good, and through its analogy to the sun reveals its wonderful and unknown transcendence over all intelligibles. Parmenides, again, calls it the One, and through negations shows the set-apart and inexpressible hyparxis of this One, the cause of the whole of things. The account in the letter to Dionysius, proceeding through riddles, praises it as that about which all things are, and as the cause of all beautiful things. And in the Philebus Socrates praises it as what gives existence to the whole of things, because it is the cause of all godhead. For all the gods have their existence as gods from the first God. Whether, then, it is lawful to call it the source of godhead, or the kingdom of beings, or the henad of all henads, or the goodness that generates truth, or a hyparxis set apart from all these things and beyond all causes, both those of fathers and those of generation, let it be honoured by us in silence, and, before silence, by union; and of the mystic end may it give us, by its light, a share fitting our souls.",
+   "notes": [
+    "The Philebus 23c: \"we said that god had shown the limit and the unlimited of beings\" (quoted in the next chapter)."
+   ]
+  },
+  {
+   "seg": "III.8.p1",
+   "chapter": "III.8",
+   "modern": "But let us look with intellect at the twofold principles that proceed from it and come after it. For what else must be set after the union of the whole study than the dyad of principles? What, then, the two principles of the divine orders after the first principle are, we will next consider. For in keeping with the theology of our forebears, Plato too sets two principles after the One. In the Philebus Socrates says that god gives existence to limit and the unlimited, and, mixing all beings through these, has produced them; the nature of beings, according to Philolaus, being made of the joining of limited things and unlimited things. If, then, all beings are made of these, clearly they themselves exist before beings. And if second natures share in these mixed together, these will exist unmixed before the whole of things. For the procession of the divine orders begins not from things ranked together and existing in others, but from things set apart and set in themselves. As, then, the One is before things united, and what is acted on by the One has a second rank after the unshared union, so the two principles of beings, before being shared in and mixed with beings, are by themselves the causes of the whole of things. For limit must be before limited things, and the unlimited before unlimited things, by the likeness to the One of what proceeds from it. For again, if we produced beings straight after the One, we would nowhere find the character of the One existing purely. For being is not the same as the one, but shares in the one; nor is the first really the one, for, as has often been said, it is better than the one. Where, then, is what is most properly and wholly one? So there is a one before being, which gives existence to being and is first its cause; since what is before it is beyond union, a cause without relation to all things, and unshared, set apart from all things. But if this one is the cause of being and sets it up, there will be a power in it that generates being. For everything that produces, produces by its own power, which exists between the producer and what is produced: of the one it is the procession and, as it were, the stretching out; of the other, the generating cause set before it. For being, produced from these, which is not the One itself but one-like, has its procession from the one through the power that produces it and brings it into light from the one, and its hidden union from the hyparxis of the one. This one, then, which exists before power, and first exists from the unshared and unknown cause of the whole of things, Socrates in the Philebus calls limit, and its power that generates being he calls the unlimited. He speaks thus in that dialogue: \"God, we said, has shown the limit and the unlimited of beings.\"",
+   "flags": [
+    {
+     "taylor": "nor in reality is that which is the first the one; for, as has been frequently said, it is better than the one",
+     "why": "Proclus means that the first principle is beyond even the name \"one\"; the one that is the principle of being is limit, the first after the first."
+    }
+   ],
+   "notes": [
+    "The Philebus 16c (the ancients handed down that things are made of one and many, with limit and unlimitedness in them), 23c-d, 26e-27b. Philolaus, frag. 1-2: \"nature in the cosmos was fitted together from unlimited things and limiting things\". Taylor's footnote corrects a word of the Greek he translated."
+   ]
+  },
+  {
+   "seg": "III.8.p2",
+   "chapter": "III.8",
+   "modern": "The first, unified God, then, is called by him God without any addition, because each of the second gods is shared by being and has being hanging from it. But the first, as set apart from the whole of beings, is God, defined by the inexpressible itself, unified alone, and beyond being. But the limit and the unlimited of beings bring that unknown and unshared cause into light: limit as the cause of stable, one-like, holding-together godhead; the unlimited as the cause of power that proceeds to all things and can be multiplied, and, in short, as the leader of every generating distribution. For all union and wholeness and sharing of beings, and all the divine measures, hang from the first limit; while all division, fertile production and procession into multitude have their existence from this most ruling unlimitedness. So when we say that each of the divine orders remains and at the same time proceeds, we must grant that it remains stably by limit, but proceeds by the unlimited, and has at the same time unity and multitude; and we must hang the first from the principle of limit and the second from that of the unlimited. In short, of all the oppositions in the divine kinds, we must refer the better to limit and the lower to the unlimited. For from these two principles all things proceed into being, down to the last of things. Eternity itself shares at once in limit and the unlimited: as the intelligible measure, in limit; as the cause of an unfailing power of existing, in the unlimited. Intellect, so far as it is one-like and whole, and holds together the measures of the patterns, is the offspring of limit; but so far as it produces all things eternally, and exists in keeping with the whole of eternity, giving all things existence at once and always keeping its own power undiminished, it is the offspring of the unlimited. Soul, measuring its own life by returns and periods, and setting a boundary to its own motions, is referred to the cause of limit; but having no rest from motion, and making the end of one period the beginning of the whole of a second circuit of life, it is referred to the order of the unlimited. The whole of this heaven, too, in its wholeness, its holding together, the order of its periods and the measures of its returns, is limited; but in its fertile powers, its various unrollings and the unfailing revolutions of its spheres, it shares in the unlimited. Moreover, the whole of coming to be, since all its Forms are limited and always remain in the same way, and since its own circle imitates the heavenly circuit, is like limit; but in the variety of the particulars it is made of, their unceasing change, and the more and less that come into the sharing of Forms, it is the image of the unlimited. Besides these, every natural thing is like limit in its form, and like the unlimited in its matter. For these hang last from the two principles after the One, and the procession of their productive power reaches as far as these. Each of these too is one; but form is the measure and boundary of matter, and is more one. Matter is all things in potential, as having its existence from the first power. There, though, power generates all things; but the power of matter is imperfect, and needs the reality that generates all things in act. Rightly, then, does Socrates say that all beings come from limit and the unlimited, and that these two intelligible principles first have their existence from God. For what gathers both of them, perfects them, and brings itself into light through all beings is the One before the dyad. Union comes to all things through the first; but the division of the two orders of things comes from these first causes, and through these reaches to the unknown and inexpressible principle. Let it be clear, then, from these things, what the two principles of beings are that appear next after the One, according to Plato's theology.",
+   "flags": [
+    {
+     "taylor": "by restitutions and periods",
+     "why": "Taylor's \"restitutions\" are returns (apokatastaseis): the soul's, and the heaven's, coming back round to the same state at the end of each period."
+    }
+   ],
+   "notes": [
+    "Taylor's footnotes correct the Greek he translated in five places (\"hangs from\" for \"is set apart from\", twice; \"to remain\", \"lastly\", and \"generative\")."
+   ]
   }
  ],
  "contents": [
@@ -4014,25 +4559,55 @@
   },
   {
    "id": "III",
-   "title": "",
+   "title": "The henads, the two principles after the One, and the intelligible gods",
    "chapters": [
     {
      "id": "III.1",
      "head": "That after the discussion in common of the one principle of things, it is requisite to treat of the divine orders, and to show how many they are, and how they are divided from each other.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "From the One to the gods"
     },
     {
      "id": "III.2",
      "head": "That the multitude of unities according to which the Gods have their hypostasis, subsists after the one.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "The henads come after the One: four axioms"
     },
     {
      "id": "III.3",
      "head": "How many the particulars are which ought to be demonstrated previous to the discovery of the multitude of the divine orders, and an uninterrupted narration of the doctrine of these.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "The henads join beings to the One"
+    },
+    {
+     "id": "III.4",
+     "head": "That all the unities are participable. And that there is only one truly superessential one; but that all the other unities are participated by essences.",
+     "done": true,
+     "title": "Every god is a shared henad: the Republic's light"
+    },
+    {
+     "id": "III.5",
+     "head": "That the participations of the unities which are nearer to the one, proceed into more simple hypostases; but the participations of those that are remote from the one, proceed into more composite hypostases.",
+     "done": true,
+     "title": "Nearer henads are shared by simpler beings"
+    },
+    {
+     "id": "III.6",
+     "head": "What the natures are which participate of the divine unities, and what the order of them is with respect to each other. And that being indeed, is the most ancient of these; life, the second; intellect, the third; soul, the fourth; and body, the last. And that there are also as many orders of the divine unities.",
+     "done": true,
+     "title": "Being, life, intellect, soul and body"
+    },
+    {
+     "id": "III.7",
+     "head": "A resumption of the doctrine concerning the one, and a discussion of the biformed principles posterior to the one.",
+     "done": true,
+     "title": "The One again, honoured in silence"
+    },
+    {
+     "id": "III.8",
+     "head": "What the two principles are of all things posterior to the one; how Socrates the Philebus calls them bound and infinity; and of what things they are the causes to beings.",
+     "done": true,
+     "title": "The two principles after the One: limit and the unlimited"
     },
     {
      "id": "III.9",

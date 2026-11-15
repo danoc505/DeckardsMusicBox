@@ -882,8 +882,13 @@ Daniel: "Lets move over to modernizing Proclus Theology of Plato". The Enneads' 
   intellect; the two ways up to the first (analogy and negation) and its two names (the Good and the One); the Republic's sun
   and the monad in every order; the Second Letter's king of all and its three sayings; the first hypothesis of the
   Parmenides, its denials taken order by order. 38 paragraphs, 19 flags (e.g. "unhyparctic", "adyta", "Titannically").
-- T7 to T9: Book III (28,027): the henads, limit and the unlimited, the intelligible gods. Gutenberg's text runs chapters 3-9
-  together (no headings for 4-8, which Taylor's table of contents names): T7 must find and mark them.
+- **T7: Book III, chapters 1-8 (8,704) (done).** Taylor's printed text (and so Gutenberg's) heads chapters I, II, III and
+  then IX; `SPLITS` in `tools/modern_theology.py` divides his paragraphs among the chapters his contents name, by their
+  matter (1: one paragraph; 2: five; 3: three; 4: one; 5: two; 6: seven; 7: one; 8: two), and the book's summary says so.
+  The henads after the One (four axioms), shared by beings, the nearer by the simpler; being, life, intellect, soul and
+  body; the One honoured in silence; limit and the unlimited. 22 paragraphs, 11 flags.
+- T8 and T9: Book III, chapters 9-28 (19,323): the mixed, first being; the three intelligible triads (the Philebus, the
+  Timaeus' living being itself, the Sophist, the Parmenides' one being).
 - T10 to T12: Book IV (28,882): the intelligible and intellectual gods (the Phaedrus' place above the heaven).
 - T13 to T16: Book V (40,018): the intellectual gods, Kronos, Rhea, Zeus, the Craftsman. Chapter 26 has no heading in
   Gutenberg's text: find it first.
