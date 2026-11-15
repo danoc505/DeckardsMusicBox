@@ -51,7 +51,7 @@ TAYLOR_VOL1 = ROOT / "texts" / "taylor-1804" / "vol1"
 MODERN = ROOT / "sources" / "translations" / "modern"
 # Milestone 27: the Workshop's modern English of the Neoplatonists, from the Greek (tools/modern_neo.py), by text id.
 MODERN_NEO = ("plotinus", "proclus-alcibiades", "aristotle-categories", "aristotle-on-interpretation", "aristotle-prior-analytics",
-              "aristotle-metaphysics", "enneads")
+              "aristotle-metaphysics", "enneads", "proclus-theology")
 # The Enneads milestones (E1 onward): the rest of Plotinus in modern English, beside MacKenna's (tools/modern_enneads.py).
 MODERN_ENNEADS = "enneads"
 # Milestone E5: Porphyry's Life of Plotinus, proofread from Volkmann's scan, comes first in it.
@@ -1080,6 +1080,10 @@ class Library:
                     c["taylor_part"] = seqs.get(c["id"])
             return d
         if d.get("kind") == "aristotle":
+            d["marks"] = self.mine.modern_marks(text_id)
+            return d
+        if d.get("kind") == "theology":
+            # Proclus' Theology of Plato, made from Taylor's English (tools/modern_theology.py): no Greek on the site yet.
             d["marks"] = self.mine.modern_marks(text_id)
             return d
         if d.get("kind") != "proofread":

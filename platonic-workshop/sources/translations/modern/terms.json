@@ -1,5 +1,5 @@
 {
-  "schema": "Milestone 24: the fixed modern renderings of Taylor's key words, used in every modern version the Workshop writes. 'taylor' lists Taylor's English forms (matched as whole words, ignoring case unless 'case' is true); 'modern' lists the modern forms that may stand for them (matched as the start of a word, so 'share' also matches 'shares' and 'sharing'). tools/modern.py checks every paragraph: where Taylor's paragraph has one of his forms, the modern paragraph must have one of the modern forms, unless the paragraph is listed under 'exceptions' with the reason. 'term' is the key term of the Term tab (sources/terms/terms.json or the concept index) that the modern words are linked to, and 'link' the modern words that are underlined (the first time in a paragraph).",
+  "schema": "Milestone 24: the fixed modern renderings of Taylor's key words, used in every modern version the Workshop writes. 'taylor' lists Taylor's English forms (matched as whole words, ignoring case unless 'case' is true); 'modern' lists the modern forms that may stand for them (matched as the start of a word, so 'share' also matches 'shares' and 'sharing'). tools/modern.py checks every paragraph: where Taylor's paragraph has one of his forms, the modern paragraph must have one of the modern forms, unless the paragraph is listed under 'exceptions' with the reason. 'term' is the key term of the Term tab (sources/terms/terms.json or the concept index) that the modern words are linked to, and 'link' the modern words that are underlined (the first time in a paragraph). A rule with 'texts' applies only to the modern versions named there (the Theology of Plato's rules, tools/modern_theology.py, came after the Introduction and the Life were done). 'forbidden' lists, for a text, words its modern version must never use.",
   "terms": [
     {
       "taylor": [
@@ -416,6 +416,454 @@
       "term": null,
       "link": [],
       "why": "the Greek name"
+    },
+    {
+      "taylor": [
+        "essence",
+        "essences"
+      ],
+      "modern": [
+        "being"
+      ],
+      "term": "being",
+      "link": [
+        "being"
+      ],
+      "why": "οὐσία: 'being', never 'essence', as in Proclus on the Alcibiades (Taylor's 'essence' is his word for it)",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "energy",
+        "energies",
+        "energize",
+        "energizes",
+        "energized",
+        "energizing"
+      ],
+      "modern": [
+        "activ",
+        "act",
+        "work"
+      ],
+      "why": "ἐνέργεια, ἐνεργεῖν: 'activity', 'act'; Taylor's 'energy' is a transliteration that now means something else",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "regression",
+        "regressions",
+        "conversion",
+        "conversions"
+      ],
+      "modern": [
+        "return",
+        "turn"
+      ],
+      "term": "return",
+      "link": [
+        "return"
+      ],
+      "why": "ἐπιστροφή: the 'return' of what proceeds to its cause, the third of remaining, procession and return",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "mansion",
+        "permanency"
+      ],
+      "modern": [
+        "remain",
+        "abid"
+      ],
+      "why": "μονή: 'remaining' in the cause, the first of remaining, procession and return",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "intellectual",
+        "intellectually"
+      ],
+      "modern": [
+        "intellect"
+      ],
+      "term": "intellect",
+      "why": "νοερός: 'intellectual', of intellect, as in the Workshop's other modern texts (never 'mental')",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "unities"
+      ],
+      "modern": [
+        "henad"
+      ],
+      "term": "henad",
+      "link": [
+        "henads",
+        "henad"
+      ],
+      "why": "ἑνάδες: the 'henads', the gods as the units that stand above being (Taylor's note on I.3)",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "unical"
+      ],
+      "modern": [
+        "unitary",
+        "unified",
+        "henad"
+      ],
+      "why": "ἑνιαῖος: 'unitary', having the character of the One (Taylor's note on I.3)",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "hyparxes"
+      ],
+      "modern": [
+        "hyparx"
+      ],
+      "term": "hyparxis",
+      "link": [
+        "hyparxis"
+      ],
+      "why": "ὑπάρξεις: kept as 'hyparxis', the summit of a nature (Taylor's note on I.3)",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "demiurgi"
+      ],
+      "modern": [
+        "Craftsm",
+        "maker"
+      ],
+      "term": "demiurge",
+      "why": "δημιουργοί: 'Craftsmen', as δημιουργός is 'the Craftsman'",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "fontal"
+      ],
+      "modern": [
+        "source"
+      ],
+      "why": "πηγαῖος: 'source-', the gods and powers that are springs of what comes after them",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "felicity"
+      ],
+      "modern": [
+        "happi",
+        "bless"
+      ],
+      "why": "εὐδαιμονία: 'happiness'",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "productive principle",
+        "productive principles"
+      ],
+      "modern": [
+        "forming principle"
+      ],
+      "term": "logos",
+      "link": [
+        "forming principle"
+      ],
+      "why": "λόγος in its sense of the formative principle in nature and soul: 'forming principle', as in most of the Enneads",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "theologist",
+        "theologists"
+      ],
+      "modern": [
+        "theologian"
+      ],
+      "why": "θεολόγος: 'theologian', the poets and sages who spoke of the gods (Orpheus, the Chaldean Oracles)",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "supermundane"
+      ],
+      "modern": [
+        "above the world",
+        "beyond the world"
+      ],
+      "why": "ὑπερκόσμιος: 'above the world'",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "mundane"
+      ],
+      "modern": [
+        "world",
+        "cosmic",
+        "cosmos"
+      ],
+      "why": "ἐγκόσμιος: 'of the world', 'in the world'",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "entheastic",
+        "entheastically"
+      ],
+      "modern": [
+        "inspir"
+      ],
+      "why": "ἔνθεος: 'inspired', divinely possessed",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "occult"
+      ],
+      "modern": [
+        "hidden",
+        "secret"
+      ],
+      "why": "κρύφιος: 'hidden'",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "paradigm",
+        "paradigms"
+      ],
+      "modern": [
+        "pattern"
+      ],
+      "why": "παράδειγμα: 'pattern', as in terms-greek.json",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "similitude"
+      ],
+      "modern": [
+        "like"
+      ],
+      "why": "ὁμοιότης: 'likeness', as in terms-greek.json",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "Banquet"
+      ],
+      "modern": [
+        "Symposium"
+      ],
+      "case": true,
+      "why": "Plato's Symposium, which Taylor calls the Banquet",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "Politicus"
+      ],
+      "modern": [
+        "Statesman"
+      ],
+      "case": true,
+      "why": "Plato's Statesman, which Taylor calls the Politicus",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "Sophista"
+      ],
+      "modern": [
+        "Sophist"
+      ],
+      "case": true,
+      "why": "Plato's Sophist",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "Saturn"
+      ],
+      "modern": [
+        "Kronos"
+      ],
+      "case": true,
+      "why": "Κρόνος, as the Workshop gives the gods their Greek names",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "Vesta"
+      ],
+      "modern": [
+        "Hestia"
+      ],
+      "case": true,
+      "why": "Ἑστία",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "Ceres"
+      ],
+      "modern": [
+        "Demeter"
+      ],
+      "case": true,
+      "why": "Δημήτηρ",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "Proserpine"
+      ],
+      "modern": [
+        "Persephone",
+        "Kore"
+      ],
+      "case": true,
+      "why": "Περσεφόνη, Κόρη",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "Venus"
+      ],
+      "modern": [
+        "Aphrodite"
+      ],
+      "case": true,
+      "why": "Ἀφροδίτη",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "Mercury"
+      ],
+      "modern": [
+        "Hermes"
+      ],
+      "case": true,
+      "why": "Ἑρμῆς",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "Diana"
+      ],
+      "modern": [
+        "Artemis"
+      ],
+      "case": true,
+      "why": "Ἄρτεμις",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "Mars"
+      ],
+      "modern": [
+        "Ares"
+      ],
+      "case": true,
+      "why": "Ἄρης",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "Neptune"
+      ],
+      "modern": [
+        "Poseidon"
+      ],
+      "case": true,
+      "why": "Ποσειδῶν",
+      "texts": [
+        "proclus-theology"
+      ]
+    },
+    {
+      "taylor": [
+        "Coelum"
+      ],
+      "modern": [
+        "Ouranos"
+      ],
+      "case": true,
+      "why": "Οὐρανός, Heaven as a god",
+      "texts": [
+        "proclus-theology"
+      ]
     }
   ],
   "extra_links": [
@@ -495,6 +943,20 @@
       "p0028:Jupiter": "The Greek of these lines says 'God' (ho theos), which the modern version follows; Taylor's English has 'Jove'",
       "p0080:progression": "'Progression' here is a movement forward that comes to an end, not the procession of beings",
       "p0154:progression": "'The progressions of human understanding' are the steps by which we come to understand, not the procession of beings"
+    },
+    "proclus-theology": {
+      "I.2.p3:the one": "Taylor's 'the one intellect which generated all the beauty of this theology' is a single intellect, not the One",
+      "I.2.p4:the one": "Taylor's 'the one form of intellectual prudence' is a single form, not the One",
+      "I.3.p4:the one": "Taylor's 'known by the one' is the one in the soul, its highest point, by which it is joined to the henads; not the One itself",
+      "I.5.p4:the one": "Taylor's 'the one good' is the Good, which the Philebus calls one; rendered 'the one Good'"
     }
+  },
+  "forbidden": {
+    "proclus-theology": [
+      "essence",
+      "subsist",
+      "energ",
+      "felicity"
+    ]
   }
 }

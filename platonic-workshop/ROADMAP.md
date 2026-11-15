@@ -53,6 +53,8 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   fifteen done with Taylor, and their flags checked against him), which Daniel asked for; E34a, MacKenna beside every
   chapter, is done, the flags for I.2, I.3, II.4 (E34b), II.9 (E34c), III.6 (E34d), III.7 and IV.2 (E34e), IV.3 (E34f), IV.7 and V.2 (E34g), V.1 and V.6 (E34h), V.3 (E34i) too, and E34j follows. After the Enneads, Daniel's order goes on to Aristotle's
   Metaphysics from Book Λ (35m7, in milestone 35 below).
+- **Also under way (November 15, 2026, asked for by Daniel):** Proclus' Theology of Plato in modern English, from Taylor's
+  English, beside the Enneads' E34: the T milestones, in their own section below ("Proclus' Theology of Plato in modern English").
 
 ### The milestones (Greek words in brackets)
 
@@ -821,6 +823,59 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   - **E34i: V.3 (done).** 1 flag against MacKenna: he keeps very close to the Greek through its 17 chapters. In V.3.13 he
     has us "considering it only in its opposites" where the Greek says that to call the One unaware of itself turns us
     round to the opposite of what we hold.
+
+## Proclus' Theology of Plato in modern English (T milestones; November 15, 2026, asked for by Daniel)
+
+Daniel: "Lets move over to modernizing Proclus Theology of Plato". The Enneads' E34 goes on in its own thread.
+
+- **The source.** No Greek of the Theology is on the site, and the only free edition, Portus' (Hamburg, 1618), is a scan whose
+  Greek OCR is badly garbled (it would need proofreading page by page from the images first, as Proclus on the Alcibiades did).
+  So the modern version is made from Thomas Taylor's English (1816), as the General Introduction was (milestone 24). His text is
+  Project Gutenberg's proofread transcription, already in the Workshop (`sources/taylor-gutenberg/pg77393.txt`, vol. I,
+  Books I-V; `pg78800.txt`, vol. II, Book VI and his own Book VII), read by `tools/modern_theology.py` into books, his chapters
+  and his paragraphs, his footnotes kept with the paragraph that cites them and his chapter headings taken from his tables of
+  contents. The archive.org OCR in `sources/taylor-proclus-theology-1816/` is too garbled to use. If Proclus' Greek is brought in
+  later (Portus proofread, or a cleaner public-domain text), the modern version can then be checked against it.
+- **The fixed renderings.** Taylor renders Proclus' key words by a fixed vocabulary, so `terms.json` (the list of milestone 24)
+  is checked against his words: where Taylor's paragraph has one of his forms, the modern paragraph must have the fixed
+  rendering, or a written exception. The Theology adds 32 rules of its own (`"texts": ["proclus-theology"]`, so the
+  Introduction and the Life are untouched), closing the gaps the audit found: "essence" (οὐσία) is "being"; "unities" are
+  "henads"; "progression" is "procession" and "regression"/"conversion" is "return"; "participate" is "share"; "ideas" are
+  "Forms"; "the one" is "the One" and "the good" "the Good"; "productive principle" (λόγος) is "forming principle";
+  "energy" is "activity"; "theologist" is "theologian"; the gods by their Greek names (Kronos for Saturn). The modern version
+  never uses "essence", "subsist", "energy" or "felicity" (`"forbidden"`), as in Proclus on the Alcibiades.
+- **The pattern.** Paragraph by paragraph, every idea kept, in short sentences and today's words; Taylor's chapter beside it
+  (Side by side) or one tap away, with his notes; a summary of each book and chapter; flags quoting Taylor word for word where
+  his English is hard or misleads (the build checks the quotation); notes giving Plato's places; labelled as the Workshop's
+  own AI-drafted translation, not yet checked by a scholar; Mark a sentence. Read at `#neo-modern/proclus-theology`, linked
+  from the Neoplatonists' shelf; the page lists all six books in Taylor's chapters, done or to come. Master copy
+  `sources/translations/modern/proclus-theology.txt`; checks in `reports/modern_theology.md`; tests
+  `tests/test_modern_theology.py` and `tests/modern_theology_browser.js`.
+- **Size.** Proclus' six books are 183,113 of Taylor's words in 164 chapters (Book I 33,234; II 22,219; III 28,027; IV
+  28,882; V 40,018; VI 30,733). About 7,500 to 10,000 of Taylor's words a milestone, one PR each:
+
+- **T1: the pipeline, and Book I, chapters 1-8 (7,528 words) (done).** The preface to Pericles (Plotinus, Amelius, Porphyry,
+  Iamblichus, Theodorus, Syrianus), the plan of the work and what its hearer needs, who a theologian is (the "one" of the soul
+  joined to the henads), Plato's four ways of teaching about the gods, the dialogues that hold his theology, the objection
+  that it is patchwork, and the answer: the Parmenides holds it all; the two kinds of opponents on the Parmenides. 35
+  paragraphs, 13 flags (e.g. Taylor's "for a time" for "in time", "passive one" for the Sophist's being that has the one as
+  an affection, "uniform" for one-like, "precedaneous", "orgies").
+- T2: Book I, chapters 9-12 (6,805): against the logical reading of the Parmenides; the hypotheses as principles; Syrianus'
+  reading of the hypotheses and the divine orders in the second.
+- T3: Book I, chapters 13-17 (8,593): the common rules about the gods in the Laws (they exist, they provide, they cannot be
+  bribed), and the Republic's axioms, beginning with the gods' goodness.
+- T4: Book I, chapters 18-29 (10,308): the gods' immutability, simplicity and truth; the Phaedrus' good, wise and beautiful;
+  the Phaedo's axioms; father and mother causes; the divine names (the Cratylus).
+- T5: Book II, chapters 1-3 (9,420): the first principle, beyond being, argued from the one and the many.
+- T6: Book II, chapters 4-12 (12,799): the first principle above intellect; the ascent by analogy and by negation; its names;
+  the Republic's sun; the first king of the Second Letter; the first hypothesis of the Parmenides.
+- T7 to T9: Book III (28,027): the henads, limit and the unlimited, the intelligible gods. Gutenberg's text runs chapters 3-9
+  together (no headings for 4-8, which Taylor's table of contents names): T7 must find and mark them.
+- T10 to T12: Book IV (28,882): the intelligible and intellectual gods (the Phaedrus' place above the heaven).
+- T13 to T16: Book V (40,018): the intellectual gods, Kronos, Rhea, Zeus, the Craftsman. Chapter 26 has no heading in
+  Gutenberg's text: find it first.
+- T17 to T19: Book VI (30,733): the ruling (assimilative) gods, the liberated gods. Chapter 10 has no heading: find it first.
+- Then, if Daniel wants it, Taylor's own Book VII (74,323 words, made from Proclus on the Timaeus), and Proclus' Greek.
 
 ## The current focus (November 13, 2026, asked for by Daniel): Aristotle, beginning with the Metaphysics
 
