@@ -83,6 +83,8 @@ class Files(unittest.TestCase):
         n = 0
         for p in load()["paragraphs"]:
             for f in p.get("flags", []):
+                if f.get("in") == "MacKenna":
+                    continue
                 n += 1
                 self.assertTrue(f["why"].strip())
                 self.assertIn(modern_neo.norm(f["taylor"]), tay[p["chapter"]]["text"], p["seg"])
@@ -137,7 +139,52 @@ class Files(unittest.TestCase):
         js = (ROOT / "reader" / "neo.js").read_text(encoding="utf-8")
         self.assertIn("TG_MODES", js)
         self.assertIn('"plotinus"', (ROOT / "tools" / "serve.py").read_text(encoding="utf-8"))
-        self.assertLess((MOD / "plotinus.json").stat().st_size, 2_000_000)   # small enough for the website's files.json
+        # Enneads milestone E34 took it past 2 MB with MacKenna's English; the website carries the modern English whatever
+        # its size (tools/build_site.py, tests/test_site.py), so this only keeps it from growing out of hand.
+        self.assertLess((MOD / "plotinus.json").stat().st_size, 4_000_000)
+
+    def test_mackenna_beside_every_chapter(self):
+        # Enneads milestone E34: MacKenna's English of every chapter, his chapter of the same number, beside Taylor's,
+        # as for the other thirty-nine treatises (enneads.json).
+        d = load()
+        self.assertEqual(d["older"]["translator"], "Stephen MacKenna")
+        self.assertEqual([v["year"] for v in d["older"]["volumes"]], [1917, 1921, 1924, 1926, 1930])
+        for c in d["chapters"]:
+            self.assertEqual([o["n"] for o in c["older"]], [int(c["id"].rsplit(".", 1)[1])], c["id"])
+            self.assertGreater(len(c["older"][0]["text"].split()), 40, c["id"])
+        ch = {c["id"]: c["older"][0] for c in d["chapters"]}
+        # Chapters whose numbers the OCR lost or misread begin where the scan prints them.
+        starts = {"I.2.1": "Since Evil is here", "II.9.1": "We have seen elsewhere that the Good",
+                  "II.9.11": "Now, in the first place, if the Soul has not actually come down",
+                  "IV.3.14": "Thus it comes about that this kosmos", "IV.3.15": "The souls peering forth",
+                  "IV.3.17": "Various considerations explain", "IV.3.31": "But if each of the two phases of the soul",
+                  "IV.7.9": "Over against that body", "IV.7.10": "That the soul is of the family of the diviner nature",
+                  "IV.7.15": "Thus far we have offered", "V.3.17": "But what can it be which is loftier",
+                  "V.9.7": "Knowledge in the reasoning soul", "V.9.13": "It remains to decide whether only",
+                  "VI.9.2": "It may be suggested that", "VI.9.7": "If the mind reels", "VI.9.11": "This is the purport"}
+        for cid, s in starts.items():
+            self.assertTrue(ch[cid]["text"].startswith(s), f"{cid}: {ch[cid]['text'][:60]}")
+        self.assertTrue(ch["VI.9.11"]["text"].rstrip().endswith("the passing of solitary to solitary."))
+        self.assertEqual((ch["I.2.1"]["year"], ch["VI.9.1"]["year"], ch["VI.9.1"]["page"]), (1917, 1930, 237))
+
+    def test_flags_against_mackenna_quote_him_and_say_why(self):
+        # Enneads milestone E34b on: where MacKenna and the Greek differ, a flag quotes his words, found in his chapter.
+        d = load()
+        ch = {c["id"]: modern_neo.norm(c["older"][0]["text"]) for c in d["chapters"]}
+        flags = [(p["seg"], p["chapter"], f) for p in d["paragraphs"] for f in p.get("flags", []) if f.get("in") == "MacKenna"]
+        for seg, cid, f in flags:
+            self.assertIn(modern_neo.norm(f["taylor"]), ch[cid], seg)
+            self.assertGreaterEqual(len(f["taylor"].split()), 3, seg)
+            self.assertTrue(f["why"].strip(), seg)
+        done = {"I.2", "I.3", "II.4"}       # E34b
+        per = {t: sum(1 for _, cid, _ in flags if cid.rsplit(".", 1)[0] == t) for t in done}
+        self.assertTrue(all(n >= 10 for n in per.values()), per)
+        by = {seg: [f["taylor"] for s, _, f in flags if s == seg] for seg, _, _ in flags}
+        # E.g. his "Demi-God" for the daemon (I.2.6), "metaphysician" for the philosopher (I.3.1), "a meeting-ground"
+        # for the first things that would be by chance (II.4.2).
+        self.assertIn("God and Demi-God", by["I.2.6.p1"])
+        self.assertIn("from which is to spring a metaphysician, a musician or a born lover", by["I.3.1.p2"])
+        self.assertIn("the Firsts are a meeting-ground", by["II.4.2.p1"])
 
 
 @unittest.skipUnless(FIRST1K.exists(), "run python3 tools/fetch_sources.py first")
@@ -158,7 +205,8 @@ class AgainstTheGreek(unittest.TestCase):
     def test_a_wrong_greek_start_or_flag_is_caught(self):
         src = (MOD / "plotinus.txt").read_text(encoding="utf-8")
         bad = (src.replace("@greek τί ποτε οὖν ἐστιν ἡ ἀρετὴ", "@greek τί ποτε οὖν ἐστιν ἡ κακία")
-               .replace("!flag For rumor also says", "!flag For rumour also says"))
+               .replace("!flag For rumor also says", "!flag For rumour also says")
+               + "\n!mackenna words MacKenna never wrote | a test\n")
         with tempfile.TemporaryDirectory() as tmp:
             Path(tmp, "plotinus.txt").write_text(bad, encoding="utf-8")
             old = modern_neo.MODERN
@@ -169,6 +217,7 @@ class AgainstTheGreek(unittest.TestCase):
                 modern_neo.MODERN = old
         self.assertTrue(any("Greek start not found" in x for x in problems))
         self.assertTrue(any("flagged words not in Taylor" in x for x in problems))
+        self.assertTrue(any("flagged words not in MacKenna's VI.9.11" in x for x in problems), problems)
 
 
 def has_library():
@@ -222,6 +271,12 @@ class Server(unittest.TestCase):
         self.assertEqual(self.get("taylor-greek/taylor-plotinus/14")["modern"]["treatise"]["id"], "VI.9")
         # A work with no modern English has none.
         self.assertIsNone(self.get("taylor-greek/taylor-mysteries/0")["modern"])
+        # Enneads milestone E34: MacKenna's English of each chapter comes with it.
+        d = self.get("taylor-greek/taylor-plotinus/14")
+        self.assertEqual([v["year"] for v in d["modern"]["older"]["volumes"]], [1917, 1921, 1924, 1926, 1930])
+        olds = [o for c in d["chapters"] for m in c.get("modern", []) for o in m["older"]]
+        self.assertEqual(len(olds), 11)
+        self.assertTrue(olds[0]["text"].startswith("It is in virtue of unity that beings are beings."))
 
     def test_the_library_and_the_greek_link_to_it(self):
         w = next(w for w in self.get("taylor-greek")["works"] if w["id"] == "taylor-plotinus")

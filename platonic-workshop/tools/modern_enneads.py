@@ -70,7 +70,7 @@ ABOUT = ("A modern English version of Plotinus' Enneads, written for the Worksho
          "MacKenna's English does not, the modern version follows the Greek, and a flag shows MacKenna's words and the "
          "difference. Plato's and Aristotle's words that Plotinus uses are noted with their place. The chapters are "
          "Volkmann's (Ficino's); the short titles and summaries are the Workshop's. The fifteen treatises Thomas Taylor "
-         "translated (1817) are read in modern English beside his English, from the contents below.")
+         "translated (1817) are read in modern English beside his English, and beside MacKenna's too, from the contents below.")
 
 # Porphyry's order: the fifty-four treatises, with the Workshop's short titles (after Porphyry's), and the milestone of
 # the workshop ROADMAP that puts each into modern English ("taylor": done in milestone 27, beside Taylor's English).
@@ -435,7 +435,7 @@ def report(d, problems):
         lines.append(f"| {seg} | {f['taylor'].replace('|', '/')} | {f['why'].replace('|', '/')} |")
     lines += ["", "## The plan, in Porphyry's order", "", "| Treatise | Title | Modern English |", "|---|---|---|"]
     for c in d["contents"]:
-        st = {"here": "done here", "taylor": "done beside Taylor (milestone 27)"}.get(c["status"], f"to come ({c.get('milestone')})")
+        st = {"here": "done here", "taylor": "done beside Taylor (milestone 27), and MacKenna (E34)"}.get(c["status"], f"to come ({c.get('milestone')})")
         if c.get("chapters_done"):
             st += f", chapters 1-{c['chapters_done']} of {c['chapters_all']}"
         lines.append(f"| {c['id']} | {c['title']} | {st} |")

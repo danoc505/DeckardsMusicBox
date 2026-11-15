@@ -1975,8 +1975,8 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 |---|---|---|
 | Life | Porphyry, On the life of Plotinus and the order of his books | done here |
 | I.1 | What is the living being, and what is the human being? | done here |
-| I.2 | On the virtues | done beside Taylor (milestone 27) |
-| I.3 | On dialectic | done beside Taylor (milestone 27) |
+| I.2 | On the virtues | done beside Taylor (milestone 27), and MacKenna (E34) |
+| I.3 | On dialectic | done beside Taylor (milestone 27), and MacKenna (E34) |
 | I.4 | On happiness | done here |
 | I.5 | Whether happiness grows with time | done here |
 | I.6 | On beauty | done here |
@@ -1986,39 +1986,39 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | II.1 | On the heaven | done here |
 | II.2 | On the movement of the heaven | done here |
 | II.3 | Whether the stars are causes | done here |
-| II.4 | On matter | done beside Taylor (milestone 27) |
+| II.4 | On matter | done beside Taylor (milestone 27), and MacKenna (E34) |
 | II.5 | On what is potential and what is actual | done here |
 | II.6 | On substance, or on quality | done here |
 | II.7 | On complete blending | done here |
 | II.8 | On sight, or why distant things look small | done here |
-| II.9 | Against the Gnostics | done beside Taylor (milestone 27) |
+| II.9 | Against the Gnostics | done beside Taylor (milestone 27), and MacKenna (E34) |
 | III.1 | On destiny | done here |
 | III.2 | On providence, first part | done here |
 | III.3 | On providence, second part | done here |
 | III.4 | On the daemon allotted to us | done here |
 | III.5 | On love | done here |
-| III.6 | On the impassibility of the bodiless | done beside Taylor (milestone 27) |
-| III.7 | On eternity and time | done beside Taylor (milestone 27) |
+| III.6 | On the impassibility of the bodiless | done beside Taylor (milestone 27), and MacKenna (E34) |
+| III.7 | On eternity and time | done beside Taylor (milestone 27), and MacKenna (E34) |
 | III.8 | On nature, contemplation and the One | done here |
 | III.9 | Various considerations | done here |
 | IV.1 | On the being of the soul, first part | done here |
-| IV.2 | On the being of the soul, second part | done beside Taylor (milestone 27) |
-| IV.3 | On difficulties about the soul, first part | done beside Taylor (milestone 27) |
+| IV.2 | On the being of the soul, second part | done beside Taylor (milestone 27), and MacKenna (E34) |
+| IV.3 | On difficulties about the soul, first part | done beside Taylor (milestone 27), and MacKenna (E34) |
 | IV.4 | On difficulties about the soul, second part | done here |
 | IV.5 | On difficulties about the soul, third part, or on sight | done here |
 | IV.6 | On perception and memory | done here |
-| IV.7 | On the immortality of the soul | done beside Taylor (milestone 27) |
+| IV.7 | On the immortality of the soul | done beside Taylor (milestone 27), and MacKenna (E34) |
 | IV.8 | On the descent of the soul into bodies | done here |
 | IV.9 | Whether all souls are one | done here |
-| V.1 | On the three first realities | done beside Taylor (milestone 27) |
-| V.2 | On the origin and order of what comes after the first | done beside Taylor (milestone 27) |
-| V.3 | On the knowing realities and what is beyond | done beside Taylor (milestone 27) |
+| V.1 | On the three first realities | done beside Taylor (milestone 27), and MacKenna (E34) |
+| V.2 | On the origin and order of what comes after the first | done beside Taylor (milestone 27), and MacKenna (E34) |
+| V.3 | On the knowing realities and what is beyond | done beside Taylor (milestone 27), and MacKenna (E34) |
 | V.4 | How what comes after the first comes from it, and on the One | done here |
 | V.5 | That the intelligibles are not outside intellect, and on the Good | done here |
-| V.6 | That what is beyond being does not think | done beside Taylor (milestone 27) |
+| V.6 | That what is beyond being does not think | done beside Taylor (milestone 27), and MacKenna (E34) |
 | V.7 | Whether there are forms of individuals | done here |
 | V.8 | On intelligible beauty | done here |
-| V.9 | On intellect, the forms and being | done beside Taylor (milestone 27) |
+| V.9 | On intellect, the forms and being | done beside Taylor (milestone 27), and MacKenna (E34) |
 | VI.1 | On the kinds of being, first part | done here |
 | VI.2 | On the kinds of being, second part | done here |
 | VI.3 | On the kinds of being, third part | done here |
@@ -2027,4 +2027,4 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | VI.6 | On numbers | done here |
 | VI.7 | How the many forms came to be, and on the Good | done here |
 | VI.8 | On free will and the will of the One | done here |
-| VI.9 | On the Good, or the One | done beside Taylor (milestone 27) |
+| VI.9 | On the Good, or the One | done beside Taylor (milestone 27), and MacKenna (E34) |

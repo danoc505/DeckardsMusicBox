@@ -27,6 +27,9 @@ This tool turns it into sources/translations/modern/<text>.json, which the reade
     next is kept with the paragraph (the first paragraph begins with the chapter), so all of it is covered;
   * every flag's words are found word for word in Taylor's English of the chapter (the OCR as milestone 26
     reads it);
+  * for Plotinus (Enneads milestone E34), Stephen MacKenna's English of each chapter (1917-1930, tools/mackenna.py) is
+    set beside it too, as it is beside the other thirty-nine treatises (tools/modern_enneads.py): every chapter must
+    have his chapter of the same number, and every !mackenna flag's words are found word for word in it;
   * the key words are rendered the same way throughout (sources/translations/modern/terms-greek.json):
     where a paragraph's Greek has one of them (νοῦς, ψυχή, ἀρετή ...), the modern paragraph has its fixed
     rendering (intellect, soul, virtue ...), unless the paragraph is listed as an exception, with the reason.
@@ -67,7 +70,11 @@ TEXTS = {
                  "version follows the Greek, and a flag shows Taylor's words and the difference. Plato's words that Plotinus "
                  "quotes are noted with their place. The chapters are Volkmann's (Ficino's); the short titles and summaries "
                  "are the Workshop's. It covers all fifteen treatises that Taylor translated, in Porphyry's order, "
-                 "from I.2, On the Virtues, to VI.9, On the Good, or the One.",
+                 "from I.2, On the Virtues, to VI.9, On the Good, or the One. Stephen MacKenna's translation (London, "
+                 "1917-1930), made from the same Greek, is beside it too, chapter by chapter, as it is beside the other "
+                 "thirty-nine treatises, so that the whole Enneads can be read the same way.",
+        # Enneads milestone E34: MacKenna's English of each chapter, beside Taylor's
+        "older": "mackenna",
     },
     "proclus-alcibiades": {
         "title": "Proclus on the First Alcibiades in modern English",
@@ -155,14 +162,21 @@ def parse(src):
                     raise ValueError(f"line {n}: @greek outside a paragraph")
                 cur["greek_start"] = rest.strip()
             continue
-        if line.startswith("!flag ") or line.startswith("!note "):
+        if line.startswith("!flag ") or line.startswith("!note ") or line.startswith("!mackenna "):
             if not cur or "lines" not in cur:
-                raise ValueError(f"line {n}: {line[:5]} outside a paragraph")
+                raise ValueError(f"line {n}: {line.split()[0]} outside a paragraph")
             if line.startswith("!flag "):
                 words, sep, why = line[6:].partition(" | ")
                 if not sep:
                     raise ValueError(f"line {n}: !flag <Taylor's words> | <why>")
                 cur["flags"].append({"taylor": words.strip(), "why": why.strip()})
+            elif line.startswith("!mackenna "):
+                # Enneads milestone E34: where MacKenna's English and the Greek differ (as the flags of
+                # tools/modern_enneads.py), his words found in his chapter of the same number
+                words, sep, why = line[10:].partition(" | ")
+                if not sep:
+                    raise ValueError(f"line {n}: !mackenna <MacKenna's words> | <why>")
+                cur["flags"].append({"taylor": words.strip(), "in": "MacKenna", "why": why.strip()})
             else:
                 cur["notes"].append(line[6:].strip())
             continue
@@ -204,7 +218,22 @@ def has_modern(text, form):
     return re.search(r"(?<![\w-])" + re.escape(form), text, re.I) is not None
 
 
-def build(text_id, terms=None, units=None, taylor=None):
+def older_of(c, older):
+    """MacKenna's chapter shown with a chapter, in the shape tools/modern_enneads.py gives it."""
+    o = older.get(c["id"])
+    if o is None:
+        return []
+    n = int(c["id"].rsplit(".", 1)[1])
+    return [{"n": n, "label": f"{c['treatise']}, chapter {n}", "page": o["page"], "year": o["year"], "text": "\n\n".join(o["paras"])}]
+
+
+def mackenna_chapters():
+    """{'I.2.1': {'text', 'paras', 'page', 'volume', 'year'}}: MacKenna's English, as tools/mackenna.py reads it."""
+    import mackenna
+    return mackenna.chapters()
+
+
+def build(text_id, terms=None, units=None, taylor=None, older=None):
     """The JSON the reader shows, and the problems found (a list of strings)."""
     meta = TEXTS[text_id]
     if meta.get("kind") == "proofread":
@@ -257,7 +286,13 @@ def build(text_id, terms=None, units=None, taylor=None):
             greek[p["seg"]] = g[starts[k]:j].strip()
         if ok != sorted(ok):
             problems.append(f"{text_id} {ch['id']}: the Greek starts are out of order")
-    # Flags: Taylor's words, word for word, in his English of the chapter.
+    # Enneads milestone E34: MacKenna's English of each chapter (his chapter of the same number), beside Taylor's.
+    if meta.get("older") == "mackenna":
+        older = older if older is not None else mackenna_chapters()
+        for ch in chapters:
+            if ch["id"] not in older:
+                problems.append(f"{text_id} {ch['id']}: MacKenna has no chapter of this number")
+    # Flags: Taylor's words, word for word, in his English of the chapter; MacKenna's, in his.
     for p in paras:
         if not p["modern"]:
             problems.append(f"{text_id} {p['seg']}: no modern text")
@@ -265,7 +300,13 @@ def build(text_id, terms=None, units=None, taylor=None):
         for f in p["flags"]:
             if not f["why"]:
                 problems.append(f"{text_id} {p['seg']}: a flag with no reason")
-            if tay is None or norm(f["taylor"]) not in tay["text"]:
+            if f.get("in") == "MacKenna":
+                mk = (older or {}).get(p["chapter"])
+                if len(norm(f["taylor"]).split()) < 3:
+                    problems.append(f"{text_id} {p['seg']}: a flag should quote at least three words: {f['taylor']!r}")
+                if mk is None or norm(f["taylor"]) not in mk["text"]:
+                    problems.append(f"{text_id} {p['seg']}: flagged words not in MacKenna's {p['chapter']}: {f['taylor']!r}")
+            elif tay is None or norm(f["taylor"]) not in tay["text"]:
                 problems.append(f"{text_id} {p['seg']}: flagged words not in Taylor's {p['chapter']}: {f['taylor']!r}")
     for ch in chapters:
         if ch["id"] not in taylor:
@@ -314,10 +355,16 @@ def build(text_id, terms=None, units=None, taylor=None):
         "source": f"sources/translations/modern/{text_id}.txt",
         "treatises": [{"id": t["id"], "title": t["title"], "summary": t["summary"], "chapters": t["chapters"]} for t in treatises],
         "chapters": [{"id": c["id"], "treatise": c["treatise"], "title": c["title"], "summary": c["summary"],
-                      "greek_unit": units[c["id"]]["n"] if c["id"] in units else None} for c in chapters],
+                      "greek_unit": units[c["id"]]["n"] if c["id"] in units else None,
+                      **({"older": older_of(c, older)} if older is not None else {})} for c in chapters],
         "paragraphs": [],
         "links": links,
     }
+    if older is not None:
+        vols = sorted({(older[c["id"]]["volume"], older[c["id"]]["year"]) for c in chapters if c["id"] in older})
+        d["older"] = {"translator": "Stephen MacKenna", "label": "MacKenna",
+                      "volumes": [{"file": f"texts/plotinus/{v}.json", "year": y} for v, y in vols],
+                      "how": "the Internet Archive's OCR of the printed volumes, read by rule (tools/mackenna.py), not proofread"}
     for p in paras:
         item = {"seg": p["seg"], "chapter": p["chapter"], "modern": p["modern"], "greek": greek.get(p["seg"], "")}
         if p["flags"]:
@@ -516,6 +563,8 @@ def report(results, taylor_words):
         words = sum(len(p["modern"].split()) for p in ps)
         gwords = sum(len(p["greek"].split()) for p in ps)
         flags = [(p["seg"], f) for p in ps for f in p.get("flags", [])]
+        mk_flags = sum(1 for _, f in flags if f.get("in") == "MacKenna")
+        mk_words = sum(len(o["text"].split()) for c in d["chapters"] for o in c.get("older", []))
         lines += [f"## {d['title']}", "",
                   f"- Made from: {TEXTS[text_id]['about'].split('. ')[1]}.",
                   f"- Treatises: {', '.join(t['id'] + ' ' + t['title'] for t in d['treatises'])}.",
@@ -524,15 +573,18 @@ def report(results, taylor_words):
                    f"- Sections: {len(d['chapters'])}, each with a short title and a summary. The Greek: {proofread_line(d)}"),
                   f"- Paragraphs: {len(ps)}, each with its Greek.",
                   f"- Words: {words:,} modern, {gwords:,} Greek, {taylor_words.get(text_id, 0):,} in Taylor's English of the same "
-                  f"{'chapters' if d.get('kind') != 'proofread' else 'pages (his Introduction)'}.",
+                  f"{'chapters' if d.get('kind') != 'proofread' else 'pages (his Introduction)'}"
+                  + (f", {mk_words:,} in MacKenna's (Enneads milestone E34)." if "older" in d else "."),
                   f"- Sentences (each can be marked in the reader): {sum(len(modern.sentences(p['modern'])) for p in ps):,}.",
-                  f"- Flags (where Taylor and the Greek differ, or the Greek is hard): {len(flags)}.",
+                  f"- Flags (where Taylor and the Greek differ, or the Greek is hard): {len(flags) - mk_flags}"
+                  + (f"; where MacKenna and the Greek differ: {mk_flags}." if "older" in d else "."),
                   f"- Problems found: {len(problems)}.", ""]
         if problems:
             lines += ["### Problems", ""] + [f"- {x}" for x in problems] + [""]
-        lines += ["### Flags", "", "| Paragraph | Taylor's words | Why |", "|---|---|---|"]
+        lines += ["### Flags", "", "| Paragraph | Taylor's words (or MacKenna's) | Why |", "|---|---|---|"]
         for seg, f in flags:
-            lines.append(f"| {seg} | {f['taylor'].replace('|', '/')} | {f['why'].replace('|', '/')} |")
+            who = "MacKenna: " if f.get("in") == "MacKenna" else ""
+            lines.append(f"| {seg} | {who}{f['taylor'].replace('|', '/')} | {f['why'].replace('|', '/')} |")
         lines += [""]
     terms = json.loads(TERMS.read_text(encoding="utf-8"))
     lines += ["## The fixed renderings", "", "| Greek (without accents) | Modern | Term tab | Why |", "|---|---|---|---|"]

@@ -40,6 +40,8 @@ async function run(b, viewport, touch, first) {
   check(await p.$eval("#mp-I\\.2\\.1\\.p1 .mp-text", (e) => /^Evils are here/.test(e.textContent)), `${tag}: the modern English of I.2.1`);
   check(await p.$eval('[data-tg-mode="modern"]', (e) => e.getAttribute("aria-pressed") === "true"), `${tag}: Modern English is chosen`);
   check(await p.$$eval(".tg-mod .mp-flag", (es) => es.length) >= 10, `${tag}: flags where Taylor and the Greek differ`);
+  check(await p.$$eval(".tg-mod .mp-flag", (es) => es.filter((e) => /MacKenna differs/.test(e.textContent) && /MacKenna: “/.test(e.textContent)).length) >= 10,
+    `${tag}: and where MacKenna and the Greek differ (E34b)`);
   check(await p.$$eval(".tg-mod .tm-en", (es) => es.length) > 20, `${tag}: key words are underlined for the Term tab`);
   await wide("a treatise in modern English");
 
@@ -63,6 +65,10 @@ async function run(b, viewport, touch, first) {
   // Taylor's English of the chapter, one tap away.
   await p.click("#tg-0 [data-tg-tay]");
   check(await p.$eval("#tg-0 .tg-tay-box", (e) => !e.hidden && /Since evils are here/.test(e.textContent)), `${tag}: one tap shows Taylor's English of the chapter`);
+  // Enneads milestone E34: MacKenna's English of the chapter, one tap away too.
+  await p.click('#tg-0 [data-box=".tg-mk-box"]');
+  check(await p.$eval("#tg-0 .tg-mk-box", (e) => !e.hidden && /MacKenna, I\.2, chapter 1 \(1917/.test(e.textContent) && /Since Evil is here/.test(e.textContent)), `${tag}: one tap shows MacKenna's English of the chapter`);
+  check(/beside Taylor's and MacKenna's/.test(await p.$eval(".tg-read", (e) => e.innerText)), `${tag}: the page says MacKenna is beside it too`);
   // The Greek of the whole chapter, as in milestone 26.
   await p.click("#tg-0 [data-tg-greek]");
   check(await p.$eval("#tg-0 .tg-greek", (e) => !e.hidden && /Ἐπειδὴ τὰ κακὰ/.test(e.textContent)), `${tag}: and the Greek of the whole chapter`);
@@ -80,6 +86,17 @@ async function run(b, viewport, touch, first) {
     await p.evaluate(() => { document.getElementById("tg-2").scrollIntoView(); window.scrollBy(0, -100); });
     await p.screenshot({ path: shots, fullPage: false });
   }
+  // Beside MacKenna (E34): his English beside every chapter, Taylor's a tap away.
+  await p.click('[data-tg-mode="mackenna"]');
+  await p.waitForSelector(".mod-mackenna .tg-tcol");
+  check(await p.$$eval(".tg-tcol .tg-mk", (es) => es.length) === 7 && await p.$$eval(".tg-tcol", (es) => es.length) === 7, `${tag}: beside MacKenna, his English beside every chapter`);
+  if (viewport.width >= 1024) {
+    const cols = await p.$eval("#tg-0 .tg-cols", (e) => [...e.children].map((c) => Math.round(c.getBoundingClientRect().left)));
+    check(cols.length === 2 && cols[1] > cols[0] + 100, `${tag}: beside MacKenna, in two columns`);
+  }
+  await p.click("#tg-0 [data-tg-tay]");
+  check(await p.$eval("#tg-0 .tg-tay-box", (e) => !e.hidden && /Since evils are here/.test(e.textContent)), `${tag}: and Taylor's words a tap away`);
+  await wide("beside MacKenna");
   // Taylor only, as before, saying the modern English is there.
   await p.click('[data-tg-mode="taylor"]');
   await p.waitForSelector(".tg-ch p");
@@ -116,6 +133,8 @@ async function run(b, viewport, touch, first) {
   await p.goto(base + "#neo-en/taylor-plotinus/14");
   await p.waitForSelector(".tg-mod");
   check(await p.$eval(".tg-read h2", (e) => /Ennead VI\.9/.test(e.textContent)) && await p.$$eval(".tg-mod .ms-sum", (es) => es.length) === 11, `${tag}: On the good, eleven chapters`);
+  // ... each with MacKenna's chapter beside it (E34: the OCR lost or misread his numbers 2 to 11, now put back).
+  check(await p.$$eval(".tg-mk-box .tg-mk", (es) => es.length) === 11 && /solitary to solitary/.test(await p.$eval(".tg-read", (e) => e.textContent)), `${tag}: On the good, MacKenna's eleven chapters`);
   // A work with no modern English is Taylor's, as before.
   await p.goto(base + "#neo-en/taylor-mysteries/0");
   await p.waitForSelector(".tg-ch");
