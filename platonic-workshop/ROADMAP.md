@@ -647,22 +647,51 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   (Epinomis 984d-985b), the four kinds of living beings (Timaeus 39e-40a), Poverty and Resource (Symposium 203b-c), the
   plain of truth (Phaedrus 248b-c), the indivisible form (Phaedrus 277b, Metaphysics Z.12) and Empedocles' Love and Strife
   (B17, B26).
-- E31: VI.7 chapters 15-28 (4,167). Next. Pp. 180-201 or so of vol. V, MacKenna's own English (flags say "MacKenna"). The
-  @treatise VI.7 block is there (E30) with its summary of the whole; keep it, and check that its account of chapters 15 to
-  28 fits what is done. Source work first: tools/mackenna.py finds VI.7.1-16 since E30 (16 at p. 182); 17 on are not
-  found and run on in 16. In the OCR, "18.", "20.", "23.", "24.", "25.", "26." and "28." read as they are; candidates for
-  vol. V's "misread": "17s" (8488) for 17 ("But in what mode are these secondaries"), "9g." (8661) for 19 ("Are we to rest
-  all on pursuit and on the soul?"), "21s" (8730) for 21 ("Now what in all these objects of desire"), "228" (8763) for 22
-  ("That light known, then indeed we are stirred"), and "ay." (8982) for 27 ("But what is that whose entry supplies every
-  such need ?", which follows "ay." on the next line with no blank between). "2B" (8609) and "2C" (8986) are signatures
-  after a line of text: list them in "stray". The "‘" standing alone (8895) goes as a short line. Check each start against
-  the Greek, and that 28 ends before "29." (9084). Setup: git fetch origin main, branch, cd platonic-workshop, python3
-  tools/fetch_sources.py first1k-neoplatonists, python3 tools/modern_enneads.py --check, python3 -m unittest
-  tests.test_modern_enneads. Tests: the E30 check looks at VI.7.1-14 ([:14] of VI.7's chapters) and its chapters_done
-  becomes 28; the milestone asserts stay on VI.8 ("E33"), as E30 left them (VI.7, once here, has no milestone in the
-  contents; PLAN keeps "E30-E32"); the browser test counts 440 + 14 = 454 chapters, "chapters 1-28 of 42 so far", and
-  no longer "chapters 1-14 of 42 so far"; enn-later stays 1 and "to come, E33".
-- E32: VI.7 chapters 29-42 (about 4,800).
+- **E31: VI.7 chapters 15-28 (4,167) (done).** 52 paragraphs, 142 flags, 34 notes; VI.7 is shown as "chapters 1-28 of
+  42 so far" and keeps chapters_done until E32. The @treatise VI.7 block (E30) is kept: its account of chapters 15 to 23
+  (intellect's life a trace of the Good, which gives what it does not have, the forms desired because the Good colours
+  them, beauty loved only when the light from the Good comes upon it) and of 24 on (the Good not pleasure nor the
+  Philebus' mixture, but that to which each thing turns) fits what is done. MacKenna's own English, so the flags say
+  "MacKenna". Source work: vol. V's "misread" adds "17s" 17, "9g." 19, "21s" 21, "228" 22 and "ay." 27 (which runs
+  straight on into its first line); "heads" reads p. 188's "188 © PLOTINUS", which otherwise stood inside VI.7.20's text
+  and put the pages of 21 on one too low; "stray" takes out the signatures "2B" (inside 18, p. 185) and "2C" (inside 27,
+  p. 193). All 14 chapters are found on their pages (181-195), their starts are the Greek's, and 28 ends before "29."
+  ("But we will return to this."); chapters 29 to 34 are now found too (pp. 196-201), and 35 on still run on in 34. No
+  other chapter's page in the volume moved. Fixed names: "forming principle" for λόγος (MacKenna's "Reason-Principle" and
+  "Reason" flagged, 17, 19, 23), with λόγος as the argument or the account where it is that (18, 19, 20, 28), "substance"
+  for οὐσία (his "essential reality", "Being", "real-being", 16, 20), "the Good", "intellect", "virtue" (his "values" and
+  "moral excellence", 19, 27), "justice" (his "right", 20), "matter", and "good-formed" for ἀγαθοειδής throughout. E.g.
+  MacKenna makes intellect the forms' source where the Good is (15), the giver's life "of our sphere" where it is
+  intellect's (17), three cases where the Greek has two, and "part of Intellect" for the homonymous (18), the objects of
+  pursuit many where the desirers are (19), beauty "dead" where it is idle and "portraits" for statues (22), "mightier"
+  for better and "evil" for vice (23), a sentence not in the Greek ("The solution, it would seem, lies in priority") and
+  the light a thing intellect takes where the Good gives it (25), the regret left out (26), "at peace" for at home with
+  oneself (27), "a dream of the Good" for a good dream, and the good "apt to the nature" where the Greek says it is not
+  set in the akin (28). terms-greek.json is unchanged. Notes on the good-formed (Republic VI 509a), the sun (Republic VI
+  508a-509b), κόρος and Kronos (Cratylus 396b), act before potency (Metaphysics Θ.8), the limit and the unlimited
+  (Philebus 23c-25b), the homonymous and the first and second (Categories 1, Metaphysics Γ.2, α.1), every soul divining
+  the good (Republic VI 505d-e), all things aiming at the good (Nicomachean Ethics I.1), light the third thing (Republic VI
+  507d-508a), the flow of beauty and the wings (Phaedrus 249c-252b), beauty not symmetry (Cicero, Tusculan Disputations
+  IV.31), the king of all (Letter II 312e), the indifferents (Diogenes Laertius VII.102-104), desired because good
+  (Metaphysics Λ.7), the mixed life (Philebus 20e-22e, 60a-61b), pleasure that never fills (Philebus 53c-54d, Gorgias
+  493e-494b), the like and the akin (Lysis), οἰκείωσις (Diogenes Laertius VII.85, Cicero, On ends III.16), matter
+  desiring form (Physics I.9) and the dream of matter (III.6.7).
+- E32: VI.7 chapters 29-42 (4,769). Next. Pp. 196-212 of vol. V, MacKenna's own English (flags say "MacKenna").
+  The @treatise VI.7 block is there (E30) with its summary of the whole; keep it, and check that its account of chapters
+  29 to 42 fits what is done ("the soul that sees it loves a beauty without shape ... (chapters 24 to 36)", "against those
+  who make the first think ... (chapters 37 to 42)"). Source work first: tools/mackenna.py finds VI.7.1-34 since E31 (29
+  at p. 196, 34 at p. 201); 35 on are not found and run on in 34. In the OCR, "29." to "34.", "36." to "40." and "42."
+  read as they are ("33-", "34-", "37-", "39-" are read); candidates for vol. V's "misread": "35:" (line 9384) for 35
+  ("Such in this union is the soul's temper") and "Al." (9721) for 41 ("Intellection seems to have been given as an aid").
+  p. 204's head reads "204 PEOTINGS" (9434), inside 35's text: add it to "heads" (as "172 BEOTINUS" and "188 © PLOTINUS"),
+  or the pages from 36 on come out one too low. "2D" (9347, inside 34) and "2E" (9707, inside 40) are signatures after a
+  line of text: list them in "stray". Check each start against the Greek, and that 42 ends before "EIGHTH TRACTATE"
+  (9802). Setup: git fetch origin main, branch, cd platonic-workshop, python3 tools/fetch_sources.py
+  first1k-neoplatonists, python3 tools/modern_enneads.py --check, python3 -m unittest tests.test_modern_enneads. Tests:
+  VI.7 is complete, so it has no chapters_done (the E30 and E31 checks look at [:14] and [14:28] of VI.7's chapters and no
+  longer at chapters_done 14 or 28; the E29 check's ("here", 28) becomes VI.7 "here" with no chapters_done); the milestone
+  asserts stay on VI.8 ("E33"); PLAN keeps "E30-E32"; the browser test counts 454 + 14 = 468 chapters, finds no
+  "chapters 1-28 of 42 so far", and enn-later stays 1 with "to come, E33".
 - E33: VI.8 On free will and the will of the One (7,778).
 - E34 (optional): MacKenna's English beside the fifteen done with Taylor too, and their flags checked against him, so that the
   whole Enneads read the same way.

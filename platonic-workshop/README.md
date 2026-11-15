@@ -644,6 +644,19 @@ their disaster" where it keeps them safe, "(the stars)" for the living beings of
 and the last sentence of chapter 14 left out. The notes give the Timaeus' light-bearing eyes, Aristotle's that and why and
 the eclipse, the Alcibiades' soul using the body, Epimetheus' gifts, the growing stones of IV.4.27, the Symposium's
 Poverty, the Phaedrus' plain of truth and Empedocles' Love and Strife.
+**VI.7, chapters 15-28** (E31), beside MacKenna's own English in vol. V: 14 chapters, 52 paragraphs, 142 flags, under
+the treatise block of E30, now shown as "chapters 1-28 of 42 so far". Intellect's many life a trace of the Good, which
+gives what it does not have; intellect filled, and the Good cause of substance and of its being seen, as the sun; life
+bounded is intellect; what makes the forms good-formed; desire no test of the good; beauty the light on the symmetry, the
+living face more beautiful than the dead; the hard man's objection, the Philebus' mixture, pleasure that never fills, and
+matter, form and the formless Good. `tools/mackenna.py` now reads five more misread numbers, p. 188's head and two
+signatures, so all fourteen chapters are found (pp. 181-195). "Forming principle", "substance", "virtue" and "justice"
+are kept, and MacKenna's "Reason-Principle", "essential reality", "values" and "right" are flagged as his. Among the
+other flags, intellect made the forms' source where the Good is, "portraits" for statues, beauty "dead" where it is idle,
+a sentence of chapter 25 not in the Greek, the regret left out of 26, and the good "apt to the nature" where the Greek
+says it is not set in the akin. The notes give the Republic's good-formed and its sun, the Cratylus' Kronos, the Philebus'
+limit, mixture and pleasure, Aristotle's homonyms and what all things aim at, the Phaedrus' wings, Cicero on beauty, the
+Stoics' indifferents and οἰκείωσις, and the Lysis on the like and the akin.
 **III.8, On nature, contemplation and the One, and III.9, Various considerations** (E14), beside MacKenna's vol. II: 14
 chapters, 41 paragraphs, 70 flags, among them his "the Highest" for intellect that began as one and unrolled itself,
 "pregnant" for weighed down, the living principle "brother ... to that which gives mere shape" where it is brother to
@@ -730,7 +743,7 @@ hyphened terms such as "Sense-Perception" kept; not proofread). The master copy 
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: VI.7 chapters 15-28, beside vol. V (E31).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: VI.7 chapters 29-42, beside vol. V (E32).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,
