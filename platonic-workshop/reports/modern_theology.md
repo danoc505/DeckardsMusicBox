@@ -3,11 +3,11 @@
 Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-theology.txt`. The Workshop's modern English, machine-assisted: drafted with an AI model (Claude) from Thomas Taylor's translation (1816) and not yet checked by a scholar. Taylor's own words are beside every chapter, or one tap away.
 
 - Made from: Taylor's English (1816), Project Gutenberg's transcription; no Greek of the Theology is on the site.
-- Chapters done: 82 of 169 in Proclus' six books (I.1 to IV.13).
-- Paragraphs: 283, one for each of Taylor's in those chapters.
-- Words: 85,323 modern, 93,348 of Taylor's (183,113 in all six books).
-- Sentences (each can be marked in the reader): 3,407.
-- Flags (hard places, or where Taylor's English misleads): 128.
+- Chapters done: 95 of 169 in Proclus' six books (I.1 to IV.26).
+- Paragraphs: 310, one for each of Taylor's in those chapters.
+- Words: 94,028 modern, 102,650 of Taylor's (183,113 in all six books).
+- Sentences (each can be marked in the reader): 3,725.
+- Flags (hard places, or where Taylor's English misleads): 146.
 - Problems found: 0.
 
 ## The books and chapters
@@ -17,7 +17,7 @@ Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-
 | I | 29 | 29 |
 | II | 12 | 12 |
 | III | 28 | 28 |
-| IV | 39 | 13 |
+| IV | 39 | 26 |
 | V | 38 | 0 |
 | VI | 23 | 0 |
 
@@ -153,6 +153,24 @@ Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-
 | IV.11.p2 | the one and united triad | Proclus' name for the first of the intelligible and intellectual triads, the place above the heaven: one and "united" (hēnōmenē) as the image of the hidden union of the intelligibles. |
 | IV.12.p2 | But the one,” says he, “does not touch itself | The Parmenides 138a: the One is "neither in itself nor in another", so it neither touches itself nor anything else; Proclus takes the denial of contact as one of those that come from a definite order of gods. Here "the one" is Parmenides' one. |
 | IV.12.p3 | known by physiologists | Taylor's "physiologists" are the natural philosophers (physiologoi), the students of nature, as against the theologians. |
+| IV.14.p1 | elevating them to their paternal port | "The fatherly harbour" (patrikos hormos) is a Chaldean phrase for the soul's home in the intelligible, to which it returns. |
+| IV.14.p1 | in a silent path, as they say | Euripides, Trojan Women 887-888: justice "leads all mortal things aright, going on a noiseless path". |
+| IV.15.p2 | the one is as it were humid, and not bounded from itself; but the other is as it were solid | Here "the one" is nectar and "the other" ambrosia, though ambrosia was named first in the sentence before; the next sentences show it. The modern version names them. |
+| IV.16.p2 | In the first monads however [i.e. in the plain of truth and the meadow,] this intelligible light subsists contractedly | Taylor's brackets take "the first monads" as the plain of truth and the meadow, and "the third" as the cause that nourishes the gods. The sentence before says the opposite (the plain of truth is the third monad); Proclus means the first two monads, food and meadow, with the light shining out in the third, the plain of truth. |
+| IV.17.p1 | the sacred law of Adrastia | Taylor's "sacred law" is thesmos, "ordinance", as against nomos, "law". Adrastia ("she whom none escapes") was in the Orphic poems the nurse and guardian of the infant Zeus. |
+| IV.17.p2 | receiving brazen drumsticks, and a drum made from the skin of a goat | Orphic fragment (Kern 105, 152): Adrastia stood before the cave of Night and beat a bronze drum, so that the gods heard her laws. Taylor's footnote corrects a word of the Greek he translated ("a kind of proclamation"). |
+| IV.18.p1 | producing its own meadow from the fontal summit which is there | Proclus means the source of life in the second intelligible triad (eternity), from which the meadow, the life-giving power of this place, is drawn. |
+| IV.19.p1 | the nature of spirit and local motion | The Stoics held that pneuma ("breath", Taylor's "spirit"), a fiery air pervading bodies, holds them together by its "tensile motion". Taylor's footnote corrects "intelligibles" to "intellectuals" in the Greek he translated. |
+| IV.19.p2 | fabulous sections | The mythical "cuttings", the castration of Ouranos by Kronos and of Kronos by Zeus in Hesiod and the Orphic poems, which Proclus reads as the separation of the intellectual orders. |
+| IV.19.p2 | discussive energies | The Phaedrus' diexodoi again (247a), the "paths" of the gods (see IV.4). |
+| IV.21.p2 | the proximate sunocheus of the subcelestial arch | Sunocheus is "holder-together", one of the Synocheis, the Chaldean name for the gods of this order. Taylor's footnotes explain the word, correct a gender to agree with "arch", and gloss "interval" as the heavenly depth. |
+| IV.21.p2 | the back (το νωτον) according to the intelligible (κατα το νοητον) | A play on words in the Greek: nōton (back) and noēton (intelligible) differ by one letter. |
+| IV.22.p2 | Heaven the father of Saturn is the third | In the Orphic theogony there are three kings before Kronos (Phanes, Night, Ouranos); Ouranos is the third. Taylor's footnote corrects "first" to "third" in the Greek he translated. |
+| IV.22.p2 | the Gods who are the sources of purity | The "undefiled" (amiantoi) gods, the Kouretes who guard the intellectual fathers, which Proclus discusses in Book V. |
+| IV.23.p1 | who was truly a Bacchus | A Bacchant (bakchos), one possessed by Dionysus: Plato's Phaedo 69c, "many carry the wand, but few are Bacchants", meaning true philosophers. |
+| IV.23.p2 | our fathers and grandfathers | Proclus' teachers (Syrianus) and their teachers (Iamblichus, Theodorus), in the succession of the Platonic school. Taylor's brackets supply the end of the first sentence, which is broken off in the Greek. |
+| IV.24.p2 | betake themselves to entelechias | Aristotle's entelecheia, "being-at-the-end", the actual completeness of a thing (his definition of soul in On the Soul II.1); Proclus means the Peripatetics, who find perfection only in forms in their subjects. |
+| IV.24.p4 | Teletarchs | "Rulers of initiation" (teletarchai), the Chaldean name for the gods of this third triad. |
 
 ## The fixed renderings
 
