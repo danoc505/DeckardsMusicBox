@@ -887,8 +887,11 @@ Daniel: "Lets move over to modernizing Proclus Theology of Plato". The Enneads' 
   matter (1: one paragraph; 2: five; 3: three; 4: one; 5: two; 6: seven; 7: one; 8: two), and the book's summary says so.
   The henads after the One (four axioms), shared by beings, the nearer by the simpler; being, life, intellect, soul and
   body; the One honoured in silence; limit and the unlimited. 22 paragraphs, 11 flags.
-- T8 and T9: Book III, chapters 9-28 (19,323): the mixed, first being; the three intelligible triads (the Philebus, the
-  Timaeus' living being itself, the Sophist, the Parmenides' one being).
+- **T8: Book III, chapters 9-18 (8,674) (done).** The mixed, first being, from the first God and the two principles;
+  limit and the unlimited twofold (before being and in it); proportion, truth and beauty; the three intelligible triads
+  (being, life, intellect); the Timaeus' one, eternity and living being itself. 22 paragraphs, 12 flags (e.g. Taylor's
+  "animal itself" for the living being itself, "Vesta", "patefactions", "concauses").
+- T9: Book III, chapters 19-28 (10,649): the intelligible triads in the Sophist and the Parmenides, and the one being.
 - T10 to T12: Book IV (28,882): the intelligible and intellectual gods (the Phaedrus' place above the heaven).
 - T13 to T16: Book V (40,018): the intellectual gods, Kronos, Rhea, Zeus, the Craftsman. Chapter 26 has no heading in
   Gutenberg's text: find it first.

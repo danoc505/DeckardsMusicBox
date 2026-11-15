@@ -3,11 +3,11 @@
 Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-theology.txt`. The Workshop's modern English, machine-assisted: drafted with an AI model (Claude) from Thomas Taylor's translation (1816) and not yet checked by a scholar. Taylor's own words are beside every chapter, or one tap away.
 
 - Made from: Taylor's English (1816), Project Gutenberg's transcription; no Greek of the Theology is on the site.
-- Chapters done: 49 of 169 in Proclus' six books (I.1 to III.8).
-- Paragraphs: 210, one for each of Taylor's in those chapters.
-- Words: 58,598 modern, 64,157 of Taylor's (183,113 in all six books).
-- Sentences (each can be marked in the reader): 2,282.
-- Flags (hard places, or where Taylor's English misleads): 89.
+- Chapters done: 59 of 169 in Proclus' six books (I.1 to III.18).
+- Paragraphs: 232, one for each of Taylor's in those chapters.
+- Words: 66,516 modern, 72,831 of Taylor's (183,113 in all six books).
+- Sentences (each can be marked in the reader): 2,620.
+- Flags (hard places, or where Taylor's English misleads): 101.
 - Problems found: 0.
 
 ## The books and chapters
@@ -16,7 +16,7 @@ Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-
 |---|---:|---:|
 | I | 29 | 29 |
 | II | 12 | 12 |
-| III | 28 | 8 |
+| III | 28 | 18 |
 | IV | 39 | 0 |
 | V | 38 | 0 |
 | VI | 23 | 0 |
@@ -114,6 +114,18 @@ Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-
 | III.6.p6 | the former as being moved and standing still at one and the same time, and the latter as being motion and permanency | That is, intellect is moved and at rest, while life is motion and rest themselves. Taylor's "permanency" here is rest (stasis). |
 | III.8.p1 | nor in reality is that which is the first the one; for, as has been frequently said, it is better than the one | Proclus means that the first principle is beyond even the name "one"; the one that is the principle of being is limit, the first after the first. |
 | III.8.p2 | by restitutions and periods | Taylor's "restitutions" are returns (apokatastaseis): the soul's, and the heaven's, coming back round to the same state at the end of each period. |
+| III.9.p2 | deriving its subsistence from the Vesta of beings | Taylor's "Vesta" is Hestia, the hearth: being is the fixed centre from which all beings have their existence. |
+| III.9.p2 | luminous patefactions | Taylor's "patefaction" means a laying open, a manifestation: limit and the unlimited are "shown" (Philebus 23c) by the first God, not made. |
+| III.9.p4 | calls being the first power | The Sophist 247d-e: the Stranger proposes "that being is nothing else than power" (dynamis), to act or be acted on. Proclus reads it as the power, born of the unlimited, that being holds. |
+| III.10.p1 | concauses are subject to the things which are produced from them | Taylor's "concauses" are joint or contributing causes (synaitia), such as matter: in the lower world they come before, and are set below, what is made from them. |
+| III.12.p1 | deriving its completion indeed through the intelligible connective triad | That is, the mixed is completed through the triad of limit, unlimited and mixed itself, the intelligible triad that "holds together" (synektikē). |
+| III.13.p1 | some one calls even the motion of material bodies life | Aristotle, Physics VIII.1 (250b): motion is "a kind of life for all things that exist by nature". Taylor's footnote corrects "irrational" to "analogous" in the Greek he translated. |
+| III.13.p2 | as in the progression according to breadth | Proclus' two dimensions: "breadth" is the spread of the three terms within one triad (limit, unlimited, mixed); "depth" is the descent of the three triads one below another. |
+| III.14.p2 | the first triad is an intelligible God primarily. But the triad posterior to it is an intelligible and intellectual God. And the third triad is an intellectual God | Not the later orders of the intelligible-intellectual and intellectual gods (Books IV and V), but the three intelligible triads, each named by its character: the third, intelligible intellect, is "intellectual" within the intelligible. Taylor's footnotes correct the Greek he translated in three places. |
+| III.15.p1 | animal itself | Taylor's "animal itself" is the Timaeus' "living being itself" (autozōon), the pattern of the world. |
+| III.16.p1 | The dæmoniacal Aristotle | "Daemonic" as high praise: Aristotle, On the Heavens I.9 (279a), calls eternity (aiōn) "immortal and divine", from which "being and life" depend for all things. |
+| III.18.p1 | eternity is the cause of never-failing life, of unwearied power, and unsluggish energy | From the Chaldean Oracles (frag. 49 and 59 are related), where Aion is a god who gives unfailing life and power. Taylor's footnote supplies "time" in the Greek he translated. |
+| III.18.p3 | If, however, truth is indeed the first, beauty the second, and symmetry the third | In the Philebus (65a-66b) the order of goods is measure, proportion and beauty, then truth (intellect); Proclus means here the order in the third mixture's list, where truth comes before beauty and proportion. |
 
 ## The fixed renderings
 

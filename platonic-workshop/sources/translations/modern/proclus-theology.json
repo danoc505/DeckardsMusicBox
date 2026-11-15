@@ -12,7 +12,7 @@
  "taylor_work": null,
  "taylor_title": "Taylor, The Theology of Plato (1816)",
  "taylor_source": "Thomas Taylor, The Six Books of Proclus, the Platonic Successor, on the Theology of Plato, 2 vols (London, 1816), Project Gutenberg's proofread transcription (sources/taylor-gutenberg/pg77393.txt and pg78800.txt)",
- "about": "A modern English version of Proclus' Theology of Plato (fifth century), the school's summa of the gods as Plato teaches them, written for the Workshop, because none in modern English may be reused. It is made from Thomas Taylor's translation (The Six Books of Proclus on the Theology of Plato, London, 1816), as Project Gutenberg's proofread transcription gives it, paragraph by paragraph: every idea is kept, the long sentences are broken into short ones, and old words are replaced by today's, the key words always the same way (Taylor's 'essence' is 'being', 'progression' is 'procession', 'participate' is 'share', 'unities' are 'henads', 'ideas' are 'Forms', 'superessential' is 'beyond being'), linked to the Term tab. Taylor's Latin names of the gods are given in Greek (Kronos for Saturn). Proclus' Greek is not yet on the site (the only free edition, Portus' of 1618, is a scan whose Greek OCR is badly garbled), so this version cannot yet be checked against the Greek; a flag marks a place where Taylor's English is hard or unclear, with his words. Taylor's footnotes are kept under his words. The chapters and their numbers are Taylor's (his headings are in his table of contents); the short titles and summaries are the Workshop's. So far: Books I and II, and Book III, chapters 1-8. Book I, chapters 1-8: Proclus' preface and its praise of Plato and his heirs, how the work will proceed and what its hearer needs, who a theologian is in Plato's sense, the four ways Plato teaches about the gods, which dialogues hold his theology, and why the Parmenides holds all of it; chapters 9-12, against the merely logical reading of the Parmenides, and Syrianus' reading of its hypotheses as the orders of the gods; chapters 13-17, the Laws' three rules (the gods exist, provide for all things and cannot be bribed) and the Republic's axioms, beginning with the gods' goodness and the nature of evil; chapters 18-29, the gods' unchangeableness, simplicity and truth, the Phaedrus' beautiful, wise and good, faith, truth and love, the Phaedo's divine, immortal and intelligible, the unbegotten, father and mother causes, and the divine names. Book II, chapters 1-3: three arguments that the first principle is the One itself, beyond being and beyond all multitude; chapters 4-12, against Origen, the two ways up (analogy and negation) and the two names (the One and the Good), the Republic's sun, the Second Letter's king of all, and the first hypothesis of the Parmenides as a hymn of denials. Book III, chapters 1-8: the henads after the One, shared by being, life, intellect, soul and body, and the two principles after the One, limit and the unlimited.",
+ "about": "A modern English version of Proclus' Theology of Plato (fifth century), the school's summa of the gods as Plato teaches them, written for the Workshop, because none in modern English may be reused. It is made from Thomas Taylor's translation (The Six Books of Proclus on the Theology of Plato, London, 1816), as Project Gutenberg's proofread transcription gives it, paragraph by paragraph: every idea is kept, the long sentences are broken into short ones, and old words are replaced by today's, the key words always the same way (Taylor's 'essence' is 'being', 'progression' is 'procession', 'participate' is 'share', 'unities' are 'henads', 'ideas' are 'Forms', 'superessential' is 'beyond being'), linked to the Term tab. Taylor's Latin names of the gods are given in Greek (Kronos for Saturn). Proclus' Greek is not yet on the site (the only free edition, Portus' of 1618, is a scan whose Greek OCR is badly garbled), so this version cannot yet be checked against the Greek; a flag marks a place where Taylor's English is hard or unclear, with his words. Taylor's footnotes are kept under his words. The chapters and their numbers are Taylor's (his headings are in his table of contents); the short titles and summaries are the Workshop's. So far: Books I and II, and Book III, chapters 1-18. Book I, chapters 1-8: Proclus' preface and its praise of Plato and his heirs, how the work will proceed and what its hearer needs, who a theologian is in Plato's sense, the four ways Plato teaches about the gods, which dialogues hold his theology, and why the Parmenides holds all of it; chapters 9-12, against the merely logical reading of the Parmenides, and Syrianus' reading of its hypotheses as the orders of the gods; chapters 13-17, the Laws' three rules (the gods exist, provide for all things and cannot be bribed) and the Republic's axioms, beginning with the gods' goodness and the nature of evil; chapters 18-29, the gods' unchangeableness, simplicity and truth, the Phaedrus' beautiful, wise and good, faith, truth and love, the Phaedo's divine, immortal and intelligible, the unbegotten, father and mother causes, and the divine names. Book II, chapters 1-3: three arguments that the first principle is the One itself, beyond being and beyond all multitude; chapters 4-12, against Origen, the two ways up (analogy and negation) and the two names (the One and the Good), the Republic's sun, the Second Letter's king of all, and the first hypothesis of the Parmenides as a hymn of denials. Book III, chapters 1-8: the henads after the One, shared by being, life, intellect, soul and body, and the two principles after the One, limit and the unlimited; chapters 9-18, the mixed, first being, and the three intelligible triads, in the Philebus and in the Timaeus (the one, eternity, and the living being itself).",
  "source": "sources/translations/modern/proclus-theology.txt",
  "treatises": [
   {
@@ -82,7 +82,17 @@
     "III.5",
     "III.6",
     "III.7",
-    "III.8"
+    "III.8",
+    "III.9",
+    "III.10",
+    "III.11",
+    "III.12",
+    "III.13",
+    "III.14",
+    "III.15",
+    "III.16",
+    "III.17",
+    "III.18"
    ]
   }
  ],
@@ -2250,6 +2260,298 @@
      ]
     }
    ]
+  },
+  {
+   "id": "III.9",
+   "treatise": "III",
+   "title": "The mixed: first being",
+   "summary": "The third thing, from limit and the unlimited, is the Philebus' mixed, which is first being: being itself, holding life and intellect in itself in the manner of being. It comes from the first God, who is the Philebus' fourth cause, the cause of the mixture, and from the two principles. From limit it has hyparxis and stability, from the unlimited power and hidden multitude. So it is one-many, the \"first power\" of the Sophist; Plotinus' intelligible matter is right if it means power, not formlessness.",
+   "taylor_head": "What the third thing is which is produced from the two principles. Why Socrates in the Philebus calls it that which is mixed. That it is nothing else than that which is primarily being. And how this proceeds from the two principles, and from the one.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book III, chapter 9, paragraph 1",
+     "text": "In the next place let us show what the third thing is which presents itself to the view from these principles. It is every where therefore called that which is mixed, as deriving its subsistence from bound and infinity. But if bound is the bound of beings, and the infinite is the infinite of beings, and beings are the things which have a subsistence from both these, as Socrates himself clearly teaches us, it is evident that the first of things mingled, is the first of beings. This, however, is nothing else than that which is highest in beings, which is being itself, and nothing else than being. My meaning is, that this is evident through those things by which we demonstrate that what is primarily being, is comprehensive of all things intelligibly, and of life and intellect. For we say that life is triadic vitally, and intellect intellectually; and also that these three things being life and intellect are every where. But all things presubsist primarily and essentially in being. For there essence, life and intellect subsist, and the summit of beings. Life however is the middle centre of being, which is denominated and is intelligible life. But intellect is the boundary of being, and is intelligible intellect. For in the intelligible there is intellect, and in intellect the intelligible. There however intellect subsists intelligibly, but in intellect, the intelligible subsists intellectually.",
+     "notes": [
+      {
+       "n": 180,
+       "text": "τριτον is omitted in the original."
+      }
+     ]
+    },
+    {
+     "n": 2,
+     "label": "Book III, chapter 9, paragraph 2",
+     "text": "And essence indeed is that which is stable in being, and which is woven together with the first principles, and does not depart from the one. But life is that which proceeds from the principles, and is connascent with infinite power. And intellect is that which converts itself to the principles, conjoins the end with the beginning, and produces one intelligible circle. The first of beings therefore is that which is mingled from the first principles, and is triple, one thing which it contains subsisting in it essentially, another vitally, and another intellectually, but all things presubsisting in it essentially. I mean however by the first of beings essence. For essence itself is the summit of all beings, and is as it were the monad of the whole of things. In all things therefore, essence is the first. And in each thing that which is essential is the most ancient, as deriving its subsistence from the Vesta of beings. For the intelligible is especially this. Since intellect indeed is that which is gnostic, life is intelligence, and being is intelligible. If however every being is mingled, but essence is being itself, prior to all other things essence is that which subsists as mingled from the two principles proceeding from the one. Hence Socrates indicating how the mode of generation in the two principles differs from that of the mixture says, “that God has exhibited bound and infinity.” For they are unities deriving their subsistence from the one, and as it were luminous patefactions from the imparticipable and first union. But with respect to producing a mixture, and mingling through the first principles, by how much to make is subordinate to the unfolding into light, and generation to patefaction, by so much is that which is mixed allotted a progression from the one, inferior to that of the two principles.",
+     "notes": []
+    },
+    {
+     "n": 3,
+     "label": "Book III, chapter 9, paragraph 3",
+     "text": "That which is mixed therefore, is intelligible essence, and subsists primarily from [the first] God, from whom infinity also and bound are derived. But it subsists secondarily from the principles posterior to the unical God, I mean from bound and infinity. For the fourth cause which is effective of the mixture is again God himself; since if any other cause should be admitted besides this, there will no longer be a fourth cause, but a fifth will be introduced. For the first cause was God, who unfolds into light the two principles. But after him are the two principles bound and infinity. And the mixture is the fourth thing. If therefore the cause of the mixture is different from the first divine cause, this cause will be the fifth and not the fourth thing, as Socrates says it is. Farther still, in addition to these things, if we say that God is especially the supplier of union to beings, and the mixture itself of the principles is a union into the hypostasis of being, God is also certainly the cause of this primarily. Moreover, Socrates in the Republic clearly evinces that the good is the cause of being and essence to intelligibles, in the same manner as the sun is to visible natures. Is it not therefore necessary, if that which is mixed is primarily being, to refer it to the first God, and to say that it receives its progression from him? If also the demiurgus in the Timæus, constitutes the essence of the soul itself by itself from an impartible and a partible essence, which is the same thing as to constitute it from bound and infinity; for the soul according to bound is similar to the impartible, but according to infinity, to the partible essence;--if therefore the demiurgus mingles the essence of the soul from these, and again separately, from same and different, and if from these being now preexistent, he constitutes the whole soul, must we not much more say that the first God is the cause of the first essence? That which is mixed therefore, proceeds, as we have said, from the first God, and does not subsist from the principles alone posterior to the one, but proceeds also from these, and is triadic. And in the first place indeed, it participates from God of ineffable union, and the whole of its subsistence. But from bound, it receives hyparxis, and the uniform, and a stable peculiarity. And from infinity, it receives power, and the occult power which is in itself, of all things. For in short, since it is one and not one, the one is inherent in it according to bound, but the non-one according to infinity. The mixture however of both these, and its wholeness, are derived from the first God. That which is mixed therefore, is a monad, because it participates of the one; and it is biformed, so far as it proceeds from the two principles; but it is a triad, so far as in every mixture, these three things are necessary according to Socrates, viz. beauty, truth, and symmetry. Concerning these things however, we shall speak again.",
+     "notes": []
+    },
+    {
+     "n": 4,
+     "label": "Book III, chapter 9, paragraph 4",
+     "text": "In what manner, however, essence is that which is first mixed, we shall now explain. For this is of all things the most difficult to discover, viz. what that is which is primarily being, as the Elean guest also somewhere says; for it is most dubious how being is not less than non-being. In what manner therefore essence subsists from bound and infinity must be shown. For if bound and infinity are superessential, essence may appear to have its subsistence from non-essences. How therefore can non-essences produce essence? Or is not this the case in all other things which subsist through the mixture of each other? For that which is produced from things mingled together, is not the same with things that are not mingled. For neither is soul the same with the genera, from which, being mingled together, the father generated it, nor is a happy life the same with the life which is according to intellect, or with the life which is according to pleasure, nor is the one in bodies the same with its elements. Hence it is not wonderful, if that which is primarily being, though it is neither bound nor infinity, subsists from both these, and is mixed, superessential natures themselves not being assumed in the mixture of it, but secondary progressions from them coalescing into the subsistence of essence. Thus therefore being consists of these, as participating of both, possessing indeed the uniform from bound, but the generative, and in short, occult multitude from infinity. For it is all things occultly, and on this account, is the cause of all beings; which also the Elean guest indicating to us, calls being the first power, as subsisting according to the participation of the first power, and participating of hyparxis from bound, and of power from infinity. Afterwards however, the Elean guest defines being to be power, as prolific and generative of all things, and as being all things uniformly. For power is every where the cause of prolific progressions, and of all multitude; occult power indeed being the cause of occult multitude; but the power which exists in energy, and which unfolds itself into light, being the cause of all-perfect multitude. Through this cause therefore, I think, that every being, and every essence has connascent powers. For it participates of infinity, and derives its hyparxis indeed from bound, but its power from infinity. And being is nothing else than a monad of many powers, and a multiplied hyparxis, and on this account being is one many. The many however subsist occultly and without separation in the first natures; but with separation in secondary natures. For by how much being is nearer to the one, by so much the more does it conceal multitude, and is defined according to union alone. It appears to me also that Plotinus and his followers, frequently indicating these things, produce being from form and intelligible matter, arranging form as analogous to the one, and to hyparxis, but power as analogous to matter. And if indeed they say this, they speak rightly. But if they ascribe a certain formless and indefinite nature to an intelligible essence, they appear to me to wander from the conceptions of Plato on this subject. For the infinite is not the matter of bound, but the power of it, nor is bound the form of the infinite, but the hyparxis of it. But being consists of both these, as not only standing in the one, but receiving a multitude of unities and powers which are mingled into one essence.",
+     "notes": [
+      {
+       "n": 181,
+       "text": "For πληθος in the original it is necessary to read ειδος."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "III.10",
+   "treatise": "III",
+   "title": "Limit and the unlimited are twofold",
+   "summary": "Coming to be, an image of first being, is also mixed of limit and the unlimited: its unlimited is matter, imperfect power, and its limit is form. But in being, the unlimited is perfect, generating power, not matter. Limit and the unlimited are twofold: set apart before being, as its causes, and in being, as the elements of the mixture. So the Philebus can set the mixed before them, and we can set them before the mixed.",
+   "taylor_head": "How from images also, it may be inferred, that the first thing which subsists from bound and infinity is being. How this may be demonstrated. And how bound and infinity are twofold; one order of these subsisting in being, but the other existing prior to being.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book III, chapter 10, paragraph 1",
+     "text": "That therefore which is primarily being is through these things denominated by Plato that which is mixed. And through the similitude of it, generation also is mingled from bound and infinity. And the infinite indeed in this is imperfect power; but the bound in it is form and the morphe of this power. On this account we establish this power to be matter, not possessing existence in energy, and requiring to be bounded by something else. We no longer however say that it is lawful to call the power of being matter, since it is generative of energies, produces all beings from itself, and is prolific of the perfect powers in beings. For the power of matter being imperfect dissimilarly imitates the power of being; and becoming multitude in capacity, it expresses the parturition of multitude in the power of being. Moreover, the form of matter imitates ultimately bound, since it gives limits to matter, and terminates its infinity. But it is multiplied and divided about it. It is also mingled with the privation of matter, and represents the supreme union of the hyparxis of being, by its essence always advancing to existence, and always tending to decay. For those things which subsist in the first natures according to transcendency, are in such as are last according to deficiency. For that also which is primarily being is mixed, is exempt from the bound of infinite life, and is the cause of it. But that which consists of the last of forms and the first matter, is in its own nature void of life; since it possesses life in capacity. For there indeed generative causes subsist prior to their progeny, and things perfect prior to such as are imperfect. But here things in capacity are prior to such as are in energy, and concauses are subject to the things which are produced from them. This however, I think, happens naturally, because the gifts of the first principles pervade as far as to the last of things, and not only generate more perfect natures, but also such as have a more imperfect subsistence. And on this account that which is mixed is the cause of generation, and of the nature which is mingled here. The bound and infinity however, which are prior to being, are not only the causes of this nature, but also of the elements of it, of which that which is mixed is not the cause, so far as it is mixed. For bound and infinity are twofold. And one kind of these is exempt from the things mingled, but another kind is assumed to the completion of the mixture. For I think it is every where necessary that prior to things that are mingled, there should be such as are unmingled, prior to things imperfect, such as are perfect, prior to parts, wholes, and prior to things that are in others, such as are in themselves; and this Socrates persuades us to admit not in one thing only, but also in beauty and symmetry, and in all forms. If therefore the second and third genera of being and forms subsist prior to their participants, how can we assert that bound and infinity which pervade through all beings have their first subsistence as things mingled? It must be admitted therefore, that they are unmingled and separate from being, and that being is derived from them, and at the same time consists of them. It is derived from them indeed, because they have a prior subsistence; but it consists of them, because they subsist in being according to a second progression.",
+     "notes": [
+      {
+       "n": 182,
+       "text": "The punctuation in the latter part of this sentence in the original is erroneous: for instead of και την εν εκεινῃ του πληθους ωδινα δυναμει γενομενη, το πληθος απεικασατο, it should be και την εν εκεινῃ του πληθους ωδινα δυναμει γενομενη το πληθος, απεικασατο."
+      },
+      {
+       "n": 183,
+       "text": "For πρωτου here, it is necessary to read εσχατου. For in this place, Proclus is speaking of body."
+      }
+     ]
+    },
+    {
+     "n": 2,
+     "label": "Book III, chapter 10, paragraph 2",
+     "text": "The genera of being also are twofold; some of them indeed being fabricative of beings, but others existing as the elements of the nature of each being. For some of them indeed presubsist themselves by themselves, as possessing a productive power; but others being generated from these, constitute each particular being. Let no one therefore any longer wonder, how Socrates indeed in the Philebus establishes that which is mingled, prior to bound and infinity, but we on the contrary evince that bound and infinity are exempt from that which is mixed. For each is twofold, and the one indeed is prior to being, but the other is in being; and the one is generative, but the other is the element of the mixture. Of this kind also, are the bound and infinity of the mixed life, each being the element of the whole of felicity. Hence also each is indigent of each. And neither is intellect by itself desirable, nor perfect pleasure. It is necessary however, that the good should consist of all these, viz. of the desirable, the sufficient, and the perfect. Bound itself therefore and infinity, which are separate, subsist according to cause prior to that which is mixed. But the bound and infinity which are mixed are more imperfect than the mixture. Hence, from what has been said, it is evident what the things are of which the mixture consists.",
+     "notes": []
+    }
+   ]
+  },
+  {
+   "id": "III.11",
+   "treatise": "III",
+   "title": "Proportion, truth and beauty in the mixed",
+   "summary": "Every right mixture, says the Philebus, needs proportion, truth and beauty. In the first mixture, proportion makes being one, truth makes it real, and beauty makes it intelligible. Iamblichus defined the intelligible by these three. They stand in the vestibule of the Good, and here, hidden, is the first beauty.",
+   "taylor_head": "What the triad is, which Socrates in the Philebus says is inherent in every thing that is mixed.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book III, chapter 11, paragraph 1",
+     "text": "In the next place, we must speak of the triad, which is consubsistent with this mixture. For every mixture, if it is rightly made, as Socrates says, requires these three things, beauty, truth, and symmetry. For neither will any thing base, if it is introduced into the mixture, impart rectitude, since it will be the cause of error, and of inordinate prerogative, nor if truth is at any time separated, will it suffer the mixture to consist of things that are pure, and which are in reality subdued, but it will fill the whole with an image and with non-being. Nor without symmetry will there be a communion of the elements, and an elegant association. Symmetry, therefore, is necessary to the union of the things that are mingled, and to an appropriate communion. But truth is necessary to purity. And beauty to order; which also renders the whole lovely. For when each thing in the mixture has a place adapted to itself, it renders both the elements, and the arrangement resulting from them, beautiful. Here therefore, in the first mixture, these three things are apparent, symmetry, truth, and beauty. And symmetry indeed is the cause to the mixture, that being is one; truth is the cause of the reality of its existence; and beauty is the cause of its being intelligible. Hence it is intelligible and truly being. That also which is primarily being is more uniform, and intellect is conjoined to it, according to its familiarity with the beautiful. But each participates of existence, because it is being derived from being. That which is mixed however, is supreme among beings, because it is united to the good. And it appears to me, that the divine Iamblichus perceiving these three causes of being, defines the intelligible in these three, viz. in symmetry, truth, and beauty, and unfolds the intelligible Gods through these in the Platonic theology. In what manner indeed, the intelligible breadth consists of these, will be most evident as we proceed. Now however, from what has been said, it is perfectly manifest why Socrates says that this triad is found to be in the vestibules of the good. For that which is primarily being participates of this triad through its union with the good. For because indeed the good is the measure of all beings, the first being becomes itself commensurate. Because the former is prior to being, the latter subsists truly and really. And because the former is good and desirable, the latter presents itself to the view as the beautiful itself. Here therefore, the first beauty also subsists; and on this account the one is not only the cause of good, but likewise of beauty, as Plato says in his Epistles. Beauty however subsists here occultly, since this order comprehends all things uniformly, in consequence of subsisting primarily from the principles [bound and infinity]. But where and how beauty is unfolded into light, we shall shortly explain.",
+     "notes": []
+    }
+   ]
+  },
+  {
+   "id": "III.12",
+   "treatise": "III",
+   "title": "The first intelligible triad",
+   "summary": "The first triad of intelligibles is the Philebus' limit, unlimited and mixed: limit a god proceeding to the intelligible summit, giving existence to the fatherly and guarding gods; the unlimited his unfailing power; and the mixed the first and highest order of gods, holding all things hidden.",
+   "taylor_head": "Concerning the first intelligible triad in common; and how the second triad proceeds analogous to this.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book III, chapter 12, paragraph 1",
+     "text": "Such therefore, is the first triad of intelligibles, according to Socrates in the Philebus, viz. bound, infinite, and that which is mixed from these. And of these, bound indeed is a God proceeding to the intelligible summit, from the imparticipable and first God, measuring and defining all things, and giving subsistence to every paternal, connective, and undefiled genus of Gods. But infinite is the never-failing power of this God, unfolding into light all the generative orders, and all infinity, both that which is prior to essence, and that which is essential, and also that which proceeds as far as to the last matter. And that which is mixed, is the first and highest order of the Gods, comprehending all things occultly, deriving its completion indeed through the intelligible connective triad, but unically comprehending the cause of every being, and establishing its summit in the first intelligibles, exempt from the whole of things.",
+     "notes": []
+    }
+   ]
+  },
+  {
+   "id": "III.13",
+   "treatise": "III",
+   "title": "The second intelligible triad: intelligible life",
+   "summary": "The second triad mirrors the first: a henad (its limit), its power (the unlimited), and second being, which is intelligible life. The first triad is all things by limit, hidden; the second all things by the unlimited, as life; the third by the mixed. Of proportion, truth and beauty, proportion rules in the first, truth in the second, beauty in the third. And the third triad too must be made divine by a henad.",
+   "taylor_head": "What the second intelligible triad is. A more accurate account of it, as subsisting from that which predominates, from that which is participated, and from that which characterizes the mixture.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book III, chapter 13, paragraph 1",
+     "text": "After this first triad subsisting from, and conjoined with the one, we shall celebrate the second, proceeding from this, and deriving its completion through things analogous to the triad prior to it. For in this also it is necessary that being should participate, and that the one should be participated, and likewise that this one which is secondarily one, should be generative of that which is secondarily being. For every where participated deity constitutes about itself that which participates it. Thus whole souls render bodies consubsistent with their causes: and partial souls generate, in conjunction with the Gods, irrational souls. Much more therefore, do the Gods produce in conjunction with the one all things. Hence, as the first of the unities generates the summit of being, so likewise the middle unity constitutes the middle being. But every thing which generates, and every thing which makes or produces, possesses a power prolific of the things produced, according to which it produces, corroborates and connects its progeny. Again therefore, there will be a second triad unfolded into light analogously to the first. And one thing indeed, is the summit of it, which we call one, deity, and hyparxis. But another thing is the middle of it, which we call power. And another thing is the extremity of it, which we say is that which is secondarily being. This however is intelligible life. For all things are in the intelligible, as was before demonstrated, viz. to be, to live, and to energize intellectually. And the summit indeed, of the intelligible order, is all things according to cause, and as we have frequently said, occultly. But the middle of it, causes multitude to shine forth, and proceeds from the union of being into manifest light. And the extremity of it, is now all intelligible multitude, and the order of intelligible forms. For forms have their subsistence at the extremity of the intelligible order. For it is necessary that forms should subsist first and become apparent in intellect. If therefore, being abides exemptly in the first mixture, but now proceeds, and is generated dyadically from the monad, there will be motion about it; and if there is motion, it is also necessary that there should be intelligible life. For every where motion is a certain life, since some one calls even the motion of material bodies life. That which is first therefore, in this second triad, may be called bound; that which is second in it, infinity; and that which is the third, life. For the second triad also is a God, possessing prolific power, and unfolding into light from, and about itself, that which is secondarily being. Here however also, the triad is analogous to the first triad.",
+     "notes": [
+      {
+       "n": 184,
+       "text": "For αλογων it is necessary to read αναλογων."
+      }
+     ]
+    },
+    {
+     "n": 2,
+     "label": "Book III, chapter 13, paragraph 2",
+     "text": "But again, it is necessary to comprehend by reasoning the peculiarity of this triad. For the first triad being all things, but intelligibly and unically, and as I may say, speaking Platonically, according to the form of bound, the second triad is indeed all things, but vitally, and as I may say, following the philosopher, according to the form of infinity, just as the third triad proceeds according to the peculiarity of that which is mixed. For as in the progression according to breadth, that which is mixed presents itself to the view as the third, so likewise in the progression according to depth of intelligibles, the third has the order of that which is mixed with reference to the superior triads. The middle triad therefore, is indeed all things, but is characterized by intelligible infinity. For the three principles after the first, orderly distribute for us the intelligible genus of the Gods. For bound indeed, unfolds into light the first triad; but infinity the second; and that which is mixed, the third. It is infinite power therefore, according to which the second triad is characterized. For being the middle, it subsists according to the middle of the first triad, being all things from all. For in each triad, there is bound, infinity, and that which is mixed. But the peculiarity of the monads being respectively different, evolves the intelligible order of the Gods. The middle triad however, thus subsisting, but I say thus, because it consists of all the things of which the triad prior to it consists, yet it contains and connects the middle of intelligibles according to infinite power, and is filled indeed from a more elevated union, but fills the union posterior to itself with the powers of being. And it is measured indeed, from thence uniformly, but measures the third triad by the power of itself. And it abides indeed, in the first triad stably, but it establishes in itself the triad which is next in order. And in short, it binds to itself the intelligible centre, and establishes one intelligible coherence; causing indeed that which is occult and possesses the form of the one in the first triad, to shine forth; but collecting the intelligible multitude of the third triad, and comprehending it on all sides. The being however, which gives completion to this triad is mixed, in the same manner as the being of the triad prior to it, and receives the peculiarity of life. For the infinity in this generates life.",
+     "notes": []
+    },
+    {
+     "n": 3,
+     "label": "Book III, chapter 13, paragraph 3",
+     "text": "It is likewise necessary that this triad should participate of the three things, symmetry, truth, and beauty. That which is primarily being however, principally subsists according to symmetry, which unites it, and conjoins it to the good. But the second triad, principally subsists according to truth. For because it participates of that which is primarily being, it is being, and truly being. And the third triad principally subsists according to the beautiful. For there intelligible multitude, order and beauty, first shine forth to the view. Hence this being is the most beautiful of all intelligibles. This however will be discussed hereafter. As there is a triad therefore, in each of the mixtures, the first indeed, symmetry especially comprehends and connects; the second truth, and the third beauty. And this induced the divine Iamblichus to say, that Plato in these three defines the whole of the intelligible [order]. For all are in each, but one of these predominates more in one of the intelligible monads than in another. Moreover, the third triad presents itself to the view after this. For it is necessary that the extremity of being should also be deified, and should participate of an intelligible unity. For beings are not more in number than the unities, as Parmenides says, nor are the unities more numerous than beings; but each progression of being participates of the one; since this universe also, according to each part of itself, is governed by soul and intellect. By a much greater priority therefore, must the intelligible in its first, middle, and last hypostases, participate of the intelligible Gods.",
+     "notes": []
+    }
+   ]
+  },
+  {
+   "id": "III.14",
+   "treatise": "III",
+   "title": "The third intelligible triad: intelligible intellect",
+   "summary": "The third henad sets up intelligible intellect, in which all intelligible multitude and Form appear. The first triad remains, the second remains and proceeds, the third turns back to the beginning; together they announce the first God's union, his transcendence over powers, and his generation of beings. The first is an intelligible god, the second intelligible and intellectual, the third intellectual. Being is the set-apart cause; the Forms, divided causes and patterns.",
+   "taylor_head": "What the third intelligible triad is; what that is which predominates, and is participated in this. And at the end, a discourse in common concerning the distinction of the three triads.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book III, chapter 14, paragraph 1",
+     "text": "As the first unity therefore, after the exempt cause of all things, unfolds into light intelligible being, and the second unity, intelligible life, thus also the third constitutes about itself, intelligible intellect, and fills it with divine union, constituting power as the medium between itself and being, through which it gives completion to this being, and converts it to itself. In this therefore, every intelligible multitude shines forth to the view. For the whole of this being is intelligible intellect, life, and essence. And it is neither all things according to cause, in the same manner as that which is primarily being, nor does it cause all things to shine forth, as the second being does, but it is as it were all things according to energy, and openly. Hence also, it is the boundary of all intelligibles. For since the progression of beings is accomplished according to similitude, the first being is most similar to the one; the second, is parturient with multitude, and is the origin of separation; but the third, is now all-perfect, and unfolds into light in itself, intelligible multitude and form.",
+     "notes": []
+    },
+    {
+     "n": 2,
+     "label": "Book III, chapter 14, paragraph 2",
+     "text": "Farther still, as the first triad abides occultly in bound, and fixes in itself every thing that is stable in intelligibles; but the second abides and at the same time proceeds; so the third, after progression converts the intelligible end to the beginning, and convolves the order to itself. For it is every where the province of intellect to convert and converge to the intelligible. All these likewise are uniform [i.e. have the form of one] and intelligible, viz. the abiding, the proceeding, and the returning. For each of these is not asserted after the same manner in intelligibles. And the intelligible genus of Gods is unical, simple, and occult, conjoining itself to the one itself which is prior to beings; and unfolds into light nothing else than the transcendency of the one. For these three triads, mystically announce that unknown cause the first and perfectly imparticipable God. The first of them indeed, announcing his ineffable union; the second his transcendency, by which he surpasses all powers; and the third, his all-perfect generation of beings. For as they are able to comprehend the principle which surpasses both the union and the powers of all beings, so they exhibit to secondary natures, his admirable transcendency; receiving indeed separately the unical power and dominion of the first God; but unfolding into light intelligibly the cause which is prior to intelligibles. For these Gods though they are allotted a simplicity which is equally exempt from all the divine orders, yet they fall short of the union of the father. Of this triad therefore, which converts all intelligibles to the first principle, and convolves the multitude apparent in itself to the stable union of the whole of things, one thing is bound, and unity and hyparxis; another, is infinity and power; and another is that which is mixed, essence, life, and intelligible intellect. But the whole triad subsists according to being, and is the intellect of the first triad. For the first triad is an intelligible God primarily. But the triad posterior to it is an intelligible and intellectual God. And the third triad is an intellectual God. These three deities also, and triadic monads, give completion to the intelligible genera. For they are monads according to their deities; since all other things are suspended from the Gods, and also powers and beings. But they are triads according to a separate division. For bound, infinity, and that which is mixed, have a threefold subsistence; but in one place indeed, all things are according to bound; in another, all things are according to infinity; and in another, all things are according to that which is mixed. And in one place, that which is mixed is essence; in another, it is intelligible life; and in another, intelligible intellect. In this last therefore, forms subsist primarily. For the separation of intelligibles, unfolds the order of forms; because form is being, but is not simply being. Hence that which is primarily being, is being itself, and is that which is being. But that which is the second being, is power, proceeding indeed from the first being, and existing as it were a duad generative of the multitude of beings, but not yet being multitude. And that which is the third being, is itself the multitude of beings; being there existing with separation. For being is the exempt cause of those things which forms constitute divisibly. And of the things of which being is productive collectively, of these, forms are the cause in a way attended with separation. Because forms indeed, are causes productive of separation in their effects, and also because forms are called the paradigms of beings. Being however, is the cause of all things posterior to itself, but is not the paradigm of them. For paradigms are the causes of things which are separated according to existence, and which have different characters of essence. After the one therefore which is prior to beings, that which is one-many occultly, and the united subsists. On this account, it is that which is divided into multitude, and which tends from the uniform to the splendid. But the last of intelligibles, is that from which a certain distribution into parts originates, and which is comprehensive of intelligible multitude.",
+     "notes": [
+      {
+       "n": 185,
+       "text": "The words των μετα in the original immediately before το νοητον θεων γενος, are to be rejected as superfluous."
+      },
+      {
+       "n": 186,
+       "text": "εκφαινει is omitted in the original."
+      },
+      {
+       "n": 187,
+       "text": "For εκεινοις, it is necessary to read εκεινης."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "III.15",
+   "treatise": "III",
+   "title": "The Timaeus: the living being itself, the third intelligible triad",
+   "summary": "In the Timaeus the pattern of the world is the \"living being itself\": all-perfect, holding all intelligible living beings, the most beautiful of intelligibles, only-begotten, and eternal. It is above the Craftsman, who holds the Forms in a divided way, with the mixing bowl. Being all-perfect multitude, it is the third intelligible triad; being eternal, it comes next after eternity.",
+   "taylor_head": "How the intelligible triads are delivered in the Timæus. And many admonitions concerning animal itself, [evincing] that it has the third order in intelligibles.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book III, chapter 15, paragraph 1",
+     "text": "Socrates therefore, in the Philebus, affords us such like auxiliaries to the theory of the intelligible triads. It is requisite however, not only to abide in these conceptions, but also to demonstrate the theology of Plato about these triads from other dialogues, and from them to point out one truth adapted to the things themselves. We shall assume therefore, what is written in the Timæus, and shall follow our leader [Syrianus] who has unfolded to us the arcane mysteries of these triads, and conjoin with the end of what has been said the beginning of the following discussion. In the Timæus therefore, Plato investigating what the paradigm of the whole world is, discovers that it is comprehensive of all intelligible animals, that it is all-perfect, that it is the most beautiful of intelligibles, that it is only-begotten, and that it is the intelligible of the demiurgus. He likewise denominates it animal itself, as being the intelligible paradigm of every animal, and of that which is the object of sense. Hence it is necessary that this animal itself, because it is all-perfect, and the most beautiful of intelligibles, should be established in the intelligible orders. For though there is intelligible animal in the demiurgus, yet it is rather intellectual than intelligible, and is not the most beautiful of all intelligibles, but is second to them in beauty and power. For primary beauty is in the intelligible Gods. In the demiurgus also, there are not only four forms of the things contained in the world, but there is all the multitude of forms. For in him the paradigms of individual forms presubsist. But animal itself is totally constitutive of all animals by the intelligible tetrad. The demiurgus likewise is not like animal itself only-begotten among beings, but subsists in conjunction with the vivific cause, together with which he constitutes the second genera of being, mingling them in the crater or bowl, in order to the generation of souls. For of the things of which intelligible animal is effective and at the same time generative, of these the demiurgus is allotted the cause in a divided manner, in conjunction with the crater. Hence, as I have said, animal itself is exempt from the demiurgus, and is, as Timæus every where denominates it, intelligible.",
+     "notes": []
+    },
+    {
+     "n": 2,
+     "label": "Book III, chapter 15, paragraph 2",
+     "text": "Nevertheless, because forms are first separated in it, and because it is all-perfect, it subsists in the third order of intelligibles. For neither that which is primarily, nor that which is secondarily being, is all-perfect. For the former is beyond all separation; but the latter generates indeed, and is parturient with intelligibles, but is not yet the multitude of beings. If therefore neither of these is multitude, how can either of them be all-perfect multitude? If however all-perfect multitude shines forth in the third triad of intelligibles, as was a little before demonstrated, but animal itself is the first paradigm (for it is comprehensive of all intelligible animals, is an only-begotten paradigm, and is not conjoined with any other principle) it is necessary that animal itself should be established according to this order. For either there will not be an intelligible paradigm, (and in this case, how will sensibles be images of intelligibles? or how will the intelligible Gods be the fathers of the whole of things?) or if there is, it is the third in intelligibles. For the natures which are prior to the triad in intelligibles, are not all-perfect; since they are exempt from the division into multitude. But the natures posterior to it are not only-begotten. For they proceed together with others; the male indeed, with the female, and those that are of a demiurgic together with those that are of a generative characteristic. Nor are they the most beautiful of intelligibles; for beauty is in the intelligible. But animal itself is all-perfect, and at the same time only begotten. The first paradigm of beings therefore, is arranged in the third triad of intelligibles. Moreover, animal itself is eternal, as Timæus himself says. For says he, “the nature of animal is eternal.” And again, in another place he asserts, “that the paradigm is through all eternity being.” If therefore it is eternal, it participates of eternity. And if that which participates is every where secondary to that which is participated, animal itself is secondary to eternity. And if it is through all eternity being, it is filled with the whole power of eternity. If this however be the case, it subsists proximately after eternity. For that which enjoys the whole of causes, is arranged proximately after them.",
+     "notes": [
+      {
+       "n": 188,
+       "text": "viz. Intelligible life, or life itself, or the first life."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "III.16",
+   "treatise": "III",
+   "title": "Eternity is the middle intelligible triad",
+   "summary": "Eternity is to the living being itself as time is to the world, so it is above it; it is the first immortal, life itself, and so in the middle of the intelligible order. It is not first being, which neither rests nor moves, nor intelligible intellect, which shares in it; it lies between them.",
+   "taylor_head": "Many demonstrations that eternity subsists according to the middle order of intelligibles.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book III, chapter 16, paragraph 1",
+     "text": "Moreover, if eternity has the same ratio to intelligible animal, which time has to that which is sensible, but the universe proximately participates of time (for time was generated together with the universe) it is certainly necessary that animal itself should primarily participate of eternity. Eternity therefore is beyond the first paradigm. For eternity indeed measures the existence of animal itself: but animal itself is measured and filled with perpetuity from it. To which may be added, that we assert eternity to be the cause of immortality to all things. Hence eternity is that which is primarily immortal. For as that which is primarily being is the cause of existence to all things, but that which is effective of form is itself prior to other forms, so that which is the cause of perpetuity and immortality, is itself primarily immortal. The dæmoniacal Aristotle also rightly calls eternity immortal and divine, and that from whence the existence and life of all things are suspended. If however it is that which is primarily immortal, and not according to participation, but is as it were immortality and perpetuity, it will be life, possessing from itself the ever, and exuberantly scattering the power of perpetuity, and extending it to other things, so far as each is naturally adapted to receive it. For the immortal is in life, and subsists together with life. Hence Socrates in the Phædo, after many and beautiful demonstrations of the psychical immortality, says, “God therefore, my dear Cebes, and the form itself of life, are much more immortal.” Hence, intelligible life, and the God who is connective of this life, primarily possess the immortal, and are the fountain of the whole of perpetuity. But this is eternity. Eternity therefore has its subsistence in life, and will be established in the middle of the intelligible order.",
+     "notes": [
+      {
+       "n": 189,
+       "text": "For Φαιδρῳ it is necessary to read Φαιδωνι."
+      }
+     ]
+    },
+    {
+     "n": 2,
+     "label": "Book III, chapter 16, paragraph 2",
+     "text": "Farther still, it is necessary to assert that intelligible eternity is one of these three things, viz. that it subsists either according to being, or according to life, or according to intelligible intellect. But being, as the Elean guest says, according to its own nature, neither stands still, nor is moved. For if being is being to all things, and essence is a thing of this kind, much more must this be the case with intelligible essence and that which is primarily being. For they are nothing else than essence only. But being unfolds motion and permanency, and the other genera of beings, in the second and third progressions of itself. The first being therefore, as we have said, is at one and the same time exempt from motion and permanency. But eternity according to Timæus abides in one. Hence also time imitates in its motion the intelligible permanency of eternity. Eternity therefore does not subsist according to that which is primarily being, nor yet according to intelligible intellect. For neither is soul time, which is moved through the whole of time. And in short, in divine beings, that which is participated is every where established above that which participates. But the eternal participates of eternity, just as that which is temporal participates of time. Eternity therefore is prior to intelligible intellect, and posterior to being; so that it is established in the middle of the intelligible breadth. And as animal itself is eternal, so likewise eternity is that which is always being. For as animal itself participates of eternity, so eternity participates of being, and is the cause of existence, of perpetual life, and intellection, and measures the essences, powers and energies of all things.",
+     "notes": [
+      {
+       "n": 190,
+       "text": "It is here necessary to supply αλλ’ ουδε κατα τον νουν τον νοῃτον."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "III.17",
+   "treatise": "III",
+   "title": "The one in which eternity remains is the first triad",
+   "summary": "Timaeus says that eternity \"remains in one\". This one is not the unshared One, which nothing can be in, nor eternity's own one, for then it would remain in itself; it is the first intelligible triad, the cause of stability to all beings.",
+   "taylor_head": "That the one in which eternity abides is the summit of intelligibles.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book III, chapter 17, paragraph 1",
+     "text": "Since, however, eternity subsists according to the middle centre of intelligibles, and animal itself according to the extremity of them, and the most splendid of that which is intelligible, what is that which is the first of intelligibles, and how is it denominated by Timæus? He says therefore of eternity, that while it abides in one, time proceeds according to number; and that by motion it adumbrates the permanency of eternity, but by number, its stable union. What therefore is that one, in which Timæus says eternity abides? For it is necessary either to say that it is the one of eternity, or the one which transcends all intelligibles, or the one of the first triad. But if indeed, we say that it is the imparticipable one, how is it possible that any thing can abide in that which is exempt from all things; and which neither admits the habitude nor communion of secondary natures with itself? For every thing which abides in any thing, is in a certain respect on all sides comprehended by that in which we say it abides. It is however perfectly impossible that the first one should either comprehend any being, or be coarranged with beings. But if any one should suppose that it is the one of eternity, in which Timæus says eternity abides, in this case, eternity will be in itself. It is necessary however, that it should abide in itself, by having its subsistence in abiding in that which is prior to itself. For to abide in that which is prior to, is better than the establishment of things in themselves, in the same manner as it is more perfect than the collocation of better in less excellent natures. If therefore eternity abides in itself, to what shall we primarily assign permanency in that which is prior to itself? For it is necessary that this being more divine, should have its generation prior to that which is inferior to it. If therefore eternity can neither abide in itself, nor in the one which is prior to beings, it is evident that abiding in one according to Timæus, it is established in the one of the first triad, or rather in the whole of that triad. For, as we have before observed, the first triad is the cause of stability to all beings, in the same manner as the middle triad is the cause of their progression, and the third triad of their conversion to their principle.",
+     "notes": []
+    }
+   ]
+  },
+  {
+   "id": "III.18",
+   "treatise": "III",
+   "title": "The three intelligible orders in the Timaeus",
+   "summary": "Timaeus gives the three intelligible orders as the one, eternity, and the living being itself. Eternity is limit and the unlimited together, a henad and power, the cause of unfailing life; Plotinus rightly defines it as unlimited life, all at once. The living being itself is only-begotten by limit, eternal by power, and all-perfect by intellect, and is the most beautiful of intelligibles, since beauty first shines out with the Forms.",
+   "taylor_head": "Concerning all the intelligible orders in common, according to the doctrine of Timæus. And a more accurate account of the peculiarities in the intelligible triads.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book III, chapter 18, paragraph 1",
+     "text": "Again therefore, three orders of intelligibles present themselves to our view, according to the doctrine of Timæus, viz. animal itself, eternity, and the one. And through this one, and the firm establishment in it, eternity has fixed the intelligible kingdom. But through eternity, animal itself defines the boundary of the intelligible Gods, according to a perpetual and invariable sameness. And animal itself indeed, having proceeded tetradically, is suspended from the duad in eternity. For eternity is the ever in conjunction with being. But the duad in eternity participates of the intelligible monad, which Timæus on this account denominates one, as being the monad and principle of all the intelligible breadth. Since otherwise indeed, he very properly calls the first triad one, in consequence of its being especially characterized according to bound, denominating it from bound. But he calls the middle triad dyadically, eternity, connecting the names; because this triad is defined according to intelligible power. And he denominates the third triad animal itself, transferring the appellation to the whole of it, from the extremity of the triad. The first triad therefore is the union of all the intelligibles, being in a certain respect coordinated with them. For the union is different from this which is exempt from intelligibles and imparticipable. It is also the supplier of stable power. For all things are established on account of it. But eternity is primary being, and is that which is primarily established. Hence, with respect to the permanency of the whole of things, we say that the first triad is that on account of which this permanency is effected; but that the second triad is that by which it is produced. For the firm establishment of beings is indeed according to this second triad, but is on account of the first. But the second triad is the proximate measure of all beings, and is coordinated with the things that are measured. There are also at one and the same time in it, bound and infinity; bound indeed, so far as it measures intelligibles; but infinity, so far as it is the cause of perpetuity, and the ever. For according to the oracle, eternity is the cause of never-failing life, of unwearied power, and unsluggish energy. Nevertheless, eternity is more characterised by infinity [than by bound.] For it comprehends in itself infinite time. And time indeed has bound and infinity in a divided manner. For according to its continuity, it is infinite; but according to the now it is bounded. For the now is a bound. But eternity establishes bound and infinity in the same. For it is a unity and power. And according to the one indeed, it is bound; but according to power infinite; which time also demonstrates as from images; because the middle triad [of intelligibles] has bound, infinity, and that which is mixed. For whence is the bound of time derived except from eternal bound? For the temporal bound also is impartible, in the same manner as the bound of eternity is one. For the impartible is the image of the one. Whence likewise is the infinity of the continuity of time derived except from the power of the infinite? For the latter is a stable infinity, but the former an infinity which is moved. And as the latter stands still according to the one, so the former is moved according to number. Since whence is the alliance of time with lives, except from the first principle [of life, eternity?]. But time proceeds through all temporal life.",
+     "notes": [
+      {
+       "n": 191,
+       "text": "ο χρονος is omitted in the original."
+      }
+     ]
+    },
+    {
+     "n": 2,
+     "label": "Book III, chapter 18, paragraph 2",
+     "text": "Again, therefore, from these things it is evident, that eternity subsists according to the middle of the intelligible Gods. For here there is infinite life, and the cause of all life, intellectual, psychical, and that which subsists partibly in bodies. But eternity is the father and supplier of infinite life; since eternity is also the cause of all immortality and perpetuity. And Plotinus, exhibiting, in a most divinely inspired manner, the peculiarity of eternity, according to the theology of Plato, defines it to be infinite life, at once unfolding into light the whole of itself, and its own being. For establishing its life in the intelligible centre, and through the one indeed measuring its being, and fixing it in that which is prior to itself, but through power causing it to be infinite, it unfolds indeed the uniform transcendency of the first triad, but defines the termination of the Gods, and extends from the middle on all sides, and to all the intelligible breadth. Moreover the third triad is filled indeed with intelligible life, and on this account is an intelligible animal, and the first animal. For it primarily participates of the whole nature of this life; but unfolds into light in itself the first of forms, to which also the demiurgic intellect extending itself, constitutes the whole world, and is itself the intelligible universe, and the apparent world the sensible universe. Hence also, Plato denominates animal itself all-perfect. Or rather, if you are willing we will speak thus: that in this third triad, there are bound, infinity, and that which is mixed, which we have called intelligible intellect. Hence the whole triad is denominated only-begotten from the father which is in it. For the cause of bound imparts that which is uncoordinated with other things, and an exempt transcendency. For that which comprehends, says Timæus, all such animals as are intelligible, will not be the second with any other; since again, it would be requisite that there should be another animal about it. Hence that which comprehends in one all intelligible animals is a whole. But every where whole is referred to bound, and parts to infinity. So that if on this account animal itself is only-begotten, it will possess this peculiarity according to bound. But again, it is denominated eternal according to the power of it. For this power especially pertains to that which is eternal. For eternity is infinite power abiding in one, and proceeding stably. Animal itself, however, is all-perfect according to intellect. For that which unfolds in itself all the intelligible separation of being, is intelligible intellect. And that intellect, according to the decision of Plato, will be all-perfect, which comprehends all intelligibles, and defines the boundary of the intelligible order. The only-begotten, therefore, the eternal, the all-perfect, bound, infinity, and that which is mixed, manifest the nature of intelligible animal. On this account, Timæus also, in these three conclusions, reminds us of the paradigm, viz. in the conclusion which shews that the universe is only-begotten, and again, in the generation of time, and in the all-perfect comprehension of all animals.",
+     "notes": [
+      {
+       "n": 192,
+       "text": "Instead of αϊδιοτητα, it is necessary to read ιδιοτητα."
+      },
+      {
+       "n": 193,
+       "text": "ζωης is omitted in the original."
+      },
+      {
+       "n": 194,
+       "text": "Instead of προ του περατος, and προ της απειριας, it is necessary to read προς του περατος, and προς της απειριας."
+      }
+     ]
+    },
+    {
+     "n": 3,
+     "label": "Book III, chapter 18, paragraph 3",
+     "text": "If likewise Timæus says, that animal itself is the most beautiful of all intelligibles, and that this has the third order in intelligibles, it will not be wonderful. For it has been before asserted by us, that every where the cause of the best mixture is the triad symmetry, truth, and beauty. But beauty principally shines forth in the third progression of being, and exhibits its luminous nature together with intelligible forms, just as truth shines forth in the second, and symmetry in the first progression of being. If, however, truth is indeed the first, beauty the second, and symmetry the third, it is by no means wonderful, that according to order, truth and beauty should be prior to symmetry; but that symmetry being more apparent in the first triad than the other two, should shine forth as the third in the secondary progressions. For these three subsist occultly in the first triad. And truth indeed, so far as it is intelligible knowledge, is in the second triad; but beauty so far as it is the form of forms is in the third triad. For that this triad subsists there first, is evident from this, that truth is primarily in that which is especially being, prior to knowledge. But beauty, which pervades as far as to the last of beings, is necessarily in the first being, from which the last of beings are derived. And the first symmetry is in that which is primarily mixed. For every mixture requires symmetry, in order that what is produced from it may be one certain thing. Though these three things, therefore, presubsist there, for we assume, as acknowledged universally, that symmetry is there, and the most beautiful of intelligible animals, as Timæus says, yet at present we shall dismiss the further consideration of them, as we have elsewhere precedaneously discussed them, and have especially endeavoured to enforce what we conceive to be the opinion of Plato concerning their order. For we have spoken of these things in a treatise consisting of one book, in which we demonstrate that truth is coordinate to the philosopher, beauty to the lover, and symmetry to the musician; and that such as is the order of these lives, such also is the relation of truth, beauty, and symmetry to each other.",
+     "notes": []
+    },
+    {
+     "n": 4,
+     "label": "Book III, chapter 18, paragraph 4",
+     "text": "Animal itself, therefore, may with the greatest justice, be called most beautiful, so far as it is eminently contained in intelligible beauty. For beauty is wont to be carried in forms, and is as it were the form of forms, unfolding that which is occult in the good, causing its loveliness to shine forth, and attracting to its own splendor the desire which is concealed about it. And to the good indeed, all things possess a silent and arcane tendency; but we are excited to the beautiful with astonishment and motion. For the illumination from it, and its efficacy, acutely pervade through every soul, and as being the most similar of all things to the good, it converts every soul that surveys it. The soul also, beholding that which is arcane shining forth as it were to the view, rejoices in, and admires that which it sees, and is astonished about it. And as in the most holy of the mysteries, prior to the mystic spectacles, those that are initiated, are seized with astonishment, so in intelligibles prior to the participation of the good, beauty shining forth, astonishes those that behold it, converts the soul to itself, and being established in the vestibules [of the good] shows what that is which is in the adyta, and what the transcendency is of occult good. Through these things therefore, let it be apparent whence beauty originates, and how it first shines forth; and also that animal itself is the most beautiful of all intelligibles.",
+     "notes": []
+    }
+   ]
   }
  ],
  "paragraphs": [
@@ -4296,6 +4598,234 @@
    "notes": [
     "Taylor's footnotes correct the Greek he translated in five places (\"hangs from\" for \"is set apart from\", twice; \"to remain\", \"lastly\", and \"generative\")."
    ]
+  },
+  {
+   "seg": "III.9.p1",
+   "chapter": "III.9",
+   "modern": "Next, let us show what the third thing is that appears from these principles. It is everywhere called the mixed, as having its existence from limit and the unlimited. But if limit is the limit of beings, and the unlimited is the unlimited of beings, and beings are the things that exist from both, as Socrates himself clearly teaches us, it is clear that the first of mixed things is the first of beings. This is nothing else than what is highest among beings: being itself, and nothing but being. My meaning is that this is clear from the things by which we show that what is first being holds all things in an intelligible way, life and intellect too. For we say that life is threefold in the manner of life, and intellect in the manner of intellect, and that these three, being, life and intellect, are everywhere. But all things exist beforehand, first and in the manner of being, in being. For there are being, life and intellect, the summit of beings. Life is the middle centre of being, and is called, and is, intelligible life. Intellect is the boundary of being, and is intelligible intellect. For in the intelligible there is intellect, and in intellect the intelligible; but there intellect is intelligibly, and in intellect the intelligible is intellectually.",
+   "notes": [
+    "The Philebus 23c-d: the third kind, the mixture of limit and the unlimited. Taylor's footnote supplies \"third\" in the Greek he translated."
+   ]
+  },
+  {
+   "seg": "III.9.p2",
+   "chapter": "III.9",
+   "modern": "Being is what is stable in being, woven together with the first principles and not departing from the One. Life is what proceeds from the principles, born together with unlimited power. And intellect is what turns itself back to the principles, joins the end with the beginning, and makes one intelligible circle. The first of beings, then, is what is mixed from the first principles, and is threefold: one thing it holds is in it in the manner of being, another in the manner of life, and another in the manner of intellect, but all things exist beforehand in it in the manner of being. By the first of beings I mean being in the strict sense. For being itself is the summit of all beings, and, as it were, the monad of the whole of things. In all things, then, being is first; and in each thing what belongs to being is oldest, as having its existence from Hestia, the hearth of beings. For the intelligible is most of all this; since intellect is what knows, life is thinking, and being is intelligible. If, then, every being is mixed, but being is being itself, before all other things being is what exists mixed from the two principles that proceed from the One. So Socrates, pointing out how the way the two principles are generated differs from that of the mixture, says that \"god has shown limit and the unlimited\". For they are henads that have their existence from the One, and, as it were, shining manifestations of the unshared and first union. But making a mixture, and mixing through the first principles, is as far below bringing into light as making is below unfolding, and generating below manifesting; and by so much the mixed has a procession from the One lower than that of the two principles.",
+   "flags": [
+    {
+     "taylor": "deriving its subsistence from the Vesta of beings",
+     "why": "Taylor's \"Vesta\" is Hestia, the hearth: being is the fixed centre from which all beings have their existence."
+    },
+    {
+     "taylor": "luminous patefactions",
+     "why": "Taylor's \"patefaction\" means a laying open, a manifestation: limit and the unlimited are \"shown\" (Philebus 23c) by the first God, not made."
+    }
+   ]
+  },
+  {
+   "seg": "III.9.p3",
+   "chapter": "III.9",
+   "modern": "The mixed, then, is intelligible being, and exists first from the first God, from whom the unlimited and limit come too. But it exists secondarily from the principles after the unified God, I mean from limit and the unlimited. For the fourth cause, which produces the mixture, is again God himself; since if any other cause besides this were granted, there would no longer be a fourth cause, but a fifth would be brought in. For the first cause was God, who brings the two principles into light; after him come the two principles, limit and the unlimited; and the mixture is the fourth thing. So if the cause of the mixture is different from the first divine cause, this cause will be the fifth and not the fourth, as Socrates says it is. Further, if we say that God most of all gives union to beings, and the mixture of the principles is itself a union into the reality of being, God is surely first the cause of this too. Moreover, Socrates in the Republic clearly shows that the Good is the cause of being and the very being of intelligibles, as the sun is of visible things. Must we not, then, if the mixed is first being, refer it to the first God, and say that it receives its procession from him? Again, the Craftsman in the Timaeus makes the being of the soul by itself from an undivided and a divisible being, which is the same as making it from limit and the unlimited (for the soul by limit is like the undivided, and by the unlimited like the divisible being); if, then, the Craftsman mixes the being of the soul from these, and again separately from same and different, and from these, now existing beforehand, makes the whole soul, must we not much more say that the first God is the cause of the first being? The mixed, then, proceeds, as we have said, from the first God; it does not exist from the principles after the One alone, but proceeds from these too, and is threefold. First, it shares from God in inexpressible union and the whole of its existence. From limit it receives hyparxis, the one-like, and a stable character. From the unlimited it receives power, and the hidden power of all things that is in it. For in short, since it is one and not one, the one is in it by limit, and the not-one by the unlimited. But the mixture of both, and its wholeness, come from the first God. So the mixed is a monad, because it shares in the One; it is twofold, so far as it proceeds from the two principles; and it is a triad, so far as in every mixture, according to Socrates, these three are necessary: beauty, truth and proportion. Of these, though, we will speak again.",
+   "notes": [
+    "The Philebus 23d, 26e-27b: the fourth kind is the cause of the mixture. Timaeus 35a: the Craftsman mixes the soul's being from the undivided and the divisible, and then from the same and the different."
+   ]
+  },
+  {
+   "seg": "III.9.p4",
+   "chapter": "III.9",
+   "modern": "How being is what is first mixed we will now explain. For of all things this is the hardest to discover, what first being is, as the Stranger from Elea also says somewhere; for it is most puzzling how being is no less than non-being. How, then, being exists from limit and the unlimited must be shown. For if limit and the unlimited are beyond being, being may seem to have its existence from things that are not being. How, then, can things that are not being produce being? Or is this not so in all other things that exist through mixing with each other? For what is produced from things mixed together is not the same as the things not mixed. Soul is not the same as the kinds from which the father generated it by mixing them; nor is the happy life the same as the life of intellect or the life of pleasure; nor is the one in bodies the same as its elements. So it is not surprising if what is first being, though it is neither limit nor the unlimited, exists from both and is mixed: not that the natures beyond being are themselves taken into its mixture, but second processions from them come together into the existence of being. So being is made of these, sharing in both: it has the one-like from limit, and the generative, and in short hidden, multitude from the unlimited. For it is all things in a hidden way, and so is the cause of all beings. The Stranger from Elea points to this when he calls being the first power, as existing by sharing in the first power, and having hyparxis from limit and power from the unlimited. Later, though, the Stranger defines being as power, as fertile and generative of all things, and as being all things in a one-like way. For power is everywhere the cause of fertile processions and of all multitude: hidden power of hidden multitude, and the power that exists in act and brings itself into light of all-perfect multitude. Through this cause, I think, every being has powers born with it. For it shares in the unlimited, and has its hyparxis from limit but its power from the unlimited. And being is nothing else than a monad of many powers, a multiplied hyparxis; and so being is one-many. The many exist in a hidden way and without separation in the first natures, but with separation in second natures. For the nearer being is to the One, the more it hides multitude, and is defined by union alone. It seems to me, too, that Plotinus and his followers, often pointing to these things, produce being from form and intelligible matter, setting form as answering to the One and to hyparxis, and power as answering to matter. If they say this, they speak rightly. But if they give a certain formless and indefinite nature to intelligible being, they seem to me to stray from Plato's ideas on this subject. For the unlimited is not the matter of limit but its power; nor is limit the form of the unlimited, but its hyparxis. And being is made of both, as not only standing in the one, but receiving a multitude of henads and powers mixed into one being.",
+   "flags": [
+    {
+     "taylor": "calls being the first power",
+     "why": "The Sophist 247d-e: the Stranger proposes \"that being is nothing else than power\" (dynamis), to act or be acted on. Proclus reads it as the power, born of the unlimited, that being holds."
+    }
+   ],
+   "notes": [
+    "The Sophist 243b-c, 250d-e: being is as hard to grasp as non-being. Plotinus on intelligible matter: II.4.2-5. The Philebus 22a-b: the good life is neither the life of pleasure nor that of thought alone. Taylor's footnote corrects \"multitude\" to \"form\" in the Greek he translated."
+   ]
+  },
+  {
+   "seg": "III.10.p1",
+   "chapter": "III.10",
+   "modern": "What is first being, then, is for these reasons called by Plato the mixed. And by likeness to it, coming to be too is mixed from limit and the unlimited. In this the unlimited is imperfect power, and the limit is the form and shape of this power. So we set this power down as matter, not existing in act, and needing to be limited by something else. But we no longer say it is lawful to call the power of being matter, since it generates activities, produces all beings from itself, and is fertile of the perfect powers in beings. For the power of matter, being imperfect, imitates the power of being in an unlike way; and becoming multitude in potential, it copies the labour with multitude in the power of being. Moreover, the form of matter imitates limit at the last, since it gives bounds to matter and ends its unlimitedness; but it is multiplied and divided about it. It is also mixed with the privation of matter, and represents the highest union of the hyparxis of being by its being always moving towards existence and always tending to decay. For what is in the first natures by transcendence is in the last by deficiency. For what is first being is mixed too, is set apart from the limit of unlimited life, and is its cause; but what is made of the last of forms and first matter is in its own nature without life, since it has life in potential. For there, generating causes exist before their offspring, and perfect things before imperfect; but here, things in potential come before things in act, and joint causes are set below what is produced from them. This happens by nature, I think, because the gifts of the first principles reach as far as the last of things, and generate not only more perfect natures but also those with a more imperfect existence. And for this reason the mixed is the cause of coming to be, and of the nature mixed here. But limit and the unlimited before being are the causes not only of this nature, but of its elements, of which the mixed, as mixed, is not the cause. For limit and the unlimited are twofold: one kind is set apart from the mixed things, the other is taken into the completion of the mixture. For I think that everywhere, before mixed things there must be unmixed ones; before imperfect things, perfect ones; before parts, wholes; and before things in others, things in themselves. And Socrates persuades us to grant this not of one thing only, but of beauty and proportion and all Forms. If, then, the second and third kinds of being and Forms exist before what shares in them, how can we say that limit and the unlimited, which run through all beings, first exist as mixed? We must grant, then, that they are unmixed and separate from being, and that being comes from them and at the same time is made of them. It comes from them, because they exist before; it is made of them, because they exist in being by a second procession.",
+   "flags": [
+    {
+     "taylor": "concauses are subject to the things which are produced from them",
+     "why": "Taylor's \"concauses\" are joint or contributing causes (synaitia), such as matter: in the lower world they come before, and are set below, what is made from them."
+    }
+   ],
+   "notes": [
+    "Taylor's footnotes correct the punctuation of one sentence of the Greek he translated, and \"first\" to \"last\" (of form), since Proclus is speaking of body."
+   ]
+  },
+  {
+   "seg": "III.10.p2",
+   "chapter": "III.10",
+   "modern": "The kinds of being too are twofold: some make beings, others are the elements of the nature of each being. For some exist beforehand by themselves, as having a productive power; others, generated from these, make up each particular being. So let no one any longer wonder how Socrates in the Philebus sets the mixed before limit and the unlimited, while we, on the contrary, show that limit and the unlimited are set apart from the mixed. For each is twofold: one is before being, the other in being; one generates, the other is an element of the mixture. Of this kind too are the limit and the unlimited of the mixed life, each being an element of the whole of happiness. So each needs the other: neither is intellect by itself desirable, nor perfect pleasure. The good, though, must be made of all these: the desirable, the sufficient and the perfect. Limit itself, then, and the unlimited, which are separate, exist as causes before the mixed; but the limit and the unlimited that are mixed are more imperfect than the mixture. From what has been said, then, it is clear what the things are of which the mixture is made.",
+   "notes": [
+    "The Philebus 20d-22b, 61a-64a: the good life is a mixture of pleasure and thought, neither enough alone."
+   ]
+  },
+  {
+   "seg": "III.11.p1",
+   "chapter": "III.11",
+   "modern": "Next we must speak of the triad that exists together with this mixture. For every mixture, if it is rightly made, as Socrates says, needs these three things: beauty, truth and proportion. Nothing ugly, brought into the mixture, will give it rightness, since it will cause error and disorderly excess; nor, if truth is ever separated, will it let the mixture be made of things pure and truly mastered, but it will fill the whole with an image and with non-being. Nor without proportion will there be a sharing of the elements and a graceful company. Proportion, then, is needed for the union of the things mixed and a fitting sharing; truth for purity; and beauty for order, which also makes the whole lovely. For when each thing in the mixture has its fitting place, it makes both the elements and the arrangement that comes from them beautiful. Here, then, in the first mixture, these three things appear: proportion, truth and beauty. Proportion is the cause of being one to the mixture; truth, of the reality of its existence; and beauty, of its being intelligible. So it is intelligible and truly being. What is first being, too, is more one-like, and intellect is joined to it by its closeness to the beautiful. But each shares in existence, because it is being derived from being. The mixed is highest among beings, because it is united to the Good. It seems to me that the divine Iamblichus, seeing these three causes of being, defines the intelligible by these three, proportion, truth and beauty, and through them unfolds the intelligible gods in his Platonic theology. How the intelligible breadth is made of these will be clearest as we proceed. From what has been said, though, it is wholly plain why Socrates says that this triad is found in the vestibule of the Good. For what is first being shares in this triad through its union with the Good. Because the Good is the measure of all beings, the first being becomes itself in proportion. Because the Good is before being, the first being exists truly and really. And because the Good is good and desirable, the first being appears as the beautiful itself. Here, then, the first beauty exists too; and so the One is the cause not only of good but of beauty, as Plato says in his Letters. Beauty is here in a hidden way, since this order holds all things in a one-like way, existing first from the principles, limit and the unlimited. Where and how beauty comes into light, we will soon explain.",
+   "notes": [
+    "The Philebus 64a-65a: the mixture needs measure and proportion, truth and beauty, and \"we find the good taking refuge in the nature of the beautiful\"; the three stand \"in the vestibule of the good\" (64c). Iamblichus' Platonic Theology is lost. The Second Letter 312e: the king of all is \"the cause of all beautiful things\"."
+   ]
+  },
+  {
+   "seg": "III.12.p1",
+   "chapter": "III.12",
+   "modern": "Such, then, is the first triad of intelligibles, according to Socrates in the Philebus: limit, the unlimited, and what is mixed from these. Limit is a god proceeding to the intelligible summit from the unshared and first God, measuring and defining all things, and giving existence to every fatherly, holding and undefiled kind of gods. The unlimited is the unfailing power of this god, bringing into light all the generating orders and all unlimitedness, that before being, that of being, and that which proceeds as far as last matter. And the mixed is the first and highest order of gods, holding all things in a hidden way, completed through the intelligible triad that holds together, holding in a unified way the cause of every being, and setting its summit in the first intelligibles, set apart from the whole of things.",
+   "flags": [
+    {
+     "taylor": "deriving its completion indeed through the intelligible connective triad",
+     "why": "That is, the mixed is completed through the triad of limit, unlimited and mixed itself, the intelligible triad that \"holds together\" (synektikē)."
+    }
+   ]
+  },
+  {
+   "seg": "III.13.p1",
+   "chapter": "III.13",
+   "modern": "After this first triad, existing from the One and joined to it, we will praise the second, proceeding from the first and completed through things answering to the triad before it. For here too being must share, and the one be shared, and this one, which is second one, must generate what is second being. For everywhere shared godhead sets up about itself what shares in it. So whole souls make bodies exist together with their causes, and partial souls generate irrational souls together with the gods. Much more, then, do the gods produce all things together with the One. So as the first of the henads generates the summit of being, so the middle henad sets up the middle being. And everything that generates, makes or produces has a power fertile of what is produced, by which it produces, strengthens and holds together its offspring. Again, then, a second triad will come into light, answering to the first. One thing is its summit, which we call one, godhead and hyparxis; another its middle, which we call power; and another its end, which we say is second being. This is intelligible life. For all things are in the intelligible, as was shown before: to be, to live, and to act by thinking. The summit of the intelligible order is all things as cause and, as we have often said, in a hidden way. Its middle makes multitude shine out, and proceeds from the union of being into plain light. And its end is now all intelligible multitude and the order of intelligible Forms. For Forms have their existence at the end of the intelligible order, since Forms must first exist and appear in intellect. If, then, being remains set apart in the first mixture, but now proceeds and is generated in a twofold way from the monad, there will be motion about it; and if there is motion, there must also be intelligible life. For everywhere motion is a certain life, since someone calls even the motion of material bodies life. The first in this second triad, then, may be called limit; the second, the unlimited; and the third, life. For the second triad too is a god, having fertile power, and bringing into light, from and about himself, what is second being. Here too, though, the triad answers to the first triad.",
+   "flags": [
+    {
+     "taylor": "some one calls even the motion of material bodies life",
+     "why": "Aristotle, Physics VIII.1 (250b): motion is \"a kind of life for all things that exist by nature\". Taylor's footnote corrects \"irrational\" to \"analogous\" in the Greek he translated."
+    }
+   ]
+  },
+  {
+   "seg": "III.13.p2",
+   "chapter": "III.13",
+   "modern": "But again we must grasp by reasoning the character of this triad. The first triad is all things, but intelligibly and in a unified way, and, as I may say, speaking as Plato does, in the form of limit. The second triad is all things, but in the manner of life, and, as I may say, following the philosopher, in the form of the unlimited; just as the third triad proceeds by the character of the mixed. For as in the procession in breadth the mixed appears third, so in the procession of intelligibles in depth the third has the rank of the mixed in relation to the higher triads. The middle triad, then, is all things, but marked by intelligible unlimitedness. For the three principles after the first set out for us in order the intelligible kind of gods: limit brings into light the first triad, the unlimited the second, and the mixed the third. It is by unlimited power, then, that the second triad is marked. For, being the middle, it exists by the middle of the first triad, being all things from all. For in each triad there are limit, the unlimited and the mixed; but the character of the monads, different in each, unrolls the intelligible order of the gods. The middle triad, existing in this way (I say \"in this way\" because it is made of all the things the triad before it is made of), holds and binds the middle of intelligibles by unlimited power. It is filled from a higher union, and fills the union after it with the powers of being. It is measured from there in a one-like way, and measures the third triad by its own power. It remains stably in the first triad, and sets in itself the triad next in order. In short, it binds to itself the intelligible centre and sets up one intelligible coherence, making shine out what is hidden and one-formed in the first triad, and gathering the intelligible multitude of the third triad and holding it on all sides. The being that completes this triad is mixed, as the being of the triad before it is, and receives the character of life. For the unlimited in it generates life.",
+   "flags": [
+    {
+     "taylor": "as in the progression according to breadth",
+     "why": "Proclus' two dimensions: \"breadth\" is the spread of the three terms within one triad (limit, unlimited, mixed); \"depth\" is the descent of the three triads one below another."
+    }
+   ]
+  },
+  {
+   "seg": "III.13.p3",
+   "chapter": "III.13",
+   "modern": "This triad must also share in the three, proportion, truth and beauty. What is first being exists chiefly by proportion, which unites it and joins it to the Good. The second triad exists chiefly by truth: because it shares in what is first being, it is being, and truly being. The third triad exists chiefly by the beautiful: for there intelligible multitude, order and beauty first shine out. So this being is the most beautiful of all intelligibles; but this will be discussed later. As there is a triad, then, in each of the mixtures, proportion most of all holds together the first, truth the second, and beauty the third. And this led the divine Iamblichus to say that Plato defines the whole intelligible order by these three. For all are in each, but one of them rules more in one of the intelligible monads than in another. Moreover, the third triad appears after this. For the end of being must also be made divine, and share in an intelligible henad. For beings are not more in number than the henads, as Parmenides says, nor are the henads more numerous than beings; each procession of being shares in the one; since this universe too, in each part of itself, is governed by soul and intellect. Much more, then, must the intelligible, in its first, middle and last realities, share in the intelligible gods.",
+   "notes": [
+    "The Parmenides 144c-e: the one is divided by being into as many parts as being, so that the one and being are equal in number."
+   ]
+  },
+  {
+   "seg": "III.14.p1",
+   "chapter": "III.14",
+   "modern": "As the first henad, then, after the set-apart cause of all things, brings into light intelligible being, and the second henad intelligible life, so the third sets up about itself intelligible intellect, fills it with divine union, and sets up power as the middle between itself and being, through which it completes this being and turns it back to itself. In this, then, every intelligible multitude shines out to view. For the whole of this being is intelligible intellect, life and being. It is neither all things as cause, as what is first being is, nor does it make all things shine out, as the second being does; but it is, as it were, all things in act, and openly. So it is the boundary of all intelligibles. For since the procession of beings goes by likeness, the first being is most like the One; the second is in labour with multitude and is the origin of separation; and the third is now all-perfect, and brings into light in itself intelligible multitude and Form."
+  },
+  {
+   "seg": "III.14.p2",
+   "chapter": "III.14",
+   "modern": "Further, as the first triad remains hidden in limit, and fixes in itself everything stable in intelligibles, and the second at once remains and proceeds, so the third, after procession, turns the intelligible end back to the beginning and rolls the order back to itself. For everywhere it is the work of intellect to turn and converge to the intelligible. And all these are one-like and intelligible: the remaining, the proceeding and the returning. For each of these is not said in the same way among intelligibles. The intelligible kind of gods is unified, simple and hidden, joining itself to the One itself, which is before beings, and brings into light nothing else than the transcendence of the One. For these three triads announce mystically that unknown cause, the first and wholly unshared God: the first announcing his inexpressible union; the second his transcendence, by which he goes beyond all powers; and the third his all-perfect generation of beings. For as they are able to hold the principle that goes beyond both the union and the powers of all beings, so they show second natures his wonderful transcendence, receiving separately the unified power and rule of the first God, and bringing into light intelligibly the cause before intelligibles. For these gods, though they have a simplicity equally set apart from all the divine orders, still fall short of the union of the father. Of this triad, then, which turns all intelligibles back to the first principle and rolls the multitude that appears in it back to the stable union of the whole of things, one thing is limit, henad and hyparxis; another, the unlimited and power; and another, the mixed: being, life and intelligible intellect. But the whole triad exists by being, and is the intellect of the first triad. For the first triad is an intelligible god first; the triad after it an intelligible and intellectual god; and the third triad an intellectual god. These three godheads, triadic monads, complete the intelligible kinds. For they are monads by their godheads, since all other things hang from the gods, powers and beings too. But they are triads by a separate division. For limit, the unlimited and the mixed exist in three ways: in one place all things are by limit; in another all things by the unlimited; and in another all things by the mixed. In one place the mixed is being; in another, intelligible life; and in another, intelligible intellect. In this last, then, the Forms first exist. For the separating of intelligibles unfolds the order of Forms, because Form is being, but not simply being. So what is first being is being itself, and what is being. What is the second being is power, proceeding from the first being, and existing as a dyad, as it were, that generates the multitude of beings, but not yet multitude. And what is the third being is itself the multitude of beings, being there existing with separation. For being is the set-apart cause of the things that the Forms set up dividedly; and of the things that being produces together, the Forms are the cause with separation. For Forms are causes that produce separation in their effects; and also Forms are called the patterns of beings. Being is the cause of all that comes after it, but not their pattern. For patterns are the causes of things separated in existence and having different characters of being. After the One before beings, then, comes what is one-many in a hidden way, the united. So it is what is divided into multitude, and tends from the one-like to the bright. And the last of intelligibles is that from which a certain distribution into parts begins, and which holds intelligible multitude.",
+   "flags": [
+    {
+     "taylor": "the first triad is an intelligible God primarily. But the triad posterior to it is an intelligible and intellectual God. And the third triad is an intellectual God",
+     "why": "Not the later orders of the intelligible-intellectual and intellectual gods (Books IV and V), but the three intelligible triads, each named by its character: the third, intelligible intellect, is \"intellectual\" within the intelligible. Taylor's footnotes correct the Greek he translated in three places."
+    }
+   ]
+  },
+  {
+   "seg": "III.15.p1",
+   "chapter": "III.15",
+   "modern": "Socrates in the Philebus, then, gives us such aids to the study of the intelligible triads. But we must not only remain in these ideas; we must also show Plato's theology of these triads from other dialogues, and from them point out one truth suited to the things themselves. Let us take what is written in the Timaeus, follow our leader Syrianus, who unfolded to us the secret mysteries of these triads, and join to the end of what has been said the beginning of the discussion that follows. In the Timaeus, then, Plato, searching for what the pattern of the whole world is, finds that it holds all intelligible living beings, is all-perfect, is the most beautiful of intelligibles, is only-begotten, and is the intelligible of the Craftsman. He also calls it the living being itself, as the intelligible pattern of every living being, and of what is perceptible. So this living being itself, because it is all-perfect and the most beautiful of intelligibles, must be set in the intelligible orders. For though there is an intelligible living being in the Craftsman, it is intellectual rather than intelligible, and not the most beautiful of all intelligibles, but second to them in beauty and power. For first beauty is in the intelligible gods. In the Craftsman too there are not only the four Forms of things in the world but all the multitude of Forms; for in him the patterns of particular Forms exist beforehand. But the living being itself sets up all living beings as wholes by the intelligible tetrad. Again, the Craftsman is not, like the living being itself, only-begotten among beings; he exists together with the life-giving cause, with which he sets up the second kinds of being, mixing them in the mixing bowl for the generation of souls. For of the things that the intelligible living being produces and at the same time generates, the Craftsman has the cause in a divided way, together with the bowl. So, as I have said, the living being itself is set apart from the Craftsman, and is, as Timaeus everywhere calls it, intelligible.",
+   "flags": [
+    {
+     "taylor": "animal itself",
+     "why": "Taylor's \"animal itself\" is the Timaeus' \"living being itself\" (autozōon), the pattern of the world."
+    }
+   ],
+   "notes": [
+    "Timaeus 30c-31b, 39e: the world's pattern is \"the living being of which all other living beings are parts\", \"the most beautiful of intelligibles and in every way perfect\", and one only. The \"four Forms\" are the four kinds of living being (39e-40a): the heavenly gods, birds, water creatures and land animals. The mixing bowl: Timaeus 41d."
+   ]
+  },
+  {
+   "seg": "III.15.p2",
+   "chapter": "III.15",
+   "modern": "Yet because Forms are first separated in it, and because it is all-perfect, it exists in the third order of intelligibles. For neither what is first being nor what is second being is all-perfect. The first is beyond all separation; the second generates and is in labour with intelligibles, but is not yet the multitude of beings. If, then, neither of these is multitude, how can either be all-perfect multitude? But if all-perfect multitude shines out in the third triad of intelligibles, as was shown a little before, and the living being itself is the first pattern (for it holds all intelligible living beings, is an only-begotten pattern, and is not joined with any other principle), the living being itself must be set in this order. For either there will be no intelligible pattern (and then how will perceptible things be images of intelligibles, or how will the intelligible gods be the fathers of the whole of things?), or, if there is, it is the third among intelligibles. For the natures before the triad among intelligibles are not all-perfect, since they are set apart from division into multitude. And the natures after it are not only-begotten, for they proceed together with others, the male with the female, and those of a making character with those of a generating one. Nor are they the most beautiful of intelligibles; for beauty is in the intelligible. But the living being itself is all-perfect and at the same time only-begotten. So the first pattern of beings is ranked in the third triad of intelligibles. Moreover, the living being itself is eternal, as Timaeus himself says: \"the nature of the living being is eternal\". And again elsewhere he says that \"the pattern is being through all eternity\". If, then, it is eternal, it shares in eternity. And if what shares is everywhere second to what is shared, the living being itself is second to eternity. And if it is being through all eternity, it is filled with the whole power of eternity. If so, it exists next after eternity. For what enjoys the whole of its causes is ranked next after them.",
+   "notes": [
+    "Timaeus 37d (\"the nature of the living being was eternal\") and 38c (\"the pattern is being through all eternity\"). Taylor's footnote: the \"first life\" is intelligible life, life itself."
+   ]
+  },
+  {
+   "seg": "III.16.p1",
+   "chapter": "III.16",
+   "modern": "Moreover, if eternity has the same ratio to the intelligible living being as time to the perceptible one, and the universe shares directly in time (for time came to be together with the universe), the living being itself must surely share first in eternity. So eternity is above the first pattern. For eternity measures the existence of the living being itself, and the living being itself is measured and filled with everlastingness from it. Besides, we say that eternity is the cause of immortality to all things. So eternity is what is first immortal. For as what is first being is the cause of existence to all things, and what produces form is itself before other Forms, so what is the cause of everlastingness and immortality is itself first immortal. The daemonic Aristotle also rightly calls eternity immortal and divine, that from which the existence and life of all things hang. If, then, it is first immortal, not by sharing, but is, as it were, immortality and everlastingness, it will be life, having the \"always\" from itself, scattering the power of everlastingness in abundance and reaching it out to other things, as far as each is by nature fit to receive it. For the immortal is in life and exists together with life. So Socrates in the Phaedo, after many beautiful proofs of the soul's immortality, says: \"God, then, my dear Cebes, and the Form of life itself, are far more immortal.\" So intelligible life, and the god who holds this life together, first have the immortal, and are the source of the whole of everlastingness. And this is eternity. So eternity has its existence in life, and will be set in the middle of the intelligible order.",
+   "flags": [
+    {
+     "taylor": "The dæmoniacal Aristotle",
+     "why": "\"Daemonic\" as high praise: Aristotle, On the Heavens I.9 (279a), calls eternity (aiōn) \"immortal and divine\", from which \"being and life\" depend for all things."
+    }
+   ],
+   "notes": [
+    "The Phaedo 106d: \"god, I think, and the Form of life itself, and whatever else is immortal, would be agreed by all never to perish\". Taylor's footnote corrects \"Phaedrus\" to \"Phaedo\" in the Greek he translated."
+   ]
+  },
+  {
+   "seg": "III.16.p2",
+   "chapter": "III.16",
+   "modern": "Further, we must say that intelligible eternity is one of three things: it exists either by being, or by life, or by intelligible intellect. But being, as the Stranger from Elea says, by its own nature neither stands still nor is moved. For if being is being to all things, and being in the strict sense is of this kind, much more must this be so with intelligible being and what is first being; for they are nothing else than being only. But being unfolds motion and rest, and the other kinds of beings, in its own second and third processions. The first being, then, as we have said, is at once set apart from motion and rest. But eternity, according to Timaeus, remains in one. So too time, in its motion, imitates the intelligible remaining of eternity. Eternity, then, does not exist by what is first being. Nor does it exist by intelligible intellect. For neither is soul time, though it is moved through the whole of time. And in short, among divine beings what is shared is everywhere set above what shares. But the eternal shares in eternity, as the temporal shares in time. So eternity is before intelligible intellect and after being; so that it is set in the middle of the intelligible breadth. And as the living being itself is eternal, so eternity is what always is. For as the living being itself shares in eternity, so eternity shares in being, and is the cause of existence, of everlasting life and thinking, and measures the being, powers and activities of all things.",
+   "notes": [
+    "The Sophist 250c; Timaeus 37d: time is \"a moving image of eternity, which remains in one\". Taylor's footnote supplies a missing clause (\"nor by intelligible intellect\") in the Greek he translated."
+   ]
+  },
+  {
+   "seg": "III.17.p1",
+   "chapter": "III.17",
+   "modern": "Since eternity exists by the middle centre of intelligibles, and the living being itself by their end, the brightest of what is intelligible, what is the first of intelligibles, and how does Timaeus name it? He says of eternity that while it remains in one, time proceeds by number; and that by motion time sketches the remaining of eternity, and by number its stable union. What, then, is that one in which Timaeus says eternity remains? We must say either that it is the one of eternity, or the One that goes beyond all intelligibles, or the one of the first triad. If we say it is the unshared One, how can anything remain in what is set apart from all things, and admits neither relation nor sharing of second natures with itself? For everything that remains in something is in a way held on all sides by what we say it remains in. But it is wholly impossible for the first One either to hold any being or to be ranked with beings. If anyone supposes that it is the one of eternity in which Timaeus says eternity remains, then eternity will be in itself. Yet it must remain in itself by having its existence in remaining in what is before itself. For to remain in what is before is better than the setting of things in themselves, as that is more perfect than placing the better in less excellent natures. If, then, eternity remains in itself, to what shall we first give remaining in what is before itself? For this, being more divine, must have its generation before what is lower than it. If, then, eternity can remain neither in itself nor in the One before beings, it is clear that, remaining in one according to Timaeus, it is set in the one of the first triad, or rather in the whole of that triad. For, as we have said before, the first triad is the cause of stability to all beings, as the middle triad is the cause of their procession, and the third triad of their return to their principle.",
+   "notes": [
+    "Timaeus 37d: the maker made \"an eternal image moving by number of eternity remaining in one\", which we call time."
+   ]
+  },
+  {
+   "seg": "III.18.p1",
+   "chapter": "III.18",
+   "modern": "Again, then, three orders of intelligibles appear to us, according to Timaeus' teaching: the living being itself, eternity, and the one. Through this one, and its firm setting in it, eternity has fixed the intelligible kingdom; and through eternity the living being itself defines the boundary of the intelligible gods, by an everlasting and unchanging sameness. The living being itself, having proceeded as a tetrad, hangs from the dyad in eternity. For eternity is the \"always\" together with being. And the dyad in eternity shares in the intelligible monad, which Timaeus for this reason calls one, as the monad and principle of all the intelligible breadth. For indeed he rightly calls the first triad one, because it is most of all marked by limit, naming it from limit. The middle triad he calls, in a twofold way, eternity, joining the names, because this triad is defined by intelligible power. And the third triad he calls the living being itself, carrying the name over to the whole of it from the end of the triad. The first triad, then, is the union of all the intelligibles, being in a way ranked with them; for this union is different from the one set apart from intelligibles and unshared. It is also the giver of stable power, for all things are set firm because of it. But eternity is first being, and what is first set firm. So of the remaining of the whole of things, we say the first triad is that because of which this remaining comes about, and the second triad that by which it is produced. For the firm setting of beings is by this second triad, but because of the first. The second triad is the nearest measure of all beings, and is ranked with the things measured. In it at one and the same time are limit and the unlimited: limit, so far as it measures intelligibles; the unlimited, so far as it is the cause of everlastingness and the \"always\". For according to the Oracle, eternity is the cause of unfailing life, untiring power and unsluggish activity. Yet eternity is marked more by the unlimited than by limit, for it holds in itself unlimited time. Time has limit and the unlimited in a divided way: by its continuity it is unlimited, but by the now it is limited, for the now is a limit. But eternity sets limit and the unlimited in the same. For it is a henad and power: by the one it is limit, by power unlimited; which time too shows, as from images, because the middle triad of intelligibles has limit, the unlimited and the mixed. For from where does time get its limit, except from eternal limit? For the temporal limit too is undivided, as the limit of eternity is one; and the undivided is the image of the one. And from where does the unlimitedness of time's continuity come, except from the power of the unlimited? But the one is a stable unlimitedness, the other a moved one; and as the one stands still by the one, so the other is moved by number. For from where does time's kinship with lives come, except from the first principle of life, eternity? And time proceeds through all life in time.",
+   "flags": [
+    {
+     "taylor": "eternity is the cause of never-failing life, of unwearied power, and unsluggish energy",
+     "why": "From the Chaldean Oracles (frag. 49 and 59 are related), where Aion is a god who gives unfailing life and power. Taylor's footnote supplies \"time\" in the Greek he translated."
+    }
+   ],
+   "notes": [
+    "\"Eternity remaining in one\": Timaeus 37d. The \"now\" as the limit of time: Aristotle, Physics IV.11 (220a)."
+   ]
+  },
+  {
+   "seg": "III.18.p2",
+   "chapter": "III.18",
+   "modern": "Again, then, it is clear from these things that eternity exists by the middle of the intelligible gods. For here is unlimited life, the cause of all life, intellectual, of soul, and that which exists divided in bodies. Eternity is the father and giver of unlimited life, since eternity is also the cause of all immortality and everlastingness. And Plotinus, showing in a most divinely inspired way the character of eternity according to Plato's theology, defines it as unlimited life, unfolding into light at once the whole of itself and its own being. For it sets its life in the intelligible centre: through the one it measures its being and fixes it in what is before itself, but through power makes it unlimited; it unfolds the one-like transcendence of the first triad, but defines the end of the gods, and stretches from the middle on all sides to all the intelligible breadth. Moreover, the third triad is filled with intelligible life, and so is an intelligible living being, and the first living being. For it first shares in the whole nature of this life, and brings into light in itself the first of the Forms, to which the making intellect, reaching out, sets up the whole world; and it is itself the intelligible universe, as the visible world is the perceptible universe. So Plato calls the living being itself all-perfect. Or rather, if you are willing, let us speak this way: in this third triad there are limit, the unlimited, and the mixed, which we have called intelligible intellect. So the whole triad is called only-begotten from the father in it. For the cause of limit gives what is unranked with other things and a set-apart transcendence. For what holds, says Timaeus, all the intelligible living beings will never be second with another; for again there would need to be another living being about it. So what holds in one all intelligible living beings is a whole. But everywhere the whole is referred to limit, and parts to the unlimited. So if the living being itself is only-begotten for this reason, it will have this character by limit. But again it is called eternal by its power. For this power belongs most of all to the eternal; for eternity is unlimited power remaining in one and proceeding stably. The living being itself is all-perfect by intellect. For what unfolds in itself all the intelligible separation of being is intelligible intellect; and that intellect, by Plato's decision, will be all-perfect which holds all intelligibles and defines the boundary of the intelligible order. The only-begotten, then, the eternal, the all-perfect, limit, the unlimited and the mixed show the nature of the intelligible living being. So Timaeus too reminds us of the pattern in these three conclusions: in the one that shows that the universe is only-begotten, in the generation of time, and in the all-perfect holding of all living beings.",
+   "notes": [
+    "Plotinus III.7.3-5: eternity is \"the life that belongs to what is, in being, all together and full, without extension\", \"unlimited life\". Timaeus 31a-b: \"what holds all intelligible living beings would never be second with another\". Taylor's footnotes correct the Greek he translated in three places (\"character\" for \"everlastingness\", \"life\", and \"towards\" for \"before\")."
+   ]
+  },
+  {
+   "seg": "III.18.p3",
+   "chapter": "III.18",
+   "modern": "If Timaeus also says that the living being itself is the most beautiful of all intelligibles, and it has the third order among intelligibles, this will not be surprising. For we said before that everywhere the cause of the best mixture is the triad of proportion, truth and beauty. But beauty shines out chiefly in the third procession of being, and shows its shining nature together with intelligible Forms, as truth shines out in the second, and proportion in the first procession of being. If, however, truth is first, beauty second, and proportion third, it is not at all surprising that in order truth and beauty should come before proportion, but that proportion, being plainer in the first triad than the other two, should shine out third in the second processions. For these three exist in a hidden way in the first triad. Truth, so far as it is intelligible knowledge, is in the second triad; beauty, so far as it is the Form of Forms, is in the third. That this triad exists there first is clear from this: truth is first in what is most of all being, before knowledge; beauty, which reaches as far as the last of beings, must be in the first being, from which the last beings come; and the first proportion is in what is first mixed. For every mixture needs proportion, so that what is produced from it may be one thing. Though these three, then, exist beforehand there (for we take as agreed by all that proportion is there, and the most beautiful of intelligible living beings, as Timaeus says), we will put aside further consideration of them for now, since we have discussed them elsewhere, and tried especially to establish what we take to be Plato's opinion of their order. For we have spoken of these things in a treatise of one book, in which we show that truth is ranked with the philosopher, beauty with the lover, and proportion with the musician; and that as the order of these lives is, so too is the relation of truth, beauty and proportion to each other.",
+   "flags": [
+    {
+     "taylor": "If, however, truth is indeed the first, beauty the second, and symmetry the third",
+     "why": "In the Philebus (65a-66b) the order of goods is measure, proportion and beauty, then truth (intellect); Proclus means here the order in the third mixture's list, where truth comes before beauty and proportion."
+    }
+   ],
+   "notes": [
+    "The Phaedrus 248d: the first soul becomes \"a philosopher, a lover of beauty, or one devoted to the Muses and to love\". Proclus' one-book treatise on these three lives is lost."
+   ]
+  },
+  {
+   "seg": "III.18.p4",
+   "chapter": "III.18",
+   "modern": "The living being itself, then, may most justly be called most beautiful, so far as it is held, in an eminent way, in intelligible beauty. For beauty is wont to ride on Forms, and is, as it were, the Form of Forms, unfolding what is hidden in the Good, making its loveliness shine out, and drawing to its own splendour the desire hidden about it. To the Good all things have a silent and secret leaning; but we are roused to the beautiful with wonder and motion. For its light and working pierce keenly through every soul, and, as the most like the Good of all things, it turns back every soul that looks at it. The soul, seeing what is secret shining out, as it were, to view, rejoices in what it sees, admires it, and is struck with wonder. And as in the holiest of the mysteries, before the mystic visions, the initiates are seized with wonder, so among intelligibles, before sharing in the Good, beauty shining out strikes those who see it with wonder, turns the soul to itself, and, set in the vestibule of the Good, shows what is in the inner shrine, and what the transcendence of hidden good is. Through these things, then, let it be clear where beauty begins and how it first shines out, and that the living being itself is the most beautiful of all intelligibles.",
+   "notes": [
+    "The Phaedrus 250c-e: beauty alone \"has this lot, to be the most visible and the most lovely\". The vestibule of the Good: the Philebus 64c."
+   ]
   }
  ],
  "contents": [
@@ -4612,62 +5142,62 @@
     {
      "id": "III.9",
      "head": "What the third thing is which is produced from the two principles. Why Socrates in the Philebus calls it that which is mixed. That it is nothing else than that which is primarily being. And how this proceeds from the two principles, and from the one.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "The mixed: first being"
     },
     {
      "id": "III.10",
      "head": "How from images also, it may be inferred, that the first thing which subsists from bound and infinity is being. How this may be demonstrated. And how bound and infinity are twofold; one order of these subsisting in being, but the other existing prior to being.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "Limit and the unlimited are twofold"
     },
     {
      "id": "III.11",
      "head": "What the triad is, which Socrates in the Philebus says is inherent in every thing that is mixed.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "Proportion, truth and beauty in the mixed"
     },
     {
      "id": "III.12",
      "head": "Concerning the first intelligible triad in common; and how the second triad proceeds analogous to this.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "The first intelligible triad"
     },
     {
      "id": "III.13",
      "head": "What the second intelligible triad is. A more accurate account of it, as subsisting from that which predominates, from that which is participated, and from that which characterizes the mixture.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "The second intelligible triad: intelligible life"
     },
     {
      "id": "III.14",
      "head": "What the third intelligible triad is; what that is which predominates, and is participated in this. And at the end, a discourse in common concerning the distinction of the three triads.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "The third intelligible triad: intelligible intellect"
     },
     {
      "id": "III.15",
      "head": "How the intelligible triads are delivered in the Timæus. And many admonitions concerning animal itself, [evincing] that it has the third order in intelligibles.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "The Timaeus: the living being itself, the third intelligible triad"
     },
     {
      "id": "III.16",
      "head": "Many demonstrations that eternity subsists according to the middle order of intelligibles.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "Eternity is the middle intelligible triad"
     },
     {
      "id": "III.17",
      "head": "That the one in which eternity abides is the summit of intelligibles.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "The one in which eternity remains is the first triad"
     },
     {
      "id": "III.18",
      "head": "Concerning all the intelligible orders in common, according to the doctrine of Timæus. And a more accurate account of the peculiarities in the intelligible triads.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "The three intelligible orders in the Timaeus"
     },
     {
      "id": "III.19",
