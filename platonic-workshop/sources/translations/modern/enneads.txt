@@ -9669,3 +9669,402 @@ And the division is there among things not poured together, though they are into
 !flag this is what is known as the Universal Sympathy | The Greek has "the friendship (φιλία) in the All", Empedocles' word; "Sympathy" is MacKenna's.
 !flag that authentic Sympathy consists in all being a unity and never discriminate | MacKenna ends here; the Greek goes on, "but he says that what is in this heaven is separated" (διακρίνεσθαι δέ φησι τὸ ἐν τῷδε τῷ οὐρανῷ): Empedocles, whose Strife separates in this world.
 !note Love (Φιλότης, Φιλία) that brings all into one and Strife that separates: Empedocles, fragments B17 and B26, and the Sphere (B27-B29); Aristotle, Metaphysics A.4 (985a21-29). Empedocles' exiled soul is cited in IV.8.1.
+# VI.7 chapters 15-28 (milestone E31): MacKenna's own English (vol. V, 1930, pp. 181-196).
+@ch VI.7.15 | The many life, a trace of the Good
+Who that sees the life there, many and one, would not long to be in it? The lives here are darkness, a trace of life and intellect; the archetype there is good-formed, since it has the good in the forms. Intellect had from the Good the power to generate, and was given what the Good does not have; unable to hold the one power, it broke it into many. So it is a varied good: a living sphere, a thing all faces, all the pure souls run together with intellect on their summit; but to see it so is to see it from outside: one must become it.
+
+@p
+Who, then, seeing this life, the many and all and first and one, does not long to be in it, and think little of all the other? For the other lives, those below, are darkness: small and dim and cheap, and not pure, and they stain the pure ones. And if you look at them, you no longer see the pure lives, nor live all those lives together, in which there is nothing that does not live, and live purely, with nothing evil in it.
+!flag All other life is darkness, petty and dim and poor | The Greek says "the others, those below (αἱ κάτω)": the lives here below; MacKenna leaves out "below".
+!flag this life which includes all living | The Greek says you no longer "live all those lives together" (ζῇς ἐκείνας τὰς πάσας ὁμοῦ): the lives there, many and all at once, not one life that includes them.
+
+@p
+@greek τὰ γὰρ κακὰ ἐνταῦθα
+For the evils are here, because here there is a trace of life and a trace of intellect; but there is the archetype, which he calls "good-formed", because it has the good in the forms. For that one is the Good, while this one, intellect, is good by having its life in contemplating; and what it contemplates is good-formed too, things it acquired when it was contemplating the nature of the Good. But they came into it not as they were there, but as it held them itself. For that one is the principle, and it is from that one that they are in this, and this is what made them, from that one. For it was not lawful that, looking to that one, it should think nothing, nor again that it should think what is in that one: for then it would not itself have generated. It had from that one, then, the power to generate, and to be filled with its own offspring, that one giving what it did not have itself.
+!flag There is the archetype, that which is good in the very Idea—we read—as holding The Good in the pure Idea | The Greek says "he calls" (φησιν) the archetype "good-formed" (ἀγαθοειδές), Plato's word, "because it has the good in the forms" (ἐν τοῖς εἴδεσι): in the forms, plural; "the pure Idea" is MacKenna's.
+!flag it sees also as good the objects of its contemplation because it holds them in its act of contemplating the Principle of Good | The Greek says it acquired (ἐκτήσατο) them "when it was contemplating" (ὅτε ἐθεώρει) the nature of the Good: a past acquiring, not a holding now.
+!flag for it is their source | The Greek says "that one (ἐκεῖνος) is the principle": the Good is the principle, and the forms come from it into intellect; MacKenna makes intellect their source.
+!flag In the very law | The Greek says "it was not lawful" (οὐ ... ἦν θέμις): a thing forbidden, not a law it follows.
+!flag never, on the other hand, could it produce what is There | The Greek says it was not lawful for it to think "what is in that one" (τὰ ἐν ἐκείνῳ): had it thought what is in the Good, it would not have generated; "produce" is MacKenna's.
+!note "Good-formed" (ἀγαθοειδῆ): Plato's Republic VI (509a), where knowledge and truth are good-formed, but neither is the Good. The Good giving what it does not have: V.3.15 and chapter 17 below.
+
+@p
+@greek ἀλλ’ ἐξ ἑνὸς αὐτοῦ πολλὰ τούτῳ
+But from it, being one, came many to this one: for the power it was bringing away, unable to hold it, it broke apart, and made the one many, so that it could carry it so, part by part. What it generated, then, was from the power of the Good, and was good-formed, and it is itself good, from good-formed things: a varied good.
+!flag it could not sustain the power poured upon it and therefore broke it up | The Greek says the power "it was bringing away" (ἐκομίζετο), carrying it for itself, and that "it broke it apart" (συνέθραυε); "poured upon it" is MacKenna's.
+!flag it is good, itself, since it is constituted by these things of good | The Greek says it is good "from good-formed things" (ἐξ ἀγαθοειδῶν): made of things in the form of the good.
+!note The one broken into many by intellect's weakness: III.8.8, where intellect, wishing to have the One, became many, and V.3.11, where intellect, trying to see the One, sees it as many.
+
+@p
+@greek διὸ καὶ εἴ τις αὐτὸν ἀπεικάζοι
+So if someone likened it to a living, varied sphere, or imagined it as a thing all faces, shining with living faces, or as all the pure souls run together into the same place, not lacking, but having all that is theirs, and the whole intellect set on their summit, so that the place is lit by an intellectual light: imagining it so, he would see it from outside, as one thing sees another. But one must become that, and make oneself the sight.
+!flag to a unity of souls, all the pure souls, not the faulty but the perfect | The Greek has the pure souls "run together into the same (εἰς τὸ αὐτὸ συνδραμούσας), not lacking (οὐκ ἐνδεεῖς), but having all that is theirs": not lacking, where MacKenna has "not the faulty but the perfect".
+!flag with Intellect enthroned over all | The Greek says the whole intellect is "set on their summits" (ἐπ’ ἄκραις αὐταῖς ἱδρυμένον): at the top of the souls themselves, not over all.
+!flag the true way is to become Intellectual-Principle and be, our very selves, what we are to see | The Greek says "one must become that and make oneself the sight" (τὴν θέαν ἑαυτὸν ποιήσασθαι): the seer becomes the sight; "Intellectual-Principle" is MacKenna's.
+!note The shining sphere pictured and then given up: V.8.9, where one is told to picture the world as a transparent sphere and take away its bulk. Becoming the sight, and no longer seeing from outside: V.8.10-11 and VI.9.10-11.
+@ch VI.7.16 | Intellect filled by the Good
+One must not stay in the many beauty but rise and ask who generated it. Each form has its own stamp, but, being good-formed, has something common running over all. Did intellect, looking to the Good, think it as many? It was not yet intellect then, but lived toward it and turned to it; the movement, filled, made it intellect, seeing by the light of the giver. So the Good is cause of substance and of its being seen, as the sun is of things seen and of sight, being neither.
+
+@p
+But one must not stay always in this many beauty, but go on still, darting upward and letting this go, not from this heaven but from that one, marvelling who it is that generated it, and how. Each form, then, is each, its own, as a stamp; but, being good-formed, it has a common thing running over all of them. It has being over all, and each has the living being too, since life is common over all, and perhaps other things too. But in so far as they are goods, and because they are goods, what would that be?
+!flag we must make haste yet higher, above this heaven of ours and even that | The Greek says "darting up (ἀίξαντα) and letting this go, not from this heaven but from that one": one goes up from the heaven there, not above it.
+!flag Everything There is a single Idea in an individual impression | The Greek says "each form is each, and its own (ἴδιος), as a stamp": each form its own, not a single Idea.
+!flag possesses also the total Living-Form in virtue of that transcendent life | The Greek says each has "the living being" (τὸ ζῷον), life being common "over all" (ἐπὶ πᾶσιν); "transcendent" is MacKenna's.
+!flag But what is the Nature of this Transcendent in view of which and by way of which the Ideas are good ? | The Greek asks what would be common to them "in so far as they are goods, and because they are goods": what in them makes them good, not the nature of something transcendent.
+
+@p
+@greek πρὸς δὴ τὴν τοιαύτην σκέψιν
+For such an inquiry it might be useful to begin from here. When intellect looked toward the Good, did it think that one as many, and, being one itself, think it as many, dividing it in itself because it could not think it whole at once? But it was not yet intellect when it looked at that one; it looked without thinking. Or one must say that it never even saw it, but lived toward it, and hung from it, and was turned toward it; and this movement, filled by moving there and around that one, filled it, and was no longer only movement, but movement sated and full. And next it became all things, and knew this in its awareness of itself, and was intellect at once, filled so as to have what it would see, and seeing them with light from the giver, and bringing this along too.
+!flag applied its Act by breaking into parts what it was too feeble to know as a whole | The Greek has it "dividing (μερίζων) it in itself" because it "could not" (μὴ ... δύνασθαι) think it whole at once; "too feeble" is MacKenna's.
+!flag No: that would not be Intellection looking upon the Good; it would be a looking void of Intellection | The Greek says "it was not yet (οὔπω) intellect when it looked at that one, but looked without thinking": a stage before intellect, not a hypothesis set aside.
+!flag all the tendance taking place There and upon That must be a movement teeming with life | The Greek says "this movement, filled by moving there and around (περί) that one, filled it": a movement around the Good; "teeming with life" is MacKenna's.
+!flag there is no longer bare Act, there is a filling to saturation | The Greek says it "was no longer only movement (κίνησις), but movement sated (διακορής) and full": movement, not Act.
+!flag knows that fact in virtue of its self-knowing | The Greek has "in its awareness of itself" (ἐν συναισθήσει αὑτοῦ): a joint perception of itself, not knowing.
+!flag seeing all by the light from the Giver and bearing that Giver with it | The Greek says it sees them with light from the giver, "bringing this (τοῦτο) along too": it carries the light, not the giver.
+!note Intellect's coming to be in two moments, an unbounded looking and then a filling and bounding: V.4.2 and V.1.7, and chapter 17 below. "Sated" (διακορής): the play on κόρος, fullness, and Kronos, intellect, is in V.1.7 and III.8.11; Plato's Cratylus (396b) has Kronos from κόρος.
+
+@p
+@greek διὰ τοῦτο οὐ μόνον λέγεται τῆς οὐσίας
+This is why that one is said to be the cause not only of substance but also of its being seen. And as the sun, being the cause to the perceptibles of their being seen and of their coming to be, is somehow the cause of sight too, and so is neither the sight nor the things that come to be, so the nature of the Good, being the cause of substance and intellect, and a light, by analogy, to the things seen there and to the one who sees, is neither the beings nor intellect, but their cause, and grants that they are thought, by its own light shed on the beings and on intellect.
+!flag the Supreme may be understood to be the cause at once of essential reality and of the knowing of reality | The Greek says that one "is said" (λέγεται) to be cause of substance (οὐσίας) "and of its being seen", Plato's words; the modern version keeps "substance", and "essential reality" is MacKenna's.
+!flag cause of Being and Intellectual-Principle | The Greek has "cause of substance (οὐσίας) and intellect"; the modern version keeps "substance", and "Being" is MacKenna's.
+!note The Good the cause of knowledge and of being, as the sun is of sight and of becoming, and itself beyond substance: Plato's Republic VI (508a-509b).
+
+@p
+@greek πληρούμενος μὲν οὖν ἐγίνετο
+While it was being filled, then, it was coming to be; when it was filled, it was; and at once it was completed and saw. Its principle was that, what it was before it was filled; and the other principle, as if from outside, was the one that filled it, from which, being filled, it was as it were stamped.
+!flag This filling procures the existence ; after the filling the being | The Greek says "while being filled it was coming to be (ἐγίνετο), when filled it was (ἦν)": becoming, then being; "procures the existence" is MacKenna's.
+!flag gave shape to the filled | The Greek says that, being filled, it was "as it were stamped" (οἷον ἐτυποῦτο): the stamp (τύπος) of the chapter's first sentences.
+@ch VI.7.17 | The giver greater than the gift; life bounded is intellect
+How are the forms in intellect, when they were not in what filled it? The giver need not have what it gives: it is greater than the gift, beyond activity and so beyond life. Life was a trace of the Good, unbounded as it looked and bounded once it had looked; life bounded is intellect, many intellects in one, each differing by being wholly one. Intellect seats the forms and is a light to soul; the Good is without shape or form, for so it makes form: were it a form, intellect would be a forming principle.
+
+@p
+But how are these in intellect, and how is intellect, when they were not there in what filled it, nor again in what was being filled? For when it was not yet filled, it did not have them. Or it is not necessary that one have what one gives; but in such things one must think the giver greater, and the given less than the giver: for such is coming to be among the beings. For what is in act must be first, and the things after must be in potency what is before them; and the first is beyond the second things, and the giver was beyond the given, for it is better. If, then, there is something before activity, it is beyond activity, and so beyond life too. If, then, there is life in this one, the giver gave life, but is more beautiful and more honourable than life. Intellect had life, then, and had no need of a varied giver; and the life was a trace of that one, not that one's life.
+!flag But in what mode are these secondaries, and Intellectual-Principle itself, within the First ? | The Greek asks how these are "in it" (ἐν αὐτῷ), in intellect, when they were not in the one that filled it: not how they are within the First.
+!flag Our sphere containing life, there is a Giver of Life | The Greek says "if, then, there is life in this one (ἐν τούτῳ)", in intellect: the life is intellect's, not our sphere's.
+!flag this possessed Life and had no need to look for it to any giver in possession of Life’s variety | The Greek says intellect "had life, and had no need of a varied (ποικίλου) giver": it is intellect that had life, and the giver needed no variety.
+!note The giver greater than the gift, not having what it gives: V.3.15 and chapter 32 below. Act before potency: Aristotle, Metaphysics Θ.8 (1049b4-1050a3).
+
+@p
+@greek πρὸς ἐκεῖνο μὲν οὖν βλέπουσα
+Looking toward that one, then, it was unbounded, and having looked there it was bounded, though that one has no bound. For at once, looking toward one thing, it is bounded by it, and holds in itself bound and limit and form; and the form is in what was shaped, but what shaped it was shapeless. And the bound was not from outside, as if set around a magnitude, but it was the bound of all that life, which is many and unlimited, as shining out from such a nature; and it was not the life of this one thing, for then it would already have been bounded as an individual. But it was bounded, all the same: bounded, then, as the life of one thing that is many. And each of the many was bounded, bounded as many by the manyness of the life, and as one again by the bound.
+!flag Life looks to unity and is determined by it, taking bound, limit, form | The Greek says "looking toward one thing (πρὸς ἕν τι)" it is bounded at once: toward something one; "unity" is MacKenna's.
+!flag limitless itself as radiated from its great Prior | The Greek says the life is "many and unlimited (ἀπείρου)", "as shining out (ἐκλαμψάσης) from such a nature"; the modern version keeps "the unlimited", and "its great Prior" is MacKenna's.
+!note The unbounded and the bound in intellect: the indefinite dyad bounded by the One (V.4.2) and the intelligible matter (II.4.5); the limit and the unlimited of Plato's Philebus (23c-25b).
+
+@p
+@greek τί οὖν τὸ ἓν ὡρίσθη
+As what, then, was the one bounded? As intellect: for life bounded is intellect. And as what the many? As many intellects. All are intellects, then: the whole is intellect, and each is an intellect. But does the whole intellect, holding each, hold each as the same? Then it would hold one. If, then, there are many, there must be difference. How, again, did each have its difference? In becoming wholly one, it had its difference: for the whole is not the same as any intellect at all.
+!flag all its multiplicity resolves itself into Intellectual-Principles | The Greek says "all, then, are intellects (νόες), and the whole (πᾶς) is intellect, and each (ἕκαστοι) is an intellect"; "collective" and "particular" are MacKenna's.
+!flag It takes its characteristic difference by becoming entirely a unity within the collective whose totality could not be identical with any particular | The Greek says it had its difference "in becoming wholly one" (εἷς ὅλως γενέσθαι), for "the whole is not the same as any intellect at all"; "within the collective" is MacKenna's.
+!note Many intellects in one, each the whole in its own way, as each theorem holds the whole science: V.9.8, IV.9.5 and VI.2.20.
+
+@p
+@greek ἦν οὖν ἡ μὲν ζωὴ δύναμις πᾶσα
+Life, then, was all power, and the sight from there was the power of all things, and intellect, when it came to be, appeared as all these things. It sits upon them, not to be seated, but to seat them, having seen the form of the firsts, which is itself without form. And intellect becomes a light to soul in the same way as that one is to intellect; and when it too bounds the soul, it makes it rational, giving it a trace of what it had.
+!flag Thus the Life in the Supreme was the collectivity of power | The Greek says "life was all power (δύναμις πᾶσα)": the life of intellect, the trace, not a life in the Supreme.
+!flag Intellectual-Principle, thus arising, is manifested as this universe of Being | The Greek says intellect "appeared as all these things" (αὐτὰ ... τὰ πάντα), the all things of the sight; "this universe of Being" is MacKenna's.
+!flag that it may serve as base to the Form of the Firsts, the Formless Form | The Greek says it sits upon them to seat them, "having seen the form of the firsts, which is itself formless (ἀνείδεον)": the formless one is the first, the Good, not a "Formless Form".
+!flag it shapes it into Reasoning Soul | The Greek has "rational" (λογικήν): a soul given a forming principle; "Reasoning Soul" is MacKenna's.
+
+@p
+@greek ἴχνος οὖν καὶ νοῦς ἐκείνου
+Intellect too, then, is a trace of that one. But since intellect is form, and in extension and multitude, that one is shapeless and formless: for this is how it makes form. If that one were a form, intellect would be a forming principle. But the first had to be in no way many: for its manyness would hang from another again, before it.
+!flag if the Prior were a Form, the Intellectual-Principle itself could be only a Reason-Principle | The Greek says intellect "would be a forming principle" (λόγος); the modern version keeps "forming principle" for λόγος, and "Reason-Principle" and "only" are MacKenna's.
+!note The One without shape and form because it makes form: V.5.6 and VI.9.3, and chapters 32-33 below. What is first must be simple, or it would need another before it: V.4.1.
+@ch VI.7.18 | What makes the forms good-formed
+In what are the things in intellect good-formed? All that comes from the Good bears its trace, as heat from fire; but coming from it is not enough: there must be something common in them. Life is good not bare, but as true and from the Good; so intellect is good, and each form. Is the good in their substance, or is each whole good? The first activity, what is bounded on it, and both together are good, each in its way. Here order and rhythm make things good; there the things themselves; but why, the argument still asks.
+
+@p
+But in respect of what are the things in intellect good-formed? Is it as each is a form, or as they are beautiful, or as what? If, then, all that comes from the Good has a trace and stamp of it, or from it, as what comes from fire is a trace of fire, and what comes from sweet a trace of sweet; and life comes into intellect from that one, for it came to be from the activity from that one; and intellect is through that one, and the beauty of the forms is from there: then all would be good-formed, life and intellect and idea. But what is the common thing?
+!flag as anything going back to warmth or sweetness carries the memory of those originals | The Greek says "what comes from fire is a trace of fire, and what comes from sweet a trace of sweet": fire and sweet, and a trace, not a memory.
+!flag must inevitably have goodness | The Greek says all "would be good-formed" (ἀγαθοειδῆ ἂν εἴη): a conclusion under a condition, and good-formed, not "having goodness".
+!note What comes from fire as a trace of fire: the two activities of a thing, its own and the one that goes out from it, V.4.2 and V.1.6.
+
+@p
+@greek οὐ γὰρ δὴ ἀρκεῖ
+For it is surely not enough, for being the same, that they come from that one: the common thing must be in them. For what is not the same might come from the same, or what is given in the same way might become other in those who receive it: since what goes into the first activity is one thing, and what is given by the first activity another, and what comes after these is other again. Or nothing prevents each from being good-formed, yet one more so by another thing. In respect of what, then, most?
+!flag there is difference, again, in the effect here | The Greek says "what comes after these (τὸ ἐπὶ τούτοις) is other again": what comes next, not "the effect here".
+!flag Nonetheless every item may be good in a degree of its own | The Greek says nothing prevents each from being good-formed, "yet more so (μᾶλλον) by another": the question is which is most, not a degree of its own.
+
+@p
+@greek ἀλλὰ πρότερον ἐκεῖνο
+But first it is necessary to see this: is life good in so far as it is just this, life, seen bare and stripped? Or is it the life that is from it, and what is from it is something other, of this kind? Again, then, what is such a life? The Good's. But it was not its, but from it. But if in that life there is something from that one, and it is the life that really is, and nothing from that one may be called of no worth, and it is good in so far as it is life, then of the true intellect too, that first one, one must say that it is good; and it is clear that each form too is good and good-formed. Either, then, it has something good, either common, or one more than another, or one first and another next, in the second place.
+!flag very different from the Life known here | The Greek asks whether life is good "seen bare and stripped" (ψιλὴ ... ἀπογεγυμνωμένη), or the life from it, "and what is from it is something other, of this kind"; "very different from the Life known here" is MacKenna's.
+!flag so too we must admit in the case of Authentic Intellectual-Principle that its Life because good derives from that First | The Greek says of "the true intellect, that first one" (τοῦ πρώτου ἐκείνου), "that it is good": intellect is good, not its life derived.
+!flag as a common property or as a distinct attribution or as held in some distinct measure | The Greek says "either common, or one more than another, or one first and another next and second" (πρώτως ... δευτέρως): an order of first and second.
+
+@p
+@greek ἐπεὶ γὰρ εἰλήφαμεν ἕκαστον
+For since we have taken each as already having something good in its substance, and as good because of this — for life was good not simply, but because it was called true and because it was from that one, and so was intellect, the one that really is — something of the same must be seen in them. For when things are different and the same is said of them, nothing prevents this from being present in their substance, yet one can take it apart in its account, as living being in man and horse, and the hot in water and fire, the first as a genus, the second as first in one and second in the other; or else each of the two, or each, would be called good by a mere sharing of the name.
+!flag for Life we found to be good not in the bare being but in its derivation from the Authentic | The Greek says life was good "because it was called true (ἀληθινή) and because it was from that one": true life, not "derivation from the Authentic".
+!flag thus life in man or horse yields the notion of animal | The Greek has "living being (τὸ ζῷον) in man and horse": the genus itself, not life.
+!flag the first case is a definition of Kind, the other two cite qualities, primary and secondary respectively | The Greek has two cases: the living being said "as a genus", and the hot said "first in one and second in the other" (fire first, water second).
+!flag Both or one part of Intellect, then, would be called by the one term good | The Greek says "or each of the two, or each, would be called good homonymously (ὁμωνύμως)": by name only, the alternative to be avoided; "part of Intellect" is MacKenna's.
+!note The same said of different things as a genus, or first and second (πρώτως, δευτέρως), or only by name (ὁμωνύμως): Aristotle, Categories 1 (1a1-12) and Metaphysics Γ.2 (1003a33-b10); fire hottest, the cause of heat in others: Metaphysics α.1 (993b24-26). The account (λόγος) here is the definition, as in Aristotle, not the forming principle.
+
+@p
+@greek ἆῤ οὖν ἐνυπάρχει
+Is the good, then, present in their substance? Or is each, whole, good, not good by one thing in it? How, then? As parts? But the Good is without parts. Or it is one itself, but this is good in this way, and that in that: for the first activity is good, and what was bounded on it is good, and both together; the first because it came to be by that one, the second because it is an order from it, the third because it is both. They are from it, then, and none the same, as if from the same man came speech and walking and something else, all done rightly.
+!flag Each of them is good but the goodness is not that of the Unity-Good | The Greek says "each whole is good, not good by one thing" (οὐ καθ’ ἕν): the whole thing good, not by one part in it; "the Unity-Good" is MacKenna's.
+!flag By the mode of parts | The Greek asks it ("as parts?"), and answers at once: "but the Good is without parts".
+!flag but here it has become particularised | The Greek says "it is one itself, but this is good in this way, that in that" (οὑτωσὶ δὲ τόδε): each in its own way; "particularised" is MacKenna's.
+!flag the good that is an ordered system derived from that earlier, and the good that is in the actualisation (in the thing participant) | The Greek has three: the first activity, good as coming to be by that one; what was bounded on it, good as an order (κόσμος) from it; and both together (συνάμφω), good as both. "In the actualisation (in the thing participant)" is MacKenna's.
+!flag like the speech and walk and other characteristics of one man, each playing its due part | The Greek says "all done rightly" (κατορθούμενα): from the same man, all right actions; "characteristics" is MacKenna's.
+
+@p
+@greek ἢ ἐνταῦθα, ὅτι τάξις
+Or here they are good because of order and rhythm; but there, what? But someone might say that here the being well is wholly from outside, since the things about which the order is are different, but there the things themselves are good. But why are they themselves good? For we must not let it go because we trust that they are from that one: we must grant that, being from that one, they are honourable, but the argument longs to grasp in respect of what their good is.
+!flag We might answer that in the case of the sense-order, too, the good is imposed | The Greek says "here (ἐνταῦθα) the being well (τὸ καλῶς) is wholly from outside": no "too", and "sense-order" is MacKenna's.
+!flag we do not deny that things deriving Thence are good | The Greek says "honourable" (τίμια), of worth: their goodness is what is asked.
+!flag our subject demands that we discover the mode by which they come to possess that goodness | The Greek says "the argument (ὁ λόγος) longs (ποθεῖ) to grasp" in respect of what their good is: λόγος here is the argument, not the forming principle, and it longs.
+@ch VI.7.19 | Desire is no test of the good
+Shall we leave the judgment to desire and to the soul, and call good what it desires without asking why? That would be absurd: the good would be something relative, the desirers are many and desire different things, and we would not know the better without knowing the good. To judge by each thing's virtue leads up, rightly, to form and forming principle; but there, where nothing is evil, we are at a loss how they are good, since there the that is the why. Still, one must not give up.
+
+@p
+Shall we, then, give the judgment over to desire and to the soul, and, trusting its affection, say that what it desires is good, and not inquire why it desires it? And shall we bring demonstrations about what each thing is, and give the good over to desire? But many absurdities appear to us. First, that the good too will be one of the things said in relation to something; next, that the things that desire are many, and desire different things: how, then, shall we judge by what desires whether it is better? But perhaps we shall not even know the better while we do not know the good.
+!flag Are we to rest all on pursuit and on the soul? | The Greek has "desire" (ἔφεσις) and "the judgment" (τὴν κρίσιν): whether to give the judgment over to desire; "pursuit" is MacKenna's.
+!flag is the good to be dismissed as choice ? | The Greek asks whether we shall "give (δώσομεν) the good over to desire": hand it over to desire to judge, not dismiss it.
+!flag The good becomes a mere attribute of things | The Greek says "the good will be one of the things relative (τῶν πέρι)": said in relation to something; "a mere attribute" is MacKenna's.
+!flag objects of pursuit are many and different | The Greek says "the things that desire (τὰ ἐφιέμενα) are many, and desire different things": the desirers, not the objects.
+!note Every soul pursues the good and does all for its sake, but divines it and is at a loss what it is: Plato's Republic VI (505d-e); all that knows the good hunts it: Philebus (20d).
+
+@p
+@greek ἀλλὰ ἆρα τὸ ἀγαθὸν ὁριούμεθα
+But shall we define the good by each thing's virtue? But so we shall lead it up to form and forming principle, going rightly; but when we come there, what shall we say, when we are asking just this, how these are good? For in the worse things, it seems, we could know such a nature, though it does not have it purely, by setting it beside what is worse; but there, where nothing is evil, and the better things are by themselves, we shall be at a loss.
+!flag Are we to determine the good by the respective values of things ? | The Greek says "by each thing's virtue (ἀρετήν)", its excellence; the modern version keeps "virtue", and "values" is MacKenna's.
+!flag This is to make Idea and Reason-Principle the test : all very well | The Greek says "we shall lead it up (ἀνάξομεν) to form and forming principle (λόγον), going rightly"; the modern version keeps "forming principle" for λόγος, and "Reason-Principle" is MacKenna's.
+!flag we are without a standard There where no evil exists, the Bests holding the field, alone | The Greek says "we shall be at a loss" (ἀπορήσομεν) there, where the better things are "by themselves"; "the Bests holding the field" is MacKenna's.
+
+@p
+@greek ἆῤ οὖν, ἐπειδὴ ὁ λόγος
+Is it, then, that since the argument seeks the why, and these are good of themselves, it is at a loss for the why because the that is the why? For even if we name another cause, the difficulty is likewise the same, since the argument does not reach there. Yet we must not stand off, in case something should appear to us going by another road.
+!flag Reason demands to know what constitutes goodness | The Greek says "the argument (ὁ λόγος) seeks the why (τὸ διότι)": the cause, the why of the demonstrations; and it is asked as a question, "is it that ...?".
+!flag the doubt still remains until our reason claims its rights There | The Greek says the difficulty is the same "since the argument does not reach (μὴ φθάνοντος) there": it does not get there at all; "claims its rights" is MacKenna's.
+!note The that and the why one in the intelligible: chapter 2 of this treatise, and Aristotle, Posterior Analytics II.2 (90a14-23), where the what and the why are the same.
+@ch VI.7.20 | Not intellect, but the Good, is what all desire
+Turn then to the judgments and the opposites: order and disorder, symmetry, health, form, substance, being put together; the first of each pair is in the form of the good, and so are their makers: virtue, intellect, life, the wise soul. Why not stop at intellect and call it the Good? Because not all things desire intellect, and those that have it do not stop, but seek the good again; intellect is sought from reasoning, the good before reason; and life and being are desired as good.
+
+@p
+Since, then, for the present we do not trust the desires for laying down what the good is, or of what kind, must we go to the judgments and the oppositions of things, as order and disorder, the symmetrical and the unsymmetrical, health and disease, form and shapelessness, substance and destruction, and, in a word, being put together and vanishing? Who would dispute that the first of these, in each pair, are in the form of the good? And if so, their makers too must be set in the good's portion. And virtue and intellect and life and soul, the wise one at least, are in the form of the good; and so, then, is what a wise life desires.
+!flag form, shapelessness; real-being, decay | The Greek has "substance (οὐσίαν) and destruction (φθοράν)"; the modern version keeps "substance", and "real-being" is MacKenna's.
+!flag reasoning soul, at least | The Greek has "the wise one (ἔμφρων) at least": a soul with wisdom in it, not reasoning.
+!flag so therefore does all that a reasoned life aims at | The Greek says "what a wise life (ἔμφρων ζωή) desires": wise, not reasoned.
+
+@p
+@greek τί οὖν οὐ στησόμεθα
+Why, then, someone will say, shall we not stop at intellect and set this down as the Good? For soul and life are traces of intellect, and soul desires it. And so it judges and desires intellect: judging justice better than injustice, and each form of virtue before the form of vice; and what it prefers is what it chooses.
+!flag that principle is the Term of Soul which on judgement sets itself towards Intellectual-Principle | The Greek says "soul desires (ἐφίεται) this", and judges and desires intellect; "the Term" is MacKenna's.
+!flag pronouncing right preferable to wrong | The Greek has "justice (δικαιοσύνην) better than injustice"; the modern version keeps "justice".
+!flag and thus ranking by its choosing | The Greek says "what it prefers is what it chooses (αἵρεσις)": preferring and choosing are of the same things.
+
+@p
+@greek ἀλλ’ εἰ μὲν νοῦ μόνον ἐφίεται
+But if it desired intellect only, perhaps more argument would be needed, to show that intellect is not the last, and that not all things are of intellect, but all are of the good. And of those that do not have intellect, not all seek to acquire intellect, and those that have intellect do not stop there, but seek the good again; and they seek intellect from reasoning, but the good even before reason. And if they desire life too, and always being and being active, what is desired would not be so as intellect, but as good, and from good, and toward good: since life is so too.
+!flag The soul aiming only at that Principle would need a further lessoning | The Greek says "if it desired intellect only, perhaps more argument (λόγου) would be needed": more argument for us, to show that intellect is not the last; not a lesson for the soul.
+!flag life itself is desirable only in view of good | The Greek says "since life is so too" (ἐπεὶ καὶ ἡ ζωὴ οὕτως): life too is from good and toward good; "only" is MacKenna's.
+!note All things desire the good, not all intellect: Aristotle, Nicomachean Ethics I.1 (1094a2-3), "the good is that at which all things aim"; Plato's Philebus (20d); Plotinus I.7.1 and V.5.12.
+@ch VI.7.21 | The light from above on intellect and life
+What one thing in all these makes each good? Let it be dared: intellect and that life are good-formed, life the activity from the Good, intellect that activity bounded, and they are desired in so far as they are good-formed. Full of splendour, they are pursued by soul as akin; but the akin, if not good, is fled. The strong love comes not when they are what they are, but when they take something more from there: as bodies with light mixed in still need another light for their own to show.
+
+@p
+What, then, being one in all these, makes each good? Let it be dared thus: intellect and that life are good-formed, and they too are desired in so far as they are good-formed; and I call them good-formed in that life is the activity of the Good, or rather the activity from the Good, and intellect is that activity already bounded. And they are full of splendour, and pursued by soul as from there, and as leading back there: as akin, then, but not as goods; yet, being good-formed, not to be thrown away for this either. For the akin, if it is not good, is akin, but one flees it: since other things too, far off and below, might move one.
+!flag Intellectual-Principle and that life are of the order of good | The Greek says they are "good-formed" (ἀγαθοειδῆ), the word of chapters 15 to 18: in the form of the good, not "of the order".
+!flag because Life is an Activity in The Good | The Greek says life is "the activity of the Good (τἀγαθοῦ), or rather from the Good": of, not in.
+!flag while Intellectual-Principle is an Activity already defined Therein | The Greek says intellect is "that activity already bounded" (ἤδη ὁρισθεῖσαν); "Therein" is MacKenna's.
+!flag the related if not good is shunned in spite of that relationship | The Greek says "the akin (τὸ οἰκεῖον), if it is not good, is akin, but one flees it": the akin, the word of chapters 24 and 27.
+
+@p
+@greek γίνεται δὲ πρὸς αὐτὰ ἔρως
+The intense love for them comes not when they are what they are, but when, being already what they are, they take on something else from there. For as with bodies, though light is mixed in them, there is need of another light, that the light in them may appear, so with the things there, though they have much light, there is need of another, better light, so that they too may be seen, both by themselves and by another.
+!flag is due not to what they are but to the consideration of their nature as something apart, received from above themselves | The Greek says the love comes "when, being already what they are, they take on (προσλάβῃ) something else from there": something added, not "the consideration of their nature".
+!flag or even they would not be visible to themselves and beyond | The Greek says "so that they may be seen both by themselves and by another (ὑπ’ ἄλλου)": by another, not "beyond".
+!note Sight and colour need a third thing, light: Plato's Republic VI (507d-508a). Love for what the light from the Good comes upon: chapter 22 and V.5.12.
+@ch VI.7.22 | Beauty is the light on the symmetry
+Seeing this light one is moved toward them and delights in the light running over them, as love here is for the beauty that shows on bodies. Each is what it is by itself, and becomes desired when the Good colours it. The soul that takes in the flow from there is roused and becomes love; before that it lies idle even before intellect, as before a beautiful face without grace. So beauty is the light that shines on symmetry, not symmetry: the living face is more beautiful than the dead, the living ugly than the beautiful statue.
+
+@p
+When, then, one sees this light, then indeed one is moved toward them, and, longing for the light that runs over them, rejoices: as here too love is not for the bodies that underlie, but for the beauty that appears on them. For each is what it is by itself; but it becomes desirable when the Good colours it, as if giving graces to them, and loves to those who desire them. And so soul, taking into itself the flow from there, is moved and roused to Bacchic frenzy, and filled with goads, and becomes love.
+!flag Every one of those Beings exists for itself | The Greek says "each is what it is by itself" (ἐφ’ αὑτοῦ): by itself, not for itself.
+!flag The soul taking that outflow from the divine is stirred | The Greek has "the flow from there" (τὴν ἐκεῖθεν ἀπορροήν), from the Good; "the divine" is MacKenna's.
+!flag goaded by these goads | The Greek says "filled with goads" (οἴστρων πίμπλαται), the gadfly's stings of the Phaedrus.
+!note The flow (ἀπορροή) of beauty that the soul takes in, its warmth, the stings and the growing of its wings: Plato's Phaedrus (251a-252b); the Bacchic frenzy of philosophy: Symposium (218b).
+
+@p
+@greek πρὸ τοῦ δὲ οὐδὲ πρὸς τὸν νοῦν
+Before this it is not moved even toward intellect, though intellect is beautiful: for its beauty is idle until it takes the light of the Good, and the soul lies on its back of itself, idle toward everything, and, though intellect is present, sluggish toward it. But when there comes into it as it were a warmth from there, it gains strength and wakes up and really grows wings, and, though excited by what lies by it and near, it is lifted all the same, as by memory, toward another, greater thing. And so long as there is something higher than what is present, it rises by nature, lifted up by the giver of the love. And it rises above intellect, but cannot run above the Good, because there is nothing that lies above it.
+!flag for that beauty is dead until it take the light of The Good | The Greek says the beauty is "idle" (ἀργόν), without work, as in chapter 13: idle, not dead.
+!flag spreads true wings | The Greek says it "really grows wings" (ὄντως πτεροῦται), the Phaedrus' feathering of the soul: the wings grow, they are not spread.
+!flag speeds its buoyant way elsewhere, to something greater to its memory | The Greek says it "is lifted (κουφίζεται) toward another, greater, as by memory (οἷον τῇ μνήμῃ)"; "speeds its buoyant way" is MacKenna's.
+!note The soul's wings grown by the warmth of beauty, and its lifting by memory of what it saw: Plato's Phaedrus (249c-d, 251b-c).
+
+@p
+@greek ἐὰν δὲ μένῃ ἐν νῷ
+But if it stays in intellect, it sees beautiful and solemn things, but does not yet have altogether what it seeks. For it is as if it came near a face that is beautiful, but cannot yet move the sight, because no grace running over the beauty shines on it. So here too one must say that beauty is rather what shines on the symmetry than the symmetry, and that this is what is lovable.
+!flag but not of power to hold its gaze | The Greek says the face "cannot yet move (κινεῖν) the sight": it does not stir the seer, not hold the gaze.
+!note Beauty not symmetry alone: I.6.1, against the Stoic definition of bodily beauty as a fitting shape of the limbs with a pleasant colour (Cicero, Tusculan Disputations IV.31).
+
+@p
+@greek διὰ τί γὰρ ἐπὶ μὲν ζῶντος
+For why is the splendour of beauty more on a living face, and only a trace of it on a dead one, though the face is not yet wasted in its flesh and its symmetries? And of statues, are not the more lifelike more beautiful, though the others may be more symmetrical; and is not a living man who is uglier more beautiful than the beauty in a statue? Because this is more desired; and this because it has soul; and this because it is more good-formed; and this because it is somehow coloured by the light of the Good, and, coloured, it is woken and lifted up, and lifts up what it has, and, as far as it can, makes it good and wakes it.
+!flag though the face yet retains all its fulness and symmetry | The Greek says "not yet wasted (μεμαρασμένου) in its flesh and symmetries": not yet decayed; "all its fulness" is MacKenna's.
+!flag Why are the most living portraits the most beautiful | The Greek has "statues" (ἀγαλμάτων), the more lifelike (ζωτικώτερα) of them: statues, not portraits.
+!flag because there is more of the Idea of The Good | The Greek says "because it is more good-formed (ἀγαθοειδέστερον)": the word of chapters 15 to 21; "the Idea of The Good" is MacKenna's.
+!flag so that the whole man is won over to goodness, and in the fullest measure stirred to life | The Greek says it "makes good (ἀγαθοποιεῖ) and wakes, as far as it can (ὡς οἷόν τε), what it has": the body it has, as far as it can; "the whole man" and "the fullest measure" are MacKenna's.
+@ch VI.7.23 | The Good, best of all, and what it makes
+No wonder that what the soul pursues has such power, drawing it back from all wandering to rest: what all things come from is better than all, most self-sufficient, and was before there was vice. Evil, the last, is its contrary with nothing between, so either there is no good, or this is it; the other goods look to it, and it to nothing. It made intellect, life, souls and all that shares in a forming principle; and now too it keeps them, breathing in intellect and life, and, where life cannot be, being.
+
+@p
+That, then, which soul pursues, and which gives light to intellect, and, falling on it, moves its trace: one should not marvel if it has such power, drawing to itself and calling back from all wandering, so that one may rest beside it. For if all things are from it, nothing is better than it, and all are less. How, then, is the best of beings not the Good? And indeed, if the nature of the Good must be most self-sufficient to itself, and without need of anything else at all, what other could one find it to be than this? It was what it was before the others, when there was not yet even vice.
+!flag leaving its mark wherever it falls | The Greek says "falling (ἐμπεσόν) on it, moves its trace (ἴχνος)": it moves its own trace in intellect; "wherever it falls" is MacKenna's.
+!flag From it came all and so there is nothing mightier | The Greek says "nothing is better (κρεῖττον) than it, and all are less": better, not mightier.
+!flag when evil had yet no place in things | The Greek has "vice" (κακία): before there was even vice; evils come in the next sentence.
+!note All things about the king of all, and for his sake: Plato's Letter II (312e). The good self-sufficient (ἱκανόν) and complete: Philebus (20d, 60c).
+
+@p
+@greek εἰ δὲ τὰ κακὰ ὕστερον
+And if evils are later, in the things that have not shared in this even in one respect, and in the last things, and there is nothing beyond evils toward the worse, then evils would be contrary to it, having nothing between them for the contrariety. This, then, would be the Good: for either there is no good at all, or, if there must be, it would be this and no other. And if someone said there is none, there would be no evil either: then things would be indifferent by nature for choosing; and this is impossible. The other things that are called goods look to this, but it to nothing.
+!flag there found where there is no trace of This | The Greek says evils are "in the things that have not shared (μετειληφόσι) in this even in one respect": in what has no share, not "no trace".
+!flag there can then be no difference in objects coming up for choice | The Greek says things would be "indifferent (ἀδιάφορα) by nature for choosing": the Stoics' word for what is neither good nor evil.
+!note Evil the last, with nothing beyond it, contrary to the Good: I.8.6-7. The indifferents (ἀδιάφορα), neither good nor evil: the Stoics in Diogenes Laertius VII.102-104.
+
+@p
+@greek τί οὖν ποιεῖ τοιοῦτον ὄν
+What, then, does it make, being such? It made intellect, it made life, souls from this, and the other things, as many as share in a forming principle or intellect or life. And what is the spring and principle of these, who could say how good it is, and how great? But what does it make now? Now too it keeps those things safe, and makes the thinking things think and the living things live, breathing in intellect, breathing in life, and, if something cannot live, being.
+!flag the souls which Intellectual-Principle sends forth | The Greek says "souls from this" (ἐκ τούτου); "which Intellectual-Principle sends forth" is MacKenna's.
+!flag everything else that partakes of Reason, of Intellectual-Principle or of Life | The Greek has λόγου: what shares in a forming principle, as plants do; the modern version keeps "forming principle" for λόγος, and "Reason" is MacKenna's.
+!note The spring and principle of all: III.8.10, the spring that gives itself to all the rivers and is not used up; the soul the "spring and principle of motion" in Plato's Phaedrus (245c).
+@ch VI.7.24 | Is the good only a name for the pleasant?
+And what does it do for us? Putting off the light for later, ask first: is the Good good because it is desired, by some or by all? Desire is a witness, but the desired must have such a nature. Do the desirers seek to receive something, or to delight in it? Is the good another's, or good to itself? And a hard man will object: why give grand names to life and intellect as good, when you say the Good is beyond them? Without pleasure they are not goods, and our being matters only by love of ourselves and fear of perishing.
+
+@p
+And what does it make in us? Or let us speak again about the light, what the light is by which intellect is lit and in which soul shares: or, putting this off for later, as is fitting, let us first raise these difficulties. Is the Good good, and called good, because it is desired by another, and being desired by some it is good to them, and being desired by all we call it the Good? Or one could make this a witness that it is good, but the desired itself must have such a nature that it would justly get such a name.
+!flag We may recall what we have said of the nature of the light shining from it into Intellectual-Principle and so by participation into the soul | The Greek says "or let us speak again about the light, what the light is (τί τὸ φῶς)": to ask what it is, which is then put off.
+!flag No doubt this universal questing would make the goodness evident | The Greek says "one could make this a witness (μαρτύριον)" that it is good; "universal questing" is MacKenna's.
+!note Desired because good, or good because desired: Aristotle, Metaphysics Λ.7 (1072a29), "we desire it because it seems good, rather than it seems good because we desire it"; and the holy loved because it is holy, Plato's Euthyphro (10a-e).
+
+@p
+@greek καὶ πότερα τῷ τι δέχεσθαι
+And do the things that desire desire by receiving something, or by delighting in it? And if they receive something, what is it? And if by delighting, why in this, and not in something else? In which there is also the question whether the good is in what is akin, or in something else; and indeed whether the good is wholly another's, or the good is good to itself too. Or whatever is good is not good to itself, but of necessity to another. And to what nature is it good? But there is a nature to which nothing is good.
+!flag Further, is the questing determined by the hope of some acquisition or by sheer delight ? | The Greek asks whether they desire "by receiving something (τι δέχεσθαι)" or by delighting: receiving, not the hope of acquiring.
+!flag Is goodness in the appropriate or in something apart | The Greek has "the akin" (τῷ οἰκείῳ), the word of chapters 21 and 27: what belongs to one.
+!flag Any good is such, necessarily, not for itself but for something outside | The Greek puts it as one side of the question ("or whatever is good ..."), and it is answered at once by "a nature to which nothing is good".
+!note A nature to which nothing is good: the One, good to others and not to itself, VI.9.6, and chapter 41 of this treatise.
+
+@p
+@greek κἀκεῖνο δὲ οὐκ ἀφετέον
+And we must not let go what a hard-to-please man might say: "You there, why do you put on airs with names, up and down, calling life good and intellect good, though you put the Good beyond these? For why would intellect be good? Or what good would one who thinks the forms themselves have, contemplating each one itself? If he were deceived and taking pleasure in them, he might perhaps call it good, and life too, since it is pleasant; but if he stood in being without pleasure, why would he say they are goods? Is it his own being? For what fruit would he reap from being? Or what difference would there be in being or not being at all, unless one made his love of himself the cause of these? So it is because of this deception, which is natural, and the fear of perishing, that goods came to be laid down."
+!flag you scatter praises here, there and everywhere | The Greek says "why do you put on airs with names (ἀποσεμνύνετε τοῖς ὀνόμασιν), up and down": exalting by grand names, not scattering praise.
+!flag Or what do we gain by seeing the Ideas themselves if we see only a particular Idea and nothing else | The Greek asks "what good would one who thinks the forms themselves have, contemplating each one itself (αὐτὸ ἕκαστον)": each form in itself; "only a particular Idea and nothing else" is MacKenna's.
+!flag If we are happy here we may be deceived into thinking life a good when it is merely pleasant | The Greek says "if he were deceived and pleased (ἡδόμενος) by these": pleased by the forms, not "happy here".
+!flag but suppose our lot unhappy | The Greek says "if he stood in being without pleasure (ἀνήδονος)": without pleasure, not unhappy.
+!note Love of oneself and the fear of perishing as the first things: the Stoic first impulse of a living being, to keep itself (Diogenes Laertius VII.85); Plotinus answers in chapter 27 that a thing loves itself because it has a portion of the good.
+@ch VI.7.25 | The Philebus' mixture; each thing's good the one above it
+Plato in the Philebus mixed pleasure with the end, perhaps aware of this difficulty, since he would not make the good the pleasant, nor intellect, without pleasure, the good; or because he held the good must give joy. But he sought our good, not the first. The good must be desired, yet it is desired because it is good. Each thing's good is the one above it: form for matter, soul for body, virtue for soul, then intellect, and the first nature above that, each giving something to those below.
+
+@p
+Plato, then, mixing pleasure with the end, and setting the good down not as simple nor in intellect alone, as is written in the Philebus, perhaps, aware of this difficulty, did not turn to set the good altogether in the pleasant, rightly, nor did he think he should set down intellect, being without pleasure, as the good, since he did not see what moves in it. Or perhaps not for this, but because he held that the good, having such a nature in itself, must of necessity be a thing of joy, and that the desired must surely bring joy to the one who gains it, so that what has no joy is not good, and so that, if joy belongs to the one desiring, it does not belong to the first: so that neither does the good.
+!flag makes pleasure an element in the Term | The Greek says "mixing (μιγνύς) pleasure with the end (τῷ τέλει)": the mixed life of the Philebus; "the Term" is MacKenna's.
+!flag since he sees no attractive power in it | The Greek says "not seeing what moves (τὸ κινοῦν) in it": what moves the soul, the stirring of chapter 22.
+!note Plato's Philebus: the good life is the mixed life of pleasure and wisdom (20e-22e, 60a-61b), the good being neither pleasure nor intellect alone; intellect is akin to the cause of the mixture (30d-31a).
+
+@p
+@greek καὶ οὐκ ἄτοπον τοῦτο
+And this is not absurd: for he was not seeking the first good, but ours; and, in general, for a being that is other, its good is other than itself, since it falls short and is perhaps composite. This is why what is solitary and alone has no good, but is good in another way, and greater.
+!flag it is a mingled thing | The Greek says the being whose good it is "falls short and is perhaps composite (συνθέτου)": the being is composite, not the good.
+!flag we are to understand that good does not hold place in the One and Alone whose being is too great and different for that | The Greek says "what is solitary and alone (τὸ ἔρημον καὶ μόνον) has no good, but is otherwise and greater": it has no good because it is good in another way; "the One" is MacKenna's.
+!note "The alone": VI.9.11, the flight of the alone to the alone. The Good has no good of its own: VI.9.6.
+
+@p
+@greek ἐφετὸν μὲν οὖν δεῖ
+The good, then, must be desired, yet it is not by being desired that it becomes good, but by being good that it becomes desired. Is it, then, that for the last among beings its good is what is before it, and the ascent always gives what is above each to be the good of what is below it, if the ascent does not depart from proportion, but always goes on to the greater? And then it will stop at a last, after which there is nothing further to take upward, and this will be the first, and what really is good, and most properly, and the cause for the others too.
+!flag The solution, it would seem, lies in priority | The Greek has no such sentence: it goes straight on to the question of the ascent (ἀνάβασις), "for the last among beings, what is before it".
+!flag so long as the movement does not tend awry but advances continuously towards the superior | The Greek says "if the ascent does not depart from proportion (τοῦ ἀνὰ λόγον)": it keeps its proportion, step by step; "tend awry" is MacKenna's.
+!flag the supremely sovran | The Greek has "most properly (μάλιστα κυρίως)": good in the most proper sense; "sovran" is MacKenna's.
+!note The ladder of goods, each the good of what is below it: I.7.2 and I.8.2; the ascent by steps: Plato's Symposium (210a-211c).
+
+@p
+@greek τῇ μὲν γὰρ ὕλῃ τὸ εἶδος
+For to matter, form is its good — for if it got perception, it would welcome it; to the body, soul — for without it, it would not even be, nor be kept safe; and to soul, virtue. And higher still is intellect, and above this what we call the first nature. And each of these makes something for those whose goods they are: some order and adornment, others life already, others being wise and living well; and to intellect, the Good, which we say comes into it too, both because it is an activity from it, and because it now too gives what is called light: what that is, later.
+!flag Matter would have Forming-Idea for its good | The Greek has "form" (τὸ εἶδος); "Forming-Idea" is MacKenna's.
+!flag some will confer order and place | The Greek has "order and adornment (κόσμον)": the ordering of a world, not place.
+!flag Intellectual-Principle will draw upon the Authentic Good which we hold to be coterminous with it | The Greek says "to intellect, the Good, which we say comes (ἥκειν) into it too": the Good comes into intellect; "coterminous with it" is MacKenna's.
+!flag as even now taking light from it | The Greek says the Good "now too gives (δίδωσι) what is called light": the Good gives, not intellect takes.
+!note Matter desires form as the female the male: Aristotle, Physics I.9 (192a20-25). The body kept in being by soul: IV.7.2-3.
+@ch VI.7.26 | The proof of the good: rest, not pleasure
+What can perceive knows the good when it comes and says it has it. If it is deceived, there must be a likeness by which it is deceived, and its good is what it is deceived about, since when that comes it turns from the false. Desire and travail witness a good for each. One has gained it when one is better, without regret, filled, staying and seeking nothing else: so pleasure is not enough, for it does not love the same thing twice, and one who takes the feeling for the good goes empty.
+
+@p
+And what is by nature able to perceive it of itself knows the good, if it comes to it, and says it has it. What, then, if it is deceived? There must, then, be some likeness by which it is deceived. And if so, that from which it is deceived would be its good: since, when that comes, it stands away from what deceived it. And the desire of each, and its travail, witness that there is some good of each. For to the soulless things the gift of the good is from another, but in what has soul desire works the pursuit; as for bodies that have become dead the care and burial are from the living, but for the living their providence is from themselves.
+!flag Any conscious being if the good come to him will know the good | The Greek has "what is by nature able to perceive (αἰσθάνεσθαι)": perceiving, not conscious.
+!flag All the striving, all the pain, show that to everything something is a good | The Greek has "travail" (ὠδίς), the birth pangs of the Symposium's lover, not pain.
+!flag the lifeless finds its share in something outside itself | The Greek says "for the soulless (ἀψύχοις) the gift (δόσις) of the good is from another": given, not found.
+!flag the living plan for their own good | The Greek says "for the living their providence (πρόνοια) is from themselves": they care for themselves, as the dead are cared for by others.
+!note Travail (ὠδίς) for the beautiful: Plato's Symposium (206d-e), and the soul's travail for the truth, Republic VI (490b).
+
+@p
+@greek ὅτι δ’ ἔτυχε, πιστοῦται
+That it has gained it is confirmed when it becomes something better, and without regret, and it finds itself filled, and stays with that, and seeks nothing else. This is why pleasure is not self-sufficient: for it does not love the same; for it is not the same because it is pleasure again: what it takes pleasure in is always other. The good, then, which one chooses, must not be the affection at what one gets: this is why one who thinks this good stays empty, having only the affection, which one might have had from the good.
+!flag The witness of attainment is betterment, cleaving to state, satisfaction, settlement, suspension of pursuit | The Greek says it is confirmed when one becomes better "and without regret (ἀμετανόητον)", filled, staying and seeking nothing else: the regret is left out, and "cleaving to state" is MacKenna's.
+!flag The good, worthy of the name, can be no such tasting of the casual | The Greek says the good one chooses "must not be the affection (πάθος) at what one gets": the feeling, not "the casual".
+!note Pleasure a coming to be that never fills: Plato's Philebus (53c-54d), and the leaking jar of the Gorgias (493e-494b).
+
+@p
+@greek διὸ οὐκ ἂν ἀνάσχοιτό τις
+This is why no one would put up with the affection at what he does not have: as with a child, to be pleased that he is present when he is not; nor, I think, would those who set the good in being filled in body be pleased as if eating when they are not eating, or as if enjoying sex when not with the one they wanted, or, in general, when not doing anything.
+@ch VI.7.27 | Each thing's good is its better, a portion of the Good
+By the coming of what does each have what befits it? A form: form for matter, virtue for soul. Is it good as akin? No: the like is akin, yet not yet the good. The akin is judged by the better, toward which a thing is in potency; matter is the neediest, and the lowest form is next to it. The form is good to a thing because it is a portion of the good, which is why the pure are most at home with themselves. Desire does not make the good, but comes because it is good, and it is to be chosen even without pleasure.
+
+@p
+But by the coming of what does each have what befits it? We shall say, of some form: for form is matter's, and virtue is the soul's form. But is this form good to that one by being akin, and is desire toward the akin? Or no: for the like is akin, and even if a thing wishes it and delights in the like, it does not yet have the good. But shall we say it is not akin, when we say it is good? Or one must say that the akin must be judged by what is better and stronger than it, toward which it is in potency.
+!flag to soul moral excellence is this Form | The Greek has "virtue (ἀρετή) is the soul's form"; the modern version keeps "virtue".
+!flag No: the aptest would be the most resemblant to the thing itself | The Greek says "the like (τὸ ὅμοιον) is akin": the like, not "the aptest" or "the most resemblant".
+!flag to be a good to another a thing must have something beyond aptness | The Greek asks "but shall we say it is not akin, when we say it is good?", and answers that the akin is judged by what is better; "something beyond aptness" is MacKenna's.
+!note The like and the akin: Plato's Lysis (214a-215c, 221e-222b), where neither like nor unlike is the friend, and the akin (οἰκεῖον) is what one desires; Symposium (205e), love is of the half or the whole only if it is good.
+
+@p
+@greek ὂν γὰρ δυνάμει πρὸς ὃ ἔστιν
+For, being in potency toward what it is, it lacks it, and what it lacks, being better, is good to it. And matter is the neediest of all, and the last form is next to it: for after it comes the way upward. And if something is good to itself too, much more would its perfection be good to it, and its form, and what is better than it, which is such by its own nature, and is good to it because it makes it good.
+!flag A thing is potentially that to which its nature looks | The Greek says "being in potency toward what it is (πρὸς ὃ ἔστιν), it lacks it": "its nature looks" is MacKenna's.
+
+@p
+@greek ἀλλὰ διὰ τί αὐτῷ ἀγαθὸν ἔσται
+But why will it be good to it? Because it is most akin to it? Or no: but because it is a portion of the good. This is why the pure, and those that are more good, are more at home with themselves. It is absurd, then, to ask why what is good is good to itself, as if it had to stand outside its own nature toward itself and not love itself as good. But in the case of the simple one must consider whether, where there is no this and that at all, its being at home with itself is good to itself.
+!flag This is why the least alloyed and nearest to the good are most at peace within themselves | The Greek has "at home with themselves" (οἰκείωσις πρὸς αὑτούς): a belonging to oneself, the akin of the chapter, not peace.
+!flag so that it must strain outside its essential quality to the good which it effectually is | The Greek says "as if it had to stand outside (ἐξίστασθαι) its own nature toward itself, and not love (ἀγαπᾶν) itself as good": the love of self is what is left out.
+!note Being at home with oneself (οἰκείωσις): the Stoics' word for a living being's first belonging to itself (Diogenes Laertius VII.85; Cicero, On ends III.16).
+
+@p
+@greek νῦν δέ, εἰ ταῦτα ὀρθῶς λέγεται
+As it is, if this is said rightly, the ascent too has the good lying in some nature, and it is not desire that makes the good, but desire comes because it is good; and something comes to those who acquire it, and at the acquiring, something pleasant. But the good is to be chosen, and sought for itself, even if no pleasure should follow.
+!flag the striving of the lower possesses itself of the good as of a thing resident in a certain Kind | The Greek says "the ascent (ἐπανάβασις) has the good lying in some nature (φύσει)": the ascent, not the striving of the lower, and a nature, not a Kind.
+@ch VI.7.28 | Matter, form, and the formless Good
+If the good is everywhere form, would matter, if it could wish, wish to be form only? Then it would wish to perish; perhaps it would wish to be, and let go its badness. The argument gave matter perception only as a supposition: form came to it as a good dream. Vice does not choose; what is made bad does. If the good is form, and the higher the more form, the good draws near to what puts matter off; the nature of the Good, never near matter, has fled up into the formless, from which the first form comes.
+
+@p
+Now we must see what follows from the argument. For if what comes as good is everywhere a form, and the good for matter too is form, would matter, if it could wish, have wished to become form only? But if so, it will wish to perish: and everything seeks the good for itself. But perhaps it will not seek to be matter, but to be, and, having this, will wish to let go of its badness. But how will what is evil have desire for the good?
+!flag for the good seeks to subject everything to itself | The Greek says "everything seeks the good for itself (αὑτῷ πᾶν ζητεῖ)": each thing seeks its own good, which would not be its perishing; MacKenna turns the sentence round.
+!flag would not wish to remain at its own level | The Greek says "it will not seek to be matter (ὕλη εἶναι), but to be": "at its own level" is MacKenna's.
+
+@p
+@greek ἢ οὐδὲ τὴν ὕλην ἐν ἐφέσει
+Or we did not set matter among the desiring at all, but the argument made a supposition, giving it perception, if indeed one could give it while keeping it matter; and it said that, when form came upon it, as a good dream, it came to be in a more beautiful order. If, then, matter is the evil, that has been said; but if it is something else, such as vice, then, if its being got perception, would what is akin toward the better still be the good? Or it was not the vice that chose, but what was made bad.
+!flag and we asserted that the entry of Form, that dream of the Good, must raise it to a nobler order | The Greek says form came upon it "as a good dream (ὥσπερ ὀνείρατος ἀγαθοῦ)": a dream that is good, not a dream of the Good; and it "came to be" in a more beautiful order, not "must raise".
+!flag a wrong thing, let us say | The Greek has "such as vice (κακία)", the soul's evil, set beside matter.
+!flag But not what is evil in Matter would be the quester of good but that element in it (lowest Form) which in it is associated with evil | The Greek says "it was not the vice that chose, but what was made bad (τὸ κακούμενον)": the one made bad by vice, the soul; "in Matter" and "(lowest Form)" are MacKenna's.
+!note Matter as the first evil: I.8.3-5 and II.4.16. Matter a phantom on which the forms appear as in a dream: III.6.7.
+
+@p
+@greek εἰ δὲ ταὐτὸν τὸ εἶναι καὶ τὸ κακόν
+But if being and evil are the same, how will this choose the good? But if evil got perception of itself, would it love itself? And how will the unlovable be loved? For we did not set the good in the akin. So much for this.
+!flag This question implies that if Evil were self-conscious it would admire itself | The Greek asks it: "if evil got perception of itself, would it love (ἀγαπήσει) itself?": a question, and love, not admiration.
+!flag and did we not discover that the good must be apt to the nature ? | The Greek says the opposite: "we did not set (οὐ ... ἐθέμεθα) the good in the akin (τῷ οἰκείῳ)", as chapter 27 showed: the good is not what is akin.
+
+@p
+@greek ἀλλ’ εἰ εἶδος τὸ ἀγαθὸν
+But if the good is everywhere form, and as one goes up there is more form — for soul is more form than the body's form, and of soul one part is more form, another still more, and intellect more than soul — the good would draw near to what is opposite to matter, and is as it were purified and puts it off, to each according to its power, and most to what puts off all that is of matter. And so the nature of the Good, having fled all matter, or rather never having come near it anywhere in any way, would have fled up into the formless nature, from which the first form comes. But about this later.
+!flag Soul more truly Form than body is | The Greek says soul is more form "than the body's form" (ἢ σώματος εἶδος): than the form in a body.
+!flag Intellectual-Principle standing as Form to soul collectively | The Greek says intellect is more form "than soul" (ψυχῆς); "collectively" is MacKenna's.
+!flag then the Good advances by the opposite of Matter and, therefore, by a cleansing and casting away to the utmost possible at each stage | The Greek says the good "would draw near (προσχωροῖ) to what is opposite to matter, and is as it were purified (καθαιρομένῳ)": the good comes near to what is purified and puts matter off; MacKenna has the good advance by a cleansing.
+!flag must hold itself aloft with that Formless in which Primal Form takes its origin | The Greek says it "would have fled up into the formless nature (εἰς τὴν ἀνείδεον φύσιν), from which the first form comes": the Good is that formless nature, as in chapter 17, not with it.
+!note The first form from the formless Good: chapter 17 above, chapters 32-33 to come, and V.5.6.
