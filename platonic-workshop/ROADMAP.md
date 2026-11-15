@@ -436,10 +436,28 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   Phaedo's causes, the four species of quality (Categories 8), II.6 on heat, the dropped "not" in 11 (rare and dense), the
   soul's three parts (Republic IV), Delphi the navel (Republic IV 427c), the senses of "in" (Physics IV.3), acting (Categories
   9) and motion among the greatest kinds (Sophist 254d). The terms check needed "like"/"likewise" for ὁμοίως.
-- E23: VI.1 chapters 16-30 (about 4,900). Next. Being acted on, having, lying (16-24) and the Stoics' four kinds (25-30).
-  MacKenna's vol. V is in: his VI.1 chapters 16-30 are already read (pages 21-38), so only the modern English, the
-  tests (VI.1 complete, no chapters_done; the E22 test's chapters_done check goes) and the docs remain.
-- E24: VI.2 On the kinds of being, second part (7,442).
+- **E23: VI.1 chapters 16-30 (4,654) (done).** 15 chapters, 72 paragraphs, 23 flags, 28 notes; VI.1 is complete (no
+  chapters_done; the treatise summary already covered 16-30). Page's chapters 16-30 (vol. V pp. 21-38) are the Greek's; no
+  source work. λόγος keeps its one name, "forming principle", as in E22 (terms-greek.json has no entry for it yet): Page's
+  "Reason-Principle" (VI.1.20), "rational law" (26) and "Seminal Principles" (29) are flagged as his. E.g. Page drops the
+  perfect of "has already cut" (16), gives the analogy to "our critic", divides motion where the Greek divides "being
+  moved" (17), makes thought a "faculty" (18), pain an "emotion" and the one who means to hurt a Passion (19), adds "(and
+  becomes his Act)" to the learner (20), makes the thing bettered "an agent", turns a question into "Surely", and joins
+  better and worse into one kind of being acted on (21), writes "aimless" for free-standing, "powers" for the walking and
+  thought had, "selfgathered" thought (22), "Possession" for having (23), "Situation" for lying (24), "Qualities, States"
+  for the qualified and disposed (25), "accidental mode" for coming together (26), "the living form" for the living being
+  (27), "the Authentic Existent" for both together (30); and the scan reads "wails" for his "walks" (22). Notes on motion as
+  incomplete act and "has already moved" (Physics III.2, VI.6; Metaphysics Θ.6), no first part of a motion, seeing complete
+  at once (Nicomachean Ethics X.4), "as if change did not happen all at once" (Physics I.3), relatives (Categories 7), one
+  motion of agent and patient (Physics III.3), happiness in a complete life, alteration (Physics V.2), bronze and tin, the
+  desirable that moves (On the soul III.10), the ways of having (Categories 15), position (Categories 7), the Stoics' four
+  and their "something" (Simplicius, Seneca 58, Sextus), the kind (Topics I.5), act before potency (Metaphysics Θ.8), the
+  Stoic principles, body, god, soul and intellect (Diogenes Laertius VII, Cicero Academica I.39), the pantomime, II.4 and
+  III.6 on matter, and the "fourth" kind of 29 that may be a slip for third.
+- E24: VI.2 On the kinds of being, second part (7,436). Next. Plotinus' own kinds of the intelligible: being, motion,
+  rest, sameness, difference (22 chapters in the Greek). Vol. V needs work first: tools/mackenna.py reads only VI.2.1 (page
+  40) so far; add VI.2's misread and lost chapter numbers to the volume's lists, as E22 did for VI.1, until all 22 are
+  found on their pages and match the Greek (or use @older). Page translated VI.2 too.
 - E25: VI.3 On the kinds of being, third part, chapters 1-14 (about 4,700).
 - E26: VI.3 chapters 15-28 (about 4,700).
 - E27: VI.4 That being, one and the same, is everywhere whole, first part (5,731).
