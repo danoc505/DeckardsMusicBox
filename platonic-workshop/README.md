@@ -603,6 +603,19 @@ form, the world and its original "side by side" where it is the original's imita
 the sun's light "refraction", the clouded "opaque", the trace of soul in the body "soul entire", and "the All-Soul". The
 notes give the Timaeus' soul divided about bodies, the Parmenides' day and sail, Aristotle's place (Physics IV.4),
 Parmenides' "being draws near to being", the Phaedo on addition, the Republic's city and soul, and Hades the unseen.
+**VI.5, That being, one and the same, is everywhere whole, second part** (E28), beside MacKenna's own English in vol. V:
+12 chapters, 46 paragraphs, 75 flags, under a new treatise block (the twenty-third in the order of writing; VI.4's argument
+taken up again from the beginning). The common notion that the god in each of us is one and the same, principles proper to
+being, the firsts, seconds and thirds as one sphere hung from one centre, the centre and its lines, Man stamped in many like
+a seal, the many faces with one crown, matter's sharing in the form of fire, one life and one soul, Love who sleeps at the
+door, wisdom common as in an assembly, time circling eternity's point, and letting go of the "so much". `tools/mackenna.py`
+now finds all 12 chapters (pp. 125-136), reading five misread numbers and the signature T. "Forming principle",
+"substance" and "intelligible" are kept, and MacKenna's "Reason-Principle" is flagged as his. Among the other flags, sharing
+called "obvious" where the Greek says it would have been, the illumination "meaningless", the lines "generating" the
+centres, our many faces what we see, the soul's "virtue" for its power, the beautiful "The Good", time a "radial line", and
+"the lesser gods". The notes give the Second Letter's firsts, seconds and thirds, the Timaeus on sharing "hard to tell",
+Xenocrates' self-moving number, the Symposium's Love at the door, Heraclitus' "thinking is common", and the Odyssey's gods
+who go about the cities.
 **III.8, On nature, contemplation and the One, and III.9, Various considerations** (E14), beside MacKenna's vol. II: 14
 chapters, 41 paragraphs, 70 flags, among them his "the Highest" for intellect that began as one and unrolled itself,
 "pregnant" for weighed down, the living principle "brother ... to that which gives mere shape" where it is brother to
@@ -689,7 +702,7 @@ hyphened terms such as "Sense-Perception" kept; not proofread). The master copy 
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: VI.5 That being, one and the same, is everywhere whole, second part, beside vol. V (E28).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: VI.6 On numbers, beside vol. V (E29).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,

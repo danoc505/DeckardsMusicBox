@@ -313,6 +313,30 @@ class MacKennaVolumeV(unittest.TestCase):
         # VI.5 begins its own treatise on p. 125.
         self.assertEqual(self.t["VI.5"]["page"], 125)
 
+    def test_vi_5_its_twelve_chapters_and_pages(self):
+        # Milestone E28: MacKenna's own English. The OCR misread five of VI.5's chapter numbers ("Bi" for 2, "Fi" for 7,
+        # "Q." for 9, "Tai" for 11, "52" for 12); the signature T at the end of VI.5.12, after a line of text, is taken
+        # out; the head of p. 131 ("VI. 5. 8}") is read as a head.
+        self.assertEqual(self.t["VI.5"]["page"], 125)
+        self.assertEqual([c["n"] for c in self.t["VI.5"]["chapters"]], list(range(1, 13)))
+        self.assertEqual([c["page"] for c in self.t["VI.5"]["chapters"]],
+                         [125, 126, 127, 128, 129, 130, 130, 131, 132, 134, 135, 136])
+        ch = {c["id"]: c for c in self.t["VI.5"]["chapters"]}
+        self.assertTrue(ch["VI.5.1"]["paras"][0].startswith("The integral omnipresence of a unity numerically identical"))
+        self.assertTrue(ch["VI.5.2"]["paras"][0].startswith("Now the reasoning faculty which undertakes this problem"))
+        self.assertTrue(ch["VI.5.7"]["paras"][0].startswith("To Real Being we go back"))
+        self.assertTrue(ch["VI.5.9"]["paras"][0].startswith("The elements in their totality"))
+        self.assertTrue(ch["VI.5.11"]["paras"][0].startswith("But how can the unextended reach over"))
+        self.assertTrue(ch["VI.5.12"]["paras"][0].startswith("To return : How is that Power present"))
+        self.assertTrue(ch["VI.5.12"]["paras"][-1].endswith("by its very lack of extension is infinite."))
+        text = " ".join(p for k in range(1, 13) for p in ch[f"VI.5.{k}"]["paras"])
+        for junk in ("OMNIPRESENCE", "PLOTINUS", "VI. 5", "Ss ’", "infinite. T", " Bi ", " Fi ", " Tai "):
+            self.assertNotIn(junk, text)
+        # "not." at the end of a line of VI.5.4 is MacKenna's, the end of a sentence.
+        self.assertIn("something exists in which it is not.", text)
+        # VI.6 begins its own treatise on p. 138.
+        self.assertEqual(self.t["VI.6"]["page"], 138)
+
 
 class MacKennaVolumeII(unittest.TestCase):
     """MacKenna's vol. II (1921), brought in by milestone E7: the Third Ennead, then the Second."""
@@ -758,7 +782,7 @@ class Files(unittest.TestCase):
         c = {c["id"]: c for c in d["contents"]}
         self.assertEqual(c["IV.4"]["status"], "here")
         self.assertNotIn("chapters_done", c["IV.4"])
-        self.assertEqual(c["VI.5"]["milestone"], "E28")
+        self.assertEqual(c["VI.6"]["milestone"], "E29")
         ch = {c["id"]: c for c in d["chapters"]}
         # MacKenna's vol. III beside them. The Greek's seventh chapter begins with the last two sentences of his sixth;
         # the OCR lost his numbers 15 and 17, whose text runs on in his 14 and 16.
@@ -800,12 +824,12 @@ class Files(unittest.TestCase):
         d = load()
         self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][20:23], ["III.9", "IV.1", "IV.4"])
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "IV.4"][:31], [f"IV.4.{k}" for k in range(1, 32)])
-        # IV.4 is done over E15 to E17, complete since E17; VI.5 is still E28's.
+        # IV.4 is done over E15 to E17, complete since E17; VI.6 is still E29's.
         t = {t["id"]: t for t in d["treatises"]}
         self.assertNotIn("chapters_done", t["IV.4"])
         c = {c["id"]: c for c in d["contents"]}
         self.assertEqual(c["IV.4"]["status"], "here")
-        self.assertEqual(c["VI.5"]["milestone"], "E28")
+        self.assertEqual(c["VI.6"]["milestone"], "E29")
         ch = {c["id"]: c for c in d["chapters"]}
         # MacKenna's chapters are the Greek's from 18 to 30; the OCR lost his number 31, whose text runs on in his 30.
         for k in range(18, 31):
@@ -848,7 +872,7 @@ class Files(unittest.TestCase):
         d = load()
         self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][20:23], ["III.9", "IV.1", "IV.4"])
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "IV.4"], [f"IV.4.{k}" for k in range(1, 46)])
-        # IV.4 is complete: no chapters_done; its summary no longer says that chapters are to come; VI.5 is still E28's.
+        # IV.4 is complete: no chapters_done; its summary no longer says that chapters are to come; VI.6 is still E29's.
         t = {t["id"]: t for t in d["treatises"]}
         self.assertNotIn("chapters_done", t["IV.4"])
         self.assertNotIn("to come", t["IV.4"]["summary"])
@@ -856,7 +880,7 @@ class Files(unittest.TestCase):
         c = {c["id"]: c for c in d["contents"]}
         self.assertEqual(c["IV.4"]["status"], "here")
         self.assertNotIn("chapters_done", c["IV.4"])
-        self.assertEqual(c["VI.5"]["milestone"], "E28")
+        self.assertEqual(c["VI.6"]["milestone"], "E29")
         ch = {c["id"]: c for c in d["chapters"]}
         # MacKenna's chapters are the Greek's, but his 37 runs on into the Greek's 38 and his 40 into the Greek's 41.
         for k in (32, 33, 34, 35, 36, 37, 39, 40, 42, 43, 44, 45):
@@ -911,7 +935,7 @@ class Files(unittest.TestCase):
         c = {c["id"]: c for c in d["contents"]}
         self.assertEqual((c["IV.5"]["status"], c["IV.6"]["status"]), ("here", "here"))
         self.assertEqual(c["IV.7"]["status"], "taylor")
-        self.assertEqual(c["VI.5"]["milestone"], "E28")
+        self.assertEqual(c["VI.6"]["milestone"], "E29")
         ch = {c["id"]: c for c in d["chapters"]}
         # MacKenna's chapters are the Greek's in both treatises (vol. III).
         for cid in [f"IV.5.{k}" for k in range(1, 9)] + ["IV.6.1", "IV.6.2", "IV.6.3"]:
@@ -966,7 +990,7 @@ class Files(unittest.TestCase):
         self.assertIn("a science is whole in each of its theorems", t["IV.9"]["summary"])
         c = {c["id"]: c for c in d["contents"]}
         self.assertEqual((c["IV.8"]["status"], c["IV.9"]["status"]), ("here", "here"))
-        self.assertEqual(c["VI.5"]["milestone"], "E28")
+        self.assertEqual(c["VI.6"]["milestone"], "E29")
         ch = {c["id"]: c for c in d["chapters"]}
         # MacKenna's chapters are the Greek's in both treatises (vol. III).
         for cid in [f"IV.8.{k}" for k in range(1, 9)] + [f"IV.9.{k}" for k in range(1, 6)]:
@@ -1021,7 +1045,7 @@ class Files(unittest.TestCase):
         self.assertIn("Porphyry had argued that the intelligible exists outside intellect", t["V.5"]["summary"])
         c = {c["id"]: c for c in d["contents"]}
         self.assertEqual((c["V.4"]["status"], c["V.5"]["status"]), ("here", "here"))
-        self.assertEqual(c["VI.5"]["milestone"], "E28")
+        self.assertEqual(c["VI.6"]["milestone"], "E29")
         ch = {c["id"]: c for c in d["chapters"]}
         # MacKenna's vol. IV (1926), the first of the Fifth Ennead: his chapters are the Greek's in both treatises.
         for cid in ["V.4.1", "V.4.2"] + [f"V.5.{k}" for k in range(1, 14)]:
@@ -1086,7 +1110,7 @@ class Files(unittest.TestCase):
         self.assertIn("transparent sphere", t["V.8"]["summary"])
         c = {c["id"]: c for c in d["contents"]}
         self.assertEqual((c["V.7"]["status"], c["V.8"]["status"]), ("here", "here"))
-        self.assertEqual(c["VI.5"]["milestone"], "E28")
+        self.assertEqual(c["VI.6"]["milestone"], "E29")
         ch = {c["id"]: c for c in d["chapters"]}
         # MacKenna's chapters are the Greek's, except that the OCR lost his number 13 of V.8, whose text runs on in his 12.
         for cid in [f"V.7.{k}" for k in range(1, 4)] + [f"V.8.{k}" for k in range(1, 13)]:
@@ -1154,7 +1178,7 @@ class Files(unittest.TestCase):
         c = {c["id"]: c for c in d["contents"]}
         self.assertEqual(c["VI.1"]["status"], "here")
         self.assertNotIn("chapters_done", c["VI.1"])
-        self.assertEqual(c["VI.5"]["milestone"], "E28")
+        self.assertEqual(c["VI.6"]["milestone"], "E29")
         ch = {c["id"]: c for c in d["chapters"]}
         # MacKenna's vol. V (1930), the first of the Sixth Ennead: his chapters are the Greek's.
         for cid in [f"VI.1.{k}" for k in range(1, 16)]:
@@ -1200,13 +1224,13 @@ class Files(unittest.TestCase):
         self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][31:32], ["VI.1"])
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "VI.1"], [f"VI.1.{k}" for k in range(1, 31)])
         t = {t["id"]: t for t in d["treatises"]}
-        # VI.1 is complete: no chapters_done; the summary already covered chapters 16 to 30; VI.5 is still E28's.
+        # VI.1 is complete: no chapters_done; the summary already covered chapters 16 to 30; VI.6 is still E29's.
         self.assertNotIn("chapters_done", t["VI.1"])
         self.assertIn("(chapters 25 to 30)", t["VI.1"]["summary"])
         c = {c["id"]: c for c in d["contents"]}
         self.assertEqual(c["VI.1"]["status"], "here")
         self.assertNotIn("chapters_done", c["VI.1"])
-        self.assertEqual(c["VI.5"]["milestone"], "E28")
+        self.assertEqual(c["VI.6"]["milestone"], "E29")
         ch = {c["id"]: c for c in d["chapters"]}
         # Page's chapters in MacKenna's vol. V (1930) are the Greek's.
         for cid in [f"VI.1.{k}" for k in range(16, 31)]:
@@ -1281,7 +1305,7 @@ class Files(unittest.TestCase):
         c = {c["id"]: c for c in d["contents"]}
         self.assertEqual(c["VI.2"]["status"], "here")
         self.assertNotIn("chapters_done", c["VI.2"])
-        self.assertEqual(c["VI.5"]["milestone"], "E28")
+        self.assertEqual(c["VI.6"]["milestone"], "E29")
         ch = {c["id"]: c for c in d["chapters"]}
         # Page's chapters in MacKenna's vol. V (1930) are the Greek's, once their numbers are read (tools/mackenna.py).
         for cid in [f"VI.2.{k}" for k in range(1, 23)]:
@@ -1370,7 +1394,7 @@ class Files(unittest.TestCase):
         c = {c["id"]: c for c in d["contents"]}
         self.assertEqual(c["VI.3"]["status"], "here")
         self.assertNotIn("chapters_done", c["VI.3"])
-        self.assertEqual(c["VI.5"]["milestone"], "E28")
+        self.assertEqual(c["VI.6"]["milestone"], "E29")
         ch = {c["id"]: c for c in d["chapters"]}
         # Page's chapters in MacKenna's vol. V (1930) are the Greek's, once their numbers are read (tools/mackenna.py).
         for cid in [f"VI.3.{k}" for k in range(1, 15)]:
@@ -1445,14 +1469,14 @@ class Files(unittest.TestCase):
         self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][31:34], ["VI.1", "VI.2", "VI.3"])
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "VI.3"], [f"VI.3.{k}" for k in range(1, 29)])
         t = {t["id"]: t for t in d["treatises"]}
-        # VI.3 is complete: no chapters_done; the summary already covered chapters 15 to 28; VI.5 is still E28's.
+        # VI.3 is complete: no chapters_done; the summary already covered chapters 15 to 28; VI.6 is still E29's.
         self.assertNotIn("chapters_done", t["VI.3"])
         self.assertIn("(chapters 15 to 20)", t["VI.3"]["summary"])
         self.assertIn("(chapters 21 to 28)", t["VI.3"]["summary"])
         c = {c["id"]: c for c in d["contents"]}
         self.assertEqual(c["VI.3"]["status"], "here")
         self.assertNotIn("chapters_done", c["VI.3"])
-        self.assertEqual(c["VI.5"]["milestone"], "E28")
+        self.assertEqual(c["VI.6"]["milestone"], "E29")
         ch = {c["id"]: c for c in d["chapters"]}
         # Page's chapters in MacKenna's vol. V (1930) are the Greek's, once their numbers are read (tools/mackenna.py).
         for cid in [f"VI.3.{k}" for k in range(15, 29)]:
@@ -1539,17 +1563,17 @@ class Files(unittest.TestCase):
 
     def test_milestone_e27_that_being_one_and_the_same_is_everywhere_whole_first_part(self):
         d = load()
-        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][31:], ["VI.1", "VI.2", "VI.3", "VI.4"])
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][31:35], ["VI.1", "VI.2", "VI.3", "VI.4"])
         self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "VI.4"], [f"VI.4.{k}" for k in range(1, 17)])
         t = {t["id"]: t for t in d["treatises"]}
-        # VI.4 is done whole in E27, under its own @treatise block; VI.5, its second part, is E28's.
+        # VI.4 is done whole in E27, under its own @treatise block; VI.5, its second part, was done in E28.
         self.assertNotIn("chapters_done", t["VI.4"])
         self.assertIn("The twenty-second treatise in the order of writing", t["VI.4"]["summary"])
         self.assertIn("VI.5, the twenty-third, is its second part", t["VI.4"]["summary"])
         c = {c["id"]: c for c in d["contents"]}
         self.assertEqual(c["VI.4"]["status"], "here")
-        self.assertEqual(c["VI.5"]["status"], "to come")
-        self.assertEqual(c["VI.5"]["milestone"], "E28")
+        self.assertEqual(c["VI.5"]["status"], "here")
+        self.assertEqual(c["VI.6"]["milestone"], "E29")
         ch = {c["id"]: c for c in d["chapters"]}
         # MacKenna's own chapters in his vol. V (1930) are the Greek's, once their numbers are read (tools/mackenna.py).
         for cid in [f"VI.4.{k}" for k in range(1, 17)]:
@@ -1620,6 +1644,88 @@ class Files(unittest.TestCase):
                       "Republic VI 509b", "Republic X (596e-598b)", "Sophist (256d-259b)", "On the soul II.7",
                       "Phaedo (96d-97b, 100e-101c)", "Physics VI.1", "Alcibiades I (129e-130c)", "Timaeus (67b)",
                       "IX (588c-589b)", "Phaedrus (248c-249b)", "Phaedo (64c, 67a-d)", "Cratylus (403a)", "Odyssey XI"):
+            self.assertIn(place, notes)
+
+    def test_milestone_e28_that_being_one_and_the_same_is_everywhere_whole_second_part(self):
+        d = load()
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][31:], ["VI.1", "VI.2", "VI.3", "VI.4", "VI.5"])
+        self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "VI.5"], [f"VI.5.{k}" for k in range(1, 13)])
+        t = {t["id"]: t for t in d["treatises"]}
+        # VI.5 is done whole in E28, under its own @treatise block; VI.6 is E29's.
+        self.assertNotIn("chapters_done", t["VI.5"])
+        self.assertIn("The twenty-third treatise in the order of writing", t["VI.5"]["summary"])
+        self.assertIn("taken up again from the beginning", t["VI.5"]["summary"])
+        self.assertIn("(Life 5)", t["VI.5"]["summary"])
+        c = {c["id"]: c for c in d["contents"]}
+        self.assertEqual(c["VI.5"]["status"], "here")
+        self.assertEqual(c["VI.6"]["status"], "to come")
+        self.assertEqual(c["VI.6"]["milestone"], "E29")
+        ch = {c["id"]: c for c in d["chapters"]}
+        # MacKenna's own chapters in his vol. V (1930) are the Greek's, once their numbers are read (tools/mackenna.py).
+        for cid in [f"VI.5.{k}" for k in range(1, 13)]:
+            self.assertEqual([(o["n"], o["year"]) for o in ch[cid]["older"]], [(int(cid.split(".")[2]), 1930)])
+        self.assertEqual([(o["n"], o["page"]) for o in ch["VI.5.1"]["older"]], [(1, 125)])
+        self.assertEqual([(o["n"], o["page"]) for o in ch["VI.5.12"]["older"]], [(12, 136)])
+        para = {p["seg"]: p for p in d["paragraphs"]}
+        self.assertTrue(para["VI.5.1.p1"]["greek"].startswith("Τὸ ἓν καὶ ταὐτὸ ἀριθμῷ πανταχοῦ ἅμα ὅλον εἶναι"))
+        self.assertTrue(para["VI.5.12.p5"]["greek"].endswith("εἰς ἓν ἰόντα ἀμεγέθει τῷ ἀπείρῳ."))
+        self.assertIn("speak of the god in each of us as one and the same", para["VI.5.1.p1"]["modern"])
+        self.assertIn("nor, again, has it stood away from us", para["VI.5.1.p3"]["modern"])
+        self.assertIn("making likely reasonings through likely things", para["VI.5.2.p2"]["modern"])
+        self.assertIn("as far as it is possible for them to be present to it", para["VI.5.3.p1"]["modern"])
+        self.assertIn("hung, as it were, from one centre of one sphere", para["VI.5.4.p4"]["modern"])
+        self.assertIn("the lines not begetting them but showing them", para["VI.5.5.p3"]["modern"])
+        self.assertIn("as it were stamped like a seal in many", para["VI.5.6.p2"]["modern"])
+        self.assertIn("like many faces that face outward", para["VI.5.7.p2"]["modern"])
+        self.assertIn("being well known from its patterns", para["VI.5.8.p2"]["modern"])
+        self.assertIn("a number that increases itself", para["VI.5.9.p2"]["modern"])
+        self.assertIn("having one forming principle that holds itself in", para["VI.5.9.p4"]["modern"])
+        self.assertIn("this is Love who sleeps out at the door", para["VI.5.10.p1"]["modern"])
+        self.assertIn("which is why wisdom is common", para["VI.5.10.p2"]["modern"])
+        self.assertIn("hung from a point and running about it", para["VI.5.11.p2"]["modern"])
+        self.assertIn("as the immaterial triangle itself", para["VI.5.11.p4"]["modern"])
+        self.assertIn("letting go of the \"so much\", you have become all", para["VI.5.12.p3"]["modern"])
+        self.assertIn("you turned to the contrary", para["VI.5.12.p4"]["modern"])
+        flags = {s: p.get("flags", []) for s, p in para.items()}
+        # MacKenna translated VI.5 himself, so the flags are his: "Reason-Principle" for the forming principle, sharing
+        # called "obvious" where the Greek says it would have been, time a "radial line" where it circles a point, the
+        # beautiful made "The Good", "the virtue of soul" for its power, and "the lesser gods" for the other gods.
+        self.assertTrue(any("would be true if" in f["why"] for f in flags["VI.5.1.p1"]))
+        self.assertTrue(any("nor again has it" in f["why"] for f in flags["VI.5.1.p3"]))
+        self.assertTrue(any("becoming, not substance" in f["why"] for f in flags["VI.5.2.p2"]))
+        self.assertTrue(any("present to it, not it to them" in f["why"] for f in flags["VI.5.3.p1"]))
+        self.assertTrue(any("emanant" in f["why"] for f in flags["VI.5.3.p3"]))
+        self.assertTrue(any("every man who believes in a god" in f["why"] for f in flags["VI.5.4.p3"]))
+        self.assertTrue(any("without extension" in f["why"] for f in flags["VI.5.5.p1"]))
+        self.assertTrue(any("nothing is absorbed" in f["why"] for f in flags["VI.5.6.p3"]))
+        self.assertTrue(any("a head with many faces" in f["why"] for f in flags["VI.5.7.p2"]))
+        self.assertTrue(any("is unreal" in f["why"] for f in flags["VI.5.8.p2"]))
+        self.assertTrue(any("not virtue" in f["why"] for f in flags["VI.5.9.p2"]))
+        self.assertTrue(any("Reason-Principle" in f["why"] for f in flags["VI.5.9.p4"]))
+        self.assertTrue(any("the beautiful, not the Good" in f["why"] for f in flags["VI.5.10.p2"]))
+        self.assertTrue(any("more absurd" in f["why"] for f in flags["VI.5.10.p5"]))
+        self.assertTrue(any("not a radius running out" in f["why"] for f in flags["VI.5.11.p2"]))
+        self.assertTrue(any("present to all" in f["why"] for f in flags["VI.5.11.p4"]))
+        self.assertTrue(any("giving up" in f["why"] for f in flags["VI.5.12.p2"]))
+        self.assertTrue(any("the other gods" in f["why"] for f in flags["VI.5.12.p5"]))
+        whys = " ".join(f["why"] for s in flags if s.startswith("VI.5.") for f in flags[s])
+        self.assertIn("MacKenna", whys)
+        self.assertNotIn("Page", whys)
+        # The fixed names: "forming principle" for λόγος, "substance" for οὐσία, "intelligible" for νοητός; no
+        # "reason-principle", "differentiation" or "identity" of our own.
+        mod = " ".join(p["modern"] for p in d["paragraphs"] if p["chapter"].startswith("VI.5."))
+        for word in ("forming principle", "substance", "intelligible", "intellect", "self-controlled", "eternity"):
+            self.assertIn(word, mod)
+        self.assertNotRegex(mod.lower(), r"reason-principle|rational principle|differentiation|identity")
+        ours = [s for s in flags if s.startswith("VI.5.")]
+        self.assertEqual(len(ours), 46)
+        self.assertGreaterEqual(sum(len(flags[s]) for s in ours), 70)
+        notes = " ".join(n for p in d["paragraphs"] if p["chapter"].startswith("VI.5.") for n in p.get("notes", []))
+        for place in ("Timaeus (90a)", "Nicomachean Ethics (I.1, 1094a2-3)", "Timaeus (27d-28a)", "On the soul I.1",
+                      "Parmenides (138a-b)", "Second Letter (312e)", "Republic X (596a)", "Theaetetus (191c-d)",
+                      "Iliad I 194-200", "Timaeus (50c)", "Timaeus (51b-e)", "Republic X (597c)", "On the soul I.2",
+                      "Parmenides' second hypothesis", "Symposium (203c-d)", "fragment B113", "Politics III.11",
+                      "Phaedo (70b, 115d)", "Timaeus (37d)", "Timaeus (53c-55c)", "Odyssey XVII (485-487)"):
             self.assertIn(place, notes)
 
     def test_the_life_greek_is_proofread(self):

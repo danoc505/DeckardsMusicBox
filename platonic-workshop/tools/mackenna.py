@@ -126,7 +126,9 @@ VOLUMES = {
                     "VI.3.17": "<7:", "VI.3.19": "IQ.", "VI.3.21": "2.", "VI.3.22": "223", "VI.3.25": "25. |",
                     # VI.4 (milestone E27)
                     "VI.4.2": "Be", "VI.4.7": "ye", "VI.4.9": "Q.", "VI.4.10": "10. ,", "VI.4.11": "rt.",
-                    "VI.4.12": "pier", "VI.4.15": "TS."},
+                    "VI.4.12": "pier", "VI.4.15": "TS.",
+                    # VI.5 (milestone E28)
+                    "VI.5.2": "Bi", "VI.5.7": "Fi", "VI.5.9": "Q.", "VI.5.11": "Tai", "VI.5.12": "52"},
         "unnumbered": {"VI.1.2": "But are we really obliged", "VI.1.5": "Speech, time, motion",
                        "VI.2.2": "In asserting that Being is not a unity",
                        "VI.3.3": "How then do we go to work", "VI.3.5": "These are incontrovertible facts"},
@@ -137,8 +139,9 @@ VOLUMES = {
         # VI.3 (E26): "ce)" inside VI.3.21, which stands only there.
         # VI.4 (E27): the signatures Q (inside VI.4.7, p. 113) and R (inside VI.4.13, p. 121), which follow a line of
         # text and so are not taken out as short lines; "“e" before VI.4.11 stands alone and is.
+        # VI.5 (E28): the signature T at the end of VI.5.12 (p. 137), after a line of text.
         "stray": ["x.", "WITH UNIVERSIT Y LIBRARY", "WITHDRAWN", "G", "H", "I", "K",
-                  "Te", "—<———— eee", "L", "M", "N", "P", ";", "ce)", "Q", "R"],
+                  "Te", "—<———— eee", "L", "M", "N", "P", ";", "ce)", "Q", "R", "T"],
     },
 }
 
