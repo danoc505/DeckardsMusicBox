@@ -4,14 +4,14 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 
 - Made from: Volkmann's Greek (Leipzig, 1883-1884), as First1KGreek gives it; checked against MacKenna's English (1917, 1921, 1924, 1926, 1930; the Internet Archive's OCR of the printed volumes, read by rule (tools/mackenna.py), not proofread).
 - Porphyry's Life of Plotinus: Volkmann's own Greek (vol. I, 1883), proofread from the scan (`sources/neoplatonists/proofread/porphyry-life-plotinus.txt`).
-- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny, III.2 On providence, first part, III.3 On providence, second part, III.4 On the daemon allotted to us, III.5 On love, III.8 On nature, contemplation and the One, III.9 Various considerations, IV.1 On the being of the soul, first part, IV.4 On difficulties about the soul, second part, IV.5 On difficulties about the soul, third part, or on sight, IV.6 On perception and memory, IV.8 On the descent of the soul into bodies, IV.9 Whether all souls are one, V.4 How what comes after the first comes from it, and on the One, V.5 That the intelligibles are not outside intellect, and on the Good, V.7 Whether there are forms of individuals, V.8 On intelligible beauty, VI.1 On the kinds of being, first part, VI.2 On the kinds of being, second part.
-- The whole Enneads: 34 treatises here, 15 beside Taylor (milestone 27), 6 to come.
-- Chapters: 352, each with a short title and a summary.
-- Paragraphs: 1162, each with its Greek.
-- Words: 143,998 modern, 109,066 Greek, 179,059 in MacKenna's English of the same chapters.
-- Sentences (each can be marked in the reader): 5,104.
-- Flags (where MacKenna and the Greek differ, or the Greek is hard): 948.
-- Notes (Plato's, Aristotle's and Homer's places, hard readings): 705.
+- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny, III.2 On providence, first part, III.3 On providence, second part, III.4 On the daemon allotted to us, III.5 On love, III.8 On nature, contemplation and the One, III.9 Various considerations, IV.1 On the being of the soul, first part, IV.4 On difficulties about the soul, second part, IV.5 On difficulties about the soul, third part, or on sight, IV.6 On perception and memory, IV.8 On the descent of the soul into bodies, IV.9 Whether all souls are one, V.4 How what comes after the first comes from it, and on the One, V.5 That the intelligibles are not outside intellect, and on the Good, V.7 Whether there are forms of individuals, V.8 On intelligible beauty, VI.1 On the kinds of being, first part, VI.2 On the kinds of being, second part, VI.3 On the kinds of being, third part.
+- The whole Enneads: 35 treatises here, 15 beside Taylor (milestone 27), 5 to come.
+- Chapters: 366, each with a short title and a summary.
+- Paragraphs: 1217, each with its Greek.
+- Words: 149,982 modern, 113,699 Greek, 185,691 in MacKenna's English of the same chapters.
+- Sentences (each can be marked in the reader): 5,313.
+- Flags (where MacKenna and the Greek differ, or the Greek is hard): 987.
+- Notes (Plato's, Aristotle's and Homer's places, hard readings): 741.
 - Problems found: 0.
 
 ## Flags
@@ -966,6 +966,45 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | VI.2.22.p1 | There is Intellect in our intellect also | The Greek says "our intellect, having them in itself" (ὁ νοῦς ἡμῶν ἔχων ἐν αὑτῷ), the forms, sees them better in what is before it; nothing here of an intellect within our intellect. |
 | VI.2.22.p2 | has bound up with it the principle of Difference | The Greek says "the nature of the other" (τὴν τοῦ θατέρου φύσιν), Plato's phrase in the Sophist (258d-e) and the Timaeus (35a); the kind is otherness, as in chapter 8. |
 | VI.2.22.p5 | the other powers imposed by the particular Reason-Principle | The Greek says only "according to the forming principle" (κατὰ λόγον), or "in due proportion"; "particular", and the parenthesis on the being ensouled, are Page's. |
+| VI.3.1.p1 | We have still to investigate the opposed principle (the principle of Becoming) | The Greek has "the other nature" (τῆς ἑτέρας φύσεως), the perceptible over against the intelligible; "opposed principle" and "Becoming" are Page's, though Plotinus will call substance here becoming (chapter 2). |
+| VI.3.1.p2 | Suppose that we were making a division of speech | The Greek's φωνή is vocal sound, the unlimited range of the voice, divided into letters (στοιχεῖον, "letter", which Page makes "element" below), as in the Philebus; not speech. |
+| VI.3.1.p3 | analogous indeed but never identical, a mere image of the higher | The Greek says this world is "not synonymous, but homonymous, and an image" (οὐ συνώνυμον, ὁμώνυμον δὲ καὶ εἰκών): it shares that world's name but not its account; Page puts "analogous" for the shared name. |
+| VI.3.1.p3 | taken in the interests of commerce and taxation | The Greek ranks the citizens "by property ratings or by crafts" (κατὰ τιμήσεις ἢ τέχνας); there is no census for commerce and taxation. |
+| VI.3.2.p1 | only by analogy that the nature manifested in bodies is designated as Substance | The Greek says "by a shared name" (ὁμωνύμως), not by analogy; chapter 1 kept the two apart (ἀναλογίᾳ καὶ ὁμωνυμίᾳ). |
+| VI.3.2.p2 | our first-principles will be compounds | The Greek says "we would be beginning from syllables" (ἀπὸ συλλαβῶν): bodies are to matter and form as syllables to letters, the image of chapter 1; Page drops it. |
+| VI.3.2.p3 | The inertia of Matter would correspond with Stability | The Greek sets matter's "not going out of itself" (τὴν οὐκ ἔκστασιν) for rest (στάσις), the third of the five kinds of VI.2; "inertia" and "Stability" are Page's. |
+| VI.3.2.p3 | while the Identity and Difference of the Intellectual | The Greek has "the same and the other" (τὸ ταὐτὸν καὶ θάτερον), and here "otherness" (ἑτερότης) and "unlikeness"; "Identity" and "Difference" are Page's names for the kinds. The modern version keeps "sameness" and "otherness", and "difference" only for διαφορά. |
+| VI.3.2.p4 | As for Stability, how can it belong to Matter | The Greek asks how there can be "rest" (στάσις) of matter; "Stability" is Page's name for the kind. |
+| VI.3.3.p2 | Matter separates that Form from other Forms | In the Greek it is form itself, with the words "about matter" or "in matter" added, that is separated from the other forms (or separates them); matter is not the subject. |
+| VI.3.3.p2 | make the Reason-Principle of Substance dependent upon Form | The Greek has "the substantial forming principle according to the form" (λόγον τὸν οὐσιώδη κατὰ τὸ εἶδος); "Reason-Principle" is Page's name for the forming principle (λόγος), and "dependent upon" his. |
+| VI.3.3.p4 | the Sensible counterpart of Substance | The Greek has "the substance here, which shares the name" (τὴν ἐνταῦθα ὁμώνυμον οὐσίαν): substance only by a shared name, not a counterpart. |
+| VI.3.3.p4 | with Time and Space already included (under Relation) | The Greek says only "once place and time are taken" (ληφθέντος τόπου καὶ χρόνου), as kinds in the list; "(under Relation)" is Page's. |
+| VI.3.4.p2 | we may think Substance validly defined as that which is not predicated of anything else | The Greek says "what is not said to be of another" (τὸ μὴ ἑτέρου ὃ λέγεται): belonging to another, as white belongs to the whitened, not being predicated of it. Page keeps "predicated" through the chapter. |
+| VI.3.4.p3 | or, in so far as it is a part of the differentiated object | The Greek has "being part of such a thing" (μέρος ὂν τοιούτου), of a thing that is just what it is, of itself; "differentiated object" is Page's. |
+| VI.3.5.p1 | These are incontrovertible facts in regard to the pseudo-substance | The Greek says only that "this must be heard as said of what is called substance here" (ἀκουστέον δὲ ταῦτα περὶ τῆς ἐνθάδε οὐσίας λεγομένης); "incontrovertible facts" and "pseudo-substance" are Page's. |
+| VI.3.5.p4 | Place is the limit of the surrounding space | The Greek says "the limit of what contains" (πέρας τοῦ περιέχοντος), the containing body, as in Aristotle; not of a space. |
+| VI.3.6.p3 | Being is regarded as comprising whiteness in its own extension | The Greek says the white is "taken together with being" (συνειλημμένον τῷ ὄντι); there is no extension of being. |
+| VI.3.6.p4 | dependent for its whiteness upon participation in that Supreme Being whose existence is underived | The Greek says the really white has its being (τὸ εἶναι), not its whiteness, by participation in the being there; "Supreme" and "underived" are Page's. |
+| VI.3.7.p1 | These are Reason-Principles and more directly derived from Being | The Greek calls the things upon matter "forming principles" (λόγοι); "Reason-Principles" is Page's name for them. |
+| VI.3.7.p1 | a vain attempt to achieve a Principle | The Greek says matter is "a falling-away from forming principle" (ἔκπτωσις λόγου), not an attempt to reach one. |
+| VI.3.7.p4 | they are clearly in some sense different | The Greek says "for there is difference among those too" (διαφορὰ γὰρ καὶ ἐν ἐκείνοις), probably among the things there from which matter and form come, not between matter and form. |
+| VI.3.8.p1 | nor predicated of any other thing | The Greek says "nor of another" (οὐδὲ ἄλλου): not belonging to another, as in chapter 4, rather than not predicated. |
+| VI.3.8.p3 | while Sensible Substance as a whole is merely the sum of these coagulations | The Greek draws no line between a particular substance and the whole: it asks whether all these, "fixed together upon one matter" (συμπαγέντα ἐπὶ ὕλης μιᾶς), are one substance. |
+| VI.3.9.p3 | between whiteness and the white object | The Greek has "a certain white and white" (τὶ λευκὸν καὶ λευκόν), the particular and the universal, as this fire and fire; not whiteness against the white thing. |
+| VI.3.9.p4 | this particularity can have no effect whatever in adding to his essential manhood | The Greek asks what "of such a sort" would do "toward his being more substance" (πρὸς τὸ μᾶλλον οὐσίαν εἶναι), not toward his manhood. |
+| VI.3.9.p4 | for the Reason-Principle will be less effectual in Matter | The Greek says that in matter the forming principle (λόγος) is "worse" (χείρων); "Reason-Principle" and "less effectual" are Page's. |
+| VI.3.9.p5 | hence, the Form-Idea is prior to the individual | The Greek's εἶδος here is the species, over the individual; "Form-Idea" is Page's. |
+| VI.3.9.p5 | would be incompatible with a single Reason-Principle of Substance | The Greek's λόγος here is the account, the definition, of substance; "Reason-Principle" is Page's. |
+| VI.3.11.p1 | number and magnitude are to be regarded as the only true qualities | The Greek says these alone are to be called "quantities" (ποσὰ μόνον); "qualities" is a slip. |
+| VI.3.11.p1 | to be three yards long | The Greek has "three cubits" (τρίπηχυ), the example of quantity in Aristotle's list. |
+| VI.3.11.p3 | its greatness is due, not to any external, but to its own participation in the Absolute Great | The Greek says only that a thing is "great in itself, by its magnitude, and in relation to another not so" (ἐφ’ ἑαυτοῦ μὲν μέγα μεγέθους, πρὸς ἄλλο δὲ οὐ τοιοῦτον); "the Absolute Great" is Page's. |
+| VI.3.12.p2 | so there must be a Reason-Principle of greatness | The Greek has a "forming principle" (λόγος) of the great, as of the beautiful; "Reason-Principle" is Page's name for it. |
+| VI.3.12.p3 | could only be a contrary if there were something in the universe | The Greek says that up "would not be contrary to anything, since there is no down in the All" (μὴ ὄντος τοῦ κάτω ἐν τῷ παντί): there is none, and Page makes it a condition. |
+| VI.3.13.p1 | The same principle gives rise to the numerical distinction | The Greek says only "from here on, for number, odd and even" (τὸ δ’ ἐντεῦθεν ἤδη ἐπὶ μὲν ἀριθμοῦ περιττῷ, ἀρτίῳ); there is no "same principle". |
+| VI.3.13.p1 | they are either to be abandoned to the objects numbered | The Greek leaves the differences "to those who deal with number" (τοῖς περὶ ἀριθμὸν ἔχουσιν), the arithmeticians, not to the things numbered. |
+| VI.3.13.p2 | there is no common basis in first, second and third dimensions | The Greek has the first, second and third "increase" (αὔξη), the growth of a line into a plane and of a plane into a solid, as in Plato; "dimensions" is Page's here. |
+| VI.3.13.p4 | the last also referred to as | The Greek says "which he has called body" (ὃ δὴ κέκληκε σῶμα): Aristotle, whose list of the continuous quantities is line, surface and body. |
+| VI.3.14.p4 | disposed to see in figures or shapes (qualitative) varieties of Quantity | The Greek has "differences of quantity" (ποσότητος διαφοράς), the same word as the differences of substance; "(qualitative)" and "varieties" are Page's. |
 
 ## The plan, in Porphyry's order
 
@@ -1019,7 +1058,7 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | V.9 | On intellect, the forms and being | done beside Taylor (milestone 27) |
 | VI.1 | On the kinds of being, first part | done here |
 | VI.2 | On the kinds of being, second part | done here |
-| VI.3 | On the kinds of being, third part | to come (E25-E26) |
+| VI.3 | On the kinds of being, third part | done here, chapters 1-14 of 28 |
 | VI.4 | That being, one and the same, is everywhere whole, first part | to come (E27) |
 | VI.5 | That being, one and the same, is everywhere whole, second part | to come (E28) |
 | VI.6 | On numbers | to come (E29) |

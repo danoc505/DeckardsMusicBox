@@ -571,6 +571,15 @@ kind, kinds that fall short of being where they do not stand above it, the good 
 so created Intellect" for being as an intellect that seems to have reasoned. The notes give the Sophist's greatest kinds, the
 Parmenides' one being, Aristotle on being not a kind (Metaphysics B.3), the hearth (Phaedrus 247a, Cratylus 401c-d), the
 complete living being (Timaeus 39e) and the Philebus' unlimited.
+**VI.3, On the kinds of being, third part, chapters 1-14** (E25), beside Page's English in vol. V: the kinds of the
+perceptible, substance here, which is rather becoming, and quantity; 14 of its 28 chapters, 55 paragraphs, 39 flags.
+`tools/mackenna.py` now finds Page's first fourteen VI.3 chapters (pp. 68-85), with VI.3's misread and lost numbers and
+its stray lines listed. The kinds keep their fixed names, and Page's "Stability", "Identity", "Difference" and
+"Reason-Principle" are flagged as his. Among the other flags, "speech" for vocal sound divided into letters, "analogous"
+for a shared name, "not predicated" for not being of another, "pseudo-substance", "a vain attempt" for matter's
+falling-away from forming principle, and "the only true qualities" for the quantities. The notes give the Philebus'
+letters, Aristotle's "in a subject" and first and second substance, the three lives (On the soul II.2-3), great and small
+(Categories 6), Heraclitus' apes, and the Timaeus on up and down in the All.
 **III.8, On nature, contemplation and the One, and III.9, Various considerations** (E14), beside MacKenna's vol. II: 14
 chapters, 41 paragraphs, 70 flags, among them his "the Highest" for intellect that began as one and unrolled itself,
 "pregnant" for weighed down, the living principle "brother ... to that which gives mere shape" where it is brother to
@@ -657,7 +666,7 @@ hyphened terms such as "Sense-Perception" kept; not proofread). The master copy 
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: VI.3 On the kinds of being, third part, chapters 1-14, beside vol. V (E25).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: VI.3 On the kinds of being, third part, chapters 15-28, beside vol. V (E26).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,
