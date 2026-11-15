@@ -8,7 +8,7 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 - The whole Enneads: 40 treatises here, 15 beside Taylor (milestone 27), 0 to come.
 - Chapters: 489, each with a short title and a summary.
 - Paragraphs: 1712, each with its Greek.
-- Words: 207,581 modern, 156,835 Greek, 241,999 in MacKenna's English of the same chapters.
+- Words: 207,581 modern, 156,835 Greek, 241,942 in MacKenna's English of the same chapters.
 - Sentences (each can be marked in the reader): 7,174.
 - Flags (where MacKenna and the Greek differ, or the Greek is hard): 1950.
 - Notes (Plato's, Aristotle's and Homer's places, hard readings): 1137.

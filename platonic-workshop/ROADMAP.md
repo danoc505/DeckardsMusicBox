@@ -51,7 +51,7 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
 - **Where it stands (November 15, 2026):** E1 to E33 are done, so the Life and all thirty-nine treatises not Taylor's are in
   modern English (489 chapters) and none is "to come". What is left of the Enneads is E34 (MacKenna's English beside the
   fifteen done with Taylor, and their flags checked against him), which Daniel asked for; E34a, MacKenna beside every
-  chapter, is done, the flags for I.2, I.3, II.4 (E34b), II.9 (E34c), III.6 (E34d), III.7 and IV.2 (E34e) too, and E34f to E34j follow. After the Enneads, Daniel's order goes on to Aristotle's
+  chapter, is done, the flags for I.2, I.3, II.4 (E34b), II.9 (E34c), III.6 (E34d), III.7 and IV.2 (E34e), IV.3 (E34f) too, and E34g to E34j follow. After the Enneads, Daniel's order goes on to Aristotle's
   Metaphysics from Book Λ (35m7, in milestone 35 below).
 
 ### The milestones (Greek words in brackets)
@@ -803,6 +803,12 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
     without parts. `tools/mackenna.py` also takes out the printer's signatures that stood alone on a line and ran into
     the paragraphs around them (in I.6.3, II.3.18, II.4.10, II.5.5, II.7.1, II.9.2, 8, 13 and 18, III.7.11, IV.4.29, V.5.6
     and V.8.7).
+  - **E34f: IV.3 (done).** 7 flags against MacKenna, fewer than elsewhere because he keeps close to the Greek here.
+    E.g. Hesiod's lines on Hephaistos put into Plotinus' mouth, Epimetheus refusing the gift where the Greek has Prometheus
+    refusing it, the visible gods made "Reason-Principles", "the Kosmic Law" for justice, and the excellence of the lower
+    soul hurting the higher where the Greek has the lower held down by the higher. `tools/mackenna.py` also takes out 13
+    more running heads that the OCR had misread, the kind without a bracket ("IV. 3. 7l PROBLEMS OF THE SOUL 15"), in
+    III.8.6, IV.3.6, 13 and 28, IV.4.12, 24, 36, 43 and 44, IV.5.7 and V.3.6, 13 and 17; the pages after them move on by one.
 
 ## The current focus (November 13, 2026, asked for by Daniel): Aristotle, beginning with the Metaphysics
 

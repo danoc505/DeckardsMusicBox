@@ -70,7 +70,9 @@ VOLUMES = {
         # running heads the OCR misread so that they were not taken as heads and stood inside a paragraph (E34c), with
         # their page: III.6.11's (p. 83), III.7.9's (p. 111) and II.9.9's (p. 229)
         "heads": {"Hi.  6.  iaj      THE  IMPASSIVITY  OF  THE  UNEMBODIED  83": 83, "ill.  7.  9]  TIME  AND  ETERNITY  in": 111,
-                  'H.9.iol  "AGAINST  THE  GNOSTICS"  229': 229},
+                  'H.9.iol  "AGAINST  THE  GNOSTICS"  229': 229,
+                  # (E34f) III.8.6's (p. 127), whose "]" the OCR read "j"
+                  "in.  8. 7j       NATURE  CONTEMPLATION  AND  THE  ONE  127": 127},
         "misread": {"II.9.11": "n."},
         # a stray "V" at the end of II.9.16 (p. 239), which stands only there; and the printer's signatures, standing
         # alone on a line, that ran into the paragraphs around them (E34e): "Q" (inside III.7.11), "2 D" (II.5.5), "2 E"
@@ -99,7 +101,14 @@ VOLUMES = {
         # Volkmann's chapter 8; his 9 to 15 are Volkmann's.
         # running heads the OCR misread so that they were not taken as heads and stood inside a paragraph (E34c), with
         # their page: IV.3.3's (p. 11) and IV.5.5's (p. 111)
-        "heads": {"IV.  3.  3]  PROBLEMS  OF  THE  SOUL  n": 11, "IV.  5.  6]  PROBLEMS  OF  THE  SOUL  in": 111},
+        "heads": {"IV.  3.  3]  PROBLEMS  OF  THE  SOUL  n": 11, "IV.  5.  6]  PROBLEMS  OF  THE  SOUL  in": 111,
+                  # (E34f) those whose "]" the OCR read "l", "1", "3" or "4": inside IV.3.6, 13 and 28, IV.4.12, 24, 36, 43
+                  # and 44, and IV.5.7
+                  "IV.  3.  7l  PROBLEMS  OF  THE  SOUL  15": 15, "IV.  3.143  PROBLEMS  OF  THE  SOUL  25": 25,
+                  "IV.  3.  291  PROBLEMS  OF  THE  SOUL  43": 43, "IV.  4.  i3l  PROBLEMS  OF  THE  SOUL  61": 61,
+                  "IV.  4. 263  PROBLEMS  OF  THE  SOUL  75": 75, "IV.  4. 371  PROBLEMS   OF  THE  SOUL  93": 93,
+                  "IV.  4.  441  PROBLEMS   OF  THE  SOUL  99": 99, "IV.  4. 453  PROBLEMS   OF  THE   SOUL  101": 101,
+                  "IV.  5. 7l  PROBLEMS  OF  THE  SOUL  113": 113},
         # the printer's signatures, standing alone on a line, that ran into the paragraphs around them (E34e): "M" (inside
         # IV.4.29), "Q" and "B"
         "stray": ["M", "Q", "B"],
@@ -128,7 +137,10 @@ VOLUMES = {
         "heads": {"V.  i.  7]  THE  THREE  INITIAL  HYPOSTASES  n": 9, "V.  i.  8]  THE  THREE  INITIAL  HYPOSTASES  n": 11,
                   "V.  3.  ii]  THE  KNOWING  HYPOSTASES": 33, "V.  3.  i5]  THE  KNOWING  HYPOSTASES": 39,
                   "V.  5-2]  THE   NATURE   OF   THE   GOOD": 49, ".     56  PLOTINUS": 56,
-                  "V.8.2]  ON   THE   INTELLECTUAL   BEAUTY": 75, "V.  9.  n]  THE   INTELLECTUAL-PRINCIPLE": 99},
+                  "V.8.2]  ON   THE   INTELLECTUAL   BEAUTY": 75, "V.  9.  n]  THE   INTELLECTUAL-PRINCIPLE": 99,
+                  # (E34f) those whose "]" the OCR read "1", "0" or "j": inside V.3.6, V.3.13 and V.3.17
+                  "V.  3. 71  THE  KNOWING  HYPOSTASES  27": 27, "V.  3.  i30  THE  KNOWING  HYPOSTASES  37": 37,
+                  "V.  4.  ij     HOW  THE  SECONDARIES  RISE  FROM  THE  FIRST  43": 43},
         # the printer's signatures, standing alone on a line, that ran into the paragraphs around them (E34e): "M" (inside
         # V.8.7) and "N" (inside V.5.6)
         "stray": ["M", "N"],

@@ -119,7 +119,8 @@ class MacKennaVolumeIII(unittest.TestCase):
         # line where the scan prints them), so their text runs on in the chapter before.
         self.assertEqual([c["n"] for c in self.t["IV.1"]["chapters"]], [1])
         self.assertEqual([c["n"] for c in self.t["IV.4"]["chapters"]], [n for n in range(1, 46) if n not in (15, 17, 31, 38, 41)])
-        self.assertEqual([c["page"] for c in self.t["IV.4"]["chapters"]][:15], [47, 49, 50, 51, 51, 53, 53, 54, 56, 57, 58, 59, 60, 62, 63])
+        # E34f: chapter 13 begins on p. 61, whose misread head ("IV. 4. i3l") used to stand in chapter 12.
+        self.assertEqual([c["page"] for c in self.t["IV.4"]["chapters"]][:15], [47, 49, 50, 51, 51, 53, 53, 54, 56, 57, 58, 59, 61, 62, 63])
         ch = {c["id"]: c for t in self.d["treatises"] for c in t["chapters"]}
         self.assertTrue(ch["IV.1.1"]["paras"][0].startswith("In the Intellectual Kosmos dwells Authentic Essence"))
         self.assertTrue(ch["IV.1.1"]["paras"][-1].endswith("it is divided as being effective in every part."))
