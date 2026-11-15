@@ -51,7 +51,7 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
 - **Where it stands (November 15, 2026):** E1 to E33 are done, so the Life and all thirty-nine treatises not Taylor's are in
   modern English (489 chapters) and none is "to come". What is left of the Enneads is E34 (MacKenna's English beside the
   fifteen done with Taylor, and their flags checked against him), which Daniel asked for; E34a, MacKenna beside every
-  chapter, is done, and the flags (E34b to E34j) follow. After the Enneads, Daniel's order goes on to Aristotle's
+  chapter, is done, the flags for I.2, I.3, II.4 (E34b) and II.9 (E34c) too, and E34d to E34j follow. After the Enneads, Daniel's order goes on to Aristotle's
   Metaphysics from Book Λ (35m7, in milestone 35 below).
 
 ### The milestones (Greek words in brackets)
@@ -782,6 +782,14 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
     "taking for now", "our reasoning" for intellect, "Primal Matter (of the Intelligible)" for the first matter under
     bodies, Anaximander and Democritus named in brackets, "sizeless" elements, "Absence" for matter, the One's power left
     out, and the chapter end of II.4.5 left out.
+  - **E34c: II.9 (done).** 17 flags against MacKenna. E.g. his "law" in quotation marks where the Greek quotes no one,
+    "never known a beginning" for things always coming to be, the souls' "dwelling-place" where they were to be on their
+    guard, the second as "the only thing that is good", "a medley" for total comings to be, "a dominion" for the city,
+    "a thousand cubic feet" for cubits, God knowing the world's order where the world knows its own, the world made "one of
+    the Primals" where the argument carries its cause back to them, and the intelligible sphere glossed as the All-Soul.
+    `tools/mackenna.py` also takes out thirteen running heads that the OCR misread and that stood inside paragraphs (in
+    II.9.9, III.6.11, III.7.9, IV.3.3, IV.5.5, V.1.6, V.1.7, V.3.10, V.3.15, V.5.1, V.5.7, V.8.2 and V.9.10), which put the
+    pages of a few chapters after them one too low.
 
 ## The current focus (November 13, 2026, asked for by Daniel): Aristotle, beginning with the Metaphysics
 

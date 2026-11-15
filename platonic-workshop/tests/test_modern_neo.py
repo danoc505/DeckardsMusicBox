@@ -166,6 +166,12 @@ class Files(unittest.TestCase):
             self.assertTrue(ch[cid]["text"].startswith(s), f"{cid}: {ch[cid]['text'][:60]}")
         self.assertTrue(ch["VI.9.11"]["text"].rstrip().endswith("the passing of solitary to solitary."))
         self.assertEqual((ch["I.2.1"]["year"], ch["VI.9.1"]["year"], ch["VI.9.1"]["page"]), (1917, 1930, 237))
+        # E34c: no running head of the scans stands inside a chapter (II.9.9 had p. 229's, III.6.11 p. 83's).
+        import re
+        for cid, o in ch.items():
+            self.assertNotRegex(o["text"], r"\]\s+[A-Z][A-Z ,'’-]{8,}\s+\S{1,4}|PLOT[I1]NUS|GNOSTICS\"", cid)
+        self.assertIn("in which you exist ?", ch["II.9.9"]["text"])
+        self.assertEqual(ch["II.9.10"]["page"], 229)
 
     def test_flags_against_mackenna_quote_him_and_say_why(self):
         # Enneads milestone E34b on: where MacKenna and the Greek differ, a flag quotes his words, found in his chapter.
@@ -176,7 +182,7 @@ class Files(unittest.TestCase):
             self.assertIn(modern_neo.norm(f["taylor"]), ch[cid], seg)
             self.assertGreaterEqual(len(f["taylor"].split()), 3, seg)
             self.assertTrue(f["why"].strip(), seg)
-        done = {"I.2", "I.3", "II.4"}       # E34b
+        done = {"I.2", "I.3", "II.4", "II.9"}       # E34b, E34c
         per = {t: sum(1 for _, cid, _ in flags if cid.rsplit(".", 1)[0] == t) for t in done}
         self.assertTrue(all(n >= 10 for n in per.values()), per)
         by = {seg: [f["taylor"] for s, _, f in flags if s == seg] for seg, _, _ in flags}
@@ -185,6 +191,9 @@ class Files(unittest.TestCase):
         self.assertIn("God and Demi-God", by["I.2.6.p1"])
         self.assertIn("from which is to spring a metaphysician, a musician or a born lover", by["I.3.1.p2"])
         self.assertIn("the Firsts are a meeting-ground", by["II.4.2.p1"])
+        # E34c: his "cubic feet" for cubits (II.9.9), and God, not the world, knowing its order (II.9.9).
+        self.assertIn("one man were told that he stands a thousand cubic feet", by["II.9.9.p3"])
+        self.assertIn("The Universe has need of Him, and He knows its ordering", by["II.9.9.p4"])
 
 
 @unittest.skipUnless(FIRST1K.exists(), "run python3 tools/fetch_sources.py first")
