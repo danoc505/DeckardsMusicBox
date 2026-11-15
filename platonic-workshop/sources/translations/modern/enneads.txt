@@ -7238,3 +7238,329 @@ And its lower part does not prevent all the rest from being above. Or rather, wh
 @greek καὶ μέχρι τοῦ πρὸ τοῦ εἰδώλου
 And up to what is before the image, the intelligible world is all complete, from all intelligibles, as this world, an imitation of that, is itself a living being in so far as it can keep the image of a living being, as the painted image, or the reflection in water, is of what seems to be before the water and the painting. But the imitation in the painting and in the water is not of the compound of both, but of the one of the two that was shaped by the other. So the image of the intelligible has images, not of what made it, but of the things contained in what made it, among which are man and every other living being: and this is a living being, and so is what made it, each in a different way, and both in the intelligible.
 !note The world as the image of the intelligible living being: Plato's Timaeus (30c-d, 92c). How the kinds stand in the perceptible world, the image, is the subject of VI.3.
+
+@treatise VI.3 | On the kinds of being, third part
+The forty-fourth treatise in the order of writing (Life 5), and the last of the three On the kinds of being (VI.1 to VI.3). Having given the kinds of the intelligible in VI.2, Plotinus turns to the other nature, the perceptible world, an image of the intelligible, whose kinds are the same as those only by analogy and by a shared name. Soul, which belongs to the intelligible, is set aside. What is called substance here is rather becoming. The kinds of the intelligible will not do here even by analogy, and matter, form and the compound share no one being, since being flows into them unequally; what they share is that they belong to themselves and are not of another, nor in a subject. Perceptible substance is taken by perception: a coming-together of qualities and matter, no true substance but an imitation of it, a painting on a shadow. Its species are bodies, the elements and the organic, divided by their qualities, places and shapes, and first and second substances differ only as particular and universal. Then quantity, which is number and magnitude alone, not place or time: great and small are quantities, and have contraries, and the figures are differences of quantity, though they may be called qualities too. Last come equal and unequal, quality and its kinds and contraries (chapters 15 to 20), and motion, its kinds, alteration, change of place, combination and separation, and rest, with acting and being acted on as motions (chapters 21 to 28).
+
+@ch VI.3.1 | The kinds of the perceptible
+We have said how we think of substance there, and how it agrees with Plato. Now the other nature: are its kinds the same as those there, or more, or other? "The same" can only mean by analogy and in name. The perceptible is all in this world, and we must divide it as one divides vocal sound into letters; but it cannot be brought under one, so it needs more kinds. Soul, which belongs to the intelligible, is set aside, as foreign visitors are left out when a city's citizens are ranked.
+
+@p
+We have said what we think about substance, and how this would agree with Plato's opinion. We must also look into the other nature: whether we should set down the same kinds as we set down there, or set down more here, others besides those, or kinds wholly other, or some as there and some otherwise. We must, however, take "the same" by analogy and as a shared name; this will become clear once the things are known.
+!flag We have still to investigate the opposed principle (the principle of Becoming) | The Greek has "the other nature" (τῆς ἑτέρας φύσεως), the perceptible over against the intelligible; "opposed principle" and "Becoming" are Page's, though Plotinus will call substance here becoming (chapter 2).
+!note The other nature is what comes to be, set over against what always is (Timaeus 27d-28a). The kinds found there were VI.2's five: being, motion, rest, sameness and otherness.
+
+@p
+@greek ἀρχὴ δὲ ἡμῖν ἥδε
+Our beginning is this. Since our discussion is about the perceptible things, and all that is perceptible is held in this world, we would have to inquire about the world, dividing its nature and the things it is made of, and setting them out by kinds: as if we were dividing vocal sound, which is unlimited, and bringing it into limits, gathering what is the same in many into one, then again another, and again another, until we had set each of them in a number, calling the one over the individuals a species and the one over the species a kind. With vocal sound it was possible to bring each species, and all that came to light, together into one, and to predicate of them all "letter" or "sound"; but with what we are inquiring into it is not possible, as has been shown.
+!flag Suppose that we were making a division of speech | The Greek's φωνή is vocal sound, the unlimited range of the voice, divided into letters (στοιχεῖον, "letter", which Page makes "element" below), as in the Philebus; not speech.
+!note The division of unlimited sound into the letters, vowels, semivowels and mutes, until each is set in a number, is Theuth's in Plato's Philebus (17b, 18b-d). "As has been shown": being is not one kind (VI.1.3, VI.2.1-2).
+
+@p
+@greek διὸ δεῖ πλείω γένη
+So we must look for more kinds, and kinds for this All other than those, since this is other than that, and does not share its name and account, but only its name, and is an image. But since here too, in the mixture and the composition, one part is body and the other soul (for the All is a living being), and the nature of soul is in that intelligible, and will not fit into the ordering of what is here called substance, we must mark it off from the present inquiry, hard as it is: as if someone wishing to rank the citizens of a city, by their property ratings, say, or their crafts, were to leave the foreigners staying there out, apart. As for the affections that come about in soul with the body or because of the body, we must consider later how they are to be ranked, when we inquire about the things here.
+!flag analogous indeed but never identical, a mere image of the higher | The Greek says this world is "not synonymous, but homonymous, and an image" (οὐ συνώνυμον, ὁμώνυμον δὲ καὶ εἰκών): it shares that world's name but not its account; Page puts "analogous" for the shared name.
+!flag taken in the interests of commerce and taxation | The Greek ranks the citizens "by property ratings or by crafts" (κατὰ τιμήσεις ἢ τέχνας); there is no census for commerce and taxation.
+!note Synonymous things share both name and account; homonymous things share only the name (Aristotle, Categories 1, 1a1-12). The All as a living being with soul and body: Plato's Timaeus (30b-d). That soul is of the intelligible is argued in IV.1 and IV.7.
+
+@ch VI.3.2 | Substance here, or becoming
+What is called substance here is so called only by a shared name, or is rather becoming, since it is a nature of things that flow. Divide it into bodies simple and compound, or into matter and form: but what is common to matter and form? Nor will the intelligible kinds serve by analogy, matter for being, form for motion: form is not matter's life, motion here is an accident, sameness and otherness here are by participation, and matter has no rest.
+
+@p
+And first we must consider what is called substance, granting that the nature found in bodies is called substance by a shared name, or is not substance at all, since the notion of things that flow fits it, and that it is properly called becoming. Then, of becoming, some is of one sort and some of another: bodies, both simple and compound, brought into one, and their accidents or consequences, these too divided from one another; or one part matter and the other the form upon it, each by itself as a kind, or both under one, each called substance, or becoming, by a shared name.
+!flag only by analogy that the nature manifested in bodies is designated as Substance | The Greek says "by a shared name" (ὁμωνύμως), not by analogy; chapter 1 kept the two apart (ἀναλογίᾳ καὶ ὁμωνυμίᾳ).
+!note What flows and is never really being, but always becoming: Plato's Timaeus (27d-28a) and Theaetetus (152d-e, 160d).
+
+@p
+@greek ἀλλὰ τί τὸ κοινὸν
+But what is common to matter and form? How is matter a kind, and of what? For what difference does matter have? And in what is the compound of both to be ranked? If the compound of both is itself bodily substance, and neither of those is body, how could they be ranked in one and the same kind with the compound? How could the elements of something be ranked with it? And if we were to begin from bodies, we would be beginning from syllables.
+!flag our first-principles will be compounds | The Greek says "we would be beginning from syllables" (ἀπὸ συλλαβῶν): bodies are to matter and form as syllables to letters, the image of chapter 1; Page drops it.
+
+@p
+@greek διὰ τί δὲ οὐκ ἀνὰ λόγον
+Why should we not, by analogy, even if the division is not on the same lines, say that here matter stands in place of being there, and here form in place of motion there, as a sort of life and completion of matter; that matter's not going out of itself stands for rest; and that the same and the other are here too, since here too there is much otherness, and rather unlikeness?
+!flag The inertia of Matter would correspond with Stability | The Greek sets matter's "not going out of itself" (τὴν οὐκ ἔκστασιν) for rest (στάσις), the third of the five kinds of VI.2; "inertia" and "Stability" are Page's.
+!flag while the Identity and Difference of the Intellectual | The Greek has "the same and the other" (τὸ ταὐτὸν καὶ θάτερον), and here "otherness" (ἑτερότης) and "unlikeness"; "Identity" and "Difference" are Page's names for the kinds. The modern version keeps "sameness" and "otherness", and "difference" only for διαφορά.
+!note Being, motion, rest, sameness and otherness are the five kinds of the intelligible found in VI.2.7-8, after Plato's Sophist (254d-255e).
+
+@p
+@greek ἢ πρῶτον μὲν ἡ ὕλη
+Or rather: first, matter is not so, and does not take form as its own life or its own act; form comes upon it from elsewhere, and is nothing of matter's. Then, there form is act and motion, but here motion is something else, an accident; and form is rather matter's rest, a sort of quiet, for it bounds matter, which is unbounded. There the same and the other belong to one thing that is both the same and other; here a thing is other by participation, and in relation to another, and the same and the other belong to a particular thing, and are not, as there, something that might be found in the things that come after. And how could there be rest of matter, which is dragged into every magnitude, has its shapes from outside, and is not sufficient by itself, even with these, to beget the others? So this division must be let go.
+!flag As for Stability, how can it belong to Matter | The Greek asks how there can be "rest" (στάσις) of matter; "Stability" is Page's name for the kind.
+!note The Greek of "and are not, as there, something that might be found in the things that come after" is uncertain, and the editors mend it differently; the sense is that sameness and otherness here are those of a particular thing. Matter that cannot rest and gives back no form of its own: III.6.7-11.
+
+@ch VI.3.3 | Matter, form, the compound, and what is about them
+A new division: matter, form, the mixture of both, and what is about them, some only predicated, others accidents: in them, or they in them, or their acts, affections and consequences. Matter is common, but not a kind; form in matter does not take in all form. The three may be one common substance, by a shared name; then relation, quantity, quality, motion, and place and time: five kinds, or seven, or fewer.
+
+@p
+How, then, are we to speak? Let it be first like this: one thing is matter, another form, another the mixture of both, and others what is about these. Of what is about these, some are only predicated, others are also accidents; of the accidents, some are in them, while in others they are themselves; some are their acts, some their affections, some their consequences.
+
+@p
+@greek καὶ τὴν μὲν ὕλην κοινὸν
+Matter is common, and is in all the substances, but is not a kind, since it has no differences either: unless one takes its differences to be that one matter has the shape of fire, another that of air. If one were content with what is common in all the things in which there is matter, or with its being as a whole to its parts, it would be a kind in another way; and this would also be one element, if the element too can be a kind. Form, with "about matter" or "in matter" added, separates it from the other forms, but does not take in all substantial form. And if by form we mean what makes substance, and the substantial forming principle according to the form, we have not yet said how substance is to be taken.
+!flag Matter separates that Form from other Forms | In the Greek it is form itself, with the words "about matter" or "in matter" added, that is separated from the other forms (or separates them); matter is not the subject.
+!flag make the Reason-Principle of Substance dependent upon Form | The Greek has "the substantial forming principle according to the form" (λόγον τὸν οὐσιώδη κατὰ τὸ εἶδος); "Reason-Principle" is Page's name for the forming principle (λόγος), and "dependent upon" his.
+!note A kind must have differences that divide it (Aristotle, Topics VI.6, 143a29-b10). Matter as a whole to its parts, and as an element: Metaphysics Δ.3 and Δ.28 (1024a29-b9), where matter is called a kind as the substrate of the differences.
+
+@p
+@greek τὸ δὲ ἐξ ἀμφοῖν εἰ τοῦτο
+If only the compound of both is substance, those are not substances; if those are too, and this, we must look at what is common. What is only predicated would be in relation, as being a cause, being an element. Of the accidents that are in them, one is being a quantity, another being a quality, which are in them; they are themselves in others, as in place and time; their acts and affections are such as motions; and their consequences such as place and time, the one of compounds, the other of motion.
+
+@p
+@greek καὶ τὰ μὲν τρία εἰς ἓν
+And the three we found to come into one, something common, the substance here, so called by a shared name; then the others in order: relation, quantity, quality, in time, in place, motion, place, time. Or, once place and time are taken, "in time" and "in place" are superfluous, so that there are five, the first three counted as one. If the three do not come into one, there will be matter, form, the compound, relation, quantity, quality, motion. Or these too go into relation, for it is more inclusive.
+!flag the Sensible counterpart of Substance | The Greek has "the substance here, which shares the name" (τὴν ἐνταῦθα ὁμώνυμον οὐσίαν): substance only by a shared name, not a counterpart.
+!flag with Time and Space already included (under Relation) | The Greek says only "once place and time are taken" (ληφθέντος τόπου καὶ χρόνου), as kinds in the list; "(under Relation)" is Page's.
+!note "In time" and "in place" are the Aristotelians' "when" and "where" (Categories 4, 1b25-27), which VI.1.13-14 brought back to time and place. The five are the substance here, relation, quantity, quality and motion.
+
+@ch VI.3.4 | Substance belongs to itself
+What makes matter, form and the compound substance? Not being a base for others, which would leave form out; but not being of another: white, double, father, knowledge, place and time are of another; fire, wood, man and Socrates are not. Form is part of the compound, not matter's; substance is what is of itself, or completes such a thing as its part. All three are subjects, but in different ways; matter is not even the subject of form.
+
+@p
+What, then, is the same in the three, and what will it be that makes them the substance in these things? Is it being a sort of base for the others? But matter seems to be the base and seat of form, so that form will not be in substance. And the compound is a base and seat for others, so that form too, with matter, will underlie the compounds, or at any rate everything that comes after the compound, such as quantity, quality and motion.
+
+@p
+@greek ἀλλ’ ἆρα τὸ μὴ ἑτέρου
+Or is it what is not said to be of another? For white and black are of another, of what has been whitened; and the double is of another: I mean not of the half, but the piece of wood is double. A father is of another, in so far as he is a father; knowledge is of another, that in which it is; place is the limit of another, and time the measure of another. But fire is not of another, nor wood in so far as it is wood, nor man, nor Socrates, nor in general the compound substance; nor is the form that belongs to substance of another, since it was not an affection of another.
+!flag we may think Substance validly defined as that which is not predicated of anything else | The Greek says "what is not said to be of another" (τὸ μὴ ἑτέρου ὃ λέγεται): belonging to another, as white belongs to the whitened, not being predicated of it. Page keeps "predicated" through the chapter.
+!note "Double" is said of the half among relatives (Categories 7, 6a39-b2); Plotinus means here the double piece of wood, that the double is in. Place as the limit and time as the measure: Physics IV.4 (212a5-6) and IV.12 (221a1-2).
+
+@p
+@greek οὐ γὰρ τῆς ὕλης εἶδος
+For it is not the form of matter, but part of the compound; and the form of man and man are the same. And matter is part of a whole, and is of another as of the whole, not as of something other than what it is said to be of; but the white, when it is said to be, is of something other. So what is said to be of another, belonging to another, is not substance. Substance, then, is what is just what it is, of itself; or, being part of such a thing, it fills out a compound, each part, or both, being of itself, and said to be of the compound in another way: in so far as it is a part, said in relation to another, but by itself, in its nature, in its being what it is, not said to be of another.
+!flag or, in so far as it is a part of the differentiated object | The Greek has "being part of such a thing" (μέρος ὂν τοιούτου), of a thing that is just what it is, of itself; "differentiated object" is Page's.
+!note That each thing and its essence are the same, as the form of man and man: Aristotle, Metaphysics Z.6 (1031a15-b22).
+
+@p
+@greek κοινὸν δὲ καὶ τὸ ὑποκείμενον
+Being a subject, too, is common to matter, form and the compound; but matter is subject to form in one way, and form and the compound are subjects of the affections in another. Or rather, matter is not the subject of form either: form is its completion, in so far as it is matter and in so far as it is potentially. Nor, again, is form in matter: for when one thing with another makes up some one thing, the one will not be in the other, but both together will be subjects for something else, as man and a certain man are subjects of the affections, and are there before the acts and the consequences. And substance is that from which the others are, and through which they are, and about which there is the being acted on, and from which the acting.
+!note Form as the completion of matter that is potentially: Aristotle, On the soul II.1 (412a6-11) and Metaphysics H.6 (1045a23-b23), where matter and form are one thing, the one potentially and the other actually.
+
+@ch VI.3.5 | Not in a subject
+All this is said of substance here; if it holds of substance there, it is by analogy and a shared name, for "first", "subject" and "being acted on" are said otherwise there. "Not in a subject" holds of all substance, if a part, or what joins another to make one thing, is not in it as in a subject: form is not in matter, nor man in Socrates. "Not said of a subject" needs "of another". The difference is in a subject when it is taken as a quality; time and place are in subjects.
+
+@p
+This must be heard as said of what is called substance here; if in some way it holds of that substance too, it is perhaps by analogy and by a shared name. For "the first", too, is said in relation to what comes after it: it is not first simply, but there are other things, last in relation to those, which are first after them. And "subject" is said otherwise; and being acted on there is disputed, and if it is there too, being acted on there is something else.
+!flag These are incontrovertible facts in regard to the pseudo-substance | The Greek says only that "this must be heard as said of what is called substance here" (ἀκουστέον δὲ ταῦτα περὶ τῆς ἐνθάδε οὐσίας λεγομένης); "incontrovertible facts" and "pseudo-substance" are Page's.
+
+@p
+@greek καὶ τὸ μὴ ἐν ὑποκειμένῳ
+And not being in a subject holds of all substance, if being in a subject must mean being present not as a part of that in which it is, nor in such a way as to join with it into some one thing; for what joins with something into a compound substance would not be in it as in a subject. So form is not in matter as in a subject, nor is man in Socrates, since he is part of Socrates. What is not in a subject, then, is substance.
+!note "In a subject" means in something not as a part, and unable to be apart from what it is in (Aristotle, Categories 2, 1a24-25); substance is neither in a subject nor said of one (Categories 5, 2a11-14); and the parts of substances are not in a subject (Categories 5, 3a29-32).
+
+@p
+@greek εἰ δὲ λέγομεν μήτε
+But if we say "neither in a subject nor said of a subject", we must add "of another", so that man too, said of a certain man, may be taken in by the definition, by the addition "not of another". For when I predicate man of Socrates, I say it not as "the wood is white", but as "the white is white": for in saying that Socrates is a man, I say that a certain man is man, and predicate man of the man in Socrates; and this is the same as to say that Socrates is Socrates, and again as to predicate "living being" of such and such a rational living being.
+!note The Greek here is damaged, and the words "of another" are an editor's supplement. Man is said of a certain man as of a subject, and is a second substance (Aristotle, Categories 2, 1a20-22, and 5, 2a14-19).
+
+@p
+@greek εἰ δέ τις λέγοι μὴ ἴδιον
+If someone says that not being in a subject is not proper to substance, since the difference too is not among the things in a subject, he takes "two-footed" as a part of substance and says that it is not in a subject; for if he took not "two-footed", which is a substance of a certain sort, but two-footedness, speaking not of a substance but of a quality, the two-footed will be in a subject. But neither is time in a subject, nor place. Yet if the measure of motion is taken as what is measured, the measure will be in motion as in a subject, and motion in what is moved; and if it is taken as what measures, the measure will be in the measurer. And place, being the limit of what contains, is in that.
+!flag Place is the limit of the surrounding space | The Greek says "the limit of what contains" (πέρας τοῦ περιέχοντος), the containing body, as in Aristotle; not of a space.
+!note Not being in a subject is not proper to substance, since the difference is not in a subject either, with "two-footed" as the example: Aristotle, Categories 5 (3a21-28). Time as the number and measure of motion: Physics IV.11-12 (219b1-2, 221a1-9); place as the limit of the containing body: Physics IV.4 (212a5-6, 20-21).
+
+@p
+@greek καίτοι περὶ ταύτην
+And yet, with the substance we are speaking of, it turns out the other way: substance of this sort is taken by one of these marks, or by several, or by all that have been named, since what has been named fits matter, form, and the compound of both.
+
+@ch VI.3.6 | Being simply, and being white
+"But what substance is has not been said": the critic wants to see it, but its being cannot be seen. Fire and water are substances not by being seen, nor by matter or form, but by being; quantity and quality are too, by a shared name. Being simply is first, being white by participation; and the being in the perceptible has its being from what really is, as its white from the really white.
+
+@p
+If someone were to say: "Let these things have been observed about substance; but what it is has not been said", he is perhaps still asking to see this as something perceptible; but its "is", and its being, could not be seen. What then? Are fire and water not substance? Is each of them substance, then, because it is seen? No. By having matter? No. By having form? Not that either. Nor by being the compound. By what, then? By being. But quantity too is, and quality is. We shall say, then, that it is said by a shared name.
+
+@p
+@greek ἀλλὰ τί ἐπὶ πυρὸς
+But what is the "is" in fire and earth and such things, and what is the difference between this "is" and the "is" in the others? Is it that the one is said to be simply, and to be a being simply, and the other to be white? What then? Is the being added to the white the same as being without an addition? No: the one is being first, the other by participation and in a second way. For the white added to being has made the being white, and being added to the white has made the white a being; so for each, the white is an accident of being, and being an accident of the white.
+!note Being is said in many ways, but first of substance, and of the rest because they are of substance: Aristotle, Metaphysics Γ.2 (1003a33-b10) and Z.1 (1028a10-31).
+
+@p
+@greek καὶ οὐχ οὕτως λέγομεν
+And we do not say this as someone would say "Socrates is white" and "the white is Socrates": for in both Socrates is the same, but perhaps the white is not the same; for in "the white is Socrates" Socrates is included in the white, but in "Socrates is white" the white is purely an accident. So here too "the being is white" has the white as an accident, but in "the white is a being" the white is taken together with being.
+!flag Being is regarded as comprising whiteness in its own extension | The Greek says the white is "taken together with being" (συνειλημμένον τῷ ὄντι); there is no extension of being.
+
+@p
+@greek καὶ ὅλως τὸ μὲν λευκὸν
+And in general the white has its being because it is about being and in being; so its being is from that. But being has its being from itself, and its white from the white, not because it is in the white, but because the white is in it. But since this being too, the being in the perceptible, is not being from itself, we must say that it has its being from what really is, and its being white from the really white, and that this, which has the white, has its being by participation in what is there.
+!flag dependent for its whiteness upon participation in that Supreme Being whose existence is underived | The Greek says the really white has its being (τὸ εἶναι), not its whiteness, by participation in the being there; "Supreme" and "underived" are Page's.
+!note Things here are white, or beautiful, by sharing in the white itself, the form: Plato's Phaedo (100c-e).
+
+@ch VI.3.7 | Matter does not give being
+If things here have being from matter, where does matter get it? Matter is not first: it is before the perceptibles, but after all things there, with a dim being, a shadow and falling-away of forming principle. The more being gives being to the less, not the reverse; so being is not one common kind over matter, form and compound. Each is a whole of its own, as life is not one in the nourishing, perceiving and thinking soul; being flows into them from one source unequally.
+
+@p
+If someone were to say that the things here, all that are upon matter, have their being from matter, we shall ask where matter itself will get its being and its "is". That matter is not first has been said elsewhere. If it is said that the others could not hold together except upon matter, we shall say: the perceptibles could not. But though matter is before these, nothing prevents it from being after many things, after all the things there, with a dim being, and less than the things upon it, in so far as they are forming principles, and are more from being, while matter is wholly without forming principle, a shadow of forming principle and a falling-away from forming principle.
+!flag These are Reason-Principles and more directly derived from Being | The Greek calls the things upon matter "forming principles" (λόγοι); "Reason-Principles" is Page's name for them.
+!flag a vain attempt to achieve a Principle | The Greek says matter is "a falling-away from forming principle" (ἔκπτωσις λόγου), not an attempt to reach one.
+!note "Said elsewhere": II.4 (On matter), and VI.1.25-29, against the Stoics' matter as the first principle. Matter as a shadow and a phantasm: III.6.7 and 13-15.
+
+@p
+@greek εἰ δέ τις λέγοι, ὅτι τὸ εἶναι
+If someone says that matter gives being to the things upon it, as Socrates gives it to the white upon him, we must say that what is more being would give being to what is less, but what is less would not give it to what is more. But if form is more being than matter, being is no longer something common to both, nor is substance a kind that holds matter, form and the compound under it; they will have many things in common, those we speak of, but their being will still be different. For when what is more being comes upon what is less, what is less would be first in order, but later in substance; so that, if being does not belong equally to matter, to form and to the compound, substance would no longer be common to them as a kind.
+
+@p
+@greek ἄλλως μέντοι ἕξει
+It will stand otherwise, though, toward the things that come after these, as having something common toward them by their being: as one life is dim and another clearer, and of images one is a sketch and another more fully worked. But if one were to measure being by the dim being, and leave aside the more that is in the others, this again will be a common being. But perhaps it should not be done so. For each is a different whole, and the dim is not something common: as with life, there would not be something common to the nourishing, the perceiving and the thinking life.
+!note Soul is said of the nourishing, the perceiving and the thinking soul, but there is no common account of soul over them apart from each, as there is none of figure over triangle and square: Aristotle, On the soul II.2-3 (413a20-b13, 414b20-32).
+
+@p
+@greek καὶ ἐνταῦθα τοίνυν τὸ εἶναι
+Here too, then, being is other in matter, in form and in both together, though it flows from one source, in one way and in another. For it is not only that, if the second is from the first and the third from the second, the one is more, and the next worse and less; but even if both are from the same, one may have shared more in fire, like a fired pot, and the other less, so as not to become a pot. And perhaps matter and form are not even from the same: for there is difference among those too.
+!flag they are clearly in some sense different | The Greek says "for there is difference among those too" (διαφορὰ γὰρ καὶ ἐν ἐκείνοις), probably among the things there from which matter and form come, not between matter and form.
+
+@ch VI.3.8 | Perceptible substance: a coming-together of qualities and matter
+Leave aside dividing into elements: perceptible substance is taken by perception. What is common to stone, earth, water, plants and living beings is one kind: they are subjects for others, and not in a subject or of another. But take away size and quality, and what is left? Perceptible substance is a coming-together of qualities on matter; the whole is substance, not each part, and even the whole is only an imitation of true substance, a painting on a shadow.
+
+@p
+But perhaps we should let go of dividing into elements, above all when speaking of perceptible substance, which must be taken by perception rather than by reason, and not bring in what it is made of: for those are not substances, or at least not perceptible substances. Instead, we should take in one kind what is common to stone, earth, water, and the plants that come from these, in so far as they are perceptible, and to living beings likewise. Neither matter nor form will be left out, for perceptible substance has them: fire and earth and what is between them are matter and form, and the compounds are already many substances in one. And there is what is common to all these, by which they are separated from the others: they are subjects for the others, and not in a subject, nor of another; and all that has been said belongs to this substance.
+!flag nor predicated of any other thing | The Greek says "nor of another" (οὐδὲ ἄλλου): not belonging to another, as in chapter 4, rather than not predicated.
+
+@p
+@greek ἀλλ’ εἰ ἡ αἰσθητὴ οὐσία
+But if perceptible substance is not without magnitude nor without quality, how shall we still separate off the accidents? For if we separate these off, magnitude, shape, colour, dryness, wetness, what shall we set down as substance itself? For these substances are qualified. But there is something about which come the things that make it, from being only substance, a qualified substance; and fire will not be wholly substance, but something of it, a part, as it were. And what would this be? Matter.
+
+@p
+@greek ἀλλὰ ἆρά γε ἡ αἰσθητὴ οὐσία
+Or is perceptible substance a sort of heaping together of qualities and matter, and all these, fixed together upon one matter, a substance, while each, taken apart, will be a quality, or a quantity, or many qualities? And is it that whatever, if it is lacking, does not let the reality come to be complete is part of this substance, while what comes upon the substance once it has come to be has its own rank, and is not hidden in the mixture that makes what is called substance?
+!flag while Sensible Substance as a whole is merely the sum of these coagulations | The Greek draws no line between a particular substance and the whole: it asks whether all these, "fixed together upon one matter" (συμπαγέντα ἐπὶ ὕλης μιᾶς), are one substance.
+!note Body as all the qualities together with matter: II.7.3. Plotinus' coming-together of qualities answers the Stoics' qualified substrate (VI.1.25-29).
+
+@p
+@greek καὶ οὐ τοῦτό φημι
+And I do not say that each, there with the others, is substance, filling out one bulk of such a size and such a sort, and elsewhere, not filling it out, a quality; but that not even there is each a substance, but the whole made of all is substance. And we should not be vexed if we make perceptible substance out of what are not substances: for not even the whole is true substance, but an imitation of the true, which has its being without the other things about it, while the others come to be from it, because it truly was. Here, what underlies is barren, and not sufficient to be being, since the others do not come from it either; it is a shadow, and upon what is itself a shadow there is a painting, and the appearing.
+!note A painting, an appearance upon a shadow: compare the images of the cave in Plato's Republic (VII 515a-516a), and matter as the mirror in which images come and go (III.6.7, 13).
+
+@ch VI.3.9 | The species of perceptible substance, and first and second substances
+The kind is body: the more material, the four elements, and the organic, plants and living beings, divided by their shapes, places and weights, and by where they stand in the cosmos. First and second substances differ only as particular and universal, which is no difference of substance: grammar is not later than a grammar, Socrates gets being man from man, and what is prior by nature is prior simply; otherwise there would be no one account of substance.
+
+@p
+So much for what is called perceptible substance, and for its being one kind. What would one set down as its species, and how would one divide it? The whole must be set down as body; and of bodies, some are more material, others organic: more material, fire, earth, water, air; organic, the bodies of plants and of living beings, which differ by their shapes. Then one would take the species of earth and of the other elements; and among the organic bodies, divide the plants by their shapes, and the bodies of living beings either by their being on the earth or in the earth, and, in each element, the things in it; or, of bodies, some light, some heavy, some between; and some standing in the middle, others surrounding from above, others between; and in each of these, bodies already marked off by their shapes, so that some are bodies of heavenly living beings and others belong to the other elements.
+!note Plato's Timaeus gives four kinds of living beings, one for each element: the heavenly kind of the gods, the winged, the watery and that which goes on foot (39e-40a). Light and heavy, the middle and the outermost: Aristotle, On the heavens IV.1-4.
+
+@p
+@greek ἢ κατ’ εἴδη διαστησάμενον
+Or, having set apart the four by species, one would next weave them together in another way, mixing their differences by their places, their shapes and their mixtures, as things are called fiery or earthy by the element that is more and prevails in them.
+
+@p
+@greek τὸ δὲ πρώτας καὶ δευτέρας λέγειν
+To speak of first and second substances, this fire and fire, is to have a difference of another sort, that the one is particular and the other universal, but not a difference of substance: for in quality too there are a certain white and white, a certain grammar and grammar. Then, what does grammar have less than a certain grammar, and knowledge in general than a certain knowledge? For grammar is not later than a certain grammar; rather, it is because grammar is that the grammar in you is too: since the grammar in you is a certain grammar by being in you, and is itself the same as the universal.
+!flag between whiteness and the white object | The Greek has "a certain white and white" (τὶ λευκὸν καὶ λευκόν), the particular and the universal, as this fire and fire; not whiteness against the white thing.
+!note Aristotle calls the individual, this man or this horse, first substance, and its species and kind second substances (Categories 5, 2a11-19), and makes the species more substance than the kind (2b7-8). "A certain grammar", knowledge of letters, is his example of what is in a subject, the soul (Categories 2, 1a25-26, 1b1-3).
+
+@p
+@greek καὶ ὁ Σωκράτης οὐκ αὐτὸς
+And Socrates did not himself give being man to what was not a man, but man gave it to Socrates: for the particular man is a man by participation in man. Then, what would Socrates be but a man of such a sort, and what would "of such a sort" do toward his being more substance? If it is because man is form alone, and Socrates form in matter, he would by this be less man: for in matter the forming principle is worse. And if man too is not by the form alone, but in matter, what will he have less than the man in matter, when he is himself the forming principle of what is in some matter?
+!flag this particularity can have no effect whatever in adding to his essential manhood | The Greek asks what "of such a sort" would do "toward his being more substance" (πρὸς τὸ μᾶλλον οὐσίαν εἶναι), not toward his manhood.
+!flag for the Reason-Principle will be less effectual in Matter | The Greek says that in matter the forming principle (λόγος) is "worse" (χείρων); "Reason-Principle" and "less effectual" are Page's.
+
+@p
+@greek ἔτι πρότερον τῇ φύσει
+Again, the more general is prior by nature, and so the species is prior to the individual; and what is prior by nature is prior simply. How then would it be less? The particular is prior as being better known to us; but this makes no difference in the things. And then, in this way, there would not be one account of substance: for the account of what is first and of what is second is not the same, nor are they under one kind.
+!flag hence, the Form-Idea is prior to the individual | The Greek's εἶδος here is the species, over the individual; "Form-Idea" is Page's.
+!flag would be incompatible with a single Reason-Principle of Substance | The Greek's λόγος here is the account, the definition, of substance; "Reason-Principle" is Page's.
+!note Prior by nature and prior and better known to us: Aristotle, Physics I.1 (184a16-b14) and Posterior Analytics I.2 (71b33-72a5). Where there is a first and a second there is no common kind over them: Metaphysics B.3 (999a6-13) and Nicomachean Ethics I.6 (1096a17-23).
+
+@ch VI.3.10 | Other ways of dividing perceptible substance
+Divide by the pairs hot and dry, dry and cold, cold and wet, then their compounds, places and the bodies of living beings as instruments. Shapes divide as well as qualities do, since this substance is perceptible, a coming-together of what is perceived; and man's form in a body is a quality of the body. Simple and compound are not set against each other: the simples come first, the compounds after, by places and shapes.
+
+@p
+One may also divide in this way: by hot and dry, dry and cold, cold and wet, or however one wants the pairing to be; then the composition and mixture made from these; and either stop here, standing at the compound, or go on by being in the earth and on the earth, or by shapes and by the differences of living beings, dividing not the living beings but their bodies, as instruments.
+!note The four elements by pairs of contraries, fire hot and dry, air hot and wet, water cold and wet, earth cold and dry: Aristotle, On generation and corruption II.3 (330a30-b7).
+
+@p
+@greek οὐκ ἄτοπος δὲ ἡ κατὰ
+A difference by shapes is not out of place, if the division by their qualities, heats and colds and the like, is not out of place either. And if someone says, "But by these they make the bodies", we shall say that they make them by their mixtures too, and by their colours and shapes. For since our discussion is about perceptible substance, it would not be out of place for it to be taken by differences that bear on perception: for this is not being simply, but this whole is perceptible being; since we said that even its seeming reality is a coming-together of things that bear on perception, and people's trust in its being comes from perception.
+
+@p
+@greek εἰ δὲ ἄπειρος ἡ σύνθεσις
+And if the composition is unlimited, one should divide by the species of living beings, as by the species of man in a body: for this, such a form, is a quality of the body, and it is not out of place to divide by qualities.
+
+@p
+@greek εἰ δ’ ὅτι τὰ μὲν ἁπλᾶ
+If it is said that we called some bodies simple and others compound, setting the compound over against the simple, we said "more material" and "organic", and did not bring in the compound. There is no setting of the compound over against the simple: rather, one should set down the simple bodies at the first division, then mix them, and make the difference of the compounds from another principle laid under it, by places or by shapes, as some are heavenly and others earthly. So much for the substance, or becoming, that is in the perceptibles.
+!note "Or becoming": as in chapter 2, what is called substance here is properly becoming.
+
+@ch VI.3.11 | Quantity, and great and small
+Quantity is number and magnitude in things that have matter, the three cubits and the five horses; place and time are not quantities: time, as the measure of motion, goes to relation, and so does place, which contains body. Great and small are quantities, though greater and smaller are relatives: a mountain is called small for smaller. A thing is great in itself, as the beautiful is beautiful, though something is more beautiful.
+
+@p
+About the quantity and quantity itself: that it must be set in number and magnitude, in so far as each thing is of a certain size, which lies in the number of things in matter and in the extension of the subject (for we are speaking not of a separate quantity, but of what makes the piece of wood three cubits long, and of the five that is in the horses). It has been said often that these alone are to be called quantities, and that place and time are not to be thought of as quantity: time, as the measure of motion, must be given to relation, and place, as containing body, so that it too lies in a relation and in relation to something; since motion too is continuous and was not set in quantity.
+!flag number and magnitude are to be regarded as the only true qualities | The Greek says these alone are to be called "quantities" (ποσὰ μόνον); "qualities" is a slip.
+!flag to be three yards long | The Greek has "three cubits" (τρίπηχυ), the example of quantity in Aristotle's list.
+!note "Three cubits long" is Aristotle's example of quantity (Categories 4, 1b28-29); he counts time and place among the continuous quantities (Categories 6, 4b20-25, 5a6-14), which VI.1.4-5 and 13-14 argued against. "Separate quantity": the numbers in themselves, the subject of VI.6.
+
+@p
+@greek μέγα δὲ καὶ μικρὸν
+But great and small, why are they not in quantity? For the great is great by a certain quantity, and magnitude is not among the relatives, though greater and smaller are among the relatives, for they are in relation to another, as the double is. Why, then, is a mountain small, and a millet seed big? Or, first, "small" is said in place of "smaller". For if it is agreed that they are said in relation to things of the same kind, and by them, it is agreed that "small" is said in place of "smaller", and that the millet seed called big is not called big simply, but a big millet seed. And this is the same as "in relation to things of the same kind"; and of things of the same kind it would naturally be called greater.
+!note Aristotle makes great and small relatives, not quantities: "a mountain is called small and a millet seed large" (Categories 6, 5b14-29).
+
+@p
+@greek ἔπειτα διὰ τί οὐ καὶ τὸ καλὸν
+Then, why would the beautiful not be counted among the relatives too? But we say that the beautiful is so in itself, and a quality, and the more beautiful among the relatives; and yet what is called beautiful might appear ugly in relation to something else, as a man's beauty in relation to the gods'. "The most beautiful of apes", he says, "is ugly compared with another kind." But in itself it is beautiful, and in relation to another either more beautiful or the opposite. So here too a thing is great in itself, by its magnitude, and in relation to another not so. Or else we must do away with the beautiful, because something else is more beautiful than it. Then we must not do away with the great either, because there is something greater than it: since there would be no greater at all, if there were no great, as no more beautiful, if there were no beautiful.
+!flag its greatness is due, not to any external, but to its own participation in the Absolute Great | The Greek says only that a thing is "great in itself, by its magnitude, and in relation to another not so" (ἐφ’ ἑαυτοῦ μὲν μέγα μεγέθους, πρὸς ἄλλο δὲ οὐ τοιοῦτον); "the Absolute Great" is Page's.
+!note "The most beautiful of apes is ugly compared with the race of men": Heraclitus (fragment B82 Diels-Kranz), quoted by Socrates in Plato's Hippias Major (289a-b), who adds that the wisest of men is an ape beside a god.
+
+@ch VI.3.12 | Contrariety in quantity
+So there is contrariety in quantity: great and small, many and few make contrary impressions; many is an extension of number and few a contraction, and so in the continuous. There must be a forming principle of the great, as of the beautiful. There is no contrariety in place, since up and down are relatives and there is no down in the All. Syllable and speech are quantities only as vocal sound, which is a motion.
+
+@p
+We must grant, then, that there is contrariety about quantity too: for our notions allow the contrariety when we say "great" and when we say "small", making the impressions contrary, as when we say "many" and "few"; for much the same must be said about "few" and "many". "Many in the house" is said in place of "more", and that is in relation to another; and "few in the theatre" in place of "fewer". And in general "many" must be said of a multitude that is much in number; and how is multitude among the relatives? This is the same as an extension of number, and its contrary is a contraction. So too with the continuous, when the notion carries the continuous forward to a distance.
+!note Aristotle denies that quantity has a contrary, and makes great and small, many and few, relatives (Categories 6, 5b11-6a11); Plotinus answers him.
+
+@p
+@greek ποσὸν μὲν οὖν, ὅταν
+There is a quantity, then, when the one goes forth, and the point too. But if each soon stops, the one is few and the other small; if its going forth goes on and does not soon stop, the one is many and the other great. What, then, is the limit? And what is the limit of the beautiful? And of the hot? For here too there is a hotter. But the hotter is said in relation to something, and the hot simply, as a quality. And in general there must be a forming principle of the great, as there is of the beautiful, which, when it is shared in, makes a thing great, as the forming principle of the beautiful makes it beautiful.
+!flag so there must be a Reason-Principle of greatness | The Greek has a "forming principle" (λόγος) of the great, as of the beautiful; "Reason-Principle" is Page's name for it.
+!note By the great things are great, and by the beautiful beautiful: Plato's Phaedo (100c-101a).
+
+@p
+@greek ἐναντιότης τοίνυν κατὰ ταῦτα
+In these ways, then, there is contrariety about quantity; but no longer by place, since place is not of quantity; for even if place were of quantity, up would not be contrary to anything, since there is no down in the All. Up and down said of the parts would mean nothing but higher and lower, and are like right and left; and these are among the relatives. Syllable and speech happen to be quantities, and to underlie quantity, for vocal sound is a quantity; and it is a sort of motion. So it must in any case be brought back to motion, as action is too.
+!flag could only be a contrary if there were something in the universe | The Greek says that up "would not be contrary to anything, since there is no down in the All" (μὴ ὄντος τοῦ κάτω ἐν τῷ παντί): there is none, and Page makes it a condition.
+!note That there is no up or down in the round cosmos, only higher and lower relative to us: Plato's Timaeus (62c-63e). Aristotle takes up and down as the contraries of place (Categories 6, 6a11-18). Speech as a quantity, measured by syllables: Categories 6 (4b32-37), and VI.1.5.
+
+@ch VI.3.13 | The differences of number and magnitude
+The continuous and the discrete are well divided by the common and the proper limit. Number divides into odd and even, in the numbers made of units, and perhaps in those in the perceptibles. Line, plane and solid seem only a counting of one, two and three dimensions, and what has a prior and posterior has no common kind; yet as quantities they are equal, as all numbers are numbers. Magnitudes differ in form; whether to divide them further must be considered.
+
+@p
+The continuous, then, is rightly separated from the discrete, by the common limit and the proper limit. From here on, number is divided by odd and even; and again, if there are differences within each of these, they must either be left to those who deal with number, or be set down as differences of the numbers made of units, and no longer of those in the perceptibles. But if reason separates the numbers in the perceptibles from them, nothing prevents us from thinking of the same differences in these too.
+!flag The same principle gives rise to the numerical distinction | The Greek says only "from here on, for number, odd and even" (τὸ δ’ ἐντεῦθεν ἤδη ἐπὶ μὲν ἀριθμοῦ περιττῷ, ἀρτίῳ); there is no "same principle".
+!flag they are either to be abandoned to the objects numbered | The Greek leaves the differences "to those who deal with number" (τοῖς περὶ ἀριθμὸν ἔχουσιν), the arithmeticians, not to the things numbered.
+!note The parts of the continuous join at a common boundary, those of the discrete have none: Aristotle, Categories 6 (4b20-5a14). Odd and even, and their kinds: Euclid, Elements VII, definitions 6-10. The numbers "made of units" are those of the arithmeticians (Metaphysics M.6-8).
+
+@p
+@greek τὸ δὲ συνεχὲς πῶς
+And the continuous: how, if one is a line, another a plane, another a solid? If one is in one direction, another in two, another in three, one will seem not to be dividing into species, but only counting: for in numbers so taken, by prior and posterior, there is never a common kind over them, nor will there be anything common over the first, the second and the third increase. But perhaps, in so far as they are quantity, the equal holds of them, and some are not more quantities and others less, even if some have their dimensions in more directions and others in fewer.
+!flag there is no common basis in first, second and third dimensions | The Greek has the first, second and third "increase" (αὔξη), the growth of a line into a plane and of a plane into a solid, as in Plato; "dimensions" is Page's here.
+!note The solid as the "third increase", after the line and the plane: Plato's Republic (VII 528a-b) and Laws (X 894a). That what has a prior and posterior has no common kind: chapter 9, and Aristotle, Metaphysics B.3 (999a6-13).
+
+@p
+@greek ἐπὶ τῶν ἀριθμῶν τοίνυν
+In the case of numbers, then, the common would lie in their all being numbers: for perhaps it is not the unit that makes the two, nor the two the three, but the same thing makes them all. And if they do not come to be but are, and it is we who think of them as coming to be, let the smaller be prior and the greater posterior: but in so far as all are numbers, they are under one.
+
+@p
+@greek καὶ ἐπὶ μεγεθῶν τοίνυν
+What holds of numbers, then, must be carried over to magnitudes; and we separate from one another the line, the plane and the solid, which he has called body, by their being magnitudes different in form. Whether each of these must be divided, the line into straight, circular and spiral, the plane into straight-lined and circular figures, the solid into solid figures, the sphere and those with straight sides, and these again, as the geometers do, into triangles and four-sided figures, and these again into others, must be considered.
+!flag the last also referred to as | The Greek says "which he has called body" (ὃ δὴ κέκληκε σῶμα): Aristotle, whose list of the continuous quantities is line, surface and body.
+!note "Line, surface, body" in Aristotle's list of continuous quantities: Categories 6 (4b23-24, 5a1-6). The geometers' division of figures: Euclid, Elements I, definitions 15-22, and XI.
+
+@ch VI.3.14 | Figures: quantity or quality?
+The straight line is a quantity with a difference, as substance takes its differences from quality. A triangle is three lines lying so; limited planes are quantities, and so all figures are; if they are called qualities too, one thing may be in two categories. But geometry is about magnitudes, and their differences do not take away their being magnitudes: the figures are differences of quantity, and the magnitudes they make are its species.
+
+@p
+What would we say of the straight line? That it is not a magnitude? Or one might say that the straight is a qualified magnitude. What prevents it, then, from being a difference of the line, as line? For the straight belongs to nothing but the line; and we bring in the differences of substance too from quality. The straight line, then, is a quantity with a difference, and is not, for this reason, a compound of straightness and line; and if it is a compound, it is so as with its own difference.
+!note Aristotle counts figure, and straightness and curvature, as the fourth kind of quality (Categories 8, 10a11-16), and calls the difference of substance a quality (Metaphysics Δ.14, 1020a33-b1).
+
+@p
+@greek τὸ δ’ ἐκ τριῶν γραμμῶν
+And what is made of three lines, why is it not in quantity? Or: the triangle is not simply three lines, but three lines lying in such a way, and the four-sided figure four lying in such a way; for the straight line too lies in such a way, and is a quantity. For if the straight line is not only a quantity, what prevents us from saying that the limited line is not only a quantity either? But the limit of the line is a point, and is not in another category. So the limited plane too is a quantity, since lines limit it, and they are much more in quantity. If, then, the limited plane is in quantity, and this is a square or a hexagon or a polygon, all figures too are in quantity.
+
+@p
+@greek εἰ δ’ . ὅτι τὸ τρίγωνον
+But if, because we call the triangle and the square qualified, we shall set them in quality, nothing prevents the same thing from being set in more categories than one: in so far as it is a magnitude, and a magnitude of such a size, in quantity; in so far as it presents such a shape, in quality. Or the triangle is itself such a shape. What prevents us, then, from calling the sphere a quality too? If, then, one went on that way, geometry would be concerned not with magnitudes but with quality. But that is not what is held: this study is about magnitudes. The differences of magnitudes do not take away their being magnitudes, as the differences of substances do not make the substances not substances.
+!note Geometry studies magnitudes as magnitudes: Aristotle, Metaphysics M.3 (1078a2-9) and K.4 (1061b17-33).
+
+@p
+@greek ἔτι πᾶν ἐπίπεδον πεπερασμένον
+Again, every plane is limited, for no plane can be unlimited. Again, as when I take quality about substance I call it substantial quality, so too, and much more, when I take the figures, I take differences of quantity. Then, if we do not take these as differences of magnitudes, of what shall we set them down as differences? And if they are differences of magnitudes, the different magnitudes that come from the differences must be ranked in their species.
+!flag disposed to see in figures or shapes (qualitative) varieties of Quantity | The Greek has "differences of quantity" (ποσότητος διαφοράς), the same word as the differences of substance; "(qualitative)" and "varieties" are Page's.

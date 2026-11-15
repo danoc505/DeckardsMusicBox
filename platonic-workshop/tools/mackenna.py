@@ -119,12 +119,18 @@ VOLUMES = {
                     "VI.1.24": "243", "VI.1.27": "27;", "VI.1.29": "29. ;", "VI.1.30": "30. .",
                     # VI.2 (milestone E24)
                     "VI.2.5": "of", "VI.2.9": "Q.", "VI.2.10": "Io.", "VI.2.11": "oO", "VI.2.12": "52:",
-                    "VI.2.17": "17:", "VI.2.21": "ai.", "VI.2.22": "22;"},
+                    "VI.2.17": "17:", "VI.2.21": "ai.", "VI.2.22": "22;",
+                    # VI.3 chapters 1-14 (milestone E25)
+                    "VI.3.4": "4. .", "VI.3.7": "ie", "VI.3.9": "Q.", "VI.3.12": "Iz."},
         "unnumbered": {"VI.1.2": "But are we really obliged", "VI.1.5": "Speech, time, motion",
-                       "VI.2.2": "In asserting that Being is not a unity"},
+                       "VI.2.2": "In asserting that Being is not a unity",
+                       "VI.3.3": "How then do we go to work", "VI.3.5": "These are incontrovertible facts"},
         # lines that are not Page's text, taken out wherever they stand: VI.2.1's misread number, under its title; a
-        # library's stamp on p. 51 (VI.2.9); and the printer's signatures G to K that fell inside VI.2's paragraphs
-        "stray": ["x.", "WITH UNIVERSIT Y LIBRARY", "WITHDRAWN", "G", "H", "I", "K"],
+        # library's stamp on p. 51 (VI.2.9); and the printer's signatures G to K that fell inside VI.2's paragraphs.
+        # VI.3 (E25): "Te" under its title, a smudge at the foot of p. 68 ("—<———— eee"), the signatures L, M, N and P,
+        # and a ";" between VI.3.4 and 5 (p. 74); each of these lines stands only there in the treatises.
+        "stray": ["x.", "WITH UNIVERSIT Y LIBRARY", "WITHDRAWN", "G", "H", "I", "K",
+                  "Te", "—<———— eee", "L", "M", "N", "P", ";"],
     },
 }
 

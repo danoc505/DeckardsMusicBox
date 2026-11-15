@@ -478,14 +478,35 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   hearth (Phaedrus 247a, Cratylus 401c-d), one not a number (Metaphysics Δ.6, N.1), the Stoics' bodies (Sextus, Seneca),
   the offshoot (Nicomachean Ethics I.6), good-formed (Republic VI 509a), like numbers (Euclid VII), the complete living
   being (Timaeus 30c-31b, 39e), the Philebus' unlimited (16e), and the Greek's count of "four" kinds (15, 19).
-- E25: VI.3 On the kinds of being, third part, chapters 1-14 (4,633). Next. The kinds of the perceptible: substance here,
-  and quantity, quality, relation and motion. Vol. V needs work first: tools/mackenna.py reads only VI.3.1-2 (pp. 68-69).
-  In the OCR (lines 3314-5050), "Te" stands under the title (add it to "stray"); the numbers it reads are "2." (3370),
-  "4. ." (3495), "6." (3634), "ie" (3688, likely 7), "8." (3756), "Q." (3817), "10." (3898), "II." (3946), "Iz." (4001),
-  "13." (4052), "14." (4105), and on for E26: "15."-"16.", "<7:" (4322), "18.", "IQ." (4453), "20.", "2." (4594, likely 21),
-  "223" (4678, likely 22), "23."-"28."; 3 and 5 look lost (use "unnumbered" with their first words); "L", "M", "N", "P"
-  are signatures and ";" (3569) is stray. Check each against the Greek's chapter starts; Page translated VI.3 too.
-- E26: VI.3 chapters 15-28 (about 4,700).
+- **E25: VI.3 On the kinds of being, third part, chapters 1-14 (4,633) (done).** 55 paragraphs, 39 flags, 36 notes, under
+  a new @treatise block with its summary of the whole treatise (the forty-fourth; the kinds of the perceptible); VI.3 is
+  marked chapters 1-14 of 28. Source work first: tools/mackenna.py read only VI.3.1-2 (vol. V pp. 68-69); vol. V's lists
+  now add VI.3's misread numbers ("4. ." 4, "ie" 7, "Q." 9, "Iz." 12; "II." already reads as 11) and its lost 3 ("How then
+  do we go to work") and 5 ("These are incontrovertible facts"), and "stray" takes out "Te" under the title, a smudge at
+  the foot of p. 68 ("—<———— eee"), the signatures L, M, N, P and the ";" on p. 74, each of which stands only there in the
+  treatises. All 14 chapters are found on their pages (68-85) and are the Greek's; no @older; VI.1, VI.2 and the other
+  volumes are unchanged. Fixed names as in VI.2: "otherness" for ἑτερότης, "the same and the other", rest, "difference"
+  only for διαφορά, "forming principle" for λόγος (and "account" where it is the definition, 9); Page's "Stability",
+  "Identity", "Difference" and "Reason-Principle" are flagged as his. E.g. Page makes vocal sound "speech" and its letters
+  "element" (1), homonymous "analogous" (1, 2), the syllables "first-principles" that are "compounds" (2), substance's
+  not being of another "not predicated" (4, 8), substance here "pseudo-substance" (5), place the limit of a "surrounding
+  space" (5), the really white's being its "whiteness" (6), matter's falling-away from forming principle "a vain attempt"
+  (7), "a certain white and white" into whiteness and the white object (9), the quantities "the only true qualities"
+  (11), "the Absolute Great" (11), the up that has no down a condition (12), the arithmeticians "the objects numbered"
+  (13), and the third increase a "dimension" (13). terms-greek.json is unchanged. Notes on the Philebus' letters (17b,
+  18b-d), synonyms and homonyms (Categories 1), "in a subject" and second substance (Categories 2, 5), the difference not
+  in a subject (Categories 5, 3a21-28), place and time (Physics IV.4, 11-12), being said in many ways (Metaphysics Γ.2,
+  Z.1), the three lives (On the soul II.2-3), the four kinds of living beings (Timaeus 39e-40a), prior by nature and to us
+  (Physics I.1), the elements' contraries (On generation and corruption II.3), great and small (Categories 6, 5b14-29),
+  Heraclitus' apes (B82, Hippias Major 289a-b), no down in the All (Timaeus 62c-63e), the third increase (Republic VII
+  528a-b) and figure as quality (Categories 8).
+- E26: VI.3 chapters 15-28 (4,673). Next. Equal and unequal, quality and its kinds and contraries (15-20), and motion,
+  alteration, change of place, combination and separation, rest, acting and being acted on (21-28). Vol. V needs work
+  first: tools/mackenna.py finds VI.3.15 and 16, and 16 runs on to the end of the treatise. In the OCR, add to "misread":
+  "<7:" (4322) for 17, "IQ." (4453) for 19, "2." (4594) for 21, "223" (4678) for 22 and "25. |" (4849) for 25; "15.",
+  "16.", "18.", "20.", "23.", "24." and "26."-"28." read as they are. Add "ce)" (4654, inside VI.3.21) to "stray" (it stands
+  only there); N and P are there already. Check each against the Greek's chapter starts; the VI.3 summary already covers
+  chapters 15-28. When VI.3 is complete, the browser test's "chapters 1-14 of 28 so far" check becomes its absence.
 - E27: VI.4 That being, one and the same, is everywhere whole, first part (5,731).
 - E28: VI.5 the same, second part (3,658).
 - E29: VI.6 On numbers (6,963).
