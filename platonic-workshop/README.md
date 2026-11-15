@@ -580,6 +580,17 @@ for a shared name, "not predicated" for not being of another, "pseudo-substance"
 falling-away from forming principle, and "the only true qualities" for the quantities. The notes give the Philebus'
 letters, Aristotle's "in a subject" and first and second substance, the three lives (On the soul II.2-3), great and small
 (Categories 6), Heraclitus' apes, and the Timaeus on up and down in the All.
+**VI.3, chapters 15-28** (E26), beside Page's English in vol. V: equal and unequal, quality, its kinds and contraries,
+then motion, change of place, combination and separation, rest, and acting and being acted on; VI.3 is now complete, 65
+more paragraphs, 64 flags. `tools/mackenna.py` now finds all 28 of Page's VI.3 chapters (pp. 68-106). The kinds keep their
+fixed names, and "stillness" is kept for the rest of what can move (ἠρεμία), "rest" for στάσις; Page's "Stability",
+"Identity", "Difference" and "Reason-Principle" are flagged as his. Among the other flags, the name Socrates given to the
+perceptible Socrates where the Greek denies it, "apostasy" for the soul's bending down, two greens for leek-green and pale
+yellow, motion's being the life of bodies called "unwarrantable" where the Greek says it would not be absurd, time "the
+measure" of motion, and alteration "added" to combination where it is brought back to it. The notes give Aristotle on
+equal and like, the Republic's two arithmetics, white that parts the sight (Timaeus 67d-e), coming to be not a motion
+(Physics V.1), motion as the act of the potential (Physics III.1-3), the simple motions (On the heavens I.2), and the
+relatives (Metaphysics Δ.15).
 **III.8, On nature, contemplation and the One, and III.9, Various considerations** (E14), beside MacKenna's vol. II: 14
 chapters, 41 paragraphs, 70 flags, among them his "the Highest" for intellect that began as one and unrolled itself,
 "pregnant" for weighed down, the living principle "brother ... to that which gives mere shape" where it is brother to
@@ -666,7 +677,7 @@ hyphened terms such as "Sense-Perception" kept; not proofread). The master copy 
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: VI.3 On the kinds of being, third part, chapters 15-28, beside vol. V (E26).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: VI.4 That being, one and the same, is everywhere whole, first part, beside vol. V (E27).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,

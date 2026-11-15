@@ -6,12 +6,12 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 - Porphyry's Life of Plotinus: Volkmann's own Greek (vol. I, 1883), proofread from the scan (`sources/neoplatonists/proofread/porphyry-life-plotinus.txt`).
 - Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny, III.2 On providence, first part, III.3 On providence, second part, III.4 On the daemon allotted to us, III.5 On love, III.8 On nature, contemplation and the One, III.9 Various considerations, IV.1 On the being of the soul, first part, IV.4 On difficulties about the soul, second part, IV.5 On difficulties about the soul, third part, or on sight, IV.6 On perception and memory, IV.8 On the descent of the soul into bodies, IV.9 Whether all souls are one, V.4 How what comes after the first comes from it, and on the One, V.5 That the intelligibles are not outside intellect, and on the Good, V.7 Whether there are forms of individuals, V.8 On intelligible beauty, VI.1 On the kinds of being, first part, VI.2 On the kinds of being, second part, VI.3 On the kinds of being, third part.
 - The whole Enneads: 35 treatises here, 15 beside Taylor (milestone 27), 5 to come.
-- Chapters: 366, each with a short title and a summary.
-- Paragraphs: 1217, each with its Greek.
-- Words: 149,982 modern, 113,699 Greek, 185,691 in MacKenna's English of the same chapters.
-- Sentences (each can be marked in the reader): 5,313.
-- Flags (where MacKenna and the Greek differ, or the Greek is hard): 987.
-- Notes (Plato's, Aristotle's and Homer's places, hard readings): 741.
+- Chapters: 380, each with a short title and a summary.
+- Paragraphs: 1282, each with its Greek.
+- Words: 156,229 modern, 118,372 Greek, 192,446 in MacKenna's English of the same chapters.
+- Sentences (each can be marked in the reader): 5,527.
+- Flags (where MacKenna and the Greek differ, or the Greek is hard): 1051.
+- Notes (Plato's, Aristotle's and Homer's places, hard readings): 789.
 - Problems found: 0.
 
 ## Flags
@@ -1005,6 +1005,70 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | VI.3.13.p2 | there is no common basis in first, second and third dimensions | The Greek has the first, second and third "increase" (αὔξη), the growth of a line into a plane and of a plane into a solid, as in Plato; "dimensions" is Page's here. |
 | VI.3.13.p4 | the last also referred to as | The Greek says "which he has called body" (ὃ δὴ κέκληκε σῶμα): Aristotle, whose list of the continuous quantities is line, surface and body. |
 | VI.3.14.p4 | disposed to see in figures or shapes (qualitative) varieties of Quantity | The Greek has "differences of quantity" (ποσότητος διαφοράς), the same word as the differences of substance; "(qualitative)" and "varieties" are Page's. |
+| VI.3.15.p1 | Triangles, it is significant, are said to be similar rather than equal | The Greek says only that "triangles are said to be like" (ὅμοια γὰρ τρίγωνα λέγεται), as an objection to Aristotle's rule; "rather than equal" is Page's. |
+| VI.3.15.p1 | if we are told that equality and inequality are characteristic of Quantity | The Greek has "if he said" (εἰ ἴδιον εἶπε), Aristotle, whose two rules are being weighed; Page leaves him out. |
+| VI.3.15.p2 | similarity is predicable of Quantity only in so far as Quantity possesses (qualitative) differences | The Greek says "in so far as the differences are in it" (καθόσον αἱ διαφοραὶ ἐν αὐτῷ), the differences of quantity, the figures of chapter 14; "(qualitative)" is Page's. |
+| VI.3.15.p3 | we predicate equality of triangles, rectangles, and figures generally | The Greek has "triangles and squares" (τρίγωνα καὶ τετράγωνα), the four-angled figures; "rectangles" is Page's. |
+| VI.3.15.p4 | Thus, for the essence of fire we must look to the Reason-Principle | The Greek has "the forming principle" (ὁ λόγος), which "signifies rather the something" (τὸ τί); "Reason-Principle" is Page's name for it, here and below. |
+| VI.3.15.p4 | but we apply the name Socrates to the Socrates we see | The Greek says the reverse: it is "not the perceptible Socrates" (οὐ τὸν αἰσθητὸν Σωκράτην) but colours and shapes, imitations of those in the forming principle, that the name is given to, as to the portrait. |
+| VI.3.16.p1 | This beauty—need we say ?—is identical in name only with Intellectual Beauty | The Greek says that beauty here and there is "homonymous" (ὁμώνυμον), sharing a name, as the kinds of chapter 1 did; Page's words agree, but "identical" is his. |
+| VI.3.16.p2 | But the beauty in the germ, in the particular Reason-Principle | The Greek has "in such a forming principle" (τῷ τοιούτῳ λόγῳ), the seed's forming principle; "Reason-Principle" is Page's name for it. |
+| VI.3.16.p3 | It may even be doubted whether the arts, as Reason-Principles | The Greek calls the arts "forming principles" (λόγους οὔσας); "Reason-Principles" is Page's name for them. |
+| VI.3.16.p3 | Take the case of lyrical music | The Greek's κιθαρῳδία is singing to the lyre (the cithara), whose song is perceptible sound about the strings; not lyric poetry. |
+| VI.3.16.p4 | they necessarily belong to that other world in close proximity to the Intellectual | The Greek ranks them "there, towards the intelligible" (πρὸς τὸ νοητὸν ἐκεῖ), with it; "in close proximity" is Page's. |
+| VI.3.16.p5 | attendant upon its apostasy | The Greek says they belong to a soul "bending downward" (κάτω νευούσης); "apostasy" is Page's, here and below. |
+| VI.3.16.p6 | their manifestation makes for beauty in this world, a beauty regarded not as necessary but as desirable | The Greek says that these virtues "act well here" (ἐνταῦθα τὸ καλῶς ἐνεργοῦσι), setting this acting well before them as their first aim, "not as necessary"; Page makes it a beauty in the world. |
+| VI.3.16.p7 | on the ground that they are connected with body and are activities of body | The Greek calls the forming principles "makings of bodies" (σωμάτων ποιήσεις), what makes bodies; not activities of body. |
+| VI.3.16.p8 | being affections arising within Soul | The Greek calls them affections "that have bent down here" (πάθη ὄντα νενευκότα τῇδε); they are not said to arise within soul. |
+| VI.3.16.p8 | torn between two worlds by their objects and their abode | The Greek divides the affection into "what it is about and what it is in" (εἴς τε τὸ περὶ ὅ ἐστι καὶ ἐν ᾧ ἐστιν); "torn between two worlds" is Page's. |
+| VI.3.17.p1 | sounds may also be classified qualitatively as sweet, harsh, soft | The Greek's third quality of sound is "smooth" (λεῖον), set against "rough" (τραχύ); not "soft". |
+| VI.3.17.p3 | some colours integrate, others disintegrate the vision | The Greek speaks of what "draws together" (συγκριτικόν) and what "parts" (διακριτικόν) the sight, Plato's and Aristotle's words for black and white; "integrate" and "disintegrate" are Page's, here and in chapter 25. |
+| VI.3.17.p4 | but also to their Reason-Principles | The Greek has "their forming principles" (λόγους αὐτῶν), here and in the next sentence; "Reason-Principles" is Page's. |
+| VI.3.18.p1 | as in distinguishing dark-green from pale-green | The Greek has "leek-green against pale yellow" (πράσινον ὠχροῦ), two colours said to come from white and black; not two greens. |
+| VI.3.18.p2 | there is in the movements of intelligence a diversity which separates one object from another, making further differentiation unnecessary | The Greek has "otherness" (ἑτερότης), the kind of VI.2, which "does not itself need otherness"; "diversity" and "differentiation" are Page's. |
+| VI.3.18.p4 | Virtue and vice are two states differing in quality | The Greek says that virtue is "a state of such a sort" and vice "of such a sort" (ἡ μὲν ἕξις τοιάδε, ἡ δὲ τοιάδε): the "such" is the difference that would be a quality. |
+| VI.3.18.p5 | hardly reveals the essence but merely the cause of sweetness | The Greek says that "thick" names not what the sweet is (τὸ τί ἦν) but "that in which the sweetness is" (ᾧ ἡ γλυκύτης), its subject; "cause" is Page's. |
+| VI.3.18.p6 | if we proceed on the principle that virtue is bound up with pleasure, vice with lust | The Greek divides the virtues among themselves, "one about pleasures, another about angers, one about getting in the harvest, another about spending" (τὴν μὲν περὶ ἡδονάς, τὴν δὲ περὶ ὀργάς); no vice is named. |
+| VI.3.19.p2 | if a name or definition, it is a relative | The Greek's λόγος here is an account, spoken words that signify, beside the sound and the name; "definition" is Page's. |
+| VI.3.19.p2 | it would be better, in view of their composite nature, not to include the negations in the same genus as the affirmations | The Greek says it is better not to count the negations, "as we do not count the affirmations either" (τάς τε καταφάσεις μὴ συναριθμοῦντας), both being compound; Page sets the one against the other. |
+| VI.3.19.p3 | on the other hand, are neither of them qualities but states | The Greek says they are "rather in some way disposed" (μᾶλλόν πως ἔχων), in relation to another; "states" is Page's word, which he gives to the ἕξεις at the end of the chapter. |
+| VI.3.19.p4 | Such is the theory | No such words are in the Greek: Plotinus' own conclusion follows at once, that only the motion must be thought of, without the time. |
+| VI.3.19.p5 | We shall accordingly maintain that states alone, and not dispositions, constitute qualities | The Greek offers this as a consequence to be weighed: "or else, in this way, we shall call only the states qualities" (ἢ οὕτως τὰς ἕξεις μόνας ποιότητας ἐροῦμεν); Plotinus does not assert it. |
+| VI.3.20.p2 | Contrariety however demands that there be some one distinct quality in the intermediates | The Greek gives a reason for setting the intermediates against one another, "because we see some one other colour in each" (τῷ μίαν τινὰ ἄλλην... ἀντιτίθεμεν); contrariety makes no demand. |
+| VI.3.20.p2 | taste may be our judge when we have hot, cold and no intermediate | The Greek has "what is neither, between them" (τὸ μηδέτερον μεταξύ): the lukewarm is the intermediate. |
+| VI.3.20.p3 | White and yellow are entirely different from each other | The Greek gives this as what someone might say against the usual view, "perhaps someone might grant us this, and yet say" (τάχα δ’ ἄν τις ἡμῖν συγχωροῖ ταῦτα); Page makes it the argument's own conclusion. |
+| VI.3.20.p5 | they differ in degree but are not contraries | The Greek's "more or less" (ἢ πλείονα ἢ ἐλάττονα) belongs to the mixing that is ruled out, "by being mixed with other things, their shapes, so to speak, more or less"; Page makes such things differ in degree. |
+| VI.3.20.p6 | If indeed these qualities possess an extension quite apart from their participants | The Greek says "if each of them has a latitude" (πλάτος), a range within which it can be more or less; "quite apart from their participants" is Page's. |
+| VI.3.21.p1 | These conditions satisfied, we may consider the nature of the genus to which we shall refer it | The Greek's question "into what kind could one bring it?" (εἰς ποῖόν τις γένος αὐτὴν ἀνάξει;) belongs to the first test, whether motion goes back into another kind; Page makes it a further step. |
+| VI.3.21.p2 | takes birth and actuality in juxtaposition with a yard | The Greek has "the cubit's length" (τὸ πηχυαῖον), Aristotle's example of a quantity; Page makes it a yard. |
+| VI.3.21.p4 | the antecedents of becoming are being confused with becoming itself | The Greek says he "takes what comes before the coming to be" (τὰ πρὸ τῆς γενέσεως λαμβάνει), the alteration and growth before it; Page's words agree, but "confused" is his. |
+| VI.3.21.p5 | we must accept as types of Motion knowledge and musical performance | The Greek has "learning and playing the lyre" (ἡ μάθησις καὶ ἡ κιθάρισις), motions from a state (ἀφ’ ἕξεως); knowledge is the state, not the motion. |
+| VI.3.22.p1 | on the ground that Motion itself results in difference | The Greek says that "something other" (τὸ ἄλλο) follows on motion; "difference" is kept in the modern version for διαφορά. |
+| VI.3.22.p2 | regarded Motion as a dynamic Form in opposition to the other Forms which are static | The Greek calls motion "a waking form" (εἶδος ἐγρηγορός), set against forms that "stand" (ἑστηκόσιν), in that they stay and it does not; "dynamic" and "static" are Page's. |
+| VI.3.22.p2 | To proceed to identify this bodily motion with life would however be unwarrantable | The Greek says the reverse: if one were to call this motion "the life of bodies", "he would not be absurd either" (οὐκ ἂν ἄτοπος εἴη); the next words, that it shares only a name with the motions of intellect and soul, give the reason. |
+| VI.3.22.p5 | never acquiescing in Identity but always courting Difference | The Greek has "the other, by not staying in the same" (τὸ ἕτερον τῷ οὐκ ἐν τῷ αὐτῷ μένειν); "Identity" and "Difference" are Page's names for the same and the other. |
+| VI.3.22.p5 | in the sense of being itself perpetual difference | The Greek has "always otherness" (ἀεὶ ἑτερότης), the kind of VI.2; the modern version keeps "difference" for διαφορά. |
+| VI.3.22.p5 | Time is the measure of unceasing Motion | The Greek says that time "is motion measured, not staying" (μεμετρημένη γὰρ κίνησις οὐ μένουσα); Page makes it Aristotle's measure of motion, which Plotinus rejects in III.7. |
+| VI.3.23.p1 | that they may neither rest nor preserve their identity | The Greek says "that they do not sleep, nor be in sameness" (μὴ εὕδειν μηδ’ ἐν ταυτότητι εἶναι); "identity" is Page's word for ταυτότης. |
+| VI.3.23.p3 | when there is one thing that moves and another that passes from an inherent potentiality to actuality | The Greek asks about two cases, "when another moves it, and when it goes from the potency within it into act" (ὅταν ἄλλο κινῇ, καὶ ὅταν δὲ ἐκ τῆς ἐνούσης δυνάμεως εἰς ἐνέργειαν ἴῃ); Page makes them two parties to one motion. |
+| VI.3.23.p4 | when another potentiality demolishes the structure, the result is decay | The Greek has "diminution" (μείωσις), the contrary of growth (αὔξησις), "of what can undergo taking away"; not decay. |
+| VI.3.23.p4 | not the destruction of what already exists, but that which intervenes upon the road to existence | The Greek has destruction "not that in what has already come about, but that in what is under way" (οὐχ ἡ ἐν τῷ ἤδη γεγονότι, ἀλλ’ ἡ ἐν τῷ πορευομένῳ): the motion is the destroying, still going on. |
+| VI.3.24.p1 | in which case the up-motion constitutes lightness, the down-motion heaviness | The Greek says "if the one is lightness and the other heaviness" (εἰ ἡ μὲν κουφότης εἴη, ἡ δὲ βαρύτης): the powers that move are lightness and heaviness, not the motions. |
+| VI.3.24.p2 | in this tendency we seem to have the differentia which separates locomotion from the other species | The Greek says that moving to its own place is common to these motions, "so that here the difference perhaps comes from outside things" (ὥστε ἐνταῦθα κινδυνεύειν παρὰ τὰ ἔξω τὴν διαφορὰν γίνεσθαι); Page makes it the difference of change of place. |
+| VI.3.24.p2 | not involving a complete surrender of identity | The Greek says "nor displacing altogether" (οὐδὲ πάντη ἐξισταμένην), the displacing of chapter 21; nothing of sameness is named. |
+| VI.3.25.p1 | The nature of integration and disintegration calls for scrutiny | The Greek has "combination and separation" (σύγκρισις, διάκρισις), the gathering and parting of the elements; "integration" and "disintegration" are Page's. |
+| VI.3.25.p4 | Are we then to posit a new species for these two motions, adding to them, perhaps, alteration | The Greek asks whether we are to take these by themselves "and bring alteration back to them" (τὴν δὲ ἀλλοίωσιν εἰς ταύτας ἀνακτέον), making alteration a combining or separating; not adding it to them. |
+| VI.3.26.p1 | whether the organic motion should be distinguished from the inorganic | The Greek has the motion "of the ensouled and the soulless" (ἐμψύχων καὶ ἀψύχων); "organic" is Page's. |
+| VI.3.26.p2 | It may indeed be the case that motions create these differences | The Greek has it the other way: "these produce them" (ποιητικαὶ τούτων αὗται), the differences, according to nature and against it, produce the motions, which could not be without them. |
+| VI.3.27.p1 | whether it be Stability or Rest | The Greek has "rest" (στάσις), the kind of VI.2, and "stillness" (ἠρεμία); "Stability" is Page's name for rest, and his "Rest" is the stillness. |
+| VI.3.27.p2 | the apparently stable has merely a less strenuous motion | The Greek says that what seems to stand is moving with "a slower motion" (σχολαιοτέρᾳ τῇ κινήσει); "less strenuous" is Page's. |
+| VI.3.27.p4 | why not regard Motion as the negation of Stability | The Greek has "a negation of rest" (ἀπόφασιν τῆς στάσεως); "Stability" is Page's name for rest. |
+| VI.3.27.p4 | giving it a thousand forms and destroying them all | The Greek says that motion is "working countless things in it and destroying it" (μυρία ἐργαζόμενον αὐτὸ καὶ φθεῖρον), the subject; "forms" is Page's. |
+| VI.3.27.p5 | what is of a nature to move is not stationary because the Stability of that realm is motionless | The Greek says that what stands there is not "a thing of a nature to be moved, standing in so far as it is not moved", but stands "in so far as rest has taken hold of it" (καθ’ ὃ στάσις κατείληφεν); Page has rest itself motionless, and calls it "Stability". |
+| VI.3.27.p6 | What we have to observe is the essential character of this Sensible counterpart of Stability | The Greek has "the rest itself that is called rest here" (ἡ στάσις αὐτὴ ἡ ἐνταῦθα λεγομένη): Plotinus uses the word "rest" here himself; "Sensible counterpart" and "Stability" are Page's. |
+| VI.3.27.p6 | It may be declared that health or sickness is indeed some form of Stability | The Greek has "a sort of rest" (τινὰ στάσιν); "Stability" is Page's, here and in the next sentence. |
+| VI.3.28.p2 | We may also adopt the ancient division of relatives into creative principles | The Greek has "as productive" (ὡς ποιητικά), the agent relative to what it acts on; "creative principles" is Page's. |
+| VI.3.28.p2 | Our investigation into the kinds of Being is now complete | The Greek says only "and about these kinds, so much" (καὶ περὶ μὲν τούτων τῶν γενῶν ταῦτα), the kinds of the perceptible; Page closes the whole of the three treatises. |
 
 ## The plan, in Porphyry's order
 
@@ -1058,7 +1122,7 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | V.9 | On intellect, the forms and being | done beside Taylor (milestone 27) |
 | VI.1 | On the kinds of being, first part | done here |
 | VI.2 | On the kinds of being, second part | done here |
-| VI.3 | On the kinds of being, third part | done here, chapters 1-14 of 28 |
+| VI.3 | On the kinds of being, third part | done here |
 | VI.4 | That being, one and the same, is everywhere whole, first part | to come (E27) |
 | VI.5 | That being, one and the same, is everywhere whole, second part | to come (E28) |
 | VI.6 | On numbers | to come (E29) |
