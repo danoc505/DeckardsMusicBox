@@ -261,6 +261,8 @@ def build(text_id, terms=None):
         if src is None or p["extra"]:
             continue
         for r in terms["terms"]:
+            if text_id not in r.get("texts", [text_id]):
+                continue    # a rule made for another text (the Theology of Plato's, tools/modern_theology.py)
             case = r.get("case", False)
             hit = [f for f in r["taylor"] if has_form(src["text"], f, case)]
             if not hit:
@@ -274,7 +276,8 @@ def build(text_id, terms=None):
     for key in exceptions:
         if not any(f"{p['seg']}:" == key[:len(p['seg']) + 1] for p in paras):
             problems.append(f"terms.json: exception {key!r} names no paragraph of {text_id}")
-    links = [{"term": r["term"], "forms": r["link"]} for r in terms["terms"] if r.get("term") and r.get("link")]
+    links = [{"term": r["term"], "forms": r["link"]} for r in terms["terms"]
+             if r.get("term") and r.get("link") and text_id in r.get("texts", [text_id])]
     links += [x for x in terms.get("extra_links", []) if x.get("link") and x["term"] in known]
     for x in links:
         x.setdefault("forms", x.get("link"))
@@ -354,6 +357,8 @@ def report(results):
     terms = load_terms()
     lines += ["## The fixed renderings", "", "| Taylor | Modern | Term tab | Why |", "|---|---|---|---|"]
     for r in terms["terms"]:
+        if r.get("texts"):
+            continue    # the Theology of Plato's own rules are listed in reports/modern_theology.md
         lines.append(f"| {', '.join(r['taylor'])} | {', '.join(r['modern'])} | {r.get('term') or ''} | {r.get('why', '')} |")
     return "\n".join(lines).rstrip() + "\n"
 

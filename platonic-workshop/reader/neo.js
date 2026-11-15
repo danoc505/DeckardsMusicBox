@@ -248,10 +248,18 @@ function taylorGreekShelf() {
         `<a href="#neo-en/${esc(w.id)}/${t.seq}">${esc(t.id)} ${esc(t.title)}</a>`).join(", ")}` : ""}</li>`).join("")}</ul></section>`;
 }
 
+// Proclus' Theology of Plato: Taylor's English only (no Greek on the shelf), in the Workshop's modern English.
+function theologyShelf() {
+  return `<section id="lib-theology"><h4>Proclus, The Theology of Plato</h4>
+    <p class="meta">Proclus' account of the gods as Plato teaches them, in six books. There is no Greek of it on the shelf yet, so it is read from Thomas Taylor's
+      translation (1816): <a href="#neo-modern/proclus-theology"><b>in modern English</b></a>, the Workshop's own (machine-assisted), with Taylor's English beside it,
+      done a few chapters at a time.</p></section>`;
+}
+
 const _neoShelf = neoShelf;
 neoShelf = function () {  // eslint-disable-line no-global-assign
   const h = _neoShelf();
-  return h ? h.replace(/<\/section>$/, `${taylorGreekShelf()}</section>`) : h;
+  return h ? h.replace(/<\/section>$/, `${taylorGreekShelf()}${theologyShelf()}</section>`) : h;
 };
 const _loadNeo = loadNeo;
 loadNeo = function () {  // eslint-disable-line no-global-assign
@@ -565,6 +573,8 @@ const NM_MODES = [["modern", "Modern English", "The Workshop's modern English, w
   ["both", "Side by side", "The modern English and Taylor's English together, section by section"]];
 
 function nmPara(p) {
+  // Proclus' Theology of Plato is made from Taylor's English: there is no Greek of it on the site yet.
+  if (NM.cur.kind === "theology") return tgModernPara(p).replace(/<details class="mp-greek">[\s\S]*?<\/details>/, "");
   if (NM.cur.kind === "enneads") {
     // The Enneads: the Greek of the chapter in Volkmann's text, on the Neoplatonists' shelf.
     const c = NM.cur.chapters.find((x) => x.id === p.chapter) || {};
@@ -592,6 +602,14 @@ function nmPara(p) {
 }
 
 function nmTaylor(d, c) {
+  if (d.kind === "theology") {
+    const notes = c.taylor.flatMap((x) => x.notes || []);
+    return `<div class="tg-tay"><div class="mp-tay-h">${esc(d.taylor_title)}, Book ${esc(c.treatise)}, chapter ${esc(c.id.split(".")[1])}
+      <span class="meta">(Project Gutenberg's proofread text)</span></div>
+      ${c.taylor_head ? `<p class="meta"><i>${esc(c.taylor_head)}</i></p>` : ""}
+      ${c.taylor.map((x) => `<p><span class="meta">¶${x.n}</span> ${esc(x.text)}</p>`).join("")}
+      ${notes.length ? `<details class="meta"><summary>Taylor's notes (${notes.length})</summary><ol class="neo-notes">${notes.map((n) => `<li>${esc(n.text)}</li>`).join("")}</ol></details>` : ""}</div>`;
+  }
   if (d.kind === "enneads") {
     if (!c.older.length) return `<p class="meta nm-none">MacKenna's translation has no chapter matched to this one.</p>`;
     return `<div class="tg-tay"><div class="mp-tay-h">MacKenna, ${c.older.map((x) => `${esc(x.label)} (${esc(String(x.year))}${x.page ? `, p. ${esc(String(x.page))}` : ""})`).join("; ")}
@@ -615,6 +633,7 @@ const NM_META_LETTERS = ["Α", "α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "
 const NM_ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV"];
 function nmChapterLabel(id) {
   const p = id.split(".");
+  if (NM.cur && NM.cur.kind === "theology") return `Book ${esc(p[0])}, chapter ${esc(p[1])}`;
   if (p.length > 2 && p[0] === "Metaph") return `Book ${NM_META_LETTERS[NM_ROMAN.indexOf(p[1])]} (${esc(p[1])}), chapter ${esc(p[2])}`;
   return p.length > 2 ? `Book ${esc(p[1])}, chapter ${esc(p[2])}` : `Chapter ${esc(p.pop())}`;
 }
@@ -625,7 +644,7 @@ function nmSection(d, c, mode) {
   const words = d.kind === "enneads" ? "MacKenna's words" : "Taylor's words";
   const theirs = d.kind === "enneads" ? c.older : c.taylor;
   return `<section class="tg-ch tg-mod tg-mode-${mode}" id="mc-${esc(c.id)}">
-    <h4 class="neo-unit-n">${d.kind === "aristotle" ? nmChapterLabel(c.id) : c.treatise === "Life" ? `Life, chapter ${esc(c.id.split(".").pop())}` : esc(c.id.replace(/^Pr\./, ""))}. ${esc(c.title)}</h4>
+    <h4 class="neo-unit-n">${d.kind === "aristotle" || d.kind === "theology" ? nmChapterLabel(c.id) : c.treatise === "Life" ? `Life, chapter ${esc(c.id.split(".").pop())}` : esc(c.id.replace(/^Pr\./, ""))}. ${esc(c.title)}</h4>
     <div class="ms-sum"><b>In short</b> ${esc(c.summary)}</div>
     <div class="tg-cols"><div class="tg-mcol">${paras.map(nmPara).join("")}</div>
       ${mode === "both" ? `<div class="tg-tcol">${tay}</div>` : ""}</div>
@@ -647,8 +666,22 @@ function nmEnneadsContents(d, short) {
   }).join("")}</ul>`).join("");
 }
 
+// Proclus' Theology of Plato: Taylor's chapters of the six books, those done here linked, the rest to come.
+function nmTheologyContents(d, short) {
+  return d.contents.map((b) => `<p class="meta"><b>Book ${esc(b.id)}${b.title ? `: ${esc(b.title)}` : ""}</b></p><ul class="mod-secs enn-contents">${b.chapters.map((c) => c.done
+    ? `<li class="enn-here"><a href="#neo-modern/${esc(d.text)}/${esc(c.id)}" data-scroll="mc-${esc(c.id)}">${esc(c.id.split(".")[1])}. ${esc(c.title)}</a></li>`
+    : `<li class="enn-later"><span class="meta">${esc(c.id.split(".")[1])}. ${short ? "" : esc(c.head)}${short ? "to come" : " (to come)"}</span></li>`).join("")}</ul>`).join("");
+}
+
 function nmToc(d) {
   const marks = MODERN.marks || [];
+  if (d.kind === "theology") {
+    return `<p><a href="#library">‹ Library</a></p><h3>Proclus, The Theology of Plato</h3>
+      <h4 class="pane-h">In modern English</h4>${nmTheologyContents(d, true)}
+      <h4 class="pane-h">Your marks${marks.length ? ` (${marks.length})` : ""}</h4>
+      ${marks.length ? `<ul class="mod-marks">${marks.map((mk) => `<li><a href="#mp-${esc(mk.para)}" data-scroll="mp-${esc(mk.para)}"><b>${esc(mk.kind)}</b></a>${mk.changed ? ` <span class="meta">(revised since)</span>` : ""}: ${esc(mk.sentence.length > 90 ? mk.sentence.slice(0, 88) + "…" : mk.sentence)}</li>`).join("")}</ul>`
+        : `<p class="meta">None yet. If a sentence reads badly or seems wrong, tap “Mark a sentence” under its paragraph.</p>`}`;
+  }
   if (d.kind === "enneads") {
     return `<p><a href="#library">‹ Library</a></p><h3><a href="${nmGreekHref(d)}">${esc(d.author)}, ${esc(d.greek_info ? d.greek_info.title : "the Enneads")}</a></h3>
       <h4 class="pane-h">In modern English, in Porphyry's order</h4>${nmEnneadsContents(d, true)}
@@ -666,7 +699,7 @@ function nmToc(d) {
 }
 
 // Where the Greek of a modern version is read: a text of the Neoplatonists' shelf, or a work of Aristotle (milestone 35).
-function nmGreekHref(d) { return d.kind === "aristotle" ? `#${esc(d.work_slug)}` : `#neo/${esc(d.greek_text)}`; }
+function nmGreekHref(d) { if (d.kind === "theology") return "#library"; return d.kind === "aristotle" ? `#${esc(d.work_slug)}` : `#neo/${esc(d.greek_text)}`; }
 
 function renderNeoModern(d, sec) {
   NM.cur = d;
@@ -682,18 +715,22 @@ function renderNeoModern(d, sec) {
     `<button type="button" class="chip${k === NM.mode ? " on" : ""}" data-nm-mode="${k}" aria-pressed="${k === NM.mode}" title="${esc(title)}">${esc(l)}</button>`).join("")}</div>`;
   const g = d.greek_info || {};
   const ar = d.kind === "aristotle";
-  let h = `<div class="search guide neo-text neo-read tg-read modern-text mod-${NM.mode}"><p class="meta"><a href="${nmGreekHref(d)}">${esc(d.author)}, ${esc(g.title || "")}</a>, in modern English</p>
+  const th = d.kind === "theology";
+  let h = `<div class="search guide neo-text neo-read tg-read modern-text mod-${NM.mode}"><p class="meta"><a href="${nmGreekHref(d)}">${esc(d.author)}, ${esc(th ? "The Theology of Plato" : g.title || "")}</a>, in modern English</p>
     <h2>${esc(d.title)}</h2>
     ${d.treatises.map((t) => `<div class="ms-sum"><b>${esc(t.title)}, in short</b> ${esc(t.summary)}</div>`).join("")}
     <div class="mod-label" role="note"><b>Modern English, the Workshop's own</b>
       <span class="mod-badge" title="Drafted with an AI model and not yet checked by a scholar">machine-assisted</span>
       <p>${esc(d.label)} ${enn ? `Made from the Greek of ${esc(g.edition || "Volkmann's edition")}, checked against Stephen MacKenna's translation (${d.older.volumes.map((v) => esc(String(v.year))).join(", ")}), made from the same Greek.`
         : ar ? `Modernised from the public-domain English, checked against the Greek of ${esc(g.edition || "")}, and compared with ${d.english.map((e) => esc(e.label)).join(", ")}.`
+        : th ? `Made from Thomas Taylor's translation (1816), paragraph by paragraph; Proclus' Greek is not yet on the site.`
         : `Made from the Greek of ${esc(g.edition || "")}, checked against Taylor's Introduction and notes to the dialogue (1804).`}
         Tap “Mark a sentence” under a paragraph if a sentence reads badly or seems wrong: your marks are kept for revision.</p>
       <details><summary>About this version</summary><p>${esc(d.about)}</p>
         ${enn ? `<p class="meta">Master copy: <code>${esc(d.source)}</code>; the checks: <code>reports/modern_enneads.md</code>.
           MacKenna's English: ${d.older.volumes.map((v) => `<code>${esc(v.file)}</code>`).join(", ")}, ${esc(d.older.how)}.</p>`
+        : th ? `<p class="meta">Master copy: <code>${esc(d.source)}</code>; the checks: <code>reports/modern_theology.md</code>.
+          Taylor's English: ${esc(d.taylor_source)}.</p>`
         : ar ? `<p class="meta">Master copy: <code>${esc(d.source)}</code>; the checks: <code>reports/modern_ar.md</code>.
           The older English: ${d.english.map((e) => `<code>${esc(e.file)}</code>`).join(", ")}.</p>`
         : `<p class="meta">Master copy: <code>${esc(d.source)}</code>; the proofread Greek: <code>${esc(d.proofread)}</code>; the checks: <code>reports/modern_neo.md</code>.
@@ -703,8 +740,11 @@ function renderNeoModern(d, sec) {
     <p class="meta">Porphyry edited his teacher's fifty-four treatises in six sets of nine, the Enneads. Those Taylor translated (1817) are read in modern English
       beside his English, and MacKenna's too; ${d.contents.some((c) => c.status === "to come") ? "the others are done here, a few at a time, beside MacKenna's"
         : "the other thirty-nine are all done here, beside MacKenna's"}.</p>${nmEnneadsContents(d, false)}</details>`;
+  if (th) h += `<details class="enn-all"><summary>All six books, in Taylor's chapters</summary>
+    <p class="meta">Proclus' six books, in the chapters of Taylor's translation, with Taylor's heading of each chapter. Those done here are linked; the rest
+      are done a few chapters at a time.</p>${nmTheologyContents(d, false)}</details>`;
   for (const c of d.chapters) h += nmSection(d, c, NM.mode);
-  h += `<p class="neo-nav"><a class="btn" href="${nmGreekHref(d)}">The Greek text</a></p>`;
+  h += th ? `<p class="neo-nav"><a class="btn" href="#library">The Library</a></p>` : `<p class="neo-nav"><a class="btn" href="${nmGreekHref(d)}">The Greek text</a></p>`;
   $("#main").innerHTML = h + `</div>`;
   MODERN.toc();
   const el = sec ? document.getElementById(`mc-${sec}`) : null;

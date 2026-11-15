@@ -1,0 +1,1968 @@
+{
+ "schema": "platonic-workshop/modern-neo-v1",
+ "text": "proclus-theology",
+ "kind": "theology",
+ "title": "Proclus, The Theology of Plato, in modern English",
+ "author": "Proclus",
+ "by": "Workshop modern version",
+ "machine_assisted": true,
+ "label": "The Workshop's modern English, machine-assisted: drafted with an AI model (Claude) from Thomas Taylor's translation (1816) and not yet checked by a scholar. Taylor's own words are beside every chapter, or one tap away.",
+ "made_from": "taylor",
+ "greek_text": null,
+ "taylor_work": null,
+ "taylor_title": "Taylor, The Theology of Plato (1816)",
+ "taylor_source": "Thomas Taylor, The Six Books of Proclus, the Platonic Successor, on the Theology of Plato, 2 vols (London, 1816), Project Gutenberg's proofread transcription (sources/taylor-gutenberg/pg77393.txt and pg78800.txt)",
+ "about": "A modern English version of Proclus' Theology of Plato (fifth century), the school's summa of the gods as Plato teaches them, written for the Workshop, because none in modern English may be reused. It is made from Thomas Taylor's translation (The Six Books of Proclus on the Theology of Plato, London, 1816), as Project Gutenberg's proofread transcription gives it, paragraph by paragraph: every idea is kept, the long sentences are broken into short ones, and old words are replaced by today's, the key words always the same way (Taylor's 'essence' is 'being', 'progression' is 'procession', 'participate' is 'share', 'unities' are 'henads', 'ideas' are 'Forms', 'superessential' is 'beyond being'), linked to the Term tab. Taylor's Latin names of the gods are given in Greek (Kronos for Saturn). Proclus' Greek is not yet on the site (the only free edition, Portus' of 1618, is a scan whose Greek OCR is badly garbled), so this version cannot yet be checked against the Greek; a flag marks a place where Taylor's English is hard or unclear, with his words. Taylor's footnotes are kept under his words. The chapters and their numbers are Taylor's (his headings are in his table of contents); the short titles and summaries are the Workshop's. So far: Book I, chapters 1-8: Proclus' preface and its praise of Plato and his heirs, how the work will proceed and what its hearer needs, who a theologian is in Plato's sense, the four ways Plato teaches about the gods, which dialogues hold his theology, and why the Parmenides holds all of it.",
+ "source": "sources/translations/modern/proclus-theology.txt",
+ "treatises": [
+  {
+   "id": "I",
+   "title": "The gods in Plato: the method, the sources, and the axioms of theology",
+   "summary": "Proclus opens with a preface to his friend Pericles: Plato's philosophy came down from the gods, was handed on by Plotinus and his heirs, and was taught to Proclus by Syrianus. He sets out how the work will go, what its reader needs, who a theologian is in Plato's sense, and the four ways Plato speaks of the gods. He names the dialogues that hold Plato's theology, and answers the objection that a theology gathered from many dialogues is patchwork: the whole of it is in one dialogue, the Parmenides.",
+   "chapters": [
+    "I.1",
+    "I.2",
+    "I.3",
+    "I.4",
+    "I.5",
+    "I.6",
+    "I.7",
+    "I.8"
+   ]
+  }
+ ],
+ "chapters": [
+  {
+   "id": "I.1",
+   "treatise": "I",
+   "title": "Preface: Plato's philosophy, a gift of the gods",
+   "summary": "Proclus tells Pericles that Plato's philosophy first came to light by the gods' will, then hid itself, then shone again through a line of true interpreters: Plotinus, Amelius and Porphyry, Iamblichus and Theodorus, and at last his own teacher, Syrianus. He cannot thank Syrianus enough, but he can leave a record of what he was shown. So, as the Timaeus bids, he begins by calling on the gods.",
+   "taylor_head": "The Preface, in which the scope of the treatise is unfolded, together with the praise of Plato himself, and of those that received the philosophy from him.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book I, chapter 1, paragraph 1",
+     "text": "O Pericles, to me the dearest of friends, I am of opinion that the whole philosophy of Plato was at first unfolded into light through the beneficent will of superior natures, exhibiting the intellect concealed in them, and the truth subsisting together with beings, to souls conversant with generation (so far as it is lawful for them to participate of such supernatural and mighty good); and again, that afterwards having received its perfection, returning as it were into itself, and becoming unapparent to many who professed to philosophize, and who earnestly desired to engage in the investigation of true being, it again advanced into light. But I particularly think that the mystic doctrine respecting divine concerns, which is purely established on a sacred foundation, and which perpetually subsists with the gods themselves, became thence apparent to such as are capable of enjoying it for a time, through one man, whom I should not err in calling the primary leader and hierophant of those true mysteries, into which souls separated from terrestrial places are initiated, and of those entire and stable visions, which those participate who genuinely embrace a happy and blessed life. But this philosophy shone forth at first from him so venerably and arcanely, as if established in sacred temples, and within their adyta, and being unknown to many who have entered into these holy places, in certain orderly periods of time, proceeded as much as was possible for it into light, through certain true priests, and who embraced a life corresponding to the tradition of such mystic concerns. It appears likewise to me, that the whole place became splendid, and that illuminations of divine spectacles every where presented themselves to the view.",
+     "notes": [
+      {
+       "n": 82,
+       "text": "Meaning Plato."
+      }
+     ]
+    },
+    {
+     "n": 2,
+     "label": "Book I, chapter 1, paragraph 2",
+     "text": "These interpreters of the epopteia (or mystic speculations) of Plato, who have unfolded to us all-sacred narrations of divine concerns, and who were allotted a nature similar to their leader, I should determine to be the Egyptian Plotinus, and those who received the theory from him, I mean Amelius and Porphyry, together with those in the third place who were produced like virile statues from these, viz.: Jamblichus and Theodorus, and any others, who after these, following this divine choir, have energized about the doctrines of Plato with a divinely-inspired mind. From these, he who, after the gods, has been our leader to every thing beautiful and good, receiving in an undefiled manner the most genuine and pure light of truth in the bosom of his soul, made us a partaker of all the rest of Plato’s philosophy, communicated to us that arcane information which he had received from those more ancient than himself, and caused us, in conjunction with him, to be divinely agitated about the mystic truth of divine concerns.",
+     "notes": [
+      {
+       "n": 83,
+       "text": "Meaning his preceptor Syrianus."
+      }
+     ]
+    },
+    {
+     "n": 3,
+     "label": "Book I, chapter 1, paragraph 3",
+     "text": "To this man, therefore, should we undertake to return thanks adequate to the benefits which we have received from him; the whole of time would not be sufficient. But if it is necessary, not only that we should have received from others the transcendant good of the Platonic philosophy, but that we should leave to posterity monuments of those blessed spectacles of which we have been spectators, and emulators to the utmost of our ability, under a leader the most perfect of the present time, and who arrived at the summit of philosophy; perhaps we shall act properly in invoking the gods, that they will enkindle the light of truth in our soul, and in supplicating the attendants and ministers of better natures to direct our intellect and lead it to the all-perfect, divine, and elevated, end of the Platonic theory. For I think that every where he who participates in the least degree of intelligence, will begin his undertakings from the Gods, and especially in explications respecting the Gods: for we can no otherwise be able to understand a divine nature than by being perfected through the light of the Gods; nor divulge it to others unless governed by them, and exempt from multiform opinions, and the variety which subsists in words, preserving at the same time the interpretation of divine names. Knowing therefore this, and complying with the exhortation of the Platonic Timæus, we in the first place establish the Gods as leaders of the doctrine respecting themselves. But may they in consequence of hearing our prayers be propitious to us, and benignantly approaching, guide the intellect of our soul, and lead it about the Vesta of Plato, and to the arduous sublimities of this speculation; where, when arrived, we shall receive all the truth concerning them, and shall obtain the best end of our parturient conceptions of divine concerns, desiring to know something respecting them, inquiring about them of others, and, at the same time, as far as we are able, exploring them ourselves.",
+     "notes": [
+      {
+       "n": 84,
+       "text": "The word μονον is omitted in the original."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "I.2",
+   "treatise": "I",
+   "title": "How the work will proceed, and what its hearer needs",
+   "summary": "The work has three parts: the common teachings about the gods; the orders of gods, in their procession; and the gods named here and there in Plato. It will prefer clarity, read symbols and images for what they stand for, and test everything by Plato's own writings. Its hearer must be good in character, trained in logic, at home in the study of nature and in mathematics, and must come to it with dialectic and with love.",
+   "taylor_head": "What the mode of the discussion is in the present treatise, and what preparation of the auditors of it is previously necessary.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book I, chapter 2, paragraph 1",
+     "text": "And thus much by way of preface. But it is necessary that I should unfold the mode of the proposed doctrine, what it is requisite to expect it will be, and define the preparatives which a hearer of it ought to possess; that being properly adapted, he may approach, not to our discourses, but to the intellectually-elevated and deific philosophy of Plato. For it is proper that convenient aptitudes of auditors should be proposed according to the forms of discourses, just as in the mysteries, those who are skilful in concerns of this kind, previously prepare receptacles for the Gods, and neither always use the same inanimate particulars, nor other animals, nor men, in order to procure the presence of the divinities; but that alone out of each of these which is naturally capable of participating divine illumination, is by them introduced to the proposed mystic rites.",
+     "notes": []
+    },
+    {
+     "n": 2,
+     "label": "Book I, chapter 2, paragraph 2",
+     "text": "The present discourse, therefore, will first of all be divided by me into three parts. In the beginning, considering all those common conceptions concerning the Gods, which Plato summarily delivers, together with the power and dignity every where of theological axioms; but in the middle of this work, speculating the total orders of the Gods, enumerating their peculiarities, defining their progressions after the manner of Plato, and referring every thing to the hypotheses of theologists; and, in the end, speaking concerning the Gods which are in different places celebrated in the Platonic writings, whether they are supermundane or mundane, and referring the theory respecting them to the total genera of the divine orders.",
+     "notes": []
+    },
+    {
+     "n": 3,
+     "label": "Book I, chapter 2, paragraph 3",
+     "text": "In every part of this work, likewise, we shall prefer the clear, distinct, and simple, to the contraries of these. And such things as are delivered through symbols, we shall transfer to a clear doctrine concerning them; but such as are delivered through images, we shall transmit to their exemplars. Such things too as are written in a more affirmative way, we shall examine by causal reasonings; but such as are composed through demonstrations, we shall investigate; and besides this, explain the mode of truth which they contain, and render it known to the hearers. And of things enigmatically proposed, we shall elsewhere discover perspicuity, not from foreign hypotheses, but from the most genuine writings of Plato. But with respect to the things which immediately occur to the hearers, of these we shall contemplate the consent with things themselves. And from all these particulars, one perfect form of the Platonic theology will present itself to our view, together with its truth which pervades through the whole of divine intellections, and the one intellect which generated all the beauty of this theology, and the mystic evolution of this theory. Such, therefore, as I have said, will be my present treatise.",
+     "notes": []
+    },
+    {
+     "n": 4,
+     "label": "Book I, chapter 2, paragraph 4",
+     "text": "But the auditor of the proposed dogmas is supposed to be adorned with the moral virtues, and to be one who has bound by the reason of virtue all the illiberal and inharmonious motions of the soul, and harmonized them to the one form of intellectual prudence: for, as Socrates says, it is not lawful for the pure to be touched by the impure. But every vicious man is perfectly impure; and the contrary character is pure. He must likewise have been exercised in all the logical methods, and have contemplated many irreprehensible conceptions about analyses, and many about divisions, the contraries to these, agreeably, as it appears to me, to the exhortation of Parmenides to Socrates. For prior to such a contest in arguments, the knowledge of the divine genera, and of the truth established in them, is difficult and impervious. But in the third place, he must not be unskilled in physics. For he who has been conversant with the multiform opinions of physiologists, and has after a manner explored in images the causes of beings, will more easily advance to the nature of separate and primary essences. An auditor therefore of the present work, as I have said, must not be ignorant of the truth contained in the phenomena, nor unacquainted with the paths of erudition, and the disciplines which they contain; for through these we obtain a more immaterial knowledge of a divine essence. But all these must be bound together in the leader intellect. Being likewise a partaker of the dialectic of Plato, meditating those immaterial energies which are separate from corporeal powers, and desiring to contemplate by intelligence in conjunction with reason [true] beings, our auditor must genuinely apply himself to the interpretation of divine and blessed dogmas, and fill his soul, according to the Oracle, with profound love; since, as Plato somewhere observes, for the apprehension of this theory, a better assistant than love cannot be obtained.",
+     "notes": [
+      {
+       "n": 85,
+       "text": "Instead of νοησις μετα λογου, it is necessary to read, νοησει μετα λογου."
+      }
+     ]
+    },
+    {
+     "n": 5,
+     "label": "Book I, chapter 2, paragraph 5",
+     "text": "He must likewise be exercised in the truth which pervades through all things, and must excite his intelligible eye to real and perfect truth. He must establish himself in a firm, immovable, and safe kind of divine knowledge, and must be persuaded not to admire any thing else, nor even to direct his attention to other things, but must hasten to divine light with an intrepid reasoning energy, and with the power of an unwearied life; and in short, must propose to himself such a kind of energy and rest as it becomes him to possess who intends to be such a coryphæus as Socrates describes in the Theætetus. Such then is the magnitude of our hypothesis, and such the mode of the discourses about it. Before, however, I enter on the narration of the things proposed, I wish to speak about theology itself, its different modes, and what theological forms Plato approves, and what he rejects; that these being previously known, we may more easily learn in what follows, the auxiliaries of the demonstrations themselves.",
+     "notes": []
+    }
+   ]
+  },
+  {
+   "id": "I.3",
+   "treatise": "I",
+   "title": "Who a theologian is, and how the gods are known",
+   "summary": "Everyone who has spoken of theology calls the first principles \"gods\", but they disagree on what is first: bodies, soul or intellect. Plato alone goes beyond intellect to a principle above it, the One, from which the henads proceed. The theologian knows the gods not by sense, opinion, reasoning or even intellect, but by the \"one\" of the soul, its highest point, which is joined to the henads. Turning inward, the soul finds first itself, then intellect, then the gods.",
+   "taylor_head": "What a theologist is according to Plato, whence he begins, as far as to what hypostases he ascends, and according to what power of the soul he particularly energizes.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book I, chapter 3, paragraph 1",
+     "text": "All, therefore, that have ever touched upon theology, have called things first, according to nature, Gods; and have said that the theological science is conversant about these. And some, indeed, have considered a corporeal essence, as that alone which has any existence, and have placed in a secondary rank with respect to essence, all the genera of incorporeal natures, considering the principles of things as having a corporeal form, and evincing that the habit in us by which we know these, is corporeal. But others, suspending indeed all bodies from incorporeal natures, and defining the first hyparxis to be in soul, and the powers of soul, call (as it appears to me) the best of souls, Gods; and denominate the science which proceeds as far as to these, and which knows these, theology. But such as produce the multitude of souls from another more ancient principle, and establish intellect as the leader of wholes, these assert that the best end is a union of the soul with intellect, and consider the intellectual form of life as the most honourable of all things. They doubtless too consider theology, and the discussion of intellectual essence, as one and the same. All these, therefore, as I have said, call the first and most self-sufficient principles of things, Gods, and the science respecting these, theology.",
+     "notes": [
+      {
+       "n": 86,
+       "text": "Hyparxis, is the summit of any nature, or blossom, as it were, of its essence."
+      }
+     ]
+    },
+    {
+     "n": 2,
+     "label": "Book I, chapter 3, paragraph 2",
+     "text": "The divine narration however, of Plato alone, despises all corporeal natures, with reference to principles. Because, indeed, every thing divisible and endued with interval, is naturally unable either to produce or preserve itself, but possesses its being, energy, and passivity through soul, and the motions which soul contains. But Plato demonstrates that the psychical essence [i.e. the essence pertaining to soul] is more ancient than bodies, but is suspended from an intellectual hypostasis. For every thing which is moved according to time, though it may be self-moved, is indeed of a more ruling nature than things moved by others, but is posterior to an eternal motion. He shows, therefore, as we have said, that intellect is the father and cause of bodies and souls, and that all things both subsist and energize about it, which are allotted a life conversant with transitions and evolutions.",
+     "notes": []
+    },
+    {
+     "n": 3,
+     "label": "Book I, chapter 3, paragraph 3",
+     "text": "Plato, however, proceeds to another principle entirely exempt from intellect, more incorporeal and ineffable, and from which all things, even though you should speak of such as are last, have necessarily a subsistence. For all things are not naturally disposed to participate of soul, but such things only as are allotted in themselves a more clear or obscure life. Nor are all things able to enjoy intellect and being, but such only as subsist according to form. But it is necessary that the principle of all things should be participated by all things, if it does not desert any thing, since it is the cause of all things which in any respect are said to have a subsistence. Plato having divinely discovered this first principle of wholes, which is more excellent than intellect, and is concealed in inaccessible recesses; and having exhibited these three causes and monads, and evinced them to be above bodies, I mean soul, the first intellect, and a union above intellect, produces from these as monads, their proper numbers; one multitude indeed being uniform, but the second intellectual, and the third psychical. For every monad is the leader of a multitude coordinate to itself. But as Plato connects bodies with souls, so likewise he connects souls with intellectual forms, and these again with the unities of beings. But he converts all things to one imparticipable unity. And having run back as far as to this unity, he considers himself as having obtained the highest end of the theory of wholes; and that this is the truth respecting the Gods, which is conversant with the unities of beings, and which delivers their progressions and peculiarities, the contact of beings with them, and the orders of forms which are suspended from these unical hypostases.",
+     "notes": [
+      {
+       "n": 87,
+       "text": "Wherever this word occurs in this translation, it signifies that which is characterized by unity."
+      },
+      {
+       "n": 88,
+       "text": "i.e. Of the nature of the one."
+      }
+     ]
+    },
+    {
+     "n": 4,
+     "label": "Book I, chapter 3, paragraph 4",
+     "text": "But he teaches us that the theory respecting intellect, and the forms and the genera revolving about intellect, is posterior to the science which is conversant with the Gods themselves. Likewise that the intellectual theory apprehends intelligibles, and the forms which are capable of being known by the soul through the projecting energy of intellect; but that the theological science transcending this, is conversant with arcane and ineffable hyparxes, and pursues their separation from each other, and their unfolding into light from one cause of all: whence, I am of opinion, that the intellectual peculiarity of the soul is capable of apprehending intellectual forms, and the difference which subsists in them, but that the summit, and, as they say, flower of intellect and hyparxis, is conjoined with the unities of beings, and through these, with the occult union of all the divine unities. For as we contain many gnostic powers, through this alone we are naturally capable of being conjoined with and participating this occult union. For the genus of the Gods cannot be apprehended by sense, because it is exempt from all bodies; nor by opinion and dianoia, for these are divisible and come into contact with multiform concerns; nor by intelligence in conjunction with reason, for knowledge of this kind belongs to true beings; but the hyparxis of the Gods rides on beings, and is defined according to the union itself of wholes. It remains, therefore, if it be admitted that a divine nature can be in any respect known, that it must be apprehended by the hyparxis of the soul, and through this, as far as it is possible, be known. For we say that every where things similar can be known by the similar; viz. the sensible by sense, the doxastic by opinion, the dianoetic by dianoia, and the intelligible by intellect. So that the most unical nature must be known by the one, and the ineffable by that which is ineffable.",
+     "notes": [
+      {
+       "n": 89,
+       "text": "i.e. The discursive energy of reason, or the power of the soul that reasons scientifically."
+      },
+      {
+       "n": 90,
+       "text": "i.e. The object of opinion."
+      }
+     ]
+    },
+    {
+     "n": 5,
+     "label": "Book I, chapter 3, paragraph 5",
+     "text": "Indeed, Socrates in the [First] Alcibiades rightly observes, that the soul entering into herself will behold all other things, and deity itself. For verging to her own union, and to the centre of all life, laying aside multitude, and the variety of the all manifold powers which she contains, she ascends to the highest watch-tower of beings. And as in the most holy of the mysteries, they say, that the mystics at first meet with the multiform, and many-shaped genera, which are hurled forth before the Gods, but on entering the interior parts of the temple, unmoved, and guarded by the mystic rites, they genuinely receive in their bosom divine illumination, and divested of their garments, as they would say, participate of a divine nature;--the same mode, as it appears to me, takes place in the speculation of wholes. For the soul when looking at things posterior to herself, beholds the shadows and images of beings, but when she converts herself to herself she evolves her own essence, and the reasons which she contains. And at first indeed, she only as it were beholds herself; but, when she penetrates more profoundly into the knowledge of herself, she finds in herself both intellect, and the orders of beings. When however, she proceeds into her interior recesses, and into the adytum as it were of the soul, she perceives with her eye closed, the genus of the Gods, and the unities of beings. For all things are in us psychically, and through this we are naturally capable of knowing all things, by exciting the powers and the images of wholes which we contain.",
+     "notes": [
+      {
+       "n": 91,
+       "text": "i.e. Evil dæmons."
+      }
+     ]
+    },
+    {
+     "n": 6,
+     "label": "Book I, chapter 3, paragraph 6",
+     "text": "And this is the best employment of our energy, to be extended to a divine nature itself, having our powers at rest, to revolve harmoniously round it, to excite all the multitude of the soul to this union, and laying aside all such things as are posterior to the one, to become seated and conjoined with that which is ineffable, and beyond all things. For it is lawful for the soul to ascend, till she terminates her flight in the principle of things; but arriving thither, beholding the place which is there, descending thence, and directing her course through beings; likewise, evolving the multitude of forms, exploring their monads and their numbers, and apprehending intellectually how each is suspended from its proper unity, then we may consider her as possessing the most perfect science of divine natures, perceiving in a uniform manner the progressions of the Gods into beings, and the distinctions of beings about the Gods. Such then according to Plato’s decision is our theologist; and theology is a habit of this kind, which unfolds the hyparxis itself of the Gods, separates and speculates their unknown and unical light from the peculiarity of their participants, and announces it to such as are worthy of this energy, which is both blessed and comprehends all things at once.",
+     "notes": []
+    }
+   ]
+  },
+  {
+   "id": "I.4",
+   "treatise": "I",
+   "title": "The four ways Plato teaches about the gods",
+   "summary": "Plato speaks of the gods in four ways: inspired (as in the Phaedrus), dialectically (the Sophist and the Parmenides), in symbols and myths (the Gorgias, Symposium and Protagoras), and through images, mathematical or ethical (the Timaeus, the Statesman, the Republic). These answer to four traditions: the inspired initiators, the Orphic myths, Pythagorean mathematics, and Plato's own science. Plato keeps only myths that are worthy of the gods, and he does not reduce them to physics.",
+   "taylor_head": "The theological types or forms according to all which Plato disposes the doctrine concerning the Gods.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book I, chapter 4, paragraph 1",
+     "text": "After this all-perfect comprehension of the first theory, we must deliver the modes according to which Plato teaches us mystic conceptions of divine natures. For he appears not to have pursued every where the same mode of doctrine about these; but sometimes according to a deific energy, and at other times dialectically, he evolves the truth concerning them. And sometimes he symbolically announces their ineffable peculiarities, but at other times he recurs to them from images, and discovers in them the primary causes of wholes. For in the Phædrus being inspired by the Nymphs, and having exchanged human intelligence for a better possession, fury, he unfolds with a divine mouth many arcane dogmas concerning the intellectual Gods, and many concerning the liberated rulers of the universe, who lead upwards the multitude of mundane Gods to the monads which are intelligible and separate from [mundane] wholes. But relating still more about those Gods who are allotted the world, he celebrates their intellections, and mundane fabrications, their unpolluted providence and government of souls, and whatever else Socrates delivers entheastically [or according to a divinely-inspired energy] in that dialogue, as he clearly asserts, ascribing at the same time this fury to the deities of the place.",
+     "notes": []
+    },
+    {
+     "n": 2,
+     "label": "Book I, chapter 4, paragraph 2",
+     "text": "But in the Sophista, dialectically contending about being, and the separate hypostasis of the one from beings, and doubting against those more ancient than himself, he shows how all beings are suspended from their cause, and the first being, but that being itself participates of the unity which is exempt from the whole of things, that it is a passive one, but not the one itself, being subject to and united to the one, but not being that which is primarily one. In a similar manner too, in the Parmenides, he unfolds dialectically the progressions of being from the one, and the transcendency of the one, through the first hypotheses, and this, as he asserts in that dialogue, according to the most perfect division of this method. And again, in the Gorgias, he relates the fable concerning the three demiurgi [or fabricators] and their demiurgic allotment, which indeed is not only a fable, but a true narration. But in the Banquet, he speaks concerning the union of Love. And in the Protagoras, about the distribution of mortal animals from the Gods; in a symbolical manner concealing the truth respecting divine natures, and as far as to mere indication unfolding his mind to the most genuine of his hearers.",
+     "notes": []
+    },
+    {
+     "n": 3,
+     "label": "Book I, chapter 4, paragraph 3",
+     "text": "If likewise, you are willing that I should mention the doctrine delivered through the mathematical disciplines, and the discussion of divine concerns from ethical or physical discourses, of which many may be contemplated in the Timæus, many in the dialogue called the Politicus, and many may be seen scattered in other dialogues; here likewise to you who are desirous of knowing divine concerns through images, the method will be apparent. For all these shadow forth the powers of things divine. The Politicus, for instance, the fabrication in the heavens. But the figures of the five elements delivered in geometrical proportions in the Timæus, represent in images the peculiarities of the Gods who ride on the parts of the universe. And the divisions of the psychical essence in that dialogue shadow forth the total orders of the Gods.",
+     "notes": [
+      {
+       "n": 92,
+       "text": "εν τιμαιῳ is omitted in the Greek."
+      }
+     ]
+    },
+    {
+     "n": 4,
+     "label": "Book I, chapter 4, paragraph 4",
+     "text": "I omit to mention that Plato composes polities, assimilating them to divine natures, and to the whole world, and adorns them from the powers which it contains. All these therefore, through the similitude of mortal to divine concerns, exhibit to us in images, the progressions, orders, and fabrications of divine natures. And such are the modes of theologic doctrine employed by Plato.",
+     "notes": []
+    },
+    {
+     "n": 5,
+     "label": "Book I, chapter 4, paragraph 5",
+     "text": "It is evident however, from what has been already said, that they are necessarily so many in number. For those who treat of divine concerns in an indicative manner, either speak symbolically and fabulously, or through images. But of those who openly announce their conceptions, some frame their discourses according to science, but others according to inspiration from the Gods. And he who desires to signify divine concerns through symbols is Orphic, and in short, accords with those who write fables concerning the Gods. But he who does this through images is Pythagoric. For the mathematical disciplines were invented by the Pythagoreans, in order to a reminiscence of divine concerns, at which, through these as images they endeavour to arrive. For they refer both numbers and figures to the Gods, according to the testimony of their historians. But the entheastic character, or he who is under the influence of divine inspiration, unfolding the truth itself by itself concerning the Gods, most perspicuously ranks among the highest initiators. For these do not think proper to unfold the divine orders, or their peculiarities to their familiars, through certain veils, but announce their powers and their numbers, in consequence of being moved by the Gods themselves. But the tradition of divine concerns according to science, is the illustrious prerogative of the philosophy of Plato. For Plato alone, as it appears to me, of all those who are known to us, has attempted methodically to divide and reduce into order, the regular progression of the divine genera, their mutual difference, the common peculiarities of the total orders, and the distributed peculiarities in each. But the truth of this will be evident when we frame precedaneous demonstrations about the Parmenides, and all the divisions which it contains.",
+     "notes": []
+    },
+    {
+     "n": 6,
+     "label": "Book I, chapter 4, paragraph 6",
+     "text": "At present we shall observe that Plato does not admit all the fabulous figments of dramatic composition, but those only which have reference to the beautiful and the good, and which are not discordant with a divine essence. For that mythological mode which indicates divine concerns through conjecture is ancient, concealing truth under a multitude of veils, and proceeding in a manner similar to nature, which extends sensible figments of intelligibles, material, of immaterial, partible, of impartible natures, and images, and things which have a false being, of things perfectly true. But Plato rejects the more tragical mode of mythologizing of the ancient poets, who thought proper to establish an arcane theology respecting the Gods, and on this account devised wanderings, sections, battles, lacerations, rapes and adulteries of the Gods, and many other such symbols of the truth about divine natures, which this theology conceals; this mode he rejects, and asserts that it is in every respect most foreign from erudition. But he considers those mythological discourses about the Gods, as more persuasive, and more adapted to truth and the philosophic habit, which assert that a divine nature is the cause of all good, but of no evil, and that it is void of all mutation, ever preserving its own order immutable, and comprehending in itself the fountain of truth, but never becoming the cause of any deception to others. For such types of theology, Socrates delivers in the Republic.",
+     "notes": []
+    },
+    {
+     "n": 7,
+     "label": "Book I, chapter 4, paragraph 7",
+     "text": "All the fables therefore of Plato, guarding the truth in concealment, have not even their externally apparent apparatus discordant with our undisciplined and unperverted anticipation respecting the Gods. But they bring with them an image of the mundane composition, in which both the apparent beauty is worthy of divinity, and a beauty more divine than this, is established in the unapparent lives and powers of the Gods. This therefore, is one of the mythological modes respecting divine concerns, which from the apparently unlawful, irrational, and inordinate, passes into order and bound, and regards as its scope the composition of the beautiful and good.",
+     "notes": []
+    },
+    {
+     "n": 8,
+     "label": "Book I, chapter 4, paragraph 8",
+     "text": "But there is another mode which he delivers in the Phædrus. And this consists in every where preserving theological fables, unmixed with physical narrations, and being careful in no respect to confound or exchange theology, and the physical theory with each other. For, as a divine essence is separate from the whole of nature, in like manner, it is perfectly proper that discourses respecting the Gods should be pure from physical disquisitions. For a mixture of this kind is, says he, laborious: and to make physical passions the end of mythological conjecture, is the employment of no very good man; such for instance, as considering through his [pretended] wisdom, Chimæra, Gorgon, and things of a similar kind, as the same with physical figments. Socrates, in the Phædrus, reprobating this mode of mythologizing, represents its patrons as saying under the figure of a fable, that Orithya sporting with the wind Boreas, and being thrown down the rocks, means nothing more, than that Orithya who was a mortal, was ravished by Boreas through love. For it appears to me, that fabulous narrations about the gods, should always have their concealed meaning more venerable than the apparent. So that if certain persons introduce to us physical hypotheses of Platonic fables, and such as are conversant with sublunary affairs, we must say that they entirely wander from the intention of the philosopher, and that those hypotheses alone, are interpreters of the truth contained in these fables, which have for their scope, a divine, immaterial, and separate hypostasis, and which looking to this, make the compositions and analyses of the fables, adapted to our inherent anticipations of divine concerns.",
+     "notes": [
+      {
+       "n": 93,
+       "text": "For οικειαις it is necessary to read οικειας."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "I.5",
+   "treatise": "I",
+   "title": "The dialogues that hold Plato's theology, and their orders of gods",
+   "summary": "Plato's teaching about the gods runs through every dialogue, but most fully through the Phaedo, Phaedrus, Symposium, Philebus, Sophist, Statesman, Cratylus and Timaeus; then the myths of the Gorgias and Protagoras, the Laws on providence, Republic X; then the Letters. Proclus names the orders of gods each one teaches. All Greek theology comes from Orpheus, through Pythagoras to Plato, and Plato agrees with the theologians wherever he speaks of the gods.",
+   "taylor_head": "What the dialogues are from which the theology of Plato may especially be assumed; and to what orders of Gods each of these dialogues refers us.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book I, chapter 5, paragraph 1",
+     "text": "As we have therefore enumerated all these modes of the Platonic theology, and have shown what compositions and analyses of fables are adapted to the truth respecting the Gods, let us consider, in the next place, whence, and from what dialogues principally, we think the dogmas of Plato concerning the Gods may be collected, and by a speculation of what types or forms we may be able to distinguish his genuine writings, from those spurious compositions which are ascribed to him.",
+     "notes": []
+    },
+    {
+     "n": 2,
+     "label": "Book I, chapter 5, paragraph 2",
+     "text": "The truth then concerning the Gods pervades, as I may say, through all the Platonic dialogues, and in all of them conceptions of the first philosophy, venerable, clear, and supernatural, are disseminated, in some indeed, more obscurely, but in others more conspicuously; conceptions which excite those that are in any respect able to participate of them, to the immaterial and separate essence of the Gods. And, as in each part of the universe, and in nature herself, the demiurgus of all that the world contains, established resemblances of the unknown hyparxis of the Gods, that all things might be converted to a divine nature, through their alliance with it, in like manner I am of opinion, that the divine intellect of Plato weaves conceptions about the Gods in all his writings, and leaves nothing deprived of the mention of divinity, that from the whole of them, a reminiscence of wholes may be obtained, and imparted to the genuine lovers of divine concerns.",
+     "notes": []
+    },
+    {
+     "n": 3,
+     "label": "Book I, chapter 5, paragraph 3",
+     "text": "If however, it be requisite to lay before the reader those dialogues out of many, which principally unfold to us the mystic discipline about the gods, I should not err in ranking among this number, the Phædo and Phædrus, the Banquet, and the Philebus, and together with these, the Sophista and Politicus, the Cratylus and the Timæus. For all these are full through the whole of themselves, as I may say, of the divine science of Plato. But I should place in the second rank after these, the fable in the Gorgias, and that in the Protagoras; likewise the assertions about the providence of the Gods in the Laws, and such things as are delivered about the Fates, or the mother of the Fates, or the circulations of the universe, in the tenth book of the Republic. Again, you may, if you please, place in the third rank those Epistles, through which we may be able to arrive at the science about divine natures. For in these, mention is made of the three kings; and very many other divine dogmas worthy the Platonic theory are delivered. It is necessary therefore, looking to these, to explore in these each order of the Gods.",
+     "notes": []
+    },
+    {
+     "n": 4,
+     "label": "Book I, chapter 5, paragraph 4",
+     "text": "Thus from the Philebus, we may receive the science respecting the one good, and the two first principles of things, together with the triad which is unfolded into light from these. For you will find all these distinctly delivered to us by Plato in that dialogue. But from the Timæus, you may obtain the theory about intelligibles, a divine narration about the demiurgic monad: and the most full truth about the mundane Gods. But from the Phædrus, [you may acquire a scientific knowledge of] all the intelligible and intellectual genera, and of the liberated orders of Gods, which are proximately established above the celestial circulations. From the Politicus, you may obtain the theory of the fabrication in the heavens, of the uneven periods of the universe, and of the intellectual causes of those periods. But from the Sophista, the whole sublunary generation, and the peculiarity of the Gods who are allotted the sublunary region, and preside over its generations and corruptions. But with respect to each of the Gods, we may obtain many conceptions adapted to sacred concerns from the Banquet, many from the Cratylus, and many from the Phædo. For in each of these dialogues, more or less mention is made of divine names, from which it is easy for those who are exercised in divine concerns to discover by a reasoning process the peculiarities of each.",
+     "notes": [
+      {
+       "n": 94,
+       "text": "τριαδος is omitted in the original."
+      }
+     ]
+    },
+    {
+     "n": 5,
+     "label": "Book I, chapter 5, paragraph 5",
+     "text": "It is necessary however, to evince that each of the dogmas accords with Platonic principles, and the mystic traditions of theologists. For all the Grecian theology is the progeny of the mystic tradition of Orpheus; Pythagoras first of all learning from Aglaophemus the orgies of the Gods, but Plato in the second place receiving an all-perfect science of the divinities from the Pythagoric and Orphic writings. For in the Philebus referring the theory about the two species of principles [bound and infinity] to the Pythagoreans, he calls them men dwelling with the Gods, and truly blessed. Philolaus therefore, the Pythagorean, has left us in writing many admirable conceptions about these principles, celebrating their common progression into beings, and their separate fabrication of things. But in the Timæus, Plato endeavouring to teach us about the sublunary Gods, and their order, flies to theologists, calls them the sons of the Gods, and makes them the fathers of the truth about those divinities. And lastly, he delivers the orders of the sublunary Gods proceeding from wholes, according to the progression delivered by them of the intellectual kings. Again, in the Cratylus he follows the traditions of theologists, respecting the order of the divine processions. But in the Gorgias, he adopts the Homeric dogma, respecting the triadic hypostasis of the demiurgi. And in short, he every where discourses concerning the Gods agreeably to the principles of theologists; rejecting indeed, the tragical part of mythological fiction, but establishing first hypotheses in common with the authors of fables.",
+     "notes": []
+    }
+   ]
+  },
+  {
+   "id": "I.6",
+   "treatise": "I",
+   "title": "An objection: theology gathered from many dialogues is patchwork",
+   "summary": "Someone may object that a theology pieced together from many dialogues is not Plato's, has no whole, and cannot show how the orders of gods proceed from the one principle. Besides, the myths and divine passages in Plato are there for the sake of ethics or physics, not for their own sake. So such a theology is borrowed and forced, not genuine.",
+   "taylor_head": "An objection against collecting the Platonic theology from many dialogues, in consequence of its being partial, and distributed into minute parts.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book I, chapter 6, paragraph 1",
+     "text": "Perhaps, however, some one may here object to us, that we do not in a proper manner exhibit the every where dispersed theology of Plato, and that we endeavour to heap together different particulars from different dialogues, as if we were studious of collecting together many things into one mixture, instead of deriving them all from one and the same fountain. For if this were the case, we might refer different dogmas to different treatises of Plato, but we shall by no means have a precedaneous doctrine concerning the Gods, nor will there be any dialogue which presents us with an all-perfect and entire procession of the divine genera, and their coordination with each other. But we shall be similar to those who endeavour to obtain a whole from parts, through the want of a whole prior to parts, and to weave together the perfect from things imperfect; when, on the contrary, the imperfect ought to have the first cause of its generation in the perfect. For the Timæus, for instance, will teach us the theory of the intelligible genera; and the Phædrus appears to present us with a methodical account of the first intellectual orders. But where will be the coordination of intellectuals to intelligibles? And what will be the generation of second from first natures? In short, after what manner the progression of the divine orders takes place from the one principle of all things, and how in the generations of the Gods, the orders between the one, and all-perfect number, are filled up, we shall be unable to evince.",
+     "notes": []
+    },
+    {
+     "n": 2,
+     "label": "Book I, chapter 6, paragraph 2",
+     "text": "Farther still, it may be said, where will be the venerableness of your boasted science about divine natures? For it is absurd to call these dogmas which are collected from many places Platonic; and which, as you acknowledge, are introduced from foreign names to the philosophy of Plato; nor are you able to evince one whole entire truth about divine natures. Perhaps, indeed, they will say, certain persons, junior to Plato, have delivered in their writings, and left to their disciples, one perfect form of theology. You, therefore, are able to produce one entire theory about nature from the Timæus; but from the Republic, or Laws, the most beautiful dogmas about manners, and which tend to one form of philosophy. Alone, therefore, neglecting the treatise of Plato, which contains all the good of the first philosophy, and which may be called the summit of the whole theory, you will be deprived of the most perfect knowledge of beings, unless you are so much infatuated, as to boast on account of fabulous fictions, though an analysis of things of this kind abounds with much of the probable, but not of the demonstrative. Besides, things of this kind are only delivered adventitiously in the Platonic dialogues; as the fable in the Protagoras, which is inserted for the sake of the politic science, and the demonstrations respecting it. In like manner, the fable in the Republic is inserted for the sake of justice; but in the Gorgias, for the sake of temperance. For Plato combines fabulous narrations with investigations of ethical dogmas, not for the sake of the fables, but for the sake of the leading design, that we may not only exercise the intellectual part of the soul, through contending reasons, but that the divine part of the soul may more perfectly receive the knowledge of beings, through its sympathy with more mystic concerns. For, from other discourses, we appear similar to those who are compelled to the reception of truth; but from fables we suffer in an ineffable manner, and call forth our unperverted conceptions, venerating the mystic information which they contain.",
+     "notes": []
+    },
+    {
+     "n": 3,
+     "label": "Book I, chapter 6, paragraph 3",
+     "text": "Hence, as it appears to me, Timæus with great propriety thinks it fit that we should produce the divine genera, following the inventors of fables as the sons of the Gods, and subscribe to their always generating secondary natures from such as are first, though they should speak without demonstration. For this kind of discourse is not demonstrative, but entheastic, and was invented by the ancients, not through necessity, but for the sake of persuasion, not regarding mere discipline, but sympathy with things themselves. But if you are willing to speculate not only the causes of fables, but of other theological dogmas, you will find that some of them are scattered in the Platonic dialogues for the sake of ethical, and others for the sake of physical considerations. For in the Philebus, Plato discourses concerning bound and the infinite, for the sake of pleasure and a life according to intellect. For I think the latter are species of the former. In the Timæus, the discourse about the intelligible Gods, is assumed for the sake of the proposed physiology. On which account it is every where necessary that images should be known from paradigms; but that the paradigms of material things should be immaterial, of sensibles, intelligible, and that the paradigms of physical forms should be separate.",
+     "notes": [
+      {
+       "n": 95,
+       "text": "των θεων, is omitted in the original."
+      },
+      {
+       "n": 96,
+       "text": "For μυθικων, it is necessary to read, τα μεν ηθικων."
+      }
+     ]
+    },
+    {
+     "n": 4,
+     "label": "Book I, chapter 6, paragraph 4",
+     "text": "But again in the Phædrus, Plato celebrates the supercelestial place, the subcelestial profundity, and every genus under this, for the sake of amatory mania: the manner in which the reminiscence of souls takes place, and the passage to these from hence. But every where, as I may say, the leading end is either physical or political, while the conceptions about divine natures take place, either for the sake of invention or perfection. How, therefore, can such a theory as yours be any longer venerable and supernatural, and worthy to be studied beyond every thing, when it is neither able to evince the whole in itself, nor the perfect, nor that which is precedaneous in the writings of Plato, but is destitute of all these, is violent and not spontaneous, and does not possess a genuine, but an adventitious order, as in a drama? And such are the objections which may be urged against our design.",
+     "notes": []
+    }
+   ]
+  },
+  {
+   "id": "I.7",
+   "treatise": "I",
+   "title": "The answer: the whole of Plato's theology is in the Parmenides",
+   "summary": "Plato speaks of the gods in keeping with tradition and with the nature of things, sometimes as a means, sometimes as his main aim. But there is one dialogue that holds the whole of theology: the Parmenides. In it all the divine kinds proceed in order from the first cause, the highest simplest and most hidden, the last most many. The other dialogues give parts of the teaching, and must be referred to it, as the Timaeus holds the whole science of nature.",
+   "taylor_head": "A solution of the before mentioned objection, referring to one dialogue, the Parmenides, the whole truth concerning the Gods according to Plato.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book I, chapter 7, paragraph 1",
+     "text": "I, however, to an objection of this kind, shall make, a just and perspicuous reply. I say then, that Plato every where discourses about the Gods agreeably to ancient rumour, and to the nature of things. And sometimes indeed, for the sake of the cause of the things proposed, he reduces them to the principles of the dogmas; and thence, as from a watch tower, contemplates the nature of the thing proposed. But sometimes he establishes the theological science as the leading end. For in the Phædrus his subject respects intelligible beauty, and the participation of beauty pervading from thence through all things; and in the Banquet it respects the amatory order.",
+     "notes": []
+    },
+    {
+     "n": 2,
+     "label": "Book I, chapter 7, paragraph 2",
+     "text": "But if it be necessary to survey in one Platonic dialogue, the all-perfect, whole, and connected, extending as far as to the compleat number of theology, I shall perhaps assert a paradox, and which will alone be apparent to our familiars. We ought however to dare, since we have entered on such like arguments, and affirm against our opponents, that the Parmenides, and the mystic conceptions it contains, will accomplish all you desire. For in this dialogue all the divine genera proceed in order from the first cause, and evince their mutual connexion and dependence on each other. And those which are highest indeed, connate with the one, and of a primary nature, are allotted a unical, occult and simple form of hyparxis; but such as are last, are multiplied, are distributed into many parts, and are exuberant in number, but inferior in power to such as are of a higher order; and such as are middle, according to a convenient proportion, are more composite than their causes, but more simple than their proper progeny. And in short, all the axioms of the theologic science, appear in perfection in this dialogue, and all the divine orders are exhibited subsisting in connexion. So that this is nothing else than the celebrated generation of the Gods, and the procession of every kind of being from the ineffable and unknown cause of wholes. The Parmenides, therefore, enkindles in the lovers of Plato, the whole and perfect light of the theological science. But after this, the before mentioned dialogues distribute parts of the mystic discipline about the Gods, and all of them, as I may say, participate of divine wisdom, and excite our spontaneous conceptions respecting a divine nature. And it is necessary to refer all the parts of this mystic discipline to these dialogues, and these again to the one and all-perfect theory of the Parmenides. For thus, as it appears to me, we shall suspend the more imperfect from the perfect, and parts from wholes, and shall exhibit reasons assimilated to things, of which, according to the Platonic Timæus, they are interpreters. Such then is our answer to the objection which may be urged against us; and thus we refer the Platonic theory to the Parmenides; just as the Timæus is acknowledged by all who are in the least degree intelligent, to contain the whole science about nature.",
+     "notes": []
+    }
+   ]
+  },
+  {
+   "id": "I.8",
+   "treatise": "I",
+   "title": "Two kinds of opponents on the Parmenides",
+   "summary": "Proclus faces two groups. One holds that the Parmenides is only an exercise in arguing both sides. The other, more serious, reads its first hypotheses as about the first God, intellect, and what comes after, but will not divide them further into the many orders of gods. Against both he will set out the reading of his teacher, Syrianus.",
+   "taylor_head": "An enumeration of the different opinions concerning the Parmenides, and a division of the objections to them.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book I, chapter 8, paragraph 1",
+     "text": "I appear, however, by these means, to have excited for myself a twofold contest against those who attempt to investigate the writings of Plato; and I see two sorts of persons, who will oppose what has been said. One of these does not think proper to explore any other design in the Parmenides, than exercise through opposite arguments, or to introduce in this dialogue a croud of arcane and intellectual dogmas, which are foreign from its intention. But the other sort, who are more venerable than these, and lovers of forms assert, that one of the hypotheses is about the first God, another about the second God, and the whole of an intellectual nature, and a third, about the natures posterior to this, whether they are the more excellent genera, or souls, or any other kind of beings. For the investigation of these particulars does not pertain to the present discourse.",
+     "notes": []
+    },
+    {
+     "n": 2,
+     "label": "Book I, chapter 8, paragraph 2",
+     "text": "These, therefore, distribute three of the hypotheses after this manner. But they do not think proper to busy themselves about the multitude of Gods, the intelligible, and the intellectual genera, the supermundane and mundane natures, or to unfold all these by division, or busily explore them. For according to them, though Plato in the second hypothesis, treats about intellectual beings, yet the nature of intellect is one, simple and indivisible. Against both these therefore, must he contend, who entertains that opinion of the Parmenides, which we have before mentioned. The contest however against these is not equal. But those who make the Parmenides a logical exercise, are again attacked by those who embrace the divine mode of interpretation. And those who do not unfold the multitude of beings, and the orders of divine natures, are indeed, as Homer says, in every respect venerable and skilful men, but yet for the sake of the Platonic philosophy, we must doubt against them, following in this our leader to the most holy and mystic truth. It is proper likewise to relate as far as contributes to our purpose, what appears to us to be the truth respecting the hypotheses of the Parmenides; for thus perhaps by a reasoning process, we may embrace the whole theology of Plato.",
+     "notes": []
+    }
+   ]
+  }
+ ],
+ "paragraphs": [
+  {
+   "seg": "I.1.p1",
+   "chapter": "I.1",
+   "modern": "Pericles, dearest of my friends: I believe that the whole of Plato's philosophy first came to light by the kind will of higher beings. It showed the intellect hidden in them, and the truth that is together with the things that are, to souls who live in the world of becoming, so far as they are allowed to share in so great a good beyond nature. Afterwards, once it had reached its perfection, it turned back into itself, as it were, and was hidden from many who claimed to be philosophers and who were eager to search for true being. Then it came to light again. Above all, I think that the sacred teaching about the gods, which rests purely on a holy foundation and is always present with the gods themselves, was then revealed to those in time who were able to receive it, through one man. I would not be wrong to call him the first leader and the chief priest of those true mysteries into which souls are initiated once they are set free from the places of earth, and of those whole and steady visions which they share who truly embrace a happy and blessed life. From him this philosophy first shone out, holy and secret, as if set up in sacred temples and in their inner shrines. It was unknown to many of those who entered these holy places. Then, at set periods of time, it came out into the light as far as it could, through certain true priests, men who lived a life in keeping with the tradition of such mysteries. And it seems to me that the whole place became bright, and that visions of divine sights showed themselves everywhere.",
+   "flags": [
+    {
+     "taylor": "capable of enjoying it for a time",
+     "why": "Taylor's \"for a time\" is unclear: it can be read as \"for a while\", or as \"in time\", that is, to souls who live in time. The modern version takes the second reading, which fits the contrast with the gods; the Greek is not yet on the site to settle it."
+    }
+   ],
+   "notes": [
+    "\"One man\" is Plato, as Taylor's footnote says. The \"true mysteries\" and their \"visions\" are the language of the Phaedrus (250b-c), where the soul, before birth, was initiated into the most blessed of mysteries and saw whole and steady visions."
+   ]
+  },
+  {
+   "seg": "I.1.p2",
+   "chapter": "I.1",
+   "modern": "These are the interpreters of Plato's vision of the mysteries (the epopteia, the highest stage of initiation), who have unfolded for us the most sacred accounts of divine things and were given a nature like their leader's. I would name them as the Egyptian Plotinus; those who received the teaching from him, I mean Amelius and Porphyry; and in the third place those who grew from these like statues of heroes, Iamblichus and Theodorus; and any others who came after them, followed this divine choir, and worked at Plato's teachings with a mind inspired by the gods. From these came the man who, after the gods, has been our guide to everything beautiful and good. He received in his soul, undefiled, the most genuine and pure light of truth. He made us share in all the rest of Plato's philosophy. He passed on to us the secret teaching he had received from those older than himself. And he made us, together with him, stirred by the gods over the sacred truth about divine things.",
+   "notes": [
+    "The man who \"after the gods\" was Proclus' guide is his teacher Syrianus, head of the school at Athens before him, as Taylor's footnote says. Theodorus is Theodorus of Asine, a pupil of Porphyry and Iamblichus."
+   ]
+  },
+  {
+   "seg": "I.1.p3",
+   "chapter": "I.1",
+   "modern": "If we tried to give this man thanks equal to the good we have received from him, the whole of time would not be enough. But it is needful not only that we have received from others the surpassing good of Plato's philosophy. We must also leave to those who come after us a record of the blessed sights that we have seen and, as far as we could, followed, under the most perfect leader of our time, a man who reached the summit of philosophy. So perhaps we will do well to call on the gods to kindle the light of truth in our soul, and to pray to the attendants and servants of the higher beings to guide our intellect and lead it to the complete, divine and lofty end of Plato's teaching. For I think that anyone who has even the least share of intelligence will always begin what he does from the gods, and most of all when he explains the gods. We cannot understand the divine nature in any other way than by being perfected in the gods' light. Nor can we make it known to others unless the gods guide us, keeping us free of the many shapes of opinion and of the shifting variety of words, and keeping the meaning of the divine names whole. Knowing this, and following the advice of Plato's Timaeus, we first set the gods as the leaders of the teaching about themselves. May they hear our prayers and be kind to us. May they come to us gently, guide the intellect of our soul, and lead it around Plato's Hestia, the hearth at the centre of his teaching, and up to the steep heights of this inquiry. When we arrive there, we will receive the whole truth about them, and our labour to bring forth our thoughts about divine things will reach its best end: wanting to know something about them, asking others about them, and at the same time, as far as we can, searching them out ourselves.",
+   "flags": [
+    {
+     "taylor": "lead it about the Vesta of Plato",
+     "why": "Taylor gives Hestia her Latin name, Vesta. She is the goddess of the hearth, who in the Phaedrus (247a) stays at home while the other gods go round; Proclus means the fixed centre of Plato's teaching, round which the soul is led."
+    }
+   ],
+   "notes": [
+    "The Timaeus (27c) says that everyone with the least good sense calls on a god before any undertaking, small or great; Timaeus then prays before his account of the universe. Taylor's footnote: the Greek lacks the word \"only\" in \"not only that we have received\"."
+   ]
+  },
+  {
+   "seg": "I.2.p1",
+   "chapter": "I.2",
+   "modern": "So much for the preface. Next I must explain the method of the teaching I propose, what one should expect it to be, and what preparation its hearer should bring, so that he is ready to approach, not my words, but Plato's philosophy, which lifts up the intellect and makes us like the gods. For the fitness of the hearers should match the kind of teaching. It is as in the mysteries. Those skilled in such things first prepare vessels to receive the gods. To bring the gods to be present, they do not use just any lifeless things, or any animals, or any men. Out of each kind they bring into the sacred rites only what is naturally able to share in divine light.",
+   "notes": [
+    "The \"vessels\" are the statues and other objects that the theurgists prepared to receive the presence of a god."
+   ]
+  },
+  {
+   "seg": "I.2.p2",
+   "chapter": "I.2",
+   "modern": "First, then, I will divide this discourse into three parts. At the beginning I will look at all the common teachings about the gods that Plato gives in summary, and at the power and the high standing of the axioms of theology wherever they appear. In the middle of the work I will study the whole orders of the gods, count their distinctive characters, mark out their processions as Plato does, and refer everything to the principles laid down by the theologians. At the end I will speak about the gods praised here and there in Plato's writings, whether they are above the world or in the world, and I will refer what is taught about them to the whole classes of the divine orders.",
+   "notes": [
+    "The three parts are Book I (the common teachings), Books II-VI (the orders of the gods, from the One down to the gods in the world), and a third part on particular gods, which is lost or was never written; Taylor's own seventh book stands in for it."
+   ]
+  },
+  {
+   "seg": "I.2.p3",
+   "chapter": "I.2",
+   "modern": "In every part of this work, too, we will prefer what is clear, distinct and simple to their opposites. What is handed down through symbols we will turn into clear teaching. What is handed down through images we will carry back to the patterns they copy. What is written more as plain statement we will test by reasoning from causes. What is set out by demonstration we will examine, and we will also explain the kind of truth it holds and make it known to the hearers. What is put in riddles we will make clear from elsewhere, not from other people's assumptions, but from Plato's most genuine writings. And of the things the hearers meet at once, we will consider how they agree with the things themselves. From all this, one complete form of Plato's theology will appear to us: its truth, which runs through all of divine thought; the one intellect that gave birth to all the beauty of this theology; and the sacred unfolding of this vision. Such, as I have said, will be the present work."
+  },
+  {
+   "seg": "I.2.p4",
+   "chapter": "I.2",
+   "modern": "The hearer of these teachings is supposed to be adorned with the moral virtues. He should have bound, by the rule of virtue, every mean and unharmonious motion of the soul, and tuned them all to the single form of the practical wisdom that belongs to intellect. For, as Socrates says, it is not lawful for the impure to touch the pure. Every bad person is wholly impure, and the opposite kind of person is pure. He should also have been trained in all the methods of logic, and have studied many sound ways of analysis and many of division, and their opposites, in keeping, I think, with Parmenides' advice to Socrates. For until one has gone through such a contest of arguments, the knowledge of the divine kinds, and of the truth set in them, is hard to reach and hard to enter. Third, he must not be untrained in the study of nature. Whoever has become familiar with the many opinions of the natural philosophers, and has explored in a way, in images, the causes of the things that are, will more easily go on to the nature of the separate and first beings. So, as I have said, the hearer of this work must not be ignorant of the truth found in appearances, nor a stranger to the paths of learning and the mathematical studies they contain, for through these we gain a less bodily knowledge of divine being. But all of these must be bound together under intellect, which leads. He must also share in Plato's dialectic, and practise the immaterial activities that are separate from bodily powers. He must long to contemplate true beings by intellectual insight joined with reason. Then let him give himself wholly to explaining the divine and blessed teachings, and fill his soul, as the Oracle says, with deep love. For, as Plato says somewhere, to grasp this vision no better helper than love can be found.",
+   "flags": [
+    {
+     "taylor": "intelligence in conjunction with reason [true] beings",
+     "why": "Taylor adds \"true\" in brackets, and his footnote corrects the Greek he translated (from \"intelligence with reason\" as a subject to \"by intelligence with reason\"). The phrase is the Timaeus' (28a): what always is, is grasped \"by intellectual insight together with a rational account\"."
+    }
+   ],
+   "notes": [
+    "\"It is not lawful for the impure to touch the pure\" is Socrates in the Phaedo (67b). Parmenides advises the young Socrates to train himself in the method of hypothesis before he speaks of the Forms (Parmenides 135c-136c). The Oracle is one of the Chaldean Oracles, which bid the soul fill itself with \"deep love\". Plato says that for this possession human nature could find no better helper than love in the Symposium (212b)."
+   ]
+  },
+  {
+   "seg": "I.2.p5",
+   "chapter": "I.2",
+   "modern": "He must also be trained in the truth that runs through all things, and wake his intelligible eye, the eye of intellect, to what is real and complete truth. He must settle himself in a firm, unshaken and safe kind of divine knowledge. He must be persuaded to admire nothing else, and not even to turn his attention to other things, but to hurry towards divine light with a fearless activity of reasoning and with the power of a tireless life. In short, he must set before himself the kind of activity and rest proper to one who means to be such a leader of the choir as Socrates describes in the Theaetetus. Such, then, is the size of our task, and such the method of our discourses on it. But before I begin to set out what I have proposed, I want to speak about theology itself, its different kinds, and which forms of theology Plato approves and which he rejects. Once these are known, we will more easily learn, in what follows, what supports the demonstrations themselves.",
+   "notes": [
+    "The \"leader of the choir\" (coryphaeus) is the true philosopher of the Theaetetus' digression (173c-174a), who does not know the way to the market place, but whose mind ranges over the whole of nature."
+   ]
+  },
+  {
+   "seg": "I.3.p1",
+   "chapter": "I.3",
+   "modern": "Everyone who has ever touched on theology has called the things that are first by nature \"gods\", and has said that the science of theology is about them. Some have held that bodily being is the only thing that exists at all. They have put every kind of bodiless nature second to it in being, taken the principles of things to be bodily in form, and shown that the state in us by which we know these principles is bodily too. Others make all bodies depend on bodiless natures, and place the first hyparxis in soul and its powers. These, I think, call the best of souls \"gods\", and they call the science that reaches as far as these souls, and knows them, \"theology\". Still others bring the many souls out of another, older principle, and set intellect as the leader of all things. These say that the best end is the union of the soul with intellect, and they think the life of intellect the most honourable of all things. No doubt they also take theology and the study of intellectual being to be one and the same. All these, then, as I have said, call the first and most self-sufficient principles of things \"gods\", and the science of them \"theology\".",
+   "notes": [
+    "Taylor's footnote: hyparxis is \"the summit of any nature, or blossom, as it were, of its being\", its first and highest mode of existence. The Workshop keeps the word."
+   ]
+  },
+  {
+   "seg": "I.3.p2",
+   "chapter": "I.3",
+   "modern": "But Plato's account of the divine, and his alone, rejects every bodily nature as a principle. Everything that can be divided and has extension cannot by nature make or keep itself in being. It has its being, its activity and its being acted on through soul and the motions soul contains. Plato shows that the being of soul is older than bodies, but depends in turn on an intellectual reality. For whatever is moved in time, even if it moves itself, is of a more ruling nature than what is moved by another, but comes after an eternal motion. So he shows, as we have said, that intellect is the father and cause of bodies and souls, and that everything whose life is spent in changes and unfoldings both exists and acts around intellect.",
+   "notes": [
+    "Plato shows that soul, the self-moving motion, is older than bodies in the Laws (X 896a-c) and the Phaedrus (245c-e), and that soul depends on intellect in the Timaeus (30b) and the Philebus (30c)."
+   ]
+  },
+  {
+   "seg": "I.3.p3",
+   "chapter": "I.3",
+   "modern": "Plato, however, goes on to another principle, wholly set apart from intellect, more bodiless and more inexpressible, from which all things, even the very last, must have their existence. For not all things are by nature fit to share in soul, but only those that have some life in them, clearer or dimmer. Nor can all things enjoy intellect and being, but only those that exist according to Form. But the principle of all things must be shared by all things, if it is to leave nothing out, since it is the cause of everything that in any way is said to be. Plato found by divine insight this first principle of all things, which is higher than intellect and hidden in places no one can reach. He showed three causes, or monads, and showed that they are above bodies: soul, the first intellect, and a union above intellect. From these, as from monads, he brings out their own numbers: one multitude made of unities, a second made of intellects, and a third made of souls. For every monad leads a multitude of its own rank. And as Plato joins bodies to souls, so he joins souls to intellectual Forms, and these again to the henads of beings. But he turns all things back to one unshared unity. Once he has run back as far as this unity, he holds that he has reached the highest end of the study of all things, and that this is the truth about the gods: the truth that is about the henads of beings, and teaches their processions and their distinctive characters, how beings are in contact with them, and the orders of Forms that depend on these unitary realities.",
+   "flags": [
+    {
+     "taylor": "one multitude indeed being uniform",
+     "why": "Taylor's \"uniform\" (Greek henoeides, \"one-like\") does not mean \"all the same\": it means having the form of the One, made of unities. The first multitude is that of the henads, the gods."
+    }
+   ],
+   "notes": [
+    "Taylor's two footnotes on this paragraph: \"unical\" means \"characterized by unity\", and \"unity\" here (the henads) means \"of the nature of the One\". The Workshop renders Taylor's \"unities\" as \"henads\", and his \"unical\" as \"unitary\"."
+   ]
+  },
+  {
+   "seg": "I.3.p4",
+   "chapter": "I.3",
+   "modern": "Plato teaches us that the study of intellect, and of the Forms and kinds that turn about intellect, comes after the science of the gods themselves. The study of intellect grasps the intelligibles, and the Forms that the soul can know through the outward-reaching activity of intellect. But the science of theology goes beyond this. It is about the secret and inexpressible hyparxeis of the gods, and it traces how they are set apart from each other and how they come to light from the one cause of all. So I believe that the intellectual part of the soul can grasp the intellectual Forms and the difference among them. But the summit of intellect, its \"flower\", as they say, and its hyparxis, is joined to the henads of beings, and through these to the hidden union of all the divine henads. For though we have many powers of knowing, it is through this alone that we are by nature able to be joined to that hidden union and to share in it. The race of the gods cannot be grasped by sense, since it is set above all bodies. Nor by opinion and discursive reason, for these are divided and deal with things of many forms. Nor by intellectual insight joined with reason, for that kind of knowledge belongs to true beings. But the hyparxis of the gods rides upon beings, and is marked out by the very union of all things. So it follows, if the divine nature can be known in any way at all, that it must be grasped by the hyparxis of the soul, and known through it as far as possible. For we say that everywhere like is known by like: the perceptible by sense, what is opined by opinion, what is reasoned by discursive reason, and the intelligible by intellect. So the most unitary nature must be known by the one in us, and the inexpressible by what is inexpressible in us.",
+   "notes": [
+    "Taylor's footnotes: dianoia, here \"discursive reason\", is \"the discursive activity of reason, or the power of the soul that reasons scientifically\"; \"the doxastic\" is the object of opinion. \"The flower of intellect\" is the Chaldean Oracles' phrase. The hyparxis of the gods \"rides upon\" beings as the gods in the Phaedrus (247b-c) ride in their chariots on the back of the heaven."
+   ]
+  },
+  {
+   "seg": "I.3.p5",
+   "chapter": "I.3",
+   "modern": "Socrates rightly says in the First Alcibiades that the soul, when it enters into itself, will see all other things, and god himself. For as it bends towards its own unity, the centre of all life, and lays aside multitude and the variety of the many powers it holds, it climbs to the highest look-out over all beings. In the holiest of the mysteries, they say, the initiates first meet the many kinds of many shapes that are hurled out in front of the gods. But when they enter the inside of the temple, unmoved and guarded by the rites, they truly receive divine light into themselves, and, stripped of their clothes, as they would say, they share in the divine nature. The same thing, I think, happens in the vision of all things. When the soul looks at what comes after it, it sees the shadows and images of beings. But when it turns back to itself, it unfolds its own being and the reason-forms it holds. At first it sees, as it were, only itself. But when it goes deeper into the knowledge of itself, it finds in itself both intellect and the orders of beings. And when it goes into its inmost part, the inner shrine, as it were, of the soul, it sees, with its eyes closed, the race of the gods and the henads of beings. For all things are in us in the manner of soul, and so we are by nature able to know all things, by waking the powers and images of the whole that we hold.",
+   "flags": [
+    {
+     "taylor": "the multiform, and many-shaped genera, which are hurled forth before the Gods",
+     "why": "Taylor's footnote says these are \"evil daemons\". They are the frightening apparitions that, in the rites, appear before the god appears; the modern version keeps Proclus' image."
+    }
+   ],
+   "notes": [
+    "The First Alcibiades (132c-133c): the soul that looks into the best part of itself, where wisdom is, will know god and itself. \"With its eyes closed\" recalls the initiate (mystes) of the mysteries, whose name Proclus' readers took from \"closing\" (myein) the eyes."
+   ]
+  },
+  {
+   "seg": "I.3.p6",
+   "chapter": "I.3",
+   "modern": "And this is the best use of our activity: to reach out to the divine nature itself, with our powers at rest; to circle around it in harmony; to wake all the multitude of the soul to this union; and, laying aside everything that comes after the One, to settle ourselves in, and be joined to, what is inexpressible and beyond all things. For the soul may climb until it ends its flight in the principle of things. When it has arrived there and seen the place there, it may come down from it and make its way through beings, unfolding the many Forms, searching out their monads and their numbers, and grasping by intellect how each depends on its own henad. Then we may hold that the soul has the most perfect science of divine natures, seeing as one the processions of the gods into beings, and the distinctions of beings around the gods. Such, then, by Plato's judgement, is our theologian. And theology is a state of this kind: it unfolds the very hyparxis of the gods; it sets apart and contemplates their unknowable and unitary light, distinct from the character of the things that share in them; and it makes it known to those worthy of this activity, which is blessed and holds all things together at once.",
+   "notes": [
+    "\"The place there\" is the place beyond the heaven of the Phaedrus (247c), which the gods and the best souls see."
+   ]
+  },
+  {
+   "seg": "I.4.p1",
+   "chapter": "I.4",
+   "modern": "After this complete account of the first part of our inquiry, we must set out the ways in which Plato teaches us the sacred ideas about divine natures. For he does not seem to have taught about them in the same way everywhere. Sometimes he unfolds the truth about them by an activity inspired by the gods, and at other times dialectically. Sometimes he announces their inexpressible characters in symbols, and at other times he goes back up to them from images and finds in them the first causes of all things. In the Phaedrus, inspired by the Nymphs, and having exchanged human understanding for something better, divine madness, he reveals with an inspired voice many secret teachings about the intellectual gods, and many about the liberated rulers of the universe, who lead the many gods of the world upward to the monads that are intelligible and separate from the wholes of the world. And speaking still more of the gods to whom the world is allotted, he praises their acts of thinking, their making of the world, their pure providence and their governing of souls, and everything else that Socrates says in that dialogue in an inspired way, as he plainly says himself, laying this madness to the gods of the place.",
+   "flags": [
+    {
+     "taylor": "the liberated rulers of the universe",
+     "why": "\"Liberated\" (Greek apolytoi, \"unbound\") is Proclus' name for an order of gods between the gods above the world and those in it: they rule the world but are not bound to it. The Workshop keeps Taylor's word."
+    }
+   ],
+   "notes": [
+    "In the Phaedrus Socrates says he is \"possessed by the Nymphs\" (238c-d, 241e) and blames \"the gods of the place\" (262d); his second speech tells of the gods' procession round the heaven (246e-247c)."
+   ]
+  },
+  {
+   "seg": "I.4.p2",
+   "chapter": "I.4",
+   "modern": "In the Sophist, arguing dialectically about being and about how the One is set apart from beings, and raising difficulties against those older than himself, he shows how all beings depend on their cause and on the first being. Being itself shares in the unity that is set above all things. It is a one that has unity as something it undergoes, but not the One itself: it is subject to the One and united to it, but it is not what is first of all one. In the same way, in the Parmenides, he unfolds dialectically, through the first hypotheses, the processions of being from the One and the One's transcendence, and does so, as he says in that dialogue, by the most perfect division of this method. Again, in the Gorgias he tells the myth of the three Craftsmen and of their allotment as makers of the world. This is not only a myth but a true account. In the Symposium he speaks of the union brought by Love. And in the Protagoras he speaks of how the mortal animals were given their shares by the gods. In these he hides the truth about divine natures in symbols, and unfolds his mind only so far as to hint at it to the most genuine of his hearers.",
+   "flags": [
+    {
+     "taylor": "that it is a passive one",
+     "why": "Taylor's \"passive one\" renders the Sophist's phrase (245a): being \"has unity as an affection\", has the one as something that happens to it. It does not mean that being is inactive; the modern version says what is meant."
+    }
+   ],
+   "notes": [
+    "The Sophist (244b-245e) argues against those before Plato who said that all is one. The \"three Craftsmen\" of the Gorgias (523a) are Zeus, Poseidon and Pluto (Hades), who divide the realm of Kronos, as in the Iliad (15.187-193). Aristophanes' speech in the Symposium (189c-193d) and Diotima's (201d-212a) speak of love that unites; the Protagoras' myth (320c-322a) tells how Epimetheus and Prometheus gave the animals their powers."
+   ]
+  },
+  {
+   "seg": "I.4.p3",
+   "chapter": "I.4",
+   "modern": "Then there is the teaching given through the mathematical studies, and the treatment of divine things drawn from ethical or physical discussions, of which much can be found in the Timaeus, much in the dialogue called the Statesman, and much scattered in other dialogues. If you like, I will mention these too. Here also, for those of you who want to know divine things through images, the method will be plain. For all these give a shadowy picture of the powers of the divine. The Statesman, for example, pictures the making of the world in the heavens. The shapes of the five elements, given in geometrical proportions in the Timaeus, show in images the distinctive characters of the gods who ride on the parts of the universe. And the divisions of the being of soul in that dialogue give a shadowy picture of the whole orders of the gods.",
+   "notes": [
+    "The Statesman's myth of the world's two motions (269c-274e); the five regular solids of the Timaeus (53c-56c); the division of the world-soul by numbers (35a-36d). Taylor's footnote: the words \"in the Timaeus\" are missing from the Greek he translated."
+   ]
+  },
+  {
+   "seg": "I.4.p4",
+   "chapter": "I.4",
+   "modern": "I pass over the fact that Plato composes constitutions, likening them to divine natures and to the whole world, and orders them from the powers the world holds. Through the likeness of mortal things to divine ones, all of these show us in images the processions, orders and works of making of the divine natures. These, then, are the ways of teaching about the gods that Plato uses.",
+   "notes": [
+    "The constitutions are those of the Republic and the Laws; the Republic's city is \"a pattern laid up in heaven\" (592b)."
+   ]
+  },
+  {
+   "seg": "I.4.p5",
+   "chapter": "I.4",
+   "modern": "It is clear from what has been said that there must be just this many of them. Those who treat divine things by hints either speak in symbols and myths, or through images. Of those who state their thoughts openly, some build their accounts by science, and others by inspiration from the gods. Whoever wants to point to divine things through symbols is Orphic, and in short agrees with those who write myths about the gods. Whoever does it through images is Pythagorean. For the Pythagoreans invented the mathematical studies to help recollect divine things, which they try to reach through these, as through images. According to the witness of their historians, they refer both numbers and shapes to the gods. The inspired person, who unfolds the truth about the gods by itself under divine inspiration, stands most clearly among the highest of the initiators. These do not think it right to show the divine orders or their characters to their companions through veils, but announce the gods' powers and numbers because the gods themselves move them. But to hand down divine things by science is the glorious distinction of Plato's philosophy. For Plato alone, I think, of all those known to us, has tried to divide by method, and set in order, the regular procession of the divine kinds, how they differ from each other, the characters common to the whole orders, and the characters given out to each one. The truth of this will be clear when we give the proper demonstrations about the Parmenides and all the divisions it contains.",
+   "flags": [
+    {
+     "taylor": "when we frame precedaneous demonstrations",
+     "why": "Taylor's \"precedaneous\" (an old word for \"going first, principal\") means the demonstrations that belong first and properly to the subject: the account of the Parmenides, which is the core of the work."
+    }
+   ]
+  },
+  {
+   "seg": "I.4.p6",
+   "chapter": "I.4",
+   "modern": "For now we will note that Plato does not accept all the inventions of poetry and drama, but only those that point to the beautiful and the good and do not clash with divine being. The way of myth, which points to divine things by guesswork, is ancient. It hides the truth under many veils, and works much as nature does, which holds out perceptible inventions in place of intelligible things, material in place of immaterial, divisible in place of indivisible, and images, things that have a false being, in place of what is wholly true. But Plato rejects the more tragic way of making myths used by the old poets. They wanted to set up a secret theology about the gods, and for this they invented wanderings, cuttings, battles, tearings apart, rapes and adulteries of the gods, and many other symbols of the truth about the divine that this theology hides. This way Plato rejects, and he says that it is in every way most foreign to education. But he holds that those myths about the gods are more convincing, and closer to the truth and to the philosophic temper, which say that the divine is the cause of all good and of no evil, that it does not change at all, always keeping its own order unchanged, and that it holds in itself the source of truth but is never the cause of any deceit for others. Such are the patterns of theology that Socrates gives in the Republic.",
+   "notes": [
+    "Republic II-III (377b-392c): Socrates rejects Hesiod's and Homer's stories of Kronos' deeds and the gods' battles, and lays down the \"patterns of theology\" (379a): god is the cause only of good things (379b-c), does not change (380d-381e), and does not deceive (382a-383a)."
+   ]
+  },
+  {
+   "seg": "I.4.p7",
+   "chapter": "I.4",
+   "modern": "So all of Plato's myths, while keeping the truth hidden, do not have even an outward dress that clashes with our untaught and unspoiled sense of the gods. They carry an image of the way the world is put together, in which the visible beauty is worthy of the divine, and a beauty more divine than this is set in the unseen lives and powers of the gods. This, then, is one of the ways of myth about divine things: it passes from what seems lawless, irrational and disordered into order and limit, and aims at putting together the beautiful and the good."
+  },
+  {
+   "seg": "I.4.p8",
+   "chapter": "I.4",
+   "modern": "But there is another way, which he teaches in the Phaedrus. It consists in always keeping the myths of theology unmixed with accounts of nature, and in taking care never to confuse theology and the study of nature with each other, or to swap one for the other. For as divine being is separate from the whole of nature, it is right that accounts of the gods should also be clean of physical explanations. Such a mixing, he says, is laborious, and to make the things that happen in nature the meaning of a myth is the work of no very good man: for example, someone who, by his supposed wisdom, takes the Chimaera, the Gorgon and the like to be natural events. Socrates in the Phaedrus disapproves of this way of handling myths, and makes its followers say, in a story, that Orithyia playing with the wind Boreas and thrown down the rocks means nothing more than that Orithyia, a mortal girl, was carried off by Boreas out of love. For it seems to me that the hidden meaning of myths about the gods should always be holier than the apparent one. So if anyone gives us physical interpretations of Plato's myths, about the things below the moon, we must say that they wholly miss the philosopher's aim. Only those interpretations truly explain the truth these myths hold which aim at a divine, immaterial and separate reality, and which, looking to it, build and take apart the myths in keeping with our inborn sense of divine things.",
+   "notes": [
+    "Phaedrus 229c-230a: Socrates will not explain away the myth of Boreas and Orithyia as a girl blown off the rocks by the north wind, since then one would have to explain Centaurs, the Chimaera, Gorgons and Pegasus too, \"a laborious task, and not for a very lucky man\". Taylor's footnote corrects a word of the Greek."
+   ]
+  },
+  {
+   "seg": "I.5.p1",
+   "chapter": "I.5",
+   "modern": "Now that we have counted all these ways of Plato's theology, and shown what building and taking apart of myths fits the truth about the gods, let us next consider where, and from which dialogues above all, we think Plato's teachings about the gods can be gathered, and by looking for which patterns or forms we can tell his genuine writings from the false works that are put down to him."
+  },
+  {
+   "seg": "I.5.p2",
+   "chapter": "I.5",
+   "modern": "The truth about the gods runs, one may say, through all of Plato's dialogues. In all of them thoughts of the first philosophy are sown, holy, clear and above nature: in some more dimly, in others more plainly. These thoughts stir those who can in any way share in them towards the immaterial and separate being of the gods. In each part of the universe, and in nature herself, the Craftsman of all that the world holds set up likenesses of the unknowable hyparxis of the gods, so that all things might turn back to the divine nature through their kinship with it. In the same way, I believe, Plato's divine intellect weaves thoughts about the gods into all his writings, and leaves nothing without mention of the divine, so that from the whole of them a recollection of all things may be gained and given to the genuine lovers of divine things."
+  },
+  {
+   "seg": "I.5.p3",
+   "chapter": "I.5",
+   "modern": "But if I must set before the reader, out of many, the dialogues that above all unfold for us the sacred teaching about the gods, I would not be wrong to count among them the Phaedo and the Phaedrus, the Symposium and the Philebus, and with these the Sophist and the Statesman, the Cratylus and the Timaeus. All these are full, through and through, one may say, of Plato's divine science. In the second rank after these I would put the myth in the Gorgias and the one in the Protagoras; also what is said in the Laws about the gods' providence, and what is taught about the Fates, or the mother of the Fates, or the turnings of the universe, in the tenth book of the Republic. In the third rank you may, if you like, put those Letters through which we can reach the science of divine natures. For in them the three kings are mentioned, and very many other divine teachings worthy of Plato's vision are given. So we must look to these, and search out in them each order of the gods.",
+   "notes": [
+    "The Laws on providence: Book X (899d-905d). The Fates and their mother, Necessity, and the turning spindle of the universe: the myth of Er, Republic X (616b-617d). The \"three kings\" are in the Second Letter (312e): \"all things are about the king of all ... the second about the second, and the third about the third\"."
+   ]
+  },
+  {
+   "seg": "I.5.p4",
+   "chapter": "I.5",
+   "modern": "So from the Philebus we can receive the science of the one Good and of the two first principles of things, together with the triad that comes to light from them. You will find all of these set out clearly by Plato in that dialogue. From the Timaeus you can gain the study of the intelligibles, a divine account of the monad of the Craftsman, and the fullest truth about the gods of the world. From the Phaedrus, a scientific knowledge of all the intelligible and intellectual kinds, and of the liberated orders of gods, which are set just above the circuits of the heavens. From the Statesman, the study of the making of the world in the heavens, of the uneven periods of the universe, and of the intellectual causes of those periods. From the Sophist, the whole of becoming below the moon, and the distinctive character of the gods to whom the region below the moon is allotted, who preside over its comings to be and passings away. And about each of the gods we can find many ideas fit for sacred things in the Symposium, many in the Cratylus, and many in the Phaedo. For in each of these dialogues the divine names are mentioned, more or less, and from these it is easy for those trained in divine things to find out, by reasoning, the distinctive character of each.",
+   "flags": [
+    {
+     "taylor": "the two first principles of things, together with the triad",
+     "why": "Taylor's footnote: the Greek he translated lacks the word \"triad\". The two principles are limit and the unlimited (Philebus 16c, 23c), and the triad is the mixture and its cause; Proclus treats them in Book III."
+    }
+   ],
+   "notes": [
+    "The Phaedrus' place \"above the heaven\" and the gods' procession (246e-247e); the Statesman's two periods of the universe (269c-270a)."
+   ]
+  },
+  {
+   "seg": "I.5.p5",
+   "chapter": "I.5",
+   "modern": "But we must show that each teaching agrees with Plato's principles and with the sacred traditions of the theologians. For all Greek theology is the offspring of the sacred tradition of Orpheus. Pythagoras first learnt the rites of the gods from Aglaophemus, and Plato, second, received a complete science of the gods from the writings of the Pythagoreans and the Orphics. For in the Philebus, referring the study of the two kinds of principles, limit and the unlimited, to the Pythagoreans, he calls them men who live with the gods and are truly blessed. Philolaus the Pythagorean left us in writing many wonderful thoughts about these principles, praising their common procession into beings and the separate work of making that each performs. In the Timaeus, when Plato means to teach us about the gods below the moon and their order, he turns to the theologians, calls them the sons of the gods, and makes them the fathers of the truth about these gods. And at last he gives the orders of the gods below the moon as coming from the wholes, following the procession of the intellectual kings that they teach. Again, in the Cratylus he follows the theologians' traditions about the order of the divine processions. In the Gorgias he takes up Homer's teaching about the three Craftsmen. In short, wherever he speaks of the gods, he speaks in keeping with the theologians' principles. He rejects the tragic side of mythical invention, but he lays down the first principles in common with the makers of myths.",
+   "flags": [
+    {
+     "taylor": "Pythagoras first of all learning from Aglaophemus the orgies of the Gods",
+     "why": "Taylor's \"orgies\" means the secret rites of the gods (Greek orgia), not revelry."
+    }
+   ],
+   "notes": [
+    "Philebus 16c-d: the ancients, \"better than us and living nearer the gods\", handed down that all things are made of one and many, with limit and the unlimited in them. Timaeus 40d-41a: of the gods below the heaven we must trust \"those who spoke before, being, as they said, the offspring of the gods\", who give the line Ouranos and Ge, then Okeanos and Tethys, then Phorkys, Kronos and Rhea, then Zeus and Hera. Cratylus 395e-396c and 402b-c follow the same line of names. The three Craftsmen: Gorgias 523a, from the Iliad (15.187-193)."
+   ]
+  },
+  {
+   "seg": "I.6.p1",
+   "chapter": "I.6",
+   "modern": "But perhaps someone will object here that we are not presenting Plato's theology properly, scattered as it is everywhere, and that we are trying to heap together different pieces from different dialogues, as if we were eager to collect many things into one mixture, instead of drawing them all from one and the same source. If that were so, we could refer different teachings to different works of Plato, but we would by no means have a proper, primary teaching about the gods. Nor would there be any dialogue that gives us the complete and whole procession of the divine kinds and how they are ranked with each other. We would be like those who try to get a whole from parts, for want of a whole that is prior to the parts, and to weave the perfect together out of imperfect things, when the imperfect ought, on the contrary, to have the first cause of its coming to be in the perfect. The Timaeus, for example, will teach us the study of the intelligible kinds, and the Phaedrus seems to give us an orderly account of the first intellectual orders. But where will we find how the intellectual is ranked with the intelligible? And how the second comes to be from the first? In short, we will not be able to show how the procession of the divine orders comes about from the one principle of all things, and how, in the generations of the gods, the orders between the One and the complete number are filled in."
+  },
+  {
+   "seg": "I.6.p2",
+   "chapter": "I.6",
+   "modern": "Further, the objector may say, where will be the holiness of your much-praised science of divine natures? It is absurd to call these teachings Plato's when they are gathered from many places and, as you admit, brought into Plato's philosophy under names foreign to it; nor can you show one whole and complete truth about divine natures. Perhaps, they will say, certain people younger than Plato have written and left to their pupils one complete form of theology. You, then, can bring out one whole account of nature from the Timaeus, and from the Republic or the Laws the finest teachings about character, which tend to one form of philosophy. Only the work of Plato that holds all the good of the first philosophy, and may be called the summit of the whole study, you leave aside, and so you will lack the most perfect knowledge of beings, unless you are so foolish as to boast of mythical inventions, though the explaining of such things is full of the probable and empty of the demonstrative. Besides, such things are only brought into Plato's dialogues by the way. The myth in the Protagoras, for instance, is put in for the sake of the art of politics and the demonstrations about it. In the same way the myth in the Republic is put in for the sake of justice, and the one in the Gorgias for the sake of self-control. For Plato joins mythical stories to inquiries into ethical teachings not for the sake of the myths, but for the sake of the main aim: so that we may not only train the intellectual part of the soul through contending arguments, but so that the divine part of the soul may receive the knowledge of beings more perfectly, through its sympathy with more sacred things. For from other kinds of discourse we seem like people forced to accept the truth; but from myths we are moved in an inexpressible way, and we call up our unspoiled ideas, revering the sacred teaching they hold.",
+   "flags": [
+    {
+     "taylor": "certain persons, junior to Plato, have delivered in their writings, and left to their disciples, one perfect form of theology",
+     "why": "The objector's point is that later writers (it is not said who; Proclus may mean the authors of the Chaldean Oracles, or his own school) have left complete theologies, while Plato himself has not, in any one work."
+    }
+   ],
+   "notes": [
+    "Taylor's footnotes correct two places in the Greek he translated (\"of the gods\" missing, and a word read as \"ethical\")."
+   ]
+  },
+  {
+   "seg": "I.6.p3",
+   "chapter": "I.6",
+   "modern": "So, I think, Timaeus rightly thinks it fitting that we should bring forth the divine kinds by following the makers of myths, as sons of the gods, and accept that they always generate the second natures from the first, even if they speak without demonstration. For this kind of discourse is not demonstrative but inspired, and the ancients invented it not from necessity but for the sake of persuasion, aiming not at mere teaching but at sympathy with the things themselves. And if you are willing to look at the causes not only of the myths but of the other teachings of theology, you will find that some are scattered in Plato's dialogues for the sake of ethical questions, and others for the sake of physical ones. In the Philebus, Plato speaks of limit and the unlimited for the sake of pleasure and of the life lived by intellect. For I think the second are kinds of the first. In the Timaeus the account of the intelligible gods is taken up for the sake of the study of nature that is proposed. So everywhere images must be known from their patterns, and the patterns of material things must be immaterial, of perceptible things intelligible, and the patterns of natural forms must be separate.",
+   "flags": [
+    {
+     "taylor": "For I think the latter are species of the former",
+     "why": "Pleasure and the life of intellect (the latter) are kinds of the unlimited and of limit (the former): in the Philebus (27e-28a, 31a) pleasure belongs to the unlimited, and intellect is kin to the cause of the mixture."
+    }
+   ],
+   "notes": [
+    "Timaeus 40d-e: we must believe the sons of the gods \"though they speak without probable or necessary proofs\"."
+   ]
+  },
+  {
+   "seg": "I.6.p4",
+   "chapter": "I.6",
+   "modern": "Again, in the Phaedrus, Plato praises the place above the heaven, the depth below the heaven, and every kind beneath this, for the sake of the madness of love, and of how the souls' recollection comes about and their passage there from here. Everywhere, one may say, the main aim is either physical or political, and the thoughts about divine natures come in either for the sake of discovery or of perfection. How, then, can a study like yours still be holy and above nature, and worth studying above everything, when it can show neither the whole in itself, nor the perfect, nor what comes first in Plato's writings, but lacks all these, and is forced, not natural, and has an order that is not its own but brought in from outside, as in a play? Such are the objections that may be raised against our plan.",
+   "notes": [
+    "The place above the heaven and the \"subcelestial arch\" are in the Phaedrus (247b-c); recollection and the soul's journey (249b-250c)."
+   ]
+  },
+  {
+   "seg": "I.7.p1",
+   "chapter": "I.7",
+   "modern": "To an objection of this kind I will give a fair and clear answer. I say that Plato everywhere speaks of the gods in keeping with ancient report and with the nature of things. Sometimes, for the sake of the cause of the things in hand, he carries them back to the principles of the teachings, and from there, as from a look-out, studies the nature of what is in hand. But sometimes he sets the science of theology as his main aim. In the Phaedrus his subject is intelligible beauty, and how beauty, shared from there, runs through all things; and in the Symposium it is the order of love.",
+   "notes": [
+    "Phaedrus 249d-250e: the beauty seen above the heaven, and its image here; Symposium 210a-212a: the ascent to the beautiful itself."
+   ]
+  },
+  {
+   "seg": "I.7.p2",
+   "chapter": "I.7",
+   "modern": "But if we must survey, in one dialogue of Plato's, the whole of theology, complete and connected, reaching to its full number, I may perhaps say something surprising, which only those close to us will find plain. Still, we must be bold, since we have begun on such arguments, and say against our opponents that the Parmenides, and the sacred ideas it holds, will give you all you want. For in this dialogue all the divine kinds proceed in order from the first cause and show how they are linked to and depend on each other. The highest, those akin to the One and of a first nature, are given a unitary, hidden and simple form of hyparxis. The last are multiplied, divided into many parts, and rich in number, but weaker in power than those of a higher order. The middle ones, in fitting proportion, are more composite than their causes but simpler than their own offspring. In short, all the axioms of the science of theology appear complete in this dialogue, and all the divine orders are shown linked together. So this is nothing other than the famous generation of the gods, and the procession of every kind of being from the inexpressible and unknowable cause of all things. The Parmenides, then, kindles in the lovers of Plato the whole and perfect light of the science of theology. After it, the dialogues mentioned before give out parts of the sacred teaching about the gods. All of them, one may say, share in divine wisdom and wake our own ideas about the divine nature. All the parts of this sacred teaching must be referred to these dialogues, and these again to the one complete study of the Parmenides. In this way, I think, we will make the more imperfect depend on the perfect, and the parts on the wholes, and we will show accounts made like the things they explain, as Plato's Timaeus says. Such, then, is our answer to the objection that may be raised against us. And so we refer Plato's teaching on the gods to the Parmenides, just as everyone with the least understanding agrees that the Timaeus holds the whole science of nature.",
+   "flags": [
+    {
+     "taylor": "the celebrated generation of the Gods",
+     "why": "Proclus means a theogony, an account of the gods' births such as Hesiod's and the Orphics'; the Parmenides, read by the school, gives the same in the form of a deduction."
+    }
+   ],
+   "notes": [
+    "The Timaeus (29b): accounts are akin to the things they explain. The school read the hypotheses of the Parmenides' second part (137c-166c) as an account of all the orders of reality from the One down; the next chapters set out this reading."
+   ]
+  },
+  {
+   "seg": "I.8.p1",
+   "chapter": "I.8",
+   "modern": "By this, however, I seem to have stirred up for myself a contest on two fronts against those who try to study Plato's writings. I see two kinds of people who will oppose what has been said. The first thinks it right to look for no other aim in the Parmenides than practice in arguing both sides, and not to bring into this dialogue a crowd of secret and intellectual teachings foreign to its purpose. The second kind are more serious than these, and lovers of the Forms. They say that one of the hypotheses is about the first God, another about the second God and the whole of intellectual nature, and a third about the natures after this, whether they are the higher kinds, or souls, or some other kind of beings. For to inquire into these details does not belong to the present discussion.",
+   "notes": [
+    "The first group follows Parmenides' own words (135c-136c), that what follows is \"an exercise\". The second is the reading of Plotinus (V.1.8) and his school: the first hypothesis is about the One, the second about intellect, the third about soul. \"The higher kinds\" are the angels, daemons and heroes, the kinds above human souls."
+   ]
+  },
+  {
+   "seg": "I.8.p2",
+   "chapter": "I.8",
+   "modern": "These, then, divide three of the hypotheses in this way. But they do not think it right to concern themselves with the many gods, the intelligible and intellectual kinds, the natures above the world and in the world, or to unfold all these by division and search them out with care. For according to them, though Plato speaks of intellectual beings in the second hypothesis, the nature of intellect is one, simple and undivided. Whoever holds the view of the Parmenides that we have stated must contend against both. But the contest is not equal against both. Those who make the Parmenides an exercise in logic are themselves attacked by those who hold the divine way of reading it. And those who do not unfold the many beings and the orders of divine natures are, as Homer says, in every way men to be revered and skilled. But for the sake of Plato's philosophy we must raise difficulties against them too, following in this our leader to the most holy and sacred truth. It is right also to set out, so far as it helps our aim, what we take to be the truth about the hypotheses of the Parmenides. For in this way, perhaps, by a process of reasoning, we may take in the whole of Plato's theology.",
+   "notes": [
+    "\"To be revered and skilled\" (or \"awesome\"): Helen's words to Priam in the Iliad (3.172), which Socrates uses of Parmenides in the Theaetetus (183e). \"Our leader\" is Syrianus."
+   ]
+  }
+ ],
+ "contents": [
+  {
+   "id": "I",
+   "title": "The gods in Plato: the method, the sources, and the axioms of theology",
+   "chapters": [
+    {
+     "id": "I.1",
+     "head": "The Preface, in which the scope of the treatise is unfolded, together with the praise of Plato himself, and of those that received the philosophy from him.",
+     "done": true,
+     "title": "Preface: Plato's philosophy, a gift of the gods"
+    },
+    {
+     "id": "I.2",
+     "head": "What the mode of the discussion is in the present treatise, and what preparation of the auditors of it is previously necessary.",
+     "done": true,
+     "title": "How the work will proceed, and what its hearer needs"
+    },
+    {
+     "id": "I.3",
+     "head": "What a theologist is according to Plato, whence he begins, as far as to what hypostases he ascends, and according to what power of the soul he particularly energizes.",
+     "done": true,
+     "title": "Who a theologian is, and how the gods are known"
+    },
+    {
+     "id": "I.4",
+     "head": "The theological types or forms according to all which Plato disposes the doctrine concerning the Gods.",
+     "done": true,
+     "title": "The four ways Plato teaches about the gods"
+    },
+    {
+     "id": "I.5",
+     "head": "What the dialogues are from which the theology of Plato may especially be assumed; and to what orders of Gods each of these dialogues refers us.",
+     "done": true,
+     "title": "The dialogues that hold Plato's theology, and their orders of gods"
+    },
+    {
+     "id": "I.6",
+     "head": "An objection against collecting the Platonic theology from many dialogues, in consequence of its being partial, and distributed into minute parts.",
+     "done": true,
+     "title": "An objection: theology gathered from many dialogues is patchwork"
+    },
+    {
+     "id": "I.7",
+     "head": "A solution of the before mentioned objection, referring to one dialogue, the Parmenides, the whole truth concerning the Gods according to Plato.",
+     "done": true,
+     "title": "The answer: the whole of Plato's theology is in the Parmenides"
+    },
+    {
+     "id": "I.8",
+     "head": "An enumeration of the different opinions concerning the Parmenides, and a division of the objections to them.",
+     "done": true,
+     "title": "Two kinds of opponents on the Parmenides"
+    },
+    {
+     "id": "I.9",
+     "head": "A confutation of those who assert that the Parmenides is a logical dialogue, and who admit that the discussion in it is argumentative, proceeding through subjects of opinion.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "I.10",
+     "head": "How far they are right who assert that the hypotheses of the Parmenides are concerning the principles of things, and what is to be added to what they say from the doctrine of our preceptor [Syrianus.]",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "I.11",
+     "head": "Many demonstrations concerning the conclusions of the second hypothesis, and of the division of it according to the divine orders.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "I.12",
+     "head": "The intention of the hypotheses, demonstrating their connexion with each other, and their consent with the things themselves.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "I.13",
+     "head": "What the common rules concerning the Gods are, which Plato delivers in the Laws. And also concerning the hyparxis of the Gods, their providence, and their immutable perfection.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "I.14",
+     "head": "How the hyparxis of the Gods is delivered in the Laws, and through what media the discourse recurs to the truly existing Gods.----How the providence of the Gods is demonstrated in the Laws, and what the mode of their providence is according to Plato.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "I.15",
+     "head": "Through what arguments in the same treatise [the Laws] it is demonstrated that the Gods provide [for all things,] immutably.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "I.16",
+     "head": "What the axioms are concerning the Gods which are delivered in the Republic, and what order they have with respect to each other.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "I.17",
+     "head": "What the goodness of the Gods is, and how they are said to be the causes of all good; and that evil according to every hypostasis is itself adorned and arranged by the Gods.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "I.18",
+     "head": "What the immutability is of the Gods; where also it is shown what their self-sufficiency, and firm impassivity are; and how we are to understand their possessing an invariable sameness of subsistence.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "I.19",
+     "head": "What the simplicity is of the Gods; and how that which is simple in them appears to be various in secondary natures.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "I.20",
+     "head": "What the truth is in the Gods; and whence falsehood is introduced in the participations of the Gods by secondary natures.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "I.21",
+     "head": "From the axioms in the Phædrus concerning every thing divine [it follows] that every thing divine is beautiful, wise, and good.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "I.22",
+     "head": "A discussion of the dogmas concerning the goodness [of the Gods,] and an investigation of the elements of the good in the Philebus.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "I.23",
+     "head": "What the wisdom of the Gods is, and what elements of it may be assumed from Plato.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "I.24",
+     "head": "Concerning divine beauty, and the elements of it, as delivered by Plato.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "I.25",
+     "head": "What the triad is which is conjoined with the good, the wise, and the beautiful, and what auxiliaries to the theory of it, Plato affords us.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "I.26",
+     "head": "Concerning the axioms delivered in the Phædo, respecting an invisible nature. What the divine nature is. What the immortal, and the intelligible are; and what order these possess with reference to each other.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "I.27",
+     "head": "What the uniform and indissoluble are, and how sameness of subsistence [and the unbegotten are] to be assumed in divine natures.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "I.28",
+     "head": "How paternal, and how maternal causes are to be assumed in the Gods.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "I.29",
+     "head": "Concerning divine names, and the rectitude of them as delivered in the Cratylus.",
+     "done": false,
+     "title": ""
+    }
+   ]
+  },
+  {
+   "id": "II",
+   "title": "",
+   "chapters": [
+    {
+     "id": "II.1",
+     "head": "A method leading to the superessential principle of all things, according to the intellectual conception of the one and multitude.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "II.2",
+     "head": "A second method unfolding the hypostasis of the one, and demonstrating it to be exempt from all corporeal and incorporeal essences.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "II.3",
+     "head": "Many arguments in confirmation of the same thing, and evincing the irreprehensible hypothesis of the one.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "II.4",
+     "head": "A confutation of those who say that the first principle is not according to Plato above intellect, and demonstrations from the Republic, the Sophista, the Philebus, and the Parmenides, of the superessential hypostasis of the one.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "II.5",
+     "head": "What the modes are of ascent to the one according to Plato; and that the modes are two, through analogy, and through negations. Likewise, where Plato treats of each of these, and through what cause.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "II.6",
+     "head": "By what, and by how many names Plato unfolds the ineffable principle, and why he unfolds it by such and by so many names. And how these names accord with the modes of ascent to it.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "II.7",
+     "head": "What the assertions are in the Republic concerning the first principle, through its analogy to the sun; where also it is shown, how it is celebrated as the good, and as the most splendid of being. How the sun is the offspring of the good; and that according to each order of divine natures, there is a monad analogous to the first principle. And how the first principle is the cause of all beings, and is itself prior to power and energy.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "II.8",
+     "head": "What Plato in his Epistle to Dionysius says the first king is. And admonitions, that the first God is discussed in that Epistle.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "II.9",
+     "head": "What the three conceptions are which are delivered [in that Epistle] concerning the first king. How all things are about him. How all things are for his sake. How he is the cause of all beautiful things. What the order is of these conceptions. And from what hypotheses they are assumed.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "II.10",
+     "head": "How in the first hypothesis of the Parmenides, Plato delivers the doctrine concerning the one, employing for this purpose negations. And on what account the negations are such and so many.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "II.11",
+     "head": "How it is necessary to enter on the theory concerning the one, through negations. And what disposition of the soul is most adapted to discussions of this kind.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "II.12",
+     "head": "A celebration of the one, demonstrating through negative conclusions that it is exempt from all the orders of beings, according to the order delivered in the Parmenides.",
+     "done": false,
+     "title": ""
+    }
+   ]
+  },
+  {
+   "id": "III",
+   "title": "",
+   "chapters": [
+    {
+     "id": "III.1",
+     "head": "That after the discussion in common of the one principle of things, it is requisite to treat of the divine orders, and to show how many they are, and how they are divided from each other.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "III.2",
+     "head": "That the multitude of unities according to which the Gods have their hypostasis, subsists after the one.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "III.3",
+     "head": "How many the particulars are which ought to be demonstrated previous to the discovery of the multitude of the divine orders, and an uninterrupted narration of the doctrine of these.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "III.9",
+     "head": "What the third thing is which is produced from the two principles. Why Socrates in the Philebus calls it that which is mixed. That it is nothing else than that which is primarily being. And how this proceeds from the two principles, and from the one.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "III.10",
+     "head": "How from images also, it may be inferred, that the first thing which subsists from bound and infinity is being. How this may be demonstrated. And how bound and infinity are twofold; one order of these subsisting in being, but the other existing prior to being.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "III.11",
+     "head": "What the triad is, which Socrates in the Philebus says is inherent in every thing that is mixed.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "III.12",
+     "head": "Concerning the first intelligible triad in common; and how the second triad proceeds analogous to this.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "III.13",
+     "head": "What the second intelligible triad is. A more accurate account of it, as subsisting from that which predominates, from that which is participated, and from that which characterizes the mixture.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "III.14",
+     "head": "What the third intelligible triad is; what that is which predominates, and is participated in this. And at the end, a discourse in common concerning the distinction of the three triads.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "III.15",
+     "head": "How the intelligible triads are delivered in the Timæus. And many admonitions concerning animal itself, [evincing] that it has the third order in intelligibles.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "III.16",
+     "head": "Many demonstrations that eternity subsists according to the middle order of intelligibles.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "III.17",
+     "head": "That the one in which eternity abides is the summit of intelligibles.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "III.18",
+     "head": "Concerning all the intelligible orders in common, according to the doctrine of Timæus. And a more accurate account of the peculiarities in the intelligible triads.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "III.19",
+     "head": "Concerning intelligible forms, and the doctrine unfolding the peculiarity of them. How likewise they are four, and from what causes they subsist.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "III.20",
+     "head": "That also from what is said in the Sophista, it is possible to discover the three intelligible orders; viz. in that part of the Sophista, in which it is shown what the one being, what whole, and what all are.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "III.21",
+     "head": "A summary account of what has been said concerning the intelligible triads. And admonitions from Plato that it is possible to divide them into father, power, and intellect.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "III.22",
+     "head": "How in the Phædrus it is said that every thing divine is beautiful, wise, and good. What triple elements of each of these Plato delivers. And how from these it is possible to accede to the union and separation of the intelligible triads.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "III.23",
+     "head": "How Parmenides delivers the multitude of Gods in the second hypothesis. And how we should discourse about each order of them, employing for this purpose the conclusions of that hypothesis.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "III.24",
+     "head": "What the first intelligible triad is according to Parmenides. Whence he begins, and how far he proceeds, teaching concerning it.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "III.25",
+     "head": "What the second intelligible triad is. How it is delivered by Parmenides in continuity with the triad prior to it. And how far he produces the discourse concerning it.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "III.26",
+     "head": "What the third intelligible triad is. And how Parmenides unfolds it through the third conclusion.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "III.27",
+     "head": "Concerning the three conclusions in common, through which the three orders of intelligibles are characterized. And how through these it is possible to dissolve the most difficult of theological doubts.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "III.28",
+     "head": "A celebration of the intelligible Gods, unfolding at the same time the union of intelligibles themselves with the good, and their exempt hyparxis.",
+     "done": false,
+     "title": ""
+    }
+   ]
+  },
+  {
+   "id": "IV",
+   "title": "",
+   "chapters": [
+    {
+     "id": "IV.1",
+     "head": "What the peculiarity is of the intelligible and intellectual Gods. How they illuminate imparticipable life, and are in continuity with the intelligible Gods.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.2",
+     "head": "How the intelligible and intellectual Gods subsist from the intelligible Gods. And how they communicate with the intelligible Gods.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.3",
+     "head": "What the division is of the intelligible and intellectual Gods according to triads. And what the difference is of these triads with respect to the intelligible triads.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.4",
+     "head": "How Socrates in the Phædrus leads us to this order of Gods.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.5",
+     "head": "That it is not proper to understand the Heaven, and celestial circulation [celebrated in the Phædrus] as pertaining to sensibles; and many admonitions from the Platonic words themselves, that these are to be referred to the first order of Heaven.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.6",
+     "head": "That the supercelestial place is not simply intelligible; but demonstrations from what is delivered about it [in the Phædrus,] that it is allotted an intelligible order as in intellectuals.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.7",
+     "head": "That the subcelestial arch is the boundary of the intelligible and intellectual Gods, evinced from the peculiarities of it.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.8",
+     "head": "Why Plato characterizes this order of Gods from the middle which it contains, and delivers the names of the extremes according to the habitude to this middle.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.9",
+     "head": "That Plato delivers the same mode of ascent to the intelligible, as is delivered by initiators into the mysteries.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.10",
+     "head": "What the supercelestial place is. How it proceeds from the first intelligibles. How it is supreme in intellectuals. And how Plato demonstrates its prolific power.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.11",
+     "head": "How Plato has indicated the unknown peculiarity of the summit of intelligibles and intellectuals, and why he celebrates it at one and the same time affirmatively and negatively.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.12",
+     "head": "What the negations are of the supercelestial place. That they are produced from the divine orders. What kind of negations also designate the uncoloured, what, the unfigured, and what, the privation of contact.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.13",
+     "head": "What the things are which Plato affirms of the supercelestial place, and from what intelligible peculiarities, he ascribes to it affirmative signs.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.14",
+     "head": "What the three deities of the virtues, viz. science, temperance, and justice, are in the supercelestial place; what order they have with respect to each other; and what perfection each of them imparts to the Gods.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.15",
+     "head": "What the plain of Truth, and what the meadow are. What the unical form of intelligible nutriment is. What the twofold nutriment of the Gods is which is distributed from this intelligible food.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.16",
+     "head": "Many admonitions that the supercelestial place is triadic. And what the signs are of the three hypostases in it.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.17",
+     "head": "Who Adrastia is. What the sacred law of Adrastia is. That she ranks in the supercelestial place. And on what account she does so.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.18",
+     "head": "A summary account of what is said about the supercelestial place, unfolding the peculiarities of it.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.19",
+     "head": "Demonstrations that the connectedly-containing order is in the intelligible and intellectual Gods. And that it is necessary there should be three connective causes of wholes.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.20",
+     "head": "That according to Plato the celestial circulation is the same with the connective order.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.21",
+     "head": "How we may obtain auxiliaries from what is said by Plato of the triadic division in the connective deity. And why he especially venerates the union in this triad.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.22",
+     "head": "What the theology in the Cratylus is concerning Heaven. And how it is possible to collect from it by a reasoning process the middle of the intelligible and intellectual Gods.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.23",
+     "head": "That the most divinely-inspired of the interpreters have defined the subcelestial arch to be a certain peculiar order. And that our preceptor has unfolded it in the most perfect manner.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.24",
+     "head": "Many admonitions that the peculiarity of the subcelestial arch is perfective, from what Plato has delivered concerning it, and from the souls that are elevated to it.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.25",
+     "head": "What the triadic division is of the perfective order, which Plato has delivered in the subcelestial arch.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.26",
+     "head": "What the elevation is of souls separate from bodies to the intelligible and intellectual triads. What the most blessed telete is. What muesis, and epopteia are. What the entire, simple, and unmoved visions are. And what the end is of all this elevation.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.27",
+     "head": "How Plato unfolds in the Parmenides, from intelligibles the intelligible and intellectual orders. And what that which is common, and that which is different are, in the theology concerning these.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.28",
+     "head": "How the intelligible and intellectual number proceeds from intelligibles. And in what it differs from intelligible multitude.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.29",
+     "head": "How divine number adorns all beings. And what the powers in it are which are symbolically delivered from the division of number.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.30",
+     "head": "How Parmenides has delivered the feminine and generative peculiarity [of first number] in what he says concerning number.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.31",
+     "head": "How we may discover in what is delivered concerning number, the triadic division of the summit of intelligibles and intellectuals.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.32",
+     "head": "Whether it is proper to place number prior to animal itself, or in animal itself, or posterior to it.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.33",
+     "head": "Whence Parmenides begins to speak about number. How far he proceeds in what he says about it. And how he unfolds the different orders in it.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.34",
+     "head": "What the unknown is in divine numbers. What the generative is in them. And admonitions of these things from what is elsewhere said by Plato concerning numbers.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.35",
+     "head": "How Parmenides delivers the middle order of intelligibles and intellectuals through the one, whole, and finite. And what the peculiarities are of these.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.36",
+     "head": "Whence Parmenides begins to speak about this order. And how far he proceeds in what he says about it. How he likewise unfolds the three monads in it conformably to what is said in the Phædrus concerning them.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.37",
+     "head": "How Parmenides delivers the third order of intelligibles and intellectuals. And how he unfolds the perfective peculiarity, and triadic division of it.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.38",
+     "head": "An admonition what the union is of the three intelligible and intellectual triads, from the conclusions of Parmenides.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "IV.39",
+     "head": "How many theological dogmas we may assume, through the order of the conclusions delivered by Parmenides in his discourse concerning the intelligible and intellectual Gods.",
+     "done": false,
+     "title": ""
+    }
+   ]
+  },
+  {
+   "id": "V",
+   "title": "",
+   "chapters": [
+    {
+     "id": "V.1",
+     "head": "How the intellectual orders proceed from the intelligible and intellectual Gods. And according to what peculiarities they subsist.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.2",
+     "head": "What the division is of the intellectual Gods. And the progression according to hebdomads in this order of Gods.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.3",
+     "head": "Who the three intellectual fathers are according to Plato. What the three undefiled monads are. And who the seventh deity is, that is co-arranged with the two triads.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.4",
+     "head": "How from the writings of Plato, the procession of the intellectual Gods into seven hebdomads may be collected by a reasoning process.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.5",
+     "head": "Who the mighty Saturn is, according to the theology in the Cratylus. And how he is in a certain respect intelligible, and in a certain respect intellectual. In which also, the dogmas are discussed concerning the union of intellect with the intelligible, and its separation from it.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.6",
+     "head": "What the kingdom of Saturn is. In what manner it is delivered by Plato in the Politicus. And of what it is the cause to the world, to the mundane Gods, and to partial souls.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.7",
+     "head": "What the Saturnian life of souls is. And what peculiarities of this circulation the Elean Guest delivers.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.8",
+     "head": "How souls are said to be nourished by intelligibles. And what the difference is of the nutriment derived from different intelligibles.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.9",
+     "head": "What the orders are which the mighty Saturn causes to preside over wholes. In which also, who the Saturnian intellect is that is delivered in the Gorgias is unfolded.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.10",
+     "head": "How this God [Saturn] is peculiarly called by theologists insenescible, or free from old age. And how Plato has delivered this peculiarity of him.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.11",
+     "head": "Who the vivific Goddess is. How she is the collector of the Saturnian and Jovian kingdoms. And what orders she possesses conjoined with both these kingdoms.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.12",
+     "head": "Who the third father in intellectuals is. How he proceeds from the causes prior to him. And that he is the demiurgus of the universe.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.13",
+     "head": "Demonstrations that the whole demiurgus of the universe, is the third father of the intellectual Gods.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.14",
+     "head": "An answer to those who say that there are three demiurgi according to Plato, demonstrating through many arguments that the demiurgic monad is arranged prior to the [demiurgic] triad, in the third order of intellectuals.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.15",
+     "head": "That Timæus especially delivers the peculiarity of the demiurgus, by calling him intellect. And that this pertains to the third of the intellectual fathers.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.16",
+     "head": "How according to another method it is requisite to discover the peculiarity of the demiurgus. And how the demiurgus is called in the Timæus effector and father. In which also, it is clearly shown, where the paternal, where the paternal and at the same time effective, where the effective and paternal, and where the effective only are, according to Plato. And in short, in what effector and father differ.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.17",
+     "head": "How following Timæus, according to a third method, we may purify our conceptions concerning the demiurgic monad.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.18",
+     "head": "A theological explanation of the speech of the demiurgus in the Timæus, distinctly evolving our conceptions about the demiurgic energy.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.19",
+     "head": "What the second speech of the demiurgus is to divisible souls. In what it differs from the former. And how in this all the measures of the life of souls are defined.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.20",
+     "head": "A summary of all that is said about the demiurgus, following the doctrine of Timæus.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.21",
+     "head": "Admonitions from what is said in the Cratylus, that Plato attributes fabrication to Jupiter.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.22",
+     "head": "Admonitions from what is said in the Cratylus of the fabrication of Jupiter. In which also the concord is demonstrated of the theology from names, with the arrangement of the demiurgus in the Timæus.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.23",
+     "head": "Admonitions of the fabrication of Jupiter from what is demonstrated in the Philebus. In which also it is shown, what the royal soul, and the royal intellect are.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.24",
+     "head": "Demonstrations of the same thing, from what is said in the Protagoras about the political science.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.25",
+     "head": "An argument shewing that Jupiter is the demiurgus and father of the universe according to Plato, from what is said in the Politicus concerning the twofold circulation [of the universe.]",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.27",
+     "head": "How Jupiter subsists according to cause in animal itself, and how animal itself is in Jupiter.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.28",
+     "head": "How Timæus attributes to the demiurgus the unknown and ineffable.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.29",
+     "head": "Why Timæus thinks fit to denominate animal itself, and is of opinion that it may be known, but leaves the demiurgus unknown and ineffable.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.30",
+     "head": "Concerning the Crater in the Timæus, a theology teaching what the genera are that are mingled in it, and how it is the cause of the essence of souls.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.31",
+     "head": "That the Crater in the Timæus is fontal. And admonitions from the writings of Plato, concerning the principle and fountain of souls.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.32",
+     "head": "That the three vivific fountains co-arranged with the demiurgus, may be assumed from what is said in the Timæus, viz. the fountain of souls, the fountain of the virtues, and the fountain of natures.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.33",
+     "head": "Admonitions concerning the undefiled Gods; that there are such Gods according to Plato; and what the peculiarity is of their essence.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.34",
+     "head": "More manifest demonstrations of the hypostasis of the undefiled Gods, according to Plato.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.35",
+     "head": "Admonitions through many arguments how it is proper to denominate the undefiled Gods according to Plato. In which also, the union of them, what their separation, and what their peculiarity are, is delivered.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.36",
+     "head": "How from what is mystically asserted by Plato, auxiliaries may be obtained, concerning the seventh monad of intellectuals.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.37",
+     "head": "How Plato delivers in the Parmenides the summit of the intellectual Gods.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.38",
+     "head": "How Parmenides unfolds the middle order of the intellectual breadth, and through what signs.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "V.39",
+     "head": "How Parmenides defines the third order of intellectuals, and through what peculiarities.",
+     "done": false,
+     "title": ""
+    }
+   ]
+  },
+  {
+   "id": "VI",
+   "title": "",
+   "chapters": [
+    {
+     "id": "VI.1",
+     "head": "That the ruling order of Gods is in continuity with the intellectual Gods. And that the division into fountains and principles may be assumed from the writings of Plato, through the theory about souls.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "VI.2",
+     "head": "How the ruling Gods proceed. And that the supermundane peculiarity pertains to these Gods alone.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "VI.3",
+     "head": "What the peculiarity is of the ruling Gods. That the assimilative is especially characteristic of them. And how the causes of assimilation are antecedently assumed in the demiurgus; and how in the intelligible paradigm.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "VI.4",
+     "head": "What the powers are of the assimilative Gods. What their energies. And how many goods are imparted by them to the world, and to all mundane natures.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "VI.5",
+     "head": "What the divisions are of the assimilative Gods. And that the greatest part of the discourse about them is concerning the middle orders in them.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "VI.6",
+     "head": "Many demonstrations, that both according to Plato and other theologists, there is one demiurgus prior to the three demiurgi.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "VI.7",
+     "head": "That Jupiter is twofold; one indeed, being prior to the three sons of Saturn, [but the other being one of them.] And how the three proceed from Saturn, and the one Jupiter.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "VI.8",
+     "head": "That according to Plato also, the demiurgic monad subsists prior to the three sons of Saturn. Demonstrations of this from what is said in the Politicus, and in the Laws.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "VI.9",
+     "head": "More manifest admonitions of the same things from what is said in the Gorgias, and in the Cratylus.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "VI.11",
+     "head": "What the vivific triad is among the ruling Gods. And whence we may derive auxiliaries from the writings of Plato concerning the union and division of this triad.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "VI.12",
+     "head": "What the convertive triad of the ruling Gods is; and what the monad which it contains. In which also, the union of Apollo with the sun is demonstrated; and it is shewn, how from what is said about Apollo we may be led to the theory of the solar orders.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "VI.13",
+     "head": "What the undefiled order is of the ruling Gods. And how from the writings of Plato conceptions about it may be obtained.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "VI.14",
+     "head": "How Parmenides forms his conclusions about the ruling Gods, in continuity with the demiurgic order. And that he characterizes the whole order of them, through similitude and dissimilitude.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "VI.15",
+     "head": "What the supermundane and at the same time mundane genus of Gods is. And how through their own medium they preserve the continuity of the Gods that proceed from the demiurgus.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "VI.16",
+     "head": "How the liberated Gods are characterized. And how from their liberated peculiarity they are exempt from the universe, and are co-arranged with the mundane Gods.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "VI.17",
+     "head": "What the common powers, and what the common energies are of the liberated Gods, according with the essence that has been delivered of them.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "VI.18",
+     "head": "Concerning the twelve leaders or rulers mentioned in the Phædrus, and that they have a liberated order.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "VI.19",
+     "head": "Many and clearer demonstrations that the great leader Jupiter, and all the dodecad of leaders, are liberated.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "VI.20",
+     "head": "An explanation from precedaneous causes whence the number of the dodecad in the liberated Gods is derived.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "VI.21",
+     "head": "What the division of the liberated leaders is into two monads and one decad. And what the one division of them is.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "VI.22",
+     "head": "The theology concerning each of the twelve Gods, unfolding the peculiarities of them from the subjects of their government.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "VI.23",
+     "head": "Concerning the mother of the Fates mentioned in the Republic. Likewise concerning the triad of the Fates. What orders they have with reference to each other. What powers of them are delivered through divine symbols. What their energies are. And how Plato characterizes the liberated peculiarity.",
+     "done": false,
+     "title": ""
+    },
+    {
+     "id": "VI.24",
+     "head": "How Parmenides forms his conclusions concerning the liberated Gods immediately after the assimilative Gods. And how he characterizes the order of them by touching and not touching.",
+     "done": false,
+     "title": ""
+    }
+   ]
+  }
+ ],
+ "links": [
+  {
+   "term": "the-one",
+   "forms": [
+    "the One"
+   ]
+  },
+  {
+   "term": "the-good",
+   "forms": [
+    "the Good"
+   ]
+  },
+  {
+   "term": "intellect",
+   "forms": [
+    "intellect"
+   ]
+  },
+  {
+   "term": "soul",
+   "forms": [
+    "soul"
+   ]
+  },
+  {
+   "term": "forms",
+   "forms": [
+    "Forms",
+    "Form"
+   ]
+  },
+  {
+   "term": "demiurge",
+   "forms": [
+    "Craftsman"
+   ]
+  },
+  {
+   "term": "intelligible-world",
+   "forms": [
+    "intelligible"
+   ]
+  },
+  {
+   "term": "sensible-world",
+   "forms": [
+    "perceptible"
+   ]
+  },
+  {
+   "term": "dianoia",
+   "forms": [
+    "discursive reason"
+   ]
+  },
+  {
+   "term": "henad",
+   "forms": [
+    "henads",
+    "henad"
+   ]
+  },
+  {
+   "term": "monad",
+   "forms": [
+    "monad"
+   ]
+  },
+  {
+   "term": "hyparxis",
+   "forms": [
+    "hyparxis"
+   ]
+  },
+  {
+   "term": "imparticipable",
+   "forms": [
+    "not shared"
+   ]
+  },
+  {
+   "term": "emanation",
+   "forms": [
+    "procession"
+   ]
+  },
+  {
+   "term": "recollection",
+   "forms": [
+    "recollection"
+   ]
+  },
+  {
+   "term": "daemons",
+   "forms": [
+    "daemons",
+    "daemon"
+   ]
+  },
+  {
+   "term": "phronesis",
+   "forms": [
+    "practical wisdom"
+   ]
+  },
+  {
+   "term": "dialectic",
+   "forms": [
+    "dialectic"
+   ]
+  },
+  {
+   "term": "limit-and-infinite",
+   "forms": [
+    "limit and the unlimited"
+   ]
+  },
+  {
+   "term": "being",
+   "forms": [
+    "being"
+   ]
+  },
+  {
+   "term": "return",
+   "forms": [
+    "return"
+   ]
+  },
+  {
+   "term": "henad",
+   "forms": [
+    "henads",
+    "henad"
+   ]
+  },
+  {
+   "term": "hyparxis",
+   "forms": [
+    "hyparxis"
+   ]
+  },
+  {
+   "term": "logos",
+   "forms": [
+    "forming principle"
+   ]
+  },
+  {
+   "term": "being",
+   "forms": [
+    "true being",
+    "real being"
+   ]
+  },
+  {
+   "term": "becoming",
+   "forms": [
+    "becoming"
+   ]
+  },
+  {
+   "term": "return",
+   "forms": [
+    "return"
+   ]
+  },
+  {
+   "term": "eternal",
+   "forms": [
+    "eternity"
+   ]
+  },
+  {
+   "term": "matter",
+   "forms": [
+    "matter"
+   ]
+  },
+  {
+   "term": "likeness-to-god",
+   "forms": [
+    "like God",
+    "likeness of God"
+   ]
+  },
+  {
+   "term": "world-soul",
+   "forms": [
+    "soul of the world",
+    "world-soul"
+   ]
+  },
+  {
+   "term": "the-beautiful",
+   "forms": [
+    "the Beautiful itself"
+   ]
+  },
+  {
+   "term": "opinion",
+   "forms": [
+    "opinion"
+   ]
+  },
+  {
+   "term": "virtue",
+   "forms": [
+    "virtues",
+    "virtue"
+   ]
+  }
+ ]
+}

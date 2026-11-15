@@ -867,6 +867,26 @@ not print, each cited by its own numbers: the Constitution of the Athenians in K
 (42.1), with Kenyon's English beside it (Project Gutenberg); the Letters (Hercher, 1873) by letter; and the Divisions
 (Mutschmann, 1906) in both his texts, Diogenes Laertius' and the codex Marcianus', by his numbers (Diogenes 5, Marcianus 58).
 
+**Proclus' Theology of Plato in modern English (the T milestones): Book I, chapters 1-8 done (T1, November 2026).**
+Proclus' account of the gods as Plato teaches them, in six books, is being put into plain modern English, a few chapters at a
+time, at `#neo-modern/proclus-theology` (linked from the Neoplatonists' shelf). No Greek of it is on the site (the only free
+edition, Portus' of 1618, is a scan whose Greek OCR is badly garbled), so it is made from Thomas Taylor's translation (1816),
+Project Gutenberg's proofread text (`sources/taylor-gutenberg/`), paragraph by paragraph, as the General Introduction was:
+Taylor's chapter beside it (*Side by side*) or one tap away, with his notes and his chapter headings; a summary of each book
+and chapter; flags quoting Taylor word for word where his English is hard or misleads; notes on Plato's places; labelled as
+the Workshop's own, machine-assisted, not yet checked by a scholar; *Mark a sentence*. The page lists all six books in
+Taylor's 164 chapters, done or to come. The key words are fixed: `sources/translations/modern/terms.json` has 32 rules for the
+Theology (Taylor's "essence" is "being", "unities" are "henads", "progression" is "procession", "conversion" is "return",
+"participate" is "share", "ideas" are "Forms", "productive principle" is "forming principle", "energy" is "activity", the
+gods by their Greek names), and the modern version never uses "essence", "subsist", "energy" or "felicity".
+`tools/modern_theology.py` builds `sources/translations/modern/proclus-theology.json` from the master copy
+(`proclus-theology.txt`) and checks it: Taylor's chapters in order, every paragraph once, every flag's words found in Taylor,
+the fixed renderings (exit 1 on a miss with `--check`); see [`reports/modern_theology.md`](reports/modern_theology.md).
+**T1**: the preface to Pericles and the line of Plato's interpreters down to Syrianus; the plan of the work and what its hearer
+needs; who a theologian is; Plato's four ways of teaching about the gods; the dialogues that hold his theology; the objection
+that a theology gathered from many dialogues is patchwork, and the answer, the Parmenides; and the two kinds of opponents on
+the Parmenides: 8 chapters, 35 paragraphs, 13 flags. `tests/test_modern_theology.py`, `tests/modern_theology_browser.js`.
+
 ## Running it
 
 Python 3.10 or later, standard library only. Nothing to install. One command does everything:
