@@ -10,7 +10,7 @@ Written by `tools/modern_neo.py` from `sources/translations/modern/*.txt`. The W
 - Paragraphs: 395, each with its Greek.
 - Words: 82,178 modern, 64,661 Greek, 109,957 in Taylor's English of the same chapters, 97,125 in MacKenna's (Enneads milestone E34).
 - Sentences (each can be marked in the reader): 2,953.
-- Flags (where Taylor and the Greek differ, or the Greek is hard): 329; where MacKenna and the Greek differ: 117.
+- Flags (where Taylor and the Greek differ, or the Greek is hard): 329; where MacKenna and the Greek differ: 118.
 - Problems found: 0.
 
 ### Flags
@@ -419,6 +419,7 @@ Written by `tools/modern_neo.py` from `sources/translations/modern/*.txt`. The W
 | V.3.11.p1 | and thus as intellect it sees itself | The Greek says that, knowing it, intellect "saw it", the One it was reaching for, not itself. |
 | V.3.12.p2 | Our opponents, however, may say | Taylor turns "they say" into an objection from opponents; Plotinus is reporting what people say about number. |
 | V.3.13.p1 | it would also have a subsistence somewhere | The Greek says that if the simplest had thinking of itself it would have being many; Taylor's bracket follows a reading of his own. |
+| V.3.13.p1 | MacKenna: we have been considering it only in its opposites | The Greek says "in saying these things we turn ourselves round to the opposite" (ἑαυτοὺς περιτρέπομεν ἐπὶ τὰ ἐναντία): to call the One unaware of itself already treats it as something to be known, and so contradicts what we hold. |
 | V.3.14.p1 | perceive indeed, that they have something greater in | Taylor's footnote on V.3.13 (with its Greek and its comment on "in itself") is printed into the middle of this sentence in the scan, which goes on, after it, "themselves, though they do not know what it is". |
 | V.3.15.p2 | They are contained in it, therefore, in such a way | Taylor turns Plotinus' question ("Did it have them, then, as not distinguished?") into a statement. |
 | V.3.16.p1 | will evidently be good | The Greek does not say that this life is good; it says that its life is towards the good, depending on it, since the good is its source. |

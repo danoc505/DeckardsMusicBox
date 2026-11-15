@@ -51,7 +51,7 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
 - **Where it stands (November 15, 2026):** E1 to E33 are done, so the Life and all thirty-nine treatises not Taylor's are in
   modern English (489 chapters) and none is "to come". What is left of the Enneads is E34 (MacKenna's English beside the
   fifteen done with Taylor, and their flags checked against him), which Daniel asked for; E34a, MacKenna beside every
-  chapter, is done, the flags for I.2, I.3, II.4 (E34b), II.9 (E34c), III.6 (E34d), III.7 and IV.2 (E34e), IV.3 (E34f), IV.7 and V.2 (E34g), V.1 and V.6 (E34h) too, and E34i and E34j follow. After the Enneads, Daniel's order goes on to Aristotle's
+  chapter, is done, the flags for I.2, I.3, II.4 (E34b), II.9 (E34c), III.6 (E34d), III.7 and IV.2 (E34e), IV.3 (E34f), IV.7 and V.2 (E34g), V.1 and V.6 (E34h), V.3 (E34i) too, and E34j follows. After the Enneads, Daniel's order goes on to Aristotle's
   Metaphysics from Book Λ (35m7, in milestone 35 below).
 
 ### The milestones (Greek words in brackets)
@@ -818,6 +818,9 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
     as "vision occupied upon The One" where the Greek says sight and its seeing are one, and the soul's separation as
     "use of our thinking" where the Greek has not inclining to the body and its images; in V.6 the Good that "moves
     towards itself" where the Greek has it moving the other towards itself.
+  - **E34i: V.3 (done).** 1 flag against MacKenna: he keeps very close to the Greek through its 17 chapters. In V.3.13 he
+    has us "considering it only in its opposites" where the Greek says that to call the One unaware of itself turns us
+    round to the opposite of what we hold.
 
 ## The current focus (November 13, 2026, asked for by Daniel): Aristotle, beginning with the Metaphysics
 
