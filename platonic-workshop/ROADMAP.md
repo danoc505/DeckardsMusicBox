@@ -612,27 +612,56 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   continuous and discrete quantity (Categories 6), the soul's number and harmony (Timaeus 36e-37a, Xenocrates), the four
   virtues (Republic IV), the unlimited potential (Physics III), the elements' figures (Timaeus 55d-56b) and Parmenides'
   one being (B8).
-- E30: VI.7 How the many forms came to be, and on the Good, chapters 1-14 (about 4,800). Next. Pp. 162-185 or so of vol.
-  V, MacKenna's own English (flags say "MacKenna"). VI.7 is the thirty-eighth treatise in the order of writing (Life 5)
-  and has no @treatise block yet: add one with a summary of the whole (VI.7 is done over E30 to E32, so the block keeps
-  chapters_done until E32), on why the senses were given, intellect holding all the forms and living beings, the reasons
-  in the forms ("the why" with the what), the lower living beings there, the many as one, and the Good beyond intellect
-  that makes it shine. Source work first: since E29 VI.7 is a treatise of its own (p. 162), but tools/mackenna.py finds
-  only VI.7.1. Its title reads over two lines, "How THE MULTIPLICITY OF THE IDEAL-FORMS CAME INTO BEING AND" and "Upon THE
-  GoopD" (7552-7553); the second has small letters, so it is not taken into the title and runs into VI.7.1's first
-  paragraph: read it as the title's (or list it in "stray") and check that VI.7.1 begins "God, or some one of the gods".
-  In the OCR, "3.", "4.", "5.", "6.", "8.", "13." and "14." read as they are; candidates for "misread": "a" (7640) for 2
-  (before "Thus we have even here the means of knowing"), "We" (7926) for 7 ("But if it is by becoming evil"), "IO."
-  (8096) for 10 (the chapter pattern does not take "IO."), "ris &" (8126) for 11 ("The very heavens, patently multiple"),
-  "12:" (8227) for 12. No number for 9 was found: it is likely unnumbered at "Admitted, then—it will be said—for the
-  nobler forms of life" (8023). "Z" (7892) and the signatures "2A" (8251) stand alone and go as short lines. Check each
-  start against the Greek. Setup: git fetch origin main, branch, cd platonic-workshop, python3 tools/fetch_sources.py
-  first1k-neoplatonists, python3 tools/modern_enneads.py --check, python3 -m unittest tests.test_modern_enneads. Tests:
-  the E29 check looks at [31:37] and its VI.7 status becomes "here" with chapters_done; the milestone asserts stay on VI.7
-  ("E30-E32") until E32 but check chapters_done (14 of 42), as IV.4 did over E15-E17; the browser test counts 426 + 14 =
-  440 chapters, enn-later 1 (VI.8; VI.7 is partly here), and "to come, E33" if the reader names VI.8's milestone, or E31
-  for VI.7's rest (look at how IV.4 was shown in E15).
-- E31: VI.7 chapters 15-28 (about 4,800).
+- **E30: VI.7 How the many forms came to be, and on the Good, chapters 1-14 (5,432) (done).** 59 paragraphs, 136 flags,
+  49 notes, under a new @treatise block with its summary of the whole treatise (the thirty-eighth in the order of writing,
+  Life 5); VI.7 is shown as "chapters 1-14 of 42 so far" and keeps chapters_done until E32. MacKenna's own English, so the
+  flags say "MacKenna". Source work: tools/mackenna.py found only VI.7.1, which ran on through the whole treatise. Vol. V's
+  new "title_lines" reads the title's second line, "Upon THE GoopD" (7552), as "UPON THE GOOD", so it no longer runs into
+  VI.7.1, which begins "God, or some one of the gods"; "misread" adds "a" 2, "We" 7, "IO." 10, "ris &" 11 and "12:" 12;
+  "unnumbered" begins 9 at "Admitted, then—it will be said—for the nobler forms of life" (p. 172); "heads" reads p. 172's
+  "172 BEOTINUS", which stood inside VI.7.8's text and put the pages of 9 to 14 one too low; "stray" takes out the
+  signatures "Z" (inside 6, p. 169) and "2A" (inside 12, p. 177), which follow a line of text and so are not short lines.
+  All 14 chapters are found on their pages (162-180) and their starts are the Greek's; no other chapter's page in the
+  volume moved. Fixed names: "forming principle" for λόγος (MacKenna's "Reason-Principle" flagged as his throughout),
+  "substance" for οὐσία (his "essence", "Being" and "real beings"), "intelligible" for νοητός (his "the Intellectual"),
+  "the same", "sameness" and "otherness" (his "Identity", "Difference", "differentiation"), "daemon" (his "Celestials"),
+  "pattern" for παράδειγμα (his "copy to original", 12, and "manifestations", 14), "the unlimited" (his "infinity", 14),
+  "beautiful" for καλόν (his "good", 3 and 10), and "the what it was to be" for τὸ τί ἦν εἶναι. E.g. MacKenna has the eyes
+  "catch" the light where they are light-bearing (1), providence "holding them to their disaster" where it keeps them safe in
+  evil (1), "Providence" for προόρασις, foresight (1), an "image" for the statue (2), the addition of perception kept as a
+  fact where the Greek denies it (3), "an artist" for the painter (5), Plato's definition a certainty where it is a likely
+  reading (5), "Celestials" and "almost a god" where the Greek has "rather a god" (6), fire here to fire there reversed (6),
+  "a pattern" for a sketch and illuminations "tentative" where they run ahead (7), "because it was of bodies" taken with the
+  perception here (7), "the universal horse" and the complete living being "the living universe" (8), the rising up again of
+  intellect left out (9), the cut stone that suffers "no hurt" (11), "(the stars)" for the living beings of air, which are
+  daemons (11), "the All-soul" for all soul and "indigence" for Poverty (12), the "Meadow" for the plain of truth (13), and
+  "Sympathy" for friendship, with the last sentence of 14, on Empedocles' separation, left out. terms-greek.json is
+  unchanged. Notes on the light-bearing eyes (Timaeus 45b), the starting points of reasoning (Posterior Analytics I.3,
+  II.19), the reasoning Demiurge (Timaeus 30b, 34a-b), the that and the why and the eclipse (Posterior Analytics I.13, II.1,
+  II.2, II.8), the coming to be "for teaching's sake" (On the heavens I.10), the eyebrows (Memorabilia I.4.6, Parts of
+  animals II.15), man himself (Metaphysics B.2, Nicomachean Ethics I.6), the soul using the body (Alcibiades 129e-130c), the
+  seminal forming principles (SVF II.1027), the painter (Republic X 597e-598b), the soul's vehicle (Timaeus 41e, 69c),
+  daemons (Symposium 202d-203a), the souls choosing beasts (Republic X 620a-d), the dancer (III.2.17, IV.4.33), hair, mud
+  and dirt (Parmenides 130c-d), being with motion, life and intellect (Sophist 248e-249a), Epimetheus' gifts (Protagoras
+  320d-321c), the growing stones (IV.4.27), the creature in the furnaces (History of animals V.19), the daemons of air
+  (Epinomis 984d-985b), the four kinds of living beings (Timaeus 39e-40a), Poverty and Resource (Symposium 203b-c), the
+  plain of truth (Phaedrus 248b-c), the indivisible form (Phaedrus 277b, Metaphysics Z.12) and Empedocles' Love and Strife
+  (B17, B26).
+- E31: VI.7 chapters 15-28 (4,167). Next. Pp. 180-201 or so of vol. V, MacKenna's own English (flags say "MacKenna"). The
+  @treatise VI.7 block is there (E30) with its summary of the whole; keep it, and check that its account of chapters 15 to
+  28 fits what is done. Source work first: tools/mackenna.py finds VI.7.1-16 since E30 (16 at p. 182); 17 on are not
+  found and run on in 16. In the OCR, "18.", "20.", "23.", "24.", "25.", "26." and "28." read as they are; candidates for
+  vol. V's "misread": "17s" (8488) for 17 ("But in what mode are these secondaries"), "9g." (8661) for 19 ("Are we to rest
+  all on pursuit and on the soul?"), "21s" (8730) for 21 ("Now what in all these objects of desire"), "228" (8763) for 22
+  ("That light known, then indeed we are stirred"), and "ay." (8982) for 27 ("But what is that whose entry supplies every
+  such need ?", which follows "ay." on the next line with no blank between). "2B" (8609) and "2C" (8986) are signatures
+  after a line of text: list them in "stray". The "‘" standing alone (8895) goes as a short line. Check each start against
+  the Greek, and that 28 ends before "29." (9084). Setup: git fetch origin main, branch, cd platonic-workshop, python3
+  tools/fetch_sources.py first1k-neoplatonists, python3 tools/modern_enneads.py --check, python3 -m unittest
+  tests.test_modern_enneads. Tests: the E30 check looks at VI.7.1-14 ([:14] of VI.7's chapters) and its chapters_done
+  becomes 28; the milestone asserts stay on VI.8 ("E33"), as E30 left them (VI.7, once here, has no milestone in the
+  contents; PLAN keeps "E30-E32"); the browser test counts 440 + 14 = 454 chapters, "chapters 1-28 of 42 so far", and
+  no longer "chapters 1-14 of 42 so far"; enn-later stays 1 and "to come, E33".
 - E32: VI.7 chapters 29-42 (about 4,800).
 - E33: VI.8 On free will and the will of the One (7,778).
 - E34 (optional): MacKenna's English beside the fifteen done with Taylor too, and their flags checked against him, so that the
