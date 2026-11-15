@@ -3,18 +3,18 @@
 Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-theology.txt`. The Workshop's modern English, machine-assisted: drafted with an AI model (Claude) from Thomas Taylor's translation (1816) and not yet checked by a scholar. Taylor's own words are beside every chapter, or one tap away.
 
 - Made from: Taylor's English (1816), Project Gutenberg's transcription; no Greek of the Theology is on the site.
-- Chapters done: 8 of 164 in Proclus' six books (I.1 to I.8).
-- Paragraphs: 35, one for each of Taylor's in those chapters.
-- Words: 7,413 modern, 7,528 of Taylor's (183,113 in all six books).
-- Sentences (each can be marked in the reader): 278.
-- Flags (hard places, or where Taylor's English misleads): 13.
+- Chapters done: 17 of 164 in Proclus' six books (I.1 to I.17).
+- Paragraphs: 91, one for each of Taylor's in those chapters.
+- Words: 21,301 modern, 22,926 of Taylor's (183,113 in all six books).
+- Sentences (each can be marked in the reader): 776.
+- Flags (hard places, or where Taylor's English misleads): 31.
 - Problems found: 0.
 
 ## The books and chapters
 
 | Book | Taylor's chapters | Done here |
 |---|---:|---:|
-| I | 29 | 8 |
+| I | 29 | 17 |
 | II | 12 | 0 |
 | III | 23 | 0 |
 | IV | 39 | 0 |
@@ -38,6 +38,24 @@ Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-
 | I.6.p2 | certain persons, junior to Plato, have delivered in their writings, and left to their disciples, one perfect form of theology | The objector's point is that later writers (it is not said who; Proclus may mean the authors of the Chaldean Oracles, or his own school) have left complete theologies, while Plato himself has not, in any one work. |
 | I.6.p3 | For I think the latter are species of the former | Pleasure and the life of intellect (the latter) are kinds of the unlimited and of limit (the former): in the Philebus (27e-28a, 31a) pleasure belongs to the unlimited, and intellect is kin to the cause of the mixture. |
 | I.7.p2 | the celebrated generation of the Gods | Proclus means a theogony, an account of the gods' births such as Hesiod's and the Orphics'; the Parmenides, read by the school, gives the same in the form of a deduction. |
+| I.9.p1 | assimilates himself to the Ibycean horse | In the Parmenides (137a) the old Parmenides compares himself to the ageing racehorse in a poem of Ibycus, who trembles before the race because he knows what is coming; so Parmenides fears to swim "so great a sea of words". |
+| I.9.p2 | the dæmoniacal Aristotle | Taylor's "dæmoniacal" means "more than human, inspired": a title of honour, not of reproach. The power Aristotle speaks of is dialectic, the art of arguing from accepted opinions (Topics I, 100a-101b). |
+| I.9.p4 | accuses Plato of dissimilitude of imitation | That is, of making Parmenides speak out of character, an imitation unlike its original: the fault Plato finds in the poets (Republic III 390e-391e, Achilles and the gifts). |
+| I.9.p7 | surrounds all disciplines like a defensive enclosure | The Republic's word (534e) is a coping stone, set on top of the studies: dialectic crowns the mathematical studies as the top course of a wall. |
+| I.9.p8 | presides over the demonstrative phantasy | Taylor's "phantasy" is imagination: the merely logical method rules the imagination that follows the steps of a proof, not intellect. |
+| I.10.p3 | confabulator of Plato (that I may use the language of Homer) | Homer's word (oaristes, "familiar companion in talk") is used of Minos, who "conversed with great Zeus" (Odyssey 19.179); Proclus gives it to Syrianus, as Plato's familiar. |
+| I.11.p4 | has a redundant hyparxis with respect to the imparticipable unity | Taylor's "redundant" means "having something over": first being has, beyond the unshared One, being added to its unity; it is one-and-being, not the One alone. |
+| I.12.p1 | subsist in unproceeding union with this first cause | Taylor's "unproceeding" means "without going forth": though true beings proceed from the One, through the one in them they also remain in it. |
+| I.12.p3 | the highest negations are only enunciative, but some in a supereminent manner, and others according to deficiency | The first hypothesis denies everything of the One because the One is above it all; the fifth denies everything of matter because matter falls short of it all. Taylor's "enunciative" means simply denying, without affirming anything else. Taylor's footnotes correct the Greek he translated in two places of this paragraph ("likeness" for "unlikeness"). |
+| I.13.p6 | rightly following Socrates, and considering what the end of things is | Proclus seems to mean Socrates in the Phaedrus (245c-e), who proves the soul immortal as the self-moving source of motion; Taylor's "the end of things" is unclear, and may mean "the result", what follows. |
+| I.13.p7 | possess this intellectual, perfect, and beneficent power, according to participation, or according to essence | That is, whether the world-soul is intelligent by its very being (so that every soul would be), or by sharing in an intellect above it. Proclus takes the second: intellect is above soul. |
+| I.13.p10 | but soul, by looking to intellect, and living from itself, is primarily divine | This seems to contradict what was just said, that divinity is first in intellect. Proclus means that soul is the first of the things that are divine by sharing, before body, while intellect is divine by its very being; Taylor's footnote supplies the word "divine" earlier in the paragraph. |
+| I.14.p4 | with the punishment of what Ixion | Ixion was bound for ever to a turning wheel; Proclus means a providence that would be endless forced labour, like his. |
+| I.15.p2 | paternal, guardian, ruling and pæonian powers | "Paeonian" means healing, from Paeon, the healer of the gods, a name of Apollo. Those "wise in divine things" are the theologians, the Orphics and the Chaldean Oracles, which name such orders of gods. |
+| I.15.p2 | consequently be alone the causes of adumbrant good | Taylor's "adumbrant" means shadowy: a good in appearance only. |
+| I.17.p1 | for that which is primarily good will not be the second after the Gods | The point is that nothing can be good first and yet below the gods: whatever is good first is itself divine, so the gods are the causes of all good. |
+| I.17.p3 | For evil itself is even beyond that which in no respect whatever has an existence | Proclus means that evil "itself", evil without any good, would be even less than nothing; so it cannot exist, as the Good is above what wholly is. Taylor's footnotes supply "cause" and correct "darken" in the Greek he translated. |
+| I.17.p4 | there are precedaneous productive principles of evil in nature | Taylor's "precedaneous" (going before, original) and "productive principles" (logoi): Proclus denies that evil has forming principles in nature or patterns in intellect, against those, like the Gnostics and the Manichaeans, or a reading of the Laws' "evil soul" (896e), who posit a cause of evil. |
 
 ## The fixed renderings
 
