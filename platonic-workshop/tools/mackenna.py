@@ -64,6 +64,10 @@ VOLUMES = {
         "end": "NOTE  ON  THE  ORDER  OF  THE  TRACTATES  OF  THE",
         # Taylor's treatises beside MacKenna (Enneads milestone E34): II.9's chapter 11, whose number the OCR read "n.",
         # and the second and third lines of II.9's title, in small letters, which ran into its first chapter
+        # running heads the OCR misread so that they were not taken as heads and stood inside a paragraph (E34c), with
+        # their page: III.6.11's (p. 83), III.7.9's (p. 111) and II.9.9's (p. 229)
+        "heads": {"Hi.  6.  iaj      THE  IMPASSIVITY  OF  THE  UNEMBODIED  83": 83, "ill.  7.  9]  TIME  AND  ETERNITY  in": 111,
+                  'H.9.iol  "AGAINST  THE  GNOSTICS"  229': 229},
         "misread": {"II.9.11": "n."},
         # a stray "V" at the end of II.9.16 (p. 239), which stands only there
         "stray": ["V"],
@@ -88,6 +92,9 @@ VOLUMES = {
         # whose numbers it lost altogether (no line at all), begun at the paragraph given by its first words. MacKenna's
         # IV.7.8 holds the five sections he prints as "8, A." to "8, E." (Henry and Schwyzer's 8.1 to 8.5), which are all
         # Volkmann's chapter 8; his 9 to 15 are Volkmann's.
+        # running heads the OCR misread so that they were not taken as heads and stood inside a paragraph (E34c), with
+        # their page: IV.3.3's (p. 11) and IV.5.5's (p. 111)
+        "heads": {"IV.  3.  3]  PROBLEMS  OF  THE  SOUL  n": 11, "IV.  5.  6]  PROBLEMS  OF  THE  SOUL  in": 111},
         "misread": {"IV.3.31": "3*.", "IV.7.10": "10. (15.)", "IV.7.11": "ii. (16.)", "IV.7.12": "12. (17.)",
                     "IV.7.13": "13. (18.) .<:•.*:-••", "IV.7.14": "14. (19.)", "IV.7.15": "15. (20.)"},
         "unnumbered": {"IV.3.14": "Thus it comes about that this kosmos", "IV.3.15": "The souls peering forth from the Intellectual",
@@ -107,6 +114,13 @@ VOLUMES = {
         "lost": ["V.8.13"],
         # Taylor's treatises beside MacKenna (Enneads milestone E34): V.9.7, whose number the OCR read "....", and V.3.17
         # and V.9.13, whose numbers it lost, begun at the paragraph given by its first words
+        # running heads the OCR misread so that they were not taken as heads and stood inside a paragraph (E34c), with
+        # their page: V.1.6's (p. 9), V.1.7's (p. 11), V.3.10's (p. 33), V.3.15's (p. 39), V.5.1's
+        # (p. 49), V.5.7's (p. 56), V.8.2's (p. 75) and V.9.10's (p. 99)
+        "heads": {"V.  i.  7]  THE  THREE  INITIAL  HYPOSTASES  n": 9, "V.  i.  8]  THE  THREE  INITIAL  HYPOSTASES  n": 11,
+                  "V.  3.  ii]  THE  KNOWING  HYPOSTASES": 33, "V.  3.  i5]  THE  KNOWING  HYPOSTASES": 39,
+                  "V.  5-2]  THE   NATURE   OF   THE   GOOD": 49, ".     56  PLOTINUS": 56,
+                  "V.8.2]  ON   THE   INTELLECTUAL   BEAUTY": 75, "V.  9.  n]  THE   INTELLECTUAL-PRINCIPLE": 99},
         "misread": {"V.9.7": "...."},
         "unnumbered": {"V.3.17": "But what can it be which is loftier",
                        "V.9.13": "It remains to decide whether only"},

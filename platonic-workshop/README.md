@@ -695,7 +695,9 @@ Plotinus, "Beside MacKenna" sets his chapter beside the modern English, and "Mac
 Taylor's English stays where it was. `tools/mackenna.py` now finds the chapters the scans' OCR lost or misread in II.9,
 IV.3, IV.7, V.3, V.9 and VI.9. Flags against MacKenna (`!mackenna`, shown as "MacKenna differs") are added a treatise or
 two at a time (E34b to E34j); E34b, with E34a, flags I.2, I.3 and II.4 (51 flags), among them his "Demi-God" for a daemon,
-"metaphysician" for the philosopher and "a meeting-ground" for first things that would be there by chance.
+"metaphysician" for the philosopher and "a meeting-ground" for first things that would be there by chance; E34c flags II.9
+(17 flags), among them "a thousand cubic feet" for cubits, and takes out page headings of the scans that stood inside
+paragraphs.
 **III.8, On nature, contemplation and the One, and III.9, Various considerations** (E14), beside MacKenna's vol. II: 14
 chapters, 41 paragraphs, 70 flags, among them his "the Highest" for intellect that began as one and unrolled itself,
 "pregnant" for weighed down, the living principle "brother ... to that which gives mere shape" where it is brother to

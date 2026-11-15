@@ -156,7 +156,9 @@ class MacKennaVolumeIV(unittest.TestCase):
     def test_v_4_and_v_5_their_chapters_and_pages(self):
         self.assertEqual([c["n"] for c in self.t["V.4"]["chapters"]], [1, 2])
         self.assertEqual([c["n"] for c in self.t["V.5"]["chapters"]], list(range(1, 14)))
-        self.assertEqual([c["page"] for c in self.t["V.5"]["chapters"]], [47, 48, 50, 51, 53, 54, 55, 55, 57, 58, 59, 60, 62])
+        # E34c: pp. 49 and 56's running heads, which the OCR misread, stood inside V.5.1 and V.5.7 and put the next
+        # chapters' pages one too low (48, 55).
+        self.assertEqual([c["page"] for c in self.t["V.5"]["chapters"]], [47, 49, 50, 51, 53, 54, 55, 56, 57, 58, 59, 60, 62])
         ch = {c["id"]: c for t in self.d["treatises"] for c in t["chapters"]}
         self.assertTrue(ch["V.4.1"]["paras"][0].startswith("Anything existing after The First must necessarily arise"))
         self.assertTrue(ch["V.4.2"]["paras"][-1].endswith("is the universe of things."))
