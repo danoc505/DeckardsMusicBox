@@ -677,7 +677,8 @@ function renderNeoModern(d, sec) {
       ${modes}</div>`;
   if (enn) h += `<details class="enn-all"><summary>The whole Enneads, in Porphyry's order</summary>
     <p class="meta">Porphyry edited his teacher's fifty-four treatises in six sets of nine, the Enneads. Those Taylor translated (1817) are read in modern English
-      beside his English; the others are done here, a few at a time, beside MacKenna's.</p>${nmEnneadsContents(d, false)}</details>`;
+      beside his English; ${d.contents.some((c) => c.status === "to come") ? "the others are done here, a few at a time, beside MacKenna's"
+        : "the other thirty-nine are all done here, beside MacKenna's"}.</p>${nmEnneadsContents(d, false)}</details>`;
   for (const c of d.chapters) h += nmSection(d, c, NM.mode);
   h += `<p class="neo-nav"><a class="btn" href="${nmGreekHref(d)}">The Greek text</a></p>`;
   $("#main").innerHTML = h + `</div>`;
