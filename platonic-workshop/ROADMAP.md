@@ -908,8 +908,11 @@ Daniel: "Lets move over to modernizing Proclus Theology of Plato". The Enneads' 
   and arch, Ouranos in the Cratylus; Theodorus, Iamblichus and Syrianus on the arch beneath the heaven; the perfecting
   gods (teletarchs) and the three grades of initiation. 27 paragraphs, 18 flags (e.g. Taylor's brackets in IV.16 that
   reverse the monads, "entelechias", "sunocheus").
-- T12: Book IV, chapters 27-39 (9,712): the intelligible and intellectual gods in the Parmenides (number, the whole,
-  shape), and Book IV's teachings gathered.
+- **T12: Book IV, chapters 27-39 (9,712) (done; Book IV complete).** The intelligible and intellectual gods in the
+  Parmenides: number, born of difference (not the Sophist's "different"), feminine, monads, dyads and triads, odd and
+  even, before the Forms; against Plotinus' number before the living being itself; the one and many, whole and parts,
+  limited and unlimited (the Synocheis, the heaven's back, depth and arch); extremes, the perfect and shape (the
+  teletarchs); and the Chaldean worlds they explain. 31 paragraphs, 14 flags.
 - T13 to T16: Book V (40,018): the intellectual gods, Kronos, Rhea, Zeus, the Craftsman. Chapter 26 has no heading in
   Gutenberg's text: find it first.
 - T17 to T19: Book VI (30,733): the ruling (assimilative) gods, the liberated gods. Chapter 10 has no heading: find it first.
