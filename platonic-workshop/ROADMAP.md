@@ -896,7 +896,16 @@ Daniel: "Lets move over to modernizing Proclus Theology of Plato". The Enneads' 
   three intelligible triads (the one being, the whole, unlimited multitude), the three in common, how one Form makes gods,
   daemons and mortals; a hymn to the intelligible gods. 25 paragraphs, 11 flags (e.g. "habitude", "primogenial",
   "synonimous", "proteleia"). Parmenides' lowercase "the one" (a part of the one being) keeps a `:the one` exception.
-- T10 to T12: Book IV (28,882): the intelligible and intellectual gods (the Phaedrus' place above the heaven).
+- **T10: Book IV, chapters 1-13 (9,868) (done).** The intelligible and intellectual gods: life not shared, between
+  being and intellect; their three triads; the Phaedrus' heaven as thinking, not the visible heaven (Ouranos in the
+  Cratylus); the place above the heaven, intelligible as the summit of the intellectuals and the mother of the gods; the
+  arch beneath the heaven; the ascent as in the mysteries (muesis, epopteia, the burial to the head); the three denials
+  (colour, shape, contact) and the affirmations. 26 paragraphs, 16 flags. Taylor's "discursive energies" (the Phaedrus'
+  diexodoi, "paths") keep a `:energy` exception.
+- T11: Book IV, chapters 14-26 (9,302): the virtues, the plain of truth and the meadow, Adrastia, the gods who hold
+  together, Ouranos in the Cratylus, the arch beneath the heaven and the perfecting gods.
+- T12: Book IV, chapters 27-39 (9,712): the intelligible and intellectual gods in the Parmenides (number, the whole,
+  shape), and Book IV's teachings gathered.
 - T13 to T16: Book V (40,018): the intellectual gods, Kronos, Rhea, Zeus, the Craftsman. Chapter 26 has no heading in
   Gutenberg's text: find it first.
 - T17 to T19: Book VI (30,733): the ruling (assimilative) gods, the liberated gods. Chapter 10 has no heading: find it first.

@@ -3,11 +3,11 @@
 Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-theology.txt`. The Workshop's modern English, machine-assisted: drafted with an AI model (Claude) from Thomas Taylor's translation (1816) and not yet checked by a scholar. Taylor's own words are beside every chapter, or one tap away.
 
 - Made from: Taylor's English (1816), Project Gutenberg's transcription; no Greek of the Theology is on the site.
-- Chapters done: 69 of 169 in Proclus' six books (I.1 to III.28).
-- Paragraphs: 257, one for each of Taylor's in those chapters.
-- Words: 76,246 modern, 83,480 of Taylor's (183,113 in all six books).
-- Sentences (each can be marked in the reader): 3,050.
-- Flags (hard places, or where Taylor's English misleads): 112.
+- Chapters done: 82 of 169 in Proclus' six books (I.1 to IV.13).
+- Paragraphs: 283, one for each of Taylor's in those chapters.
+- Words: 85,323 modern, 93,348 of Taylor's (183,113 in all six books).
+- Sentences (each can be marked in the reader): 3,407.
+- Flags (hard places, or where Taylor's English misleads): 128.
 - Problems found: 0.
 
 ## The books and chapters
@@ -17,7 +17,7 @@ Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-
 | I | 29 | 29 |
 | II | 12 | 12 |
 | III | 28 | 28 |
-| IV | 39 | 0 |
+| IV | 39 | 13 |
 | V | 38 | 0 |
 | VI | 23 | 0 |
 
@@ -137,6 +137,22 @@ Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-
 | III.26.p2 | this triad, according to Parmenides, is primogenial | Taylor's "primogenial" is first-born (prōtogonos): Proclus links the third intelligible triad with Phanes, called Protogonos in the Orphic poems. |
 | III.27.p4 | all things which subsist according to one form are not synonimous | Taylor's "synonimous" is Aristotle's term (Categories 1a): things that share both a name and its definition. Proclus means that gods, daemons and mortals share a Form's name but not in the same sense. Taylor's footnote corrects "unlimitedness" to "difficulty" in the Greek he translated. |
 | III.27.p5 | according to the one being indeed of being which is one, he constitutes the genera of dæmons, but according to being which is one, the mortal genera | Proclus' scheme, hard to follow in any language: each part of the one being, "the one" and "being", is again "one being" and "being that is one"; the parts in which the one rules give gods and angels, those in which being rules give daemons and mortals. Taylor's footnote supplies "cause" in the Greek he translated. |
+| IV.1.p1 | according to the Oracle perceiving intellectually are at the same time intellectually perceived | The Chaldean Oracles speak of gods who "think and are thought"; the phrase "intelligible and intellectual" (noētoi kai noeroi) names this whole order. |
+| IV.1.p1 | generating all the intellectual hebdomads | The intellectual gods form a hebdomad (seven): Kronos, Rhea, Zeus, the three Kouretes (the "unpolluted" guardians), and the god who separates (Book V). |
+| IV.3.p3 | the connectedly containing Gods | Taylor's "connectedly containing" (synochic) is Proclus' name for the second of these triads: the gods who "hold together" all things. The third are the "perfecting" (teletarchic) gods. |
+| IV.4.p1 | blessed spectacles, and discursive energies of the intelligibles | The Phaedrus 247a: "many and blessed are the sights and paths (diexodoi) within the heaven". Taylor renders diexodoi "discursive energies", as if it meant the passage of thought; the Greek means ways through, or courses. |
+| IV.4.p2 | according to habitude towards the heaven | Taylor's "habitude" is relation (schesis). Taylor's footnote supplies "and the place above the heaven" in the Greek he translated. |
+| IV.5.p1 | exchange intelligible for doxastic nutriment | The Phaedrus 248b: souls that fail to see true being "use the food of opinion" (trophē doxastē). Taylor's footnote says the sentence after this one is too corrupt in the Greek he translated to render, and he leaves it out. |
+| IV.5.p3 | sight, says he, looking to the things above, is Heaven | The Cratylus 396b-c: ouranos (heaven) is explained as horōsa ta anō, "looking at the things above". Zeus' name (Zēna, Dia) is "through whom (di' hon) life (zēn)" comes; Kronos' is koros nou, "pure intellect". |
+| IV.6.p1 | a partial intellect contemplates the supercelestial place | The Phaedrus 247c: being in the place above the heaven "is seen only by intellect, the soul's pilot". A "partial" intellect is the individual intellect of a soul, as against the one making intellect of the whole. |
+| IV.7.p1 | the arch, the intelligible extremity | Taylor prints "intelligible" here; the sense (the place above the heaven is the intelligible summit, the arch the extremity where intellect turns back) seems to want "intellectual", and the Workshop renders it so. This is a reading from the sense, not from the Greek. |
+| IV.9.p1 | through the liberated leaders | The "liberated" (apolytoi, "unbound") leaders are the twelve gods who lead in the Phaedrus, ranked by Proclus among the gods above the world; the "source" (fontal) gods are the intellectual gods, sources of the orders after them. The order of the ascent runs from the lowest of these orders upward. |
+| IV.9.p2 | muesis and epopteia | The two grades of the Eleusinian mysteries: muēsis, initiation (from muein, to close the eyes), and epopteia, the final "watching". Taylor's footnote quotes Hermeias' commentary on the Phaedrus: in muesis the soul no longer takes in the divine mysteries by sense but with the pure soul itself, and in epopteia it is set in them and becomes their watcher. |
+| IV.9.p2 | theurgists order the whole body to be buried, except the head | A Chaldean rite of "immortalisation", known only from this passage and a few others: the initiate was buried to the neck, as if the body were already dead. |
+| IV.9.p2 | elevating the head of the charioteer to the place beyond the heaven | The Phaedrus 248a: the best souls "raise the head of the charioteer into the place outside". |
+| IV.11.p2 | the one and united triad | Proclus' name for the first of the intelligible and intellectual triads, the place above the heaven: one and "united" (hēnōmenē) as the image of the hidden union of the intelligibles. |
+| IV.12.p2 | But the one,” says he, “does not touch itself | The Parmenides 138a: the One is "neither in itself nor in another", so it neither touches itself nor anything else; Proclus takes the denial of contact as one of those that come from a definite order of gods. Here "the one" is Parmenides' one. |
+| IV.12.p3 | known by physiologists | Taylor's "physiologists" are the natural philosophers (physiologoi), the students of nature, as against the theologians. |
 
 ## The fixed renderings
 
