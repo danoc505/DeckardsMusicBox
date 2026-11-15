@@ -702,7 +702,8 @@ interval", and takes out printer's signatures that ran into paragraphs; E34f fla
 Epimetheus refusing the gift that Prometheus refuses in the Greek, and takes out 13 more misread running heads; E34g
 flags IV.7 and V.2 (5 flags), among them "coherence" for the atoms' mere juxtaposition; E34h flags V.1 and V.6 (3
 flags), among them the Good that "moves towards itself"; E34i flags V.3 (1 flag), where MacKenna keeps very close
-to the Greek.
+to the Greek; E34j finds no flags in V.9 and VI.9, and takes a smudge the OCR misread out of V.9.1, so that MacKenna
+stands beside all fifteen.
 **III.8, On nature, contemplation and the One, and III.9, Various considerations** (E14), beside MacKenna's vol. II: 14
 chapters, 41 paragraphs, 70 flags, among them his "the Highest" for intellect that began as one and unrolled itself,
 "pregnant" for weighed down, the living principle "brother ... to that which gives mere shape" where it is brother to

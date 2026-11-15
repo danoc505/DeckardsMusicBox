@@ -142,8 +142,8 @@ VOLUMES = {
                   "V.  3. 71  THE  KNOWING  HYPOSTASES  27": 27, "V.  3.  i30  THE  KNOWING  HYPOSTASES  37": 37,
                   "V.  4.  ij     HOW  THE  SECONDARIES  RISE  FROM  THE  FIRST  43": 43},
         # the printer's signatures, standing alone on a line, that ran into the paragraphs around them (E34e): "M" (inside
-        # V.8.7) and "N" (inside V.5.6)
-        "stray": ["M", "N"],
+        # V.8.7) and "N" (inside V.5.6); and a smudge the OCR read as "  O  '  O inside V.9.1 (E34j)
+        "stray": ["M", "N", '"  O  \'  O'],
         "misread": {"V.9.7": "...."},
         "unnumbered": {"V.3.17": "But what can it be which is loftier",
                        "V.9.13": "It remains to decide whether only"},
