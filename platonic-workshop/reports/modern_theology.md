@@ -3,11 +3,11 @@
 Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-theology.txt`. The Workshop's modern English, machine-assisted: drafted with an AI model (Claude) from Thomas Taylor's translation (1816) and not yet checked by a scholar. Taylor's own words are beside every chapter, or one tap away.
 
 - Made from: Taylor's English (1816), Project Gutenberg's transcription; no Greek of the Theology is on the site.
-- Chapters done: 29 of 164 in Proclus' six books (I.1 to I.29).
-- Paragraphs: 121, one for each of Taylor's in those chapters.
-- Words: 30,770 modern, 33,234 of Taylor's (183,113 in all six books).
-- Sentences (each can be marked in the reader): 1,172.
-- Flags (hard places, or where Taylor's English misleads): 48.
+- Chapters done: 32 of 164 in Proclus' six books (I.1 to II.3).
+- Paragraphs: 150, one for each of Taylor's in those chapters.
+- Words: 39,005 modern, 42,654 of Taylor's (183,113 in all six books).
+- Sentences (each can be marked in the reader): 1,575.
+- Flags (hard places, or where Taylor's English misleads): 59.
 - Problems found: 0.
 
 ## The books and chapters
@@ -15,7 +15,7 @@ Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-
 | Book | Taylor's chapters | Done here |
 |---|---:|---:|
 | I | 29 | 29 |
-| II | 12 | 0 |
+| II | 12 | 3 |
 | III | 23 | 0 |
 | IV | 39 | 0 |
 | V | 38 | 0 |
@@ -73,6 +73,17 @@ Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-
 | I.26.p4 | a renovated immortality | The Statesman 270a: the universe receives from its maker "a renewed (or acquired) immortality"; its body does not hold itself together, but is renewed by its cause. |
 | I.27.p3 | in the Orphic writings, indeed, the first cause is on this account denominated Time | In the Orphic theogony the first principle is Chronos, Time; Proclus takes the name as a symbol of order by cause, not of a beginning in time. |
 | I.27.p3 | some posterior to Plato perceiving, have indefinitely shown that the whole heaven is unbegotten | Proclus seems to mean Aristotle (On the Heavens I.10-12), who holds that the heaven is unbegotten and imperishable. "Indefinitely" means without qualifying in what sense. |
+| II.1.p3 | will be multitude in energy | That is, many in act and not only in potential: each supposed part would actually be many, without end. |
+| II.1.p5 | privations being changed, entirely lead into habits the things that are changed | Taylor's "privation" and "habit" are Aristotle's pair, deprivation (sterēsis) and possession (hexis): a thing that changes out of lacking something comes to have it. |
+| II.1.p13 | since now also they subsist together causally. It is however impossible for the many to subsist separate from the one. The mixture therefore is not causal | Taylor's "causally" here must mean "by chance" (the Greek is probably kata symbebēkos or apo tychēs): the argument is that the mixture is not a matter of chance, since the many cannot ever have existed apart from the One. |
+| II.1.p13 | The one therefore, and that which is not one, are the cause of nothing else to beings than of their being one | That is, even a supposed not-one above the One would give beings nothing but union, which is what the One gives; so it would be no higher than the One. Taylor's footnotes correct and supply words of the Greek here. |
+| II.2.p1 | they must be divulsed from each other | Taylor's "divulsed" means torn apart: principles with nothing in common. |
+| II.2.p6 | the one will be passive to essence | Taylor's "passive to" means "an attribute of", something that being "undergoes" or has: if being were before the One, oneness would be only a property of being. Taylor's footnote: if being and the One ranked together, they would be two, and so share in the first many. |
+| II.3.p1 | Is, therefore, permanency every where | Taylor's "permanency" is rest, stillness (stasis), one of the Sophist's five great kinds. |
+| II.3.p2 | that which is in generation, or passing into existence, is said to be, and is destitute of essence | Proclus means that what is coming to be (genesis) is spoken of as being, yet is not yet being in the full sense; Timaeus 27d-28a: what always comes to be "never really is". |
+| II.3.p4 | the summits of inferiors are conjoined with the boundaries of superiors | A rule of Proclus' system (Elements of Theology 147): the highest member of each lower order is joined to the lowest member of the order above. |
+| II.3.p6 | as some say, who generate things more excellent from things subordinate | Proclus seems to mean the old physicists, and the Pythagoreans and Speusippus as Aristotle reports them (Metaphysics XII.7, 1072b; XIV.4-5), who held that the good and the beautiful come at the end, not the beginning. |
+| II.3.p7 | that which is best if it receives another addition through that which is inferior will be more perfect than that which does not abide in the best | Taylor's English says the opposite of what the argument needs: what is best, if mixed with something lower, will be less perfect than what remains purely in the best. The modern English follows the argument. |
 
 ## The fixed renderings
 
