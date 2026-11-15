@@ -902,8 +902,12 @@ Daniel: "Lets move over to modernizing Proclus Theology of Plato". The Enneads' 
   arch beneath the heaven; the ascent as in the mysteries (muesis, epopteia, the burial to the head); the three denials
   (colour, shape, contact) and the affirmations. 26 paragraphs, 16 flags. Taylor's "discursive energies" (the Phaedrus'
   diexodoi, "paths") keep a `:energy` exception.
-- T11: Book IV, chapters 14-26 (9,302): the virtues, the plain of truth and the meadow, Adrastia, the gods who hold
-  together, Ouranos in the Cratylus, the arch beneath the heaven and the perfecting gods.
+- **T11: Book IV, chapters 14-26 (9,302) (done).** Science, temperance and justice as goddesses; the plain of truth,
+  the meadow, nectar and ambrosia; the place above the heaven as a triad (Syrianus); Adrastia's ordinance; why the gods
+  who hold together come before the intellectual gods (not Stoic pneuma, soul or intellect); the heaven's back, depth
+  and arch, Ouranos in the Cratylus; Theodorus, Iamblichus and Syrianus on the arch beneath the heaven; the perfecting
+  gods (teletarchs) and the three grades of initiation. 27 paragraphs, 18 flags (e.g. Taylor's brackets in IV.16 that
+  reverse the monads, "entelechias", "sunocheus").
 - T12: Book IV, chapters 27-39 (9,712): the intelligible and intellectual gods in the Parmenides (number, the whole,
   shape), and Book IV's teachings gathered.
 - T13 to T16: Book V (40,018): the intellectual gods, Kronos, Rhea, Zeus, the Craftsman. Chapter 26 has no heading in
