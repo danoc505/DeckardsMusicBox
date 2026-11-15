@@ -12,7 +12,7 @@
  "taylor_work": null,
  "taylor_title": "Taylor, The Theology of Plato (1816)",
  "taylor_source": "Thomas Taylor, The Six Books of Proclus, the Platonic Successor, on the Theology of Plato, 2 vols (London, 1816), Project Gutenberg's proofread transcription (sources/taylor-gutenberg/pg77393.txt and pg78800.txt)",
- "about": "A modern English version of Proclus' Theology of Plato (fifth century), the school's summa of the gods as Plato teaches them, written for the Workshop, because none in modern English may be reused. It is made from Thomas Taylor's translation (The Six Books of Proclus on the Theology of Plato, London, 1816), as Project Gutenberg's proofread transcription gives it, paragraph by paragraph: every idea is kept, the long sentences are broken into short ones, and old words are replaced by today's, the key words always the same way (Taylor's 'essence' is 'being', 'progression' is 'procession', 'participate' is 'share', 'unities' are 'henads', 'ideas' are 'Forms', 'superessential' is 'beyond being'), linked to the Term tab. Taylor's Latin names of the gods are given in Greek (Kronos for Saturn). Proclus' Greek is not yet on the site (the only free edition, Portus' of 1618, is a scan whose Greek OCR is badly garbled), so this version cannot yet be checked against the Greek; a flag marks a place where Taylor's English is hard or unclear, with his words. Taylor's footnotes are kept under his words. The chapters and their numbers are Taylor's (his headings are in his table of contents); the short titles and summaries are the Workshop's. So far: Book I, chapters 1-17. Chapters 1-8: Proclus' preface and its praise of Plato and his heirs, how the work will proceed and what its hearer needs, who a theologian is in Plato's sense, the four ways Plato teaches about the gods, which dialogues hold his theology, and why the Parmenides holds all of it; chapters 9-12, against the merely logical reading of the Parmenides, and Syrianus' reading of its hypotheses as the orders of the gods; chapters 13-17, the Laws' three rules (the gods exist, provide for all things and cannot be bribed) and the Republic's axioms, beginning with the gods' goodness and the nature of evil.",
+ "about": "A modern English version of Proclus' Theology of Plato (fifth century), the school's summa of the gods as Plato teaches them, written for the Workshop, because none in modern English may be reused. It is made from Thomas Taylor's translation (The Six Books of Proclus on the Theology of Plato, London, 1816), as Project Gutenberg's proofread transcription gives it, paragraph by paragraph: every idea is kept, the long sentences are broken into short ones, and old words are replaced by today's, the key words always the same way (Taylor's 'essence' is 'being', 'progression' is 'procession', 'participate' is 'share', 'unities' are 'henads', 'ideas' are 'Forms', 'superessential' is 'beyond being'), linked to the Term tab. Taylor's Latin names of the gods are given in Greek (Kronos for Saturn). Proclus' Greek is not yet on the site (the only free edition, Portus' of 1618, is a scan whose Greek OCR is badly garbled), so this version cannot yet be checked against the Greek; a flag marks a place where Taylor's English is hard or unclear, with his words. Taylor's footnotes are kept under his words. The chapters and their numbers are Taylor's (his headings are in his table of contents); the short titles and summaries are the Workshop's. So far: all of Book I, chapters 1-29. Chapters 1-8: Proclus' preface and its praise of Plato and his heirs, how the work will proceed and what its hearer needs, who a theologian is in Plato's sense, the four ways Plato teaches about the gods, which dialogues hold his theology, and why the Parmenides holds all of it; chapters 9-12, against the merely logical reading of the Parmenides, and Syrianus' reading of its hypotheses as the orders of the gods; chapters 13-17, the Laws' three rules (the gods exist, provide for all things and cannot be bribed) and the Republic's axioms, beginning with the gods' goodness and the nature of evil; chapters 18-29, the gods' unchangeableness, simplicity and truth, the Phaedrus' beautiful, wise and good, faith, truth and love, the Phaedo's divine, immortal and intelligible, the unbegotten, father and mother causes, and the divine names.",
  "source": "sources/translations/modern/proclus-theology.txt",
  "treatises": [
   {
@@ -36,7 +36,19 @@
     "I.14",
     "I.15",
     "I.16",
-    "I.17"
+    "I.17",
+    "I.18",
+    "I.19",
+    "I.20",
+    "I.21",
+    "I.22",
+    "I.23",
+    "I.24",
+    "I.25",
+    "I.26",
+    "I.27",
+    "I.28",
+    "I.29"
    ]
   }
  ],
@@ -933,6 +945,353 @@
      "notes": []
     }
    ]
+  },
+  {
+   "id": "I.18",
+   "treatise": "I",
+   "title": "The gods' unchangeableness: self-sufficiency, freedom from being acted on, sameness",
+   "summary": "Each god is best in his own order, so he cannot change for the worse, and has nothing better to change into. From this follow the gods' self-sufficiency, their undefiled purity, and their sameness. The world, divine souls and intellect are self-sufficient, unchanging and always the same in lesser ways; the gods alone are so first, by their very being, since there is nothing in them that is not one and hyparxis.",
+   "taylor_head": "What the immutability is of the Gods; where also it is shown what their self-sufficiency, and firm impassivity are; and how we are to understand their possessing an invariable sameness of subsistence.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book I, chapter 18, paragraph 1",
+     "text": "In the next place, let us survey the immutability and simplicity of the Gods, what the nature of each of them is, and how both these appear to be adapted to the hyparxis of the Gods, according to the narration of Plato. The Gods, therefore, are exempt from the whole of things. But filling these, as we have said, with good, they are themselves perfectly good; each of them according to his proper order possesses that which is most excellent; and the whole genus of the Gods is at once allotted predominance according to an exuberance of good. But here again, we must oppose those who interpret in a divisible manner that which is most excellent in the Gods, and who say, that if the first cause is most excellent, that which is posterior to the first is not so. For it is necessary, say they, that what is produced should be inferior to that by which it is produced. And this indeed is rightly asserted by them. For it is necessary in the Gods, to preserve the order of causes unconfused, and to define separately their second and third progressions. But together with a progression of this kind, and with the unfolding into light of things secondary from those that are first, that which is most excellent must also be surveyed in each of the Gods. For each of the Gods in his own characteristic peculiarity is allotted a transcendency which is primary and perfectly good. One of them indeed, that we may speak of something known, is allotted this transcendency, and is most excellent as possessing a prophetic power, another as demiurgic, but another as a perfector of works. And Timæus indicating this to us, continually calls the first demiurgus the best of causes. For the world, says he, is the most beautiful of generated natures, and its artificer is the best of causes; though the intelligible paradigm, and which is the most beautiful of intelligibles is prior to the demiurgus. But this is most beautiful and at the same time most excellent, as the demiurgic paradigm; and the maker and at the same time father of the universe is most excellent, as a demiurgic God. In the Republic also, Socrates speaking of the Gods, very properly observes, that each of them being as much as possible most beautiful and most excellent, remains always with a simplicity of subsistence in his own form. For each of them being allotted that which is first and the summit in his own series, does not depart from his own order, but contains the blessedness and felicity of his own proper power. And neither does he exchange his present for a worse order; for it is not lawful for that which possesses all virtue to be changed into a worse condition; nor does he pass into a better order. For where can there be any thing better than that which is most excellent? But this is present with each of the divinities according to his own order, as we have said, and also with every genus of the Gods. It is necessary therefore that every divine nature should be established immutably, abiding in its own accustomed manner. Hence from these things the self-sufficiency, undefiled purity, and invariable sameness of subsistence of the Gods is apparent. For if they are not changed to a more excellent condition of being, as possessing that which is best in their own nature, they are sufficient to themselves, and are not in want of any good. And if they are not at any time changed to a worse condition, they remain undefiled, established in their own transcendencies. If also they guard the perfection of themselves immutably, they subsist always with invariable sameness. What the self-sufficiency therefore of the Gods is, what their immutability, and what their sameness of subsistence, we shall in the next place consider.",
+     "notes": [
+      {
+       "n": 123,
+       "text": "For το it is necessary to read τῃ."
+      }
+     ]
+    },
+    {
+     "n": 2,
+     "label": "Book I, chapter 18, paragraph 2",
+     "text": "The world then is said to be self-sufficient, because its subsistence is perfect from things perfect, and a whole from wholes; and because it is filled with all appropriate goods from its generating father. But a perfection and self-sufficiency of this kind is partible, and is said to consist of many things coalescing in one, and is filled from separate causes according to participation. The order of divine souls also, is said to be self-sufficient, as being full of appropriate virtues, and always preserving the measure of its own blessedness without indigence. But here likewise the self-sufficiency is in want of powers. For these souls have not their intellections directed to the same intelligibles; but they energize according to time, and obtain the complete perfection of their contemplation in whole periods of time. The self-sufficiency therefore of divine souls, and the whole perfection of their life is not at once present. Again, the intellectual world is said to be self-sufficient, as having its whole good established in eternity, comprehending at once its whole blessedness, and being indigent of nothing, because all life and all intelligence are present with it, and nothing is deficient, nor does it desire any thing as absent. But this, indeed, is sufficient to itself in its own order, yet it falls short of the self-sufficiency of the Gods. For every intellect is boniform, yet is not goodness itself, nor primarily good; but each of the Gods is a unity, hyparxis and goodness. The peculiarity however of hyparxis changes the progression of the goodness of each. For one divinity is a perfective goodness, another is a goodness connective of the whole of things, and another is a collective goodness. But each is simply a goodness sufficient to itself. Or it may be said, that each is a goodness possessing the self-sufficient and the all-perfect, neither according to participation, nor illumination, but by being that very thing which it is. For intellect is sufficient to itself by participation, and soul by illumination, but this universe, according to a similitude to a divine nature. The Gods themselves, however, are self-sufficient through and by themselves, filling themselves, or rather subsisting as the plenitudes of all good.",
+     "notes": []
+    },
+    {
+     "n": 3,
+     "label": "Book I, chapter 18, paragraph 3",
+     "text": "But with respect to the immutability of the Gods, of what kind shall we say it is? Is it such as that of a [naturally] circulating body? For neither is this adapted to receive any thing from inferior natures, nor is it filled with the mutation arising from generation, and the disorder which occurs in the sublunary regions. For the nature of the celestial bodies is immaterial and immutable. But this indeed is great and venerable, as in corporeal hypostases, yet it is inferior to the nature of the Gods. For every body possesses both its being, and its perpetual immutability from other precedaneous causes. But neither is the impassive and the immutable in the Gods such as the immutability of souls. For these communicate in a certain respect with bodies, and are the media of an impartible essence, and of an essence divided about bodies. Nor again is the immutability of intellectual essences equivalent to that of the Gods. For intellect is immutable, impassive, and unmingled with secondary natures, on account of its union with the Gods. And so far indeed as it is uniform, it is a thing of this kind; but so far as it is manifold, it has something which is more excellent, and something which is subordinate, in itself. But the Gods alone having established their unions according to this transcendency of beings, are immutable dominations, are primary and impassive. For there is nothing in them which is not one and hyparxis. But as fire abolishes every thing which is foreign to it and of a contrary power, as light expels all darkness, and as lightning proceeds through all things without defilement, thus also the unities of the Gods unite all multitude, and abolish every thing which tends to dispersion and all-perfect division. But they deify every thing which participates of them, receiving nothing from their participants, and do not diminish their own proper union by the participation.",
+     "notes": [
+      {
+       "n": 124,
+       "text": "ουχ is omitted in the original."
+      }
+     ]
+    },
+    {
+     "n": 4,
+     "label": "Book I, chapter 18, paragraph 4",
+     "text": "Hence also the Gods being present every where, are similarly exempt from all things, and containing all things are vanquished by no one of the things they contain; but they are unmingled with all things and undefiled. In the third place, this world indeed is said to subsist with invariable sameness, so far as it is allotted an order in itself which is always preserved indissoluble. At the same time however, since it possesses a corporeal form, it is not destitute of mutation, as the Elean guest observes. The psychical order likewise is said to obtain an essence always established in sameness; and this is rightly said. For it is entirely impassive according to essence; but it has energies extended into time, and as Socrates says in the Phædrus, at different times it understands different intelligibles, and in its progressions about intellect comes into contact with different forms. Besides these also, much-honored intellect is said both to subsist and to understand with invariable and perpetual sameness, establishing at once in eternity its essence, powers, and energies. Through the multitude however of its intellections, and through the variety of intelligible species and genera, there is not only an invariable sameness, but also a difference of subsistence in intellect. For difference there is consubsistent with sameness. And there is not only a wandering of corporeal motions, and of the psychical periods, but likewise of intellect itself, so far as it produces the intelligence of itself into multitude; and evolves the intelligible. For soul indeed evolves intellect, but intellect the intelligible, as Plotinus somewhere rightly observes, when speaking of the intelligible subjections. For such are the wanderings of intellect and which it is lawful for it to make. If therefore we should say that a perpetual sameness of subsistence is primarily in the Gods alone, and is especially inherent in them, we shall not deviate from the truth, and we shall accord with Plato, who says in the Politicus, that an eternally invariable sameness of subsistence alone pertains to the most divine of all things. The Gods, therefore, bind to themselves the causes of a sameness of this kind, and guard with immutable sameness their proper hyparxis established according to the unknown union of themselves. And such is the immutability of the Gods, which is contained in self-sufficiency, impassivity and sameness.",
+     "notes": []
+    }
+   ]
+  },
+  {
+   "id": "I.19",
+   "treatise": "I",
+   "title": "The gods' simplicity",
+   "summary": "Socrates refers to the divine the one-like and the simple. The gods' simplicity is not that of one thing in number, nor of a species or a kind, nor of nature, soul or intellect, each of which is mixed with multitude. The gods alone are simple, set above all multitude and division; the many shapes in which they appear come from what receives them. What generates the manifold must itself be simple.",
+   "taylor_head": "What the simplicity is of the Gods; and how that which is simple in them appears to be various in secondary natures.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book I, chapter 19, paragraph 1",
+     "text": "In the next place, let us consider what power the simplicity of the Gods possesses; for this Socrates adds in his discourse concerning a divine nature, not admitting that which is various, and multiform, and which appears different at different times, but referring to divinity the uniform and the simple. Each of the divinities therefore, as he says, remains simply in his own form. What then shall we conclude respecting this simplicity? That it is not such as that which is defined to be one in number. For a thing of this kind is composed of many things, and abundantly mingled. But it appears to be simple so far as it has distinctly a common form. Nor is it such as the simplicity which is in many things according to an arranged species or genus. For these are indeed more simple than the individuals in which they are inherent, but are replete with variety, communicate with matter, and receive the diversities of material natures. Nor is it such as the form of nature. For nature is divided about bodies, verges to corporeal masses, emits many powers about the composition subject to it, and is indeed more simple than bodies, but has an essence mingled with their variety. Nor is it such as the psychical simplicity. For soul subsisting as a medium between an impartible essence, and an essence which is divided about bodies, communicates with both the extremes. And by that which is multiform indeed in its nature it is conjoined with things subordinate, but its head is established on high, and according to this it is especially divine, and allied to intellect.",
+     "notes": []
+    },
+    {
+     "n": 2,
+     "label": "Book I, chapter 19, paragraph 2",
+     "text": "Nor again is the simplicity of the Gods such as that of intellect. For every intellect is impartible and uniform, but at the same time it possesses multitude and progression; by which it is evident that it has a habitude to secondary natures, to itself, and about itself. It is also in itself, and is not only uniform, but also multiform, and as it is said, is one many. It is therefore allotted an essence subordinate to the first simplicity. But the Gods have their hyparxis defined in one simplicity alone, being exempt indeed from all multitude so far as they are gods, and transcending all division and interval, or habitude to secondary natures, and all composition. And they indeed are in inaccessible places, expanded above the whole of things, and eternally ride on beings. But the illuminations proceeding from them to secondary natures, being mingled in many places with their participants which are composite and various, are filled with a peculiarity similar to them. Let no one therefore wonder, if the Gods being essentialized in one simplicity according to transcendency, various phantasms are hurled forth before the presence of them; nor, if they being uniform the appearances are multiform, as we have learnt in the most perfect of the mysteries. For nature, and the demiurgic intellect extend corporeal-formed images of things incorporeal, sensible images of intelligible, and of things without interval, images endued with interval. For Socrates also in the Phædrus indicating things of this kind, and evincing that the mysteries into which souls without bodies are initiated are most blessed, and truly perfect, says, that they are initiated into entire, simple and immoveable visions, such souls becoming situated there, and united with the Gods themselves, but not meeting with the resemblances which are emitted from the Gods into these sublunary realms. For these are more partial and composite, and present themselves to the view attended with motion. But illuminated, uniform, simple, and, as Socrates says, immoveable spectacles exhibit themselves to the attendants of the Gods, and to souls that abandon the abundant tumult of generation, and who ascend to divinity pure and divested of the garments of mortality. And thus much is concluded by us respecting the simplicity of the Gods. For it is necessary that the nature which generates things multiform should be simple, and should precede what is generated, in the same manner as the uniform precedes the multiplied. If, therefore, the Gods are the causes of all composition, and produce from themselves the variety of beings, it is certainly necessary that the one of their nature which is generative of the whole of things, should have its subsistence in simplicity. For as incorporeal causes precede bodies, immoveable causes things that are moved, and impartible causes all partible natures, after the same manner uniform intellectual powers precede multiform natures, unmingled powers, things that are mingled together, and simple powers, things of a variegated nature.",
+     "notes": [
+      {
+       "n": 125,
+       "text": "After απλουν in the original, it is requisite to insert ειναι και."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "I.20",
+   "treatise": "I",
+   "title": "Truth in the gods, and where falsehood comes from",
+   "summary": "Divine truth is above the truth of speech, the truth of soul's opinions and sciences, and even intellect's truth, which has difference in it. It is the undivided union of the gods, by which they know all things at once, wholes and parts, the eternal and the temporal, even matter. Falsehood in oracles comes not from the gods but from what receives them. Truth unites the henads to the source of all good, as it joins intellect to the intelligible in the Republic.",
+   "taylor_head": "What the truth is in the Gods; and whence falsehood is introduced in the participations of the Gods by secondary natures.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book I, chapter 20, paragraph 1",
+     "text": "In the next place, let us speak concerning the truth which is in the Gods; for this in addition to what has been said is concluded by Socrates, because a divine nature is without falsehood, and is neither the cause of deception or ignorance to us, or to any other beings. We must understand therefore, that divine truth is exempt from the truth which consists in words, so far as this truth is composite, and in a certain respect is mingled with its contrary, and because its subsistence consists of things that are not true. For the first parts do not admit of a truth of this kind, unless some one being persuaded by what Socrates asserts in the Cratylus, should say that these also are after another manner true. Divine truth also is exempt from psychical truth, whether it is surveyed in opinions or in sciences, so far as it is in a certain respect divisible, and is not beings themselves, but is assimilated to and co-harmonized with beings, and as being perfected in motion and mutation falls short of the truth which is always firm, stable and of a principal nature. Divine truth is likewise again exempt from intellectual truth, because though this subsists according to essence, and is said to be and is, beings themselves, through the power of sameness, yet again, through difference, it is separated from the essence of them, and preserves its peculiar hypostasis unconfused with respect to them. The truth therefore of the Gods alone, is the undivided union and all-perfect communion of them. And through this the ineffable knowledge of the Gods, surpasses all knowledge, and all secondary forms of knowledge participate of an appropriate perfection. But this knowledge alone of the Gods contractedly comprehends these secondary forms of knowledge, and all beings according to an ineffable union. And through this the Gods know all things at once, wholes and parts, beings and non-beings, things eternal and things temporal, not in the same manner as intellect by the universal knows a part, and by being, non-being, but they know every thing immediately, such things as are common, and such as are particulars, though you should speak of the most absurd of all things, though you should speak of the infinity of contingencies, or even of matter itself.",
+     "notes": []
+    },
+    {
+     "n": 2,
+     "label": "Book I, chapter 20, paragraph 2",
+     "text": "If, however, you investigate the mode of the knowledge and truth of the Gods, concerning all things that have a subsistence in any respect whatever, it is ineffable and incomprehensible by the projecting energies of the human intellect; but is alone known to the Gods themselves. And I indeed admire those Platonists that attribute to intellect the knowledge of all things, of individuals, of things preternatural, and in short, of evils, and on this account establish intellectual paradigms of these. But I much more admire those who separate the intellectual peculiarity from divine union. For intellect is the first fabrication and progeny of the Gods. These therefore assign to intellect whole and first causes, and such as are according to nature, and to the Gods a power which is capable of adorning and generating all things. For the one is every where, but whole is not every where. And of the one indeed matter participates and every being; but of intellect and intellectual species and genera, all things do not participate. All things therefore are alone from the Gods, and real truth is with them who know all things unically. For on this account also, in oracles the Gods similarly teach all things, wholes and parts, things eternal, and such as are generated through the whole of time. For being exempt from eternal beings, and from those that exist in time, they contract in themselves the knowledge of each and of all things, according to one united truth. If therefore any falsehood occurs in the oracles of the Gods, we must not say that a thing of this kind originates from the Gods, but from the recipients, or the instruments, or the places, or the times. For all these contribute to the participation of divine knowledge, and when they are appropriately co-adapted to the Gods, they receive a pure illumination of the truth which is established in them. But when they are separated from the Gods through inaptitude, and become discordant with them, then they obscure the truth which proceeds from them. What kind of falsehood therefore can be said to be derived from the Gods, who produce all the species of knowledge? What deception can there be with those who establish in themselves the whole of truth? In the same manner, as it appears to me, the Gods extend good to all things, but always that which is willing and able receives the extended good, as Socrates says in the Phædrus. And a divine nature indeed is causeless of evil, but that which departs from it, and gravitates downward, is elongated through itself; thus also, the Gods indeed are always the suppliers of truth, but those natures are illuminated by them, who are lawfully their participants. For the Elean wise man says, that the eye of the soul in the multitude, is not strong enough to look to the truth.",
+     "notes": []
+    },
+    {
+     "n": 3,
+     "label": "Book I, chapter 20, paragraph 3",
+     "text": "The Athenian guest also celebrates this truth which subsists primarily in the Gods; for he says that truth is the leader to the Gods of every good, and likewise of every good to men. For as the truth which is in souls conjoins them with intellect, and as intellectual truth conducts all the intellectual orders to the one, thus also the truth of the Gods unites the divine unities to the fountain of all good, with which being conjoined, they are filled with all boniform power. For every where the hyparxis of truth has a cause which is collective of multitude into one; since in the Republic also, the light proceeding from the good, and which conjoins intellect with the intelligible, is denominated by Plato’s truth. This characteristic property therefore, which unites and binds together the natures that fill and the natures that are filled, according to all the orders of the Gods, must be arranged as originating supernally and proceeding as far as to the last of things.",
+     "notes": []
+    }
+   ]
+  },
+  {
+   "id": "I.21",
+   "treatise": "I",
+   "title": "The Phaedrus: everything divine is beautiful, wise and good",
+   "summary": "In the Phaedrus Socrates says that everything divine is beautiful, wise and good, a triad that runs through all the processions of the gods. First, goodness: it keeps all things and gives them existence, is everywhere the summit, and joins all the gods to the One, the cause of all things.",
+   "taylor_head": "From the axioms in the Phædrus concerning every thing divine [it follows] that every thing divine is beautiful, wise, and good.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book I, chapter 21, paragraph 1",
+     "text": "To us however discussing what pertains to every divine nature, what we assert will be known from those commonly received truths adduced in the Phædrus, and which we have before mentioned. Socrates therefore says that every thing divine is beautiful, wise, and good, and he indicates that this triad pervades to all the progressions of the Gods. What therefore is the goodness, what the wisdom, and what the beauty of the Gods? With respect to the goodness of the Gods therefore, we have before observed, that it preserves and gives subsistence to the whole of things, that it every where exists as the summit, as that which fills subordinate natures, and as pre-existing in every order analogous to the first principle of the divine orders. For according to this all the Gods are conjoined with the one cause of all things, and on account of this primarily derive their subsistence as Gods. For in all beings there is not any thing more perfect than the good, and the Gods. To the most excellent of beings therefore, and which are in every respect perfect, the best and most perfect of things is adapted.",
+     "notes": [
+      {
+       "n": 126,
+       "text": "δυνατον is erroneously printed instead of αγαθον."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "I.22",
+   "treatise": "I",
+   "title": "The goodness of the gods: the Philebus' three marks of the good",
+   "summary": "In the Philebus Plato gives the three chief marks of the good: the desirable, the sufficient and the perfect. The desirable draws all things to the gods, unknowably, as the sun draws the eye; all things dance round it. The sufficient carries the gods' good out to all things, so that every being generates. The perfect turns all things back to their causes. By these three the gods' goodness remains, proceeds and returns.",
+   "taylor_head": "A discussion of the dogmas concerning the goodness [of the Gods,] and an investigation of the elements of the good in the Philebus.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book I, chapter 22, paragraph 1",
+     "text": "But in the Philebus, Plato delivers to us the three most principal elements of the good, viz. the desirable, the sufficient, and the perfect. For it is necessary that it should convert all things to itself, and fill all things, and that it should be in no respect deficient, and should not diminish its exuberance. Let no one therefore conceive the desirable to be such as that which is frequently extended in sensibles as the object of appetite. For such is apparent beauty. Nor let him suppose it to be such as is indeed able to energize upon and excite to itself the natures which are able to participate it, but which at the same time may be apprehended by intelligence, and is educed by us according to a projecting energy, and an adhesion of the dianoetic power. For it is ineffable, and prior to all knowledge extends to all beings. For all things desire the good, and are converted to it. But if it be requisite summarily to unfold the characteristic peculiarity of the desirable, as the supplier of light proceeds by his rays into secondary natures, converts the eye to himself, causes it to be solar-form, and to resemble himself, and through a different similitude conjoins it with his own fulgid splendour, thus also I think the desirable of the Gods allures and draws upward all things to the Gods in an ineffable manner by its own proper illuminations, being every where present to all things, and not deserting any order whatever of beings. Since even matter itself is said to be extended to this desirable, and through this desire is filled with as many goods as it is able to participate. It is therefore the centre of all beings, and all beings, and all the Gods have their essences, powers and energies about this. And the extension and desire of things towards this is inextinguishable. For all beings aspire after this desirable which is unknown and incomprehensible. Not being able therefore either to know or receive that which they desire, they dance round it, and are parturient and as it were prophetic with respect to it. But they have an unceasing and never-ending desire of its unknown and ineffable nature, at the same time that they are unable to embrace and embosom it. For being at once exempt from all things, it is similarly present to and moves all things about itself, and is at the same time by all of them incomprehensible. By this motion also and this desire it preserves all things. But by its unknown transcendency through which it surpasses the whole of things, it preserves its proper union unmingled with secondary natures. Such therefore is the desirable.",
+     "notes": []
+    },
+    {
+     "n": 2,
+     "label": "Book I, chapter 22, paragraph 2",
+     "text": "But the sufficient is full of boniform power, proceeds to all things, and extends to all beings the gifts of the Gods. For we conceive such a sufficiency as this to be a power pervading and protending to the last of things, extending the unenvying and exuberant will of the Gods, and not abiding in itself, but unically comprehending the super-plenitude, the never-failing, the infinite, and that which is generative of good in the divine hyparxis. For the desirable being firmly established, and surpassing the whole of things, and arranging all beings about itself, the sufficient begins the progression and multiplication of all good, calls forth that which is primary in the uniform hyparxis of the desirable, by its own prolific exuberance, and by the beneficent replenishings which pervade to all things, and copiously produces and imparts it to every being. It is owing to the sufficient therefore, that the stability of divine natures, and that which proceeds from its proper causes is full of goodness, and that, in short, all beings are benefited, abiding in, proceeding from, and being united to their principles, and essentially separated from them. Through this power therefore, the intellectual genera give subsistence to natures similar to themselves, souls desire to generate, and imitate the beings prior to souls, natures deliver their productive principles into another place, and all things possess, in short, the love of generation. For the sufficiency of the goodness of the Gods, proceeding from this goodness, is disseminated in all beings, and moves all things to the unenvying communication of good; intellect indeed to the communication of intellectual, but soul of psychical, and nature of natural good.",
+     "notes": [
+      {
+       "n": 127,
+       "text": "Instead of μονιμῳ it is necessary to read γονιμῳ."
+      }
+     ]
+    },
+    {
+     "n": 3,
+     "label": "Book I, chapter 22, paragraph 3",
+     "text": "All things therefore abide through the desirable of goodness, and generate and proceed into second and third generations through the sufficient. But the third thing, the perfect, is convertive of the whole of things, and circularly collects them to their causes; and this is accomplished by divine, intellectual, psychical and physical perfection. For all things participate of conversion, since the infinity of progression is through this again recalled to its principles; and the perfect is mingled from the desirable and sufficient. For every thing of this kind is the object of desire, and is generative of things similar to itself. Or in the works of nature also, are not perfect things every where lovely and prolific through the acme of their beauty? The desirable therefore establishes all things, and comprehends them in itself. The sufficient excites them into progressions and generations. And the perfect consummately leads progressions to conversions and convolutions. But through these three causes, the goodness of the Gods fixing the unical power and authority of its proper hypostasis in this triad, is the primary and most principal fountain and vestal seat of things which have any kind of subsistence whatever.",
+     "notes": []
+    }
+   ]
+  },
+  {
+   "id": "I.23",
+   "treatise": "I",
+   "title": "The wisdom of the gods",
+   "summary": "Wisdom, second in the triad, is the very being of the gods' thinking, a knowledge united with what it knows. From the Symposium, the Republic and the Theaetetus Plato shows three marks of wisdom: it is full of what it knows, it generates truth, and it brings what is imperfect to perfection.",
+   "taylor_head": "What the wisdom of the Gods is, and what elements of it may be assumed from Plato.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book I, chapter 23, paragraph 1",
+     "text": "After this, wisdom is allotted the second order, being the intelligence of the Gods, or rather the hyparxis of their intelligence. For intelligence indeed, is intellectual knowledge; but the wisdom of the Gods is ineffable knowledge, which is united to the object of knowledge and the intelligible union of the Gods. But it appears to me that Plato especially surveyed this in the triad [of the beautiful, the wise and the good,] as may be inferred from the conceptions scattered about it in many places. I say then that Diotima in the Banquet is of opinion that wisdom is full of that which is known, and that it neither seeks, nor investigates, but possesses the intelligible. Hence, she says, that no one of the Gods philosophizes, nor desires to become wise; for a God is wise. Hence that which is philosophic is imperfect, and indigent of truth; but that which is wise is full and unindigent, and has every thing present which it wishes and desires nothing. But the desirable and the appetible are proposed to the philosopher. Socrates, however, in the Republic considers that which is generative of truth and intellect, as affording an indication of wisdom, to our souls indeed the ascent to divine plenitude being accomplished through knowledge, but to the Gods intellect being present from the fulness of knowledge. For the progression in them is not from an imperfect habit to the perfect; but from a self-perfect hyparxis a power prolific of inferior natures proceeds. But in the Theætetus he indicates that the perfective of things imperfect, and that which calls forth concealed intelligence in souls, pertain to wisdom. For he says, it compels me to obstetrication, but prevents me from generating. It is evident therefore, from these things, that the genus of wisdom is triadic. Hence it is full of being and truth, is generative of intellectual truth, and is perfective of intellectual natures that are in energy, and itself possesses a stable power. We must admit therefore, that these things pertain to the wisdom of the Gods. For this wisdom is full indeed of divine goodness, generates divine truth, and perfects all things posterior to itself.",
+     "notes": [
+      {
+       "n": 128,
+       "text": "For γεννησεως it is requisite to read γνωσεως."
+      },
+      {
+       "n": 129,
+       "text": "The same emendation is necessary here as above."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "I.24",
+   "treatise": "I",
+   "title": "The beauty of the gods",
+   "summary": "Divine beauty is first in the intelligible, and from there lights up all the kinds of gods, down to their visible vehicles; through it everything divine is lovely. It brings the gods joy and friendship with one another. Plato gives three marks of it: it is delicate, it is bright, and it is loved. So love leads to beauty, truth to wisdom, and to the good, not knowledge, but a firm settling and stillness.",
+   "taylor_head": "Concerning divine beauty, and the elements of it, as delivered by Plato.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book I, chapter 24, paragraph 1",
+     "text": "In the next place let us consider the beautiful, what it is, and how it primarily subsists in the Gods. It is said therefore to be boniform beauty, and intelligible beauty, to be more ancient than intellectual beauty, and to be beauty itself, and the cause of beauty to all beings; and all such like epithets. And it is rightly said. But it is separate not only from the beauty which is apparent in corporeal masses, from the symmetry which is in these from psychical elegance, and intellectual splendour, but also from the second and third progressions in the Gods; and subsisting in the intelligible place of survey, it proceeds from this to all the genera of the Gods, and illuminates their superessential unities, and all the essences suspended from these unities, as far as to the apparent vehicles of the Gods. As therefore through the first goodness all the Gods are boniform, and through intelligible wisdom they have a knowledge ineffable, and established above intellect, thus also, I think, through the summit of beauty, every thing divine is lovely. For from thence all the Gods derive beauty, and being filled with it, fill the natures posterior to themselves, exciting all things, agitating them with Bacchic fury about the love of themselves, and pouring supernally on all things the divine effluxion of beauty.",
+     "notes": []
+    },
+    {
+     "n": 2,
+     "label": "Book I, chapter 24, paragraph 2",
+     "text": "Such therefore, in short, is divine beauty, the supplier of divine hilarity, familiarity and friendship. For through this the Gods are united to and rejoice in each other, admire, and are delighted in communicating with each other, and in their mutual replenishings, and do not desert the order which they are always allotted in the distributions of themselves. Plato also delivers three indications of this beauty, in the Banquet indeed, denominating it the delicate; for the perfect and that which is most blessed, accedes to the beautiful through the participation of goodness. But he this speaks of it in that dialogue: “That which is truly beautiful, is delicate, perfect and most blessed.” One of the indications therefore of the beautiful, is a thing of this kind, viz. the delicate. But we may assume another indication of it from the Phædrus, viz. the splendid. For Plato attributing this to the beautiful says: “It was then that we were permitted to see splendid beauty shining upon us &c.” And afterwards he adds: “And arriving hither we apprehended it shining most manifestly through the clearest of the senses.” And at last he says: “But now beauty alone has this allotment to be most splendid and most lovely.” These two things therefore are to be assumed as indications of beauty. Another indication of beauty is this, that it is the object of love, which now also Plato appears to me to have called most lovely. And in many other places he shows that the amatory fury is conversant with the beautiful, defining, and in short, suspending love from the monad of beauty. “For love, says he, is conversant with the beautiful.”",
+     "notes": []
+    },
+    {
+     "n": 3,
+     "label": "Book I, chapter 24, paragraph 3",
+     "text": "Because, therefore, beauty converts and moves all things to itself, causes them to energize enthusiastically, and recalls them through love, it is the object of love, being the leader of the whole amatory series, walking on the extremities of its feet, and exciting all things to itself through desire and astonishment. But again because it extends to secondary natures plenitudes from itself, in conjunction with hilarity and divine facility, alluring, enflaming, and elevating all things, and pouring on them illuminations from on high, it is delicate, and is said to be so by Plato. And because it bounds this triad, and covers as with a veil the ineffable union of the Gods, swims as it were on the light of forms, causes intelligible light to shine forth, and announces the occult nature of goodness, it is denominated splendid, lucid and manifest. For the goodness of the Gods is supreme and most united; their wisdom is in a certain respect now parturient with intelligible light, and the first forms; but their beauty is established in the highest forms, is the luminous precursor of divine light, and is the first thing that is apparent to ascending souls, being more splendid and more lovely to the view and to embrace than every luciferous essence, and when it appears is received with astonishment. This triad therefore filling all things, and proceeding through all things, it is certainly necessary that the natures which are filled should be converted to and conjoined with each of the three through kindred, and not through the same media. For of different things that are filled by this triad there is a different medium; and different powers are converted to a different perfection of the Gods. I think therefore, it is manifest to every one, and it is frequently asserted by Plato, that the cause which congregates all secondary natures to divine beauty, which familiarizes them to it and is the source of their being filled with it, and of their derivation from thence, is nothing else than love, which always conjoins according to the beautiful, secondary to the first Gods, and the more excellent genera, and the best of souls. But again, truth is certainly the leader to, and establishes beings in, divine wisdom, with which intellect being filled, possesses a knowledge of beings, and souls participating of this energize intellectually. For the full participation of true wisdom is effected through truth, since this every where illuminates intellective natures, and conjoins them with the objects of intellection, just as truth also is the first thing that congregates intellect and the intelligible. To those however who hasten to be conjoined with the good, knowledge and co-operation are no longer requisite, but collocation, a firm establishment and quiet are necessary.",
+     "notes": [
+      {
+       "n": 130,
+       "text": "Instead of προς αυτον it is requisite to read πρωτιστοις."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "I.25",
+   "treatise": "I",
+   "title": "Faith, truth and love",
+   "summary": "What joins us to the good is the faith of the gods: not belief about perceptible things, nor assent to common notions, nor intellect's activity, but a settling in the good beyond all knowledge. Plato in the Laws links faith with truth and love. So goodness, wisdom and beauty fill the divine; faith, truth and love gather what is filled back to them; and all things are saved by the frenzy of love, divine philosophy and theurgy.",
+   "taylor_head": "What the triad is which is conjoined with the good, the wise, and the beautiful, and what auxiliaries to the theory of it, Plato affords us.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book I, chapter 25, paragraph 1",
+     "text": "What therefore is it which unites us to the good? What is it which causes in us a cessation of energy and motion? What is it which establishes all divine natures in the first and ineffable unity of goodness? And how does it come to pass that every thing being established in that which is prior to itself according to the good which is in itself, again establishes things posterior to itself according to cause? It is, in short, the faith of the Gods, which ineffably unites all the genera of the Gods, of dæmons, and of happy souls to the good. For it is necessary to investigate the good neither gnostically, nor imperfectly, but giving ourselves up to the divine light, and closing the eyes of the soul, after this manner to become established in the unknown and occult unity of beings. For such a kind of faith as this is more ancient than the gnostic energy, not in us only, but with the Gods themselves, and according to this all the Gods are united, and about one centre uniformly collect the whole of their powers and progressions.",
+     "notes": []
+    },
+    {
+     "n": 2,
+     "label": "Book I, chapter 25, paragraph 2",
+     "text": "If however it be requisite to give a particular definition of this faith, let no one suppose that it is such a kind of faith as that which is conversant with the wandering about sensibles. For this falls short of science, and much more of the truth of beings. But the faith of the Gods surpasses all knowledge, and according to the highest union conjoins secondary with first natures. Nor again, let him conceive a faith of a similar species with the celebrated belief in common conceptions; for we believe in common conceptions prior to all reasoning. But the knowledge of these is divisible, and is by no means equivalent to divine union; and the science of these is not only posterior to faith, but also to intellectual simplicity. For intellect is established beyond all science, both the first science, and that which is posterior to it. Neither, therefore, must we say that the energy according to intellect is similar to such a faith as this. For intellectual energy is multiform, and is separated from the objects of intellection through difference; and in short, it is intellectual motion about the intelligible. But it is necessary that divine faith should be uniform and quiet, being perfectly established in the port of goodness. For neither is the beautiful, nor wisdom, nor any thing else among beings, so credible and stable to all things, and so exempt from all ambiguity, divisible apprehension and motion, as the good. For through this intellect also embraces another union more ancient than intellectual energy, and prior to energy. And soul considers the variety of intellect and the splendour of forms as nothing with respect to that transcendency of the good by which it surpasses the whole of things. And it dismisses indeed intellectual perception, running back to its own hyparxis; but it always pursues, investigates, and aspires after the good, hastens as it were to embosom it, and gives itself to this alone among all things without hesitation. But why is it necessary to speak of the soul? For these mortal animals, as Diotima somewhere says, despise all other things, and even life itself and being, through a desire of the nature of the good; and all things have this one immoveable and ineffable tendency to the good; but they overlook, consider as secondary, and despise the order of every thing else. This, therefore, is the one secure port of all beings.",
+     "notes": []
+    },
+    {
+     "n": 3,
+     "label": "Book I, chapter 25, paragraph 3",
+     "text": "This also is especially the object of belief to all beings. And through this the conjunction and union with it is denominated faith by theologists, and not by them only, but by Plato likewise, (if I may speak what appears to me to be the case) the alliance of this faith with truth and love is proclaimed in the Laws. The multitude therefore are ignorant, that he who has a conception of these things, when discoursing about their contraries, infers the same thing with respect to the deviations from this triad. Plato then clearly asserts in the Laws that the lover of falsehood is not to be believed, and that he who is not to be believed is void of friendship. Hence it is necessary that the lover of truth should be worthy of belief, and that he who is worthy of belief should be well adapted to friendship. From these things therefore, we may survey divine truth, faith and love, and comprehend by a reasoning process their stable communion with each other. If, however, you are willing, prior to these things we will recall to our memory that Plato denominates that virtue fidelity which conciliates those that disagree, and subverts the greatest of wars, I mean seditions in cities. For from these things faith appears to be the cause of union, communion and quiet. And if there is such a power as this in us, it is by a much greater priority in the Gods themselves. For as Plato speaks of a certain divine temperance, justice and science, how is it possible that faith which connectedly comprehends the whole order of the virtues should not subsist with the Gods? In short, there are these three things which replenish divine natures, and which are the sources of plenitude to all the superior genera of beings, viz. goodness, wisdom and beauty. And again, there are three things which collect together the natures that are filled, being secondary indeed to the former, but pervading to all the divine orders, and these are faith, truth and love. But all things are saved through these, and are conjoined to their primary causes; some things indeed, through the amatory mania, others through divine philosophy, and others through theurgic power, which is more excellent than all human wisdom, and which comprehends prophetic good, the purifying powers of perfective good, and in short, all such things as are the effects of divine possession. Concerning these things therefore, we may perhaps again speak more opportunely.",
+     "notes": []
+    }
+   ]
+  },
+  {
+   "id": "I.26",
+   "treatise": "I",
+   "title": "The Phaedo's axioms: the divine, the immortal and the intelligible",
+   "summary": "In the Phaedo Socrates sets the soul between what is divine, immortal, intelligible, one-like, indissoluble and always the same, and what is the contrary. The divine is being that shares in the One; the names \"god\" are given, by Plato, to henads first and then to intellects, souls, daemons and even men. There are many orders of immortality, from the renewed immortality of the heavens up to the gods. The intelligible, too, is said in many ways. The divine is first, the immortal second, the intelligible third.",
+   "taylor_head": "Concerning the axioms delivered in the Phædo, respecting an invisible nature. What the divine nature is. What the immortal, and the intelligible are; and what order these possess with reference to each other.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book I, chapter 26, paragraph 1",
+     "text": "Again, let us, if you are willing, from other dialogues investigate the common dogmas of Plato about divine natures. Whence therefore, and what dogmas shall we assume, while we proceed in our search according to nature? Are you willing that we should in the next place recall to our memory what is written in the Phædo? Socrates therefore says in the demonstrations of the immortality of the soul which are derived from its similitude to divinity, that the essence which is superior to the soul, (and to which the soul is naturally similar, and being similar participates of an immortal allotment) is divine and immortal, intelligible and uniform, indissoluble and possesses an invariable sameness of subsistence; but that the essence which is inferior to the soul, is entirely the contrary, to which also it pertains to be corrupted and to be passive. For a thing of this kind is sensible and multiform, and is dissoluble because it is a composite; and he predicates among these all such things as pertain to a corporeal subsistence. Let us therefore direct our attention to these common dogmas, and examine after what manner each of them pertains to the Gods.",
+     "notes": []
+    },
+    {
+     "n": 2,
+     "label": "Book I, chapter 26, paragraph 2",
+     "text": "In the first place then what is that which we look to when we speak of that which is said to be divine? From what has been said therefore, it is evident that every God subsists according to the highest union of beings. For to us ascending from bodies, the Gods have appeared to be superessential unities, the generators, perfectors and measurers of essences, and who bind all first essences to themselves. But that which is divine, is not only hyparxis and the one in each order of being, but at the same time is that which participates and that which is participated; of which the latter is a God, but the former is divine. Whether however, prior to the participated unities, there is something which is separate and participated will be evident in what follows. But at present we shall define that which is divine to be a thing of this kind, viz. being which participates of the one, or the one subsisting contractedly together with being. For we assume all things in the Gods except the one, as suspended from them and secondary, viz. essence, life and intellect. For the Gods do not subsist in, but prior to these, and they produce and contain these in themselves, but are not defined in them. But it is necessary not to be ignorant that these are in reality thus distinguished from each other. In many places, however, Plato magnificently celebrates the participants of the Gods by the same names, and denominates them Gods. For not only the Athenian guest in the Laws calls a divine soul a God, but also Socrates in the Phædrus. For he says “that all the horses and charioteers of the Gods are good and consist of things good;” and afterwards still more clearly, “and this is the life of the Gods.” But this is not yet wonderful. For is it not admirable that he should denominate those beings Gods who are always conjoined with the Gods, and who together with them give completion to one series? For in many places he calls dæmons Gods, though they are essentially posterior to, and subsist about the Gods. For in the Phædrus and Timæus, and in other dialogues, you will find him extending the appellation of the Gods even as far as to dæmons. But what is still more paradoxical than these things, he does not refuse to call certain men Gods; for in the Sophista he thus denominates the Elean guest.",
+     "notes": []
+    },
+    {
+     "n": 3,
+     "label": "Book I, chapter 26, paragraph 3",
+     "text": "From all that has been said therefore, this must be assumed, that with respect to a God, one thing is simply a God, another according to union, another according to participation, another according to contact, and another according to similitude. For of superessential natures indeed, each is primarily a God; of intellectual natures, each is a God according to union; and of divine souls, each is a God according to participation. But divine dæmons are Gods according to contact with the Gods; and the souls of men are allotted this appellation through similitude. Each of these however is, as we have said, rather divine than a God. Since the Athenian guest calls intellect itself divine; but that which is divine is posterior to the first deity, in the same manner as that which is united is posterior to the one, that which is intellectual, to intellect, and that which is animated, to soul. And always those natures that are more uniform and simple have the precedency; but the series of beings ends in the one itself. Let this, therefore, be the definition and distinction of that which is divine.",
+     "notes": []
+    },
+    {
+     "n": 4,
+     "label": "Book I, chapter 26, paragraph 4",
+     "text": "In the next place, let us survey the immortal. For with Plato there are many orders of immortality, pervading from on high as far as to the last of things; and the last echo, as it were, of immortality, is in those visible natures that are perpetual; which the Elean guest, in his discourse about the circulation of the universe, says, are allotted from the father a renovated immortality. For every body is allotted a being and a life dependent on another cause; but is not itself naturally adapted to connect, or adorn, or preserve itself. The immortality of partial souls is, I think, more manifest and more perfect than this; which Plato evinces by many demonstrations in the Phædo, and in the 10th book of the Republic. But I mean by the immortality of partial souls, that which has a more principal subsistence, as containing in itself the cause of eternal permanency. We shall not, however, err if prior to both these we establish the immortality of dæmons. For the genera of these through which they subsist are incorruptible, and they neither verge to mortality, nor are filled with the nature of things which are generated and corrupted. But I infer that the immortality of divine souls is still more venerable and essentially more transcendent than that of dæmons; which divine souls we say are primarily self-motive, and are the fountains and principles of the life divided about bodies, and through which bodies obtain a renovated immortality. If, however, prior to these you conceive the Gods themselves, and the immortality in them, and how in the Banquet Diotima does not attribute an immortality of this kind even to dæmons, but defines it to subsist in the Gods alone, such an immortality as this will appear to you to be separate, and exempt from the whole of things. For there eternity subsists, which is the fountain of all immortality, and through it all things live and possess life, some things indeed a perpetual life, but others a life dispersed into non-being. In short, therefore, that which is divine is immortal so far as it generates and comprehends in itself a perpetual life. For it is immortal, not as participating of life, but as the supplier of a divine life, and as deifying life itself, whether you are willing to call such a life intelligible, or by any other name.",
+     "notes": []
+    },
+    {
+     "n": 5,
+     "label": "Book I, chapter 26, paragraph 5",
+     "text": "In the next place let us direct our attention to the intelligible. It is denominated, therefore, in opposition to that which is sensible and which is apprehended by opinion in conjunction with sense. For the intelligible is first unfolded into light in the most principal causes. For soul is indeed intelligible, is of this allotment, is exempt from sensibles, and obtains an essence separated from them. Prior to soul also intellect is intelligible, for we rather think it fit to arrange soul in the middle, than to connumerate it with the first essences. That likewise is denominated intelligible, which is more ancient than intellect, which replenishes intelligence, and is itself by itself perfective of it, and which Timæus arranges prior to the demiurgic intellect and intellectual energy, in the order of a paradigm. But beyond these is the divine intelligible, which is defined according to union itself, and a divine hyparxis. For this is intelligible as the object of desire to intellect, as perfecting and comprehending intellect, and as the plenitude of being. In one way, therefore, we must denominate the intelligible as the hyparxis of the Gods; in another way as true being and the first essence; in another way as intellect and all intellectual life; and in another way as soul and the psychical order. It is likewise necessary not to fashion the different natures of things conformably to names. Such, therefore, is the order of this triad; so that what is divine indeed is unmingled and ranks as the first; that which is immortal is the second; and that which is intelligible the third. For the first of these is deified being; the second is life subsisting according to the immortality of the Gods; and the third is intellect, which is denominated intelligible in consequence of being replete with union.",
+     "notes": []
+    }
+   ]
+  },
+  {
+   "id": "I.27",
+   "treatise": "I",
+   "title": "The one-like, the indissoluble and the always the same; the unbegotten",
+   "summary": "The Phaedo's second triad answers to the first: the one-like to the divine, the indissoluble to the immortal, the always the same to the intelligible. The gods are also unbegotten, above every generation, even the soul's; the births of gods in myths are symbols of their procession from causes, as the Orphics call the first cause Time.",
+   "taylor_head": "What the uniform and indissoluble are, and how sameness of subsistence [and the unbegotten are] to be assumed in divine natures.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book I, chapter 27, paragraph 1",
+     "text": "After this, it follows in the next place, that we should consider the uniform, the indissoluble, and that which has an invariable sameness of subsistence, from the same causes, and these as the precursors of, and pervading through all the divine orders. For the uniform, indeed, has the highest subsistence, is present with the divine monad, and appears to be especially adapted to that which is primarily being, and in which also every participable genus of unities ends. For the one is prior to these, as will be evident as we proceed. But the indissoluble is the second. For it comprehends and binds the extremes according to divine union; since the dissoluble is such as it is through the want of connexion and of a power which collects multitude into one. And that which has an invariable sameness of subsistence is eternal, and is full of the perpetuity of the Gods; from which also the participation of immortality and eternal sameness is derived to other things. The uniform, therefore, pertains to the same thing as the divine; but the indissoluble to the same thing as the immortal; and that which has an invariable sameness of subsistence we must refer to the intelligible.",
+     "notes": [
+      {
+       "n": 131,
+       "text": "For το ον it is necessary to read τῳ οντι."
+      }
+     ]
+    },
+    {
+     "n": 2,
+     "label": "Book I, chapter 27, paragraph 2",
+     "text": "And do you not see how these are severally after a manner co-adapted to each other? For the first of these, through the first unity which is participated by being is, as it is fit it should be, uniform. For if a God subsists according to the one, that which is divine will doubtless be uniform. But that which through one cause of life is immortal, is also similarly indissoluble. For life is the bond of dissoluble natures; which also Timæus indicating to us, opposes the dissoluble to the immortal: “for you are not immortal, says the demiurgus, yet you shall never be dissolved, nor be subject to the fatality of death.” Every thing mortal, therefore, is dissoluble; but the immortal is indissoluble. That, however, which has a renovated immortality is for the same reason neither indissoluble, nor mortal. For being in the middle of both it is neither of the extremes, according to each opposition. But the third of these being established according to the plenitude of whole intelligibles subsists at once and is invariably the same. For the intelligible is the cause of sameness and of eternal permanency; and intellect through this is entirely eternal. These triads, therefore, proceed from the first and most principal causes, in the same manner as we demonstrated of the before-mentioned triads. But these things, indeed, we shall consider hereafter.",
+     "notes": [
+      {
+       "n": 132,
+       "text": "For γευσεσθε read τευξεσθε."
+      }
+     ]
+    },
+    {
+     "n": 3,
+     "label": "Book I, chapter 27, paragraph 3",
+     "text": "These things, therefore, being discussed, let us direct our attention to the unbegotten in divine natures, and unfold what we assert it to be. For we say that all [true] being is without generation, and Socrates demonstrates in the Phædrus, that souls are unbegotten. Prior to these, also, the Gods themselves are established above generations and a subsistence according to time. How, therefore, shall we define the unbegotten when applied to a divine nature, and according to what reason? Is it because divinity is exempt from all generation, not only from that which subsists in the parts of time, such as we assert the generation of material natures to be, nor from that only which is extended into the whole of time, such as Timæus demonstrates the generation of the celestial bodies to be, but also from the psychical generation? Since Timæus denominates this to be unbegotten according to time, but to be the best of generated natures. And in short, a divine nature is exempt from all division and essential separation. For the progression of the Gods is always according to a union of secondary natures, which are uniformly established in the natures prior to them, the things producing containing in themselves the things produced. The indivisible, therefore, the unseparated and the united are in reality unbegotten. So that if certain generations of the Gods are spoken of by Plato in fabulous figments, as in the fable of Diotima, the generation of Venus is celebrated, and of Love at the birth of Venus, it is necessary not to be ignorant after what manner things of this kind are asserted, and that they are composed for the sake of symbolical indication; and that fables for the sake of concealment call the ineffable unfolding into light through causes, generation. For in the Orphic writings, indeed, the first cause is on this account denominated Time; since again, for another reason, it is thus denominated, in order that a subsistence according to cause may be the same as a subsistence according to time. And the progression of the Gods from the best of causes is properly denominated generation according to time. To Plato, therefore, mythologizing, it is adapted to devise things of this kind conformably to theologists; but when he is discoursing dialectically, and investigating and unfolding divine natures intellectually and not mystically, it is then adapted to him to celebrate the unbegotten essence of the Gods. For the Gods primarily establish in themselves the paradigm of non-generation. But an intellectual nature is in a secondary degree unbegotten, and after this the psychical essence. And in bodies there is an ultimate resemblance of unbegotten power; which some posterior to Plato perceiving, have indefinitely shown that the whole heaven is unbegotten. The Gods, therefore, are unbegotten. But there is an order in them of first, middle, and last progressions, and a transcendency and subjection of powers. There are also in them uniform comprehensions of causes; but multiform progenies of things caused. And all things, indeed, are consubsistent in each other; but the mode of subsistence is various. For some things as replenishing subsist prior to secondary natures; but others, as being filled aspire after more perfect natures, and participating of their power become generative of things posterior to themselves, and perfective of their hyparxis.",
+     "notes": []
+    }
+   ]
+  },
+  {
+   "id": "I.28",
+   "treatise": "I",
+   "title": "Father and mother causes among the gods",
+   "summary": "In the myths, the father is the higher, more one-like cause, like the monad and limit; the mother the lower, more partial one, like the dyad and the unlimited. Mothers are sometimes above their offspring, sometimes below, as Poverty is the mother of Love, and matter the mother and nurse of coming to be. Offspring either proceed from both or bind them together; some resemble the father, producing, guarding and holding, others the mother, generating, giving life and motion.",
+   "taylor_head": "How paternal, and how maternal causes are to be assumed in the Gods.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book I, chapter 28, paragraph 1",
+     "text": "Looking to these things, therefore, we may unfold what is said of paternal causes, and of the prolific powers of mothers in fables. For every where, we may suppose that the cause of a more excellent and more uniform nature is paternal; but we may say that the cause of a more subordinate and partial nature preexists in the order of a mother. For with the Gods a father is analogous to the monad, and the cause of bound; but a mother, to the duad, and to the infinite power which is generative of beings. The paternal cause, however, is with Plato uniform, and is established in a more elevated order than the natures which proceed from it, and subsists prior to its progeny in the allotment of the desirable. Again, the maternal cause has the form of the duad; and at one time presents itself to the view in fables as more excellent than its progeny, but at another time as essentially subordinate to it; as in the Banquet, Plato calls Poverty the mother of Love. And this is not only the case in fabulous figments, but also in the philosophic theory of beings, as is evident in the Timæus. For there Plato calls being the father, but matter the mother and nurse of generation. The powers, therefore, which are prolific and perfective of secondary natures, and the suppliers of life and causes of separation are mothers, being established above the natures produced by them. But the powers which receive the natures that proceed into light, which multiply their energies, and extend even the subordinate allotment of the progeny, are also themselves called mothers. Again, however, the progeny of such like causes, at one time indeed, proceed according to union from their proper principles, and are filled from both the paternal and maternal cause; but at another time they contain the bond of them, being arranged in the middle, conveying the gifts of the fathers to the maternal bosoms, and converting the receptacles of them to the completions of primary causes. But of the natures which subsist from twofold preexisting principles, some are assimilated to the paternal cause; and such like genera of Gods are productive, defensive, and comprehensive. For to produce, to contain, and to defend, pertain to the cause of bound. But others are assimilated to the maternal cause, and are prolific, and vivific, and the suppliers of motion, of the multiplication of powers, of variety and progressions. For all these are the progeny of infinity and the first multitude.",
+     "notes": [
+      {
+       "n": 133,
+       "text": "πατρικον is omitted in the original."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "I.29",
+   "treatise": "I",
+   "title": "The divine names, from the Cratylus",
+   "summary": "The first names are in the gods themselves; the second, intellectual images of these, belong to daemons; the third are made by wise men, who, imitating the Craftsman, fashion names as statues of the gods, as theurgy calls the gods into statues. So Socrates in the Philebus fears greatly for the names of the gods.",
+   "taylor_head": "Concerning divine names, and the rectitude of them as delivered in the Cratylus.",
+   "taylor": [
+    {
+     "n": 1,
+     "label": "Book I, chapter 29, paragraph 1",
+     "text": "Thus much therefore may suffice concerning the unbegotten hyparxis of the Gods. It now remains, I think, to speak of divine names. For Socrates in the Cratylus thinks fit to unfold in a remarkable degree the rectitude of names in divine natures. And Parmenides indeed, in the first hypothesis, as he denies of the one every thing else that is known, and all knowledge, so likewise he denies of it name and language. But in the second hypothesis, besides all other things he shows that this one may be spoken of and that it has a name. In short therefore, it must be admitted that the first, most principal and truly divine names are established in the Gods themselves. But it must be said that the second names, which are the imitations of the first, and which subsist intellectually, are of a dæmoniacal allotment. And again, we may say that those names which are the third from the truth, which are logically devised, and which receive the ultimate resemblance of divine natures, are unfolded by scientific men, at one time energizing divinely, and at another intellectually, and generating moving images of their inward spectacles. For as the demiurgic intellect establishes resemblances about matter of the first forms contained in himself, and produces temporal images of things eternal, divisible images of things indivisible, and adumbrated images as it were of true beings,--after the same manner I think the science that is with us representing intellectual production, fabricates resemblances of other things, and also of the Gods themselves, representing that which is void of composition in them, through composition; that which is simple, through variety; and that which is united, through multitude; and thus fashioning names, ultimately exhibits images of divine natures. For it generates every name as if it were a statue of the Gods. And as the theurgic art through certain symbols calls forth the exuberant and unenvying goodness of the Gods into the illumination of artificial statues, thus also the intellectual science of divine concerns, by the compositions and divisions of sounds, unfolds the occult essence of the Gods. Very properly therefore, does Socrates in the Philebus say, that on account of his reverence of the Gods, he is agitated with the greatest fear respecting their names. For it is necessary to venerate even the ultimate echos of the Gods, and venerating these to become established in the first paradigms of them. And thus much concerning divine names, which at present may be sufficient for the purpose of understanding the theology of Plato. For we shall accurately discuss them when we speak of partial powers.",
+     "notes": [
+      {
+       "n": 134,
+       "text": "και is omitted in the original."
+      }
+     ]
+    }
+   ]
   }
  ],
  "paragraphs": [
@@ -1787,6 +2146,329 @@
    "notes": [
     "Laws X 903b-904a: all things are ordered by the one who cares for the whole, with a view to the preservation and excellence of the whole. \"The myths of the giants\": the war of the giants against the gods (Sophist 246a, Republic 378c). \"Barbarian folly\" seems to point to the Persian teaching of two opposed principles."
    ]
+  },
+  {
+   "seg": "I.18.p1",
+   "chapter": "I.18",
+   "modern": "Next, let us look at the unchangeableness and the simplicity of the gods: what each of them is, and how both suit the hyparxis of the gods, as Plato tells it. The gods, then, are set apart from the whole of things. But while they fill these with good, as we have said, they are themselves wholly good. Each of them, in his own order, has what is best, and the whole kind of the gods at once rules by an overflowing of good. Here again we must oppose those who understand \"the best\" in the gods in a divided way, and say that if the first cause is best, what comes after the first is not. For what is produced, they say, must be lower than what produces it. And this they say rightly. For among the gods we must keep the order of causes unconfused, and mark off separately their second and third processions. But together with such a procession, and with the coming into light of second things from the first, we must also see what is best in each of the gods. For each god, in his own distinctive character, has a rule that is first and wholly good. One of them, to speak of something known, has this rule and is best as having the power of prophecy; another as a maker; another as one who brings works to perfection. Timaeus, pointing to this, keeps calling the first Craftsman the best of causes. For the world, he says, is the most beautiful of things that have come to be, and its maker is the best of causes; though the intelligible pattern, which is the most beautiful of intelligibles, is before the Craftsman. But this is most beautiful and at the same time best as the Craftsman's pattern; and the maker and father of the universe is best as a making god. In the Republic, too, Socrates rightly says of the gods that each of them, being as beautiful and as good as possible, always remains simply in his own form. For each, having what is first, the summit, in his own series, does not leave his own order, but holds the blessedness and happiness of his own power. He does not exchange his present order for a worse one, for it is not lawful for what has every virtue to change for the worse; nor does he pass into a better order. For where could anything be better than what is best? And this is present to each of the gods by his own order, as we have said, and also to every kind of gods. So every divine nature must be set unchangeably, remaining in its accustomed way. From this, the self-sufficiency, undefiled purity and sameness of the gods become plain. If they do not change into a better state, having what is best in their own nature, they are sufficient to themselves and lack no good. If they never change into a worse state, they remain undefiled, set in their own transcendence. And if they guard their own perfection unchangeably, they are always the same. What, then, the gods' self-sufficiency is, what their unchangeableness, and what their sameness, we will consider next.",
+   "flags": [
+    {
+     "taylor": "the first demiurgus the best of causes",
+     "why": "Timaeus 29a: the world is the most beautiful of things that have come to be, and its maker the best of causes. Proclus' point is that each god is \"best\" in his own order, though the intelligible pattern is above the Craftsman."
+    }
+   ],
+   "notes": [
+    "Republic II 381c: \"each of them, being as beautiful and as good as possible, remains for ever simply in his own form.\" Taylor's footnote corrects a word of the Greek he translated."
+   ]
+  },
+  {
+   "seg": "I.18.p2",
+   "chapter": "I.18",
+   "modern": "The world is said to be self-sufficient because it is perfect, made of perfect things, a whole made of wholes, and filled with all the goods proper to it by its father who generated it. But this kind of perfection and self-sufficiency is divided: it is said to be made of many things coming together into one, and it is filled from separate causes by sharing. The order of divine souls, too, is said to be self-sufficient, as full of the virtues proper to it, and always keeping the measure of its own blessedness without lack. But here too the self-sufficiency lacks powers. For these souls do not think the same intelligibles all at once: they act in time, and gain the full perfection of their contemplation in whole periods of time. So the self-sufficiency of divine souls, and the whole perfection of their life, is not present all at once. Again, the intellectual world is said to be self-sufficient, as having its whole good set in eternity, holding its whole blessedness at once, and lacking nothing, since all life and all thinking are present to it, nothing is missing, and it desires nothing as absent. This is sufficient to itself in its own order, but it falls short of the self-sufficiency of the gods. For every intellect has the form of the good, but is not goodness itself, nor good first; while each of the gods is a henad, a hyparxis and a goodness. The distinctive character of hyparxis, however, changes the procession of the goodness of each. One god is a goodness that perfects, another a goodness that holds the whole of things together, another a goodness that gathers. But each is simply a goodness sufficient to itself. Or we may say that each is a goodness that has self-sufficiency and all-perfection not by sharing, nor by being lit up, but by being the very thing it is. For intellect is sufficient to itself by sharing, soul by being lit up, and this universe by its likeness to a divine nature. But the gods themselves are self-sufficient through and by themselves, filling themselves, or rather existing as the fullnesses of all good."
+  },
+  {
+   "seg": "I.18.p3",
+   "chapter": "I.18",
+   "modern": "What kind of unchangeableness shall we say the gods have? Is it like that of a body that moves in a circle by nature? For this does not receive anything from lower natures, nor is it filled with the change that comes with coming to be, nor with the disorder in the region below the moon. For the nature of the heavenly bodies is immaterial and unchanging. This is great and worthy of reverence, as things go among bodies; but it is lower than the nature of the gods. For every body has both its being and its everlasting unchangeableness from other, prior causes. Nor is the freedom from being acted on, and the unchangeableness, of the gods like that of souls. For souls share in some way with bodies, and are the middles between the undivided being and the being divided about bodies. Nor again is the unchangeableness of intellectual beings equal to that of the gods. Intellect is unchanging, not acted on, and unmixed with second natures, because of its union with the gods. So far as it is one-like, it is of this kind; but so far as it is many, it has in itself something better and something lower. But the gods alone, having set their unions by this transcendence over beings, are unchanging powers that rule, first and not acted on. For there is nothing in them that is not one and hyparxis. As fire does away with everything foreign to it and of a contrary power, as light drives out all darkness, and as lightning passes through all things undefiled, so the henads of the gods unite all multitude and do away with everything that tends to scattering and to division of every kind. They make divine all that shares in them, receive nothing from what shares in them, and do not lessen their own union by being shared.",
+   "flags": [
+    {
+     "taylor": "precedaneous causes",
+     "why": "Taylor's \"precedaneous\" means going before: the causes prior to bodies, from which bodies get their being."
+    }
+   ],
+   "notes": [
+    "The soul as the middle between \"the undivided being and the being divided about bodies\": Timaeus 35a. Taylor's footnote restores a \"not\" missing from the Greek he translated."
+   ]
+  },
+  {
+   "seg": "I.18.p4",
+   "chapter": "I.18",
+   "modern": "So the gods, though present everywhere, are equally set apart from all things; holding all things, they are overcome by none of the things they hold, but are unmixed with all things and undefiled. Third, this world is said to be always the same so far as it has an order in itself that is always kept unbroken. Yet since it has a bodily form, it is not free of change, as the Stranger from Elea says. The order of souls, too, is said to have a being always set in sameness, and rightly. For it is wholly free of being acted on in its being; but its activities stretch out into time, and, as Socrates says in the Phaedrus, it thinks different intelligibles at different times, and in its processions about intellect touches different Forms. Beyond these, intellect, so much honoured, is said both to be and to think always the same, setting its being, powers and activities at once in eternity. Yet through the multitude of its thoughts, and through the variety of intelligible kinds and Forms, there is in intellect not only sameness but also difference. For in it difference exists together with sameness. And there is wandering not only in bodily motions and in the circuits of souls, but in intellect itself, so far as it brings its thinking of itself out into multitude and unfolds the intelligible. For soul unfolds intellect, and intellect the intelligible, as Plotinus rightly says somewhere, speaking of the intelligible levels below. Such are the wanderings of intellect, and these it is lawful for it to make. So if we say that sameness is first in the gods alone, and belongs to them most of all, we will not stray from the truth, and we will agree with Plato, who says in the Statesman that to be always the same belongs only to the most divine of all things. The gods, then, bind to themselves the causes of such sameness, and guard with unchanging sameness their own hyparxis, set by their unknown union. And such is the unchangeableness of the gods: it lies in self-sufficiency, freedom from being acted on, and sameness.",
+   "flags": [
+    {
+     "taylor": "when speaking of the intelligible subjections",
+     "why": "Taylor's \"subjections\" seems to mean the levels set below the intelligible (soul below intellect, intellect below the intelligible). The place in Plotinus is not certain; compare III.8.8 and V.3."
+    }
+   ],
+   "notes": [
+    "The Statesman 269d-e: \"to be always the same and in the same state belongs only to the most divine of all things\"; the world, having a body, cannot be wholly free of change. The Phaedrus 247d: the soul sees the Forms in its circuit."
+   ]
+  },
+  {
+   "seg": "I.19.p1",
+   "chapter": "I.19",
+   "modern": "Next, let us consider what power the simplicity of the gods has. For Socrates adds this in his account of the divine nature: he does not admit what is varied, of many shapes, and seen differently at different times, but refers the one-like and the simple to the divine. Each of the gods, then, as he says, remains simply in his own form. What shall we conclude about this simplicity? That it is not like what is defined as one in number. For such a thing is made of many things, richly mixed. It appears simple so far as it has, distinctly, a common form. Nor is it like the simplicity in many things by a species or kind set in order. For these are simpler than the individuals in which they are, but are full of variety, share in matter, and receive the differences of material things. Nor is it like the form of nature. For nature is divided about bodies, leans towards bodily masses, sends out many powers about the compound below it, and is simpler than bodies, but has a being mixed with their variety. Nor is it like the simplicity of soul. For soul, existing as a middle between the undivided being and the being divided about bodies, shares with both extremes. By what is of many shapes in its nature it is joined to things below; but its head is set on high, and by this it is most of all divine, and akin to intellect.",
+   "notes": [
+    "Republic II 380d-381c: whether god is a wizard who appears now in one form and now in another, or is simple and least of all leaves his own form."
+   ]
+  },
+  {
+   "seg": "I.19.p2",
+   "chapter": "I.19",
+   "modern": "Nor, again, is the simplicity of the gods like that of intellect. Every intellect is undivided and one-like, but it also has multitude and procession; by which it is clear that it has a relation to second natures, to itself, and about itself. It is also in itself, and is not only one-like but of many forms, and, as is said, a one-many. So it has a being below the first simplicity. But the gods have their hyparxis defined in one simplicity alone: as gods they are set apart from all multitude, and above all division and extension, all relation to second natures, and all composition. They are in places no one can reach, spread out above the whole of things, and for ever ride upon beings. But the lights that go out from them to second natures, mixed in many places with the things that share in them, which are compound and varied, are filled with a character like theirs. So let no one wonder if, though the gods are given their being in one simplicity by their transcendence, various apparitions are thrown out before their presence; or if, though they are one-like, their appearances are of many shapes, as we have learned in the most perfect of the mysteries. For nature and the making intellect put out images: of bodiless things, in the form of bodies; of intelligible things, perceptible images; and of things without extension, images with extension. Socrates too, in the Phaedrus, points to things of this kind. He shows that the mysteries into which souls without bodies are initiated are the most blessed and truly perfect, and says that they are initiated into whole, simple and unmoving visions, such souls being set there and united with the gods themselves, not meeting with the likenesses sent out from the gods into this region below the moon. For these are more partial and compound, and appear with motion. But visions lit up, one-like, simple and, as Socrates says, unmoving show themselves to the followers of the gods, and to souls that leave the great tumult of coming to be and go up to the divine pure and stripped of the garments of mortality. This, then, is what we conclude about the simplicity of the gods. For the nature that generates things of many forms must be simple and come before what it generates, just as the one-like comes before the many. So if the gods are the causes of all composition, and produce from themselves the variety of beings, the oneness of their nature, which generates the whole of things, must surely be simple. For as bodiless causes come before bodies, unmoving causes before things moved, and undivided causes before everything divided, so one-like intellectual powers come before natures of many forms, unmixed powers before mixed things, and simple powers before varied ones.",
+   "flags": [
+    {
+     "taylor": "various phantasms are hurled forth before the presence of them",
+     "why": "In the rites, apparitions were believed to appear before a god shows himself; Proclus explains them as lights of the gods mixed with what receives them, not as the gods' own shapes."
+    }
+   ],
+   "notes": [
+    "The Phaedrus 250b-c: the souls, \"pure and not entombed in this body\", were initiated into \"whole, simple, unmoving and happy visions\". \"Garments of mortality\": the Chaldean Oracles' image of the soul's vehicles. Taylor's footnote supplies two words of the Greek he translated."
+   ]
+  },
+  {
+   "seg": "I.20.p1",
+   "chapter": "I.20",
+   "modern": "Next, let us speak of the truth that is in the gods. For Socrates concludes this too, in addition to what has been said: that a divine nature is without falsehood, and is the cause of neither deceit nor ignorance to us or to any other beings. We must understand, then, that divine truth is set above the truth that lies in words, since this is compound, in a way mixed with its contrary, and made of parts that are not true. For the first parts do not admit of such truth, unless someone, persuaded by what Socrates says in the Cratylus, says that they too are true in another way. Divine truth is also set above the truth of soul, whether seen in opinions or in sciences, since this is in a way divided, and is not the beings themselves but made like them and tuned to them, and, being perfected in motion and change, falls short of the truth that is always firm, stable and ruling. Divine truth is again set above intellectual truth. For though this is so by its being, and is said to be, and is, the beings themselves by the power of sameness, yet again by difference it is separated from their being, and keeps its own reality unconfused with them. So the truth of the gods alone is their undivided union and all-perfect sharing with one another. Through this the inexpressible knowledge of the gods goes beyond all knowledge, and all second forms of knowledge share in a fitting perfection. This knowledge of the gods alone holds these second forms of knowledge, and all beings, drawn together by an inexpressible union. Through it the gods know all things at once, wholes and parts, beings and non-beings, things eternal and things in time. They do not know as intellect does, knowing a part by the whole and non-being by being. They know each thing directly, what is common and what is particular, even if you speak of the most absurd of all things, of the countless things that may happen, or of matter itself.",
+   "flags": [
+    {
+     "taylor": "For the first parts do not admit of a truth of this kind",
+     "why": "The \"first parts\" of speech are names and words taken alone, which are neither true nor false; in the Cratylus (385c) Socrates says that if a statement is true, its parts, down to names, are true too."
+    }
+   ]
+  },
+  {
+   "seg": "I.20.p2",
+   "chapter": "I.20",
+   "modern": "If you look for the manner of the gods' knowledge and truth about all things that exist in any way, it is inexpressible, and cannot be grasped by the reaching of the human intellect; it is known only to the gods themselves. I admire those Platonists who give intellect the knowledge of all things, of individuals, of things against nature, and in short of evils, and so posit intellectual patterns of these. But I admire much more those who separate the distinctive character of intellect from divine union. For intellect is the first work and offspring of the gods. These give intellect the whole and first causes, those according to nature, and give the gods a power able to adorn and generate all things. For the One is everywhere, but the whole is not everywhere. Matter and every being share in the One; but not all things share in intellect, and in intellectual Forms and kinds. So all things come only from the gods, and real truth is with those who know all things in a unified way. This is why in oracles, too, the gods teach all things alike: wholes and parts, things eternal and things that come to be through all time. For being set apart from both eternal beings and those in time, they hold drawn together in themselves the knowledge of each thing and of all, by one united truth. So if any falsehood occurs in the oracles of the gods, we must not say that it comes from the gods, but from those who receive them, or the instruments, or the places, or the times. For all these play a part in sharing in divine knowledge. When they are fitly tuned to the gods, they receive a pure light of the truth set in them. But when they are separated from the gods by unfitness and fall out of tune with them, they darken the truth that comes from them. What falsehood, then, can be said to come from the gods, who produce all kinds of knowledge? What deceit can there be with those who set in themselves the whole of truth? In the same way, it seems to me, the gods hold out good to all things, but it is always what is willing and able that receives the good held out, as Socrates says in the Phaedrus. The divine nature is not the cause of evil; what leaves it and sinks downward is carried far off by its own doing. So too the gods are always the givers of truth, but those natures are lit up by them that share in them lawfully. For the wise man from Elea says that the eye of the soul in the many is not strong enough to look at the truth.",
+   "notes": [
+    "The Phaedrus 247a: \"whoever is willing and able follows\" the gods, \"for envy stands outside the divine choir\". The Sophist 254a: \"the eyes of the soul of the many cannot bear to look upon the divine\"."
+   ]
+  },
+  {
+   "seg": "I.20.p3",
+   "chapter": "I.20",
+   "modern": "The Athenian Stranger also praises this truth, which is first in the gods. He says that truth leads all good things for gods, and all good things for men. For as the truth in souls joins them to intellect, and intellectual truth leads all the intellectual orders to the One, so the truth of the gods unites the divine henads to the source of all good; joined with it, they are filled with all power that has the form of the good. For everywhere the hyparxis of truth has a cause that gathers multitude into one. In the Republic, too, Plato calls the light that comes from the Good, and joins intellect to the intelligible, truth. So this distinctive character, which unites and binds together what fills and what is filled, through all the orders of the gods, must be set down as beginning from on high and going out as far as the last of things.",
+   "notes": [
+    "Laws V 730c: \"truth leads all good things, for gods and for men\". Republic VI 508d-e: the Good gives truth to what is known and the power of knowing to the knower, as the sun's light does for sight."
+   ]
+  },
+  {
+   "seg": "I.21.p1",
+   "chapter": "I.21",
+   "modern": "As we discuss what belongs to every divine nature, what we say will be known from the common truths given in the Phaedrus, which we have mentioned before. Socrates says that everything divine is beautiful, wise and good, and points out that this triad runs through all the processions of the gods. What, then, is the goodness, what the wisdom, and what the beauty of the gods? Of the goodness of the gods we have said before that it keeps all things and gives them existence; that it is everywhere as the summit, as what fills the lower natures, and as existing first in every order, answering to the first principle of the divine orders. By it all the gods are joined to the One, the cause of all things, and through it they first have their existence as gods. For among all beings nothing is more perfect than the Good, and the gods. So to the best of beings, those perfect in every way, the best and most perfect of things belongs.",
+   "notes": [
+    "The Phaedrus 246d-e: \"the divine is beautiful, wise, good, and everything of that kind\"; by these the soul's wings are nourished. Taylor's footnote corrects a misprint in the Greek he translated (\"possible\" for \"good\")."
+   ]
+  },
+  {
+   "seg": "I.22.p1",
+   "chapter": "I.22",
+   "modern": "In the Philebus Plato gives us the three chief marks of the good: the desirable, the sufficient and the perfect. For the good must turn all things to itself and fill all things, must lack nothing, and must not lessen its overflowing. Let no one think the desirable is like what is so often held out among perceptible things as an object of appetite: such is apparent beauty. Nor let anyone suppose it is the kind of thing that can act on and rouse to itself the natures able to share in it, yet can still be grasped by thought, and is drawn out by us by the reaching and holding of discursive reason. For it is inexpressible, and reaches all beings before all knowledge. For all things desire the good and turn to it. If we must unfold in brief the distinctive character of the desirable: as the giver of light goes out by his rays into second natures, turns the eye to himself, makes it sun-like and like himself, and through another likeness joins it to his own bright splendour, so, I think, the desirable of the gods draws and leads up all things to the gods in an inexpressible way by its own lights, present everywhere to all things, and leaving no order of beings. For even matter is said to reach out to this desirable, and through this desire is filled with as many goods as it can share in. It is the centre of all beings, and all beings and all the gods have their being, powers and activities about it. The reaching and desire of things for it cannot be put out. For all beings long for this desirable, unknown and beyond grasp. Unable either to know or to receive what they desire, they dance round it, and are in labour with it and, as it were, divine it. They have an unceasing, never-ending desire for its unknown and inexpressible nature, while they cannot embrace it or hold it to themselves. For, set apart from all things at once, it is equally present to all and moves all things about itself, while by all of them it cannot be grasped. By this motion and this desire it keeps all things. But by its unknown transcendence, by which it is above the whole of things, it keeps its own union unmixed with second natures. Such, then, is the desirable.",
+   "flags": [
+    {
+     "taylor": "is educed by us according to a projecting energy, and an adhesion of the dianoetic power",
+     "why": "Taylor's \"projecting energy\" (epibolē) is the mind's reaching towards an object; \"dianoetic power\" is discursive reasoning (dianoia). The desirable, Proclus says, cannot be grasped by either."
+    }
+   ],
+   "notes": [
+    "The Philebus 20d: the good must be perfect, sufficient, and what everything that knows it hunts and desires. The sun that makes the eye \"sun-like\": Republic VI 508b."
+   ]
+  },
+  {
+   "seg": "I.22.p2",
+   "chapter": "I.22",
+   "modern": "The sufficient is full of power that has the form of the good. It goes out to all things, and reaches out the gifts of the gods to all beings. For we think of this sufficiency as a power that runs through and stretches to the last of things, reaching out the ungrudging and overflowing will of the gods. It does not remain in itself, but holds in a unified way what is more than full, never failing, unlimited, and generative of good in the divine hyparxis. For while the desirable is set firmly, above the whole of things, ordering all beings about itself, the sufficient begins the procession and multiplying of all good. By its own fertile overflowing, and by the giving of good that fills and runs through all things, it calls forth what is first in the one-like hyparxis of the desirable, and pours it out and gives it to every being. It is because of the sufficient, then, that the stability of divine natures, and what proceeds from its proper causes, is full of goodness; and, in short, that all beings are benefited, remaining in their principles, proceeding from them, united to them, and separated from them in their being. Through this power the intellectual kinds give existence to natures like themselves, souls desire to generate and imitate the beings before souls, natures hand on their forming principles into another place, and all things, in short, have a love of generating. For the sufficiency of the gods' goodness, proceeding from that goodness, is sown in all beings, and moves all things to ungrudging giving of good: intellect to giving intellectual good, soul to giving soul's good, nature to giving natural good.",
+   "notes": [
+    "Taylor's footnote corrects a word of the Greek he translated: \"fertile\" for \"remaining\"."
+   ]
+  },
+  {
+   "seg": "I.22.p3",
+   "chapter": "I.22",
+   "modern": "So all things remain through the desirable of goodness, and through the sufficient generate and proceed into second and third generations. The third, the perfect, turns the whole of things back and gathers them in a circle to their causes; and this is done by divine, intellectual, soul's and natural perfection. For all things share in turning back, since through it the unlimited stretching out of procession is called back again to its principles. And the perfect is mixed from the desirable and the sufficient. For everything of this kind is desired and generates things like itself. Or are not perfect things, even in the works of nature, everywhere lovely and fertile, through the full bloom of their beauty? The desirable, then, sets all things firm and holds them in itself. The sufficient rouses them into processions and generations. And the perfect brings processions to their end in turnings back and circlings round. Through these three causes, the goodness of the gods, fixing the unified power and authority of its own reality in this triad, is the first and chief source, the hearth, of all things that exist in any way.",
+   "flags": [
+    {
+     "taylor": "the primary and most principal fountain and vestal seat of things",
+     "why": "Taylor's \"vestal seat\" is the hearth (hestia), the fixed centre of a household or city; Proclus uses it for the firm seat from which all things proceed."
+    }
+   ]
+  },
+  {
+   "seg": "I.23.p1",
+   "chapter": "I.23",
+   "modern": "After goodness, wisdom has the second rank. It is the thinking of the gods, or rather the hyparxis of their thinking. For thinking is intellectual knowledge, but the wisdom of the gods is an inexpressible knowledge, united with what it knows and with the intelligible union of the gods. It seems to me that Plato looked at this especially in the triad of the beautiful, the wise and the good, as can be gathered from the ideas scattered about it in many places. Diotima in the Symposium holds that wisdom is full of what is known, and that it neither seeks nor searches, but has the intelligible. So, she says, none of the gods loves wisdom or desires to become wise, for a god is wise. What loves wisdom, then, is imperfect and lacks truth; but what is wise is full and lacks nothing, has present everything it wants, and desires nothing. It is to the lover of wisdom that the desirable and the longed-for are set before him. Socrates, in the Republic, takes what generates truth and intellect as a sign of wisdom: in our souls the going up to divine fullness happens through knowledge, while in the gods intellect is present out of the fullness of knowledge. For with them procession is not from an imperfect state to a perfect one; from a self-perfect hyparxis goes out a power that generates lower natures. In the Theaetetus he shows that bringing what is imperfect to perfection, and calling out hidden thinking in souls, belong to wisdom. For he says, \"the god compels me to act as midwife, but forbids me to give birth\". So it is clear from these that the kind of wisdom is threefold. It is full of being and truth, it generates intellectual truth, and it brings to perfection the intellectual natures that are in act, while itself having a stable power. We must grant, then, that these things belong to the wisdom of the gods. For this wisdom is full of divine goodness, generates divine truth, and brings to perfection all that comes after it.",
+   "notes": [
+    "The Symposium 204a: \"none of the gods loves wisdom or desires to become wise, for he is wise already\". Republic VI 490b: the lover of learning, joined with what really is, \"begets intellect and truth\". The Theaetetus 150c: \"the god compels me to act as midwife, but has forbidden me to give birth\". Taylor's two footnotes correct \"of generation\" to \"of knowledge\" in the Greek he translated."
+   ]
+  },
+  {
+   "seg": "I.24.p1",
+   "chapter": "I.24",
+   "modern": "Next, let us consider the beautiful: what it is, and how it is first in the gods. It is said to be the beauty that has the form of the good, intelligible beauty, older than intellectual beauty, beauty itself, the cause of beauty to all beings, and all such titles. And this is rightly said. But it is set apart not only from the beauty that appears in bodily masses, from the proportion in them, from the grace of soul and the splendour of intellect, but also from the second and third processions among the gods. Existing in the intelligible place of vision, it goes out from there to all the kinds of gods, and lights up their henads beyond being, and all the beings that hang from these henads, as far as the visible vehicles of the gods. As all the gods have the form of the good through the first goodness, and through intelligible wisdom have a knowledge that is inexpressible and set above intellect, so too, I think, through the summit of beauty everything divine is lovely. For from there all the gods take beauty, and, filled with it, fill the natures after them, rousing all things, stirring them in Bacchic frenzy with love for themselves, and pouring down on all things from above the divine outflow of beauty.",
+   "flags": [
+    {
+     "taylor": "the intelligible place of survey",
+     "why": "That is, the \"place above the heavens\" of the Phaedrus (247c), where the souls see true being; Proclus places the first beauty there, in the intelligible order."
+    }
+   ]
+  },
+  {
+   "seg": "I.24.p2",
+   "chapter": "I.24",
+   "modern": "Such, in short, is divine beauty, the giver of divine gladness, closeness and friendship. Through it the gods are united to one another and rejoice in one another, admire and delight in sharing with each other and filling each other, and do not leave the order they always have in their distributions among themselves. Plato gives three signs of this beauty. In the Symposium he calls it the delicate: for the perfect and the most blessed come to the beautiful by sharing in goodness. He speaks of it this way in that dialogue: \"What is truly beautiful is delicate, perfect and most blessed.\" One sign of the beautiful, then, is this: the delicate. We may take another sign of it from the Phaedrus: the bright. For Plato gives this to the beautiful when he says: \"It was then that we could see beauty shining bright.\" And afterwards he adds: \"And coming here, we grasped it shining most clearly through the clearest of the senses.\" And at last he says: \"But now beauty alone has this lot, to be the brightest and the most lovely.\" These two, then, are to be taken as signs of beauty. Another sign of beauty is that it is the object of love, which Plato seems to me here also to have called most lovely. In many other places he shows that the frenzy of love is concerned with the beautiful, defining love by it, and hanging love, in short, from the monad of beauty. \"For love,\" he says, \"is of the beautiful.\"",
+   "flags": [
+    {
+     "taylor": "denominating it the delicate",
+     "why": "In the Symposium (204c) Phaedrus' word is \"delicate\" (habron): \"what is lovable is truly beautiful, delicate, perfect and most blessed\". Proclus gives the delicate, the bright and the loved as the three signs of beauty."
+    }
+   ],
+   "notes": [
+    "The Phaedrus 250b-d: beauty was \"bright to see\" in the heavenly vision, and here we grasp it \"shining most clearly through the clearest of our senses\", sight; \"beauty alone has this lot, to be the most visible and the most lovely\". \"Love is of the beautiful\": Symposium 201a, 204d."
+   ]
+  },
+  {
+   "seg": "I.24.p3",
+   "chapter": "I.24",
+   "modern": "Because beauty turns and moves all things to itself, makes them act in divine inspiration, and calls them back through love, it is the object of love. It leads the whole series of love, walking on the tips of its feet, and rousing all things to itself through desire and wonder. Again, because it reaches out its fullness to second natures, with gladness and divine ease, charming, kindling and lifting up all things, and pouring on them lights from on high, it is delicate, and Plato calls it so. And because it bounds this triad, and covers the inexpressible union of the gods as with a veil, swims, as it were, on the light of Forms, makes intelligible light shine out, and announces the hidden nature of goodness, it is called bright, shining and plain to see. For the goodness of the gods is highest and most united; their wisdom is in a way in labour with intelligible light and the first Forms; but their beauty is set in the highest Forms, is the shining forerunner of divine light, and is the first thing that appears to souls as they go up, brighter and lovelier to see and to embrace than any light-bearing being, and received with wonder when it appears. Since this triad fills all things and goes through all things, the natures that are filled must turn to each of the three and be joined to it through akin middles, not the same ones. For different things filled by this triad have different middles, and different powers turn to a different perfection of the gods. I think it is plain to everyone, and Plato often says it, that the cause that gathers all second natures to divine beauty, makes them at home with it, and is the source of their being filled with it and drawing from it, is nothing else than love, which always joins, by the beautiful, the second to the first: the gods, the higher kinds and the best of souls. Again, it is truth that leads to divine wisdom and sets beings in it. Filled with it, intellect has knowledge of beings, and souls that share in it act by intellect. For full sharing in true wisdom comes about through truth, since truth everywhere lights up the natures that think and joins them to what is thought, just as truth too is the first thing that gathers intellect and the intelligible together. But for those who hasten to be joined to the good, knowledge and working with it are no longer needed, but a setting in place, a firm settling and stillness.",
+   "flags": [
+    {
+     "taylor": "walking on the extremities of its feet",
+     "why": "From the Symposium (195d), where Agathon says Love is delicate and walks not on the earth but \"on the softest things\"; Proclus' image is of beauty treading lightly, scarcely touching what it moves."
+    }
+   ],
+   "notes": [
+    "Taylor's footnote corrects a word of the Greek he translated (\"to the first\" for \"to itself\")."
+   ]
+  },
+  {
+   "seg": "I.25.p1",
+   "chapter": "I.25",
+   "modern": "What, then, unites us to the good? What brings our activity and motion to rest? What sets all divine natures in the first, inexpressible unity of goodness? And how is it that each thing, set in what is before it by the good in itself, in turn sets the things after it as their cause? It is, in short, the faith of the gods, which unites in an inexpressible way all the kinds of gods, of daemons and of happy souls to the good. For we must seek the good not by knowing, nor imperfectly, but by giving ourselves up to the divine light, closing the eyes of the soul, and so becoming settled in the unknown and hidden unity of beings. Such faith is older than the activity of knowing, not only in us but among the gods themselves. By it all the gods are united, and about one centre gather all their powers and processions in a one-like way.",
+   "flags": [
+    {
+     "taylor": "neither gnostically",
+     "why": "Taylor's \"gnostically\" means by way of knowledge (gnōsis); Proclus means that the good is reached by a faith beyond knowing, not by an act of knowledge."
+    }
+   ],
+   "notes": [
+    "\"Faith, truth and love\" is a triad of the Chaldean Oracles (frag. 46: \"faith, truth and love\", with hope), which Proclus finds in Plato as well."
+   ]
+  },
+  {
+   "seg": "I.25.p2",
+   "chapter": "I.25",
+   "modern": "If we must define this faith more particularly, let no one suppose that it is the kind of belief concerned with what wanders among perceptible things. For this falls short of science, and much more of the truth of beings. But the faith of the gods goes beyond all knowledge, and joins second natures to first by the highest union. Nor, again, let anyone think it is a faith of the same kind as the famous belief in common notions; for we believe in common notions before all reasoning. But the knowledge of these is divided, and in no way equal to divine union; and the science of them comes not only after faith, but after intellectual simplicity too. For intellect is set above all science, both the first science and what comes after it. Nor, then, must we say that the activity of intellect is like this faith. For intellectual activity is of many forms, separated from what it thinks by difference; and, in short, it is intellectual motion about the intelligible. But divine faith must be one-like and still, wholly settled in the harbour of goodness. For neither the beautiful, nor wisdom, nor anything else among beings is so trustworthy and stable to all things, so free of all doubt, divided grasping and motion, as the good. Through it intellect too embraces another union older than intellectual activity, and before activity. And soul counts the variety of intellect and the splendour of Forms as nothing beside that transcendence of the good by which it is above the whole of things. It lets go of intellectual perception, running back to its own hyparxis; but it always pursues, seeks and longs for the good, hastens, as it were, to embrace it, and gives itself to this alone of all things without hesitation. But why speak of soul? These mortal living beings, as Diotima says somewhere, despise everything else, even life and being, through desire for the nature of the good; and all things have this one unmoving and inexpressible leaning to the good, while they pass over, put second and despise the order of everything else. This, then, is the one safe harbour of all beings.",
+   "notes": [
+    "\"Common notions\" are the self-evident axioms all men grant before any proof. The Symposium 207a-208b: living things will fight, starve and die for their young, through love of the good and of immortality."
+   ]
+  },
+  {
+   "seg": "I.25.p3",
+   "chapter": "I.25",
+   "modern": "This, too, is what all beings most of all believe in. And through this, joining and union with it is called faith by the theologians; and not by them alone, but also by Plato (if I may say what seems to me so), who proclaims in the Laws the kinship of this faith with truth and love. The many do not see that one who has an idea of these, speaking of their contraries, draws the same conclusion about the swervings from this triad. Plato clearly says in the Laws that the lover of falsehood is not to be trusted, and that he who is not to be trusted is without friends. So the lover of truth must be trustworthy, and he who is trustworthy must be well fitted for friendship. From these, then, we can see divine truth, faith and love, and grasp by reasoning their stable sharing with one another. If you are willing, let us first recall that Plato calls faithfulness the virtue that reconciles those who disagree and puts down the greatest of wars, I mean civil strife in cities. From this, faith appears to be the cause of union, sharing and stillness. And if there is such a power in us, it is far more, and first, in the gods themselves. For as Plato speaks of a divine temperance, justice and science, how could faith, which holds together the whole order of the virtues, not exist among the gods? In short, there are three things that fill divine natures and are the sources of fullness to all the higher kinds of beings: goodness, wisdom and beauty. And again there are three that gather together the natures that are filled, second to the former but running through all the divine orders: faith, truth and love. All things are saved through these and joined to their first causes: some through the frenzy of love, others through divine philosophy, others through theurgic power, which is better than all human wisdom, and holds within it the good of prophecy, the cleansing powers of perfecting good, and, in short, all that comes from being possessed by the gods. Of these things, perhaps, we will speak again at a better time.",
+   "notes": [
+    "Laws V 730c: \"the man who loves falsehood is not to be trusted, and he who is not to be trusted is without friends\". Laws I 630a-c: faithfulness in dangers (pistotēs) is the virtue needed in civil war, which is the worst war. Divine temperance, justice and science: the Phaedrus 247d."
+   ]
+  },
+  {
+   "seg": "I.26.p1",
+   "chapter": "I.26",
+   "modern": "Again, if you are willing, let us look into Plato's common teachings about divine natures from other dialogues. Where, then, shall we start, and what teachings shall we take, as we proceed in our search in a natural order? Shall we next recall what is written in the Phaedo? In his proofs of the soul's immortality drawn from its likeness to the divine, Socrates says that the being above the soul (to which the soul is by nature like, and being like it, shares in an immortal lot) is divine and immortal, intelligible and one-like, indissoluble, and always the same; but the being below the soul is wholly the contrary, and to it belong corruption and being acted on. For such a thing is perceptible and of many forms, and dissoluble, being compound; and he says of these all that belongs to a bodily existence. Let us then turn our attention to these common teachings, and examine how each of them belongs to the gods.",
+   "notes": [
+    "The Phaedo 80a-b: the soul is most like \"the divine, immortal, intelligible, one-like, indissoluble and always the same\", the body like their contraries."
+   ]
+  },
+  {
+   "seg": "I.26.p2",
+   "chapter": "I.26",
+   "modern": "First, then, what do we look to when we speak of what is said to be divine? From what has been said, it is clear that every god exists by the highest union of beings. For to us going up from bodies, the gods have appeared as henads beyond being, the generators, perfecters and measures of beings, who bind all first beings to themselves. But what is divine is not only the hyparxis and the one in each order of being, but at once what shares and what is shared: of these, what is shared is a god, and what shares is divine. Whether there is something separate and unshared before the shared henads will be clear in what follows. For now we will define the divine as this: being that shares in the one, or the one existing together with being, drawn together. For in the gods we take everything except the one, that is, being, life and intellect, as hanging from them and second. For the gods do not exist in these, but before them; they produce and hold these in themselves, but are not defined in them. We must not fail to see that these are really distinguished in this way. Yet in many places Plato grandly praises what shares in the gods by the same names, and calls them gods. Not only the Athenian Stranger in the Laws calls a divine soul a god, but so does Socrates in the Phaedrus. For he says that \"the horses and charioteers of the gods are all good and of good stock\"; and afterwards, still more clearly, \"and this is the life of the gods\". But this is not yet remarkable. Is it not admirable that he should call gods those beings who are always joined to the gods, and with them complete one series? For in many places he calls daemons gods, though they come after the gods in being and exist about them. In the Phaedrus, the Timaeus and other dialogues you will find him stretching the name of the gods as far as daemons. And, what is stranger still, he does not refuse to call certain men gods: in the Sophist he calls the Stranger from Elea so.",
+   "flags": [
+    {
+     "taylor": "but at the same time is that which participates and that which is participated; of which the latter is a God, but the former is divine",
+     "why": "Taylor's \"latter\" and \"former\" are the wrong way round for his own order of words: what is shared (the henad) is a god, and what shares in it (being) is divine. The modern English follows the sense."
+    },
+    {
+     "taylor": "Whether however, prior to the participated unities, there is something which is separate and participated",
+     "why": "Taylor's \"and participated\" should be \"and not participated\", as the sense requires: the question is whether there is an unshared henad (the One) before the shared ones."
+    }
+   ],
+   "notes": [
+    "The Phaedrus 246a-b, 248a; the Laws X 899b; the Sophist 216a-b, where Theodorus calls the Stranger \"not a god, but divine\", and Socrates answers that such philosophers do seem divine."
+   ]
+  },
+  {
+   "seg": "I.26.p3",
+   "chapter": "I.26",
+   "modern": "From all that has been said, then, we must take this: one thing is a god simply; another by union; another by sharing; another by contact; and another by likeness. Of the natures beyond being, each is a god first; of the intellectual natures, each is a god by union; of divine souls, each is a god by sharing. Divine daemons are gods by contact with the gods; and the souls of men are given this name by likeness. Each of these, as we have said, is rather divine than a god. For the Athenian Stranger calls intellect itself divine. But what is divine comes after the first godhead, as the united comes after the One, the intellectual after intellect, and the ensouled after soul. And always the more one-like and simple natures go first, while the series of beings ends in the One itself. Let this, then, be the definition and distinction of the divine.",
+   "flags": [
+    {
+     "taylor": "the series of beings ends in the one itself",
+     "why": "\"Ends\" in the sense of having its summit there: going upward, the series of beings ends in the One."
+    }
+   ]
+  },
+  {
+   "seg": "I.26.p4",
+   "chapter": "I.26",
+   "modern": "Next, let us look at the immortal. For in Plato there are many orders of immortality, running from on high as far as the last of things; and the last echo, as it were, of immortality is in those visible natures that are everlasting, which, the Stranger from Elea says in his account of the circuit of the universe, are given by the father a renewed immortality. For every body has its being and life hanging from another cause, but is not by nature fit to hold together, adorn or keep itself. The immortality of partial souls is, I think, clearer and more perfect than this, as Plato shows by many proofs in the Phaedo and in the tenth book of the Republic. By the immortality of partial souls I mean the one that is more ruling, as holding in itself the cause of everlasting remaining. We will not be wrong, however, if we set the immortality of daemons before both of these. For the kinds through which they exist are incorruptible: they neither lean towards mortality nor are filled with the nature of things that come to be and pass away. But I infer that the immortality of divine souls is still more worthy of reverence, and higher in being, than that of daemons. These souls we say are the first self-moving natures, the sources and principles of the life divided about bodies, through which bodies gain a renewed immortality. If, however, before these you think of the gods themselves and the immortality in them, and how in the Symposium Diotima does not give this kind of immortality even to daemons, but defines it as being in the gods alone, such an immortality will appear to you separate, and set apart from the whole of things. For there is eternity, the source of all immortality, and through it all things live and have life, some an everlasting life, others a life scattered into non-being. In short, the divine is immortal so far as it generates and holds in itself an everlasting life. For it is immortal not as sharing in life, but as the giver of a divine life, and as making life itself divine, whether you are willing to call such a life intelligible or by some other name.",
+   "flags": [
+    {
+     "taylor": "a renovated immortality",
+     "why": "The Statesman 270a: the universe receives from its maker \"a renewed (or acquired) immortality\"; its body does not hold itself together, but is renewed by its cause."
+    }
+   ],
+   "notes": [
+    "The Symposium 202d-203a: love is not a god but a daemon, between mortal and immortal."
+   ]
+  },
+  {
+   "seg": "I.26.p5",
+   "chapter": "I.26",
+   "modern": "Next, let us turn our attention to the intelligible. It is so called in contrast to what is perceptible, and grasped by opinion together with sense. For the intelligible first comes into light in the chief causes. Soul is intelligible, of this lot, set apart from perceptible things, and has a being separated from them. Before soul, intellect is intelligible; for we think it better to set soul in the middle than to count it among the first beings. That too is called intelligible which is older than intellect, which fills thinking and of itself brings it to perfection, and which Timaeus sets before the making intellect and intellectual activity, in the rank of a pattern. But above these is the divine intelligible, defined by union itself and a divine hyparxis. For this is intelligible as what intellect desires, as perfecting and holding intellect, and as the fullness of being. In one way, then, we must call the hyparxis of the gods intelligible; in another, true being and the first being; in another, intellect and all intellectual life; and in another, soul and the order of souls. And we must not shape the different natures of things to fit their names. Such, then, is the order of this triad: the divine is unmixed and ranks first; the immortal is second; and the intelligible is third. For the first of these is being made divine; the second is life existing by the immortality of the gods; and the third is intellect, called intelligible because it is filled with union.",
+   "notes": [
+    "Timaeus 28a-29a, 39e: the Craftsman makes the world looking to the intelligible living being as his pattern."
+   ]
+  },
+  {
+   "seg": "I.27.p1",
+   "chapter": "I.27",
+   "modern": "After this, we should next consider the one-like, the indissoluble, and what is always the same, from the same causes, as the forerunners of all the divine orders, running through them all. The one-like is highest. It is present with the divine monad, and seems most of all suited to what is first being, in which every kind of shared henad ends. For the One is before these, as will become clear as we proceed. The indissoluble is second. For it holds and binds the extremes by divine union; since the dissoluble is what it is through lack of connection and of a power that gathers multitude into one. And what is always the same is eternal, and full of the everlastingness of the gods; from it the sharing in immortality and everlasting sameness comes to other things. So the one-like belongs with the divine, the indissoluble with the immortal, and what is always the same we must refer to the intelligible.",
+   "notes": [
+    "Taylor's footnote corrects a word of the Greek he translated."
+   ]
+  },
+  {
+   "seg": "I.27.p2",
+   "chapter": "I.27",
+   "modern": "Do you not see how each of these is in a way fitted to the other? The first of them, through the first henad shared by being, is, as is fitting, one-like. For if a god exists by the One, the divine will surely be one-like. What is immortal through one cause of life is likewise indissoluble. For life is the bond of dissoluble natures; Timaeus too, pointing this out to us, sets the dissoluble against the immortal: \"You are not immortal,\" says the Craftsman, \"yet you shall never be dissolved, nor meet with the fate of death.\" Everything mortal, then, is dissoluble, but the immortal is indissoluble. What has a renewed immortality is, for the same reason, neither indissoluble nor mortal. For being in the middle of both, it is neither of the extremes in either opposition. The third of these, set by the fullness of whole intelligibles, is at once and always the same. For the intelligible is the cause of sameness and everlasting remaining, and intellect is wholly eternal through it. These triads, then, proceed from the first and chief causes, as we showed of the triads already mentioned. But these things we will consider later.",
+   "notes": [
+    "Timaeus 41b: the Craftsman to the young gods, \"you are not wholly immortal nor indissoluble, but you shall never be dissolved, nor meet with the fate of death, having my will as a greater bond\". Taylor's footnote corrects a word of the Greek he translated."
+   ]
+  },
+  {
+   "seg": "I.27.p3",
+   "chapter": "I.27",
+   "modern": "With these discussed, let us turn our attention to the unbegotten in divine natures, and unfold what we say it is. We say that all true being is without generation, and Socrates proves in the Phaedrus that souls are unbegotten. Before these, the gods themselves are set above generations and existence in time. How, then, shall we define the unbegotten when said of a divine nature, and by what reason? Is it because the divine is set apart from all generation: not only from that in parts of time, such as we say the generation of material things is, nor only from that stretched through the whole of time, such as Timaeus shows the generation of the heavenly bodies to be, but also from the generation of soul? For Timaeus calls soul unbegotten in time, but the best of things generated. In short, a divine nature is set apart from all division and separation in being. For the procession of the gods is always by a union of second natures, set in a one-like way in the natures before them, the producers holding the produced in themselves. The undivided, the unseparated and the united, then, are really unbegotten. So if certain generations of the gods are spoken of by Plato in myths, as in Diotima's myth the birth of Aphrodite is celebrated, and of Love at the birth of Aphrodite, we must not fail to see how such things are said: they are composed to point to things by symbols, and myths, for the sake of concealment, call the inexpressible coming into light through causes \"generation\". In the Orphic writings, for this reason, the first cause is called Time; for there is another reason too, that existing as cause may be the same as existing in time. And the procession of the gods from the best of causes is fittingly called generation in time. So when Plato tells myths, it fits him to devise such things in keeping with the theologians; but when he speaks dialectically, searching out and unfolding divine natures by intellect and not by mystery, it fits him to praise the unbegotten being of the gods. For the gods first set in themselves the pattern of not being generated. An intellectual nature is unbegotten in a second degree, and after it the being of soul. And in bodies there is a last likeness of unbegotten power; seeing this, some after Plato have declared, without qualification, that the whole heaven is unbegotten. The gods, then, are unbegotten. But there is an order among them of first, middle and last processions, and a rising above and a being set below of powers. There are in them also one-like embraces of causes, and offspring of many forms of things caused. All things exist in one another, but in different ways. Some exist before second natures as filling them; others, as being filled, long for more perfect natures, and by sharing in their power generate what comes after them and perfect their hyparxis.",
+   "flags": [
+    {
+     "taylor": "in the Orphic writings, indeed, the first cause is on this account denominated Time",
+     "why": "In the Orphic theogony the first principle is Chronos, Time; Proclus takes the name as a symbol of order by cause, not of a beginning in time."
+    },
+    {
+     "taylor": "some posterior to Plato perceiving, have indefinitely shown that the whole heaven is unbegotten",
+     "why": "Proclus seems to mean Aristotle (On the Heavens I.10-12), who holds that the heaven is unbegotten and imperishable. \"Indefinitely\" means without qualifying in what sense."
+    }
+   ],
+   "notes": [
+    "The Phaedrus 245d: the source of motion is \"unbegotten and indestructible\". Timaeus 34b-37a, the soul as \"the best of things generated\" (37a). The Symposium 203b-c: Love was conceived at the feast for Aphrodite's birth."
+   ]
+  },
+  {
+   "seg": "I.28.p1",
+   "chapter": "I.28",
+   "modern": "With this in view, we can unfold what is said in myths about father causes and the fertile powers of mothers. Everywhere, we may suppose, the cause of a higher, more one-like nature is a father; and we may say that the cause of a lower, more partial nature exists before it in the rank of a mother. For among the gods a father answers to the monad, the cause of limit; a mother to the dyad, and to the unlimited power that generates beings. With Plato, the father cause is one-like, set in a higher order than the natures that proceed from it, and comes before its offspring in the lot of the desirable. The mother cause, again, has the form of the dyad: at one time it appears in the myths as higher than its offspring, at another as below it in being; as in the Symposium Plato calls Poverty the mother of Love. And this is so not only in myths but in the philosophic study of beings, as is clear in the Timaeus. For there Plato calls being the father, and matter the mother and nurse of coming to be. So the powers that are fertile and perfect second natures, giving life and causing separation, are mothers, set above the natures they produce. But the powers that receive the natures coming into light, multiply their activities, and stretch out even the lower lot of the offspring, are also themselves called mothers. Again, the offspring of such causes at one time proceed by union from their own principles and are filled from both the father and the mother cause; at another they hold the bond of them, set in the middle, carrying the gifts of the fathers to the mothers' laps, and turning what receives them to the completion of the first causes. Of the natures that come from two principles existing before them, some are made like the father cause, and such kinds of gods produce, guard and hold together. For to produce, to hold and to guard belong to the cause of limit. Others are made like the mother cause, and generate, give life, and give motion, the multiplying of powers, variety and processions. For all these are offspring of the unlimited and the first multitude.",
+   "notes": [
+    "Symposium 203b-c: Love is the son of Poros (Plenty) and Penia (Poverty). Timaeus 50d, 51a, 52d: the Forms are like a father, the receptacle like a mother and nurse. Limit and the unlimited: the Philebus 23c-27c. Taylor's footnote supplies \"father\" in the Greek he translated."
+   ]
+  },
+  {
+   "seg": "I.29.p1",
+   "chapter": "I.29",
+   "modern": "This, then, may be enough about the unbegotten hyparxis of the gods. It remains, I think, to speak of the divine names. For Socrates in the Cratylus sees fit to unfold with great care the rightness of names among divine natures. Parmenides, in the first hypothesis, just as he denies of the One everything else that is known, and all knowledge, so also denies it name and speech. But in the second hypothesis, besides everything else, he shows that this one can be spoken of and has a name. In short, we must grant that the first, chief and truly divine names are set in the gods themselves. We must say that the second names, imitations of the first, which exist in an intellectual way, are of the lot of daemons. And again we may say that the names third from the truth, devised by reason and receiving the last likeness of divine natures, are unfolded by men of science, acting at one time divinely and at another by intellect, and generating moving images of their inward visions. For as the making intellect sets up likenesses about matter of the first Forms in itself, and produces images in time of things eternal, divided images of undivided things, and, as it were, shadowy images of true beings, so too, I think, our science, imitating intellect's production, fashions likenesses of other things and of the gods themselves. It shows what is uncompounded in them by composition, what is simple by variety, and what is united by multitude; and so, shaping names, it shows at last images of divine natures. For it generates every name as if it were a statue of the gods. And as the theurgic art, through certain symbols, calls the overflowing and ungrudging goodness of the gods to light up statues made by art, so the intellectual science of divine things unfolds the hidden being of the gods by the compositions and divisions of sounds. Rightly, then, does Socrates in the Philebus say that out of reverence for the gods he feels the greatest fear about their names. For we must revere even the last echoes of the gods, and, revering these, become settled in their first patterns. So much, then, about divine names, which may be enough for now for understanding Plato's theology. For we will discuss them exactly when we speak of the partial powers.",
+   "notes": [
+    "The Parmenides 142a (the One of the first hypothesis has no name), 155d (the One of the second can be named). The Cratylus 400d-401a: we do not know the gods' true names, \"which they call themselves\". The Philebus 12c: \"my fear about the names of the gods is not human, but beyond the greatest fear\". Taylor's footnote supplies a word of the Greek he translated."
+   ]
   }
  ],
  "contents": [
@@ -1899,74 +2581,74 @@
     {
      "id": "I.18",
      "head": "What the immutability is of the Gods; where also it is shown what their self-sufficiency, and firm impassivity are; and how we are to understand their possessing an invariable sameness of subsistence.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "The gods' unchangeableness: self-sufficiency, freedom from being acted on, sameness"
     },
     {
      "id": "I.19",
      "head": "What the simplicity is of the Gods; and how that which is simple in them appears to be various in secondary natures.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "The gods' simplicity"
     },
     {
      "id": "I.20",
      "head": "What the truth is in the Gods; and whence falsehood is introduced in the participations of the Gods by secondary natures.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "Truth in the gods, and where falsehood comes from"
     },
     {
      "id": "I.21",
      "head": "From the axioms in the Phædrus concerning every thing divine [it follows] that every thing divine is beautiful, wise, and good.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "The Phaedrus: everything divine is beautiful, wise and good"
     },
     {
      "id": "I.22",
      "head": "A discussion of the dogmas concerning the goodness [of the Gods,] and an investigation of the elements of the good in the Philebus.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "The goodness of the gods: the Philebus' three marks of the good"
     },
     {
      "id": "I.23",
      "head": "What the wisdom of the Gods is, and what elements of it may be assumed from Plato.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "The wisdom of the gods"
     },
     {
      "id": "I.24",
      "head": "Concerning divine beauty, and the elements of it, as delivered by Plato.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "The beauty of the gods"
     },
     {
      "id": "I.25",
      "head": "What the triad is which is conjoined with the good, the wise, and the beautiful, and what auxiliaries to the theory of it, Plato affords us.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "Faith, truth and love"
     },
     {
      "id": "I.26",
      "head": "Concerning the axioms delivered in the Phædo, respecting an invisible nature. What the divine nature is. What the immortal, and the intelligible are; and what order these possess with reference to each other.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "The Phaedo's axioms: the divine, the immortal and the intelligible"
     },
     {
      "id": "I.27",
      "head": "What the uniform and indissoluble are, and how sameness of subsistence [and the unbegotten are] to be assumed in divine natures.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "The one-like, the indissoluble and the always the same; the unbegotten"
     },
     {
      "id": "I.28",
      "head": "How paternal, and how maternal causes are to be assumed in the Gods.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "Father and mother causes among the gods"
     },
     {
      "id": "I.29",
      "head": "Concerning divine names, and the rectitude of them as delivered in the Cratylus.",
-     "done": false,
-     "title": ""
+     "done": true,
+     "title": "The divine names, from the Cratylus"
     }
    ]
   },

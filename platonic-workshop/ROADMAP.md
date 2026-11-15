@@ -869,8 +869,11 @@ Daniel: "Lets move over to modernizing Proclus Theology of Plato". The Enneads' 
   the argument from motion up to the henads; they provide, without labour; they cannot be bribed), and the Republic's axioms,
   beginning with the gods' goodness and where evil comes from. 25 paragraphs, 9 flags (e.g. "adumbrant" good, "Ixion",
   "precedaneous productive principles of evil").
-- T4: Book I, chapters 18-29 (10,308): the gods' immutability, simplicity and truth; the Phaedrus' good, wise and beautiful;
-  the Phaedo's axioms; father and mother causes; the divine names (the Cratylus).
+- **T4: Book I, chapters 18-29 (10,308) (done; Book I complete).** The gods' unchangeableness, simplicity and truth; the
+  Phaedrus' beautiful, wise and good (the Philebus' desirable, sufficient and perfect); faith, truth and love; the Phaedo's
+  divine, immortal and intelligible, one-like, indissoluble and always the same; the unbegotten; father and mother causes; the
+  divine names (the Cratylus). 30 paragraphs, 17 flags (e.g. Taylor's "latter" and "former" the wrong way round, and
+  "participated" for "unparticipated", in I.26).
 - T5: Book II, chapters 1-3 (9,420): the first principle, beyond being, argued from the one and the many.
 - T6: Book II, chapters 4-12 (12,799): the first principle above intellect; the ascent by analogy and by negation; its names;
   the Republic's sun; the first king of the Second Letter; the first hypothesis of the Parmenides.
