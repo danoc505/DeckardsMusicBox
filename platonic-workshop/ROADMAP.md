@@ -51,7 +51,7 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
 - **Where it stands (November 15, 2026):** E1 to E33 are done, so the Life and all thirty-nine treatises not Taylor's are in
   modern English (489 chapters) and none is "to come". What is left of the Enneads is E34 (MacKenna's English beside the
   fifteen done with Taylor, and their flags checked against him), which Daniel asked for; E34a, MacKenna beside every
-  chapter, is done, the flags for I.2, I.3, II.4 (E34b), II.9 (E34c), III.6 (E34d), III.7 and IV.2 (E34e), IV.3 (E34f) too, and E34g to E34j follow. After the Enneads, Daniel's order goes on to Aristotle's
+  chapter, is done, the flags for I.2, I.3, II.4 (E34b), II.9 (E34c), III.6 (E34d), III.7 and IV.2 (E34e), IV.3 (E34f), IV.7 and V.2 (E34g) too, and E34h to E34j follow. After the Enneads, Daniel's order goes on to Aristotle's
   Metaphysics from Book Λ (35m7, in milestone 35 below).
 
 ### The milestones (Greek words in brackets)
@@ -809,6 +809,11 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
     soul hurting the higher where the Greek has the lower held down by the higher. `tools/mackenna.py` also takes out 13
     more running heads that the OCR had misread, the kind without a bracket ("IV. 3. 7l PROBLEMS OF THE SOUL 15"), in
     III.8.6, IV.3.6, 13 and 28, IV.4.12, 24, 36, 43 and 44, IV.5.7 and V.3.6, 13 and 17; the pages after them move on by one.
+  - **E34g: IV.7, V.2 (done).** 5 flags against MacKenna (4, 1); in both he keeps close to the Greek. E.g. in IV.7
+    "coherence" for the mere juxtaposition of the atoms, beauty in "impressions received" for the shapeliness of the
+    pneuma's own figures, "It is obvious" for what Plotinus draws out of the Stoics' theory to refute it, and "partly in
+    body, partly outside" for sometimes in body, sometimes outside; in V.2 "more rebellious and less intellectual" for the
+    Greek's superlatives.
 
 ## The current focus (November 13, 2026, asked for by Daniel): Aristotle, beginning with the Metaphysics
 

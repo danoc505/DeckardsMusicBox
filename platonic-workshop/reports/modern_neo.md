@@ -10,7 +10,7 @@ Written by `tools/modern_neo.py` from `sources/translations/modern/*.txt`. The W
 - Paragraphs: 395, each with its Greek.
 - Words: 82,178 modern, 64,661 Greek, 109,957 in Taylor's English of the same chapters, 97,125 in MacKenna's (Enneads milestone E34).
 - Sentences (each can be marked in the reader): 2,953.
-- Flags (where Taylor and the Greek differ, or the Greek is hard): 329; where MacKenna and the Greek differ: 109.
+- Flags (where Taylor and the Greek differ, or the Greek is hard): 329; where MacKenna and the Greek differ: 114.
 - Problems found: 0.
 
 ### Flags
@@ -335,6 +335,7 @@ Written by `tools/modern_neo.py` from `sources/translations/modern/*.txt`. The W
 | IV.7.2.p2 | And if each of them has life, one will be sufficient. | These words, which the scan gives, are not in the Greek. |
 | IV.7.2.p2 | For that which is compounded will not be that which arranges and produces the mixture | The Greek says "not only would there be no composite body, but not even a simple one" without soul; Taylor's sentence is not in it. |
 | IV.7.3.p1 | such a one will be confuted by similitude of passion, and by apposition | The Greek says the atoms' union is refuted by their being merely side by side (παράθεσις): they cannot be affected together. |
+| IV.7.3.p1 | MacKenna: as much as by the very coherence of the constituents | The Greek has "and by the juxtaposition" (καὶ τῇ παραθέσει): atoms only lie side by side, nothing in them becomes one through and through; MacKenna's "coherence" says the opposite. |
 | IV.7.3.p2 | The universe 1 also would rapidly perish | The Greek says body would perish, not "the universe". |
 | IV.7.4.p1 | and without a place in which it might be established | Taylor joins what the Greek gives as the Stoics' further mistake, that the better portion was "looking for a place to be settled in". |
 | IV.7.4.p2 | And its subsistence after a certain manner will be also merely a name, and thus it will be an accident to beings | Taylor's "and thus it will be an accident to beings" is not in the Greek. |
@@ -345,6 +346,8 @@ Written by `tools/modern_neo.py` from `sources/translations/modern/*.txt`. The W
 | IV.7.7.p1 | but one sensation perceives that the part of the palm of the hand which is next to the finger is pained | Taylor is right; ταρσός is the flat of the hand. |
 | IV.7.8.p1 | it is necessary that the nature which intellectually perceives the form separate from body of each thing, should know either real being, or that which is becoming to be | The Greek says what thinks must know "by being or becoming pure of body" (καθαρὸν ὂν ἢ γιγνόμενον); "real being" and "that which is becoming to be" are not there. |
 | IV.7.8.p2 | How also, if the soul is body, can temperance and justice be the virtues of it, which are its saviours, so far as they are received by it ? | Taylor's chapter, as the scan gives it, ends here: the rest of chapter 8, on virtue, on bodily powers, on mixture, on harmony and on entelechy, is missing from it. "Which are its saviours" is not in the Greek. |
+| IV.7.8.p2 | MacKenna: beauty would lie wholly in the agreeable form of impressions received | The Greek has "a shapeliness in its figures" (εὐμορφία τις ἐν τύποις): the outlines of the pneuma itself, as when we call bodies comely; nothing is "received". |
+| IV.7.8.p6 | MacKenna: It is obvious that the Intellectual-Principle is last and has sprung from the soul | The Greek states this as what follows on the Stoics' theory ("it turns out for them... and intellect last, evidently arising from soul"), not as Plotinus' own view; he goes on to say the order must be the reverse. |
 | IV.7.9.p1 | There must, therefore, be another nature which possesses existence from itself | Taylor begins his chapter with "There must, therefore, be", as if it followed on his shortened chapter 8; the Greek begins "The other nature". |
 | IV.7.10.p1 | through an alliance and similitude of essence to a divine nature | Taylor is right; the Greek has ὁμοούσιον, "of one being" with the divine. |
 | IV.7.10.p2 | Farewell, a God immortal now am 1/ having ascended to divinity | The scan's "am 1/" is "am I"; the words are Empedocles', which Taylor does not name. |
@@ -352,6 +355,7 @@ Written by `tools/modern_neo.py` from `sources/translations/modern/*.txt`. The W
 | IV.7.12.p1 | it is evident the soul gave being to itself prior to the body | The Greek says its understanding by recollection "gives it" (δίδωσι) being before the body: the argument shows it existed before, not that the soul made itself. |
 | IV.7.13.p1 | it abides ■which are more daemoniacal, and others approximate nearer to our essence | Taylor's long footnote (from Olympiodorus and others, on why souls come down) is printed into the middle of his sentence in the scan, which goes on, after it, "there eternally". |
 | IV.7.13.p1 | being an immortal adorner through an immortal soul | Taylor is right; the Greek has "immortal through immortal". |
+| IV.7.13.p1 | MacKenna: As a whole it is partly in body, partly outside | The Greek has "sometimes in body, sometimes outside body" (ὁτὲ μὲν ἐν σώματι, ὁτὲ δὲ σώματος ἔξω): a matter of times, not of parts. |
 | IV.7.14.p1 | If, however, it is requisite that the soul of man being tripartite should be dissolved with the composite | The Greek gives this as the opponents' claim, "if they say"; and Taylor's "this is accomplished by others in long periods of time" is not quite it: the others stay with what was added for a very long time. |
 | IV.7.15.p1 | those who stand in need of the evidence arising from faith mingled with sensible information | Taylor is right; πίστις here is "belief", trust, not religious faith. |
 | V.1.1.p1 | and the wish to exercise an unrestrained freedom of the will | The Greek has "the wish to be their own" (τὸ βουληθῆναι ἑαυτῶν εἶναι); the "freedom" (τὸ αὐτεξούσιον) comes in the next sentence. |
@@ -389,6 +393,7 @@ Written by `tools/modern_neo.py` from `sources/translations/modern/*.txt`. The W
 | V.2.1.p2 | permits intellect to abide in itself | Taylor is close; the Greek says the higher soul lets intellect stay "by itself" (ἐφ’ ἑαυτοῦ), undisturbed. |
 | V.2.2.p1 | When, therefore, soul [i. e. the human soul] is ingenerated in a plant | Taylor's bracket is his own, from the Neoplatonists he quotes in his footnote: that the rational soul never becomes the soul of a plant or beast. The Greek says only "soul". |
 | V.2.2.p1 | where is the life which was in the root ? | The Greek has "what was in the root", the soul's part, not "the life". |
+| V.2.2.p1 | MacKenna: the more rebellious and less intellectual | The Greek has superlatives, "the most audacious and most senseless" part (τὸ τολμηρότατον καὶ ἀφρονέστατον): the part of soul that has gone furthest out; MacKenna softens them. |
 | V.2.2.p2 | In the power prior to presiding dcemons attend us in their beneficent operations | Taylor's long footnote (from Olympiodorus, on Syrianus and Proclus) is printed into his sentence in the scan, which goes on, after it, "itself". |
 | V.2.2.p2 | Intellect, however, is all these, and yet it is not | The Greek has "that one" (ἐκεῖνος), the first principle; Taylor makes it intellect. |
 | V.2.2.p2 | Hence, there is an abundant life in the universe, which is as it were extended into length | The Greek has "a long life stretched out in length" (ζωὴ μακρὰ), not "abundant life in the universe". |
