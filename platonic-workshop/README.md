@@ -591,6 +591,18 @@ measure" of motion, and alteration "added" to combination where it is brought ba
 equal and like, the Republic's two arithmetics, white that parts the sight (Timaeus 67d-e), coming to be not a motion
 (Physics V.1), motion as the act of the potential (Physics III.1-3), the simple motions (On the heavens I.2), and the
 relatives (Metaphysics Δ.15).
+**VI.4, That being, one and the same, is everywhere whole, first part** (E27), beside MacKenna's own English in vol. V
+(Page did only VI.1-3): 16 chapters, 64 paragraphs, 68 flags, under a new treatise block (the twenty-second in the order of
+writing; VI.5 is its second part). How soul, without parts or size, is whole in every part of the All: the true All and its
+image, presence not by powers cut off, the hand that holds a beam, the light in a sphere, the voice heard whole by every ear,
+the many souls one by otherness, "who are we?", and the ancients' descents and Hades. `tools/mackenna.py` now finds all 16
+chapters (pp. 106-124), reading seven misread numbers, the signatures Q and R, and two running heads it had missed ("oper"
+and "PLOTINUS*"). "Forming principle", "otherness" and "sameness" are kept, and MacKenna's "Reason-Principle" and
+"differentiation" are flagged as his. Among the other flags, the white "the Form, White" where the Greek says the same in
+form, the world and its original "side by side" where it is the original's imitation, place an "envelope", the obstacles to
+the sun's light "refraction", the clouded "opaque", the trace of soul in the body "soul entire", and "the All-Soul". The
+notes give the Timaeus' soul divided about bodies, the Parmenides' day and sail, Aristotle's place (Physics IV.4),
+Parmenides' "being draws near to being", the Phaedo on addition, the Republic's city and soul, and Hades the unseen.
 **III.8, On nature, contemplation and the One, and III.9, Various considerations** (E14), beside MacKenna's vol. II: 14
 chapters, 41 paragraphs, 70 flags, among them his "the Highest" for intellect that began as one and unrolled itself,
 "pregnant" for weighed down, the living principle "brother ... to that which gives mere shape" where it is brother to
@@ -677,7 +689,7 @@ hyphened terms such as "Sense-Perception" kept; not proofread). The master copy 
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: VI.4 That being, one and the same, is everywhere whole, first part, beside vol. V (E27).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: VI.5 That being, one and the same, is everywhere whole, second part, beside vol. V (E28).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,

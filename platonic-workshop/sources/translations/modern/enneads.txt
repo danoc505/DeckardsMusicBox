@@ -7964,3 +7964,407 @@ The relatives can also be divided, as the ancients divided them: some as product
 !flag We may also adopt the ancient division of relatives into creative principles | The Greek has "as productive" (ὡς ποιητικά), the agent relative to what it acts on; "creative principles" is Page's.
 !flag Our investigation into the kinds of Being is now complete | The Greek says only "and about these kinds, so much" (καὶ περὶ μὲν τούτων τῶν γενῶν ταῦτα), the kinds of the perceptible; Page closes the whole of the three treatises.
 !note Aristotle divides relatives into those of number, excess and defect, those of acting and being acted on, and the measurable to the measure, with the same, the like and the equal among them (Metaphysics Δ.15, 1020b26-1021b11). Plotinus weighed the relatives in VI.1.6-9.
+
+# VI.4 (milestone E27): MacKenna's own English (vol. V, 1930, pp. 106-124); Page translated only VI.1 to VI.3.
+
+@treatise VI.4 | That being, one and the same, is everywhere whole, first part
+The twenty-second treatise in the order of writing, and the first of the two On that being, one and the same, is everywhere whole; VI.5, the twenty-third, is its second part. Porphyry says they were the first Plotinus wrote in the six years Porphyry was with him, when Amelius and Porphyry asked him to write (Life 5). How can soul, which has no parts and no size, be in every part of the body of the All? Plotinus asks first about what is before body. The true All, being, is in nothing and needs no place; the visible world, its image, finds it everywhere and circles within it. It is not present by powers sent out and cut off, for powers cannot be apart from their source, nor images from what they are images of: whatever shares in it shares in the whole, as far as it is fit, as the transparent takes the light and the clouded takes less. The images are a hand that holds a long beam, a light inside a sphere, the sun, and a voice heard whole by every ear. The many souls and intellects are many by otherness, not by place, as the sciences are many in one soul. Then: who are we? Men who were there before our birth, to whom another man has added himself, so that we are double, and the body's uproar is like a crowd shouting in an assembly. Last, the descents, judgements and Hades of the ancients are read as the body's coming to soul and soul's giving more or less of itself. The argument goes on in VI.5.
+
+@ch VI.4.1 | Is soul everywhere because of body?
+Is soul everywhere in the All because the body of the All is so large, or is it everywhere by itself, before body? If it fills all that extent, how is it without magnitude? It is not spread as a quality is: the white on two parts is the same in form, not in number, but the soul in foot and hand is the same in number. So begin from the start: how can what is bodiless go so far, before bodies or in them?
+
+@p
+Is it because the body of the All is of such a size that soul is present everywhere in the All, since it has a nature to be divided about bodies? Or is it everywhere of itself? Then it is not brought wherever body brings it, but body finds it already everywhere before body itself, so that wherever body is set, it finds soul there before it was set in a part of the All, and the whole body of the All was set in a soul that already was. But if soul reaches so far before a body of that size has come, filling the whole extent, how will it not have magnitude? Or what way could it have of being in the All before the All came to be, when the All did not exist? And how could anyone accept that what is called without parts and without magnitude is everywhere, though it has no magnitude? And if it were said to be stretched out along with the body, though it is not body, not even so does one escape the difficulty by giving it magnitude by accident: for one could likewise reasonably ask here too how it comes to have magnitude by accident.
+!flag coupled with some native tendency in soul to distribute itself over material mass | The Greek says soul has "a nature to be divided about bodies" (περὶ τὰ σώματα φύσιν ἔχουσα μερίζεσθαι), the Timaeus' phrase, not a tendency to spread itself.
+!flag We may perhaps be told that, though extended over the corporeal, it does not itself become so | The Greek says soul is "stretched out along with the body, not being body" (συνεκτείνεσθαι μὴ σῶμα οὖσα); the magnitude would be soul's by accident, which is what the next words weigh.
+!note The question is the Timaeus' soul, mixed from the undivided being and "the being that becomes divided about bodies" (Timaeus 35a), which Plotinus reads in IV.2.1-2: soul is undivided in itself, and divided only in that it is in every part of a body. The treatise's title is the question of the Parmenides (131a-c), whether one form can be whole in many things.
+
+@p
+@greek οὐ γὰρ δή, ὥσπερ ἡ ποιότης
+For soul is not through the whole body in the way a quality is, sweetness, say, or colour. Those are affections of bodies, so that the whole of what is affected has the affection, and it is nothing on its own, being something of the body and known only then; and so it is necessarily of that size, and the white of one part is not affected along with that of another. With the white, what is on one part is the same in form as what is on another, but not the same in number; with soul, what is in the foot and in the hand is the same in number, as our perceptions show. And yet in qualities the same thing is seen divided, while in soul the same thing is not divided, but is said to be divided in this sense, that it is everywhere.
+!flag no doubt the Form, White, is the same all over, but there is not arithmetical identity | The Greek says the white on one part is "the same in form" (τὸ αὐτὸ μὲν εἴδει) as that on another, "but not the same in number" (οὐ μὴν ταὐτὸν ἀριθμῷ): two whites of one kind, not the Form White itself.
+!note The same in form and the same in number: Aristotle, Topics I.7 (103a6-14) and Metaphysics Δ.6 (1016b31-1017a3). That one soul perceives in foot and hand at once is argued in IV.2.2 and IV.7.6-7.
+
+@p
+@greek λέγωμεν οὖν ἐξ ἀρχῆς
+Let us, then, speak about these things from the beginning, to see whether something clear and easy to accept may come to us: how soul, being bodiless and without magnitude, can go out over the greatest extent, whether before bodies or in bodies. Perhaps, if it appeared that it can do this before bodies too, it would be easy to accept the same thing in bodies.
+!flag whether before material masses exist or as enveloping them | The Greek has "before bodies or in bodies" (εἴτε πρὸ τῶν σωμάτων εἴτ᾽ ἐν τοῖς σώμασι); "enveloping" is MacKenna's.
+
+@ch VI.4.2 | The true All and its image
+There is the true All, and its imitation, this visible world. The true All is in nothing and needs no place; what comes after it is in it, as resting on it. The All cannot fall short of itself: whatever is set in it finds it whole in itself, for being cannot be in non-being. We think the perceptible great and wonder how being stretches over it, but this great is small: the world, unable to take hold of it or go outside it, circles in it, finding it everywhere, and it is present whole to whatever can receive it.
+
+@p
+There is, then, the true All, and there is the imitation of the All, the nature of this visible world. What is really the All is in nothing, for nothing is before it. Whatever is after it must then be in the All, if it is to be at all, and above all hang from it, unable without it either to stay or to move. For even if one does not set such a thing in it as in a place, taking place to be the limit of the surrounding body, by which it surrounds, or some extension which was before of the nature of the void and still is, but as resting, as it were, upon it and reposing on it, since that is everywhere and holds it together, one should drop the predication of the name and take what is said with one's thought. This has been said for the sake of something else: that that All, which is first and is being, does not look for place, and is not in anything at all.
+!flag Side by side exist the Authentic All and its counterpart, the visible universe | The Greek says there is the true All and "the imitation of the All" (τοῦ παντὸς μίμημα), this visible nature: an image after its original, not two side by side.
+!flag the boundaries of some surrounding extension considered as an envelope | The Greek has "the limit of the surrounding body, by which it surrounds" (πέρας σώματος τοῦ περιέχοντος καθ᾽ ὃ περιέχει), Aristotle's definition of place; the "extension" is the other view, named next.
+!flag but this objection is merely verbal and will disappear if our meaning is grasped | The Greek raises no objection: whoever says the world is "in" the true All should "drop the predication of the name" (τὴν τοῦ ὀνόματος ἀφεὶς κατηγορίαν) and take the meaning with his thought.
+!note Place as the first unmoved limit of the surrounding body, and against place as an extension of its own: Aristotle, Physics IV.4 (211b14-212a21). The world as an image of the intelligible living being: Plato's Timaeus (30c-31b, 92c).
+
+@p
+@greek πᾶν δὴ τὸ πᾶν οὐκ ἔστιν
+The All, then, being all, cannot fall short of itself in any way: it has filled itself and is equal to itself, and where the All is, there it is itself, for it is itself the All. In general, if something other than it were settled in the All, it shares in it, meets with it and is strengthened by it, not dividing it, but finding it in itself, having itself come to it, while it has not come to be outside itself. For being cannot be in non-being, but, if anything, non-being in being. It meets being, then, as a whole, for being could not be torn away from itself; and that it is said to be everywhere shows that it is in being, and so in itself. And it is no wonder if what is everywhere is in being and in itself, for then the everywhere comes to be in one.
+!flag the omnipresence should be at once self-abiding and universal | The Greek says it is no wonder if "the everywhere" is "in being and in itself" (ἐν τῷ ὄντι καὶ ἐν αὑτῷ): the everywhere is in being, not being in the everywhere.
+
+@p
+@greek ἡμεῖς δὲ τὸ ὂν ἐν
+But we, setting being in the perceptible, set the everywhere there too; and thinking the perceptible great, we are at a loss how that nature stretches out in something so great and so large. But this which is called great is small, and what is thought small, that is great, if indeed it reaches whole to every part of this; or rather this, coming to it from every side with its parts, finds it everywhere all, and greater than itself.
+!flag meets it everywhere as the omnipresent All ever stretching beyond | The Greek says the world finds it "everywhere all, and greater than itself" (πανταχοῦ πᾶν καὶ μεῖζον ἑαυτοῦ), greater than the world, not stretching beyond it.
+
+@p
+@greek ὅθεν ὡς οὐκ ἐν τῇ ἐκτάσει
+So, since it would take nothing more by stretching out (for it would come to be outside the All too), it wished to run round it; and as it could neither take hold of it round about nor, again, come to be inside it, it was content to have a place and an order where it would be kept safe, as its neighbour, that being present to it and again not present; for that is by itself, even if something wishes to be present to it. So the body of the All, coming together, finds the All wherever it is, so that it needs nothing further, but turns in the same place, as if this were all, of which it enjoys the whole with every part of itself.
+!flag it is content to accept place and subordination | The Greek has "a place and an order" (τόπον καὶ τάξιν), a rank where the world is kept safe as the All's neighbour; "subordination" is MacKenna's.
+!flag in that movement its every part embraces the All | The Greek says that with every part of itself the world "enjoys the whole of that" (ἀπολαύει ὅλου ἐκείνου); it cannot embrace it, as the paragraph has just said.
+!note The circling of the heaven as soul's going round what it cannot go out to: II.2.1-2 (On the motion of the heaven).
+
+@p
+@greek εἰ μὲν γὰρ ἐν τόπῳ ἦν
+If that itself were in place, the body would have to go up to it there and take a straight path, and touch one part of it with one part of itself, and there would be far and near. But if there is neither far nor near, it must be present whole, if it is present at all. And it is present wholly to each of those for whom it is neither far nor near, but who are able to receive it.
+
+@ch VI.4.3 | Present itself, or by its powers?
+Is being itself present everywhere, or does it stay by itself and send powers out, as some say souls are sent out like darts? Where a thing cannot take the whole, a power of it is present, but even then it is not cut off from its power; where all the powers are, it is itself present, though separate, since it is no one thing's. It is no wonder that what is in no place is present to all in place, and whole to each; for it cannot be divided: not its life, its intellect or its being, and even body is divided only as a body of a certain size.
+
+@p
+Shall we say, then, that it is itself present? Or that it is by itself, while powers go out from it to all things, and in this way it is said to be everywhere? For in this way they say that souls are like darts thrown out, so that it is settled in itself, while the souls sent out come to be in one living being after another. Or rather: in things in which the one is present without keeping the whole of the nature that is in that itself, a power of it is present there, to whatever it is present to; yet not even so is that not wholly present, since even then it is not cut off from its power, which it gave to that thing; but the one receiving could take only so much, though all of it was present.
+!flag any presence is presence of an emanant power | The Greek says "a power of it" (δύναμιν αὐτοῦ) is present; "emanant" is MacKenna's.
+!note Who "they" are is not said. That the source stays in itself while what comes from it goes out is Plotinus' own image too (V.1.6, the sun and its light), but here he argues that what goes out is not cut off.
+
+@p
+@greek οὗ δὲ πᾶσαι αἱ δυνάμεις
+But where all the powers are, it is itself clearly present, though it is still separate. For had it become the form of this thing, it would have stood away from being all and from being everywhere in itself, and would be, by accident, of another too. But being of none, though the thing wishes to be its, it draws near to whatever it wishes, as it can, not becoming that thing's, but with that thing longing for it, nor, again, another's. It is no wonder, then, that it is in all things in this way, because, again, it is in none of them in such a way as to be theirs. So it is perhaps not out of place to say that soul too shares the body's affections in this way, by accident, if it is said to be by itself, not become matter's or body's, while the whole body is lit up, as it were, in every part of itself.
+!flag becoming the informing principle of some definite thing | The Greek has "becoming the form of this" (τοῦδε εἶδος): the form of one body, which would then belong to it.
+!flag in the same accidental way, we may reasonably put it, soul concurs with body | The Greek says soul "shares the body's affections" (συμπαθεῖν τῷ σώματι) by accident; "concurs" loses the affections.
+
+@p
+@greek θαυμάζειν δὲ οὐ δεῖ
+One should not wonder that, though it is not itself in place, it is present to everything in place. The opposite would be wonderful, and impossible on top of wonderful, if, having a place of its own, it were present to another thing in place, or were present at all, and present in the way we say. But now the argument says that, since it has been allotted no place, it must be present whole to whatever it is present to, and, being present to all, present whole to each. Otherwise one part of it will be here and another elsewhere, so that it will be divisible and will be body.
+
+@p
+@greek πῶς γὰρ δὴ καὶ μεριεῖς
+For how will you divide it? Will you divide its life? But if the whole was life, the part will not be life. Its intellect, then, so that one is in one thing and another in another? But neither of them will be intellect. Its being? But the part will not be being, if the whole was being. What, then, if someone said that body too is divided and its parts are bodies? Rather, the division was not of body but of a body of a certain size, and each part was called body by the form by which it is body; and this had no size, not any size at all.
+!flag do we not thus sunder Intelligence, one intelligence in this man, another in that | The Greek says only "so that one is in one, another in another" (ἵν᾽ ὁ μὲν ᾖ ἐν ἄλλῳ, ὁ δὲ ἐν ἄλλῳ); "this man" is MacKenna's, and the modern version keeps "intellect" for νοῦς.
+!note Being, life and intellect together are the Sophist's (248e-249a), which Plotinus reads as the intelligible itself (VI.2.7-8). The form of body, which is not a quantity: II.4.8-9 and II.7.3.
+
+@ch VI.4.4 | Many souls and intellects, and one
+How then are there many beings, intellects and souls, if being is one everywhere? It seems better to say the whole generates parts and stays by itself; but then souls could not be whole in whole bodies either, and the things that go forth, numbers and not magnitudes, raise the same difficulty. Being is many by otherness, not by place: being draws near to being. So are souls: soul seems divided only because bodies are. The one soul and the many do not hinder each other, as the many sciences are in one soul.
+
+@p
+How, then, are there being and the beings, and many intellects and many souls, if being is one everywhere, and not one as one in kind, and intellect is one and soul one? And yet there is the soul of the All, and the other souls. These things seem to bear witness against it, and what has been said, even if it has some necessity, does not persuade, since the soul thinks it unbelievable that the one should be the same everywhere in this way.
+!note The beings (τὰ ὄντα) are the forms, which are in intellect and are intellects (V.9.6-8, VI.2.20-22). One in kind (ὁμοειδές) as against one in number, as in chapter 1.
+
+@p
+@greek βέλτιον γὰρ ἴσως
+For perhaps it is better to divide the whole so that what the division came from is not lessened, or rather to say it generated from itself, to use better words, and so to let it be by itself, while what came from it, as parts, at once fill up all things. But if that being stays by itself because it seems strange that something should be present whole everywhere at once, the same argument will hold of the souls. For in the bodies in which they are said to be whole in wholes, they will not be so: they will either be divided, or, staying whole somewhere in the body, will give a power of themselves to the rest. And about the powers the same difficulty will arise, whether the whole is everywhere. And further, one part of the body will have soul, another only a power.
+!flag would come into being to produce the multiple total of the universe | The Greek says only that what came from it, "as it were parts" (οἷον μέρη), "fill up all things" (συμπληροῦν ἤδη τὰ πάντα); MacKenna's "the separate souls" before it is his gloss.
+!note Soul whole in the whole body and whole in each part of it: IV.2.1 and IV.3.3.
+
+@p
+@greek ἀλλὰ πῶς ψυχαὶ πολλαὶ
+But how are there many souls and many intellects, and being and the beings? And indeed the things that go forth from the prior, being numbers and not magnitudes, will raise a like difficulty, how they fill the All. So nothing has been found by us from the multitude going forth in this way to get us out of the difficulty.
+!flag No doubt the beings proceed from the Priors in the mode only of numerical distinction and not as concrete masses | The Greek says the things that go forth "are numbers, not magnitudes" (ἀριθμοὶ ὄντα, ἀλλ᾽ οὐ μεγέθη), and so raise the same difficulty; "numerical distinction" is MacKenna's.
+!note The beings as numbers: VI.6.9-15 (On numbers), the next treatise in Porphyry's order after VI.5.
+
+@p
+@greek ἐπεὶ καὶ τὸ ὂν πολλὰ
+For we grant that being too is many by otherness, not by place. All being is together, even if it is many in this way: "being draws near to being", and all is together; and intellect is many by otherness, not by place, but all together. Are souls so too, then? Souls too. For what is divided about bodies is said to be without parts in its nature; but bodies have magnitude, and when this nature of soul is present to them, or rather when the bodies come to be there, the soul was thought to be divisible about bodies in this way, because that nature images itself in every part of them in so far as they are divided. For that it is not divided along with the parts, but is whole everywhere, makes plain that its nature is one and really without parts.
+!flag diversity within the Authentic depends not upon spatial separation but sheerly upon differentiation | The Greek says being is many "by otherness, not by place" (ἑτερότητι, οὐ τόπῳ). The modern version keeps "otherness" for ἑτερότης, one of the five kinds of VI.2.
+!flag thus the Intellectual-Principle (which is Being and the Beings) remains an integral, multiple by differentiation | The parenthesis is MacKenna's; the Greek says "intellect is many by otherness, not by place, but all together" (νοῦς πολὺς ἑτερότητι, οὐ τόπῳ, ὁμοῦ δὲ πᾶς).
+!note "Being draws near to being" is Parmenides (B8.25): being is continuous, not parted. "The being divided about bodies" is the Timaeus' (35a), as in chapter 1. Being many by otherness: VI.2.8 and Plato's Sophist (255e-256e).
+
+@p
+@greek οὔτ’ οὖν τὸ μίαν
+So the one soul does not do away with the many, as being does not do away with the beings; nor does the multitude there fight with the one; nor must the bodies be filled with life by the multitude; nor must we think that the multitude of souls comes about because of the body's size: before bodies, they are both many and one. For in the whole the many are there already, each not potentially but actually: the one whole soul does not prevent the many from being in it, nor do the many prevent the one. They stand apart without standing apart, and are present to one another without being made strangers; for they are not marked off by limits, as the many sciences in one soul are not, and the one is such as to have them all in itself. In this way such a nature is unlimited.
+!flag present each to all as never having been set in opposition | The Greek says the souls are present to one another "without being made strangers" (οὐκ ἀλλοτριωθεῖσαι), not without opposition.
+!flag the nature of such a principle must be utterly free of boundary | The Greek says "in this way such a nature is unlimited" (οὕτως ἐστὶν ἄπειρος): it is unlimited because it holds all in itself, not by a demand of the argument.
+!note The sciences in one soul, each whole and the whole in each: IV.9.5 and V.9.8. That the souls are one and many: IV.9 (Whether all souls are one).
+
+@ch VI.4.5 | The greatness of soul
+Soul's greatness is not in bulk, which goes to nothing if you take from it. It cannot fail or flow away; it has taken hold of the All. It gives the All as much as the All can bear, and is not smaller than the body, for bulk is not to be measured against what has none: as well call medicine smaller than the doctor's body. The same soul reaches over a body as it grows.
+
+@p
+And its greatness must be taken in this way, not in bulk: for bulk is small, going to nothing if one takes away from it. There one cannot take away, and even if you take away, it will not run short. And if it will not run short, why need one fear that it stands away from anything? For how does it stand away, when it does not run short, but is an ever-flowing nature that does not flow? If it flowed, it would go as far as it could flow; but it does not flow, for it would not even have anywhere to flow: it has taken hold of the All, or rather it is itself the All, and something greater than the nature of body.
+!flag it lies spread over the universe | The Greek says "it has taken hold of the All" (τὸ πᾶν κατείληφε), "or rather it is itself the All"; it is not spread.
+!note "Ever-flowing" (ἀέναος) is said of springs and rivers, and so of what never fails; Plotinus says the nature is ever-flowing and yet does not flow.
+
+@p
+@greek ὀλίγον γὰρ ἂν εἰκότως
+So it would reasonably be thought to give little to the All, as much of itself as the All can bear. But one must not call that smaller, nor, setting it down as smaller in bulk, then disbelieve that the smaller can go over what is greater than it. For one must not predicate "smaller" of it at all, nor set bulk beside what has no bulk in measuring: it would be as if someone said the art of medicine was smaller than the doctor's body. Nor, again, must it be thought greater in this way, by a measuring of quantity, since not even with soul are its being great and greater than the body so. The soul's greatness is witnessed too by this: when the bulk grows greater, the same soul that was in the smaller bulk reaches over all of it. It would be absurd in many ways to add bulk to the soul too.
+!flag too great to be held by body, giving, therefore, to the material universe but little of itself | The Greek says it is "greater than the nature of body" and so would reasonably be thought (νομίζοιτο) to give little; "too great to be held by body" is MacKenna's.
+!note Medicine in the soul of the doctor, with no size: the soul's sciences, as in chapter 4. The soul growing with no growth of its own: IV.7.5.
+
+@ch VI.4.6 | One soul in many bodies?
+Why does the soul not go into another body? Because the other body must come to it, if it can. Does that other have the same soul? Why not, but for the additions; the same soul is in foot and hand. Perceptions differ because the affections judged differ, not what judges, as one of us judges a pleasure in the finger and a pain in the head. One soul does not perceive another's judgement because a judgement is not an affection, as sight does not speak to hearing.
+
+@p
+Why, then, does it not go to another body? Because that body must come to it, if it can, while the one that has come and received it has it. What then? Does the other body, having itself too the soul it has, have the same soul? For what difference is there? Only the additions. Then how is it the same in foot and hand, while the soul in this part of the All is not the same as that in that part? And if the perceptions are different, the affections that befall them must also be said to be different.
+!flag Are we to think that this second body, in keeping its soul with a like care | The Greek asks only whether the other body, "having itself too the soul it has" (ἔχον καὶ αὐτὸ τὴν ἣν ἔχει ψυχήν), has the same soul; "with a like care" is MacKenna's.
+!flag Merely some additions (from the experiences of life, none in the soul itself) | The Greek says only "by the additions" (ταῖς προσθήκαις); the parenthesis is MacKenna's.
+!note The additions are what a soul takes on in coming to a body, the other man of chapter 14; compare IV.3.15.
+
+@p
+@greek ἄλλα οὖν ἐστι τὰ κρινόμενα
+So what is judged is different, not what judges. The one judging is the same judge, coming to be in different affections, and yet it is not he who is affected but the nature of a body of a certain kind. It is as if the same one of us were to judge both a pleasure in the finger and a pain in the head.
+!flag it is only as a man pronounces simultaneously upon a pleasant sensation in his finger and a pain in his head | The Greek has no "simultaneously": it is as if "the same one of us" (ὁ αὐτὸς ἡμῶν) judged both.
+
+@p
+@greek διὰ τί οὖν οὐ συναισθάνεται
+Why, then, does the one soul not perceive along with the other the other's judgement? Because it is a judgement, not an affection. Then too, the soul that judged does not say "I have judged", but only judged; since not even in us does sight speak to hearing, though both judged, but reasoning is over both, and this is other than both. Often, too, reasoning has seen the judgement in another and come to understand another's affection. But this has been spoken of elsewhere too.
+!flag Often, as it happens, reason does become aware of a verdict formed in another reason | The Greek says reasoning sees "the judgement in another" (τὸ ἐν ἑτέρῳ κρίμα), another person, and understands his affection; not a verdict in another reason.
+!note That sight cannot judge sweet and white, but one power over both: Plato's Theaetetus (184b-186a) and Aristotle, On the soul III.2 (426b8-427a14). Why one soul does not feel another's experience is asked in IV.9.2-3.
+
+@ch VI.4.7 | The hand, the light and the sun
+How is the same over all things? Not by dividing it among the many, but by bringing the many back to it; we think it divided because they are scattered. A hand holds a long beam with a power not parted out over it; take away the hand's bulk and the power is whole in all of it. A small light inside a transparent sphere lights all of it; take away the body, and the light is everywhere and nowhere in particular. So the sun, if it were only a power, would light from no one place.
+
+@p
+But let us say again how the same is over all things. This is the same as asking how each of the many perceptible things, lying in many places, is not without a share in the same. For by what has been said it is not right to divide that among the many, but rather to bring the divided many back up to the one; and that has not come to these, but these, because they are scattered, have given us the opinion that that too is parted out among them, as if someone were to divide what masters and holds together into parts equal to what is mastered.
+!note Bringing the many back to the one: VI.5.1-3 and VI.9.1.
+
+@p
+@greek καίτοι κρατοίη ἂν
+And yet a hand could master a whole body, a beam many cubits long, or something else; and what masters reaches over all of it, yet it is not parted out in the hand into parts equal to what is mastered, the power being bounded, as it seems, as far as it touches; but the hand is still bounded by its own quantity, not by that of the body lifted and mastered. And if you added another length to the body mastered, and the hand could carry it, the power masters that too, not parted out into as many parts as the body has. What, then, if one supposed the hand's bodily bulk taken away, but left the same power that held the body up before, the power that was before in the hand? Would it not be the same, without parts, in all of it alike, in every part?
+!flag though the hand is only hand-long, not taking the extension of the mass it wields | The Greek says the power seems bounded "as far as it touches" (καθ᾽ ὅσον ἐφάπτεται), while the hand is bounded "by its own quantity" (τῷ αὑτῆς ποσῷ); "hand-long" is MacKenna's.
+
+@p
+@greek εἰ δὲ δὴ φωτεινὸν
+And if you made a small luminous bulk a centre, as it were, and set round it a larger spherical transparent body, so that the light within shone in all that surrounds it, the outer bulk having no brightness from elsewhere, shall we not say that the inner one is itself not affected at all, but, staying, has gone over the whole outer bulk, and that the light seen in the small bulk has taken hold of what is outside? Since, then, the light was not from that small bodily bulk (for it did not have the light as body, but as luminous body, by another power, which is not bodily), come, if someone took away the body's bulk but kept the power of the light, would you still say the light was somewhere, or would it be equally within and through the whole outer sphere? You will no longer rest your thought on where it lay before, and will no longer say from where, or how; but you will be at a loss about it and wonder, as you gaze at the light here in the spherical body and here at once.
+!flag which illuminates not as body but as body lit | The Greek says it had the light "as luminous body" (ᾗ φωτεινὸν σῶμα), a body that gives light, "by another power, which is not bodily"; not a body lit.
+!note The transparent sphere imagined with all things in it: V.8.9. Light as an act of the luminous body, not a body: IV.5.6-7 and II.1.7.
+
+@p
+@greek ἐπεὶ καὶ ἐπὶ τοῦ ἡλίου
+So with the sun too: you can say from where the light shines through all the air, looking at the body of the sun, and yet you see the same light everywhere, and this is not divided either. What cuts it off shows this: it does not let the light be on the other side from where it came, but it does not divide it either. And so, if the sun were only a power, being without body, and gave light, the light would not begin from there, nor would you say from where; but the light would be everywhere one and the same, not beginning nor having a beginning anywhere.
+!flag Consider too the refraction of light by which it is thrown away from the line of incidence | The Greek has "the cuttings-off" (αἱ ἀποτομαί), the bodies that block the light, which keep it from the far side and yet do not divide it; there is no refraction.
+
+@ch VI.4.8 | What has no body has no parts
+The sun's light has a source because it is of a body; but what is immaterial, prior to all body and settled in itself, has no starting place, and so no part here and part there: whatever shares in it shares in all of it. To be divided is an affection of body as body. One in many is not one become many: we fasten the many's affection on the one. Without size there is no where, and so no division; the many long for it whole, and must have it as though they had not taken it, as not their own.
+
+@p
+Light, then, since it is of a body, you can say where it came from, since you can say where the body is. But if something is immaterial and needs no body, being prior in nature to all body, settled in itself, or rather not even needing any such settling, then this, which has such a nature, having no beginning from which to set out, neither from some place nor being of some body: how will you say that this of it is here and that here? For then it would already have both where it set out from and being something's. It remains, then, to say that, if anything shares in it, it shares in all of it by the power of the whole; nothing else, then, and nothing divided.
+
+@p
+@greek τῷ μὲν γὰρ σῶμα ἔχοντι
+For what has a body could be affected, if only by accident, and in this way could be called affectable and divisible, since it is something of body, like an affection or a form. But what is of no body, but body wishes to be its, must not be affected at all by the other affections of body, and cannot be divided: for this too is an affection of body, and first of all, and of body as body. If, then, the divisible is so as body, the undivided is so as not body. For how will you divide what has no magnitude? If, then, what has magnitude somehow shares in what has none, it would share in it without its being divided, or else it will have magnitude again.
+!flag passive and partible in view of its close relationship with the body | The Greek says such a thing is "something of body, like an affection or a form" (σώματός ἐστί τι οἷον πάθος ἢ εἶδος); "close relationship" is MacKenna's.
+
+@p
+@greek ὅταν οὖν ἓν ἐν πολλοῖς
+When you say one in many, then, you are not saying that it has itself become many; you are fastening the affection of the many on that one, as you see it in the many at once. And the one in them must be taken in this way: not as having become each one's, nor the whole's, but that is its own and is itself, and being itself it does not fall short of itself. Nor, again, is it as large as the whole perceptible All, nor as some part of the All: for it is not a quantity at all. How, then, could it be so large? "So large" belongs to body; to what is not body, but of another nature, "so large" must in no way be fastened.
+!flag we link the variety in the multiples with the unity which we discern | The Greek says we "fasten the affection of the many on that one" (τῶν πολλῶν τὸ πάθος περιάπτεις τῷ ἑνί): the many-ness is the many's affection, laid on the one.
+!flag cannot fail within its own scope (and therefore does reach over the multiple) | The parenthesis is MacKenna's; the Greek says only that, being itself, it "does not fall short of itself" (οὐκ ἀπολείπεσθαι ἑαυτοῦ).
+!note The form whole in each of many things, like a day, or divided, like a sail: Plato's Parmenides (131a-c), the question this treatise and VI.5 answer.
+
+@p
+@greek ὅπου δὲ μὴ τὸ τοσοῦτον
+And where there is no "so large", there is no "where" either; and so no "here and here", for then it would be in many places. If, then, division goes with places, when one part of it is here and another here, how could what has no "here" be divided? It must, then, be undivided, with itself, even if the many happen to long for it. If the many long for it, plainly they long for the whole of it; so that if they can share in it, they would share in the whole of it, as far as they can. Those that share in it, then, must have it as if they had not shared in it, since it is not their own: for in this way it would stay whole by itself, and whole in the things in which it is seen. For if it is not whole, it will not be itself, nor will the sharing be in what is longed for, but in something else, for which there was no longing.
+!note Having it as though they had not shared in it: what is shared in stays apart. The later Neoplatonists make this the unparticipated before the participated (Proclus, Elements of Theology 23-24).
+
+@ch VI.4.9 | If each share were a first
+If each share were whole, there would be many firsts, and nothing to keep them from being one. If the shares are powers, how were they cut off, and where did they go? If they are not still in the source, the source is lessened; if they are, either the same is everywhere undivided, or each power is whole and with only one substance, but there is no power without substance. Weaker powers, like a dim light, are still all of one kind; divided they would be powerless; and an image cut off from what it images cannot be. So the source is with them, whole, everywhere.
+
+@p
+For if the part that came to be in each were whole, and each itself were like the first, then, with each always cut off, the firsts would be many, and each a first. Then what would keep these many firsts apart, so that they are not all one together? Not their bodies: for they could not be forms of the bodies, if they too are like that first from which they came. And if what are called the parts in the many are its powers, first, each is no longer whole; then, how did they come, cut off, and leaving it behind? For if they left it, plainly they left it to go somewhere.
+!flag those firsts cannot be present in the material masses as their Forms if they are to remain identical with the First | The Greek says "if they too are like that first" (εἴπερ ὅμοια καὶ ταῦτα ἐκείνῳ τῷ πρώτῳ): like it, not identical.
+!flag they certainly have not moved away with no purpose in their movement | The Greek says "if they left it, plainly they left it going somewhere" (κατέλιπόν ποι ἰοῦσαι): leaving is going to a place, which powers of what has no place cannot do; there is no purpose in it.
+
+@p
+@greek εἶτα πότερα ἔτι
+Then, are the powers that have come to be here in the perceptible still in it, or not? If they are not, it is absurd that it should have been lessened and become powerless, deprived of the powers it had before; and how could the powers be apart from their own substances, cut off? If they are both in it and elsewhere, either they will be here whole, or parts of them. If parts, the remaining parts are there. If whole, either those which are there are here too, undivided, and again the same will be everywhere undivided; or each power, become many, is whole, and they are like one another, so that with each substance there will be only the one power that is with it, and the others will be only powers. Yet as there cannot be substance without power, so neither can there be power without substance. For power there is reality and substance, or greater than substance.
+!flag for There power is Being or something greater than Being | The Greek has "reality and substance, or greater than substance" (ὑπόστασις καὶ οὐσία ἢ μεῖζον οὐσίας); the modern version keeps "substance" for οὐσία.
+!note "Greater than substance" recalls the Good, "beyond substance" (Republic VI 509b); compare III.8.10, where the first is the power of all things.
+
+@p
+@greek εἰ δ’ ἕτεραι ὡς ἐλάττους
+And if the powers from it are other, as lesser and dim, like a dim light from a brighter, and substances go with these powers, so that there is no power without substance: first, with such powers too, which are all of one kind with one another, it must be granted either that the same is everywhere, or, if not everywhere, at least that the same is whole in every part at once, undivided, as in one and the same body. And if so, why not in the whole All? And if each is divided to infinity, it will no longer be whole itself, but by the division there will be powerlessness.
+!flag such secondary powers would be perfectly uniform | The Greek says the powers are "of one kind with one another" (ὁμοειδῶν πρὸς ἀλλήλας), not uniform in themselves.
+
+@p
+@greek ἔπειτα ἄλλη κατ’ ἄλλο
+Then, being one in one part and another in another, it will leave no perceiving together. And then, as the image of something, like the weaker light, would no longer be when cut off from what it is from, and in general whatever has its reality from another, being an image of it, cannot be cut off and made to be in reality, so neither would these powers that came from it be, cut off from it. And if so, that whose powers they are, from which they came, will be there with them at once, so that again it will itself be everywhere at once, undivided, whole.
+!flag the conditions of consciousness cease | The Greek has "perceiving together" (συναίσθησις), the one body's feeling of itself as one; "consciousness" is MacKenna's.
+!flag for example, a reflected light | The Greek has "the image of something, like the weaker light" (τὸ ἴνδαλμά τινος, οἷον καὶ τὸ ἀσθενέστερον φῶς), the dim light of the paragraph before; there is no reflection.
+!note Perceiving together across the parts of a body: IV.2.2 and IV.7.7.
+
+@ch VI.4.10 | Images and warmth
+It may be said that an image need not hang on its archetype, as a painting outlasts its sitter, and warmth stays when the fire goes. But a painting is the painter's work, and the placing of the colours; images in water and mirrors and shadows are properly from what they image and cannot be cut off from it. Warmth is not an image of fire, and it fades. If the powers were quenched, the souls and intellect would perish; but the sun gives the same light while it stays, and souls and intellect are immortal.
+
+@p
+But suppose someone says that the image of something need not be attached to its archetype, for there can be a likeness when the archetype from which the likeness comes is absent, and when the fire has gone away the warmth can be in what was warmed. First, about the archetype and the likeness: if one means the likeness made by the painter, we shall say that it was not the archetype that made the likeness but the painter, and it is not a likeness of him, not even if someone paints himself; for what painted was not the painter's body, nor the form imitated; and one must say that not the painter, but the placing of the colours just so, makes such a likeness.
+!note The portrait made from memory: Life 1, where Plotinus will not sit for one. The painter's likeness third from the truth: Republic X (596e-598b).
+
+@p
+@greek οὐδὲ κυρίως ἡ τῆς
+Nor is this properly the making of a likeness and an image, as in water and mirrors or in shadows. There the image has its reality, properly, from the prior, and comes to be from it, and what has come to be cannot be cut off from it. And it is in this way that they will hold that the weaker powers come to be from the prior.
+!flag Nor is there strictly any such making of image as we see in water or in mirrors or in a shadow | The Greek says the painting is not properly the making of an image "as in water and mirrors or in shadows" (οἷον ἐν ὕδασι καὶ κατόπτροις ἢ ἐν σκιαῖς): those are the images made properly, which hang on their originals; MacKenna's "Nor is there" denies them.
+!flag it is in this sense that we are to understand the weaker powers to be images of the Priors | The Greek says this is how "they will claim" (ἀξιώσουσι) that the weaker powers come from the prior: those who hold the powers are cut off must grant it.
+
+@p
+@greek τὸ δ’ ἐπὶ τοῦ πυρὸς
+As for what is said about fire, the warmth must not be called an image of the fire, unless one says there is fire in the warmth too: for if so, one will make the warmth apart from fire. Then, even if not at once, the warmed body does stop and grows cold when the fire has gone away.
+!flag unless we think of warmth as containing fire so that the two are separate things | The Greek says that if there were fire in the warmth, one "will make the warmth apart from fire" (χωρὶς πυρὸς ποιήσει τὴν θερμότητα), which is absurd; the separate things are MacKenna's.
+
+@p
+@greek εἰ δὲ καὶ οὗτοι
+And if these people too were to quench these powers, first, they will say that only the one is imperishable, and will make the souls and intellect perishable; then they will make what comes from a flowing substance flowing too. And yet, if the sun stayed settled wherever it is, it would give the same light to the same places; and if someone said it was not the same, he would be using this to prove that the sun's body flows. But that what comes from that is not perishable, and that the souls and all intellect are immortal, has been said at more length elsewhere too.
+!flag then since Being (identical with the Intellectual-Principle) becomes transitory, so also must the Beings, its productions | The Greek says they "will make what comes from a flowing substance flowing" (ἐκ ῥεούσης οὐσίας ῥέοντα τὰ ἐξ αὐτῆς); the parenthesis and "the Beings" are MacKenna's.
+!note The soul's immortality: IV.7 (On the immortality of the soul). Whether the sun's body flows and is fed: II.1.3-5.
+
+@ch VI.4.11 | First, second, third: not by place
+If it is whole everywhere, why do not all things share in all of the intelligible, and why are some first and others second? It is present by the fitness of what receives it, as light to the transparent, and otherwise to the clouded; first, second and third are by order, power and differences, not place, as soul and intellect and the sciences are together. It is varied and many, yet one: one forming principle, and its otherness is its own. Presence is of many kinds.
+
+@p
+But why, if it is whole everywhere, do not all things share in the whole of the intelligible? And how is one thing first after it, another second, and others after that? Rather, one must think that what is present is present by the fitness of what will receive it, and that being is everywhere in being, not falling short of itself, and that what can be present to it is present, and as far as it can, so far it is present to it, not by place: as the transparent is to the light. To the clouded the sharing is otherwise.
+!flag why do not all things participate in the Intellectual Order in its entirety | The Greek has "the intelligible" (τοῦ νοητοῦ); the modern version keeps "intelligible" for νοητός.
+!flag the transparent object and the opaque answer very differently to the light | The Greek has "the clouded" (τῷ τεθολωμένῳ), the troubled or muddied, which takes the light otherwise, not the opaque, which takes none.
+
+@p
+@greek καὶ δὴ τὰ πρῶτα
+And the firsts, seconds and thirds are so by order, by power and by differences, not by places. For nothing prevents different things from being together, as soul and intellect and all the sciences, the greater and the lower. Since from the same thing the eye sees the colour, smell the fragrance, and another sense another thing, all being together, not apart.
+!note The ranks of what receives: VI.5.11. That from one thing each sense takes its own: Aristotle, On the soul II.6 (418a7-25).
+
+@p
+@greek οὔκουν ἐκεῖνο ποικίλον
+Is that not, then, varied and many? Rather, the varied is simple again, and the many one. For the forming principle is one and many, and all being is one. For the other is in it, and the otherness is its own: it is surely not of non-being. And being belongs to the one, which is not separated from it, and wherever being is, its one is present to it too, and the one, being, is again by itself. For it is possible to be present while being separate. The perceptibles are present to the intelligibles in one way, those of them that are present, and to those they are present to; the intelligibles are present to themselves in another; since body is present to soul in one way, and science to soul in another, and science to science, each being in the same, in another; and body to body otherwise again, besides these.
+!flag for it is a Reason-Principle, which is to say a unity in variety | The Greek says "the forming principle (λόγος) is one and many" (λόγος γὰρ εἷς καὶ πολύς); "Reason-Principle" is MacKenna's name, and "which is to say a unity in variety" his gloss.
+!flag the differentiation is within Being, obviously not within non-Being | The Greek says "the other is in it and the otherness is its own" (τὸ ἕτερον ἐν αὐτῷ καὶ ἡ ἑτερότης αὐτοῦ). The modern version keeps "otherness" for ἑτερότης.
+!flag for presence in the sensible does not abrogate independence | The Greek says "it is possible to be present while being separate" (ἔστι γὰρ καὶ παρεῖναι χωρὶς ὄν), nothing of the sensible.
+!note The other is, and is not non-being, but otherness of being: Plato's Sophist (256d-259b) and VI.2.8. The one never apart from being: VI.2.9-11.
+
+@ch VI.4.12 | The voice in the air
+A voice in the air, and the word in it, is received whole by every ear that is present, and many eyes see the same thing: so what can have soul has it, from the same. The voice is whole everywhere in the air, not stretched along it part for part: why disbelieve that soul is whole wherever it is present? Before bodies soul is like the speaker; in bodies, like the voice spoken, and still the speaker. What newly takes soul does not receive a part sent to it: it comes to soul, into the world of life, and shares in the whole.
+
+@p
+As when there is a voice in the air, and a word in the voice, the ear that is present has received and perceived it, and if you set another between, in the empty space, the word and the voice came to it too, or rather the ear came to the word; and many eyes have seen the same thing, and all were filled with the sight, though what is seen lies in a bounded place, because one was an eye and the other an ear: so too what can have soul will have it, and another again, and another, from the same.
+!flag from a great distance many eyes look to the one object and all take it fully | The Greek has no great distance: many eyes saw the same, "though what is seen lies in a bounded place" (ἐν ἀφωρισμένῳ τοῦ θεάματος κειμένου).
+!flag while from the one identical presence another will derive something else | The Greek says "another again, and another, from the same" (καὶ ἄλλο αὖ καὶ ἕτερον ἀπὸ τοῦ αὐτοῦ) will have soul; not something else.
+!note The word (λόγος) is the meaning carried in the voice, as in VI.3.18-19.
+
+@p
+@greek ἦν δὲ ἡ φωνὴ πανταχοῦ
+The voice was everywhere in the air, not one voice divided, but one, whole everywhere. And so with sight: if the air, affected, has the shape, it has it undivided, for wherever sight is set, it has the shape there. Not every opinion grants this, but let it be said for this reason, that the sharing is from the same one.
+!note That the air between is affected and passes on the shape is Aristotle's account of sight (On the soul II.7, 419a9-21); Plotinus doubts it in IV.5.1-4.
+
+@p
+@greek τὸ δὲ ἐπὶ τῆς φωνῆς
+The case of the voice is clearer, that the whole form is in all the air: for not everyone would have heard the same unless the spoken word were whole everywhere, and each hearing had taken in all of it, like every other. If not even here is the whole voice stretched along through the whole air, so that this part of it is yoked to this part of the air, and that part divided along with that, why should one disbelieve that soul is not stretched along and divided with the body, but is present wherever it is present, and is everywhere in the All, undivided?
+
+@p
+@greek καὶ γενομένη μὲν ἐν σώμασιν
+And when it has come to be in bodies, in whichever it comes to be in, it will be analogous to the voice already uttered in the air, and before the bodies, to the one uttering and about to utter. And yet even when it has come to be in a body, it has not even so ceased to be as in the one uttering, who in uttering both has the voice and gives it. What belongs to the voice, then, does not have sameness with what it is taken to show, but it has a likeness in some respect; what belongs to soul, which is of the other nature, must be taken not as though one part of it were in bodies and another by itself, but as whole in itself and again appearing in many.
+!flag though even embodied it remains at once the speaker and the silent | The Greek says it remains as in "the one uttering, who in uttering both has the voice and gives it" (ὅστις φωνῶν καὶ ἔχει τὴν φωνὴν καὶ δίδωσι); there is no silent one.
+!flag the soul belongs to that other Kind | The Greek has "the other nature" (φύσεως τῆς ἑτέρας), here the intelligible over against body; MacKenna's "Kind" suggests the kinds of VI.2.
+!note The image has "no sameness" (ταυτότης) with what it shows, only "a likeness in some respect". In VI.3.1 "the other nature" was the perceptible; here, from the side of body, it is soul's.
+
+@p
+@greek καὶ αὖ εἰ ἦλθεν ἄλλο
+And again, if another thing has come to take soul, this too has, again from the invisible, the same that was in the others too. For it was not so prepared that a part of soul, lying here, should come to this; what is said to come was in the All, in itself, and is in itself, though it seems to have come here. For how could it have come? If, then, it did not come, but is seen now present, and present not by waiting for what will share in it, plainly, being by itself, it is present to this too. And if, being by itself, it is present to this, this has come to it.
+!flag receives mysteriously that same principle | The Greek says the newcomer has it "from the invisible" (ἐξ ἀφανοῦς): from what cannot be seen, not by a mystery.
+
+@p
+@greek εἰ δὲ τοῦτο ἔξω ὂν
+And if this, being outside what really is, came to what really is, and came to be in the world of life, and the world of life was by itself, and all of it was by itself, not parted out into its own bulk, for it was not bulk, then what came did not come into bulk either. It shared in it, then, not in a part but in the whole. And if another comes into such a world, it will share in the whole of it. Likewise, then, if that is said to be whole in these things, it will be whole in each. And so everywhere it will be the same, one in number, not divided, but whole.
+!note The world of life (ὁ κόσμος ὁ τῆς ζωῆς) is the intelligible, where being is life: V.8.3-4 and VI.7.12.
+
+@ch VI.4.13 | Nothing stretched out
+How then does soul stretch over the whole heaven? It does not. Perception says "here and here", but the argument says the stretched-out shares in what is unextended. Nothing shares in itself: body shares in what is not body, magnitude in what is not magnitude, as two cubits do not become three. So what is shared in must be no quantity at all: not small, for the small is divisible and cannot fit the whole, and not a point, for the bulk has infinitely many points. It is whole in every part of the bulk.
+
+@p
+Where, then, does the stretching out over the whole heaven and the living beings come from? Rather, it was not stretched out. Perception, which we heed when we disbelieve what is said, says "here and here"; but the argument says that the "here and here" came about not by its being stretched out here and here, but that what is stretched out has shared in all of it, while it is itself without extension.
+!flag the extended has participated in that kosmos of life which itself has no extension | The Greek says the extended "has shared in all of it" (πᾶν αὐτοῦ μετειληφέναι), the soul's, "which is without extension"; the world of life was chapter 12's.
+
+@p
+@greek εἰ οὖν τι μεταλήψεταί
+If, then, something will share in something, plainly it will not share in itself, or it will not be a sharer but itself. So body, sharing in something, must share in what is not body, for body it has already. Body, then, will not share in body. Nor, then, will magnitude share in magnitude, for it has it already. Not even if it took an addition will that magnitude which it was before share in magnitude: for the two-cubit does not become three-cubit, but the underlying thing, which had one quantity, has come to have another; since in that way the two themselves will be three.
+!flag the actual two cubits must themselves become the new three (which cannot occur) | The parenthesis is MacKenna's; the Greek says only "since in that way the two themselves will be three" (ἐπεὶ οὕτω γε αὐτὰ τὰ δύο τρία ἔσται).
+!note What becomes larger by addition is the underlying thing, not the quantity: Plato's Phaedo (96d-97b, 100e-101c).
+
+@p
+@greek εἰ οὖν τὸ διειλημμένον
+If, then, what is parted out and stretched to so much is to share in another kind, or in general one thing in another, what it shares in must be neither parted out nor stretched out, nor any quantity at all.
+
+@p
+@greek ὅλον ἄρα δεῖ
+So what is to be present must be present itself, whole, everywhere, being without parts: not without parts in the way the small is, for in that way it will be no less divisible, will not fit all of the body, and will not stay with it the same as it grows; nor as a point is, for the bulk is not one point, but has infinitely many in it, so that this too would be infinitely many points, if it is at all, and not continuous; so not even so will it fit. If, then, the whole bulk is to have it whole, it will have it in every part of itself.
+!flag the universe must hold that one soul present at its every point | The Greek says "the whole bulk will have it in every part of itself" (ἕξει αὐτὸ κατὰ πᾶν ἑαυτοῦ): it is the bulk, not the universe, and the Greek does not name soul.
+!note The continuous is not made of points: Aristotle, Physics VI.1 (231a21-b18).
+
+@ch VI.4.14 | Who are we?
+If the same soul is everywhere, how is each one's own, and one good, another bad? It suffices for each and holds all souls and intellects, one and unlimited, each distinct and not apart; nothing comes to be there, and it seems divided only to what receives it. Who are we? Before our birth we were there, pure souls and intellect, parts of the intelligible not cut off, and are not cut off now. But another man has added himself to the man each of us was, as an ear comes to a voice, and we have become the pair.
+
+@p
+But if the same soul is everywhere, how is each one's own? And how is one good, another bad? Rather, it suffices for each, and has all souls and all intellects. For it is one and again unlimited, and it has all things together, and each distinct, and again not distinguished apart: for how else would it be unlimited? Or rather, it may be said in this way, that it has all things together, all life, all soul and every intellect, but each of them is not marked off by limits; and for this reason it is one again. For it had to have not one life but an unlimited one, and again one, and the one one in this way: because all are together, not heaped together into one, but beginning from one and staying where they began, or rather not even beginning, but always being so. For nothing comes to be there; nor, then, is anything divided there, but it seems divided to what receives it. What is there is the ancient and from the beginning; what comes to be draws near, and seems to be joined, and hangs from that.
+!flag It was to hold life not single but infinite and yet one life, one in the sense not of an aggregate built up | The Greek says all the lives are together "not heaped together into one" (οὐ συμφορηθείσας εἰς ἕν), but beginning from one; "aggregate built up" is MacKenna's.
+!note The unlimited (ἄπειρον) here is the inexhaustible fullness of the intelligible, not the unlimited of matter: VI.6.18.
+
+@p
+@greek ἡμεῖς δέ
+But we: who are we? Are we that, or what draws near and comes to be in time? Rather, even before this becoming came about, we were there, other men, some of us even gods: pure souls, and intellect joined to the whole of substance, parts of the intelligible, not marked off nor cut away, but being of the whole; for not even now are we cut away.
+!flag Intelligence inbound with the entire of reality | The Greek has "intellect joined to the whole of substance" (νοῦς συνημμένος τῇ ἁπάσῃ οὐσίᾳ); the modern version keeps "intellect" for νοῦς and "substance" for οὐσία.
+!note That not all of the soul came down, but something of it is always in the intelligible: IV.8.8. "Who are we?": I.1.7-10, and the man of Alcibiades I (129e-130c).
+
+@p
+@greek ἀλλὰ γὰρ νῦν ἐκείνῳ
+But now to that man another man has come, wishing to be, and finding us, for we were not outside the All. He has put himself round us and added himself to that man who each of us was then (as if, when there is one voice and one word, one man here and another there set his ear to it, and heard and received it, and came to be a hearing in act, having what acts on it present to it); and we have become the pair, and not the one we were before, and sometimes the other, the one we added afterwards, when that prior one is idle and in another way not present.
+!flag now we have lost that first simplicity | The Greek has no loss here: the voice and its hearers are an image of how the second man adds himself to the first, and "we have become the pair" (γεγενήμεθα τὸ συνάμφω); MacKenna makes the image our first state.
+!note The pair (τὸ συνάμφω), soul and body together, is the living being of I.1.7 and IV.4.18; the three men, VI.7.5-6.
+
+@ch VI.4.15 | The newcomer and the crowd
+What came had a fitness for soul and got what it was fit for; what is less fit, like animals and plants, takes what it can, as some hear only the sound and not the word. The living body, not empty of soul, takes a trace of soul, like warmth or light, and with it desires, pleasures and pains. Soul from the divine was quiet, but what is weak and struck from outside cried out and troubled the whole, like a hungry crowd in an assembly of elders; when it is quiet and a wise word comes from above, there is order. One who masters the crowd goes back up to the man he was; another lives a mixed life.
+
+@p
+But how did what came come? Because it had a fitness, it got what it was fit for. It had come to be such as to receive soul. But what comes to be such as not to receive all of it, though all of it is present, yet not for it, as with the other living beings and the plants, has as much as it can take: as, when a voice signifies a word, some share in the word too, with the sound of the voice, and others only in the voice and its blow.
+!note The voice as a blow of air: Plato's Timaeus (67b) and Aristotle, On the soul II.8 (420b5-421a6). Animals and plants hear the sound without the meaning.
+
+@p
+@greek γενομένου δὴ ζῴου
+So, when a living being has come to be, which has soul present to it from being, by which it hangs on all being, and a body is present too, not empty, nor without a share of soul, which did not lie even before in the soulless, and still more came near, as it were, by its fitness, and came to be no longer only body but living body, and by the neighbourhood, as it were, reaped some trace of soul, not a part of that, but like a sort of warmth or illumination that came: then the becoming of desires and pleasures and pains grew up in it. So the body of the living being that had come to be was not foreign to it.
+!flag but that it is warmed and lit by soul entire | The Greek says the body takes "some trace of soul" (τι ἴχνος ψυχῆς), "not a part of that, but like a sort of warmth or illumination that came"; not soul entire.
+!note The trace of soul in the body, the seat of desire and pain: IV.4.18-20 and I.1.7.
+
+@p
+@greek ἡ μὲν δὴ ἐκ τοῦ θείου
+The soul from the divine was quiet, in keeping with its own character, standing on itself; but what was in uproar from weakness, and flowing, and struck by blows from outside, cried out, first to itself, then into what is common to the living being, and gave its own disturbance to the whole: as, in an assembly, with the elders sitting in quiet thought, a disorderly people wanting food, and blaming the other things it suffers, might throw the whole assembly into an unseemly uproar. When such people keep quiet, and a word comes to them from someone with sense, the crowd settles into a moderate order, and the worse has not mastered; if not, the worse masters while the better keeps quiet, because what is in uproar could not receive the word from above. And this is the vice of a city and of an assembly.
+!flag This is the evil of state and of council | The Greek has "the vice (κακία) of a city and an assembly" (πόλεως καὶ ἐκκλησίας κακία), the city's badness; "council" is MacKenna's for the assembly.
+!note The city and the soul, and the many-headed beast of desires within: Republic IV (439c-442d), VIII (557a-562a) and IX (588c-589b).
+
+@p
+@greek τοῦτο δὲ καὶ ἀνθρώπου κακία
+This is the vice of a man too, who has in himself a people of pleasures, desires and fears, which have mastered him when such a man gives himself over to such a people. But one who enslaves this mob and runs back up to that man he once was lives by that one, and is that one, giving to the body what he gives as to something other than himself. Another lives now in this way, now in another, a sort of mixture, come to be from a good self and a bad other.
+!flag and these become masters when the man, the manifold, gives them play | The Greek says they master him when "such a man gives himself over to such a people" (συνδόντος ἑαυτὸν τοῦ τοιούτου ἀνθρώπου δήμῳ τῷ τοιούτῳ); "the manifold" is MacKenna's.
+
+@ch VI.4.16 | Descents, judgements and Hades
+If soul cannot become bad and is present to body in this way, what are the ancients' descents and ascents, judgements and entries into animals? Coming is the body's coming to soul; descent is soul's giving something of itself, not becoming the body's, and departure is the end of that communion. The communion is bad because soul becomes partial, acting by a part as a knower by one theorem; it leaps from the whole into a part. Hades is the unseen, or a worse place where the image goes; but the soul set free by philosophy is in the intelligible.
+
+@p
+But if that nature could not become bad, and this is the way soul goes into body and is present to it, what is the descent in periods, and again the ascent, and the judgements, and the entries into the bodies of other living beings? For we have received these from those of old who did philosophy best about soul, and it is fitting to try to show that the present argument is in harmony with them, or at least not out of tune.
+!flag the banishment into animal forms | The Greek has "the entries into the bodies of other living beings" (αἱ εἰς ἄλλων ζῴων σώματα εἰσκρίσεις); "banishment" is MacKenna's.
+!note The periods, judgements and entries into animals: Plato's Phaedrus (248c-249b), Republic X (614b-621b), Timaeus (42b-d) and Phaedo (81d-82b); in Plotinus, IV.8.1 and III.4.2.
+
+@p
+@greek ἐπειδὴ τοίνυν τὸ μεταλαμβάνειν
+Since, then, sharing in that nature was not its coming into things here, standing away from itself, but this coming to be in it and sharing in it, plainly what those men call coming must be said to be the nature of body coming to be there and sharing in life and soul; and the coming is not by place at all, but whatever the way of such a communion is. So descending and coming to be in a body, as we say soul comes to be in a body, is giving something of itself to it, not becoming its; and departing is the body's having no communion with it at all. And there is an order of such communion for the parts of this All; and soul, being as it were at the last place of the intelligible, gives of itself more often, since it is near in power, and at shorter intervals, by the law of such a nature.
+!flag will give forth freely to body | The Greek says soul at the last place of the intelligible gives of itself "more often" (πλεονάκις), "at shorter intervals" (ἐν βραχυτέροις διαστήμασι), not freely.
+!note Soul as the last of the intelligible, at its border with the perceptible: IV.8.7. The law of descents in their times: IV.3.12-13.
+
+@p
+@greek κακὸν δὲ εἶναι
+And such communion is bad, and the release good. Why? Because, even if it is not this body's, still, called the soul of this, it becomes in some way partial, out of the whole. For its act is no longer toward the whole, though it is of the whole: as if, when the science is whole, the knower were to act by some one theorem; whereas his good was not in some part of the science, but in all of it that he has.
+!flag a soul in any way to be described as attached to this universe | The Greek says "a soul called this one's" (ψυχὴ τοῦδε λεγομένη), the soul of one body; not of this universe, whose soul does not become partial.
+!note The release (ἀπαλλαγή) of soul from body: Plato's Phaedo (64c, 67a-d). The theorem and the whole science: IV.9.5.
+
+@p
+@greek καὶ τοίνυν αὕτη τοῦ παντὸς
+And so this soul, being of the whole intelligible world, and hiding its part in the whole, has, as it were, leapt out of the whole into a part, into which it shuts itself, being a part: as if a fire that could burn everything were made to burn some small thing, though it has all its power. For soul, when it is wholly apart, is each and not each; but when it is set apart, not by place but by act, and becomes the individual, it is a portion, not all, though even so it is all in another way. And when it presides over nothing, it is wholly all, being a part then as it were potentially.
+!flag it is perfectly the All-Soul, the partial in it latent | The Greek says it is "wholly all" (πάντη πᾶσα), "being a part then as it were potentially"; "All-Soul" is MacKenna's, and the soul of the All is not what is meant.
+!note Souls leap from the whole into a part, and are kept there: IV.8.4.
+
+@p
+@greek τὸ δὲ εἰς ᾅδου
+As for coming to be in Hades: if it means in the unseen, it is its being apart that is meant; if some worse place, what is surprising? Since even now, where our body is and in what place it is, soul too is said to be there. But when the body no longer is? Rather, if the image is not torn away, how is soul not there where the image is? But if philosophy has set it wholly free, the image might go off alone to the worse place, while soul itself is purely in the intelligible, with nothing of it taken out.
+!flag the authentic passing uncontaminated into the Intellectual | The Greek says soul is "purely in the intelligible" (καθαρῶς ἐν τῷ νοητῷ); the modern version keeps "intelligible" for νοητός.
+!note Hades (ᾅδης) and the unseen (ἀιδής): Plato's Phaedo (80d), Gorgias (493b) and Cratylus (403a). Heracles' image in Hades while he is with the gods: Odyssey XI (601-604), read in I.1.12 and IV.3.27.
+
+@p
+@greek τὸ μὲν οὖν ἐκ τοῦ τοιοῦδε
+So much for the image that has come to be from such a thing. But when soul itself shines, as it were, toward itself, the image, by the inclination to the other side, is drawn together toward the whole, and is not in act, nor yet has it perished. But so much about these things; let us take up again the argument from the beginning, and speak.
+!flag chooses the higher and by that choice blends into the All | The Greek has "inclination" (νεῦσις) "to the other side", and the image is "drawn together toward the whole" (πρὸς τὸ ὅλον συνέσταλται); there is no choice.
+!note The argument taken up again from the beginning is VI.5, the treatise's second part.
