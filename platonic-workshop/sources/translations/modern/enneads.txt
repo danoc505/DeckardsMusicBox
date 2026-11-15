@@ -5885,3 +5885,405 @@ But since his father was too great to be beauty, he himself remained beautiful i
 !flag Soul also has beauty, but is less beautiful than Intellect as being its image | The Greek says soul is "a trace" (ἴχνος) of intellect, a weaker word than image.
 !note Aphrodite as the soul, daughter of Kronos, intellect: III.5.2-3. "Know yourself", the Delphic saying, read as self-knowledge of the soul in Plato's Alcibiades I (130e-133c).
 !note "The intelligible place" (νοητὸς τόπος): Plato's Republic (VI 508c, VII 517b). The "other road" is the next part of the long work, V.5.
+
+@treatise VI.1 | On the kinds of being, first part
+The forty-second treatise in the order of writing (Life 5), and the first of the three On the kinds of being (VI.1 to VI.3). Plotinus examines the ten categories of Aristotle's school, and then the four of the Stoics, and asks whether they are kinds of being at all, and whether they hold in the intelligible as they do in the perceptible. The school's division leaves out the intelligibles, which most are. There is no one kind of substance over intelligible and perceptible, over matter, form and the compound, or over first and second substance. Only number is quantity in the proper sense; speech, time and motion are quantities only by the way. Relation is real, though its being comes wholly from the relation, and it falls into kinds that share only a name. Quality has no single common nature, neither power nor form, and Aristotle's four species of it do not hold. "When" and "where" come down to time and place. Acting is better called act, a kind of motion, and motion should be a kind of its own. Being acted on, having and lying follow (chapters 16 to 24); then the Stoics' four kinds, substrate, qualified, disposed and relatively disposed, are found wanting: they make matter the first principle, put the potential before the actual, and make god a state of matter (chapters 25 to 30).
+
+@ch VI.1.1 | Ten kinds, or ten categories?
+The ancients asked how many things there are; those who came after set down a limited number of kinds, ten or fewer. Are the ten kinds that share the name "being", or ten categories? Are they found alike in the intelligible and the perceptible? If "substance" means the same there and here, there is a common kind over things prior and posterior, which is strange; and in any case the division leaves out the intelligibles, the things that most are.
+
+@p
+About the things that are, how many they are and which, the very ancient thinkers too inquired. Some said there is one, some a limited number, some an unlimited number; and within each group, some said the one was one thing and others another, and so too with those who said a limited number, and those who said an unlimited number. These opinions have been examined well enough by those who came after them, and we may let them go.
+!flag Philosophy at a very early stage investigated | The Greek says that "the very ancient" thinkers (οἱ πάνυ παλαιοί) inquired into it; the next sentences turn to the later ones who examined them.
+!note The survey is Aristotle's: the principles are one or many, and if many, limited or unlimited in number (Physics I.2, 184b15-22; Metaphysics A.3-8).
+!note The older English shown with VI.1 to VI.3 is not MacKenna's own but B. S. Page's: MacKenna, finding these three treatises beyond him, had Page translate them for his last volume (1930), "making some concessions to the terminology adopted in the previous volumes" (the volume's Acknowledgements). The flags name it with the rest of MacKenna's English.
+
+@p
+@greek ὅσα δὲ ἐξετάσαντες
+We must look instead at those who examined the views of the ancients and themselves set down a limited number of kinds. They did not posit one, because they saw many even among the intelligibles; nor an unlimited number, because that is not possible, and there could be no knowledge of it. They set down a limited number, and because the things that underlie are not rightly called elements, they spoke of certain kinds of them: some said ten, some fewer, and there might be some who said more. There is a difference too about the kinds: some take the kinds to be principles, others take it that the things that are are so many in kind.
+!flag others less, others no doubt more | The Greek only allows that "there might be some" (εἶεν δ’ ἄν τινες) who said more; it names no one.
+!note The ten are Aristotle's categories: substance, quantity, quality, relative, where, when, lying, having, acting, being acted on (Categories 4, 1b25-2a4). The fewer are the Stoics' four, examined from chapter 25.
+
+@p
+@greek πρῶτον τοίνυν τὴν διαιρουμένην
+First, then, we must take up and examine the division of the things that are into ten, and ask whether we are to think they mean ten kinds that share the common name "being", or ten categories. For they say that "being" is not said in one sense of all of them, and they say so rightly. But this must be asked first: are the ten found in like manner among the intelligibles and among the perceptibles? Or are all of them among the perceptibles, while among the intelligibles some are and some are not? Surely not the other way round.
+!note "Category" (κατηγορία) means first a predication: the ten are the ten kinds of thing that can be said of something. Things are "synonymous" when they share a name and its account, "homonymous" when they share only the name (Categories 1, 1a1-12); "being is said in many ways" (Metaphysics Γ.2, 1003a33).
+
+@p
+@greek οὗ δὴ ἐξεταστέον
+Here we must examine which of the ten are there too, and whether the things that are there are to be brought under one kind with those here, or whether "substance" is said of what is there and what is here by the same name only. If so, there are more kinds. If it is said in one sense, it is strange that "substance" should mean the same of the things that are first and of those that come after, when there is no common kind over things among which there is a prior and a posterior. But they say nothing of the intelligibles in their division. So they did not mean to divide all the things that are: they have left out the things that most are.
+!flag the Supreme they overlooked | The Greek says they "have left out the things that most are" (τὰ μάλιστα ὄντα), in the plural: the intelligibles, not the One alone.
+!note That there is no common kind over things ordered as prior and posterior is Aristotle's own rule (Metaphysics B.3, 999a6-13), which he uses against a common Form of the Good (Nicomachean Ethics I.6, 1096a17-23).
+
+@ch VI.1.2 | No one kind of substance
+Is substance one kind? It cannot be common to the intelligible and the perceptible, for then something before both would be predicated of both, neither body nor bodiless. Even among the substances here, what is common to matter, form and the compound, or to first and second substances? What substance is cannot be said, and not even "one in number, receiving contraries" fits all.
+
+@p
+Again, then: are we to think there are such kinds? And how is substance one kind? We must certainly begin with it. That "substance" cannot be one thing common to intelligible and perceptible substance has been said. Besides, there would then be something else before both the intelligible and the perceptible, something else predicated of both, which would be neither body nor bodiless: otherwise body would be bodiless, or the bodiless body. Still, we must look among the substances here themselves for what is common to matter, to form, and to what is made of both.
+!flag But are we really obliged to posit the existence of such genera | The Greek begins "again, then" (πάλιν οὖν): the question goes back to the start, whether there are kinds at all.
+!note Matter, form and the compound of both are the three candidates for substance in Aristotle (Metaphysics Z.3, 1029a2-7; On the soul II.1, 412a6-9).
+
+@p
+@greek πάντα γὰρ ταῦτα οὐσίας
+For they say that all these are substances, but that they do not have an equal share in substance, since form is said to be substance more than matter is; and rightly. Others would say matter is more. And what would the substances called first have in common with the second, when the second get from the first their being called substances at all?
+!note First substances are individuals, this man or this horse; second substances are their species and kinds, man and animal (Categories 5, 2a11-19). Those who make matter more substance are the Stoics, and before them the early natural philosophers (Metaphysics Z.3, 1029a10-26).
+
+@p
+@greek ὅλως δὲ τί ἐστιν
+In general, it is not possible to say what substance is. Even if you give its property, you do not yet have what it is. And perhaps not even "what is one and the same in number and receives contraries" will fit all of them.
+!note "Most distinctive of substance is that, being one and the same in number, it can receive contraries" (Categories 5, 4a10-11).
+
+@ch VI.1.3 | Substance as one category
+Perhaps substance is one category, not one kind, as the Heraclids are one family from one ancestor. But then all things might be one category. The marks of substance, the "this", the subject not in another, set it apart from the rest, and let us call all substances by one name, but they do not make one kind or show what substance is.
+
+@p
+But should we perhaps speak of one category, taking together intelligible substance, matter, form and what is made of both? As if someone said the family of the Heraclids is one, not as something common to all of them, but as coming from one: for that one is substance first, and the others second and less.
+!note "From one" (ἀφ’ ἑνός): Aristotle's way of explaining how a word is said of many things in relation to one, neither by one account nor by mere chance (Metaphysics Γ.2, 1003a33-b15; Nicomachean Ethics I.6, 1096b26-29). The Heraclids are the descendants of Heracles, from whom the kings of Sparta claimed descent.
+
+@p
+@greek ἀλλὰ τί κωλύει
+But then what prevents everything from being one category? For all the other things that are said to be are from substance. Or: those are affections, while the substances follow one another in another way. Yet even so we do not yet have anything to rest on in substance, nor do we grasp what is most properly substance, so as to derive the others from it.
+
+@p
+@greek συγγενεῖς μὲν δὴ οὕτως
+So let all the things called substances be akin in this way, having something beside the other kinds. What, then, is this very thing: the "something", the "this", the subject, not lying on something else, nor in another as in a subject, nor being what it is as belonging to something else, as white is a quality of a body, and quantity of a substance, and time something of motion, and motion of what moves? But second substance is said of something else. Or: "said of something else" means something else here, as a kind present in it, present as a part, and as the "what" of that thing; while white is said of something else because it is in something else.
+!note Aristotle distinguishes what is "said of a subject" from what is "in a subject" (Categories 2, 1a20-b9): substance is neither (Categories 5, 2a11-14); second substances are said of a subject but are not in one (3a7-21). Time is "the number of motion" (Physics IV.11, 219b1-2).
+
+@p
+@greek ἀλλὰ ταῦτα μὲν ἴδια
+These one might call properties, as against the other things, and on this account gather them into one and call them substances; but one would not call them one kind, nor does this yet show the notion and the nature of substance. Let this stand here; let us go on to the nature of quantity.
+
+@ch VI.1.4 | Quantity: only number in the proper sense
+They count number, magnitude, place and time as quantities, and the rest by reference to them. But what is common to the continuous and the discrete? Lines and bodies are magnitudes, and become quantities only when measured by number. Numbers in themselves are substances; numbers in things measure them from within, oddly. Number alone is quantity in the proper sense, the rest only in a second way: one category, not one kind.
+
+@p
+They say that number is quantity first, and all continuous magnitude, and place and time; the other things they call quantities they refer to these, and motion is a quantity because time is. And yet perhaps it is the other way round, and time gets its continuity from motion.
+!flag number together with all continuous magnitude, space and time | The Greek has "place" (τόπον), Aristotle's word for a quantity, and the word the next chapters keep.
+!note Aristotle's list: discrete quantities are number and speech; continuous are line, surface, body, time and place; other things are quantities only incidentally, motion by its time (Categories 6, 4b20-25, 5a38-b10). That time follows the continuity of motion is his too (Physics IV.11, 219a10-14).
+
+@p
+@greek εἰ μὲν δὴ τὸ συνεχὲς ᾗ συνεχὲς
+If they say that the continuous is a quantity in so far as it is continuous, the discrete would not be a quantity. If the continuous is a quantity incidentally, what will be common to both, that makes them quantities? Let it belong to numbers to be quantities. Yet that gives them only the name of quantities; it does not yet show what the nature is by which they are so called. But a line, a surface and a body are not even called quantities: they are called magnitudes, not quantities, since they take on the name of quantity only when they are brought to a number, as "two cubits" or "three cubits". For the natural body too becomes a quantity when it is measured, and place is a quantity incidentally, not in so far as it is place.
+!flag they become known as quantities only when they are rated by number—two yards, three yards | The Greek has "two cubits, three cubits" (δίπηχυ ἢ τρίπηχυ), Aristotle's own example of quantity (Categories 4, 1b28-29); the cubit is about a foot and a half.
+
+@p
+@greek δεῖ δὲ μὴ τὸ κατὰ συμβεβηκὸς
+We must not take what is a quantity incidentally, but what is a quantity in itself, quantity as such. For neither are the three oxen a quantity, but the number on them: "three oxen" are already two categories. So too a line of such a length is two categories, and a surface of such a size is two; and the quantity of the surface is a quantity, but why is the surface itself a quantity? At least, it is said to be a quantity when it is bounded by, say, three lines or four.
+
+@p
+@greek τί οὖν; μόνον τοὺς ἀριθμοὺς
+What then? Shall we say that numbers alone are quantity? If we mean numbers in themselves, these are called substances, and above all because they are in themselves. If we mean the numbers in the things that share in them, by which we count, not units, but ten horses and ten oxen, then, first, it will seem strange that if those are substances, these are not; and next, that they measure the things that underlie them by being in them, and not by being outside, as rulers and measures measure.
+!flag yet as standing outside the objects they have no measuring power, as do rulers and scales | The Greek finds it strange that such numbers measure "by being in" the things (ἐνυπάρχουσιν) "and not by being outside, as rulers and measures measure"; Page turns the comparison round.
+!note Numbers in themselves, as substances, are the numbers of Plato's school, which Aristotle discusses in Metaphysics M and N; Plotinus gives his own account in VI.6, On numbers.
+
+@p
+@greek ἀλλ’ εἰ ἐφ̓ ἑαυτῶν ὄντες
+But if they are taken by themselves for measuring, and are not in the things that underlie them, then neither are those things quantities, since they do not share in quantity; and why are the numbers themselves quantity? Because they are measures. But why are measures quantities, or quantity? Perhaps because, being among the things that are, and fitting none of the other categories, they will be what they are called, and will be placed in the so-called quantity.
+!flag the objects will be quantities only to the extent of participating in Quantity | The Greek says the things measured will not be quantities at all (οὔτε ἐκεῖνα ποσά), "since they do not share in quantity".
+!flag they find their place under the influence of verbal suggestion | The Greek says only that "they will be what they are called" (τοῦτο, ὃ λέγονται, ἔσονται), quantities; there is no "verbal suggestion".
+
+@p
+@greek καὶ γὰρ ἡ μονὰς αὐτῶν
+For their unit marks off one, and then goes on to another, and the number shows how many, and the soul measures the multitude by using it. In measuring, then, it does not measure what a thing is: it says "one" and "two" whatever they are like, even if they are contraries. Nor does it measure the condition a thing is in, hot or beautiful, but how many. So number, whether it is looked at by itself or in the things that share in it, belongs to quantity, and not the things that share in it. Not the "three cubits", then, but the three. Why, then, are magnitudes quantities too? Is it because they are near quantity, and we call the things in which it comes to be quantities, not by quantity in the proper sense, but call a thing great as sharing in much number, and small as sharing in little? But great itself and small are not held to be quantities, but relatives; and yet they call them relatives in so far as they seem to be quantities. This must be looked at more closely.
+!flag the mind measures by availing itself of the total figure | The Greek says "the soul" (ἡ ψυχή) "measures the multitude" (τὸ πλῆθος) by using number; "the total figure" is Page's.
+!note Great and small are not quantities but relatives, since a thing is called great or small in relation to another (Categories 6, 5b14-29).
+
+@p
+@greek ἔσται τοίνυν οὐχ ἕν τι γένος
+So there will not be one kind: number alone is quantity, and the others in a second way. Not one kind in the proper sense, then, but one category, which gathers what is near to the things that are quantities first and in a second way. We must ask how numbers in themselves are substances, or whether they too are a sort of quantity. Whichever is the case, those numbers would have nothing in common with these but the name.
+
+@ch VI.1.5 | Speech, time and motion as quantities
+Speech is measured as sound, but as speech it signifies: it is rather an acting, the impression a blow makes on the air. Time, as measure, needs a measurer, the soul or the now; as measured, it is a quantity only in its length, and is in itself another nature. Equal and unequal belong to quantity itself, and to other things only by the way.
+
+@p
+And speech, time and motion: how are they quantities? First, speech, if you like. It is measured, of course; but speech is of such a size in so far as it is sound, and in so far as it is speech it is not a quantity: it signifies, as the noun and the verb do. Its matter is the air, as it is of these too, for speech is made up of them. Or rather the blow is speech: not the blow simply, but the impression that comes about, which as it were shapes the air. So it is rather an acting, and an acting that signifies.
+!flag we may define speech as an impact (made upon the outer air by the breath) | The Greek says only that "the blow is rather speech" (ἡ δὲ πληγὴ μᾶλλον λόγος); the breath and the outer air are Page's.
+!note Aristotle counts speech as a discrete quantity, since it is measured by long and short syllables (Categories 6, 4b32-37). Voice is "a blow of the breathed air" with a meaning (On the soul II.8, 420b27-33).
+
+@p
+@greek τὴν δὲ κίνησιν ταύτην
+One might more reasonably set down this motion and this blow as an acting, and the motion over against it as an undergoing; or each as the acting of one thing and the undergoing of another; or as an acting on the subject and an affection in the subject. But if voice is taken not by the blow but by the air, there would be two categories and not one, since its signifying brings in another category along with that one.
+
+@p
+@greek ὁ δὲ χρόνος εἰ μὲν
+As for time: if it is taken as what measures, we must determine what the measurer is: either soul or the now. If it is taken as what is measured, then in so far as it is of such a size, a year, say, let it be a quantity; but in so far as it is time, it is some other nature, for what is of such a size is of that size by being something else. Time is surely not quantity; and quantity that does not attach to anything else would itself be what is quantity in the proper sense. If one were to make everything that shares in quantity a quantity, substance too will be the same as quantity.
+!note Whether there would be time without a soul to count it is Aristotle's question (Physics IV.14, 223a21-29); the now measures time as the unit measures number (IV.11, 219b11-12, 220a4). Plotinus' own account of time is in III.7.
+
+@p
+@greek τὸ δὲ ἴσον καὶ ἄνισον
+That equal and unequal are proper to quantity must be taken of quantity itself, not of the things that share in it, except incidentally, not in so far as they are themselves: as the "three cubits long" is a quantity, and it too is brought together not into one kind, but under one heading and one category.
+!note "Most distinctive of quantity is that it is called equal and unequal" (Categories 6, 6a26-35).
+
+@ch VI.1.6 | Is relation anything in the things?
+Is there a common kind in relation, and is the relation itself any reality? Run through the list: double and half, state, sitting, father and son, like and equal, knowledge and perception. Knowledge and acting may have some reality in act; but likeness is only the same quality in each, equality the same quantity, and the comparison, of greater and less, right and left, before and after, seems to be ours, not in the things.
+
+@p
+Relation we must examine in this way: is there some common kind in it, or is it one in some other way; and above all, here, whether this having-a-relation is some reality, as with right and left, double and half; or whether it is in some cases, as in those named second, but in those named first none at all; or nowhere. What, then, of double and half, and in general of what exceeds and what is exceeded; and again of state and disposition, reclining, sitting, standing; and again of father, son, master, slave; and again of like, unlike, equal, unequal, of what can act and what can be acted on, and of measure and measured?
+!flag Has it, perhaps, actuality in some cases only, as for instance in what is termed | The Greek asks whether the relation is real "in those named second" (ἐπὶ τοῦ ὕστερον λεχθέντος), double and half, but "in those named first" (right and left) is nothing; Page reads the two as the relatives "posterior" and "prior".
+!note The list follows Aristotle's relatives: double and half, greater, state, disposition, knowledge, perception, position, like (Categories 7, 6a36-b14), and master and slave (7a28-b1).
+
+@p
+@greek καὶ ἐπιστήμη καὶ αἴσθησις
+Knowledge and perception too, the one in relation to the knowable, the other to the perceptible. Knowledge might have, in relation to the knowable, some one reality in act, in relation to the form of the knowable; and perception likewise in relation to the perceptible; and what acts in relation to what is acted on, even if it brings about one work; and the measure in relation to what is measured.
+
+@p
+@greek ὅμοιον δὲ πρὸς
+But what would like have, in relation to like, that is born of the relation? Or nothing born, but something already there: the sameness in quality. But beside the quality in each there is nothing. Nor with equals: the sameness in quantity is there before the relation. And the relation, what is it but our judgment, when we compare things that are what they are by themselves, and say: "this and this have the same size and the same quality", and "this one has made that one", and "this one rules that one"?
+!flag this is superior to that | The Greek says "this one rules that one" (οὗτος κρατεῖ τούτου), the relation of master and slave in the list above.
+
+@p
+@greek κάθισίς τε καὶ στάσις
+And sitting and standing, what would they be beside what sits and what stands? A state, when it is said by what has it, would rather signify having; when it is said by what is had, it would be a quality; and so with disposition. What then would there be beside these things that are in relation to each other, but our thinking of them side by side?
+
+@p
+@greek τὸ δ’ ὑπερέχον
+What exceeds is of one size, and the other of another; this is one thing, and that another; the comparison is ours, not in them. Right in relation to left, and in front and behind, are perhaps rather in their lying: one is here, the other there; we have thought of right and left, and in the things themselves there is nothing. Before and after are two times; and before and after, likewise, are ours.
+
+@ch VI.1.7 | Relation is real
+If we speak truly when we say one time is before another, relation is something. Things are double, or equal, before we notice; the relation is there, and we see it. Some relations last while the things stay as they were, some come with their meeting, some cease while the things stay. Relatives proper are those whose reality comes from the relation alone: double and half are born together and are what they are for each other. But do they last together? The son is a son when the father has died.
+
+@p
+If, then, we mean nothing, and speak falsely when we speak, none of these would be anything, and relation would be empty. But what if we speak truly when we compare two times and say "this one is before that one, and after", meaning by "before" something other than the things that underlie them; and likewise with right and left; and with magnitudes, meaning their relation beside their quantity, by which one exceeds and the other is exceeded?
+!flag but are victims of words | The Greek says "we speak falsely" (ψευδόμεθα) when we speak of relations.
+
+@p
+@greek εἰ δὲ καὶ μὴ λεγόντων
+And if, even when we do not say or think it, things are so, so that this is double that, and one has and the other is had, even before we notice; and equals are equal to one another before us, and in the case of being qualified things are in sameness with one another; and in all the things we call relative, the relation of one to the other is there after the things that underlie them, and we look at it as being there; and knowledge is in relation to what is known, where the reality that comes from the relation is even plainer: then we must stop asking whether relation exists.
+
+@p
+@greek ἐπισημηναμένους δέ
+But we should note that among such things, in some the relation is there as long as the things underlying stay as they were, even if they are apart; in others it comes about when they come together; and in others, even while they stay, the relation ceases altogether, or becomes another, as with right and near. It is from these above all that the suspicion comes that there is nothing in such things. Having noted this, we must ask what is the same in all of them, and whether it is the same as a kind, and not as an accident; and then, once the same has been found, what sort of reality it has.
+!flag Our task, thus, is to give full value to this elusive character of Relation | The Greek says only "having noted this" (τοῦτ’ οὖν ἐπισημηναμένους), the three cases just listed.
+
+@p
+@greek λεκτέον δὴ τὸ πρὸς τι
+We must say, then, that the relative is not whatever is simply said of another, as a state is of a soul or of a body; nor because a soul is of this one, or in another; but those things whose reality comes from nowhere but the relation: the reality not of the things underlying, but the one that is called relative. For instance, the double, in relation to the half, gives reality neither to the two-cubit length nor in general to two, nor to the one-cubit length nor in general to one; but, these being there, by their relation, the one being two and the other one, the one got to be called and to be double, and the other, the one, got to be half. So both together begot out of themselves something else, double and half, which were begotten in relation to each other, and whose being is nothing but their being for each other: for the double, from exceeding the half, and for the half, from being exceeded. So neither of them is before and the other after: they come into being at once.
+!note Relatives "seem to be by nature at once" (ἅμα τῇ φύσει), as double and half: when one is, so is the other (Categories 7, 7b15-22).
+
+@p
+@greek εἰ δὲ καὶ ἅμα μένει
+But do they also last together? With father and son and the like, when the father has gone, the son is still a son, and the brother a brother; for we also say "this one is like the dead man".
+
+@ch VI.1.8 | Two kinds of relation
+What common reality do relatives have? Not a body; if anything, something bodiless, in them or outside. If it is not the same in all, "relation" is only a name. Perhaps relations are of two kinds: some idle, there at once, to be looked at; others with power and work, as making and being made, father and son. Then relation is said of the two only by the same name: equality makes things equal, greatness great, while the active relation is itself making and being made.
+
+@p
+But this was a digression. From here we must ask why it is not likewise with these. Let them tell us what common reality this being, that comes from one another, has. It would not be some body. It remains, then, if it exists, that it is bodiless, and either in the things themselves or outside.
+
+@p
+@greek καὶ εἰ μὲν ἡ αὐτὴ σχέσις
+And if the relation is the same, it is said in one sense; if not, but different in different things, it is said by the same name only: for it would surely not have the same being just because it is called relation.
+
+@p
+@greek ἆῤ οὖν τὰς σχέσεις ταύτῃ
+Should we, then, divide relations in this way: that some things have the relation idle, lying there, as it were, to be looked at, and their reality is all there at once; while others have it with power and work, and either always have the relation in some way and had the readiness before, but come to be real in coming together and in act; or, in general, some have made and others have come to be, and what has come to be only gave its name to the other, while the other gave it its reality? Such are father and son. And what acts and what is acted on have, as it were, a life and an act.
+!flag though here both producer and product have a sort of actuality, which we call life | The Greek says this of what acts and what is acted on (τὸ ποιητικὸν δὲ καὶ τὸ παθητικόν), the next pair: they have "as it were a life and an act"; the father and son are the example before.
+
+@p
+@greek ἆῤ οὖν ταύτῃ διαιρετέον
+Should we then divide relation in this way, and divide it not as something the same and common in its differences, but as a relation of another nature altogether in each; and say that the relation that makes, the acting and the being acted on, as though both were one, shares only its name with the relation that does not make, where what makes in both is something else? For instance, equality makes things equal: things are equal by equality, and in general the same by some sameness. And great and small: the one by the presence of greatness, the other of smallness. When one is greater and the other smaller, those who share in them are so, the one greater when the greatness in him shows itself in act, the other small when his smallness does.
+!flag we are overlooking the equivocation involved | The Greek proposes that we "must call homonymous" (λεκτέον ὁμώνυμον) the relation that makes and the one that does not: the two share only the name. Nothing is said of overlooking.
+
+@ch VI.1.9 | Relations as forms shared in
+Relations of acting and knowing are acts; the rest are sharings in forms and forming principles. If the bodiless is real, relations are real, and their causes are forms: the double is double by the double. Ugly and uglier, perception, knowledge, state and measure each have their account. If relation is one form, it is one kind; if its principles are opposed, it is one category by a likeness. But a category that holds both double and not double cannot be one kind.
+
+@p
+So in the cases spoken of earlier, as with what acts and with knowledge, we must take the relation to be active, and the act, and the forming principle in the act, to be real; in the others, there is a sharing in form and in forming principle.
+!flag the Act and the Reason-Principle in the Act must be assumed to be real | "Reason-Principle", the term of MacKenna's volumes, which Page kept, renders λόγος, the forming principle, as the Workshop calls it throughout.
+
+@p
+@greek καὶ γάρ, εἰ μὲν σώματα
+For if the things that are had to be bodies, we would have to say that these so-called relations of the relative are nothing. But if we give the chief place to the bodiless and to forming principles, then, calling the relations forming principles, and sharings in forms causes, we must say: of being double, the double itself is the cause, and of the other's being half, the half. Some things are what they are said to be by the same form, others by opposite forms. So at once double came to this one, and half to another; greatness to this one, and smallness to that. Or both are in each: likeness and unlikeness, and in general sameness and difference. That is why the same thing is both like and unlike, the same and different.
+!flag we are bound to seek their causes in that higher sphere | The Greek speaks of "sharings in forms" as "causes" (εἰδῶν μεταλήψεις αἰτίας), and gives the double itself as the cause of being double; there is no "higher sphere" in the sentence.
+!note Things are two by sharing in twoness, and large by largeness (Plato, Phaedo 100c-101c); Simmias is taller than Socrates and shorter than Phaedo, having both largeness and smallness in him (Phaedo 102b-d).
+
+@p
+@greek τί οὖν, εἰ ὁ μὲν
+What, then, if one man is ugly and another uglier, by sharing in the same form? Or: if they are altogether ugly, they are equal by the absence of form; if there is more in one and less in the other, the less ugly is so by sharing in a form that does not master, and the more ugly by one that masters still less. Or by privation, if one wants to keep the comparison, as though the form were in them.
+!flag whether sharing in the same Form could make one man depraved and another more depraved | The Greek says "ugly" and "uglier" (αἰσχρός, αἰσχίων): the example is of looks, a form that has not mastered the matter, not of vice.
+
+@p
+@greek αἴσθησις δὲ εἶδός τι
+Perception is a form from both, and knowledge likewise is a form from both. A state, in relation to what is had, is an act that holds it together, as it were, like a kind of making. Measuring is an act of the measurer in relation to what is measured, a forming principle.
+
+@p
+@greek εἰ μὲν οὖν ὡς εἶδος γενικῶς
+If, then, one sets down the relation of the relative as one, as a form in the manner of a kind, there is one kind, and one reality, as a forming principle, everywhere. But if the forming principles are opposed, and have the differences we spoke of, perhaps there would not be one kind; but all are brought back to a certain likeness, and to one category.
+
+@p
+@greek ἀλλ’ εἰ καὶ εἰς ἓν δύναιτο
+But even if the things spoken of could be brought back to one, the things they have placed under the same category cannot be brought into one kind. For they bring into one their negations too, and the things named after them, such as double and not double, and the double and the doubling. How then could a thing itself and its negation be under one kind, double and not double, relative and not relative? As if someone set down animal as a kind and put in it what is not an animal. And the double and the doubling are like whiteness and the white, not as the same thing.
+
+@ch VI.1.10 | What do qualities have in common?
+Quality makes things qualified; but what is common to state, disposition, affective quality and figure? Not power: incapacities and shapes are not powers, and the acts of substance are not of quality. The differences of substances are qualities only in name. Ugliness and disease are hard to call powers or forming principles. Perhaps quality is a character, a form that comes to a substance after it: heat in fire is an act of the substance, heat elsewhere an image of it.
+
+@p
+Quality, from which what is called qualified gets its name, we must first take up: what is it, that it provides the things called qualified? And is it one and the same, providing the species by what is common to it and by its differences? Or, if qualities are spoken of in many ways, there would not be one kind.
+!note "By quality I mean that by which things are said to be qualified" (Categories 8, 8b25).
+
+@p
+@greek τί οὖν τὸ κοινὸν ἐπί τε ἕξεως
+What, then, is common to state, disposition, affective quality, figure and shape? And to thin, thick, lean? If we say the common thing is power, which fits states, dispositions and natural powers, by which what has it can do what it can, incapacities will no longer fit. And then, how are the figure and the shape of each thing a power?
+!note Aristotle's four species of quality: states and dispositions; natural capacity and incapacity; affective qualities and affections; figure and shape (Categories 8, 8b26-10a16).
+
+@p
+@greek εἶτα καὶ τὸ ὂν ᾗ ὂν
+Then too, being as being will have no power, until quality comes to it; and the acts of substances, those that are acts most of all, would belong to quality, though they act by themselves and are what they are by their own powers. But are qualities perhaps powers that come after the substances themselves? For example, the power of boxing does not belong to man as man, but the rational does. So the rational in this sense is not a quality; rather, what one might acquire from virtue is; so "rational" is said by the same name only. So quality would be a power that adds to substances, after them, their being qualified.
+!flag but a natural possession of the mature human being | The Greek says that what is a quality is rather "what one might acquire from virtue" (ὃ ἐξ ἀρετῆς κτήσαιτο ἄν τις), being reasonable, as against the rational that belongs to man as man.
+
+@p
+@greek αἱ δὲ διαφοραὶ αἱ πρὸς ἀλλήλας
+The differences that set substances apart from one another are qualities only in name: they are rather acts and forming principles, or parts of forming principles, and show the "what" no less, even if they seem to speak of a qualified substance. But qualities in the proper sense, by which things are qualified, and which we say are powers, would by what is common to them be forming principles of a sort, and, as it were, shapes: beauties and uglinesses about the soul, and about the body likewise.
+!flag that is, excellences and imperfections whether of soul or of body | The Greek says "beauties and uglinesses" (κάλλη καὶ αἴσχη), the words of the next sentences.
+!note That the difference that marks off a substance is called a quality is Aristotle's (Metaphysics Δ.14, 1020a33-b2); Plotinus answers that it belongs to the "what", the substance itself.
+
+@p
+@greek ἀλλὰ πῶς δυνάμεις
+But how are they all powers? Let beauty and health, of soul and of body, be powers; but ugliness and disease, and weakness and incapacity in general, how? Because things are called qualified by these too. But what prevents things that are called qualified from being called so by the same name only, and not by one account; and not only in four ways, but in each of the four in at least two? Or, first, quality is not by acting or being acted on, so that what can act is qualified in one way and what is acted on in another; but a thing is qualified by health, by disposition and by state, and likewise by disease, and by strength and by weakness.
+
+@p
+@greek ἀλλ’ εἰ τοῦτο, οὐκέτι κοινὸν
+But if so, power is no longer what is common, and we must look for something else that is common. Nor are they all forming principles: how is a disease that has become a state a forming principle? Should we then say that the qualities in forms and powers are qualities, and these others privations? So there would be not one kind, but a bringing into one as one category: knowledge, for instance, a form and a power, and ignorance a privation and an incapacity. Or incapacity and disease are a kind of shape too, and they can do and make much, though badly, disease and vice alike. But how is a missing of the mark a power? Each does its own work, not looking to what is right; it would not have made anything it cannot. And beauty too has the power for something. Does the triangle, then?
+!flag restricting the term Quantities to Ideal-Forms and powers | The Greek speaks of "qualities" (ποιότητας) in forms and powers; "Quantities" is a slip.
+
+@p
+@greek ἢ ὅλως οὐδὲ πρὸς δύναμιν
+Or, in general, we should not look to power, but rather to the way a thing is disposed; so qualities are by the shapes, as it were, and the characters, and what is common is the shape and the form that is on the substance, after the substance. But then, how are the powers qualities? The natural boxer too has this by being disposed in a certain way, and so does the one unable to do something; and in general quality is a character that is not of the substance. Whatever seems to be the same and to contribute both to substance and to what is not substance, as heat and whiteness and colour in general, is one thing as belonging to the substance, its act, as it were; and another as coming second, from that, one thing in another, an image of it, and like it.
+!flag Whatever is seen to apply alike to Being and to non-Being | The Greek says "to substance and to what is not substance" (εἰς οὐσίαν καὶ εἰς μὴ οὐσίαν): the heat that is part of what fire is, and the heat it gives to other things.
+!note The same thought in II.6, On substance, or on quality: the heat of fire belongs to its substance, while in what it heats it is a quality, an image of it.
+
+@p
+@greek ἀλλ’ εἰ κατὰ τὴν μόρφωσιν
+But if quality is by shaping and character and forming principle, how are incapacities and uglinesses qualities? We must say they are imperfect forming principles, as in the ugly. And in disease, how is there a forming principle? Here too we must say it is a forming principle disturbed, that of health. Or not everything is in a forming principle: it is enough that what is common, beside being disposed in some way, is outside the substance, and what comes to the subject after the substance is a quality of the subject. The triangle is a quality of what it is in: not triangle simply, but the triangle in this, and in so far as it has shaped it. But humanity too has shaped the man; or rather, it has made him a substance.
+!flag modified in proportion to its success in shaping that object | The Greek says the triangle is a quality "in so far as it has shaped" its subject (καθ’ ὅσον ἐμόρφωσεν); and Page leaves out the last sentence, that humanity too shapes, or rather makes a substance, and so is no quality.
+
+@ch VI.1.11 | The species of quality
+Aristotle's species of quality do not hold. Lasting does not make a state differ from a disposition; natural power adds nothing to a disposition; whether a quality comes by nature or by practice, from an affection or not, makes no difference to the quality. Shape is form, or else a forming principle. Rough and smooth, rare and dense are not positions of parts, and may be qualities; light and heavy need another species.
+
+@p
+But if this is so, why are there several species of quality, and why are states and dispositions different? Lasting and not lasting is not a difference of quality: a disposition, however it is, is enough to provide a quality, and lasting is an addition from outside. Unless one were to say that dispositions are only imperfect shapes, as it were, and states perfect ones. But if they are imperfect, they are not yet qualities; and if they are already qualities, lasting is an addition.
+!note A state differs from a disposition in being more lasting and harder to change (Categories 8, 8b27-9a13).
+
+@p
+@greek αἱ δὲ φυσικαὶ δυνάμεις
+How are natural powers another species? If things are qualities by their powers, power does not fit them all, as we said. If we call the natural boxer qualified by his being disposed in a certain way, the power added does nothing, since there is power in states too.
+!note Natural capacity: "we call people boxers or runners not because they are in some condition but because they have a natural capacity" (Categories 8, 9a14-27).
+
+@p
+@greek ἔπειτα διὰ τί ὁ κατὰ δύναμιν
+Then, why will the one who has it by power differ from the one who has it by knowledge? If both are qualified, these are not differences of quality either, if one got it by practice and the other by nature: the difference is from outside. By the very form of boxing, how would they differ? And if some qualities come from an affection and others do not, it makes no difference where the quality comes from: I mean, to the variations and differences of quality. There might be a question too: if these come from an affection, some in this way and others not from the same, how are they in the same species? And if some are by having come about, and others by producing, they would be qualities in name only.
+!flag Whether some qualities as distinguished from others are derived from experience is immaterial | The Greek says "from an affection" (ἐκ πάθους), Aristotle's affective qualities, such as pallor from fear; not from experience.
+!note Affective qualities are so called either because they produce an affection in the senses, as sweetness, or because they come from an affection, as pallor from fear (Categories 8, 9a28-10a10).
+
+@p
+@greek τί δὲ ἡ περὶ ἕκαστον μορφή
+And the shape around each thing? If it is that by which each thing is a form, it is not a quality. If it is that by which a thing is beautiful or ugly, after the form of the subject, it would be a forming principle.
+
+@p
+@greek τὸ δὲ τραχὺ καὶ τὸ λεῖον
+Rough and smooth, rare and dense: it would not be right to say they are not qualities. For rare and dense and roughness are surely not a matter of the distances of the parts from each other, far or near, and not always of unevenness and evenness of position; and even if they were from these, nothing prevents them from being qualities as well.
+!note Aristotle says that rare and dense, rough and smooth, might seem to signify a quality, but signify rather a position of the parts (Categories 8, 10a16-24). Volkmann's Greek reads "would not rightly be called qualities" (οὐκ ὀρθῶς ἂν λέγοιτο ποιά), but the reasons that follow argue against Aristotle that they are qualities; a "not" seems to have dropped out, and the modern version, like Page's, follows the sense.
+
+@p
+@greek τὸ δὲ κοῦφον καὶ
+Light and heavy, once understood, will show where they should be put. There might also be an ambiguity about "light", unless it is said by weight, more and less; and in that sense lean and thin belong, which would be in another species beside the four.
+
+@ch VI.1.12 | Other ways to divide quality
+Qualities might be divided as of body and of soul, by the senses and the parts of the soul, by their acts, or by benefit and harm. If the boxer is qualified, so is what can act, and acting need not be a relative; but the arts are qualities as they dispose the soul, and relatives as they act on another. In lifeless powers, what is the active? And is wisdom here and there one quality, or is everything there substance?
+
+@p
+But if one does not think quality should be divided in this way, how would one divide it? We must examine whether we should say that some qualities are of the body and others of the soul, and divide those of the body by the senses, saying some are of sight, others of hearing or taste, others of smell or touch.
+
+@p
+@greek τὰς δὲ τῆς ψυχῆς πῶς
+And those of the soul, how? As of the desiring part, the spirited part and the reasoning part. Or by the differences of the acts that come about by them, since they produce these acts. Or by what is beneficial and what is harmful; and again the benefits and the harms must be divided. The same goes for bodily qualities: they differ in what they do, by being beneficial and harmful, for these are differences proper to quality. For benefit and harm seem to come from the quality and the qualified; or else we must look for another way.
+!flag allotted to appetite, emotion, reason | The Greek names Plato's three parts of the soul: the desiring, the spirited (θυμοειδοῦς) and the reasoning; "emotion" is Page's word for the spirited part.
+!note The three parts of the soul are Plato's (Republic IV, 436a-441c).
+
+@p
+@greek ἐπισκεπτέον δέ, πῶς καὶ ὁ ποιὸς
+We must also examine how the qualified, by its quality, will be in the same category: surely there is not one kind for both. And if the boxer is in quality, why not also the one who can act? And if so, then also what can act. So there is no need to put what can act among relatives, nor what can be acted on either, if the one who can be acted on is qualified. And perhaps the one who can act is better put here, if he is so called by power, and power is a quality. But if power is by substance, in so far as it is power, even so it is not relative, and no longer qualified either. For what can act is not like the greater: the greater has its reality, in so far as it is greater, in relation to the less, while what can act has it already by being such.
+
+@p
+@greek ἀλλ’ ἴσως κατὰ μὲν τὸ τοιόνδε
+But perhaps by being such it is qualified, while in so far as it can act on another, being called "able to act", it is relative. Why, then, are not the boxer and boxing itself relative too? Boxing is wholly in relation to another: there is nothing in its theory that is not in relation to another. And about the other arts, or most of them, we must examine this and perhaps say: in so far as they dispose the soul, they are qualities; in so far as they act, they are productive, and in this way in relation to another, and relative. They are relative in another way too, in so far as they are called states.
+!note A state is among the relatives (Categories 7, 6b2-6), and the same thing may be counted both as a quality and as a relative (Categories 8, 11a20-38).
+
+@p
+@greek ἆῤ οὖν ἄλλη τις ὑπόστασις
+Is there, then, some other reality for what can act, in so far as it can act, when it is nothing other than qualified? Perhaps, with living things, and still more with those that have choice, one might say there is a reality in respect of acting too, by their having inclined towards acting. But in the lifeless powers, which we called qualities, what is the "able to act"? Or: when something else meets it, that thing enjoys it and takes a share of what it has. But if the same thing both acts on another and is acted on, how is it still "able to act"? For the greater too, being three cubits in itself, is both greater and less in its meeting with another. But someone will say that the greater and the less are so by sharing in greatness and smallness; then this too would be by sharing in the able to act and the able to be acted on.
+
+@p
+@greek ζητητέον δὲ καὶ ἐνταῦθα
+Here too we must ask whether the qualities here and those there are under one: this question is for those who put qualities there too. Or, even if one does not grant forms, but speaks of intellect, if one calls it a state, whether there is something common to that state and this one. And wisdom is granted to be there. If it shares only the name with the wisdom here, it is clearly not counted among these; if it is said in the same sense, quality will be common here and there, unless one says that everything there is substance; and so too thinking. But this question is common to the other categories too: whether the being is twofold, here and there, or both are under one.
+
+@ch VI.1.13 | When
+If yesterday and last year are parts of time, they belong where time does, under quantity. "Time-when" is either time, or time and something else, two categories. If it is what is in time, Socrates is outside it; if a part of time gone by, the part is relative and "gone by" is "was". Yesterday is a definite time, so a definite quantity. And to make a category of one thing in another would make many.
+
+@p
+About the "when" we must examine this. If yesterday and tomorrow and last year and the like are parts of time, why will they not be in the same category as time? For was, is and will be, being species of time, should surely be ranked where time is. And time is said to be of quantity; so what need is there of another category?
+!flag With regard to Date | The Greek names the category "the when" (τὸ ποτέ); Aristotle's examples are "yesterday, last year" (Categories 4, 2a2).
+
+@p
+@greek εἰ δὲ λέγοιεν
+If they say that was and will be, and yesterday and last year, which fall under was (for these must be placed under was), are not only time, but time at some point, then, first, if "when" is time, it is time. Next, if yesterday is time gone by, it will be something composite, if gone by is one thing and time another: two categories, then, and not something simple.
+
+@p
+@greek εἰ δὲ τὸ ἐν χρόνῳ φήσουσι
+If they say that "when" is what is in time, and not time: if by what is in time they mean the thing, as Socrates, because he was last year, then Socrates would be outside it, and they are not saying one thing. But Socrates, or the action, in this time, what would it be but in a part of time?
+
+@p
+@greek εἰ δ’ ὅτι μέρος χρόνου
+If they say it is because it is a part of time, and think fit, in so far as it is a part, to speak not of time simply but of a part of time gone by, they make more things of it: they take in the part, which as part is relative; and "gone by" will be something added to it, or the same as "was", which was a species of time.
+
+@p
+@greek ἀλλ’ εἰ τῷ ἀόριστον
+But if it is because "was" is indefinite, while yesterday and last year are definite: first, where shall we place "was"? Then, yesterday will be a definite "was", so yesterday will be a definite time. And this is a certain quantity of time; so, if time is a quantity, each of these will be a definite quantity.
+
+@p
+@greek εἰ δέ, ὅταν λέγωσι χθές
+If, when they say "yesterday", they mean that this came about in a definite time gone by, they are saying still more things, and more of them. Then, if we must bring in other categories because one thing is put in another, as here what is in time, we shall find many others by putting one thing in another. This will be said more clearly in what follows, about the "where".
+!flag as in this case something acts in time | The Greek speaks of "making one thing be in another" (τῷ ἕτερον ἐν ἑτέρῳ ποιεῖν), putting it there, not of acting: the next chapter lists the many ways of being "in".
+
+@ch VI.1.14 | Where
+The Lyceum and the Academy are places, more sharply marked off than up and down; so "where" is place. If it means one thing in another, it is not one thing, and the relation of container and contained is a relative. "At Athens" is a place, and "is at Athens" adds "is". And if "in place" is a category, so would be in a vessel, in matter, the part in the whole, and many more.
+
+@p
+"Where", as "in the Lyceum" and "in the Academy". The Academy and the Lyceum are certainly places, and parts of place, as above and below and here are species or parts of it; the difference is that they are more sharply marked off.
+!flag The Academy and the Lyceum are places, and parts of Place | Page leaves out the chapter's first words, "where, as in the Lyceum and in the Academy", the category and its example as the school gives them.
+!note Aristotle's example of "where" is "in the Lyceum, in the market-place" (Categories 4, 2a1-2). The Academy was Plato's school at Athens, the Lyceum Aristotle's.
+
+@p
+@greek εἰ οὖν τὸ ἄνω καὶ τὸ κάτω
+If, then, above and below and the middle are places (Delphi, for instance, is the middle), and what is beside the middle (Athens, say, and of course the Lyceum and the rest), why must we look for anything beside place, when we say that each of these means a place? But if we mean one thing in another, we are not saying one thing, nor something simple.
+!note Delphi was held to be the middle, the navel, of the earth: Apollo gives his oracles "seated at the navel, in the middle of the earth" (Plato, Republic IV, 427c).
+
+@p
+@greek ἔπειτα, εἰ τοῦτον ἐνταῦθα
+Then, if we say that this man is here, we beget a relation of this one in that, and of what has received him to what it received: why, then, is it not a relative, if something was begotten from the relation of each to the other?
+
+@p
+@greek εἶτα τί διαφέρει τὸ
+Then, how does "here" differ from "at Athens"? They will say that "here", which points, signifies place; so does "at Athens", then; so "at Athens" belongs to place. Then, if "at Athens" means "is in Athens", "is" is predicated besides the place; but it should not be, just as the category is not "is a quality", but only "quality".
+
+@p
+@greek πρὸς δὲ τούτοις, εἰ δεῖ
+Besides, if what is in time is something other than time, and what is in place something other than place, why will what is in a vessel not make another category? And what is in matter another, and what is in a subject another, and the part in the whole, and the whole in the parts, and the kind in the species, and the species in the kind? So we shall have more categories.
+!note Aristotle lists the ways one thing is said to be "in" another: as part in whole, whole in parts, species in kind, kind in species, form in matter, in the ruler, in the end, and as in a vessel or a place (Physics IV.3, 210a14-24).
+
+@ch VI.1.15 | Acting, or rather act and motion
+They make acting a kind, as quantity and quality are kinds about substance. But the kind should be act, since acting is being in act; and act is about substance as motion is. Motion, then, is one kind of being, as much as quality, quantity and relative.
+
+@p
+In what is called acting, one might examine the following. It is said that, since after substance the things about substance were quantity and number, the quantified was another kind; and since there is quality about it, the qualified was another kind; so too, since there is action, acting is another kind.
+!note Acting (ποιεῖν) is the ninth of Aristotle's categories, "as cutting, burning" (Categories 4, 2a3-4; 9, 11b1-8).
+
+@p
+@greek ἆῤ οὖν τὸ ποιεῖν ἢ ἡ ποίησις
+Is the kind, then, acting, or action, from which acting comes, as it is quality, from which the qualified comes? Or here action, acting and the one acting must be taken as one. Acting shows the one acting more than action does; and acting is being in some action, that is, in act. So the category is rather act, which is said to be seen about substance, as quality was there; and act too is about substance, as motion is, and motion is one kind of the things that are.
+!flag But Motion is a distinct genus | The Greek says "motion is one kind of the things that are" (ἓν γένος ἡ κίνησις τῶν ὄντων), one of the kinds of being, as in Plato's Sophist.
+!note Motion is one of the "greatest kinds" of Plato's Sophist (254d), with being, rest, sameness and difference: Plotinus' own kinds of the intelligible in VI.2. Aristotle defines motion as the act of what is potential, as such (Physics III.1, 201a10-11); chapter 16 takes this up.
+
+@p
+@greek διὰ τί γὰρ ποιότης μὲν
+For why should quality be one thing about substance, and quantity one, and the relative one, because of the relation of one thing to another, while motion, which is about substance, will not be something too, and one kind?

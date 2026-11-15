@@ -90,6 +90,34 @@ VOLUMES = {
         # the OCR lost V.8's last number, 13 (two blank lines before "The God fettered"): its text stays with his 12
         "lost": ["V.8.13"],
     },
+    # vol. V (Enneads milestone E22): the Sixth Ennead
+    "mackenna-1930": {
+        "source": "mackenna-plotinus-1930",
+        "file": "plotinusononegoo0005step_djvu.txt",
+        "item": "plotinusononegoo0005step",
+        "title": "Plotinus on the One and Good, being the Treatises of the Sixth Ennead",
+        "year": 1930,
+        # B. S. Page translated VI.1 to VI.3 and revised the rest (MacKenna's Acknowledgements, at the end of the volume)
+        "translator": "Stephen MacKenna and B. S. Page",
+        "enneads": [6],
+        # where the treatises end: MacKenna's acknowledgements follow VI.9
+        "end": "ACKNOWLEDGEMENTS",
+        # This OCR (the Internet Archive's own scan) is rougher than the others, and is read with four more rules:
+        #   * an odd page's head is any line of capitals ending in a page number, whatever the OCR made of the
+        #     reference before it ("VIS ON THE KINDS OF BEING 3", "TI. 6) ON THE KINDS OF BEING z"); a page number it
+        #     cannot read, or reads out of order, is the one after the last;
+        #   * the numbers at the foot of a first page are not read (the OCR gives "6" for 1), nor are the printer's
+        #     signatures ("B", "Cc"): a line of five characters or fewer standing alone is taken out;
+        #   * a chapter number the OCR misread begins its chapter when it is the line given here, in its place;
+        #   * a chapter number the OCR lost (no line at all) begins its chapter at the paragraph given by its first words.
+        "loose_heads": True,
+        "foot_numbers": False,
+        "drop_short": 5,
+        "misread": {"VI.1.3": "on", "VI.1.7": "a.", "VI.1.9": "Q.", "VI.1.11": "ids", "VI.1.12": "z2.",
+                    "VI.1.15": "oy", "VI.1.19": "IQ.", "VI.1.21": "2%:", "VI.1.22": "Bi", "VI.1.23": "28s",
+                    "VI.1.24": "243", "VI.1.27": "27;", "VI.1.29": "29. ;", "VI.1.30": "30. ."},
+        "unnumbered": {"VI.1.2": "But are we really obliged", "VI.1.5": "Speech, time, motion"},
+    },
 }
 
 NUM = r"[0-9ioIlO]{1,3}"     # a page number, as the OCR reads it ("io8", "IOI")
@@ -106,6 +134,7 @@ def as_number(s):
     return int(s) if s.isdigit() else None
 
 
+HEAD_LOOSE = re.compile(r"^(?:\S.{0,15}?\s+)?([A-Z][A-Z'’,:;.()\- ]{8,}?)\s+(\S{1,3})\s*$")   # vol. V's odd heads
 HEAD_BLURRED = re.compile(r"^(\S{1,4}\s+)?PLOT[I1]NUS\s*$")   # an even page's head whose number the OCR lost ("lib", "|gS", none)
 
 
@@ -224,6 +253,12 @@ def read_volume(vid):
             after_title = True
             continue
         p = page_of_head(s)
+        if v.get("loose_heads"):
+            m = HEAD_LOOSE.match(s)
+            if p is None and m and len(re.findall(r"\b[A-Z]{2,}\b", m.group(1))) >= 3:
+                p = as_number(m.group(2)) or -1
+            if p is not None and p != -1 and page is not None and p != page + 1:
+                p = -1
         if p == -1 or (p is None and HEAD_BLURRED.match(s)):
             if page is None:
                 continue
@@ -234,7 +269,7 @@ def read_volume(vid):
                 c["page"] = p - 1 if c["page"] is None else c["page"]
             pending.clear()
             continue
-        m = FOOT_NUM.match(s)
+        m = FOOT_NUM.match(s) if v.get("foot_numbers", True) else None
         if m and not CHAPTER.match(s):
             n = int(m.group(1))
             if page is None or n == page or n == page + 1:
@@ -248,9 +283,17 @@ def read_volume(vid):
                 continue
         if not treatises:
             continue
+        t = treatises[-1]
+        nxt = f"{t['id']}.{t['chapters'][-1]['n'] + 1}"
+        if s and (v.get("misread", {}).get(nxt) == s or
+                  (not para and nxt in v.get("unnumbered", {}) and s.startswith(v["unnumbered"][nxt]))):
+            after_title = False
+            new_chapter(t["chapters"][-1]["n"] + 1)
+            if nxt in v.get("unnumbered", {}):
+                para.append(raw)
+            continue
         n = chapter_number(s)
         if n is not None:
-            t = treatises[-1]
             if after_title and n == 1:
                 after_title = False
                 close_para()
@@ -263,6 +306,9 @@ def read_volume(vid):
         if not s:
             close_para()
             continue
+        if (v.get("drop_short") and len(s) <= v["drop_short"] and not lines[i - 2].strip()
+                and (i >= len(lines) or not lines[i].strip())):
+            continue
         after_title = False
         para.append(raw)
     close_para()
@@ -271,7 +317,7 @@ def read_volume(vid):
             t["page"] = t["chapters"][0]["page"]
         for c in t["chapters"]:
             c["paras"], c["notes"] = mend(c.pop("_paras"))
-    return {"schema": SCHEMA, "id": vid, "title": v["title"], "translator": "Stephen MacKenna", "year": v["year"],
+    return {"schema": SCHEMA, "id": vid, "title": v["title"], "translator": v.get("translator", "Stephen MacKenna"), "year": v["year"],
             "source": v["source"], "scan": f"https://archive.org/details/{v['item']}",
             "how": "the Internet Archive's OCR, read by rule (tools/mackenna.py): running heads and page numbers taken out, "
                    "broken words and paragraphs cut by a page break joined; not proofread",
