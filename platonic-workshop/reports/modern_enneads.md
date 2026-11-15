@@ -6,12 +6,12 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 - Porphyry's Life of Plotinus: Volkmann's own Greek (vol. I, 1883), proofread from the scan (`sources/neoplatonists/proofread/porphyry-life-plotinus.txt`).
 - Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny, III.2 On providence, first part, III.3 On providence, second part, III.4 On the daemon allotted to us, III.5 On love, III.8 On nature, contemplation and the One, III.9 Various considerations, IV.1 On the being of the soul, first part, IV.4 On difficulties about the soul, second part, IV.5 On difficulties about the soul, third part, or on sight, IV.6 On perception and memory, IV.8 On the descent of the soul into bodies, IV.9 Whether all souls are one, V.4 How what comes after the first comes from it, and on the One, V.5 That the intelligibles are not outside intellect, and on the Good, V.7 Whether there are forms of individuals, V.8 On intelligible beauty, VI.1 On the kinds of being, first part, VI.2 On the kinds of being, second part, VI.3 On the kinds of being, third part, VI.4 That being, one and the same, is everywhere whole, first part, VI.5 That being, one and the same, is everywhere whole, second part, VI.6 On numbers, VI.7 How the many forms came to be, and on the Good.
 - The whole Enneads: 39 treatises here, 15 beside Taylor (milestone 27), 1 to come.
-- Chapters: 454, each with a short title and a summary.
-- Paragraphs: 1575, each with its Greek.
-- Words: 190,412 modern, 144,295 Greek, 226,199 in MacKenna's English of the same chapters.
-- Sentences (each can be marked in the reader): 6,664.
-- Flags (where MacKenna and the Greek differ, or the Greek is hard): 1627.
-- Notes (Plato's, Aristotle's and Homer's places, hard readings): 1019.
+- Chapters: 468, each with a short title and a summary.
+- Paragraphs: 1635, each with its Greek.
+- Words: 196,859 modern, 149,064 Greek, 232,328 in MacKenna's English of the same chapters.
+- Sentences (each can be marked in the reader): 6,859.
+- Flags (where MacKenna and the Greek differ, or the Greek is hard): 1761.
+- Notes (Plato's, Aristotle's and Homer's places, hard readings): 1060.
 - Problems found: 0.
 
 ## Flags
@@ -1645,6 +1645,140 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | VI.7.28.p4 | Intellectual-Principle standing as Form to soul collectively | The Greek says intellect is more form "than soul" (ψυχῆς); "collectively" is MacKenna's. |
 | VI.7.28.p4 | then the Good advances by the opposite of Matter and, therefore, by a cleansing and casting away to the utmost possible at each stage | The Greek says the good "would draw near (προσχωροῖ) to what is opposite to matter, and is as it were purified (καθαιρομένῳ)": the good comes near to what is purified and puts matter off; MacKenna has the good advance by a cleansing. |
 | VI.7.28.p4 | must hold itself aloft with that Formless in which Primal Form takes its origin | The Greek says it "would have fled up into the formless nature (εἰς τὴν ἀνείδεον φύσιν), from which the first form comes": the Good is that formless nature, as in chapter 17, not with it. |
+| VI.7.29.p1 | this is quite likely in the case of the wiser and least dependent | The Greek has "the more self-controlled" (σωφρονεστέρῳ), not the wiser; the modern version keeps "self-control", as for σωφροσύνη throughout. |
+| VI.7.29.p1 | and indeed it is so with the First, immune not merely because simplex | The Greek says that being moved along with having the good "does not belong to the first either" (οὐδὲ τῷ πρώτῳ): the first has no pleasure in it; "immune" is MacKenna's. |
+| VI.7.29.p1 | and the rebuttal of the argument brought up against us | The Greek has "that opposing (ἀντίτυπον) argument", pushed off once the way is cleared; it is not said to be brought against "us". |
+| VI.7.29.p2 | What gain is there in the Good to one who, fully conscious, feels nothing | The Greek has "one who has intellect" (ὁ νοῦν ἔχων), the sensible man, who is "not struck at all" (οὐδὲν πληττόμενος) when he hears; "fully conscious" is MacKenna's. |
+| VI.7.29.p2 | because he holds to false values | The Greek says he "takes each of them for something else" (ἄλλο τι ἕκαστον αὐτῶν ὑπολαμβάνων): a misreading of the words, not false values. |
+| VI.7.29.p2 | there will generally have been, even, some inkling of the good beyond Intellection | The Greek says "perhaps" (τάχα), not "generally", and he divines "what is beyond intellect" (τὸ ὑπὲρ νοῦν). |
+| VI.7.29.p3 | otherwise he will not even hold ignorance an evil | The Greek has "folly" (ἄνοια), the want of intellect (νοῦς), set against the thinking everyone chooses; not ignorance. |
+| VI.7.29.p3 | so that our very sensations seek to ripen into knowledge | The Greek says "the senses too bear witness, wishing to be knowings (εἰδήσεις)"; "ripen" is MacKenna's. |
+| VI.7.29.p3 | what must be present to those of power to see the Author and Father of Intellect | The Greek asks "what would one imagine (φαντασθείη), if one could, of its begetter and father?": what one could picture of it, not what is present to those who see it. |
+| VI.7.29.p3 | brings evidence against himself and all his state | The Greek says he witnesses against himself "and all his own affections (πάθεσι)": his own clinging to being and life speaks against his scorn of them. |
+| VI.7.30.p1 | is a question not to be ignored in any enquiry into the nature of the good | The Greek says it is fitting "now", for those "laying hold of the good" (ἐφαπτομένους τοῦ ἀγαθοῦ), to look at it; the enquiry is theirs, not any enquiry. |
+| VI.7.30.p1 | that state of soul or mind which springs from wisdom | The Greek has "the soul's affection (πάθος) that comes from being wise (φρονεῖν)": a feeling, the joy of it, not a state of soul or mind. |
+| VI.7.30.p2 | this theory would maintain that the isolated and unrelated could be the good, could be an object of desire | The Greek says the opposite: "what is bare and alone (τὸ ἔρημον καὶ μόνον) can neither come to be nor be chosen as a good", which is why this opinion mixes pleasure in. |
+| VI.7.30.p2 | the unreasoning satisfactions of soul (or lower mind) | The Greek has "the irrational joys (χαραὶ ... ἄλογοι) of the soul"; "(or lower mind)" is MacKenna's. |
+| VI.7.30.p3 | will be followed and as it were escorted by the overdwelling consciousness | The Greek has "what runs over it" (τὸ ἐπιθέον), the bloom that comes on an activity; there is no consciousness in the Greek. |
+| VI.7.30.p3 | so that the life is the less self-guided | The Greek says the hindrance "does not let the life be its own (ἑαυτῆς)": a life not its own, not less self-guided. |
+| VI.7.30.p4 | the very principle of all the colour and radiance and brightness found here | The Greek says "the cause is what coloured (ἐπιχρῶσαν) these things, and shone on them": the Good colours the welcome things there, as in chapters 21 and 22; "found here" is MacKenna's. |
+| VI.7.30.p4 | this best is what is symmetry, beauty, collective Idea | The Greek has "a composite form" (εἶδος σύνθετον): a form made of parts, not a collective Idea. |
+| VI.7.30.p4 | life clear, Intellective and good | The Greek has a life "clear and intellectual and beautiful (καλήν)": beautiful, not good. |
+| VI.7.31.p1 | which flashed Nature into being | The Greek says intellect "lit up its own nature (τὴν φύσιν ἐξέλαμψε)" by the radiance of its activity: its nature shone out; Nature was not flashed into being. |
+| VI.7.31.p1 | Thence soul took power towards life, in virtue of that fuller life streaming into it | The Greek has "since more life came into it": "streaming" is MacKenna's. |
+| VI.7.31.p1 | clung to what it saw | The Greek says the soul "turned" (ἐπιστραφεῖσα) and, as it knew and saw, "took pleasure in the sight" (ἥσθη τῇ θέᾳ); there is no clinging. |
+| VI.7.31.p2 | but having in itself something of that principle it felt its kinship | The Greek says it "perceived it with itself" (συνῄσθετο): it was aware of what it had in itself; "kinship" is MacKenna's. |
+| VI.7.31.p3 | they are unwilling to fall short in moral quality or in other graces | The Greek has the beloved's "self-control (σωφροσύνῃ) and the rest of his virtue (ἀρετῇ)"; the modern version keeps self-control and virtue. |
+| VI.7.31.p3 | and only among such can true love be | The Greek says "these are the ones who are able to be with (συνεῖναι) them": to be with the beloved, not true love. |
+| VI.7.31.p3 | In the same way the soul loves the Supreme Good | The Greek says the soul "loves that one" (ἐρᾷ ἐκείνου), moved by him to love; "the Supreme Good" is MacKenna's name for him. |
+| VI.7.31.p4 | The soul which has never strayed from this love | The Greek has the soul "that has its love ready to hand (πρόχειρον)", near and at hand, not one that has never strayed. |
+| VI.7.31.p4 | with one glance at the beauty of the universe dismisses all | The Greek says, seeing the beautiful things in this All, "it is suspicious (ὑποψίαν ἔχει) of them": suspicion, not dismissal at a glance. |
+| VI.7.31.p4 | for it sees that all is put together of flesh and Matter | The Greek says it sees them "in flesh and bodies (σώμασιν)": there is no matter here. |
+| VI.7.31.p4 | By only noting the flux of things it knows at once | The Greek says "when it sees them flowing past (παραρρέοντα) as well": their flowing away is a further sign, not the only one. |
+| VI.7.31.p5 | it enters by that neighbouring into conscious possession of what it has long been seeking | The Greek says "being near, it perceives (αἰσθάνεται)" what it has long sought: perception of what is near, not possession. |
+| VI.7.32.p1 | the begetter of the veritable | The Greek says he "begot substance" (γεννήσας οὐσίαν); the modern version keeps "substance" for οὐσία. |
+| VI.7.32.p1 | You see the splendour over the things of the universe with all the variety begotten of the Ideas | The Greek asks "do you see the beauty on all these forms (εἴδεσι), many-coloured as they are?": the beauty on the forms there, not on the things of the universe, and nothing begotten of the Ideas. |
+| VI.7.32.p2 | were it so, it too would be a thing of parts | The Greek says "it would be some one of them, and a part (μέρος)": itself a part of them, not a thing of parts. |
+| VI.7.32.p2 | but what shape can that have which no one has shaped | The Greek asks "what no one made (ἐποίησε), who would make it?": made, not shaped; nothing made it something. |
+| VI.7.32.p3 | The greatness of the Authentic cannot be a greatness of quantity | The Greek has "the greatness of substance (τῆς οὐσίας)": the modern version keeps "substance". |
+| VI.7.32.p3 | Its eternity and universal reach entail neither measure nor measurelessness | The Greek has "for ever and to all" (τὸ εἰς ἀεὶ καὶ εἰς πάντα), its power reaching always and to everything; "eternity" is MacKenna's. |
+| VI.7.32.p4 | granted beauty, the absence of shape or form to be grasped is but enhancement of desire and love | The Greek says "of what is longed for (ποθεινοῦ)": the longing is there already, not beauty granted. |
+| VI.7.32.p5 | it cannot be beauty since it is not a thing among things | The Greek asks "being none of the things, what beauty is it?" and answers that, being lovable, "what begets would be beauty": MacKenna makes the question a denial. |
+| VI.7.32.p5 | it will be the ultimate of beauty | The Greek has "the flower (ἄνθος) of beauty", its bloom, not its ultimate. |
+| VI.7.32.p5 | the source and height of beauty | The Greek has "the principle (ἀρχή) of beauty and the limit (πέρας) of beauty": its beginning and its end, not its height. |
+| VI.7.33.p1 | When therefore we name beauty, all such shape must be dismissed | The Greek says "one must rather flee (φευκτέον) from such a shape, and not set it before the eyes": a flight from shape, not its dismissal. |
+| VI.7.33.p1 | even that given in thought to mark difference | The Greek has "the shape in an account (ἐν λόγῳ)", the shape of a definition, by which justice differs from self-control; not "given in thought". |
+| VI.7.33.p1 | as for instance the difference between Justice and Sophrosyny | The Greek has "justice and self-control (σωφροσύνην)"; the modern version keeps "self-control". |
+| VI.7.33.p2 | The Intellectual-Principle is the less for seeing things as distinct | The Greek says intellect is lessened "since it thinks something of its own (ἴδιόν τι)", a shape proper to it, even if it takes all together; seeing things as distinct is MacKenna's. |
+| VI.7.33.p2 | reason, however, urging that This at last is the Authentic Term | The Greek says "the argument (ὁ λόγος) says that this is the real (τὸ ὄντως)"; "the Authentic Term" is MacKenna's. |
+| VI.7.33.p3 | reason answers that while there exists the giver having shape to give | The Greek says "the argument says that what has shape, and the shape, and the form, are all measured (μεμετρημένον)": there is no giver of shape in the sentence. |
+| VI.7.33.p3 | the beauty in it must be, simply, the Nature of the Intellectual Good | The Greek says "the beauty there (ἐκεῖ) is the nature of the intelligible good (νοητοῦ ἀγαθοῦ)": intelligible, not intellectual. |
+| VI.7.33.p4 | so long as the attention is upon the visible form, love has not entered | The Greek says "as long as one is with (ἐν) what has the perceptible impression": with the perceptible one, not attending to a visible form. |
+| VI.7.33.p4 | then the lover longs for the sight of the beloved to make that fading image live again | The Greek says he seeks to see the beloved "so as to water (ἐπάρδῃ)" the impression "as it withers": watering, as of a plant or of the wings. |
+| VI.7.33.p5 | Shape is an impress from the unshaped | The Greek has "the trace (ἴχνος) of the shapeless is shape", the trace of chapters 17 and 18; MacKenna's "impress" is near, and the modern version keeps "trace". |
+| VI.7.33.p5 | but to that which draws upon Form | The Greek has "what has been formed by the form (τὸ εἰδοποιηθὲν διὰ τὸ εἶδος)": the thing made a form, not something that draws upon form. |
+| VI.7.34.p1 | even to the Intellectual shape that has informed it | The Greek says "whatever shape of the intelligible (νοητοῦ) is in it": intelligible, and nothing of its having informed the soul. |
+| VI.7.34.p1 | There is no vision, no union, for those handling or acting by any thing other | The Greek says it is not possible "having something else and being active about it, either to see or to be fitted (ἐναρμοσθῆναι) to it": fitted, as a harmony, not union. |
+| VI.7.34.p2 | by those preparings and adornings which come unbidden to those growing ready for the vision | The Greek says "the preparation and the adorning are clear (δήλη), I think, to those who prepare themselves": known to them, not coming unbidden. |
+| VI.7.34.p2 | any observation of such things falls away | The Greek says "the sight of these is somehow uneven (ἀνώμαλος)": a sight out of keeping with the even one she has; not that it falls away. |
+| VI.7.34.p3 | she is of perfect judgement and knows that This was her quest | The Greek says "then she has the power to judge well (κρίνειν καλῶς)": a judging she has then, not a perfect judgement. |
+| VI.7.34.p3 | and the truth she affirms, that she is, herself | The Greek says "what she says, then, is 'it is that one' (ἐκεῖνό ἐστι)": she says what it is, not that she is herself. |
+| VI.7.34.p3 | for this is no affirmation of an excited body | The Greek has a body "tickled" (γαργαλιζομένου), the pleasure of scratching, not excitement. |
+| VI.7.34.p4 | linked to This she can fear no disaster nor even know it | The Greek says she does not fear "while she is with that one, or even if she has only seen it at all (οὐδ’ ὅλως ἰδοῦσα)": even the sight is enough; "nor even know it" is MacKenna's. |
+| VI.7.35.p1 | she has nothing to say of this very Intellectual-Principle by means of which she has attained the vision | The Greek says "she says that the one (ἐκεῖνον) she sees is not moved either": she speaks of what she sees, the Good, not of intellect. |
+| VI.7.35.p1 | so as to be able to take stand in that Intellectual space | The Greek has "the intelligible place" (τῷ τόπῳ τῷ νοητῷ), Plato's phrase: intelligible, not intellectual. |
+| VI.7.35.p1 | no thing of ornament but calling for the truest attention | The Greek says the master is "not like the nature of the statues (ἀγαλμάτων)" in the house, "but worthy of the true sight (θέας)": the statues, and a sight, not attention. |
+| VI.7.35.p2 | the first seeing is that of Intellect knowing | The Greek has the sight "of intellect in its senses (νοῦ ἔμφρονος)", the sober intellect, set against intellect "out of its senses" (ἄφρων); not knowing. |
+| VI.7.35.p2 | by this excess it is made simplex and is happy | The Greek says it is "simplified into well-being by its fill (τῷ κόρῳ)": its fill, as in chapter 16, not an excess. |
+| VI.7.35.p2 | whereby to know its transcendent | The Greek says it sees "what is beyond (ἐπέκεινα) itself by a kind of direct touch (ἐπιβολῇ) and reception": seeing by touch, not knowing. |
+| VI.7.35.p3 | reason unravelling gives process | The Greek says "the account (λόγος), in teaching, makes them come to be (γινόμενα)": it tells in order what is at once, as the myths do in III.5.9; "unravelling" is MacKenna's. |
+| VI.7.35.p3 | In this seeing of the Supreme it becomes pregnant | The Greek says "in seeing that one it had offspring (γεννήματα)", already born, which it perceived as they came to be and were in it. |
+| VI.7.35.p3 | in a later (lower) stage it is to become | The Greek says it sees that one "by the power by which it was going to think" (ᾗ δυνάμει ἔμελλε νοεῖν): the power from which its thinking came, not a later or lower stage. |
+| VI.7.35.p4 | or in that realm of difference where everything is rooted in some other thing | The Greek says "nor in anything else in which one thing is by nature in another": there is no realm of difference. |
+| VI.7.35.p4 | The Good spreading out above them and adapting itself to that union which it hastens to confirm | The Greek says the Good is "fitted to the joining (συστάσει) of both, running over them (ἐπιδραμὸν)": running over, as the bloom of chapter 30; "hastens to confirm" is MacKenna's. |
+| VI.7.36.p1 | We need not carry this matter further; we turn to a question already touched | The Greek says "the rest is clear, and something has been said about this too": the question is the same one, the Good, not a new one. |
+| VI.7.36.p1 | this—we read—is the grand learning | The Greek says "he says" (φησι), Plato, that this is "the greatest study" (μέγιστον μάθημα), his word in the Republic. |
+| VI.7.36.p2 | We come to this learning by analogies, by abstractions | The Greek has "negations" (ἀφαιρέσεις), takings away of what it is not; "abstractions" is MacKenna's. |
+| VI.7.36.p2 | Purification has The Good for goal | The Greek says "purifications (καθάρσεις) ... bring us on our way (πορεύουσι)" to it, with the virtues and the rest: they lead, they are not said to have it as goal. |
+| VI.7.36.p2 | identical with Being and Intellectual-Principle and the entire living all | The Greek says "having become substance (οὐσία) and intellect and complete living being (ζῷον παντελές)": the modern version keeps "substance", and the complete living being is Plato's. |
+| VI.7.36.p2 | radiant above the Intellectual | The Greek says it is "shining over all the intelligible (ἐπὶ παντὶ τῷ νοητῷ)": intelligible, not intellectual. |
+| VI.7.36.p3 | and allowed them to occupy the quester’s mind | The Greek says the radiance let them "be beside it" (εἶναι παῤ αὐτῷ), beside the Good; there is no quester's mind. |
+| VI.7.36.p3 | With This he himself becomes identical, with that radiance | The Greek says "he himself (αὐτὸς) is a radiance only, begetting intellect": he is the Good, which begets intellect; MacKenna makes him the quester, made one with it. |
+| VI.7.36.p3 | disciplined to this pitch | The Greek has "led as by a tutor (παιδαγωγηθεὶς) up to this": the slave who leads a boy to school, not discipline. |
+| VI.7.37.p1 | Those ascribing Intellection to the First have not supposed him to know the lesser, the emanant | The Greek has "the lesser things and what comes from it (τῶν ἐξ αὐτοῦ)": there is no word of emanation. |
+| VI.7.37.p1 | not something whose value derives from him | The Greek says "and not as if he made thinking solemn (σεμνύνοντος)": he would give it its dignity, not its value. |
+| VI.7.37.p2 | If in the Intellection, he has no worth or the less worth | The Greek says "it is not honourable by itself (αὑτῷ), or less so": its honour would be another's; "by itself" is what MacKenna leaves out. |
+| VI.7.37.p2 | Now if this means that he is an essence eternally intellective | The Greek has "a substance (οὐσία) always thinking"; the modern version keeps "substance" for οὐσία. |
+| VI.7.37.p2 | though the two are inseparable | The Greek says "even if they always see" (κἂν ἀεὶ βλέπωσιν): the seeing is still added to the eyes; "inseparable" is MacKenna's. |
+| VI.7.37.p3 | But do not we ourselves assert that the Beings There are essence and Act | The Greek has "substance (οὐσίαν) and activity"; the modern version keeps "substance". |
+| VI.7.37.p3 | bent inward for this vision | The Greek says it is "turned (ἐπιστραφὲν) to it in the sight": turned toward what made it, not bent inward. |
+| VI.7.37.p4 | why import one and declare a defect because it is not performed | The Greek says "accuse it by privation (κατὰ στέρησιν)": a privation is only of what is by nature able, so it does not apply here. |
+| VI.7.38.p1 | it is to state identity | The Greek says the "is" is said "as signifying what it is (σημαῖνον ὃ ἔστι)"; the sentence is about what the "is" signifies. |
+| VI.7.38.p1 | it conveys an identification | The Greek says we say "the Good" about it "not predicating that it belongs to it, but that it is it (ὅτι αὐτό)". |
+| VI.7.38.p1 | it is that sheer negation does not indicate | The Greek says "not being able to show it if one took it away altogether (εἰ ... ἀφέλοι)": if one took away the word, or the "the"; not negation. |
+| VI.7.38.p2 | But he does not possess Being | The Greek says "but it is not" (ἀλλ’ οὐκ ἔστι): it is not, not that it does not possess being. |
+| VI.7.38.p2 | adding nothing : the goodness would be taken without the being and all duality avoided | The Greek asks "but will it say only 'good', adding what?": the question is what it would add; "all duality avoided" is MacKenna's. |
+| VI.7.38.p3 | No such foreign matter is present to it | The Greek says "nothing else (οὐδὲν ἄλλο) is present to it": no other, not foreign matter. |
+| VI.7.38.p3 | it can have only an immediate intuition self-directed | The Greek has "a simple direct touch (ἁπλῆ ἐπιβολή)", the word of chapter 35, not an intuition. |
+| VI.7.39.p1 | at the point where Intellectual-Principle and Being are differentiated | The Greek says otherness is taken "where there are intellect and substance (οὐσία)": where they are, not where they are told apart; the modern version keeps "substance". |
+| VI.7.39.p1 | must inevitably comport difference with identity | The Greek has "otherness and sameness" (ἑτερότητα καὶ ταυτότητα), two of Plato's greatest kinds. |
+| VI.7.39.p2 | nothing could prevent it knowing all things; but this is impossible | The Greek asks "why not all things? Or will it be unable (ἀδυνατήσει)?": a question, not the assertion that knowing all is impossible. |
+| VI.7.39.p2 | That act requires a manifold—agent, object, movement | The Greek says "having thought, it becomes many itself": intelligible, thinking, moving; it is the first that would become many, not the act that requires it. |
+| VI.7.39.p3 | but will hold an august repose | The Greek has "will stand still in solemnity" (σεμνὸν ἑστήξεται), Plato's words in the Sophist; "repose" is MacKenna's, and he says himself below that it is used for want of a fitter word. |
+| VI.7.39.p3 | the dependent he cannot know when he has no knowledge of himself | The Greek asks "and how is it toward itself (πρὸς αὐτόν), if it does not think itself?": its relation to itself, not knowledge of the dependent. |
+| VI.7.39.p4 | Plato dealing with essential Being allows it intellection | The Greek has "speaking about substance (οὐσίας)": the modern version keeps "substance"; and it is Plato's Sophist that gives it thinking. |
+| VI.7.39.p4 | That which transcends (the movement of) Intellection | The Greek has "what is beyond thinking (τὸ ὑπερβεβηκὸς τὸ νοεῖν)"; "(the movement of)" is MacKenna's. |
+| VI.7.40.p1 | we need overwhelming persuasion | The Greek says "the persuasion must have necessity (ἀνάγκην) mixed with it": persuasion joined with proof, not overwhelming persuasion. |
+| VI.7.40.p1 | but some further confirmation is desirable | The Greek has "some encouragements (παραμύθια)", words of comfort to bring to the argument, not confirmation. |
+| VI.7.40.p2 | There is the intellection that remains within its place of origin | The Greek has "the one that is with (συνοῦσα) what it is from": being with it, as an activity is with its subject. |
+| VI.7.40.p3 | There is also the intellection inbound with Being—Being’s very author | The Greek has "the thinking that is with substance (μετ’ οὐσίας) and has brought substance into being"; the modern version keeps "substance". |
+| VI.7.40.p3 | it produces therefore of its own motion and its act is Real-Being | The Greek says "it begot by itself (ἐφ’ ἑαυτῆς), and its activity is substance": "Real-Being" for οὐσία is MacKenna's. |
+| VI.7.40.p3 | save the logical distinction of thinker and thought | The Greek says they are not other "except in account (λόγῳ)": in the account of them, not by a logical distinction. |
+| VI.7.40.p4 | If instead of moving outward it remained with the First | The Greek says "if it were of that one and not from (ἀπ’) that one": belonging to it, not coming from it; "moving outward" is MacKenna's. |
+| VI.7.40.p4 | it is an image, but of an original so great that the very copy stands a reality | The Greek says it is an image "of something so great that it became substance (ἐγένετο οὐσία)": substance, the word of the chapter. |
+| VI.7.40.p5 | we come not to more being and more intellection but to what overpasses both | The Greek says one comes "neither to substance nor to thinking, but beyond substance (ἐπέκεινα οὐσίας) and thinking": Plato's "beyond substance". |
+| VI.7.40.p6 | all intellection, even of the Good, is beneath it | The Greek says "thinking, if it is of the good, is worse (χεῖρον) than it": the thinking of the good is worse than the good, not beneath the first beside all other thinking. |
+| VI.7.40.p6 | leaving the Good unsoiled by it as by all else | The Greek says thinking leaves it "pure (καθαρὸν)" of itself, as of the other things: pure, not unsoiled. |
+| VI.7.40.p7 | Anyone making the Good at once Thinker and Thought identifies it with Being | The Greek says he makes it "substance (οὐσίαν) and thinking together with substance": substance, kept here for οὐσία. |
+| VI.7.40.p7 | or it points, by that duality, to a prior principle having intellection as a characteristic | The Greek says thinking, as completion or as coming into being with another (συνυπόστασις), has another nature before it "to which thinking fittingly belongs (εἰκότως)"; "by that duality" is MacKenna's. |
+| VI.7.40.p8 | To essay its power of knowing | The Greek asks whether it would seek "its power, how great it is (ὅση)": the extent of its power, not its power of knowing. |
+| VI.7.41.p1 | what must take the light through the eye needs the light because of its darkness | The Greek says what needs the eye "seeks light, having darkness in itself (σκότον ἔχον παῤ αὑτῷ)": it seeks the light, and the darkness is its own. |
+| VI.7.41.p2 | What could even intellection need and add to itself for the purpose of its act | The Greek has "intellect itself (αὐτὸς ὁ νοῦς)" that needs to add, in order to think: intellect, not intellection. |
+| VI.7.41.p2 | It is no duality but, rather, a manifold | The Greek says "nor is it two, or rather more" (οὐδ’ ἐστὶ δύο, μᾶλλον δὲ πλείω): it is neither two nor many; MacKenna makes it a manifold. |
+| VI.7.41.p2 | but the distinction has existed | The Greek says that if they were one "they will make themselves vanish in themselves (ἀφανιεῖ)", and if distinguished by otherness they will not be the first; nothing of a distinction that has existed. |
+| VI.7.41.p3 | to the Intellectual-Principle it is appropriate as being one thing with the very essence | The Greek says "its being (τὸ εἶναι) is the same" as thinking: being, not essence. |
+| VI.7.41.p3 | carrying the assurance of identity, of the unity of the two | The Greek says it takes in an understanding of itself "that this is this, that the two are one (ὅτι τὰ δύο ἕν)". |
+| VI.7.41.p4 | The First on the contrary if it have content must exist in a way too great | The Greek says "if it is anything to itself (τί ἐστιν αὐτῷ), it is so in a greater way": anything to itself, not content. |
+| VI.7.41.p4 | it would be absurd to suppose The Good standing in need of goodness | The Greek says "that would be laughable (γελοῖον): for so it would also be in need of itself": of itself, not of goodness. |
+| VI.7.41.p5 | even Being cannot be There | The Greek has "as substance (οὐσία) is not either": the modern version keeps "substance". |
+| VI.7.41.p5 | which is a thing of the lower sphere | The Greek says "if substance is here (ἐνταῦθα)", with intellect, where the first thinking and being are together: in the intelligible, not a lower sphere. |
+| VI.7.41.p5 | Reason, perception, intelligence, none of these | The Greek has "neither account (λόγος) nor perception nor knowledge (ἐπιστήμη)": knowledge, not intelligence, and λόγος as the account, as in the Parmenides. |
+| VI.7.42.p1 | Secondaries are to be ranged under the First, tertiaries under the secondaries | The Greek says set the second "about (περὶ) the first", and the third about the second: about, as in the Letter quoted next, not under. |
+| VI.7.42.p1 | Faced by the difficulty of placing these powers | The Greek says "these things (ταῦτα)", the solemn things of chapter 41, thinking and knowing; "powers" is MacKenna's. |
+| VI.7.42.p2 | for certainly His very nature requires that nothing of the later be in Him | The Greek says "or else they would no longer be all things, if anything of the others after him were present to him": the argument is about the all, not his nature's requirement. |
+| VI.7.42.p2 | and they reach to Him as to something differing from them all | The Greek says they reach for him "as it were" (οἷον), as other than all things; MacKenna leaves out the "as it were". |
+| VI.7.42.p3 | He being set above all that is beautiful here | The Greek says he is set "above all this beautiful (ὑπὲρ τὸ καλὸν πᾶν τοῦτο)", the beauty in the forms; "here" is MacKenna's. |
+| VI.7.42.p3 | Where we read that He is the cause of all beauty we are clearly to understand that beauty depends upon the Forms | The Greek says "he seems (φαίνεται) to set the beautiful in the forms": Plato seems to, Plotinus reads; MacKenna makes it clear. |
 
 ## The plan, in Porphyry's order
 
@@ -1702,6 +1836,6 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | VI.4 | That being, one and the same, is everywhere whole, first part | done here |
 | VI.5 | That being, one and the same, is everywhere whole, second part | done here |
 | VI.6 | On numbers | done here |
-| VI.7 | How the many forms came to be, and on the Good | done here, chapters 1-28 of 42 |
+| VI.7 | How the many forms came to be, and on the Good | done here |
 | VI.8 | On free will and the will of the One | to come (E33) |
 | VI.9 | On the Good, or the One | done beside Taylor (milestone 27) |

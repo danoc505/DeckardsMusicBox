@@ -676,23 +676,56 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   (Metaphysics Λ.7), the mixed life (Philebus 20e-22e, 60a-61b), pleasure that never fills (Philebus 53c-54d, Gorgias
   493e-494b), the like and the akin (Lysis), οἰκείωσις (Diogenes Laertius VII.85, Cicero, On ends III.16), matter
   desiring form (Physics I.9) and the dream of matter (III.6.7).
-- E32: VI.7 chapters 29-42 (4,769). Next. Pp. 196-212 of vol. V, MacKenna's own English (flags say "MacKenna").
-  The @treatise VI.7 block is there (E30) with its summary of the whole; keep it, and check that its account of chapters
-  29 to 42 fits what is done ("the soul that sees it loves a beauty without shape ... (chapters 24 to 36)", "against those
-  who make the first think ... (chapters 37 to 42)"). Source work first: tools/mackenna.py finds VI.7.1-34 since E31 (29
-  at p. 196, 34 at p. 201); 35 on are not found and run on in 34. In the OCR, "29." to "34.", "36." to "40." and "42."
-  read as they are ("33-", "34-", "37-", "39-" are read); candidates for vol. V's "misread": "35:" (line 9384) for 35
-  ("Such in this union is the soul's temper") and "Al." (9721) for 41 ("Intellection seems to have been given as an aid").
-  p. 204's head reads "204 PEOTINGS" (9434), inside 35's text: add it to "heads" (as "172 BEOTINUS" and "188 © PLOTINUS"),
-  or the pages from 36 on come out one too low. "2D" (9347, inside 34) and "2E" (9707, inside 40) are signatures after a
-  line of text: list them in "stray". Check each start against the Greek, and that 42 ends before "EIGHTH TRACTATE"
-  (9802). Setup: git fetch origin main, branch, cd platonic-workshop, python3 tools/fetch_sources.py
-  first1k-neoplatonists, python3 tools/modern_enneads.py --check, python3 -m unittest tests.test_modern_enneads. Tests:
-  VI.7 is complete, so it has no chapters_done (the E30 and E31 checks look at [:14] and [14:28] of VI.7's chapters and no
-  longer at chapters_done 14 or 28; the E29 check's ("here", 28) becomes VI.7 "here" with no chapters_done); the milestone
-  asserts stay on VI.8 ("E33"); PLAN keeps "E30-E32"; the browser test counts 454 + 14 = 468 chapters, finds no
-  "chapters 1-28 of 42 so far", and enn-later stays 1 with "to come, E33".
-- E33: VI.8 On free will and the will of the One (7,778).
+- **E32: VI.7 chapters 29-42 (4,769) (done).** 60 paragraphs, 134 flags, 41 notes; VI.7 is complete, with no
+  chapters_done, and the reader no longer shows "chapters 1-28 of 42 so far". The @treatise VI.7 block (E30) is kept: its
+  account of chapters 24 to 36 (the soul that sees the Good loves a beauty without shape, and leaves all to be alone with
+  it) and of 37 to 42 (against those who make the first think, the Good does not think, nor need to know itself) fits
+  what is done. MacKenna's own English, so the flags say "MacKenna". Source work: vol. V's "misread" adds "35:" 35 and
+  "Al." 41; "heads" reads p. 204's "204 PEOTINGS", which otherwise stood inside VI.7.35 and put 36 on one page too low;
+  "stray" takes out the signatures "2D" (inside 34, p. 201) and "2E" (inside 40, p. 210). All 42 chapters are found,
+  29 to 42 on pp. 196-211, their starts are the Greek's, and 42 ends before "EIGHTH TRACTATE" (on "dependent upon soul",
+  the Greek's εἰς ψυχὴν ἀνηρτημένων). No other chapter's page in the volume moved. Fixed names: "substance" for οὐσία
+  (MacKenna's "the veritable", "the Authentic", "essence", "Being", "Real-Being", "essential Being" flagged, 32, 37, 39,
+  40, 41), "the Good", "intellect", "intelligible" (his "Intellectual" for νοητός flagged, 33, 34, 35, 36), "virtue",
+  "justice", "self-control" (his "wiser", "moral quality" and "Sophrosyny", 29, 31, 33), "matter" and "unlimited". λόγος
+  is the argument or the account throughout these chapters (29, 33, 35, 40, 41), so "forming principle" does not come up;
+  MacKenna's "reason" for it is flagged (33, 35, 41). E.g. MacKenna makes the isolated a candidate for the good where the
+  Greek denies it (30), intellect flash "Nature into being" where its own nature shines out (31), the first "a thing of
+  parts" where it would be a part, and a denial of the question "what beauty is it?" (32), the soul affirm "that she is,
+  herself" where she says "it is that one" (34), the soul speak of intellect where she speaks of the Good, and "excess"
+  for the fill (35), the quester made one with the radiance where the Good is that radiance (36), "repose" for standing
+  in solemnity (39), the first "a manifold" where the Greek says it is neither two nor more (41), and the second "under"
+  the first where it is about it (42). terms-greek.json is unchanged. Notes on the senses wishing to know (Metaphysics
+  A.1), pleasure the bloom on activity (Nicomachean Ethics X.4), truth and measure in the mixture (Philebus 64a-66a), the
+  lovers and the image of the beloved (Phaedrus 250d-253c), the mud (Phaedo 69c, Republic VII 533d), beauty itself by
+  itself (Symposium 211a-b), the watering of the wings (Phaedrus 251b-e, 255c-d), alone to the alone (VI.9.11),
+  "suddenly" (Symposium 210e, Letter VII 341c-d), tickling (Philebus 46a-47a, Gorgias 494c-e), the intelligible place
+  (Republic VI 508c, VII 517b), the myths that divide in time (III.5.9), the greatest study (Republic VI 505a), the ways of
+  negation, analogy and ascent (Alcinous, Didaskalikos 10), Odysseus on the wave (Odyssey V.392-393), thinking of thinking
+  (Metaphysics Λ.9), "beyond intellect" (Aristotle, On prayer fr. 49 Rose), privation (Metaphysics Δ.22), the one that is
+  not even one (Parmenides 141e-142a), the greatest kinds (Sophist 254d-255e), standing in solemnity (Sophist 248e-249a),
+  beyond substance (Republic VI 509b), "know yourself" (Alcibiades I 128e-130e), no account of the one (Parmenides 142a)
+  and the king of all (Letter II 312e).
+- E33: VI.8 On free will and the will of the One (7,771 Greek words, 21 chapters). Next. Pp. 212-236 of vol. V,
+  MacKenna's own English (flags say "MacKenna"). VI.8 is the last treatise not yet done; it is done whole in E33 under its
+  own @treatise block (the thirty-ninth in the order of writing, Life 5), unless it is too long for one thread, in which
+  case split it over E33 (chapters 1-11) and E33b (12-21) and change PLAN to "E33-E33b". Source work first:
+  tools/mackenna.py finds only VI.8.1 (p. 212); 2 on run on in 1. In the OCR (lines 9802-10928, before "NINTH TRACTATE"),
+  "5.", "6.", "8.", "13." to "16.", "18.", "19." and "20." read as they are; candidates for vol. V's "misread", each to
+  check against the Greek's chapter start: "RS" (9916) for 2 ("All this calls for examination"), "as" (9950) for 3 ("It
+  will be asked how act rising from desire can be voluntary"), "Q." (10224) for 9, "I0." (10292) for 10, "PE" (10346)
+  for 11 ("But this Unoriginating, what is it ?"), "ie." (10395) for 12, "Ls" (10684) for 17 ("Or consider it another
+  way"), "ati" (10881) for 21 ("Could He then have made Himself otherwise"); 4 and 7 have no line of their own that was
+  found (7 may follow the head "VI. 8. 7] FREE-WILL AND THE WILL OF THE ONE 219" at 10114, where a "5" stands; 4 is
+  likely inside a paragraph near 9950-10001), so look for them by the Greek. "2F" (10066), "2G" (10419) and "2H" (10767)
+  are signatures: list them in "stray" if they stand after a line of text. Check the running heads for misread page
+  numbers (as E30-E32's "BEOTINUS", "© PLOTINUS", "PEOTINGS"), so that no chapter's page comes out one too low, and that
+  21 ends before "NINTH TRACTATE" (10928). Setup: git fetch origin main, branch, cd platonic-workshop, python3
+  tools/fetch_sources.py first1k-neoplatonists, python3 tools/modern_enneads.py --check, python3 -m unittest
+  tests.test_modern_enneads. Tests: with VI.8 done, all thirty-nine treatises not Taylor's are here and none is "to come":
+  every milestone assert on c["VI.8"]["milestone"] == "E33" (in the E15 to E32 checks) becomes c["VI.8"]["status"] ==
+  "here" (or is dropped); PLAN keeps "E33"; the browser test counts 468 + 21 = 489 chapters, finds no "#toc .enn-later"
+  (0) and no "to come, E33"; check what the reader then says in place of the "to come" line.
 - E34 (optional): MacKenna's English beside the fifteen done with Taylor too, and their flags checked against him, so that the
   whole Enneads read the same way.
 
