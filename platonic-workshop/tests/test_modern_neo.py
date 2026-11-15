@@ -190,9 +190,9 @@ class Files(unittest.TestCase):
             self.assertIn(modern_neo.norm(f["taylor"]), ch[cid], seg)
             self.assertGreaterEqual(len(f["taylor"].split()), 3, seg)
             self.assertTrue(f["why"].strip(), seg)
-        # The fewest each checked treatise has (E34b to E34h): MacKenna keeps closer to the Greek from IV.3 on.
+        # The fewest each checked treatise has (E34b to E34i): MacKenna keeps closer to the Greek from IV.3 on.
         least = {"I.2": 10, "I.3": 10, "II.4": 10, "II.9": 10, "III.6": 10, "III.7": 10, "IV.2": 2, "IV.3": 7, "IV.7": 4, "V.2": 1,
-                 "V.1": 2, "V.6": 1}
+                 "V.1": 2, "V.6": 1, "V.3": 1}
         per = {t: sum(1 for _, cid, _ in flags if cid.rsplit(".", 1)[0] == t) for t in least}
         self.assertTrue(all(per[t] >= n for t, n in least.items()), per)
         by = {seg: [f["taylor"] for s, _, f in flags if s == seg] for seg, _, _ in flags}
@@ -219,6 +219,8 @@ class Files(unittest.TestCase):
         # E34h: "occupied upon The One" for sight and seeing being one (V.1.5), the Good moving "towards itself" (V.6.5).
         self.assertIn("intellection (the Act of the Dyad) is vision occupied upon The One", by["V.1.5.p1"])
         self.assertIn("this moves towards itself while its sequent is moved", by["V.6.5.p1"])
+        # E34i: the One considered "only in its opposites" where the Greek has us turned round to the opposite (V.3.13).
+        self.assertIn("we have been considering it only in its opposites", by["V.3.13.p1"])
 
 
 @unittest.skipUnless(FIRST1K.exists(), "run python3 tools/fetch_sources.py first")
