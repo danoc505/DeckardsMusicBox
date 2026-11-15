@@ -341,8 +341,10 @@
   {
    "id": "VI.7",
    "title": "How the many forms came to be, and on the Good",
-   "status": "to come",
-   "milestone": "E30-E32"
+   "status": "here",
+   "first": "VI.7.1",
+   "chapters_done": 14,
+   "chapters_all": 42
   },
   {
    "id": "VI.8",
@@ -1048,6 +1050,29 @@
     "VI.6.17",
     "VI.6.18"
    ]
+  },
+  {
+   "id": "VI.7",
+   "title": "How the many forms came to be, and on the Good",
+   "summary": "The thirty-eighth treatise in the order of writing, one of those Plotinus wrote in the six years Porphyry was with him (Life 5), and one of the longest. It begins with the senses that God, or some god, gave the souls when he sent them into becoming, and asks from what he foresaw their need. There is no reasoning or foresight in the intelligible: Plato speaks of a reasoning god only to show that all is as a wise man would have reasoned it; there all is present at once, the what and the why are one, and each form holds its cause in itself (chapters 1 to 3). Then the man there: the man here is a forming principle in a soul, an image of a better man of a more divine soul, who is an image of the man in intellect; each of us is the man by which he is active; the perceptibles there are perceived as they are there, so that the perceptions here are dim thoughts, and the thoughts there bright perceptions (chapters 4 to 7). Why are horses and the irrational living beings in intellect? What comes after the altogether one must be many, a complete living being; the irrational there is intellect of a kind, and horns and claws are for completeness; the All there has its heaven, earth, sea and air, plants and fire, all living and flowing from one spring; and intellect wanders in itself through the plain of truth, one many, divided always inward, the true friendship of which this world's is an imitation (chapters 8 to 14). From there the treatise rises to the Good: intellect's life and its many forms are a trace of the Good, which gives what it does not have, and the forms are desired because the Good colours them, as beauty is loved only when the light from the Good comes upon it (chapters 15 to 23). The Good is not pleasure, nor the mixture of the Philebus, but that to which each thing turns; the soul that sees it loves a beauty without shape, and leaves all to be alone with it (chapters 24 to 36). Last, against those who make the first think, the Good does not think, nor need to know itself: it is beyond intellect (chapters 37 to 42).",
+   "chapters": [
+    "VI.7.1",
+    "VI.7.2",
+    "VI.7.3",
+    "VI.7.4",
+    "VI.7.5",
+    "VI.7.6",
+    "VI.7.7",
+    "VI.7.8",
+    "VI.7.9",
+    "VI.7.10",
+    "VI.7.11",
+    "VI.7.12",
+    "VI.7.13",
+    "VI.7.14"
+   ],
+   "chapters_done": 14,
+   "chapters_all": 42
   }
  ],
  "chapters": [
@@ -8474,6 +8499,244 @@
      "page": 160,
      "year": 1930,
      "text": "It appears then that Number in that realm is definite; it is we that can conceive the ‘‘ More than is present’; the infinity lies in our counting: in the Real is no conceiving more than has been conceived ; all stands entire; no number has been or could be omitted to make addition possible. It might be described as infinite in the sense that it has not been measured—who is there to measure it ?—but it is solely its own, a concentrated unit, entire, not ringed round by any boundary ; its manner of being is settled for it by itself alone. None of the Real-Beings is under limit ; what is limited, measured, is what needs measure to prevent it running away into the unbounded. There every being is Measure ; and therefore it is that all is beautiful. Because that is a living thing it is beautiful, holding the highest life, the complete, a life not tainted towards death, nothing mortal there, nothing dying. Nor is the life of that Absolute Living-Form some feeble flickering ; it is primal, the brightest, holding all that life has of radiance; it is that first light which the souls There draw upon for their life and bring with them when they come here. It knows for what purpose it lives, towards What it lives, from Whence it lives; for the Whence of its life is the Whither. . . . and close above it stands the wisdom of all, the collective Intellectual-Principle, knit into it, one with it, colouring it to a higher goodness, by kneading wisdom into it, making its beauty still more august. Even here the august and veritably beautiful life is the life in wisdom, here dimly seen, There purely. For There wisdom gives sight to the seer and power for the fuller living and in that tenser life both to see and to become what is seen.\n\nHere attention is set for the most part upon the unliving and, in the living, upon what is lifeless in them; the inner life is taken only with alloy: There, all are Living Beings, living wholly, unalloyed ; however you may choose to study one of them apart from its life, in a moment that life is flashed out upon you: once you have known the Essence that pervades them, conferring that unchangeable life upon them, once you perceive the judgement and wisdom and knowledge that are theirs, you can but smile at all the lower nature with its pretention to Reality.\n\nIn virtue of this Essence it is that life endures, that the Intellectual-Principle endures, that the Beings stand in their eternity; nothing alters it, turns it, moves it; nothing, indeed, is in being beside it to touch it; anything that is must be its product ; anything opposed to it could not affect it. Being itself could not make such an opposite into Being ; that would require a prior to both and that prior would then be Being ; so that Parmenides was right when he taught the identity of Being and Unity. Being is thus beyond contact not because it stands alone but because it is Being. For Being alone has Being in its own right.\n\nHow then can we deny to it either Being or anything at all that may exist effectively, anything that may derive from it ?\n\nAs long as it exists it produces: but it exists for ever ; so, therefore, do its products. And so great is it in power and beauty that it remains the allurer, all things of the universe depending from it and rejoicing to hold their trace of it and through that to seek their good. To us existence is before the good; all this world desires life and wisdom in order to Being; every soul and every intellect seeks to be its Being but Being is sufficient to itself."
+    }
+   ]
+  },
+  {
+   "id": "VI.7.1",
+   "treatise": "VI.7",
+   "title": "Why the senses were given",
+   "summary": "When God, or some god, sent the souls into becoming, he gave them eyes and the other senses, foreseeing that the living being would be kept safe so. But from what did he foresee it? Reasoning needs starting points, and they are either perception, which there was not yet, or intellect, whose conclusion is knowledge, not the perceptible. There is no reasoning there: it is spoken of to show that all is as a wise man would have reasoned it. In god all is present at once, the future as already there, so that later one can say \"this because of this\".",
+   "greek_unit": "6.7.1",
+   "greek_part": 51,
+   "older": [
+    {
+     "n": 1,
+     "label": "VI.7, chapter 1",
+     "page": 162,
+     "year": 1930,
+     "text": "God, or some one of the gods, in sending the souls to their birth, placed eyes in the face to catch the light and allotted to each sense the appropriate organ, providing thus for the safety which comes by seeing and hearing in time and seeking or avoiding under guidance of touch.\n\nBut what led to this provision ?\n\nIt cannot be that other forms of being were produced first and that, these perishing in the absence of the senses, the maker at last supplied the means by which men and other living beings might avert disaster.\n\nWe may be told that it lay within the divine knowledge that animal life would be exposed to heat and cold and other such experiences incident to body and that in this knowledge he provided the senses and the organs apt to their activity in order that the living total might not fall an easy prey.\n\nNow, either he gave these organs to souls already possessing the sensitive powers or he gave senses and organs alike.\n\nBut if the souls were given the powers as well as the organs, then, souls though they were, they had no sensation before that giving. If they possessed these powers from the moment of being souls and became souls in order to their entry into process, then it is of their very nature to belong to process, unnatural to them to be outside of process and within the Intellectual: they were made in the intent that they should belong to the alien and have their being amid evil; the divine provision would consist in holding them to their disaster ; this is God’s reasoned purpose, this the plan entire.\n\nNow what is the foundation of reasoned plan ?\n\nPrecedent planning, it may be; but still we are forced back to some thing or things determining it. What would these be here ?\n\nEither sense-perception or intellect. But sense-perception it cannot in this case be: intellect is left ; yet, starting from intellect, the conclusion will be knowledge, not therefore the handling of the sensible ; what begins with the intellectual and proceeds to the intellectual can certainly not end in dealings with the sensible. Providence, then, whether over living beings or over any part of the universe was never the outcome of plan.\n\nThere is in fact no planning There; we speak of reasoned purpose in the world of things only to convey that the universe is of the character which in the later order would point to a wise purposing; Providence implies that things are as in the later order a competent foreplanning would produce them. Reasoning serves, in beings not of the order above that need, to supply for the higher power; foresight is necessary in the lack of power which could dispense with it; it labours towards some one occurrence in preference to another and it goes in a sort of dread of the unfitting; where only the fitting can occur, there is no _foreseeing. So with planning; where one only of two things can be, what place is there for plan ? The alone and one and utterly simplex cannot involve a ‘‘ this to avert that’: if the “‘ this’ could not be, the “ that ”’ must ; the serviceable thing appeared and at once approved itself so.\n\nBut surely this is foreseeing, deliberating: are we not back at what was said at the beginning, that God did to this end give both the senses and the powers, however perplexing that giving be ?\n\nNo: all turns on the necessary completeness of Act; we cannot think anything belonging to God to be other than a whole and all and therefore in anything of God’s that all must be contained ; God therefore must take in the future, present beforehand. Certainly there is no later in the divine ; what is There as present is future for elsewhere. If then the future is present, it must be present as having been foreconceived for later coming to be; at that divine stage therefore it lacks nothing and therefore can never lack; all existed, eternally and in such a way that at the later stage any particular thing may be said to exist for this or that purpose ; the All, in its extension and so to speak unfolding, is able to present succession while yet it is simultaneous ; this is because it contains the cause of all as inherent to itself."
+    }
+   ]
+  },
+  {
+   "id": "VI.7.2",
+   "treatise": "VI.7",
+   "title": "The what and the why are one there",
+   "summary": "Here we see that a thing is, but not why, or the why apart; there, all is in one, and the thing and its why are the same, as with an eclipse here. Each form, unfolded, holds its why: being intellect's, it lacks nothing, and comes to be together with its cause. As in this All all things are strung together, much more there each is toward the whole and toward itself, and holds its cause causelessly. The why is in the existence: the man there is whole from the beginning, and the man who comes to be is a thing come to be.",
+   "greek_unit": "6.7.2",
+   "greek_part": 51,
+   "older": [
+    {
+     "n": 2,
+     "label": "VI.7, chapter 2",
+     "page": 164,
+     "year": 1930,
+     "text": "Thus we have even here the means of knowing the nature of the Intellectual-Principle, though, seeing it more closely than anything else, we still see it at less than its worth. We know that it exists but its cause we do not see, or, if we do, we see that cause as something apart. We see a man—or an eye, if you like—but this is an image or part of an image ; what is in that Principle is at once Man and the reason of his being; for There man—or eye—must be, itself, an intellective thing and a cause of its being; it could not exist at all unless it were that cause, whereas here, everything partial is separate and so is the cause of each. In the Intellectual all is at one so that the thing is identical with the cause.\n\nEven here the thing and its cause are often identical—an eclipse furnishes an example—what then is there to prevent other things too being identical with their cause and this cause being the essence of the thing ? It must be so; and by this search after the cause the thing’s essence is reached, for the essence of a thing is its cause. I am not here saying that the informing Idea is the cause of the thing—though this is true—but that the Idea itself, unfolded, reveals the cause inherent in it. .\n\nA thing of inactivity, even though alive, cannot include its own cause ; but where could a Forming-Idea, a member of the Intellectual-Principle, turn in quest of its cause? We may be answered ‘“‘ In the Intellectual-Principle”’ ; but the two are not distinct ; the Idea is the Intellectual-Principle ; and if that Principle must contain the Ideas complete, their cause must be contained in them. The Intellectual-Principle itself contains every cause of the things of its content ; but these of its content are identically Intellectual-Principle, each of them Intellectual-Principle ; none of them, thus, can lack its own cause; each springs into being carrying with it the reason of its being. No result of chance, each must rise complete with its cause ; it is an integral and so includes the excellence bound up with the cause. This is how all participants in the Idea are put into possession of their cause.\n\nIn our universe, a coherent total of multiplicity, the several items are linked each to the other, and by the fact that it is an all every cause is included in it: even in the particular thing the part is discernibly related to the whole, for the parts do not come into being separately and successively but are mutually cause and caused at one and the same moment. Much more in the higher realm must all the singles exist for the whole and each for itself: if then that world is the conjoint reality of all, of an all not chance-ruled and not sectional, the caused There must include the causes: every item must hold, in its very nature, the uncaused possession of its cause ; uncaused, independent and standing apart from cause, they must be self-contained, cause and all.\n\nFurther, since nothing There is chance-sprung, and the multiplicity in each comprehends the entire content, then the cause of every member can be named; the cause was present from the beginning, inherent, not a cause but a fact of the being; or, rather, cause and manner of being were one. What could an Idea have, as cause, over and above the Intellectual-Principle ? It is a thought of that Principle and cannot, at that, be considered as anything but a perfect product. If it is thus perfect we cannot speak of anything in which it is lacking nor cite any reason for such lack. That thing must be present and we can say way. The why is inherent, therefore, in the entity, that is to say in every thought and activity of the Intellectual-Principle. Take for example the Idea of Man; Man entire is found to contribute to it ; he is in that Idea in all his fulness including everything that from the beginning belonged to Man. If Man were not complete There, so that there were something to be added to the Idea, that additional must belong to a derivative : but Man exists from eternity and must therefore be complete ; the man born is the derivative."
+    }
+   ]
+  },
+  {
+   "id": "VI.7.3",
+   "treatise": "VI.7",
+   "title": "Reasoning only on a supposition",
+   "summary": "Taking counsel beforehand about man is spoken of only because the account supposed things coming to be; saying that they always come to be takes it away, for there is no reasoning in the eternal. Things are beautiful with their cause: eyes and eyebrows are so that the thing may be all, and the cause is part of the substance. But if being perceptive is set in the form by everlasting necessity, how is intellect not leaning toward the things here, and how is it not absurd that the power there is fulfilled here only when the soul becomes worse?",
+   "greek_unit": "6.7.3",
+   "greek_part": 51,
+   "older": [
+    {
+     "n": 3,
+     "label": "VI.7, chapter 3",
+     "page": 166,
+     "year": 1930,
+     "text": "What then is there to prevent man having been the object of planning There ?\n\nNo: all stands in that likeness, nothing to be added or taken away ; this planning and reasoning is based only on an assumption ; things are taken to be in process and this suggests planning and reasoning ; insist on the eternity of the process and planning falls to the ground. There can be no planning over the eternal; that would imply forgetfulness cf a first state; further, if the second state were better, things stood ill at first ; if they stood well, so they must remain.\n\nOnly in conjunction with their causes are things good; even in this sphere a thing is good in virtue of being complete; form means that the thing is complete, the Matter duly controlled; this control means that nothing has been left crude; but something is so left if anything belonging to the shape be missing—eye, or other part. Thus to state cause is to state the thing complete. Why eyes or eyebrows ? For completion: if you say For preservation, you affirm an indwelling safeguard of the essence, something contributory to the being: the essence, then, preceded the safeguard and the cause was inbound with the essence; distinct, this cause is in its nature a part of the essence.\n\nAll parts, thus, exist in regard to each other: the essence is allembracing, complete, entire; the excellency is inbound with the cause and embraced by it ; the being, the essence, the cause, all are one.\n\nBut, at this, sense-perception—even in its particular modes—is involved in the Idea by eternal necessity, in virtue of the completeness of the Idea; Intellectual-Principle, as all-inclusive, contains in itself all by which we are brought, later, to recognise this perfection in its nature; the cause, There, was one total, all-inclusive; thus Man in the Intellectual was not purely intellect, sense-perception being an addition made upon his entry into birth: all this would seem to imply a tendance in that great Principle towards the lower, towards this sphere.\n\nBut how could that Principle have such perception, be aware of things of sense? Surely it is untenable on the one hand that senseperception should exist There, from eternity, and on the other that only upon the debasement of the soul should there be sense-perception here and the accomplishment in this realm of the Act of what was always a power in that ?"
+    }
+   ]
+  },
+  {
+   "id": "VI.7.4",
+   "treatise": "VI.7",
+   "title": "What is the man here?",
+   "summary": "First the man here: is he a forming principle other than the soul that makes him, or that soul, or the soul using a body? A forming principle of the compound of soul and body would not be everlasting, nor show the what it was to be; one must take the forming principle that made him. Man is rational life; but life is soul's, so man is either an activity of soul, and not a substance, or the soul itself; and then why is the soul not a man when it goes into another living being?",
+   "greek_unit": "6.7.4",
+   "greek_part": 51,
+   "older": [
+    {
+     "n": 4,
+     "label": "VI.7, chapter 4",
+     "page": 167,
+     "year": 1930,
+     "text": "To meet the difficulty we must make a close examination of the nature of Man in the Intellectual; perhaps, though it is better to begin with the man of this plane lest we be reasoning to Man There from a misconception of Man here. There may even be some who deny the difference.\n\nWe ask first whether man as here is a Reason-Principle different to that soul which produces him as here and gives him life and thought ; or is he that very soul or, again, the (yet lower) soul using the human body ?\n\nNow if man is a reasonable living being and by living being is meant a conjoint of soul and body, the Reason-Principle of man is not identical with soul. But if the conjoint of soul and body is the reason-principle of man, how can man be an eternal reality, seeing that it is only. when soul and body have come together that the Reason-Principle so constituted appears ?\n\nThat Reason-Principle will be the foreteller of the man to be, not the Man Absolute with which we are dealing but more like his definition, and not at that indicating his nature since what is indicated is not the Idea that is to enter Matter but only that of the known thing, the conjoint. We have not yet found the Man we are seeking, the equivalent of the Reason-Principle.\n\nBut—it may be said—the Reason-Principle of such beings must be some conjoint, one element in another.\n\nThis does not define the principle of either. If we are to state with entire accuracy the Reason-Principles of the Forms in Matter and associated with Matter, we cannot pass over the generative Reason-Principle, in this case that of Man, especially since we hold that a complete definition must cover the essential manner of being.\n\nWhat, then, is this essential of Man? What is the indwelling, inseparable something which constitutes Man as here? Is the Reason-Principle itself a reasoning living being or merely a maker of that reasoning life-form ? and what is it apart from that act of making ?\n\nThe living being corresponds to a reasoning life in the Reason-Principle ; man therefore is a reasoning life: but there is no life without soul; either, then, the soul supplies the reasoning life—and man therefore is not an essence but simply an activity of the soul—or the soul is the man.\n\nBut if reasoning soul is the man, why does it not constitute man upon its entry into some other animal form ?"
+    }
+   ]
+  },
+  {
+   "id": "VI.7.5",
+   "treatise": "VI.7",
+   "title": "Three men, one above another",
+   "summary": "Man is a forming principle other than soul, as the forming principles in seeds are neither without soul nor simply souls. The soul that has come into this matter shapes another image of man in the body, as a painter paints a still lesser man, with dim characters and senses; above it is the man of a more divine soul, Plato's man \"using a body\", who rides on the soul that uses it first, does not leave the intelligible, and makes this dim man bright.",
+   "greek_unit": "6.7.5",
+   "greek_part": 51,
+   "older": [
+    {
+     "n": 5,
+     "label": "VI.7, chapter 5",
+     "page": 168,
+     "year": 1930,
+     "text": "Man, thus, must be some Reason-Principle other than soul. But why should he not be some conjoint—a soul in a certain Reason-Principle —the Reason-Principle being, as it were, a definite activity which however could not exist without that which acts?\n\nThis is the case with the Reason-Principles in seed which are neither soulless nor entirely soul. For these productive principles cannot be devoid of soul and there is nothing surprising in such essences being Reason-Principles.\n\nBut these principles producing other forms than man, of what phase of soul are they activities ? Of the vegetal soul? Rather of that which produces animal life, a brighter soul and therefore one more intensely living.\n\nThe soul of that order, the soul that has entered into Matter of that order, is man by having, apart from body, a certain disposition ; within body it shapes all to its own fashion, producing another form of Man, man reduced to what body admits, just as an artist may make a reduced image of that again.\n\nIt is soul, then, that holds the pattern and Reason-Principles of Man, the natural tendencies, the dispositions and powers—all feeble since this is not the Primal Man—and it contains also the Ideal-Forms of other senses, Forms which themselves are senses, bright to all seeming but images, and dim in comparison with those of the earlier order.\n\nThe higher Man, above this sphere, rises from the more godlike soul, a soul possessed of a nobler humanity and brighter perceptions. This must be the Man of Plato’s definition (“‘ Man is Soul,’”’) where the addition ‘‘ Soul as using body” marks the distinction between the soul which uses body directly and the soul, poised above, which touches body only through that intermediary.\n\nThe Man of the realm of birth has sense-perception: the higher soul enters to bestow a brighter life, or rather does not so much enter as simply impart itself; for soul does not leave the Intellectual but maintaining that contact holds the lower life as pendant from it, blending with it by the natural link of Reason-Principle to Reason-Principle: and man, the dimmer, brightens under that illumination."
+    }
+   ]
+  },
+  {
+   "id": "VI.7.6",
+   "treatise": "VI.7",
+   "title": "Perception there; souls in beasts; daemons",
+   "summary": "The better soul perceives the perceptibles there, as they are there: the perceptive man here fits this harmony to the harmony there, and fire to the fire there. The man in intellect shines on the second man and the second on the third; each of us is the man by which he is active, though each has all. A soul that was all is active now by one, now by another: pure, it wants man; it makes daemons too, and a daemon hangs on a god as a man on a man; when it chooses a beast's nature, it gives the forming principle of that beast.",
+   "greek_unit": "6.7.6",
+   "greek_part": 51,
+   "older": [
+    {
+     "n": 6,
+     "label": "VI.7, chapter 6",
+     "page": 169,
+     "year": 1930,
+     "text": "But how can that higher soul have sense-perception ?\n\nIt is the perception of what falls under perception There, sensation in the mode of that realm: it is the source of the soul’s perception of the sense-realm in its correspondence with the Intellectual. Man as sense-percipient becomes aware of that correspondence and accomodates the sense-realm to the lowest extremity of its counterpart There, proceeding from the fire Intellectual to the fire here which becomes perceptible by its analogy with that of the higher sphere. If material things existed There, the soul would perceive them; Man in the Intellectual, Man as Intellectual soul, would be aware of the terrestrial. This is how the secondary Man, copy of Man in the Intellectual, contains the Reason-Principles in copy; and Man in the Intellectual-Principle contained the Man that existed before any man. The diviner shines out upon the secondary and the secondary upon the tertiary; and even the latest possesses them all—not in the sense of actually living by them all but as standing in under-parallel to them. Some of us act by this lowest ; in another rank there is a double activity, a trace of the higher being included ; in yet another there is a blending of the third grade with the others: each is that Man by which he acts while each too contains all the grades, though in some sense not so. On the separation of the third life and third Man from the body, then if the second also departs— of course not losing hold on the Above—the two, as we are told, will occupy the same place. No doubt it seems strange that a soul which has been the Reason-Principle of a man should come to occupy the body of an animal: but the soul has always been all, and will at different times be this and that.\n\nPure, not yet fallen to evil, the soul chooses man and is man, for this is the higher and it produces the higher. It produces also the still loftier beings, the Celestials (Daimons), who are of one Form with the soul that makes Man: higher still stands that Man more entirely of the Celestial rank, almost a god, reproducing God, a Celestial closely bound to God asa manisto Man. For that Being into which man develops is not to be called a god; there remains the difference which distinguishes souls, all of the same race though they be. This is taking “ Celestial ”’ (“ Daimon ”’) in the sense of Plato.\n\nWhen a soul which in the human state has been thus attached chooses animal nature and descends to that, it is giving forth the Reason-Principle—necessarily in it—of that particular animal: this lower it contained and the activity has been to the lower."
+    }
+   ]
+  },
+  {
+   "id": "VI.7.7",
+   "treatise": "VI.7",
+   "title": "Craftsmen and dancers; dim thoughts and bright perceptions",
+   "summary": "If the soul makes beasts by becoming worse, they are lesser, but not against nature: like craftsmen who know many forms, it makes what it can, or what it is ordered to, or what the matter wants. The soul of the All may sketch beforehand, with illuminations running ahead into matter, and each soul shapes itself to its part, like a dancer to his drama. Those things do not look toward these; these hang on those. The perceptibles there are bodiless and apprehended otherwise: the perceptions here are dim thoughts, and the thoughts there bright perceptions.",
+   "greek_unit": "6.7.7",
+   "greek_part": 51,
+   "older": [
+    {
+     "n": 7,
+     "label": "VI.7, chapter 7",
+     "page": 170,
+     "year": 1930,
+     "text": "But if it is by becoming evil and inferior that the soul produces the animal nature, the making of ox or horse was not at the outset in its character ; the reason-principle of the animal, and the animal itself, must lie outside of the natural plan ?\n\nInferior, yes; but outside of nature, no. The thing There (Soul in the Intellectual) was in some sense horse and dog from the beginning ; given the condition, it produces the higher kind; let the condition fail, then since produce it must it produces what it may: it is like a skilful craftsman competent to create all kinds of works of art but reduced to making what is ordered and what the aptitude of his material indicates.\n\nThe power of the All-Soul, as Reason-Principle of the universe, may be considered as laying down a pattern before the effective separate powers go forth from it: this plan would be something like a tentative illumining of Matter; the elaborating soul would give minute articulation to these representations of itself; every separate effective soul would become that towards which it tended, assuming that particular form as the choral dancer adapts himself to the action set down for him.\n\nBut this is to anticipate: our enquiry was How there can be senseperception in man without the implication that the Divine addresses itself to the realm of process. We maintained, and proved, that the Divine does not look to this realm but that things here are dependent upon those and represent them and that man here holding his powers from Thence is directed Thither, so that, while sense makes the environment of what is of sense in him, the Intellectual in him is linked to the Intellectual.\n\nWhat we have called the perceptibles of that realm enter into cognisance in a way of their own, since they are not material, while the sensible sense here—so distinguished as dealing with corporeal objects—is fainter than the perception belonging to that higher world; the man of this sphere has sense-perception because existing in a less true degree and taking only enfeebled images of things There—perceptions here are Intellections of the dimmer order, and the Intellections There are vivid perceptions."
+    }
+   ]
+  },
+  {
+   "id": "VI.7.8",
+   "treatise": "VI.7",
+   "title": "Why the beasts are there: intellect is many",
+   "summary": "The horse there was not thought in order to make a horse here: it was before, and the things here followed of necessity, since nothing could stop a power that can both stay and go forth. Why, then, are so many irrational living beings in god? What comes after the altogether one must be many, falling short of it; not a dyad, since each of the two is again two; with motion and rest, intellect and life, it is all intellect and all the souls, a complete living being, not man alone.",
+   "greek_unit": "6.7.8",
+   "greek_part": 51,
+   "older": [
+    {
+     "n": 8,
+     "label": "VI.7, chapter 8",
+     "page": 171,
+     "year": 1930,
+     "text": "So much for the thing of sense ; but it would appear that the prototype There of the living form, the universal horse, must look deliberately towards this sphere; and, that being so, the idea of horse must have been worked out in order there be a horse here ?\n\nYet what was that there to present the idea of the horse it was desired to produce? Obviously the idea of horse must exist before there was any planning to make a horse; it could not be thought of in order to be made ; there must have been horse unproduced before that which was later to come into being. If then the thing existed before it was produced—if it cannot have been thought of in order to its production —the Being that held the horse as There held it in presence without any looking to this sphere ; it was not with intent to set horse and the rest in being here that they were contained There ; it is that, the universal existing, the reproduction followed of necessity since the total of things was not to halt at the Intellectual. Who was there to call a halt to a power capable at once of self-concentration and of outflow ?\n\nBut how come these animals of earth to be There ? What have they to do within God? Reasoning beings, all very well; but this host of the unreasoning, what is there august in them? Surely the very contrary ?\n\nThe answer is that obviously the unity of our universe must be that of a manifold since it is subsequent to that unity-absolute ; otherwise it would be not next to that but the very same thing. As a next it could not hold the higher rank of being more perfectly a unity; it must fall short : since the best is a unity, inevitably there must be something more than unity, for deficiency involves plurality.\n\nBut why should it not be simply a dyad ?\n\nBecause neither of the constituents could ever be a pure unity, but at the very least a duality and so progressively (in an endless dualisation). Besides, in that first duality of the hypothesis there would be also movement and rest, Intellect and the life included in Intellect, all-embracing Intellect and life complete. That means that it could not be one Intellect ; it must be Intellect agglomerate including all the particular intellects, a thing therefore as multiple as all the Intellects and more so; and the life in it would not be that of one soul but of all the souls with the further power of producing the single souls : it would be the entire living universe containing much besides man ; for if it contained only man, man would be alone here. ;"
+    }
+   ]
+  },
+  {
+   "id": "VI.7.9",
+   "treatise": "VI.7",
+   "title": "The irrational there is intellect too",
+   "summary": "The man and the living beings there are greater than here, and the rational is not there, but what is before reasoning. Lives and thoughts must differ, first, second and third: some thoughts are gods, some rational, some called irrational; but there the irrational is a forming principle, and the thought of a horse is intellect. Each part of intellect is all, but in act it ends, here in a horse; the powers, unrolling, let something go and add claws, teeth and horns, so that intellect finds in itself the healing of what is lacking.",
+   "greek_unit": "6.7.9",
+   "greek_part": 51,
+   "older": [
+    {
+     "n": 9,
+     "label": "VI.7, chapter 9",
+     "page": 172,
+     "year": 1930,
+     "text": "Admitted, then—it will be said—for the nobler forms of life; but how can the divine contain the mean, the unreasoning ? The mean is the unreasoning since value depends upon reason and the worth of the intellective implies worthlessness where intellection is lacking. Yet how can there be question of the unreasoning or unintellective when all particulars exist in the divine and come forth from it ?\n\nIn taking up the refutation of these objections, we must insist upon the consideration that neither man nor animals here can be thought of as identical with the counterparts in the higher realm; those ideal forms must be taken in a larger way. And again the reasoning thing is not of that realm: here the reasoning, There the pre-reasoning.\n\nWhy then does man alone reason here, the others remaining reasonless ?\n\nDegrees of reasoning here correspond to degrees of Intellection in that other sphere, as between man and the other living beings There ; and those others do in some measure act by understanding.\n\nBut why are they not at man’s level of reason : why also the difference from man to man ?\n\nWe must reflect that since the many forms of lives are movements— and so with the Intellections—they cannot be identical: there must be different lives, distinct intellections, degrees of lightsomeness and clarity: there must be firsts, seconds, thirds, determined by nearness to the Firsts. This is how some of the Intellections are gods, others of a secondary order having what is here known as reason, while others again belong to the so-called unreasoning: but what we know here as unreasoning was There a Reason-Principle; the unintelligent was an Intellect ; the Thinker of Horse was Intellect and the Thought, Horse, was an Intellect.\n\nBut (it will be objected) if this were a matter of mere thinking we might well admit that the intellectual concept, remaining concept, should take in the unintellectual, but where concept is identical with thing how can the one be an Intellection and the other without intelligence ? Would not this be Intellect making itself unintelligent ?\n\nNo: the thing is not unintelligent ; it is Intelligence in a particular mode, corresponding to a particular aspect of Life; and just as life in whatever form it may appear remains always life, so Intellect is not ‘annulled by appearing in a certain mode. Intellectual-Principle adapted to some particular living being does not cease to be the Intellectual-Principle of all, including man: take it where you will, every manifestation is the whole, though in some special mode; the particular is produced but the possibility is of all. In the particular we see the the Intellectual-Principle in realisation ; the realised is its latest phase ; in one case the last aspect is horse; at horse ended the progressive outgoing towards the lesser forms of life, as in another case it will end at something lower still. The unfolding of the powers of this Principle is always attended by some abandonment in regard to the highest ; the outgoing is by loss and by this loss the powers become one thing or another according to the deficiency of the life-form produced by the failing principle ; it is then that they find the means of adding various requisites ; the safeguards of the life becoming inadequate, there appear nail, talon, fang, horn. Thus the Intellectual-Principle by its very descent is directed towards the perfect sufficiency of the natural constitution, finding there within itself the remedy of the failure."
+    }
+   ]
+  },
+  {
+   "id": "VI.7.10",
+   "treatise": "VI.7",
+   "title": "Horns there: complete as a living being",
+   "summary": "Horns there are for completeness: as a living being, as intellect and as life it must be complete, with one thing in place of another, so that from all of them comes the most complete living being, and each is complete as what it is. A whole from many must be one, from things other in form, each kept safe: the parts of a man's shape, better and worse, eye and finger, are of one; and virtue too is common and particular, and the whole is beautiful.",
+   "greek_unit": "6.7.10",
+   "greek_part": 51,
+   "older": [
+    {
+     "n": 10,
+     "label": "VI.7, chapter 10",
+     "page": 174,
+     "year": 1930,
+     "text": "But failure There? What can defensive horns serve to There ? To sufficiency as living form, to completeness. That principle must be complete as living form, complete as Intellect, complete as life so that if it is not to be one thing it may be another. Its characteristic difference is in this power of being now this, now that, so that, summing all, it may be the completest life-form, Intelligence complete, life in the greatest fulness with each of the particulars complete in its degree while yet, over all that multiplicity, unity reigns.\n\nIf all were one identity, the total could not contain this variety of forms ; there would be nothing but a self-sufficing unity. Like every compound it must consist of things progressively differing in form and safeguarded in that form. This is in the very nature of shape and Reason-Principle; a shape, that of man let us suppose, must include a certain number of differences of part but all dominated by a unity; there will be the noble and the inferior, eye and finger, but all within a unity ;\n\nthe part will be inferior in comparison with the total but best in its place. The Reason-Principle, too, is at once the living form and something else, something distinct from the being of that form. It is so with virtue also ; it contains at once the universal and the particular ; and the total is good because the universal is not differentiated."
+    }
+   ]
+  },
+  {
+   "id": "VI.7.11",
+   "treatise": "VI.7",
+   "title": "Plants, earth, fire, water and air there",
+   "summary": "This All has all things, and so the All there has plants, earth, fire and water, and they live. The plant here is a forming principle set in life, from a first plant there that lives before it. Stones grow and mountains are shaped by an ensouled forming principle within, earth's form, as nature is a tree's; so there is earth itself there, living. Fire is not from rubbing, but from a soul that makes it; and water and air have soul, though they do not show it, being poured out, as blood has soul and gives no perception.",
+   "greek_unit": "6.7.11",
+   "greek_part": 51,
+   "older": [
+    {
+     "n": 11,
+     "label": "VI.7, chapter 11",
+     "page": 175,
+     "year": 1930,
+     "text": "The very heavens, patently multiple, cannot be thought to disdain any form of life since this universe holds everything. Now how do these things come to be here ? Does the higher realm contain all of the lower ?\n\nAll that has been shaped by Reason-Principle and conforms to Idea.\n\nBut, having fire (warmth) and water, it will certainly have vegetation ; how does vegetation exist There? Earth, too? either these are alive or they are There as dead things and then not everything There has life. How in sum can the things of this realm be also There ?\n\nVegetal life we can well admit, for the plant is a Reason-Principle established in life. If in the plant the Reason-Principle, entering Matter and constituting the plant, is a certain form of life, a definite soul, then, since every Reason-Principle is a unity, then either this of plant-life is the primal or before it there is a primal plant, source of its being: that first plant would be a unity; those here, being multiple, must derive from a unity. This being so, that primal must have much the truer life and be the veritable plant, the plants here deriving from it in the secondary and tertiary degree and living by a vestige of its life.\n\nBut earth; how is there earth There: what is the being of earth and how are we to represent to ourselves the living earth of that realm ?\n\nFirst, what is it, what the mode of its being ?\n\nEarth, here and There alike, must possess shape and a Reason-Principle. Now in the case of the vegetal, the Reason-Principle of the plant here was found to be living in that higher realm: is there such a Reason-Principle in our earth ?\n\nTake the most earthy of things found shaped in earth and they exhibit, even they, the indwelling earth-principle. The growing and shaping of stones, the internal moulding of mountains as they rise, reveal the working of an ensouled Reason-Principle fashioning them from within and bringing them to that shape: this, we must take it, is the creative earth-principle corresponding to what we call the specific principle of a tree ; what we know as earth is like the wood of the tree ; to cut out a stone is like lopping a twig from a tree, except of course that there is no hurt done, the stone remaining a member of the earth as the twig, uncut, of the tree.\n\nRealising thus that the creative force inherent in our earth is life within a Reason-Principle, we are easily convinced that the earth There is much more primally alive, that it is a reasoned Earth-Livingness, the earth of Real-Being, earth primally, the source of ours.\n\nFire, similarly, with other such things, must be a Reason-Principle established in Matter: fire certainly does not originate in the friction to which it may be traced ; the friction merely brings out a fire already existent in the scheme and contained in the materials rubbed together. Matter does not in its own character possess this fire-power: the true cause is something informing the Matter, that is to say, a Reason-Principle, obviously therefore a soul having the power of bringing fire into being ; that is, a life and a Reason-Principle in one.\n\nIt is with this in mind that Plato says there is soul in everything of this sphere. That soul is the cause of the fire of the sense-world ; the cause of fire here is a certain Life of fiery character, the more authentic fire. That transcendent fire being more truly fire will be more veritably alive ; the fire absolute possesses life. And the same principles apply to the other elements, water and air.\n\nWhy, then, are water and air not ensouled as earth is ?\n\nNow, it is quite certain that these are equally within the living total, parts of the living all; life does not appear visibly in them ; but neither does it in the case of the earth where its presence is inferred by what earth produces: but there are living things in fire and still more manifestly in water and there are systems of life in the air. The particular fire, rising only to be quenched, eludes the soul animating the universe ; it slips away from the magnitude which would manifest the soul within it; so with air and water. If these Kinds could somehow be fastened down to magnitude they would exhibit the soul within them, now concealed by the fact that their function requires them to be loose or flowing. It is much as in the case of the fluids within ourselves; the flesh and all that is formed out of the blood into flesh show the soul within, but the blood itself, not bringing us any sensation, seems not to have soul ; yet it must ; the blood is not subject to blind force ; its nature obliges it to abstain from the soul which nonetheless is indwelling in it. This must be the case with the three elements ; it is the fact that the living beings formed from the close conglomeration of air (the stars) are not susceptible to suffering. But just as air, so long as it remains itself, eludes the light which is and remains unyielding, so too, by the effect of its circular movement, it eludes soul—and, in another sense, does not. And so with fire and water."
+    }
+   ]
+  },
+  {
+   "id": "VI.7.12",
+   "treatise": "VI.7",
+   "title": "The heaven there, full of life",
+   "summary": "Since this All is toward that one as toward a pattern, the All there is a living being: its heaven full of stars, its earth, sea and air full of living beings, as here. To ask where the living beings come from is to ask where the heaven there comes from, and life, and all soul, and the whole intellect: there is no poverty there, all is boiling with life, flowing from one spring, like one quality that holds all qualities, tastes, colours, and all that touch and hearing know.",
+   "greek_unit": "6.7.12",
+   "greek_part": 51,
+   "older": [
+    {
+     "n": 12,
+     "label": "VI.7, chapter 12",
+     "page": 177,
+     "year": 1930,
+     "text": "Or take it another way :—Since in our view this universe stands to that as copy to original, the living total must exist There beforehand ; that is the realm of complete Being and everything must exist There.\n\nThe sky There must be living and therefore not bare of stars, here known as the heavens—for stars are included in the very meaning of the word. Earth too will be There, and not void but even more intensely living and containing all that lives and moves upon our earth and the plants obviously rooted in life; sea will be There and all waters with the movement of their unending life and all the living things of the water ; air too must be a member of that universe with the living things of air as here.\n\nThe content of that living thing must surely be alive—as in this sphere—and all that lives must of necessity be There. The nature of the major parts determines that of the living forms they comprise ; by the being and content of the heaven There are determined all the heavenly forms of life ; if those lesser forms were not There, that heaven itself would not be.\n\nTo ask how those forms of life come to be There is simply asking how that heaven came to be; it is asking whence comes life, whence the All-Life, whence the All-soul, whence collective Intellect : and the answer is that There no indigence or impotence can exist but all must be teeming, seething, with life. All flows, so to speak, from one fount not to be thought of as some one breath or warmth but rather as one quality englobing and safeguarding all qualities—sweetness with fragrance, wine-quality and the savours of everything that may be tasted, all colours seen, everything known to touch, all that ear may hear, all melodies, every rhythm."
+    }
+   ]
+  },
+  {
+   "id": "VI.7.13",
+   "treatise": "VI.7",
+   "title": "Intellect's wandering in the plain of truth",
+   "summary": "Neither intellect nor soul is simple: the first's activity is all activities. What is between its start and its end is not like a line, or a body of like parts, for without otherness it would not even be active. A simple thing that moved would make two, and from the same and the other a third, all same and all other, and so become other upon all. Intellect wanders in itself among the substances, in the plain of truth, a wandering that stays; and it is all things because each of them is other, and so contributes to the whole.",
+   "greek_unit": "6.7.13",
+   "greek_part": 51,
+   "older": [
+    {
+     "n": 13,
+     "label": "VI.7, chapter 13",
+     "page": 178,
+     "year": 1930,
+     "text": "For Intellectual-Principle is not a simplex, nor is the soul that proceeds from it: on the contrary things include variety in the degree of their simplicity, that is to say in so far as they are not compounds but Principles and Activities; the activity of the lowest is simple in the sense of being a fading-out, that of the First as the total of all activity. Intellectual-Principle is moved in a movement unfailingly true to one course but its unity and identity are not those of the partial; they are those of its universality ; and indeed the partial itself is not a unity but divides to infinity.\n\nWe know that Intellectual-Principle has a source and advances to some term as its ultimate; now, is the intermediate between source and term to be thought of as a line or as some distinct kind of body uniform and unvaried ?\n\nWhere at that would be its worth ? it had no change, if no differentiation woke it into life, it would not be a Force; that condition would in no way differ from mere absence of power and, even calling it movement, it would still be the movement of a life not all-varied but indiscriminate ; now it is of necessity that life be all-embracing, covering all the realms, and that nothing fail of life. Intellectual-Principle therefore must move in every direction upon all, or more precisely must ever have so moved.\n\nA simplex moving retains its character ; either there is no change, movement has been null, or if there has been advance it still remains a simplex and at once there is a permanent duality: if the one member of this duality is identical with the other, then it is still as it was, there has been no advance; if one member differs from the other, it has advanced with differentiation, and, out of a certain identity and difference, it has produced a third unity. This production, based on Identity and Difference, must be in its nature identical and different ; it will be not some particular different thing but Collective Difference, as its Identity is Collective Identity.\n\nBeing, thus, at once Collective Identity and Collective Difference, Intellectual-Principle must reach over all different things; its very nature then is to modify itself into a universe. If the realm of different things existed before it, these different things must have modified it from the beginning ; if they did not, this Intellectual-Principle produced all, or rather was all.\n\nBeings could not exist save by the activity of Intellectual-Principle ; wandering down every way it produces thing after thing, but wandering always within itself in such self-bound wandering as authentic Intellect may know ; this wandering permitted to its nature is among real beings which keep pace with its movement ; but it is always itself; this is a stationary wandering, a wandering within the Meadow of Truth from which it does not stray.\n\nIt holds and covers the universe which it has made the space, so to speak, of its movement, itself being also that universe which is space to it. And this Meadow of Truth is varied so that movement through it may be possible ; suppose it not always and everywhere varied, the failing of diversity is a failure of movement ; failure in movement would mean a failing of the Intellectual Act ; halting, it has ceased to exercise its Intellectual Act ; this ceasing, it ceases to be.\n\nThe Intellectual-Principle is the Intellectual Act ; its movement is complete, filling Being complete ; And the entire of Being is the Intellectual Act entire, comprehending all life and the unfailing succession of things. Because this Principle contains Identity and Difference its division is ceaselessly bringing the different things to light. Its entire movement is through life and among living things. To a traveller over land all is earth but earth abounding in difference: so in this journey the life through which Intellectual-Principle passes is one life but, in its ceaseless-changing, a varied life.\n\nThroughout this endless variation it maintains the one course because it is not, itself, subject to change but on the contrary is present as identical and unvarying Being to the rest of things. For if-there be no such principle of unchanging identity to things, all is dead, activity and actuality exist nowhere. These ‘“ other things”’ through which it passes are also Intellectual-Principle itself; otherwise it is not the allcomprehending principle: if it is to be itself, it must be all-embracing ; failing that, it is not itself. If it is complete in itself, complete because all-embracing, and there is nothing which does not find place in this total, then there can be nothing belonging to it which is not different ; only by difference can there be such co-operation towards a total. If it knew no otherness but was pure identity its essential Being would be the less for that failure to fulfil the specific nature which its completion requires."
+    }
+   ]
+  },
+  {
+   "id": "VI.7.14",
+   "treatise": "VI.7",
+   "title": "One many; the true friendship",
+   "summary": "A forming principle that was only one would make nothing but matter: a face has nostrils and eyes, and the nose has parts. So the unlimited in intellect is its being one many, a figure holding figures within, divided not in a straight line but always inward, down to the indivisible form. This division of things not poured together is the true friendship in the All, of which this world's friendship, made from things apart, is an imitation.",
+   "greek_unit": "6.7.14",
+   "greek_part": 51,
+   "older": [
+    {
+     "n": 14,
+     "label": "VI.7, chapter 14",
+     "page": 180,
+     "year": 1930,
+     "text": "On the nature of the Intellectual-Principle we get light from its manifestations ; they show that it demands such diversity as is compatible with its being a monad. Take what principle you will, that of plant or animal: if this principle were a pure unity and not a specifically varied thing, it could not so serve as principle ; its product would be Matter, the principle not having taken all those forms necessary if Matter is to be permeated and utterly transformed. A face is not one mass ; there are nose and eyes ; and the nose is not a unity but has the differences which make it a nose; as bare unity it would be mere mass.\n\nThere is infinity in Intellectual-Principle since, of its very nature, it is a multiple unity, not with the unity of a house but with that of a Reason-Principle, multiple in itself: in the one Intellectual design it includes within itself, as it were in outline, all the outlines, all the patterns. All is within it, all the powers and intellections; the division is not determined by a boundary but goes ever inward; this content is held as the living universe holds the natural forms of the living creatures in it from the greatest to the least, down even to the minutest powers where there is a halt at the individual form. The discrimination is not of items huddled within a sort of unity; this is what is known as the Universal Sympathy, not of course the sympathy known here which is a copy and prevails amongst things in separation; that authentic Sympathy consists in all being a unity and never discriminate."
     }
    ]
   }
@@ -28744,6 +29007,1303 @@
    ],
    "notes": [
     "\"Being is before the good, as it seems to us\": in the order of our desire, not in the order of things; the Good is beyond being (Republic VI 509b), and the One beyond being in VI.9.3 and V.5.6. MacKenna's chapter 18 runs past his p. 161 onto the top of p. 162, before VI.7, and ends with these words."
+   ]
+  },
+  {
+   "seg": "VI.7.1.p1",
+   "chapter": "VI.7.1",
+   "modern": "When God, or some god, sent the souls into becoming, he set light-bearing eyes about the face, and gave the other organs to each of the senses, foreseeing that the living being would be kept safe in this way: if it saw ahead and heard ahead, and, by touching, fled one thing and pursued another. But from what did he foresee these things? For it was not that other living beings came to be first, and then, when they perished for want of senses, he gave afterwards what men and the other animals would have to guard themselves from suffering.",
+   "greek": "Εἰς γένεσιν πέμπων ὁ θεὸς ἢ θεός τις τὰς ψυχὰς φωσφόρα περὶ τὸ πρόσωπον ἔθηκεν ὄμματα καὶ τὰ ἄλλα ὄργανα ταῖς αἰσθήσεσιν ἑκάσταις ἔδωκε προορώμενος, ὡς οὕτως ἂν σώζοιτο, εἰ προορῷτο καὶ προακούοι καὶ ἁψαμένη τὸ μὲν φεύγοι, τὸ δὲ διώκοι. πόθεν δὴ προιδὼν ταῦτα; οὐ γὰρ δὴ πρότερον γενομένων ἄλλων, εἶτα δἰ ἀπουσίαν αἰσθήσεων φθαρέντων, ἔδωκεν ὕστερον ἃ ἔχοντες ἔμελλον ἄνθρωποι καὶ τὰ ἄλλα ζῷα τὸ παθεῖν φυλάξασθαι.",
+   "flags": [
+    {
+     "taylor": "placed eyes in the face to catch the light",
+     "in": "MacKenna",
+     "why": "The Greek has \"light-bearing eyes\" (φωσφόρα ... ὄμματα), the Timaeus' word: eyes that bring light out, not eyes that catch it."
+    },
+    {
+     "taylor": "providing thus for the safety which comes by seeing and hearing in time",
+     "in": "MacKenna",
+     "why": "The Greek has \"if it saw ahead and heard ahead\" (εἰ προορῷτο καὶ προακούοι), the same prefix as the god's foreseeing (προορώμενος): the senses are the living being's own foresight."
+    },
+    {
+     "taylor": "But what led to this provision ?",
+     "in": "MacKenna",
+     "why": "The Greek asks \"from what (πόθεν) did he foresee these things?\": the source of the foresight, which the chapter goes on to seek, not what led to the provision."
+    }
+   ],
+   "notes": [
+    "\"Light-bearing eyes\" (φωσφόρα ὄμματα) are the first organs the young gods make in Plato's Timaeus (45b); the souls sent into becoming are those sown by the Demiurge in the Timaeus (41d-42e). The senses given for the living being's safety: Aristotle, On the soul III.12 (434b9-29)."
+   ]
+  },
+  {
+   "seg": "VI.7.1.p2",
+   "chapter": "VI.7.1",
+   "modern": "Or someone might say: he knew that the living being would be among hot and cold things and the other affections of bodies, and knowing this, so that the bodies of the living beings should not easily be destroyed, he gave them perceiving, and the organs through which the senses would be active. But either he gave the organs to souls that had the powers already, or he gave both. But if he gave the senses too, they were not perceptive before, though they were souls; and if they had them when they came to be souls, and came to be so that they might go into becoming, then going into becoming is inborn in them. Then it is against their nature to be away from becoming and in the intelligible; and they have been made to belong to another and to be in evil; and providence is this, that they should be kept safe in evil; and this is god's reasoning, and reasoning altogether.",
+   "greek": "ἢ εἴποι ἄν τις, ᾔδει, ὅτι ἐν θερμοῖς καὶ ψυχροῖς ἔσοιτο τὸ ζῷον καὶ τοῖς ἄλλοις σωμάτων πάθεσι: ταῦτα δὲ εἰδώς, ὅπως μὴ φθείροιτο ῥᾳδίως τῶν ζῴων τὰ σώματα, τὸ αἰσθάνεσθαι ἔδωκε, καὶ δἰ ὧν ἐνεργήσουσιν αἱ αἰσθήσεις ὀργάνων. ἀλλ’ ἤτοι ἐχούσαις τὰς δυνάμεις ἔδωκε τὰ ὄργανα ἢ ἄμφω. ἀλλ’ εἰ μὲν ἔδωκε καὶ τὰς αἰσθήσεις, οὐκ ἦσαν αἰσθητικαὶ πρότερον ψυχαὶ οὖσαι: εἰ δ’ εἶχον, ὅτε ἐγένοντο ψυχαί, καὶ ἐγένοντο, ἵν’ εἰς γένεσιν ἴωσι, σύμφυτον αὐταῖς τὸ εἰς γένεσιν ἰέναι. παρὰ φύσιν ἄρα τὸ ἀπὸ γενέσεως καὶ ἐν τῷ νοητῷ εἶναι: καὶ πεποίηνται δή, ἵνα ἄλλου ὦσι καὶ ἵνα ἐν κακῷ εἶεν: καὶ ἡ πρόνοια, ἵνα σώζοιντο ἐν τῷ κακῷ, καὶ ὁ λογισμὸς ὁ τοῦ θεοῦ οὗτος καὶ ὅλως λογισμός.",
+   "flags": [
+    {
+     "taylor": "it is of their very nature to belong to process",
+     "in": "MacKenna",
+     "why": "The Greek says \"going into becoming is inborn (σύμφυτον) in them\": a going, not a belonging; and \"process\" is MacKenna's for γένεσις, \"becoming\"."
+    },
+    {
+     "taylor": "unnatural to them to be outside of process and within the Intellectual",
+     "in": "MacKenna",
+     "why": "The Greek has \"in the intelligible\" (ἐν τῷ νοητῷ); the modern version keeps \"intelligible\", and \"the Intellectual\" is MacKenna's."
+    },
+    {
+     "taylor": "the divine provision would consist in holding them to their disaster",
+     "in": "MacKenna",
+     "why": "The Greek says providence is \"so that they might be kept safe in evil\" (ἵνα σώζοιντο ἐν τῷ κακῷ): the providence saves them in it, as the senses do, and does not hold them to it."
+    },
+    {
+     "taylor": "this is God’s reasoned purpose, this the plan entire",
+     "in": "MacKenna",
+     "why": "The Greek says \"this is god's reasoning, and reasoning altogether\" (ὁ λογισμὸς ὁ τοῦ θεοῦ οὗτος καὶ ὅλως λογισμός): the objection ends by making god reason, which the chapter will deny; \"purpose\" and \"plan\" are MacKenna's."
+    }
+   ],
+   "notes": [
+    "That the soul's going into body is a fall, and yet in the order of the All, is the question of IV.8 (On the descent of the soul into bodies), where Plotinus sets the Phaedo's prison against the Timaeus' sowing."
+   ]
+  },
+  {
+   "seg": "VI.7.1.p3",
+   "chapter": "VI.7.1",
+   "modern": "But what are the starting points of reasonings? For even if they come from other reasonings, one must surely go back to something, or some things, before reasoning. What, then, are the starting points? Either perception or intellect. But there was not yet perception: intellect, then. But if the premises are intellect, the conclusion is knowledge: about nothing perceptible, then. For how can what has its starting point from the intelligible, and comes at its end to the intelligible, arrive at this state, at a thought of the perceptible? So neither the providence of a living being, nor that of this whole All, came from reasoning.",
+   "greek": "ἀρχαὶ δὲ λογισμῶν τίνες; καὶ γάρ, εἰ ἐξ ἄλλων λογισμῶν, δεῖ ἐπί τι πρὸ λογισμοῦ ἢ τινά γε πάντως ἰέναι. τίνες οὖν ἀρχαί; ἢ γὰρ αἴσθησις ἢ νοῦς. ἀλλὰ αἴσθησις μὲν οὔπω: νοῦς ἄρα. ἀλλ’ εἰ νοῦς αἱ προτάσεις, τὸ συμπέρασμα ἐπιστήμη: περὶ αἰσθητοῦ οὐδενὸς ἄρα. οὗ γὰρ ἀρχὴ μὲν ἐκ τοῦ νοητοῦ, τελευτὴ δὲ εἰς νοητὸν ἀφικνεῖται, πῶς ἔνι ταύτην τὴν ἕξιν πρὸς αἰσθητοῦ διανόησιν ἀφικνεῖσθαι; οὔτ’ οὖν ζῴου πρόνοια οὔθ̓ ὅλως τοῦδε τοῦ παντὸς ἐκ λογισμοῦ ἐγένετο:",
+   "flags": [
+    {
+     "taylor": "But sense-perception it cannot in this case be",
+     "in": "MacKenna",
+     "why": "The Greek says \"there was not yet (οὔπω) perception\": the senses had not yet been given, which is the point; \"it cannot be\" is MacKenna's."
+    },
+    {
+     "taylor": "whether over living beings or over any part of the universe",
+     "in": "MacKenna",
+     "why": "The Greek says \"nor that of this All altogether\" (οὔθ’ ὅλως τοῦδε τοῦ παντός): the providence of the whole All, not of any part of it."
+    }
+   ],
+   "notes": [
+    "Every reasoning goes back to starting points that are not reasoned, perception or intellect: Aristotle, Posterior Analytics I.3 (72b18-25) and II.19 (100b5-17), where intellect (νοῦς) grasps the first principles and knowledge (ἐπιστήμη) is from them."
+   ]
+  },
+  {
+   "seg": "VI.7.1.p4",
+   "chapter": "VI.7.1",
+   "modern": "For there is no reasoning there at all; but it is called reasoning to show that all things are so as a wise man would have them from reasoning, in the things that come later; and foresight, because they are so as a wise man would foresee them in the things that come after. For in the things that did not come to be before reasoning, reasoning is useful, for lack of the power that is before reasoning; and foresight, because the one who foresees did not have a power by which he would have had no need of foresight. For foresight is so that this, and not that, may be, and it is as it were afraid of what is not such; but where there is only this, there is no foresight. And reasoning is \"this instead of that\". But if there is only one of the two, what does it even reason about? How, then, does what is alone and one and simple hold, unfolded, \"this, so that not that\"? Or \"that would have been, if not this\"? Or \"this appeared useful, and this, once it came to be, saving\"?",
+   "greek": "ἐπεὶ οὐδὲ ὅλως λογισμὸς ἐκεῖ, ἀλλὰ λέγεται λογισμὸς εἰς ἔνδειξιν τοῦ πάντα οὕτως, ὡς ἄν τις σοφὸς ἐκ λογισμοῦ ἐν τοῖς ὑστέροις, καὶ προόρασις, ὅτι οὕτως, ὡς ἄν τις σοφὸς ἐν τοῖς ὕστερον προίδοιτο. ἐν γὰρ τοῖς μὴ γενομένοις πρὸ λογισμοῦ ὁ λογισμὸς χρήσιμον ἀπορίᾳ δυνάμεως τῆς πρὸ λογισμοῦ, καὶ προόρασις, ὅτι μὴ ἦν δύναμις τῷ προορῶντι, καθ̓ ἣν οὐκ ἐδεήθη προοράσεως. καὶ γὰρ ἡ προόρασις, ἵνα μὴ τοῦτο, ἀλλὰ τοῦτο, καὶ οἷον φοβεῖται τὸ μὴ τοιοῦτον: οὗ δὲ τοῦτο μόνον, οὐ προόρασις: καὶ ὁ λογισμὸς τοῦτο ἀντὶ τούτου. μόνου δ’ ὄντος θατέρου τί καὶ λογίζεται; πῶς οὖν τὸ μόνον καὶ ἓν καὶ ἁπλῶς ἔχει ἀναπτυσσόμενον τὸ τοῦτο, ἵνα μὴ τοῦτο; καὶ ἔμελλε γὰρ τοῦτο, εἰ μὴ τοῦτο, καὶ χρήσιμον τοῦτο ἀνεφάνη καὶ σωτήριον τοῦτο γενόμενον.",
+   "flags": [
+    {
+     "taylor": "we speak of reasoned purpose in the world of things only to convey that the universe is of the character which in the later order would point to a wise purposing",
+     "in": "MacKenna",
+     "why": "The Greek says all is \"as a wise man (σοφός) would have it from reasoning in the things that come later\": the reasoner is a wise man, and \"the universe\" and \"purposing\" are MacKenna's."
+    },
+    {
+     "taylor": "Providence implies that things are as in the later order a competent foreplanning would produce them",
+     "in": "MacKenna",
+     "why": "The Greek has προόρασις, \"foresight\", not πρόνοια, \"providence\"; and it says again \"as a wise man would foresee\", where MacKenna has \"a competent foreplanning would produce\"."
+    },
+    {
+     "taylor": "The alone and one and utterly simplex cannot involve",
+     "in": "MacKenna",
+     "why": "The Greek asks how what is alone and one \"holds, unfolded\" (ἔχει ἀναπτυσσόμενον) \"this, so that not that\": the unfolding, which the chapter's end takes up again, is not in MacKenna."
+    },
+    {
+     "taylor": "the serviceable thing appeared and at once approved itself so",
+     "in": "MacKenna",
+     "why": "The Greek has \"this appeared useful, and this, once it came to be, saving\" (σωτήριον): the safety of the chapter's first sentence; MacKenna leaves out the saving."
+    }
+   ],
+   "notes": [
+    "The reasoning god is the Timaeus' Demiurge, who \"reasoned\" (λογισάμενος, 30b) and \"took thought beforehand\" (34a-b). Plotinus reads it, here and in III.2.14 and V.8.7, as a way of showing the order of the All, not as deliberation in the god."
+   ]
+  },
+  {
+   "seg": "VI.7.1.p5",
+   "chapter": "VI.7.1",
+   "modern": "So he did foresee, then, and did reason beforehand. And so what was said just now at the beginning holds: he gave the senses and the powers for this reason, however much at a loss one is about the giving, and how it was.",
+   "greek": "προείδετο ἄρα καὶ προελογίσατο ἄρα. καὶ δὴ καὶ τὸ νῦν ἐξ ἀρχῆς λεχθὲν τὰς αἰσθήσεις διὰ τοῦτο ἔδωκε καὶ τὰς δυνάμεις, εἰ καὶ ὅτι μάλιστα ἄπορος ἡ δόσις καὶ πῶς.",
+   "flags": [
+    {
+     "taylor": "But surely this is foreseeing, deliberating",
+     "in": "MacKenna",
+     "why": "The Greek is an objector's conclusion, not a question: \"he foresaw, then, and reasoned beforehand\" (προείδετο ἄρα καὶ προελογίσατο ἄρα)."
+    }
+   ]
+  },
+  {
+   "seg": "VI.7.1.p6",
+   "chapter": "VI.7.1",
+   "modern": "Yet if each activity must not be incomplete, and if it is not right to think that anything whatever of god's is other than whole and all, then all things must be present in anything of his. So it must belong to what always is, and the future must be there as already present. There is nothing later in that one; what is already present there comes to be later in another. If, then, the future is already present, it must be present as having been thought out beforehand for what is later: that is, so as to need nothing then; and that is, so as to lack nothing. All things, then, already were, and always were, and were so that one could say later \"this is because of this\". For when it is stretched out and, as it were, unfolded, it can show \"this after this\"; but being all together, it is all \"this\": that is, it holds in itself its cause too.",
+   "greek": "οὐ μὴν ἀλλ’ εἰ δεῖ ἑκάστην ἐνέργειαν μὴ ἀτελῆ εἶναι, μηδὲ θέμις τοῦ θεοῦ ὁτιοῦν ὂν ἄλλο τι νομίζειν ἢ ὅλον τε καὶ πᾶν, δεῖ ἐν ὁτῳοῦν τῶν αὐτοῦ πάντα ἐνυπάρχειν. δεῖ τοίνυν καὶ τοῦ ἀεὶ εἶναι, καὶ τοῦ μέλλοντος ὡς ἤδη παρόντος εἶναι. οὐ δὴ ὕστερόν τι ἐν ἐκείνῳ, ἀλλὰ τὸ ἤδη ἐκεῖ παρὸν ὕστερον ἐν ἄλλῳ γίνεται. εἰ οὖν ἤδη πάρεστι τὸ μέλλον, ἀνάγκη οὕτω παρεῖναι, ὡς προνενοημένον εἰς τὸ ὕστερον: τοῦτο δέ ἐστιν, ὡς μηδὲν δεῖσθαι μηδενὸς τότε, τοῦτο δ’ ἐστὶ μηδὲν ἐλλείψοντος. πάντα ἄρα ἤδη ἦν καὶ ἀεὶ ἦν καὶ οὕτως ἦν, ὡς εἰπεῖν ὕστερον τόδε διὰ τόδε: ἐκτεινόμενον μὲν γὰρ καὶ οἷον ἁπλούμενον ἔχει δεικνύναι τόδε μετὰ τόδε, ὁμοῦ δὲ ὂν πᾶν τόδε: τοῦτο δέ ἐστιν ἔχον ἐν ἑαυτῷ καὶ τὴν αἰτίαν.",
+   "flags": [
+    {
+     "taylor": "No: all turns on the necessary completeness of Act",
+     "in": "MacKenna",
+     "why": "The Greek says \"if each activity (ἑκάστην ἐνέργειαν) must not be incomplete\": each activity, not Act in general; and \"No\" is MacKenna's, where the Greek has \"yet\" (οὐ μὴν ἀλλ’)."
+    },
+    {
+     "taylor": "the All, in its extension and so to speak unfolding, is able to present succession while yet it is simultaneous",
+     "in": "MacKenna",
+     "why": "The Greek names no subject: what is stretched out and unfolded is what is in god, the all things; \"the All\" is MacKenna's."
+    },
+    {
+     "taylor": "this is because it contains the cause of all as inherent to itself",
+     "in": "MacKenna",
+     "why": "The Greek says \"it holds in itself its cause too\" (ἔχον ἐν ἑαυτῷ καὶ τὴν αἰτίαν): each thing its own cause, the theme of chapter 2; \"the cause of all\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "\"All together\" (ὁμοῦ πᾶν) is Parmenides' being (fragment B8, 5) and, in III.7.3 and III.7.11, the mark of eternity, where time is life stretched out (διάστασις). The future present \"as already present\": compare V.8.7, where the All's order was thought out before it, but not by reasoning."
+   ]
+  },
+  {
+   "seg": "VI.7.2.p1",
+   "chapter": "VI.7.2",
+   "modern": "This is why one could learn the nature of intellect from here no less, intellect which, though we see more of it than of the others, even so we do not see how great a thing intellect is. For we grant that it has the \"that\", but no longer the \"why\"; or, if we grant it, apart. And we see a man, or an eye, if it happens, as a statue, or a statue's part; but what is there is man and why man, if indeed the man there must himself be intellectual, and the eye, and why it is: or it would not be there at all, if not the why. But here, as each of the parts is apart, so too is the why. There, all things are in one, so that the thing and the why of the thing are the same.",
+   "greek": "διὸ καὶ ἐντεῦθεν ἄν τις οὐχ ἧττον καταμάθοι τὴν νοῦ φύσιν, ἣν κἂν πλέον τῶν ἄλλων ὁρῶμεν, οὐδ’ ὣς ὅσον ἐστὶ τὸ νοῦ χρῆμα ὁρῶμεν. τὸ μὲν γὰρ ὅτι δίδομεν αὐτὸν ἔχειν, τὸ δὲ διότι οὐκέτι, ἤ, εἰ δοίημεν, χωρίς. καὶ ὁρῶμεν ἄνθρωπον ἢ ὀφθαλμόν, εἰ τύχοι, ὥσπερ ἄγαλμα ἢ ἀγάλματος: τὸ δέ ἐστιν ἐκεῖ ἄνθρωπος καὶ διὰ τί ἄνθρωπος, εἴπερ καὶ νοερὸν αὐτὸν δεῖ τὸν ἐκεῖ ἄνθρωπον εἶναι καὶ ὀφθαλμὸν καὶ διὰ τί — ἢ οὐκ ἂν ὅλως εἴη, εἰ μὴ διὰ τί — ἐνταῦθα δὲ ὥσπερ ἕκαστον τῶν μερῶν χωρίς, οὕτω καὶ τὸ διὰ τί. ἐκεῖ δ’ ἐν ἑνὶ πάντα, ὥστε ταὐτὸν τὸ πρᾶγμα καὶ τὸ διὰ τί τοῦ πράγματος.",
+   "flags": [
+    {
+     "taylor": "We know that it exists but its cause we do not see",
+     "in": "MacKenna",
+     "why": "The Greek says \"we grant that it has the that (ὅτι), but no longer the why (διότι)\": what we grant intellect holds, the that and the why of things, not our knowing that intellect exists."
+    },
+    {
+     "taylor": "but this is an image or part of an image",
+     "in": "MacKenna",
+     "why": "The Greek says \"as a statue (ἄγαλμα) or a statue's part\": the word for an image of a god set up to be seen; \"image\" is MacKenna's."
+    },
+    {
+     "taylor": "In the Intellectual all is at one",
+     "in": "MacKenna",
+     "why": "The Greek says \"there\" (ἐκεῖ); \"the Intellectual\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "The \"that\" (τὸ ὅτι) and the \"why\" (τὸ διότι) are Aristotle's pair, Posterior Analytics I.13 (78a22-b34) and II.1 (89b23-35)."
+   ]
+  },
+  {
+   "seg": "VI.7.2.p2",
+   "chapter": "VI.7.2",
+   "modern": "In many cases here too the thing and the why are the same, as with what an eclipse is. What, then, prevents each thing from being its why in the other cases too, and this from being the substance of each? Rather, it must be so; and for those who try in this way, it turns out that they grasp the \"what it was to be\" rightly. For what each thing is, it is because of this. I mean, not that the form is the cause of each thing's being — that is true — but that, if you unfold each form itself toward itself, you will find the why in it.",
+   "greek": "πολλαχοῦ δὲ καὶ ἐνταῦθα τὸ πρᾶγμα καὶ τὸ διὰ τί ταὐτόν, οἷον τί ἐστιν ἔκλειψις. τί οὖν κωλύει καὶ ἕκαστον διὰ τί εἶναι καὶ ἐπὶ τῶν ἄλλων, καὶ τοῦτο εἶναι τὴν οὐσίαν ἑκάστου; μᾶλλον δὲ ἀνάγκη: καὶ πειρωμένοις οὕτως τὸ τί ἦν εἶναι λαμβάνειν ὀρθῶς συμβαίνει. ὃ γὰρ ἔστιν ἕκαστον, διὰ τοῦτο ἔστι. λέγω δὲ οὐχ, ὅτι τὸ εἶδος ἑκάστῳ αἴτιον τοῦ εἶναι — τοῦτο μὲν γὰρ ἀληθές — ἀλλ’ ὅτι, εἰ καὶ αὐτὸ τὸ εἶδος ἕκαστον πρὸς αὑτὸ ἀναπτύσσοις, εὑρήσεις ἐν αὐτῷ τὸ διὰ τί.",
+   "flags": [
+    {
+     "taylor": "and this cause being the essence of the thing",
+     "in": "MacKenna",
+     "why": "The Greek has \"the substance (οὐσίαν) of each\"; the modern version keeps \"substance\", and \"essence\" is MacKenna's."
+    },
+    {
+     "taylor": "by this search after the cause the thing’s essence is reached",
+     "in": "MacKenna",
+     "why": "The Greek has \"the what it was to be\" (τὸ τί ἦν εἶναι), Aristotle's phrase, grasped rightly by those who try in this way."
+    },
+    {
+     "taylor": "I am not here saying that the informing Idea is the cause of the thing",
+     "in": "MacKenna",
+     "why": "The Greek has \"the form\" (τὸ εἶδος); \"the informing Idea\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "The eclipse, whose what and why are one (the earth's coming between), is Aristotle's example, Posterior Analytics II.2 (90a14-23) and II.8 (93a29-b7); \"the what it was to be\" (τὸ τί ἦν εἶναι) is his phrase for the essence (Metaphysics Z.4). The form as the cause of being: Plato's Phaedo (100c-e)."
+   ]
+  },
+  {
+   "seg": "VI.7.2.p3",
+   "chapter": "VI.7.2",
+   "modern": "For if it were idle, even having life, it would not altogether have the why; but being a form, and intellect's, from where would it get the why? And if someone said \"from intellect\", it is not apart from it, if indeed it is intellect itself. If, then, intellect must have these lacking in nothing, they must not lack the why either. Intellect has the why of each of the things in it in this way: the things in it are each of them it itself, so that none needs, besides, the why of its having come to be; but it came to be together with it, and holds in itself the cause of its existence. And having come to be not at random, it would have nothing of the why left out, but having all, it has together with it the \"well\" of its cause. And so it gives to the things that share in it in such a way that they have the why.",
+   "greek": "ἀργὸν μὲν γὰρ ὂν καὶ ζωὴν ἔχον τὸ διὰ τί οὐ πάντως ἔχει, εἶδος δὲ ὂν καὶ νοῦ ὂν πόθεν ἂν λάβοι τὸ διὰ τί; εἰ δὲ παρὰ νοῦ τις λέγοι, οὐ χωρίς ἐστιν, εἴ γε καὶ αὐτό ἐστιν: εἰ οὖν δεῖ ἔχειν ταῦτα μηδενὶ ἐλλείποντα, μηδὲ τῷ διὰ τί ἐλλείπειν. νοῦς δὲ ἔχει τὸ διὰ τί οὕτως ἕκαστον τῶν ἐν αὐτῷ: τὰ δὲ ἐν αὐτῷ αὐτὸς ἕκαστον ἂν εἴη τῶν ἐν αὐτῷ, ὥστε μηδὲν προσδεῖσθαι τοῦ διὰ τί γέγονεν, ἀλλ’ ὁμοῦ γέγονε καὶ ἔχει ἐν αὑτῷ τὴν τῆς ὑποστάσεως αἰτίαν. γεγονὸς δὲ οὐκ εἰκῆ οὐδὲν ἂν παραλελειμμένον ἔχοι τοῦ διὰ τί, ἀλλὰ πᾶν ἔχον ἔχει καὶ τὸ καλῶς ὁμοῦ τῆς αἰτίας. καὶ τοῖς ἄρα μεταλαμβάνουσιν οὕτω δίδωσιν, ὡς τὸ διὰ τί ἔχειν.",
+   "flags": [
+    {
+     "taylor": "A thing of inactivity, even though alive, cannot include its own cause",
+     "in": "MacKenna",
+     "why": "The Greek says that if it were idle (ἀργόν) it would \"not altogether\" (οὐ πάντως) have the why; \"cannot\" is MacKenna's."
+    },
+    {
+     "taylor": "where could a Forming-Idea, a member of the Intellectual-Principle, turn in quest of its cause?",
+     "in": "MacKenna",
+     "why": "The Greek has \"being a form (εἶδος), and intellect's (νοῦ)\"; the modern version keeps \"form\" and \"intellect\", and \"Forming-Idea\" and \"Intellectual-Principle\" are MacKenna's."
+    },
+    {
+     "taylor": "it is an integral and so includes the excellence bound up with the cause",
+     "in": "MacKenna",
+     "why": "The Greek says it has \"the well (τὸ καλῶς) of its cause\": that it is as it should be, which the cause gives with it; \"excellence\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "Things here \"share\" (μεταλαμβάνουσιν) in the form: Plato's Phaedo (100c-102b) and Parmenides (130e-131a)."
+   ]
+  },
+  {
+   "seg": "VI.7.2.p4",
+   "chapter": "VI.7.2",
+   "modern": "And indeed, as in this All, which stands together out of many, all things are strung together with one another, and in all things' being there is also the why of each, as in each thing too the part is seen to hold toward the whole, not this coming to be, and then that after this, but the cause and the caused standing together toward one another at once: so, much more, must all things there be each toward the whole, and each toward itself. If, then, the existing-together of all is at once, and not at random, and they must not hang apart, the caused would have their causes in themselves, and each would be such as to have its cause causelessly. If, then, they have no cause of their being, but are self-sufficient and alone, apart from a cause, they would hold their cause in themselves, with themselves. And again, if nothing there is in vain, and the many in each thing are all that it has, you could say why each is.",
+   "greek": "καὶ μήν, ὥσπερ ἐν τῷδε τῷ παντὶ ἐκ πολλῶν συνεστηκότι συνείρεται πρὸς ἄλληλα τὰ πάντα, καὶ ἐν τῷ πάντα εἶναι ἔστι καὶ διότι ἕκαστον, ὥσπερ καὶ ἐφ̓ ἑκάστου τὸ μέρος πρὸς τὸ ὅλον ἔχον ὁρᾶται, οὐ τούτου γενομένου, εἶτα τούτου μετὰ τόδε, ἀλλὰ πρὸς ἄλληλα ὁμοῦ τὴν αἰτίαν καὶ τὸ αἰτιατὸν συνιστάντων, οὕτω χρὴ πολὺ μᾶλλον ἐκεῖ τά τε πάντα πρὸς τὸ ὅλον ἕκαστα καὶ ἕκαστον πρὸς αὑτό. εἰ οὖν ἡ συνυπόστασις ὁμοῦ πάντων καὶ οὐκ εἰκῆ πάντων καὶ δεῖ μὴ ἀπηρτῆσθαι, ἐν αὑτοῖς ἂν ἔχοι τὰ αἰτιατὰ τὰς αἰτίας, καὶ τοιοῦτον ἕκαστον, οἷον ἀναιτίως τὴν αἰτίαν ἔχειν. εἰ οὖν μὴ ἔχει αἰτίαν τοῦ εἶναι, αὐτάρκη δέ ἐστι καὶ μεμονωμένα αἰτίας ἐστίν, εἴη ἂν ἐν αὑτοῖς ἔχοντα σὺν αὑτοῖς τὴν αἰτίαν. καὶ γὰρ αὖ εἰ μηδέν ἐστι μάτην ἐκεῖ, πολλὰ δὲ ἐν ἑκάστῳ ἐστὶ πάντα ὅσα ἔχει, ἔχοις ἂν εἰπεῖν διότι ἕκαστον.",
+   "flags": [
+    {
+     "taylor": "must all the singles exist for the whole and each for itself",
+     "in": "MacKenna",
+     "why": "The Greek has \"toward\" (πρὸς τὸ ὅλον ... πρὸς αὑτό): a holding toward the whole and toward itself, not existing for them as for a purpose."
+    },
+    {
+     "taylor": "uncaused, independent and standing apart from cause, they must be self-contained, cause and all",
+     "in": "MacKenna",
+     "why": "The Greek is a condition: \"if, then, they have no cause of their being\" (εἰ οὖν μὴ ἔχει αἰτίαν τοῦ εἶναι), they would hold the cause in themselves; MacKenna makes it an assertion."
+    }
+   ],
+   "notes": [
+    "The All \"strung together\" (συνείρεται) and the part held toward the whole: the sympathy of the All in IV.4.32 and IV.4.40. Each thing's cause \"causelessly\" (ἀναιτίως): there is no cause before it, since it is its own why."
+   ]
+  },
+  {
+   "seg": "VI.7.2.p5",
+   "chapter": "VI.7.2",
+   "modern": "The why, then, was there before and with it, not being a why but a that; or rather, both are one. For what would it have beyond intellect, as if it were a thought of intellect that was not such, a begotten thing not complete? If, then, it is complete, one cannot say in what it falls short, nor why this is not present. Being present, then, you could say why it is present: the why, then, is in the existence. In each thought and activity, then, as with man: the whole man appeared at once, bringing himself together with himself, and, having from the beginning all that he has together, he is ready, whole. Then, if he is not whole, but something must be added to him, he belongs to what is begotten. But he always is: so he is whole. But the man who comes to be is a thing come to be.",
+   "greek": "προῆν ἄρα καὶ συνῆν τὸ διότι ἐκεῖ οὐκ ὂν διότι, ἀλλ’ ὅτι: μᾶλλον δὲ ἄμφω ἕν. τί γὰρ ἂν καὶ περιττὸν εἶχε νοῦ, ὡς ἂν νοῦ νόημα μὴ τοιοῦτον ὄν, οἷον μὴ τέλειον γέννημα; εἰ οὖν τέλειον, οὐκ ἔστιν εἰπεῖν ὅτῳ ἐλλείπει, οὐδὲ διὰ τί τοῦτο οὐ πάρεστι. παρὸν ἄρα ἔχοις ἂν εἰπεῖν διότι πάρεστιν: ἐν ἄρα τῇ ὑποστάσει τὸ διὰ τί: ἐν ἑκάστῳ τοίνυν νοήματι καὶ ἐνεργήματι, οἷον κατ’ ἄνθρωπον πᾶς προεφάνη ὁ ἄνθρωπος συμφέρων ἑαυτὸν αὐτῷ καὶ πάντα ὅσα ἔχει ἐξ ἀρχῆς ὁμοῦ ἔχων ἕτοιμός ἐστιν ὅλος. εἶτα, εἰ μὴ πᾶς ἐστιν, ἀλλὰ δεῖ τι αὐτῷ προσθεῖναι, γεννήματός ἐστιν. ἔστι δὲ ἀεί: ὥστε πᾶς ἐστιν. ἀλλ’ ὁ γινόμενος ἄνθρωπος γενητός.",
+   "flags": [
+    {
+     "taylor": "not a cause but a fact of the being",
+     "in": "MacKenna",
+     "why": "The Greek says \"not being a why (διότι), but a that (ὅτι)\": the pair the chapter began with, now one."
+    },
+    {
+     "taylor": "Take for example the Idea of Man; Man entire is found to contribute to it",
+     "in": "MacKenna",
+     "why": "The Greek says the whole man \"appeared at once, bringing himself together with himself\" (συμφέρων ἑαυτὸν αὐτῷ): he brings himself, and does not contribute to an Idea; \"the Idea of Man\" is MacKenna's."
+    },
+    {
+     "taylor": "the man born is the derivative",
+     "in": "MacKenna",
+     "why": "The Greek says \"the man who comes to be is a thing come to be\" (γενητός): generated, as opposed to the man who always is; \"derivative\" is MacKenna's."
+    }
+   ]
+  },
+  {
+   "seg": "VI.7.3.p1",
+   "chapter": "VI.7.3",
+   "modern": "What, then, prevents his having taken counsel beforehand about him? Or he is in keeping with that one, so that nothing must be taken away or added; but the taking counsel and the reasoning are because of the supposition: for it supposed things coming to be. And so there is counsel and reasoning; but by showing them always coming to be, it took away his reasoning too. For there is no reasoning in what is always: it would belong to one who had forgotten how it was before, too. Then, if things are better later, they were not beautiful before; but if they were beautiful, they keep the same.",
+   "greek": "τί οὖν κωλύει προβουλεύσασθαι περὶ αὐτοῦ; ἢ κατ’ ἐκεῖνόν ἐστιν, ὥστε οὔτε τι ἀφελεῖν δεῖ οὔτε προσθεῖναι, ἀλλὰ τὸ βουλεύσασθαι καὶ λελογίσθαι διὰ τὴν ὑπόθεσιν: ὑπέθετο γὰρ γινόμενα. καὶ οὕτω μὲν ἡ βούλευσις καὶ ὁ λογισμός: τῷ δ’ ἀεὶ γινόμενα ἐνδείξασθαι καὶ ὅτι λογίζεται ἀνεῖλεν. οὐ γὰρ ἔνι λογίζεσθαι ἐν τῷ ἀεί: καὶ γὰρ αὖ ἐπιλελησμένου ἦν, ὅπως καὶ πρότερον: εἶτα, εἰ μὲν ἀμείνω ὕστερον, οὐκ ἂν καλὰ πρότερον: εἰ δ’ ἦν καλά, ἔχει τὸ ὡσαύτως.",
+   "flags": [
+    {
+     "taylor": "insist on the eternity of the process and planning falls to the ground",
+     "in": "MacKenna",
+     "why": "The Greek says the account itself, by showing things \"always coming to be\" (ἀεὶ γινόμενα), took away that he reasons: it is the Timaeus' own account that takes the reasoning away, not our insisting."
+    },
+    {
+     "taylor": "things stood ill at first ; if they stood well, so they must remain",
+     "in": "MacKenna",
+     "why": "The Greek says \"they were not beautiful (καλά) before; but if they were beautiful, they keep the same\": the beautiful, which the next paragraph takes up; \"ill\" and \"well\" are MacKenna's."
+    }
+   ],
+   "notes": [
+    "\"It supposed things coming to be\": Plato's Timaeus (28a-29a) tells of the world as coming to be. That this is \"for the sake of teaching\", as a geometer draws a figure that always is, was Xenocrates' reading, which Aristotle reports (On the heavens I.10, 279b32-280a2) and Plotinus follows (compare III.2.1)."
+   ]
+  },
+  {
+   "seg": "VI.7.3.p2",
+   "chapter": "VI.7.3",
+   "modern": "And they are beautiful with the cause: since even now a thing is beautiful because it is all. For this is form too, its being all, and its holding matter fast: and it holds it fast if it leaves nothing of it unshaped; and it leaves something, if some shape is lacking, an eye, say, or something else. So when you give the cause, you say the whole. Why, then, eyes? So that it may be all. And why eyebrows? So that it may be all. For even if you said \"for safety\", you speak of a guarding of the substance present in it, and say that this contributes. So the substance was before this too, and the cause, then, was part of the substance: and this is another thing, but what it is belongs to the substance. All things, then, are toward one another, and the whole and complete and entire substance, and its \"well\" with the cause and in the cause; and the substance and the what it was to be and the why are one.",
+   "greek": "καλὰ δ’ ἐστὶ μετὰ τῆς αἰτίας: ἐπεὶ καὶ νῦν καλόν τι, ὅτι πάντα. τοῦτο γὰρ καὶ εἶδος τὸ πάντα καὶ ὅτι τὴν ὕλην κατέχει: κατέχει δέ, εἰ μηδὲν αὐτῆς ἀμόρφωτον καταλείπει. καταλείπει δέ, εἴ τις μορφὴ ἐλλείποι, οἷον ὀφθαλμὸς ἢ ἄλλο τι: ὥστε αἰτιολογῶν πάντα λέγεις. διὰ τί οὖν ὀφθαλμοί; ἵνα πάντα: καὶ διὰ τί ὀφρύες; ἵνα πάντα. καὶ γὰρ εἰ ἕνεκα σωτηρίας λέγοις, φυλακτικὸν τῆς οὐσίας λέγεις ἐν αὐτῇ ὑπάρχον, τοῦτο δὲ εἶναι συμβαλλόμενον. οὕτως ἄρα οὐσία ἦν πρὶν καὶ τοῦτο, καὶ τὸ αἴτιον ἄρα μερος τῆς οὐσίας: καὶ ἄλλο τοίνυν τοῦτο, ὃ δ’ ἐστὶ τῆς οὐσίας. πάντα τοίνυν ἀλλήλοις καὶ ἡ ὅλη καὶ τελεία καὶ πᾶσα καὶ τὸ καλῶς μετὰ τῆς αἰτίας καὶ ἐν τῇ αἰτίᾳ, καὶ ἡ οὐσία καὶ τὸ τί ἦν εἶναι καὶ τὸ διότι ἕν.",
+   "flags": [
+    {
+     "taylor": "Only in conjunction with their causes are things good; even in this sphere a thing is good in virtue of being complete",
+     "in": "MacKenna",
+     "why": "The Greek has \"beautiful\" (καλά, καλόν τι) both times: things are beautiful with their cause, and beautiful because they are all; \"good\" is MacKenna's."
+    },
+    {
+     "taylor": "you affirm an indwelling safeguard of the essence",
+     "in": "MacKenna",
+     "why": "The Greek has \"of the substance (τῆς οὐσίας)\"; the modern version keeps \"substance\", and \"essence\" is MacKenna's."
+    },
+    {
+     "taylor": "the being, the essence, the cause, all are one",
+     "in": "MacKenna",
+     "why": "The Greek says \"the substance (ἡ οὐσία) and the what it was to be (τὸ τί ἦν εἶναι) and the why (τὸ διότι) are one\": Aristotle's essence is the second of the three, and MacKenna's \"the being\" stands for the first."
+    }
+   ],
+   "notes": [
+    "The eyebrows as a guard for the eyes, against the sweat from the head, are in Xenophon's Memorabilia (I.4.6) and Aristotle's Parts of animals (II.15, 658b14-19). Form that \"holds matter fast\" (κατέχει) and leaves nothing unshaped is beauty in I.6.2."
+   ]
+  },
+  {
+   "seg": "VI.7.3.p3",
+   "chapter": "VI.7.3",
+   "modern": "If, then, being perceptive, and perceptive in this way, is set in the form by an everlasting necessity and completeness, since intellect has the causes in itself, if indeed it is complete, so that we see later that it is rightly so (for there the cause is one and fills the thing out, and it is not that the man there was intellect only, and the perceptive was added when he was sent into becoming), how would that intellect not lean toward the things here? For what would the perceptive be but what apprehends perceptible things? And how is it not absurd that there should be the perceptive there from everlasting, but perceiving here, and the activity of the power there fulfilled here, when the soul becomes worse?",
+   "greek": "εἰ τοίνυν ἔγκειται τὸ αἰσθητικὸν εἶναι καὶ οὕτως αἰσθητικὸν ἐν τῷ εἴδει ὑπὸ ἀιδίου ἀνάγκης καὶ τελειότητος, νοῦ ἐν αὑτῷ ἔχοντος, εἴπερ τέλειος, τὰς αἰτίας, ὥστε ἡμᾶς ὕστερον ἰδεῖν, ὡς ἄρα ὀρθῶς οὕτως ἔχει — ἐκεῖ γὰρ ἓν καὶ συμπληρωτικὸν τὸ αἴτιον καὶ οὐχὶ ὁ ἄνθρωπος ἐκεῖ μόνον νοῦς ἦν, προσετέθη δὲ τὸ αἰσθητικόν, ὅτε εἰς γένεσιν ἐστέλλετο — πῶς οὐκ ἂν ἐκεῖνος ὁ νοῦς πρὸς τὰ τῇδε ῥέποι; τί γὰρ ἂν εἴη αἰσθητικὸν ἢ ἀντιληπτικὸν αἰσθητῶν; πῶς δ’ οὐκ ἄτοπον, ἐκεῖ μὲν αἰσθητικὸν ἐξ ἀιδίου, ἐνταῦθα δὲ αἰσθάνεσθαι καὶ τῆς ἐκεῖ δυνάμεως τὴν ἐνέργειαν πληροῦσθαι ἐνταῦθα, ὅτε χείρων ἡ ψυχὴ γίνεται;",
+   "flags": [
+    {
+     "taylor": "sense-perception—even in its particular modes—is involved in the Idea",
+     "in": "MacKenna",
+     "why": "The Greek says \"being perceptive, and perceptive in this way (οὕτως)\", is set \"in the form\" (ἐν τῷ εἴδει); \"even in its particular modes\" and \"the Idea\" are MacKenna's."
+    },
+    {
+     "taylor": "thus Man in the Intellectual was not purely intellect, sense-perception being an addition made upon his entry into birth",
+     "in": "MacKenna",
+     "why": "The Greek denies both together: \"it is not that the man there was intellect only, and the perceptive was added (προσετέθη) when he was sent into becoming\". MacKenna keeps the addition as a fact, which the Greek denies."
+    }
+   ],
+   "notes": [
+    "\"Lean\" (ῥέποι): the soul's inclining (νεῦσις, ῥοπή) toward the things here, I.1.12 and IV.8.4. The answer, that perception there is of the perceptibles there, is given in chapters 6 and 7."
+   ]
+  },
+  {
+   "seg": "VI.7.4.p1",
+   "chapter": "VI.7.4",
+   "modern": "Again, then, to meet this difficulty, we must take up from above who the man there is. But perhaps first we must say who the man here is, lest, not knowing exactly even this one, we seek that one as though we had this one. To some it might seem that this one and that one are the same.",
+   "greek": "πάλιν οὖν πρὸς ταύτην τὴν ἀπορίαν ἄνωθεν ληπτέον τὸν ἄνθρωπον ὅστις ἐκεῖνός ἐστιν. ἴσως δὲ πρότερον. χρὴ τὸν τῇδε ἄνθρωπον ὅστις ποτ̓ ἐστὶν εἰπεῖν, μή ποτε οὐδὲ τοῦτον ἀκριβῶς εἰδότες ὡς ἔχοντες τοῦτον ἐκεῖνον ζητοῦμεν. φανείη δ’ ἂν ἴσως τισὶν ὁ αὐτὸς οὗτός τε κἀκεῖνος ἑ??ʼναι."
+  },
+  {
+   "seg": "VI.7.4.p2",
+   "chapter": "VI.7.4",
+   "modern": "Let the inquiry begin from here: is this man a forming principle other than the soul that makes this man and gives him living and reasoning? Or is the soul of this kind the man? Or the soul that uses a body of this kind? But if man is a rational living being, and a living being is what is made of soul and body, this forming principle would not be the same as the soul.",
+   "greek": "ἀρχὴ δὲ τῆς σκέψεως ἐντεῦθεν: ἆρα ὁ ἄνθρωπος οὗτος λόγος ἐστὶ ψυχῆς ἕτερος τῆς τὸν ἄνθρωπον τοῦτον ποιούσης καὶ ζῆν αὐτὸν καὶ λογίζεσθαι παρεχομένης; ἢ ἡ ψυχὴ ἡ τοιαύτη ὁ ἄνθρωπός ἐστιν; ἢ ἡ τῷ σώματι τῷ τοιῷδε ψυχὴ προσχρωμένη; ἀλλ’ εἰ μὲν ζῷον λογικὸν ὁ ἄνθρωπος, ζῷον δὲ τὸ ἐκ ψυχῆς καὶ σώματος, οὐκ ἂν εἴη ὁ λόγος οὗτος τῇ ψυχῇ ὁ αὐτός.",
+   "flags": [
+    {
+     "taylor": "whether man as here is a Reason-Principle different to that soul",
+     "in": "MacKenna",
+     "why": "The Greek has λόγος; the modern version keeps \"forming principle\", and \"Reason-Principle\" is MacKenna's."
+    },
+    {
+     "taylor": "or, again, the (yet lower) soul using the human body",
+     "in": "MacKenna",
+     "why": "The Greek says only \"the soul that uses a body of this kind\" (ἡ τῷ σώματι τῷ τοιῷδε ψυχὴ προσχρωμένη); \"(yet lower)\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "\"A rational living being\" (ζῷον λογικόν) is the school definition of man (compare Aristotle, Metaphysics Z.12, 1037b11-14, where man is a two-footed living being); the soul that uses the body is the man of Plato's Alcibiades (129e-130c), which I.1.3 takes up."
+   ]
+  },
+  {
+   "seg": "VI.7.4.p3",
+   "chapter": "VI.7.4",
+   "modern": "But if the forming principle of man is what is made of rational soul and body, how would it be an everlasting existence, since this forming principle of this kind of man comes to be when body and soul come together? For this forming principle will show what is going to be, not of the kind we call man himself, but rather like a definition, and such as does not even show the what it was to be. For it is not of the form in matter, but shows the compound, which already is: and if so, the man has not yet been found: for he was the one according to the forming principle.",
+   "greek": "ἀλλ’ εἰ τὸ ἐκ ψυχῆς λογικῆς καὶ σώματος ὁ λόγος τοῦ ἀνθρώπου, πῶς ἂν εἴη ὑπόστασις ἀίδιος, τούτου τοῦ λόγου τοῦ τοιούτου ἀνθρώπου γινομένου, ὅταν σῶμα καὶ ψυχὴ συνέλθῃ; ἔσται γὰρ ὁ λόγος οὗτος δηλωτικὸς τοῦ ἐσομένου, οὐχ οἷος ὅν φαμεν αὐτοάνθρωπος, ἀλλὰ μᾶλλον ἐοικὼς ὅρῳ, καὶ τοιούτῳ οἵῳ μηδὲ δηλωτικῷ τοῦ τί ἦν εἶναι. οὐδὲ γὰρ εἴδους ἐστὶ τοῦ ἐνύλου, ἀλλὰ τὸ συναμφότερον δηλῶν, ὃ ἔστιν ἤδη: εἰ δὲ τοῦτο, οὔπω εὕρηται ὁ ἄνθρωπος: ἦν γὰρ ὁ κατὰ τὸν λόγον.",
+   "flags": [
+    {
+     "taylor": "since what is indicated is not the Idea that is to enter Matter but only that of the known thing, the conjoint",
+     "in": "MacKenna",
+     "why": "The Greek says it is \"not of the form in matter\" (εἴδους ... τοῦ ἐνύλου), the form already in matter, \"but shows the compound, which already is\"; \"that is to enter\" and \"the known thing\" are MacKenna's."
+    }
+   ],
+   "notes": [
+    "\"Man himself\" (αὐτοάνθρωπος), the Platonists' word for the form of man: Aristotle, Metaphysics B.2 (997b8-10) and Nicomachean Ethics I.6 (1096a35-b5). The definition of the compound and of the form: Metaphysics Z.10-11 (1035b27-1037a5)."
+   ]
+  },
+  {
+   "seg": "VI.7.4.p4",
+   "chapter": "VI.7.4",
+   "modern": "And if someone should say that the forming principle of such things must be some compound, this in this, he does not think fit to say that according to which each thing is. But even if one must speak of the forming principles of the forms in matter, and with matter, as much as one can, one must still take the forming principle itself that made it, the man, say; and most of all those who think fit to define the what it was to be for each thing, when they define in the strict sense.",
+   "greek": "εἰ δέ τις λέγοι ʽτὸν λόγον δεῖ τὸν τῶν τοιούτων εἶναι συναμφότερόν τι, τόδε ἐν τῷδἐ, καθ̓ ὅ ἐστιν ἕκαστον οὐκ ἀξιοῖ λέγειν: χρὴ δέ, εἰ καὶ ὅτι μάλιστα τῶν ἐνύλων εἰδῶν καὶ μετὰ ὕλης τοὺς λόγους χρὴ λέγειν, ἀλλὰ τὸν λόγον αὐτὸν τὸν πεποιηκότα, οἷον τὸν ἄνθρωπον, λαμβάνειν καὶ μάλιστα, ὅσοι τὸ τί ἦν εἶναι ἀξιοῦσιν ἐφ̓ ἑκάστου ὁρίζεσθαι, ὅταν κυρίως ὁρίζωνται.",
+   "flags": [
+    {
+     "taylor": "This does not define the principle of either.",
+     "in": "MacKenna",
+     "why": "The Greek says he \"does not think fit to say that according to which each thing is\" (καθ’ ὅ ἐστιν ἕκαστον): he leaves out what makes each thing what it is; \"either\" is MacKenna's."
+    },
+    {
+     "taylor": "a complete definition must cover the essential manner of being",
+     "in": "MacKenna",
+     "why": "The Greek has \"those who think fit to define the what it was to be (τὸ τί ἦν εἶναι) for each thing, when they define in the strict sense (κυρίως)\": Aristotle's school, named by its phrase."
+    }
+   ],
+   "notes": [
+    "\"This in this\" (τόδε ἐν τῷδε), form in matter, is Aristotle's way of speaking of the snub, nose and concavity together (Metaphysics Z.5, 1030b16-26; On the soul III.4, 429b13-14)."
+   ]
+  },
+  {
+   "seg": "VI.7.4.p5",
+   "chapter": "VI.7.4",
+   "modern": "What, then, is being for man? That is: what is it that made this man, present in him, not separate? Is the forming principle itself a rational living being, or is that the compound, and the forming principle itself something that makes a rational living being? What is it, itself? Or \"living being\" in the forming principle stands for rational life. Man, then, is rational life. Is it, then, life without soul? For either the soul will supply the rational life, and man will be an activity of soul and not a substance, or the soul will be the man. But if the rational soul is to be the man, when the soul goes into another living being, how is it not a man?",
+   "greek": "τί οὖν ἐστι τὸ εἶναι ἀνθρώπῳ; τοῦτο δ’ ἐστί, τί ἐστι τὸ πεποιηκὸς τοῦτον τὸν ἄνθρωπον ἐνυπάρχον, οὐ χωριστόν; ἆῤ οὖν αὐτὸς ὁ λόγος ζῷόν ἐστι λογικὸν ἢ τὸ συναμφότερον, αὐτὸς δέ τις ποιητικὸς ζῴου λογικοῦ; τίς ὢν αὐτός; ἢ τὸ ζῷον ἀντὶ ζωῆς λογικῆς ἐν τῷ λόγῳ. ζωὴ τοίνυν λογικὴ ὁ ἄνθρωπος. ἆῤ οὖν ζωὴ ἄνευ ψυχῆς; ἢ γὰρ ἡ ψυχὴ παρέξεται τὴν ζωὴν τὴν λογικὴν καὶ ἔσται ὁ ἄνθρωπος ἐνέργεια ψυχῆς καὶ οὐκ οὐσία, ἢ ἡ ψυχὴ ὁ ἄνθρωπος ἔσται. ἀλλ’ εἰ ἡ ψυχὴ ἡ λογικὴ ὁ ἄνθρωπος ἔσται, ὅταν εἰς ἄλλο ζῷον ἴῃ ἡ ψυχή, πῶς οὐκ ἄνθρωπος;",
+   "flags": [
+    {
+     "taylor": "What, then, is this essential of Man?",
+     "in": "MacKenna",
+     "why": "The Greek has \"being for man\" (τὸ εἶναι ἀνθρώπῳ), Aristotle's phrase for the essence of a kind; MacKenna's \"this essential\" loses the phrase."
+    },
+    {
+     "taylor": "and what is it apart from that act of making ?",
+     "in": "MacKenna",
+     "why": "The Greek asks only \"what is it, itself?\" (τίς ὢν αὐτός;); \"apart from that act of making\" is MacKenna's."
+    },
+    {
+     "taylor": "and man therefore is not an essence but simply an activity of the soul",
+     "in": "MacKenna",
+     "why": "The Greek has \"not a substance (οὐσία)\"; the modern version keeps \"substance\", and \"essence\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "The soul going into other living beings: Plato's Phaedo (81e-82b), Republic X (620a-d) and Timaeus (91d-92c); Plotinus takes it up in III.4.2 and in chapter 6 below."
+   ]
+  },
+  {
+   "seg": "VI.7.5.p1",
+   "chapter": "VI.7.5",
+   "modern": "Man, then, must be a forming principle other than the soul. What, then, prevents man from being a compound, soul in a forming principle of this kind, the forming principle being as it were an activity of this kind, and the activity unable to be without what is active? For so too are the forming principles in seeds: they are neither without soul, nor simply souls. For the forming principles that make are not soulless, and it is no wonder that such substances are forming principles.",
+   "greek": "λόγον τοίνυν δεῖ τὸν ἄνθρωπον ἄλλον παρὰ τὴν ψυχὴν εἶναι. τί οὖν κωλύει συναμφότερόν τι τὸν ἄνθρωπον εἶναι, ψυχὴν ἐν τοιῷδε λόγῳ, ὄντος τοῦ λόγου οἷον ἐνεργείας τοιᾶσδε, τῆς δὲ ἐνεργείας μὴ δυναμένης ἄνευ τοῦ ἐνεργοῦντος εἶναι; οὕτω γὰρ καὶ οἱ ἐν τοῖς σπέρμασι λόγοι: οὔτε γὰρ ἄνευ ψυχῆς οὔτε ψυχαὶ ἁπλῶς. οἱ γὰρ λόγοι οἱ ποιοῦντες οὐκ ἄψυχοι, καὶ θαυμαστὸν οὐδὲν τὰς τοιαύτας οὐσίας λόγους εἶναι.",
+   "flags": [
+    {
+     "taylor": "Man, thus, must be some Reason-Principle other than soul.",
+     "in": "MacKenna",
+     "why": "The Greek has λόγος; the modern version keeps \"forming principle\", and \"Reason-Principle\" is MacKenna's."
+    },
+    {
+     "taylor": "there is nothing surprising in such essences being Reason-Principles",
+     "in": "MacKenna",
+     "why": "The Greek has \"such substances (οὐσίας)\"; the modern version keeps \"substance\", and \"essences\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "The forming principles in seeds (οἱ ἐν τοῖς σπέρμασι λόγοι) are the Stoics' seminal principles (λόγοι σπερματικοί, SVF II.1027), which Plotinus takes into nature's making (III.8.2, IV.4.39, V.9.6)."
+   ]
+  },
+  {
+   "seg": "VI.7.5.p2",
+   "chapter": "VI.7.5",
+   "modern": "Then the forming principles that make not man, but other things, are activities of what kind of soul? Of the growing soul? Or of the soul that makes a living being, a brighter soul, and for this very reason more full of life. But the soul of this kind, which has come into matter of this kind, since it is this, being as it were so disposed even without the body, is man; and in a body, having shaped it after itself, and made another image of man, as much as the body received, as a painter too will make of this one again a still lesser man, it has the shape, and the forming principles, or the characters, the dispositions, the powers, all dim, because this is not the first; and so it has forms of other senses too, other senses which seem to be bright, but are dimmer compared with those before them, and images. But the man above this is of a soul already more divine, which has a better man and brighter senses.",
+   "greek": "οἱ οὖν μὴ ποιοῦντες ἄνθρωπον λόγοι ποίας ψυχῆς ἐνέργειαι; ἆρα τῆς φυτικῆς; ἢ τῆς ζῷον ποιούσης, ἐναργεστέρας τινὸς καὶ αὐτὸ τοῦτο ζωτικωτέρας. ἡ δὲ ψυχὴ ἡ τοιαύτη ἡ ἐγγενομένη τῇ τοιαύτῃ ὕλῃ, ἅτε οὖσα τοῦτο, οἷον οὕτω διακειμένη καὶ ἄνευ τοῦ σώματος, ἄνθρωπος, ἐν σώματι δὲ μορφώσασα καθ̓ αὑτὴν καὶ ἄλλο εἴδωλον ἀνθρώπου ὅσον ἐδέχετο τὸ σῶμα ποιήσασα, ὥσπερ καὶ τούτου αὖ ποιήσει ὁ ζωγράφος ἔτι ἐλάττω ἄνθρωπόν τινα, τὴν μορφὴν ἔχει καὶ τοὺς λόγους ἢ τὰ ἤθη, τὰς διαθέσεις, τὰς δυνάμεις, ἀμυδρὰ πάντα, ὅτι μὴ οὗτος πρῶτος: καὶ δὴ καὶ εἴδη αἰσθήσεων ἄλλων, αἰσθήσεις ἄλλας ἐναργεῖς δοκούσας εἶναι, ἀμυδροτέρας δὲ ὡς πρὸς τὰς πρὸ αὐτῶν καὶ εἰκόνας: ὁ δὲ ἐπὶ τούτῳ ἄνθρωπος ψυχῆς ἤδη θειοτέρας, ἐχούσης βελτίω ἄνθρωπον καὶ αἰσθήσεις ἐναργεστέρας.",
+   "flags": [
+    {
+     "taylor": "just as an artist may make a reduced image of that again",
+     "in": "MacKenna",
+     "why": "The Greek has \"a painter\" (ζωγράφος), who will make of this man \"a still lesser man\": the image of an image."
+    },
+    {
+     "taylor": "It is soul, then, that holds the pattern and Reason-Principles of Man",
+     "in": "MacKenna",
+     "why": "The Greek has \"the shape\" (τὴν μορφήν); the modern version keeps \"pattern\" for παράδειγμα, and \"Reason-Principles\" is MacKenna's for the forming principles."
+    }
+   ],
+   "notes": [
+    "The painter who makes an image of an image, third from the truth: Plato's Republic X (597e-598b). The growing soul (φυτική) is the lowest power of soul, which plants have: Aristotle, On the soul II.4 (415a23-b2)."
+   ]
+  },
+  {
+   "seg": "VI.7.5.p3",
+   "chapter": "VI.7.5",
+   "modern": "And it would be this one that Plato defined, adding \"using a body\", because it rides upon the soul that uses a body first, while it uses it second. For when what came to be was already perceptive, this soul followed, giving a clearer life; or rather it did not even follow, but as it were added itself: for it does not stand out of the intelligible, but, joined to it, holds the lower soul as if hanging from it, mingling itself, forming principle with forming principle. Hence this man too, being dim, became plain by the illumination.",
+   "greek": "καὶ εἴη ἂν ὁ Πλάτων τοῦτον ὁρισάμενος, προσθεὶς δὲ τὸ ʽχρωμένην σώματἰ, ὅτι ἐποχεῖται τῇ ἥτις προσχρῆται πρώτως σώματι, ἡ δὲ δευτέρως. ἤδη γὰρ αἰσθητικοῦ ὄντος τοῦ γενομένου ἐπηκολούθησεν αὕτη τρανοτέραν ζωὴν διδοῦσα: μᾶλλον δὲ οὐδ’ ἐπηκολούθησεν, ἀλλὰ οἷον προσέθηκεν αὐτήν: οὐ γὰρ ἐξίσταται τοῦ νοητοῦ, ἀλλὰ συναψαμένη οἷον ἐκκρεμαμένην ἔχει τὴν κάτω συμμίξασα ἑαυτὴν λόγῳ πρὸς λόγον. ὅθεν καὶ ἀμυδρὸς οὗτος ὢν ἐγένετο φανερὸς τῇ ἐλλάμψει.",
+   "flags": [
+    {
+     "taylor": "This must be the Man of Plato’s definition",
+     "in": "MacKenna",
+     "why": "The Greek says \"it would be (εἴη ἂν) this one that Plato defined\": a likely reading of Plato, not a certainty; and MacKenna's quotation \"Man is Soul\" is his own."
+    },
+    {
+     "taylor": "the soul, poised above, which touches body only through that intermediary",
+     "in": "MacKenna",
+     "why": "The Greek says it \"rides upon\" (ἐποχεῖται) the soul that uses body first, as on a vehicle, and uses it \"second\" (δευτέρως); \"poised above\" is MacKenna's."
+    },
+    {
+     "taylor": "the higher soul enters to bestow a brighter life",
+     "in": "MacKenna",
+     "why": "The Greek says this soul \"followed\" (ἐπηκολούθησεν), and then corrects it: it did not even follow, but added itself. \"Enters\" is MacKenna's."
+    },
+    {
+     "taylor": "for soul does not leave the Intellectual",
+     "in": "MacKenna",
+     "why": "The Greek has \"the intelligible\" (τοῦ νοητοῦ); the modern version keeps \"intelligible\", and \"the Intellectual\" is MacKenna's."
+    },
+    {
+     "taylor": "blending with it by the natural link of Reason-Principle to Reason-Principle",
+     "in": "MacKenna",
+     "why": "The Greek says \"mingling itself, forming principle with forming principle\" (λόγῳ πρὸς λόγον); \"natural link\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "\"Soul using a body\" (ψυχὴ σώματι χρωμένη) is the man of Plato's Alcibiades (129e-130c). The soul's riding as on a vehicle (ὄχημα): Timaeus (41e, 69c). The two souls, the one that uses the body and the one above it, are I.1.10-12's \"we\" and the living being."
+   ]
+  },
+  {
+   "seg": "VI.7.6.p1",
+   "chapter": "VI.7.6",
+   "modern": "How, then, is the perceptive in the better soul? It is perceptive of the perceptibles there, and in the way the perceptibles are there. This is why it perceives the perceptible harmony too in this way, while the perceptive man receives it by perception, and fits it to the last degree to the harmony there, and fits fire to the fire there, of which that soul had a perception in proportion to the nature of the fire there.",
+   "greek": "πῶς οὖν ἐν τῇ κρείττονι τὸ αἰσθητικόν; ʽ??ʼ τὸ αἰσθητικὸν τῶν ἐκεῖ αἰσθητῶν, καὶ ὡς ἐκεῖ τὰ αἰσθητά. διὸ καὶ οὕτως αἰσθάνεται τὴν αἰσθητὴν ἁρμονίαν τῇ δὲ αἰσθήσει παραδεξαμένου τοῦ αἰσθητικοῦ ἀνθρώπου καὶ συναρμόσαντος εἰς ἔσχατον πρὸς τὴν ἐκεῖ ἁρμονίαν καὶ πῦρ ἐναρμόσαντος πρὸς τὸ ἐκεῖ πῦρ, οὗ αἴσθησις ἦν ἐκείνῃ τῇ ψυχῇ ἀνὰ λόγον τοῦ πυρὸς τοῦ ἐκεῖ φύσει.",
+   "flags": [
+    {
+     "taylor": "it is the source of the soul’s perception of the sense-realm in its correspondence with the Intellectual",
+     "in": "MacKenna",
+     "why": "The Greek says \"this is why it perceives the perceptible harmony (ἁρμονίαν) too in this way\": the harmony, which the perceptive man fits to the harmony there, is not in MacKenna."
+    },
+    {
+     "taylor": "proceeding from the fire Intellectual to the fire here",
+     "in": "MacKenna",
+     "why": "The Greek says the perceptive man \"fits fire to the fire there\" (πῦρ ἐναρμόσαντος πρὸς τὸ ἐκεῖ πῦρ): from the fire here to the fire there, the other way."
+    }
+   ],
+   "notes": [
+    "The harmony heard here as an image of the harmony there: the musician of I.3.1 and the harmonies of I.6.3. Fire there: chapter 11 below."
+   ]
+  },
+  {
+   "seg": "VI.7.6.p2",
+   "chapter": "VI.7.6",
+   "modern": "For if these bodies were there, the soul would have perceptions and apprehensions of them; and the man there, the soul of this kind, would apprehend them; hence the later man too, the imitation, had the forming principles in imitation; and the man in intellect had the man before all men. This one shines on the second, and this on the third; and the last has all of them in a way, not becoming them, but lying beside them. One of us is active by the last, another has something from the one before it too, another has activity from the third as well; and each is the one by which he is active, though each has all, and again does not.",
+   "greek": "εἰ γὰρ ἦν ἐκεῖ σώματα ταῦτα, ἦσαν ἂν αὐτῶν τῇ ψυχῇ αἰσθήσεις καὶ ἀντιλήψεις: καὶ ὁ ἄνθρωπος ὁ ἐκεῖ, ἡ τοιαύτη ψυχή, ἀντιληπτικὴ τούτων, ὅθεν καὶ ὁ ὕστερος ἄνθρωπος, τὸ μίμημα, εἶχε τοὺς λόγους ἐν μιμήσει: καὶ ὁ ἐν νῷ ἄνθρωπος τὸν πρὸ πάντων τῶν ἀνθρώπων ἄνθρωπον. ἐλλάμπει δ’ οὗτος τῷ δευτέρῳ καὶ οὗτος τῷ τρίτῳ: ἔχει δέ πως πάντας ὁ ἔσχατος, οὐ γινόμενος ἐκείνοις, ἀλλὰ παρακείμενος ἐκείνοις. ἐνεργεῖ δὲ ὁ μὲν ἡμῶν κατὰ τὸν ἔσχατον, τῷ δέ τι καὶ παρὰ τοῦ πρὸ αὐτοῦ, τῷ δὲ καὶ παρὰ τοῦ τρίτου ἡ ἐνέργεια, καὶ ἔστιν ἕκαστος καθ̓ ὃν ἐνεργεῖ, καίτοι πάντας ἕκαστος ἔχει καὶ αὖ οὐκ ἔχει.",
+   "flags": [
+    {
+     "taylor": "not in the sense of actually living by them all but as standing in under-parallel to them",
+     "in": "MacKenna",
+     "why": "The Greek says the last man has them all \"not becoming (γινόμενος) them, but lying beside (παρακείμενος) them\"; \"actually living by them\" is MacKenna's."
+    },
+    {
+     "taylor": "in yet another there is a blending of the third grade with the others",
+     "in": "MacKenna",
+     "why": "The Greek says another \"has activity from the third as well\" (παρὰ τοῦ τρίτου ἡ ἐνέργεια); there is no blending."
+    }
+   ],
+   "notes": [
+    "The three men, one shining on the next, answer the \"we\" of I.1.10 and the lives of III.4.2. \"Each is the one by which he is active\": compare III.4.3, where our daemon is the power above the one by which we are active."
+   ]
+  },
+  {
+   "seg": "VI.7.6.p3",
+   "chapter": "VI.7.6",
+   "modern": "When the third life and the third man is separated from the body, if the second follows along, and follows without being separated from the things above, where that one is, this one too is said to be. But when it takes on a beast's body, one wonders how, being the forming principle of a man, it does so: or it was all things, and is active at different times by different ones.",
+   "greek": "τοῦ δὲ σώματος χωρισθείσης τῆς τρίτης ζωῆς καὶ τοῦ τρίτου ἀνθρώπου, εἰ συνέποιτο ἡ δευτέρα, συνέποιτο δὲ μὴ χωρισθεῖσα τῶν ἄνω, οὗ ἐκείνη καὶ αὕτη λέγεται εἶναι. μεταλαβούσης δὲ θήρειον σῶμα θαυμάζεται, πῶς λόγος οὖσα ἀνθρώπου: ἢ πάντα ἦν, ἄλλοτε δὲ ἐνεργεῖ κατ’ ἄλλον.",
+   "flags": [
+    {
+     "taylor": "No doubt it seems strange that a soul which has been the Reason-Principle of a man",
+     "in": "MacKenna",
+     "why": "The Greek has λόγος; the modern version keeps \"forming principle\", and \"Reason-Principle\" is MacKenna's."
+    },
+    {
+     "taylor": "and will at different times be this and that",
+     "in": "MacKenna",
+     "why": "The Greek says it \"is active (ἐνεργεῖ) at different times by different ones\": it was all things, and is active by one or another; MacKenna's \"be\" loses the activity."
+    }
+   ]
+  },
+  {
+   "seg": "VI.7.6.p4",
+   "chapter": "VI.7.6",
+   "modern": "Being pure, then, and before it has become evil, it wants man, and is man. For this is more beautiful, and it makes the more beautiful. It makes daemons too, which are before, of the same form as the soul that makes man; and the one before it is more daemonic, or rather a god; and a daemon is an imitation of a god, hanging on a god, as a man on a man. For that on which man hangs is not called a god. For it has the difference that souls have from one another, even if they are of the same rank. And by daemons one must mean the kind of daemons that Plato calls daemons.",
+   "greek": "καθαρὰ μὲν οὖν οὖσα καὶ πρὶν κακυνθῆναι ἄνθρωπον θέλει καὶ ἄνθρωπος ἔστι. καὶ γὰρ κάλλιον τοῦτο, καὶ τὸ κάλλιον ποιεῖ. ποιεῖ δὲ καὶ δαίμονας προτέρους, ὁμοειδεῖς τῇ ἄνθρωπον, καὶ ὁ πρὸ αὐτῆς δαιμονιώτερος, μᾶλλον δὲ θεός, καὶ ἔστι μίμημα θεοῦ δαίμων εἰς θεὸν ἀνηρτημένος, ὥσπερ ἄνθρωπος εἰς ἄνθρωπον. οὐ γὰρ λέγεται θεός, εἰς ὃν ὁ ἄνθρωπος. ἔχει γὰρ διαφοράν, ἣν ἔχουσι ψυχαὶ πρὸς ἀλλήλας, κἂν ἐκ τοῦ αὐτοῦ ὦσι στοίχου. λέγειν δὲ δεῖ δαίμονας εἶδος δαιμόνων, οὕς φησιν ὁ Πλάτων δαίμονας.",
+   "flags": [
+    {
+     "taylor": "It produces also the still loftier beings, the Celestials (Daimons)",
+     "in": "MacKenna",
+     "why": "The Greek has \"daemons\" (δαίμονας); the modern version keeps \"daemon\", and \"the Celestials\" is MacKenna's."
+    },
+    {
+     "taylor": "higher still stands that Man more entirely of the Celestial rank, almost a god",
+     "in": "MacKenna",
+     "why": "The Greek says \"rather a god\" (μᾶλλον δὲ θεός): more truly a god than a daemon, not almost one."
+    },
+    {
+     "taylor": "For that Being into which man develops is not to be called a god",
+     "in": "MacKenna",
+     "why": "The Greek says \"that on which (εἰς ὃν) man hangs is not called a god\", answering the daemon \"hanging on\" (ἀνηρτημένος) a god; nothing develops into anything."
+    }
+   ],
+   "notes": [
+    "Daemons between gods and men: Plato's Symposium (202d-203a); the daemon each soul is given, Republic X (617e, 620d-e) and Timaeus (90a), the theme of III.4 On our allotted daemon."
+   ]
+  },
+  {
+   "seg": "VI.7.6.p5",
+   "chapter": "VI.7.6",
+   "modern": "And when the soul that was joined to the soul it was joined to when it was a man follows along, having chosen the nature of a beast, it gave the forming principle of that living being which was in it. For it has it, and this activity is worse.",
+   "greek": "ὅταν δὲ συνέπηται τὴν θήρειον φύσιν ἑλομένη ψυχὴ ἡ συνηρτημένη τῇ ὅτε ἄνθρωπος ἦν, τὸν ἐν αὐτῇ λόγον ἐκείνου τοῦ ζῴου ἔδωκεν. ἔχει γάρ, καὶ ἡ ἐνέργεια αὕτη χείρων.",
+   "flags": [
+    {
+     "taylor": "chooses animal nature and descends to that",
+     "in": "MacKenna",
+     "why": "The Greek says it \"follows along\" (συνέπηται), joined to the soul it was joined to as a man; \"descends\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "The souls choosing the lives of beasts in the myth of Er: Plato's Republic X (620a-d)."
+   ]
+  },
+  {
+   "seg": "VI.7.7.p1",
+   "chapter": "VI.7.7",
+   "modern": "But if it is by becoming evil and worse that it shapes a beast's nature, then what made an ox or a horse was not there from the beginning, and the forming principle of a horse, and the horse, are against nature. Or lesser, but not against nature; rather, that was in a way a horse or a dog from the beginning too; and if it has the means, it makes the more beautiful, and if not, what it can, since it has been ordered at least to make: like craftsmen who know how to make many forms, and then make this one, either what they were ordered to, or what the matter wants by its fitness.",
+   "greek": "ἀλλ’ εἰ κακυνθεῖσα καὶ χείρων γενομένη πλάττει θήρειον φύσιν, οὐκ ἦν ὃ ἐξ ἀρχῆς βοῦν ἐποίει ἢ ἵππον, καὶ ὁ λόγος δὲ ἵππου καὶ ἵππος παρὰ φύσιν. ἢ ἔλαττον, οὐ μὴν παρὰ φύσιν, ἀλλ’ ἐκεῖνό πως καὶ ἐξ ἀρχῆς ἵππος ἢ κύων: καὶ εἰ μὲν ἕξει, ποιεῖ τὸ κάλλιον, εἰ δὲ μή, ὃ δύναται, ἥ γε ποιεῖν προσταχθεῖσα: οἷα καὶ οἱ πολλὰ εἴδη ποιεῖν εἰδότες δημιουργοί, εἶτα ποιοῦντες τοῦτο, ἢ ὃ προσετάχθησαν, ἢ ὃ ἡ ὕλη ἐθέλει τῇ ἐπιτηδειότητι.",
+   "flags": [
+    {
+     "taylor": "it is like a skilful craftsman competent to create all kinds of works of art but reduced to making what is ordered",
+     "in": "MacKenna",
+     "why": "The Greek says craftsmen (δημιουργοί) who know how to make many forms \"then make this one, either what they were ordered to, or what the matter wants\": \"reduced\" is MacKenna's, and the craftsmen are many."
+    },
+    {
+     "taylor": "the reason-principle of the animal, and the animal itself, must lie outside of the natural plan ?",
+     "in": "MacKenna",
+     "why": "The Greek says they are \"against nature\" (παρὰ φύσιν), as the answer repeats (\"not against nature\"); \"the natural plan\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "The craftsman who makes what the matter allows: the Demiurge of the Timaeus works \"as far as possible\" (30a, 53b), as far as the nature of the matter allows."
+   ]
+  },
+  {
+   "seg": "VI.7.7.p2",
+   "chapter": "VI.7.7",
+   "modern": "For what prevents the power of the soul of the All, since it is the whole forming principle, from sketching beforehand, even before the soul's powers come from it, and the sketch from being as it were illuminations running ahead into matter; and the soul that works things out, following such traces, from making them by articulating the traces part by part, and each soul becoming what it came to, shaping itself, as the one in a dance shapes himself to the drama given him?",
+   "greek": "τί γὰρ κωλύει τὴν μὲν δύναμιν τῆς τοῦ παντὸς ψυχῆς προυπογραφειν, ἅτε λόγον πάντα οὖσαν, πρὶν καὶ παῤ αὐτῆς ἥκειν τὰς ψυχικὰς δυναμεις, καὶ τὴν προυπογραφὴν οἷον προδρόμους ἐλλάμψεις εἰς τὴν ὕλην εἶναι, ἤδη δὲ τοῖς τοιούτοις ἴχνεσιν ἐπακολουθοῦσαν τὴν ἐξεργαζομένην ψυχην κατὰ μέρη τὰ ἴχνη διαρθροῦσαν ποιῆσαι καὶ γενέσθαι ἑκάστηι τοῦτο, ᾧ προσῆλθε, σχηματίσασαν ἑαυτήν, ὥσπερ τὸν ἐν ὀρχήσει πρὸς τὸ δοθὲν αὐτῷ δρᾶμα;",
+   "flags": [
+    {
+     "taylor": "The power of the All-Soul, as Reason-Principle of the universe, may be considered as laying down a pattern",
+     "in": "MacKenna",
+     "why": "The Greek asks a question, \"what prevents ... from sketching beforehand (προυπογράφειν)?\": an outline drawn before the painting, not a pattern; and the soul of the All is \"the whole forming principle\" (λόγον πάντα οὖσαν)."
+    },
+    {
+     "taylor": "this plan would be something like a tentative illumining of Matter",
+     "in": "MacKenna",
+     "why": "The Greek has \"illuminations running ahead\" (προδρόμους ἐλλάμψεις) into matter, like runners going before; \"tentative\" is MacKenna's."
+    },
+    {
+     "taylor": "the elaborating soul would give minute articulation to these representations of itself",
+     "in": "MacKenna",
+     "why": "The Greek says the soul follows \"such traces\" (ἴχνεσιν) and articulates \"the traces part by part\"; \"representations of itself\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "The dancer who shapes himself to the drama is the pantomime of III.2.17 and IV.4.33, where the parts of the All move as the dancer's limbs do. The outline sketched beforehand (ὑπογραφή) is the painter's first drawing, as in Plato's Republic VI (501a-c)."
+   ]
+  },
+  {
+   "seg": "VI.7.7.p3",
+   "chapter": "VI.7.7",
+   "modern": "But we have come to this drawn on by what follows. Our question was how the perceptive belongs to man, and how those things do not look toward becoming. And it appeared to us, and the argument showed, that those things do not look toward the things here, but these hang upon those and imitate those; and that this man, having his powers from that one, is toward those things; and that these perceptibles are yoked to this man, and those to that one.",
+   "greek": "ἀλλὰ γὰρ ἐπισπώμενοι τῷ ἐφεξῆς εἰς τοῦτο ἥκομεν. ἦν δὲ ἡμῖν ὁ λόγος, τὸ αἰσθητικὸν ὅπως τοῦ ἀνθρώπου καὶ πῶς οὐκ ἐκεῖνα πρὸς γένεσιν βλέπει: καὶ ἡμῖν ἐφαίνετο καὶ ὁ λόγος ἐδείκνυεν οὐκ ἐκεῖνα πρὸς τὰ τῆδε βλέπειν, ἀλλὰ ταῦτα εἰς ἐκεῖνα ἀνηρτῆσθαι καὶ μιμεῖσθαι ἐκεῖνα, καὶ τοῦτον τὸν ἄνθρωπον παῤ ἐκείνου ἔχοντα τὰς δυνάμεις πρὸς ἐκεῖνα καὶ συνεζεῦχθαι ταῦτα τὰ αἰσθητὰ τούτῳ, ἐκεῖνα δ’ ἐκείνῳ:",
+   "flags": [
+    {
+     "taylor": "But this is to anticipate",
+     "in": "MacKenna",
+     "why": "The Greek says \"drawn on (ἐπισπώμενοι) by what follows, we came to this\": a digression the argument led to, not an anticipation."
+    },
+    {
+     "taylor": "the Intellectual in him is linked to the Intellectual",
+     "in": "MacKenna",
+     "why": "The Greek says \"these perceptibles are yoked (συνεζεῦχθαι) to this man, and those to that one\": the two men and their two kinds of perceptibles; \"the Intellectual\" is MacKenna's."
+    }
+   ]
+  },
+  {
+   "seg": "VI.7.7.p4",
+   "chapter": "VI.7.7",
+   "modern": "For those perceptibles, as we have named them, are apprehended in another way, because they are bodiless; and this perception here is dimmer than the apprehension there, which we called perception because it was of bodies, and which is brighter. And for this reason this man too is perceptive, because he is less, and apprehends lesser images of those: so that these perceptions are dim thoughts, and the thoughts there bright perceptions.",
+   "greek": "ἐκεῖνα γάρ τὰ αἰσθητά, ἃ οὕτως ὠνομάσαμεν, ὅτι ἀσώματα, ἄλλον τρόπον ἐν ἀντιλήψει, καὶ τήνδε τὴν αἴσθησιν ἀμυδροτέραν οὖσαν τῆς ἐκεῖ ἀντιλήψεως, ἣν ὠνομάζομεν αἴσθησιν, ὅτι σωμάτων ἦν, ἐναργεστέραν εἶναι: καὶ διὰ τοῦτο καὶ τοῦτον αἰσθητικόν, ὅτι ἐλαττόνως, καὶ ἐλαττόνων ἀντιληπτικὸν εἰκόνων ἐκείνων: ὥστε εἶναι τὰς αἰσθήσεις ταύτας ἀμυδρὰς νοήσεις, τὰς δὲ ἐκεῖ νοήσεις ἐναργεῖς αἰσθήσεις.",
+   "flags": [
+    {
+     "taylor": "so distinguished as dealing with corporeal objects",
+     "in": "MacKenna",
+     "why": "MacKenna takes \"because it was of bodies\" (ὅτι σωμάτων ἦν) with the perception here; in the Greek it goes with the apprehension there, which \"we called perception because it was of bodies\", the bodies there."
+    },
+    {
+     "taylor": "perceptions here are Intellections of the dimmer order",
+     "in": "MacKenna",
+     "why": "The Greek says \"these perceptions are dim thoughts (ἀμυδρὰς νοήσεις)\": dim, as the images in chapter 5 are dim, not of an order."
+    }
+   ],
+   "notes": [
+    "The perceptibles there, and the bodies there, are the heaven, earth, water and air of chapters 11 and 12. \"Dim\" (ἀμυδρός) and \"bright\" (ἐναργής) run through chapters 5 to 7, as the images grow fainter going down."
+   ]
+  },
+  {
+   "seg": "VI.7.8.p1",
+   "chapter": "VI.7.8",
+   "modern": "So much for the perceptive. But the whole horse, and each of the living beings there, how does it not want to look toward the things here? If it was so that a horse or some other living being might come to be here that it found out the thought of a horse — and yet how was it possible, wanting to make a horse, to think a horse? For it is already plain that there was a thought of a horse, if indeed it wanted to make a horse; so it is not possible to think it in order to make it, but the horse that did not come to be must be before the one that was to be afterwards. If, then, it was before the coming to be, and was not thought in order that it might come to be, the one who had the horse there did not have it with him by looking toward the things here, nor did he have this and the others in order to make the things here; but those were, and these followed those of necessity: for it was not possible to stop at the things there. For who could have stopped a power able both to stay and to go forth?",
+   "greek": "ἀλλὰ τὸ μὲν αἰσθητικὸν οὕτως. τὸ δὲ ἵππος ὅλος καὶ ἕκαστον τῶν ζῴων ἐκεῖ πῶς οὐ πρὸς τὰ ἐνταῦθα ἐθέλει βλέπειν; ἀλλ’ εἰ μέν, ἵνα ἐνταῦθα ἵππος γένοιτο ἢ ἄλλο τι ζῷον, ἐξεῦρε νόησιν ἵππου: καίτοι πῶς οἷόν τε ἦν βουλόμενον ἵππον ποιῆσαι νοῆσαι ἵππον; ἤδη γὰρ δῆλον ὅτι ὑπῆρχεν ἵππου νόησις, εἴπερ ἠβουλήθη ἵππον ποιῆσαι: ὥστε οὐκ ἔστιν, ἵνα ποιήσῃ, νοῆσαι, ἀλλὰ πρότερον εἶναι τὸν μὴ γενόμενον ἵππον πρὸ τοῦ μετὰ ταῦτα ἐσομένου. εἰ οὖν πρὸ τῆς γενέσεως ἦν καὶ οὐχ, ἵνα γένηται, ἐνοήθη, οὐ πρὸς τὰ τῇδε βλέπων εἶχε παῤ ἑαυτῷ ὃς εἶχε τὸν ἐκεῖ ἵππον, οὐδ’ ἵνα τὰ τῇδε ποιήσῃ, εἶχε τοῦτόν τε καὶ τὰ ἄλλα, ἀλλὰ ἦν μὲν ἐκεῖνα, ταῦτα δὲ ἐπηκολούθει ἐξ ἀνάγκης ἐκείνοις: οὐ γὰρ ἦν στῆναι μέχρι τῶν ἐκεῖ. τίς γὰρ ἂν ἔστησε δύναμιν μένειν τε καὶ προιέναι δυναμένην;",
+   "flags": [
+    {
+     "taylor": "the universal horse, must look deliberately towards this sphere",
+     "in": "MacKenna",
+     "why": "The Greek asks \"how does it not want (ἐθέλει) to look toward the things here?\" of \"the whole horse\" (ἵππος ὅλος): a question, not an assertion; \"universal\" and \"deliberately\" are MacKenna's."
+    },
+    {
+     "taylor": "Yet what was that there to present the idea of the horse it was desired to produce?",
+     "in": "MacKenna",
+     "why": "The Greek asks \"how was it possible, wanting to make a horse, to think a horse?\": the thought of the horse must be there already, before any wanting."
+    },
+    {
+     "taylor": "the reproduction followed of necessity since the total of things was not to halt at the Intellectual",
+     "in": "MacKenna",
+     "why": "The Greek says \"it was not possible to stop (στῆναι) at the things there\"; \"the total of things\" and \"the Intellectual\" are MacKenna's."
+    },
+    {
+     "taylor": "a power capable at once of self-concentration and of outflow",
+     "in": "MacKenna",
+     "why": "The Greek says \"able both to stay (μένειν) and to go forth (προιέναι)\": the staying and the going forth of every principle, not concentration and outflow."
+    }
+   ],
+   "notes": [
+    "That a power cannot stand still and keep itself to itself: IV.8.6, where nothing would be hidden if the One stood alone, and V.4.1-2, where what stays makes what comes after it."
+   ]
+  },
+  {
+   "seg": "VI.7.8.p2",
+   "chapter": "VI.7.8",
+   "modern": "But why are these living beings there? For what are these doing in god? The rational ones, let them be; but what dignity has so great a multitude of irrational ones? Why not the opposite? Now that this one must be many, being after what is altogether one, is plain: or it would not be after that, but that one. And being after that, it could not rise above it to be more one, but falls short of it; and since that was best, being one, this had to be more than one: for multitude is in falling short.",
+   "greek": "ἀλλὰ διὰ τί ἐκεῖ ζῷα ταῦτα; τί γὰρ ἐν θεῷ ταῦτα; τὰ μὲν γὰρ λογικὰ ἔστω: ἀλόγων δὲ τοσοῦτον πλῆθος τί τὸ σεμνὸν ἔχει; τί δὲ οὐ τοὐναντίον; ὅτι μὲν οὖν πολλὰ δεῖ τοῦτο τὸ ἓν εἶναι ὂν μετὰ τὸ πάντη ἕν, δῆλον: ἢ οὐκ ἂν ἦν μετ’ ἐκεῖνο, ἀλλ’ ἐκεῖνο. μετ’ ἐκεῖνο δὲ ὂν ὑπὲρ μὲν ἐκεῖνο πρὸς τὸ μᾶλλον ἓν γενέσθαι οὐκ ἦν, ἐλλεῖπον δὲ ἐκείνου: τοῦ δ’ ἀρίστου ὄντος ἑνὸς ἔδει πλέον ἢ ἓν εἶναι: τὸ γὰρ πλῆθος ἐν ἐλλείψει.",
+   "flags": [
+    {
+     "taylor": "But how come these animals of earth to be There ?",
+     "in": "MacKenna",
+     "why": "The Greek asks only \"why are these living beings (ζῷα) there?\"; \"of earth\" is MacKenna's."
+    },
+    {
+     "taylor": "The answer is that obviously the unity of our universe must be that of a manifold",
+     "in": "MacKenna",
+     "why": "The Greek says \"this one (τοῦτο τὸ ἕν) must be many\", the one being of intellect, after what is altogether one; \"our universe\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "What dignity the lesser things have, and whether there are forms of them, is young Socrates' doubt about hair, mud and dirt in Plato's Parmenides (130c-d). The one being that is many is the Parmenides' second hypothesis (142d-145a), which V.1.8 reads as intellect."
+   ]
+  },
+  {
+   "seg": "VI.7.8.p3",
+   "chapter": "VI.7.8",
+   "modern": "What, then, prevents it from being a dyad? Or each of the two in the dyad could not be altogether one, but would again be two at least, and so again with those. Then too there was motion in the first dyad, and rest; and there was intellect, and life was in it; and a complete intellect, and complete life. It was, then, not as one intellect, but all, holding all the particular intellects, and as many as all of them, and more; and it lived not as one soul, but as all, with more power to make the souls each; and it was a complete living being, not holding man alone in itself: for then man alone would be here.",
+   "greek": "τί οὖν κωλύει δυάδα εἶναι; ἢ ἑκάτερον τῶν ἐν τῇ δυάδι οὐχ οἷόν τε ἦν ἓν παντελῶς εἶναι, ἀλλὰ πάλιν αὖ δύο τοὐλάχιστον εἶναι, καὶ ἐκείνων αὖ ὡσαύτως: εἶτα καὶ κίνησις ἦν ἐν τῇ δυάδι τῇ πρώτῃ καὶ στάσις, ἦν δὲ καὶ νοῦς, καὶ ζωὴ ἦν ἐν αὐτῷ: καὶ τέλειος νοῦς καὶ ζωὴ τελεία. ἦν τοίνυν οὐχ ὡς νοῦς εἷς, ἀλλὰ πᾶς καὶ πάντας τοὺς καθ̓ ἕκαστα νοῦς ἔχων καὶ τοσοῦτος, ὅσοι πάντες, καὶ πλείων: καὶ ἔζη οὐχ ὡς ψυχὴ μία, ἀλλ’ ὡς πᾶσαι καὶ πλείω δύναμιν εἰς τὸ ποιεῖν ψυχὰς ἑκάστας ἔχων, καὶ ζῷον παντελὲς ἦν, οὐκ ἄνθρωπον ἐν αὑτῷ μόνον ἔχον: μόνος γὰρ ἂν ἄνθρωπος ἐνταῦθα ἦν.",
+   "flags": [
+    {
+     "taylor": "and so progressively (in an endless dualisation)",
+     "in": "MacKenna",
+     "why": "The parenthesis is MacKenna's; the Greek says only \"and so again with those\" (καὶ ἐκείνων αὖ ὡσαύτως)."
+    },
+    {
+     "taylor": "it must be Intellect agglomerate including all the particular intellects",
+     "in": "MacKenna",
+     "why": "The Greek says \"not as one intellect, but all (πᾶς)\", holding the particular intellects; \"agglomerate\" is MacKenna's."
+    },
+    {
+     "taylor": "it would be the entire living universe containing much besides man",
+     "in": "MacKenna",
+     "why": "The Greek says \"it was a complete living being\" (ζῷον παντελὲς ἦν), the Timaeus' pattern of the world; MacKenna makes it a condition (\"would be\") and the living being \"the universe\"."
+    }
+   ],
+   "notes": [
+    "Motion and rest, life and intellect in being: Plato's Sophist (248e-249a), where being cannot be without motion, life, soul and intellect. The complete living being (παντελὲς ζῷον), which holds all the intelligible living beings: Timaeus (31b, 39e)."
+   ]
+  },
+  {
+   "seg": "VI.7.9.p1",
+   "chapter": "VI.7.9",
+   "modern": "But let it be so, someone will say, for the honourable among the living beings: but how, again, were the cheap and the irrational there? The cheap plainly belongs to what is irrational, if the honourable belongs to the rational; and if the honourable belongs to what thinks, the opposite belongs to what does not think. And yet how is there anything unthinking or irrational, when that one is there in which each thing is, or from which it is?",
+   "greek": "ἀλλ’ ἔστω, φήσει τις, τὰ τίμια τῶν ζῴων: πῶς δ’ αὖ τὰ εὐτελῆ καὶ τὰ ἄλογα ἦν; τὸ εὐτελὲς δηλονότι τῷ ἀλόγως ἔχοντι, εἰ τῷ λογικῷ τὸ τίμιον: καὶ εἰ τῷ νοερῷ τὸ τίμιον, τῷ ἀνοήτῳ τὸ ἐναντίον. καίτοι πῶς ἀνόητον ἢ ἄλογον ἐκείνου ὄντος ἐν ᾧ ἕκαστα ἢ ἐξ οὗ;",
+   "flags": [
+    {
+     "taylor": "The mean is the unreasoning since value depends upon reason",
+     "in": "MacKenna",
+     "why": "The Greek is a condition: the cheap belongs to the irrational \"if (εἰ) the honourable belongs to the rational\"; \"since\" is MacKenna's."
+    },
+    {
+     "taylor": "but how can the divine contain the mean, the unreasoning ?",
+     "in": "MacKenna",
+     "why": "The Greek asks \"how were the cheap and the irrational there (ἦν)?\"; \"the divine\" is MacKenna's."
+    }
+   ]
+  },
+  {
+   "seg": "VI.7.9.p2",
+   "chapter": "VI.7.9",
+   "modern": "Before what is to be said about these things and in answer to them, let us take it that the man here is not such as that one, so that the other living beings too are not there as they are here, but one must take them in a greater way. Then, the rational is not there either: here, perhaps, he is rational, but there he is the one before reasoning. Why, then, does this one reason here, and the others not? Or, since thinking there is different in man and in the other living beings, reasoning too is different: for there are, in a way, many works of thought in the other living beings too.",
+   "greek": "πρὸ δὴ τῶν περὶ ταῦτα καὶ πρὸς ταῦτα λεχθησομένων λάβωμεν, ὡς ὁ ἄνθρωπος ὁ ἐνταῦθα οὐ τοιοῦτός ἐστιν, οἷος ἐκεῖνος, ὥστε καὶ τὰ ἄλλα ζῷα οὐχ οἷα τὰ ἐνταῦθα κἀκεῖ, ἀλλὰ μειζόνως δεῖ ἐκεῖνα λαμβάνειν: εἶτα οὑ̓??ʼὲ τὸ λογικὸν ἐκεῖ: ὧδε γὰρ ἴσως λογικός, ἐκεῖ δὲ ὁ πρὸ τοῦ λογίζεσθαι. διὰ τί οὖν ἐνταῦθα λογίζεται οὗτος, τὰ δ’ ἄλλα οὔ; ἢ διαφόρου ὄντος ἐκεῖ τοῦ νοεῖν ἔν τε ἀνθρώπῳ καὶ τοῖς ἄλλοις ζῴοις, διάφορον καὶ τὸ λογίζεσθαι: ἔνι γάρ πως καὶ τοῖς ἄλλοις ζῴοις πολλὰ διανοίας ἔργα.",
+   "flags": [
+    {
+     "taylor": "here the reasoning, There the pre-reasoning",
+     "in": "MacKenna",
+     "why": "The Greek says \"here, perhaps (ἴσως), he is rational\": the \"perhaps\" is left out."
+    },
+    {
+     "taylor": "Degrees of reasoning here correspond to degrees of Intellection in that other sphere",
+     "in": "MacKenna",
+     "why": "The Greek says \"since thinking (τοῦ νοεῖν) there is different (διαφόρου) in man and the others, reasoning too is different\": a difference, not degrees."
+    }
+   ],
+   "notes": [
+    "Traces of thought in the other animals: Aristotle, History of animals VIII.1 (588a18-b3), where they have \"likenesses of understanding\"."
+   ]
+  },
+  {
+   "seg": "VI.7.9.p3",
+   "chapter": "VI.7.9",
+   "modern": "Why, then, are they not equally rational? And why are men not equally so with one another? One must consider that the many lives, being as it were motions, and the many thoughts, could not be the same, but must be different lives, and thoughts in the same way; and the differences, in a way, brighter and clearer; and, by nearness to the first, first and second and third. This is why some of the thoughts are gods, others a second kind, in which is what is here called rational, and next after these what was called irrational. But there what is called irrational was a forming principle, and the unintelligent was intellect, since the one who thinks a horse is intellect, and the thought of a horse was intellect.",
+   "greek": "διὰ τί οὖν οὐκ ἐπίσης λογικά; διὰ τί δὲ ἄνθρωποι πρὸς ἀλλήλους οὐκ ἐπίσης; δεῖ δὴ ἐνθυμεῖσθαι, ὡς τὰς πολλὰς ζωὰς οἷον κινήσεις οὔσας καὶ τὰς πολλὰς νοήσεις οὐκ ἐχρῆν τὰς αὐτὰς εἶναι, ἀλλὰ καὶ ζωὰς διαφόρους καὶ νοήσεις ὡσαύτως: τὰς δὲ διαφοράς πως φωτεινοτέρας καὶ ἐναργεστέρας καὶ τὸ ἐγγὺς δὲ τῶν πρώτων πρώτας καὶ δευτέρας καὶ τρίτας. διόπερ τῶν νοήσεων αἱ μὲν θεοί, αἱ δὲ δεύτερόν τι γένος, ἐν ᾧ τὸ λογικὸν ἐπίκλην ἐνταῦθα, ἑξῆς δ’ ἀπὸ τούτων τὸ ἄλογον κληθέν: ἐκεῖ δὲ καὶ τὸ ἄλογον λεγόμενον λόγος ἦν, καὶ τὸ ἄνουν νοῦς ἦν, ἐπεὶ καὶ ὁ νοῶν ἵππον νοῦς ἐστι, καὶ ἡ νόησις ἵππου νοῦς ἦν.",
+   "flags": [
+    {
+     "taylor": "but what we know here as unreasoning was There a Reason-Principle",
+     "in": "MacKenna",
+     "why": "The Greek says what is called irrational (ἄλογον) \"was a forming principle\" (λόγος ἦν), and the unintelligent (ἄνουν) \"was intellect\" (νοῦς): a play on the words; the modern version keeps \"forming principle\", and \"Reason-Principle\" is MacKenna's."
+    },
+    {
+     "taylor": "the Thinker of Horse was Intellect and the Thought, Horse, was an Intellect",
+     "in": "MacKenna",
+     "why": "The Greek says \"the thought of a horse (ἡ νόησις ἵππου) was intellect\": the thought of a horse, not the Thought named Horse."
+    }
+   ],
+   "notes": [
+    "The thoughts that are gods: the intelligible gods of V.8.3-5 and V.1.4, each an intellect. Life as motion, and many lives as many motions: Plato's Sophist (248e-249b) and Laws X (895c)."
+   ]
+  },
+  {
+   "seg": "VI.7.9.p4",
+   "chapter": "VI.7.9",
+   "modern": "But if it were only a thought, there would be nothing absurd in the thought itself, being a thought, being of something unthinking; but as it is, if the thought is the same as the thing, how is the thought a thought, and the thing unthinking? For so intellect would make itself unthinking. Or it is not unthinking, but intellect of a certain kind: for it is life of a certain kind. For as any life whatever is not released from being life, so neither is intellect of a certain kind released from being intellect: since neither is the intellect that is according to any living being released from being intellect of all things, of man too, say, if indeed each part, whatever you take, is all, but perhaps in another way.",
+   "greek": "ἀλλ’ εἰ μὲν νόησις μόνον, ἄτοπον οὐδὲν τὴν νόησιν αὐτὴν νόησιν οὖσαν ἀνοήτου εἶναι: νῦν δ’ εἰ ταὐτὸν ἡ νόησις τῷ πράγματι, πῶς ἡ μὲν νόησις, ἀνόητον δὲ τὸ πρᾶγμα; οὕτω γὰρ ἂν νοῦς ἀνόητον ἑαυτὸν ποιοῖ. ἢ οὐκ ἀνόητον, ἀλλὰ νοῦς τοιόσδε: ζωὴ γὰρ τοιάδε. ὡς γὰρ ἡτισοῦν ζωὴ οὐκ ἀπήλλακται τοῦ εἶναι ζωή, οὕτως οὐδὲ νοῦς τοιόσδε ἀπήλλακται τοῦ εἶναι νοῦς: ἐπεὶ οὐδὲ ὁ νοῦς ὁ κατὰ ὁτιοῦν ζῷον ἀπήλλακται αὖ τοῦ νοῦς εἶναι πάντων, οἷον καὶ ἀνθρώπου, εἴπερ ἕκαστον μέρος, ὅ τι ἂν λάβῃς, πάντα, ἀλλ’ ἴσως ἄλλως.",
+   "flags": [
+    {
+     "taylor": "But (it will be objected) if this were a matter of mere thinking we might well admit",
+     "in": "MacKenna",
+     "why": "The parenthesis is MacKenna's; the Greek raises the question itself, without an objector."
+    },
+    {
+     "taylor": "Intellectual-Principle adapted to some particular living being does not cease to be the Intellectual-Principle of all",
+     "in": "MacKenna",
+     "why": "The Greek has νοῦς; the modern version keeps \"intellect\", and \"Intellectual-Principle\" is MacKenna's."
+    },
+    {
+     "taylor": "every manifestation is the whole, though in some special mode",
+     "in": "MacKenna",
+     "why": "The Greek says \"each part, whatever you take, is all, but perhaps (ἴσως) in another way\": a part, not a manifestation, and the \"perhaps\" is left out."
+    }
+   ],
+   "notes": [
+    "The thought the same as the thing thought, in what is without matter: Aristotle, On the soul III.4 (430a2-5) and Metaphysics Λ.9 (1075a1-5), and V.9.5 and V.3.5 in Plotinus."
+   ]
+  },
+  {
+   "seg": "VI.7.9.p5",
+   "chapter": "VI.7.9",
+   "modern": "For it is that in act, but it is able to be all; and we take, in each case, what is in act; and what is in act is the last, so that the last of this intellect is a horse, and where, going forth always to a lesser life, it stopped, there it is a horse, while another stopped lower down. For the powers, as they unroll, always leave something behind upward. They go forth letting something go, and in letting go they find out, because of the living being's need, which appeared from the falling short, one thing and another to add: as, since there is no longer enough for life, a nail appeared, and the hooked claw, or the jagged tooth, or the nature of a horn: so that, by the way intellect came down, by that way it might rise up again by the self-sufficiency of the nature, and find in itself the healing that lies there for what is lacking.",
+   "greek": "ἐνεργείᾳ μὲν γὰρ ἐκεῖνο, δύναται δὲ πάντα: λαμβάνομεν δὲ καθ̓ ἕκαστον τὸ ἐνεργείᾳ: τὸ δ’ ἐνεργείᾳ ἔσχατον, ὥστε τοῦδε τοῦ νοῦ τὸ ἔσχατον ἵππον εἶναι καὶ ᾗ ἔληξε προιὼν ἀεὶ εἰς ἐλάττω ζωὴν ἵππον εἶναι, ἄλλον δὲ κατωτέρω λῆξαι. ἐξελιττόμεναι γὰρ αἱ δυνάμεις καταλείπουσιν ἀεὶ εἰς τὸ ἄνω. προίασι δέ τι ἀφιεῖσαι καὶ ἐν τῷ ἀφεῖναι δὲ ἄλλα καὶ ἄλλα διὰ τὸ ἐνδεὲς τοῦ ζῴου, τοῦ φανέντος ἐκ τοῦ ἐλλείποντος, ἕτερον ἐξευροῦσαι προσθεῖναι: οἷον ἐπεὶ οὐκ ἔστιν ἔτι τὸ ἱκανὸν εἰς ζωήν, ἀνεφάνη ὄνυξ ταὶ τὸ γαμψώνυχον ἢ τὸ καρχαρόδουν ἢ κέρατος φύσις: ὥστε, ᾗ κατῆλθεν ὁ νοῦς, ταύτῃ πάλιν αὖ τῷ αὐτάρκει τῆς φύσεως ἀνακύψαι καὶ εὑρεῖν ἐν αὑτῷ τοῦ ἐλλείποντος κειμένην ἴασιν.",
+   "flags": [
+    {
+     "taylor": "Thus the Intellectual-Principle by its very descent is directed towards the perfect sufficiency of the natural constitution",
+     "in": "MacKenna",
+     "why": "The Greek says that \"by the way intellect came down, by that way it might rise up again\" (ἀνακύψαι), lifting its head as from water; the rising up again is not in MacKenna."
+    },
+    {
+     "taylor": "the outgoing is by loss and by this loss the powers become one thing or another",
+     "in": "MacKenna",
+     "why": "The Greek says the powers \"go forth letting something go (ἀφιεῖσαι)\" and \"find out\" (ἐξευροῦσαι) something to add: they are not made by the loss, but find a remedy for it."
+    }
+   ],
+   "notes": [
+    "Claws, hooves and horns given to the animals for their safety: Epimetheus' gifts in Plato's Protagoras (320d-321c); horns for defence, and the hand that is all tools, Aristotle's Parts of animals (III.2, 662b23-663a18; IV.10, 687a23-b5)."
+   ]
+  },
+  {
+   "seg": "VI.7.10.p1",
+   "chapter": "VI.7.10",
+   "modern": "But how did it fall short there? For what are horns for there, for defence? Or for the self-sufficiency and completeness of a living being. For as a living being it had to be complete, and as intellect complete, and as life complete: so that, if not this, then this. And the difference lies in one thing instead of another, so that from all of them there should be the most complete living being, and the complete intellect, and the most complete life, and each complete as what it is.",
+   "greek": "ἀλλὰ πῶς ἐκεῖ ἐνέλειπε; τί γὰρ κέρατα ἐκεῖ πρὸς ἄμυναν; ἢ πρὸς τὸ αὔταρκες ὡς ζῴου καὶ τὸ τέλειον. ὡς γὰρ ζῷον ἔδει τέλειον εἶναι, καὶ ὡς νοῦν δὲ τέλειον, καὶ ὡς ζωὴν δὲ τέλειον: ὥστε, εἰ μὴ τοῦτο, ἀλλὰ τοῦτο. καὶ ἡ διαφορὰ τῷ ἄλλο ἀντὶ ἄλλου, ἵνα ἐκ πάντων μὲν τὸ τελειότατον ζῷον καὶ ὁ τέλειος νοῦς καὶ ἡ τελειοτάτη ζωή, ἕκαστον δὲ ὡς ἕκαστον τέλειον.",
+   "flags": [
+    {
+     "taylor": "Its characteristic difference is in this power of being now this, now that",
+     "in": "MacKenna",
+     "why": "The Greek says \"the difference (ἡ διαφορά) lies in one thing instead of another\" (τῷ ἄλλο ἀντὶ ἄλλου): different things in different places, not a power of being now this, now that."
+    },
+    {
+     "taylor": "while yet, over all that multiplicity, unity reigns",
+     "in": "MacKenna",
+     "why": "The Greek ends with \"each complete as what it is\" (ἕκαστον δὲ ὡς ἕκαστον τέλειον); the unity over all is MacKenna's, from the next paragraph."
+    }
+   ]
+  },
+  {
+   "seg": "VI.7.10.p2",
+   "chapter": "VI.7.10",
+   "modern": "And indeed, if it is from many, it must again be one; or it is not possible to be from many, and those all the same: or it would be one, sufficient to itself. It must, then, be from things always other in form, as every composite is, and with each kept safe, as the shapes and the forming principles are. For the shapes, of a man, say, are from how many differences, and yet over all is one; and things better and worse than one another, eye and finger, but of one; and worse with respect to the whole, but better because it is so. And the forming principle is living being and something else, which is not the same as living being. And virtue too is the common and the particular, and the whole is beautiful, the common being undifferentiated.",
+   "greek": "καὶ μήν, εἰ ἐκ πολλῶν, δεῖ εἶναι αὖ ἓν ἢ οὐχ οἷόν τε ἐκ πολλῶν μὲν εἶναι, τῶν αὐτῶν δὲ πάντων: ἢ αὔταρκες ἦν ἂν ἕν. δεῖ τοίνυν ἐξ ἑτέρων ἀεὶ κατ’ εἶδος, ὥσπερ καὶ πᾶν σύνθετον, καὶ σωζομένων ἑκάστων, οἷαι καὶ αἱ μορφαὶ καὶ οἱ λόγοι. αἵ τε γὰρ μορφαί, οἷον ἀνθρώπου, ἐξ ὅσων διαφορῶν, καίτοι τὸ ἐπὶ πᾶσιν ἕν: καὶ βελτίω καὶ χείρω ἀλλήλων, ὀφθαλμὸς καὶ δάκτυλος, ἀλλ’ ἑνός, καὶ χεῖρον ὡς πρὸς τὸ πᾶν, ἀλλ’ ὅτι οὕτω, βέλτιον: καὶ ὁ λόγος δὲ ζῷον καὶ ἄλλο τι, ὃ μὴ ταὐτὸν τῷ ζῷον. καὶ ἀρετὴ δὲ τὸ κοινὸν καὶ τὸ ἴδιον καὶ τὸ ὅλον καλὸν ἀδιαφόρου τοῦ κοινοῦ ὄντος.",
+   "flags": [
+    {
+     "taylor": "The Reason-Principle, too, is at once the living form and something else",
+     "in": "MacKenna",
+     "why": "The Greek has λόγος; the modern version keeps \"forming principle\", and \"Reason-Principle\" is MacKenna's."
+    },
+    {
+     "taylor": "and the total is good because the universal is not differentiated",
+     "in": "MacKenna",
+     "why": "The Greek says \"the whole is beautiful\" (τὸ ὅλον καλόν); \"good\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "A part worse taken by itself, but better as it is in the whole: the statue's eyes in Plato's Republic IV (420c-d), and III.2.11 in Plotinus. Virtue common and particular: the virtues one and many, Plato's Protagoras (329c-330b) and Meno (72a-74a)."
+   ]
+  },
+  {
+   "seg": "VI.7.11.p1",
+   "chapter": "VI.7.11",
+   "modern": "It is said that not even the heaven, in which many things appear, disdained the nature of all the living beings: since this All too has all things. From where, then, does it have them? Do the things there, then, have all that are here? Or all that have been made by a forming principle and according to a form. But when it has fire, it has water too, and it surely has plants too. How, then, are the plants there? And how does fire live? And how earth? For either they live, or they will be there as dead, so that not everything there lives. And what at all are these too, there?",
+   "greek": "λέγεται δὲ οὐδ’ ὁ οὐρανός, καὶ πολλὰ δὲ φαίνεται, οὐκ ἀτιμάσαι τὴν τῶν ζῴων πάντων φύσιν: ἐπεὶ καὶ τόδε τὸ πᾶν πάντα ἔχει. πόθεν οὖν ἔχει; πάντα οὖν ἔχει ὅσα ἐνταῦθα τὰ ἐκεῖ; ἢ ὅσα λόγῳ πεποίηται καὶ κατ’ εἶδος. ἀλλ’ ὅταν πῦρ ἔχῃ, καὶ ὕδωρ ἔχει, ἔχει δὲ πάντως καὶ φυτά. πῶς οὖν τὰ φυτὰ ἐκεῖ; καὶ πῶς πῦρ ζῇ; καὶ πῶς γῆ; ἢ γὰρ ζῇ, ἢ οἷον νεκρὰ ἔσται ἐκεῖ, ὥστε μὴ πᾶν τὸ ἐκεῖ ζῆν. καὶ τί ὅλως ἐστὶν ἐκεῖ καὶ ταῦτα;",
+   "flags": [
+    {
+     "taylor": "The very heavens, patently multiple, cannot be thought to disdain any form of life",
+     "in": "MacKenna",
+     "why": "The Greek says \"it is said\" (λέγεται): a saying Plotinus takes up, which MacKenna leaves out."
+    },
+    {
+     "taylor": "But, having fire (warmth) and water",
+     "in": "MacKenna",
+     "why": "The parenthesis \"(warmth)\" is MacKenna's; the Greek has \"fire\" (πῦρ)."
+    }
+   ],
+   "notes": [
+    "The heaven that does not disdain the living beings: the Timaeus' world that holds all the kinds (30c-31b, 39e-40a), and Plato's Phaedrus (246b-c), where soul goes about the whole heaven."
+   ]
+  },
+  {
+   "seg": "VI.7.11.p2",
+   "chapter": "VI.7.11",
+   "modern": "The plants, then, might fit with the forming principle: since the plant here too is a forming principle set in life. If, then, the forming principle in matter, the plant's, by which the plant is, is a life of a certain kind and a soul of a certain kind, and the forming principle is something one, either this is the first plant, or not, but before it is the first plant, from which this one too comes. For that one is one, and these are many, and of necessity from one. If so, that one must live much before, and be this very thing, plant, and these come from it secondarily and thirdly, and live by a trace of that one.",
+   "greek": "τὰ μὲν οὖν φυτὰ δύναιτ̓ ἂν τῷ λόγῳ συναρμόσαι: ἐπεὶ καὶ τὸ τῇδε φυτὸν λόγος ἐστὶν ἐν ζωῇ κείμενος. εἰ δὴ ὁ ἔνυλος λόγος ὁ τοῦ φυτοῦ, καθ̓ ὃν τὸ φυτόν ἐστι, ζωή τις ἐστὶ τοιάδε καὶ ψυχή τις καὶ ὁ λόγος ἕν τι, ἤτοι τὸ πρῶτον φυτόν ἐστιν οὗτος ἢ οὔ, ἀλλὰ πρὸ αὐτοῦ φυτὸν τὸ πρῶτον, ἀφ̓ οὗ καὶ τοῦτο. καὶ γὰρ ἐκεῖνο ἕν, ταῦτα δὲ πολλὰ καὶ ἀφ̓ ἑνὸς ἐξ ἀνάγκης. εἰ δὴ τοῦτο, δεῖ πολὺ πρότερον ἐκεῖνο ζῆν καὶ αὐτὸ τοῦτο φυτὸν εἶναι, ἀπ’ ἐκείνου δὲ ταῦτα δευτέρως καὶ τρίτως καὶ κατ’ ἴχνος ἐκείνου ζῆν.",
+   "flags": [
+    {
+     "taylor": "Vegetal life we can well admit, for the plant is a Reason-Principle established in life",
+     "in": "MacKenna",
+     "why": "The Greek has λόγος; the modern version keeps \"forming principle\", and \"Reason-Principle\" is MacKenna's."
+    },
+    {
+     "taylor": "since every Reason-Principle is a unity",
+     "in": "MacKenna",
+     "why": "The Greek says \"the forming principle is something one\" (ὁ λόγος ἕν τι): this one, the plant's; \"every\" is MacKenna's."
+    },
+    {
+     "taylor": "that primal must have much the truer life",
+     "in": "MacKenna",
+     "why": "The Greek says that one must \"live much before\" (πολὺ πρότερον ἐκεῖνο ζῆν): earlier, prior, not truer."
+    }
+   ],
+   "notes": [
+    "The many from one: the one over many of Plato's Republic X (596a) and the one bed of the god (597c). Living \"by a trace\" (κατ’ ἴχνος) of the first: compare IV.4.18, where the body has a trace of soul."
+   ]
+  },
+  {
+   "seg": "VI.7.11.p3",
+   "chapter": "VI.7.11",
+   "modern": "But earth, how? And what is being earth? And what is the earth there that has life? Or first, what is this one: that is, what is being for this one? There must be some shape and forming principle here too. There, then, in the case of the plant, its forming principle here too was living. Is it so, then, in this earth too? If we took the most earthy things begotten and shaped in it, we would find the nature of earth here too. The growths and shapings of stones, and the inward mouldings of mountains as they spring up, one must surely think come about by a forming principle with a soul in it, working as a craftsman from within and giving form; and that this is the form of earth, which makes, as in trees what is called nature, while what is called earth is analogous to the wood of the tree; and the stone cut out is as if something were cut from the tree, while the stone that has not suffered this, but is still attached, is like what is not cut from the living plant.",
+   "greek": "γῆ δὲ πῶς; καὶ τί τὸ γῇ εἶναι; καὶ τίς ἡ ἐκεῖ γῆ τὸ ζῆν ἔχουσα; ἢ πρότερον τίς αὕτη: τοῦτο. δ’ ἐστὶ τί τὸ εἶναι ταύτῃ. δεῖ δὴ μορφήν τινα εἶναι καὶ ἐνταῦθα καὶ λόγον. ἐκεῖ μὲν οὖν ἐπὶ τοῦ φυτοῦ ἔζη καὶ ὁ τῇδε αὐτοῦ λόγος. ἆῤ οὖν καὶ ἐν τῇδε τῇ γῇ; ἤ, εἰ λάβοιμεν τὰ μάλιστα γήινα γεννώμενα καὶ πλαττόμενα ἐν αὐτῇ, εὕροιμεν ἂν καὶ ἐνταῦθα τὴν γῆς φύσιν. λίθων τοίνυν αὐξήσεις τε καὶ πλάσεις καὶ ὀρῶν ἀναφυομένων ἔνδον μορφώσεις πάντως που λόγου ἐμψύχου δημιουργοῦντος ἔνδοθεν καὶ εἰδοποιοῦντος χρὴ νομίζειν γίνεσθαι, καὶ τοῦτο εἶναι τὸ εἶδος τῆς γῆς τὸ ποιοῦν, ὥσπερ ἐν τοῖς δένδροις τὴν λεγομένην φύσιν, τῷ δὲ ξύλῳ τοῦ δένδρου ἀνάλογον τὴν λεγομένην εἶναι γῆν, καὶ ἀποτμηθέντα τὸν λίθον οὕτως ἔχειν, ὡς εἰ ἐκ τοῦ δένδρου τι κοπείη, μὴ παθόντος δὲ τούτου, ἀλλ’ ἔτι συνηρτημένου, ὡς τὸ μὴ κοπὲν ἐκ τοῦ ζῶντος φυτοῦ.",
+   "flags": [
+    {
+     "taylor": "this, we must take it, is the creative earth-principle corresponding to what we call the specific principle of a tree",
+     "in": "MacKenna",
+     "why": "The Greek says \"as in trees what is called nature\" (τὴν λεγομένην φύσιν); \"specific principle\" is MacKenna's."
+    },
+    {
+     "taylor": "except of course that there is no hurt done, the stone remaining a member of the earth as the twig, uncut, of the tree",
+     "in": "MacKenna",
+     "why": "The Greek sets two stones side by side: the stone cut out is like a twig cut from the tree, and the stone that has not suffered this, still attached, is like the part not cut from the living plant. MacKenna makes the cut stone suffer no hurt."
+    }
+   ],
+   "notes": [
+    "That stones grow while they are in the earth and stop when they are cut out, so that the earth has soul: IV.4.27. Aristotle has stones and metals made in the earth from exhalations (Meteorology III.6, 378a15-b4)."
+   ]
+  },
+  {
+   "seg": "VI.7.11.p4",
+   "chapter": "VI.7.11",
+   "modern": "Having found, then, that the nature seated in the earth, which works as a craftsman, is life in a forming principle, we would easily believe from this that the earth there lives much before, and is a life of earth with a forming principle, earth itself, and earth first, from which the earth here comes too.",
+   "greek": "τὴν δὴ δημιουργοῦσαν ἐγκαθημένην τῇ γῇ φύσιν ζωὴν ἐν λόγῳ ἀνευρόντες πιστοίμεθα ἂν τὸ ἐντεῦθεν ῥᾳδίως τὴν ἐκεῖ γῆν πολὺ πρότερον ζῶσαν εἶναι καὶ ζωὴν ἔλλογον γῆς, αὐτογῆν καὶ πρώτως γῆν, ἀφ̓ ἧς καὶ ἡ ἐνταῦθα γῆ.",
+   "flags": [
+    {
+     "taylor": "that it is a reasoned Earth-Livingness, the earth of Real-Being, earth primally",
+     "in": "MacKenna",
+     "why": "The Greek says \"a life of earth with a forming principle (ζωὴν ἔλλογον γῆς), earth itself (αὐτογῆν) and earth first\": earth itself, like man himself, and \"the earth of Real-Being\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "\"Earth itself\" (αὐτογῆ) is made like \"man himself\" (αὐτοάνθρωπος) of chapter 4. The true earth above, living and bright, is in Plato's Phaedo (109d-111c)."
+   ]
+  },
+  {
+   "seg": "VI.7.11.p5",
+   "chapter": "VI.7.11",
+   "modern": "And if fire too is a forming principle in matter, and the other things of this kind, and fire does not come of its own accord — for from where? Not from rubbing, as one might think: for the rubbing happens when there is already fire in the All, and the bodies rubbed together have it; nor is matter potential in such a way that fire comes from it — if, then, what makes it must be according to a forming principle, as what gives it shape, what would it be? Or a soul able to make fire: and this is life and forming principle, both one and the same. This is why Plato says that there is soul in each of these, in no other way than as making this perceptible fire. So what makes fire here too is a fiery life, a truer fire. The fire beyond, then, being more fire, would be more in life: so fire itself lives too. And the same account holds of the others, water and air.",
+   "greek": "εἰ δὲ καὶ τὸ πῦρ λόγος τις ἐν ὕλῃ ἐστὶ καὶ τὰ ἄλλα τὰ τοιαῦτα καὶ οὐκ ἐκ τοῦ αὐτομάτου πῦρ — πόθεν γάρ; οὐ γὰρ ἐκ παρατρίψεως, ὡς ἄν τις οἰηθείη: ἤδη γὰρ ὄντος ἐν τῷ παντὶ πυρὸς ἡ παράτριψις ἐχόντων τῶν παρατριβομένων σωμάτων: οὐδὲ γὰρ ἡ ὕλη οὕτως δυνάμει, ὥστε παῤ αὐτῆς: εἰ δὴ κατὰ λόγον δεῖ τὸ ποιοῦν εἶναι ὡς μορφοῦν, τί ἂν εἴη; ἢ ψυχὴ ποιεῖν πῦρ δυναμένη: τοῦτο δ’ ἐστὶ ζωὴ καὶ λόγος, ἓν καὶ ταὐτὸν ἄμφω. διὸ καὶ Πλάτων ἐν ἑκάστῳ τούτων ψυχήν φησιν εἶναι οὐκ ἄλλως ἢ ὡς ποιοῦσαν τοῦτο δὴ τὸ αἰσθητὸν πῦρ. ἔστιν οὖν καὶ τὸ ἐνταῦθα ποιοῦν πῦρ ζωή τις πυρίνη, ἀληθέστερον πῦρ. τὸ ἄρα ἐπέκεινα πῦρ. μᾶλλον ὂν πῦρ μᾶλλον ἂν εἴη ἐν ζωῇ: ζῇ ἄρα καὶ αὐτὸ τὸ πῦρ. ὁ δ’ αὐτὸς λόγος καὶ ἐπὶ τῶν ἄλλων, ὕδατός τε καὶ ἀέρος.",
+   "flags": [
+    {
+     "taylor": "Fire, similarly, with other such things, must be a Reason-Principle established in Matter",
+     "in": "MacKenna",
+     "why": "The Greek is a condition: \"if (εἰ) fire too is a forming principle in matter\"; MacKenna makes it an assertion, and \"Reason-Principle\" is his."
+    },
+    {
+     "taylor": "It is with this in mind that Plato says there is soul in everything of this sphere",
+     "in": "MacKenna",
+     "why": "The Greek says \"in each of these\" (ἐν ἑκάστῳ τούτων), the elements; \"everything of this sphere\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "Where Plato says that there is soul in each element is not certain; the nearest is Laws X (898d-899b), where soul drives each of the stars and \"all things are full of gods\". Fire itself, which is not only this fire: Timaeus (51b-e). Fire from rubbing: Aristotle, On the heavens II.7 (289a19-28) and Meteorology I.3 (341a17-31)."
+   ]
+  },
+  {
+   "seg": "VI.7.11.p6",
+   "chapter": "VI.7.11",
+   "modern": "But why are these not ensouled too, like the earth? That these too are in the living being of the All is surely plain, and that they are parts of a living being; but life does not show in them, just as it does not in the earth either: but there it could be inferred from what comes to be in it. But living beings come to be in fire too, and more plainly in water; and there are standings-together of living beings in air too. But each fire, coming to be and quickly quenched, passes by the soul in the whole, and has not come to a bulk that stays, so as to show the soul in it; and air and water in the same way: since, if they were somehow fixed by nature, they would show it; but because they had to be poured out, they do not show the soul they have. And it is perhaps like what happens with the fluids in us, blood, say: for the flesh seems to have soul, and whatever of the blood becomes flesh, but the blood, giving no perception, does not seem to have it. And yet it must be in it too: since nothing forced happens to it, but it is ready to stand apart from the soul that is in it, as one must think it is with the three elements too: since even the living beings made of air that has come together have the power of not perceiving, so as not to suffer. And as air passes by the light, which is unbending and stays, while the light stays itself, in this way it passes by the soul round about it too, and does not pass by: and so with the others.",
+   "greek": "ἀλλὰ διὰ τί οὐκ ἔμψυχα καὶ ταῦτα ὥσπερ ἡ γῆ; ὅτι μὲν οὖν καὶ ταῦτα ἐν ζῴῳ τῷ παντί, δῆλόν που, καὶ ὅτι μέρη ζῴου: οὐ φαίνεται δὲ ζωὴ ἐν αὐτοῖς, ὥσπερ οὐδ’ ἐπὶ τῆς γῆς: συλλογίζεσθαι δ’ ἦν κἀκεῖ καὶ ἐκ τῶν γινομένων ἐν αὐτῇ: ἀλλὰ γίνεται καὶ ἐν πυρὶ ζῷα, καὶ ἐν ὕδατι δὲ φανερώτερον: καὶ ἀέρινοι δὲ ζῴων συστάσεις. γινόμενον δὲ τὸ πῦρ ἕκαστον καὶ ταχὺ σβεννύμενον τὴν ἐν τῷ ὅλῳ ψυχὴν παρέρχεται εἴς τε ὄγκον οὐ γεγένηται μένον, ἵν’ ἂν ἔδειξε τὴν ἐν αὐτῷ ψυχήν, ἀήρ τε καὶ ὕδωρ ὡσαύτως: ἐπεί, εἰ παγείη πως κατὰ φύσιν, δείξειεν ἄν: ἀλλ’ ὅτι ἔδει εἶναι κεχυμένα, ἣν ἔχει οὐ δείκνυσι. καὶ κινδυνεύει ὅμοιον εἶναι οἷον τὸ ἐπὶ τῶν ὑγρῶν τῶν ἐν ἡμῖν, οἷον αἵματος: ἡ μὲν γὰρ σὰρξ ἔχειν δοκεῖ καὶ ὅ τι ἂν σὰρξ γένηται ἐκ τοῦ αἵματος, τὸ δ’ αἷμα αἴσθησιν οὐ παρεχόμενον ἔχειν οὐ δοκεῖ. καίτοι ἀνάγκη ἐνεῖναι καὶ ἐν αὐτῷ: ἐπεὶ καὶ οὐδέν ἐστι βίαιον γινόμενον περὶ αὐτό, ἀλλ’ ἕτοιμόν ἐστι διεστάναι τῆς ἐνυπαρχούσης ψυχῆς, οἷον καὶ ἐπὶ τῶν στοιχείων τῶν τριῶν δεῖ νομίζειν εἶναι: ἐπεὶ καὶ ὅσα ἐξ ἀέρος συστάντος μᾶλλον ζῷα ἔχει τὸ μὴ αἰσθάνεσθαι εἰς τὸ παθεῖν. ὥσπερ δὲ ὁ ἀὴρ τὸ φῶς ἀτενὲς ὂν καὶ μένον, ἕως μένει αὐτός, παρέρχεται, τοῦτον τὸν τρόπον πάρεισι καὶ τὴν ψυχὴν αὐτοῦ κύκλῳ καὶ οὐ πάρεισι: καὶ τὰ ἄλλα ὡσαύτως.",
+   "flags": [
+    {
+     "taylor": "its nature obliges it to abstain from the soul which nonetheless is indwelling in it",
+     "in": "MacKenna",
+     "why": "The Greek says \"nothing forced happens to it, but it is ready to stand apart (διεστάναι) from the soul that is in it\": ready, not obliged."
+    },
+    {
+     "taylor": "the living beings formed from the close conglomeration of air (the stars) are not susceptible to suffering",
+     "in": "MacKenna",
+     "why": "The parenthesis \"(the stars)\" is MacKenna's: the living beings of air, in the Epinomis and in Plotinus, are daemons; the stars are of fire."
+    },
+    {
+     "taylor": "so too, by the effect of its circular movement, it eludes soul",
+     "in": "MacKenna",
+     "why": "The Greek has \"round about\" (κύκλῳ): the soul is round about the air as the light is; there is no circular movement."
+    }
+   ],
+   "notes": [
+    "Living beings in fire: the winged creature in the furnaces of Cyprus, Aristotle, History of animals V.19 (552b10-15). Living beings of air, daemons with bodies of air: Plato's Epinomis (984d-985b). The blood without perception when touched: Aristotle, History of animals III.19."
+   ]
+  },
+  {
+   "seg": "VI.7.12.p1",
+   "chapter": "VI.7.12",
+   "modern": "But let us say it again in this way: since we say that this All is toward that one as toward a pattern, the All must be a living being there first too, and, if its being is complete, it must be all things. And the heaven there must be a living being, and not bare of stars, then, those which are called the heaven here; and this is being heaven. And there is plainly earth there too, not bare, but much more full of life, and there are in it all the living beings that are called walking and land creatures here, and plants plainly set in living; and there is sea there too, and all water in a flowing and a life that stays, and all the living beings in water; and the nature of air is a share of the All there, and there are living beings of air in it, in proportion to the air itself.",
+   "greek": "ἀλλὰ πάλιν ὧδε λέγωμεν: ἐπεὶ γάρ φαμεν πρὸς οἷον παράδειγμα ἐκείνου τόδε τὸ πᾶν εἶναι, δεῖ κἀκεῖ πρότερον τὸ πᾶν ζῷον εἶναι καί, εἰ παντελὲς τὸ εἶναι αὐτῷ, πάντα εἶναι. καὶ οὐρανὸν δὴ ἐκεῖ ζῷον εἶναι, καὶ οὐκ ἔρημον τοίνυν ἄστρων, τῶν ἐνταῦθα τοῦτο λεγομένων οὐρανόν, καὶ τὸ οὐρανῷ εἶναι τοῦτο. ἔστι δ’ ἐκεῖ δηλονότι καὶ γῆ οὐκ ἔρημος, ἀλλὰ πολὺ μᾶλλον ἐζωωμένη, καὶ ἔστιν ἐν αὐτῇ ζῷα ξύμπαντα, ὅσα πεζὰ καὶ χερσαῖα λέγεται ἐνταῦθα, καὶ φυτὰ δηλονότι ἐν τῷ ζῆν ἱδρυμένα: καὶ θάλασσα δέ ἐστιν ἐκεῖ, καὶ πᾶν ὕδωρ ἐν ῥοῇ καὶ ζωῇ μενούσῃ, καὶ τὰ ἐν ὕδατι ζῷα πάντα, ἀέρος τε φύσις τοῦ ἐκεῖ παντὸς μοῖρα, καὶ ζῷα ἀέρια ἐν αὐτῷ ἀνὰ λόγον αὐτῷ τῷ ἀέρι.",
+   "flags": [
+    {
+     "taylor": "Since in our view this universe stands to that as copy to original",
+     "in": "MacKenna",
+     "why": "The Greek says this All is \"toward that one as toward a pattern\" (πρὸς οἷον παράδειγμα); the modern version keeps \"pattern\", and \"copy to original\" is MacKenna's."
+    },
+    {
+     "taylor": "that is the realm of complete Being and everything must exist There",
+     "in": "MacKenna",
+     "why": "The Greek is a condition: \"if its being is complete (παντελές), it must be all things\": the All there, not the realm."
+    },
+    {
+     "taylor": "with the movement of their unending life",
+     "in": "MacKenna",
+     "why": "The Greek has \"in a flowing (ἐν ῥοῇ) and a life that stays (ζωῇ μενούσῃ)\": a flowing that stays, not a movement."
+    },
+    {
+     "taylor": "air too must be a member of that universe with the living things of air as here",
+     "in": "MacKenna",
+     "why": "The Greek says the living beings of air are \"in proportion to the air itself\" (ἀνὰ λόγον αὐτῷ τῷ ἀέρι); \"as here\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "The four kinds of living beings in the complete living being, the heavenly gods, the winged in air, those in water and those that walk on land: Plato's Timaeus (39e-40a). The earth there \"much more full of life\" recalls the true earth of the Phaedo (110b-111c)."
+   ]
+  },
+  {
+   "seg": "VI.7.12.p2",
+   "chapter": "VI.7.12",
+   "modern": "For how would what is in something living not be living? Where even here they are. How, then, is not every living being there of necessity? For as each of the great parts is, so of necessity is the nature of the living beings in them. As, then, the heaven holds and is there, so all the living beings in the heaven hold and are there, and it is not possible that they should not be: or that heaven will not be either.",
+   "greek": "τὰ γὰρ ἐν ζῶντι πῶς ἂν οὐ ζῶντα; ὅπου δὴ καὶ ἐνταῦθα. πῶς οὖν οὐ πᾶν ζῷον ἐξ ἀνάγκης ἐκεῖ; ὡς γὰρ ἕκαστον τῶν μεγάλων μερῶν ἐστιν, ἐξ ἀνάγκης οὕτως ἔχει καὶ ἡ τῶν ζῴων ἐν αὐτοῖς φύσις. ὅπως οὖν ἔχει καὶ ἔστιν ἐκεῖ οὐρανός, οὕτω καὶ ἔχει καὶ ἔστιν ἐκεῖ τὰ ἐν οὐρανῷ ζῷα πάντα, καὶ οὐκ ἔστι μὴ εἶναι: ἢ οὐδ’ ἐκεῖνος ἔσται.",
+   "flags": [
+    {
+     "taylor": "if those lesser forms were not There, that heaven itself would not be",
+     "in": "MacKenna",
+     "why": "The Greek says \"it is not possible that they should not be; or that one (ἐκεῖνος, the heaven) will not be either\"; \"lesser\" is MacKenna's."
+    }
+   ]
+  },
+  {
+   "seg": "VI.7.12.p3",
+   "chapter": "VI.7.12",
+   "modern": "So whoever asks from where the living beings come is asking from where the heaven there comes: and that is asking from where the living being comes, and this is the same as from where life comes, and all life, and all soul, and the whole intellect, since there is no poverty nor want there, but all things are filled with life and as it were boiling. They have their flowing, as it were, from one spring, not as of some one breath or one warmth, but as if there were one quality holding and keeping safe all the qualities in itself, sweetness with fragrance, and at once the quality of wine and the powers of all flavours, and the sights of colours, and all that touches know. And let there be too all that hearings hear, all melodies and every rhythm.",
+   "greek": "ὁ οὖν ζητῶν πόθεν ζῷα, ζητεῖ πόθεν οὐρανὸς ἐκεῖ: τοῦτο δ’ ἐστὶ ζητεῖν πόθεν ζῷον, τοῦτο δὲ ταὐτὸν τῷ πόθεν ζωὴ καὶ ζωὴ πᾶσα καὶ ψυχὴ πᾶσα καὶ νοῦς ὁ ξύμπας, μηδεμιᾶς ἐκεῖ πενίας μηδ’ ἀπορίας οὔσης, ἀλλὰ πάντων ζωῆς πεπληρωμένων καὶ οἷον ζεόντων. ἔστι δ’ αὐτῶν ἡ οἷον ῥοὴ ἐκ μιᾶς πηγῆς, οὐχ οἷον ἑνός τινος πνεύματος ἢ θερμότητος μιᾶς, ἀλλ’ οἷον εἴ τις ἦν ποιότης μία πάσας ἐν αὑτῇ ἔχουσα καὶ σώζουσα τὰς ποιότητας, γλυκύτης μετ’ εὐωδίας, καὶ ὁμοῦ οἰνώδης ποιότης καὶ χυλῶν ἁπάντων δυνάμεις καὶ χρωμάτων ὄψεις καὶ ὅσα ἁφαὶ γινώσκουσιν. ἔστωσαν δὲ καὶ ὅσα ἀκοαὶ ἀκούουσι, πάντα μέλη καὶ ῥυθμὸς πᾶς.",
+   "flags": [
+    {
+     "taylor": "whence the All-Life, whence the All-soul, whence collective Intellect",
+     "in": "MacKenna",
+     "why": "The Greek has \"all life (ζωὴ πᾶσα) and all soul (ψυχὴ πᾶσα) and the whole intellect\": all soul, every soul, not the soul of the All; \"the All-soul\" and \"collective\" are MacKenna's."
+    },
+    {
+     "taylor": "There no indigence or impotence can exist",
+     "in": "MacKenna",
+     "why": "The Greek has \"no poverty (πενίας) nor want (ἀπορίας)\": the names of Love's mother, Poverty, and her want of resource in the Symposium."
+    }
+   ],
+   "notes": [
+    "Poverty (Πενία) and Resource (Πόρος), Love's mother and father: Plato's Symposium (203b-c), read in III.5.6-9. The one spring of all (πηγὴ μία): Plato's Phaedrus (245c), the soul the spring and beginning of motion, and III.8.10, the spring that gives itself to all the rivers."
+   ]
+  },
+  {
+   "seg": "VI.7.13.p1",
+   "chapter": "VI.7.13",
+   "modern": "For neither intellect is simple, nor the soul that comes from it, but all things are varied in so far as they are simple, that is, in so far as they are not composite, and in so far as they are principles, and in so far as they are activities. For the activity of the last, as it ends, is simple, but that of the first is all activities. And intellect, moving, moves in the same way and according to the same and alike always, yet not as the same and one thing in part, but as all: since what is in part, again, is not one either, but this too is unlimited, being divided.",
+   "greek": "ἔστι γὰρ οὔτε νοῦς ἁπλοῦν, οὔτε ἡ ἐξ αὐτοῦ ψυχή, ἀλλὰ ποικίλα πάντα ὅσῳ ἁπλᾶ, τοῦτο δὲ ὅσῳ μὴ σύνθετα καὶ ὅσῳ ἀρχαὶ καὶ ὅσῳ ἐνέργειαι. τοῦ μὲν γὰρ ἐσχάτου ἡ ἐνέργεια ὡς ἂν λήγουσα ἁπλῆ, τοῦ δὲ πρώτου πᾶσαι: νοῦς τε κινούμενος κινεῖται μὲν ὡσαύτως καὶ κατὰ ταὐτὰ καὶ ὅμοια ἀεί, οὐ μέντοι ταὐτὸν καὶ ἕν τι ἐν μέρει, ἀλλὰ πάντα: ἐπεὶ καὶ τὸ ἐν μέρει αὖ οὐχ ἕν, ἀλλὰ καὶ τοῦτο ἄπειρον διαιρούμενον.",
+   "flags": [
+    {
+     "taylor": "Intellectual-Principle is moved in a movement unfailingly true to one course",
+     "in": "MacKenna",
+     "why": "The Greek says it moves \"in the same way, according to the same and alike always\" (ὡσαύτως καὶ κατὰ ταὐτὰ καὶ ὅμοια ἀεί), Plato's words for the circle's motion; \"one course\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "\"In the same way and according to the same\", the motion of the circle and of intellect: Plato's Laws X (898a-b) and Timaeus (34a, 40a-b). Simple \"in so far as they are principles\": what is first holds all things in power, as in V.3.15."
+   ]
+  },
+  {
+   "seg": "VI.7.13.p2",
+   "chapter": "VI.7.13",
+   "modern": "We would say it is from something, and surely toward something, as its last. But is all that is between like a line, or like some other body, of like parts and unvaried? But then what dignity would it have? For if it has no change, nor does any otherness wake it up into living, it would not even be activity: for such a state would differ in nothing from not being active. And even if there were a motion of this kind, life would not be in every way, but in one way only: but all things must live, and from every side, and nothing must not live. It must, then, move toward all, or rather have moved.",
+   "greek": "ἀπὸ τίνος δὲ φαῖμεν ἂν καὶ πάντως ἐπὶ τί, ὡς ἔσχατον. τὸ δὲ μεταξὺ πᾶν ἆρα ὥσπερ γραμμή, ἢ ὥσπερ ἕτερον σῶμα ὁμοιομερές τι καὶ ἀποίκιλον; ἀλλὰ τί τὸ σεμνόν; εἰ γὰρ μηδεμίαν ἔχει ἐξαλλαγὴν μηδέ τις ἐξεγείρει αὐτὸ εἰς τὸ ζῆν ἑτερότης, οὐδ’ ἂν ἐνέργεια εἴη: οὐδὲν γὰρ ἂν ἡ τοιαύτη κατάστασις μὴ ἐνεργείας διαφέροι. κἂν κίνησις δὲ ᾖ τοιαύτη, οὐ πανταχῶς, μοναχῶς δ’ ἂν εἴη ζωή: δεῖ δὲ πάντα ζῆν καὶ πανταχόθεν καὶ οὐδὲν μὴ ζῆν. ἐπὶ πάντα οὖν κινεῖσθαι δεῖ, μᾶλλον δὲ κεκινῆσθαι.",
+   "flags": [
+    {
+     "taylor": "if no differentiation woke it into life",
+     "in": "MacKenna",
+     "why": "The Greek has \"otherness\" (ἑτερότης), one of the greatest kinds; the modern version keeps \"otherness\", and \"differentiation\" is MacKenna's."
+    },
+    {
+     "taylor": "it would not be a Force",
+     "in": "MacKenna",
+     "why": "The Greek says \"it would not even be activity\" (οὐδ’ ἂν ἐνέργεια εἴη), and such a state would differ in nothing from not being active (μὴ ἐνεργείας)."
+    }
+   ]
+  },
+  {
+   "seg": "VI.7.13.p3",
+   "chapter": "VI.7.13",
+   "modern": "But if something simple moved, it has that only; and either it is itself and has gone forth into nothing, or, if it has gone forth, another stays: so that there are two. And if this is the same as that, it stays one and has not gone forth; but if it is other, it went forth with otherness, and made a third one from something the same and something other. What has come to be from the same and the other has the nature of being the same and other; and other not as something, but all other: for its sameness too is all. And being all same and all other, there is nothing of the others that it leaves out. It has, then, the nature of becoming other upon all. If, then, all the others are before it, it would already be affected by them; but if they are not, this one begot all things, or rather was all things.",
+   "greek": "ἁπλοῦν δὲ εἰ κινοῖτο, ἐκεῖνο μόνον ἔχει, καὶ ἢ αὐτὸ καὶ οὐ προύβη εἰς οὐδέν, ἢ εἰ προύβη, ἄλλο μένον: ὥστε δύο: καὶ εἰ ταὐτὸν τοῦτο ἐκείνῳ, μένει ἓν καὶ οὐ προελήλυθεν, εἰ δ’ ἕτερον, προῆλθε μετὰ ἑτερότητος καὶ ἐποίησεν ἐκ ταὐτοῦ τινος καὶ ἑτέρου τρίτον ἕν. γενόμενον δὴ ἐκ ταὐτοῦ καὶ ἑτέρου τὸ γενόμενον φύσιν ἔχει ταὐτὸν καὶ ἕτερον εἶναι: ἕτερον δὲ οὐ τί, ἀλλὰ πᾶν ἕτερον: καὶ γὰρ τὸ ταὐτὸν αὐτοῦ πᾶν. πᾶν δὲ ταὐτὸν ὂν καὶ πᾶν ἕτερον οὐκ ἔστιν ὅ τι ἀπολείπει τῶν ἑτέρων. φύσιν ἄρα ἔχει ἐπὶ πᾶν ἑτεροιοῦσθαι. εἰ μὲν οὖν ἐστι πρὸ αὐτοῦ τὰ ἕτερα πάντα, ἤδη πάσχοι ἂν ὑπ’ αὐτῶν: εἰ δὲ μή ἐστιν, οὗτος τὰ πάντα ἐγέννα, μᾶλλον δὲ τὰ πάντα ἦν.",
+   "flags": [
+    {
+     "taylor": "or if there has been advance it still remains a simplex and at once there is a permanent duality",
+     "in": "MacKenna",
+     "why": "The Greek says \"if it has gone forth, another stays (ἄλλο μένον): so that there are two\": what goes forth and what stays; MacKenna has it remain a simplex."
+    },
+    {
+     "taylor": "This production, based on Identity and Difference",
+     "in": "MacKenna",
+     "why": "The Greek has \"the same and the other\" (ταὐτοῦ καὶ ἑτέρου), the greatest kinds; the modern version keeps \"the same\", \"sameness\" and \"otherness\", and \"Identity\" and \"Difference\" are MacKenna's."
+    }
+   ],
+   "notes": [
+    "Soul made from the same, the other and being: Plato's Timaeus (35a-b); sameness and otherness among the greatest kinds: Sophist (254e-255e), set in the intelligible in VI.2.8."
+   ]
+  },
+  {
+   "seg": "VI.7.13.p4",
+   "chapter": "VI.7.13",
+   "modern": "The beings, then, cannot be unless intellect has been active, and active always in one thing after another, and as it were wandering every wandering, and wandering in itself, as the true intellect is by nature to wander in itself: and it is by nature to wander among substances, the substances running along with its wanderings. But it is everywhere itself: so it has a wandering that stays. And its wandering is in the plain of truth, from which it does not go out. It holds the whole, having taken it in, and having made it for itself as it were a place for moving, and the place is the same as that of which it is the place. And this plain is varied, so that it may also go through it: and if it were not varied throughout and always, then in so far as it is not varied, it stands still. And if it stands still, it does not think: so that, if it had stood still, it has not thought: and if so, it is not either.",
+   "greek": "οὐκ ἔστιν ἄρα τὰ ὄντα εἶναι μὴ νοῦ ἐνεργήσαντος, ἐνεργήσαντος δὲ ἀεὶ ἄλλο μετ’ ἄλλο καὶ οἷον πλανηθέντος πᾶσαν πλάνην καὶ ἐν αὑτῷ πλανηθέντος, οἷα νοῦς ἐν αὑτῷ ὁ ἀληθινὸς πέφυκε πλανᾶσθαι: πέφυκε δ’ ἐν οὐσίαις πλανᾶσθαι συνθεουσῶν τῶν οὐσιῶν ταῖς αὐτοῦ πλάναις. πανταχοῦ δ’ αὐτός ἐστι: μένουσαν οὖν ἔχει τὴν πλάνην. ἡ δὲ πλάνη αὐτῷ ἐν τῷ τῆς ἀληθείας πεδίῳ, οὗ οὐκ ἐκβαίνει. ἔχει δὲ καταλαβὼν πᾶν καὶ αὑτῷ ποιήσας εἰς τὸ κινεῖσθαι οἷον τόπον, καὶ ὁ τόπος ὁ αὐτὸς τῷ οὗ τόπος. ποικίλον δέ ἐστι τὸ πεδίον τοῦτο, ἵνα καὶ διεξίοι: εἰ δὲ μὴ κατὰ πᾶν καὶ ἀεὶ ποικίλον, καθ̓ ὅσον μὴ ποικίλον, ἕστηκεν. εἰ δ’ ἕστηκεν, οὐ νοεῖ: ὥστε καί, εἰ ἔστη, οὐ νενόηκεν: εἰ δὲ τοῦτο, οὐδ’ ἔστιν.",
+   "flags": [
+    {
+     "taylor": "this wandering permitted to its nature is among real beings which keep pace with its movement",
+     "in": "MacKenna",
+     "why": "The Greek has \"among substances (ἐν οὐσίαις), the substances running along with (συνθεουσῶν) its wanderings\"; the modern version keeps \"substance\", and \"real beings\" is MacKenna's."
+    },
+    {
+     "taylor": "a wandering within the Meadow of Truth from which it does not stray",
+     "in": "MacKenna",
+     "why": "The Greek has \"the plain of truth\" (τὸ τῆς ἀληθείας πεδίον), Plato's Phaedrus' plain; the meadow (λειμών) is the next word there, but not here."
+    }
+   ],
+   "notes": [
+    "The plain of truth (τὸ ἀληθείας πεδίον) and the meadow that grows the soul's pasture: Plato's Phaedrus (248b-c); I.3.4 uses it of dialectic. \"Wandering\" (πλάνη) is the word for the planets; intellect's wandering stays in itself."
+   ]
+  },
+  {
+   "seg": "VI.7.13.p5",
+   "chapter": "VI.7.13",
+   "modern": "It is, then, thinking: and the motion is all, filling all substance, and all substance is all thinking, taking in all life, and always another after another; and, because what is the same in it is also other, to one who divides it the other always appears. All its journey is through life, and all through living beings, as to one who goes through earth all that he goes through is earth, even if the earth has differences. And there, the life through which it goes is the same, but because it is always other, it is not the same. And always holding the same passage through things not the same, because it does not change, but is present to the others as the same and in the same way: for if there is not, about the others, the same and in the same way, all is idle, and what is in act and the activity are nowhere.",
+   "greek": "ἔστιν οὖν νόησις: ἡ δὲ κίνησις πᾶσα πληροῦσα οὐσίαν πᾶσαν, καὶ ἡ πᾶσα οὐσία νόησις πᾶσα ζωὴν περιλαβοῦσα πᾶσαν, καὶ μετ’ ἄλλο ἀεὶ ἄλλο, καὶ ὅτι αὐτοῦ ταὐτὸν καὶ ἄλλο, καὶ διαιροῦντι ἀεὶ τὸ ἄλλο ἀναφαίνεται. πᾶσα δὲ διὰ ζωῆς ἡ πορεία καὶ διὰ ζῴων πᾶσα, ὥσπερ καὶ τῷ διὰ γῆς ἰόντι πάντα, ἃ διέξεισι, γῆ, κἂν διαφορὰς ἔχῃ ἡ γῆ. καὶ ἐκεῖ ἡ μὲν ζωὴ δἰ ἧς ἡ αὐτή, ὅτι δὲ ἀεὶ ἄλλη, οὐχ ἡ αὐτή. ἀεὶ δ’ ἔχων τὴν αὐτὴν διὰ τῶν οὐκ αὐτῶν διέξοδον, ὅτι μὴ ἀμείβει, ἀλλὰ σύνεστι τοῖς ἄλλοις τὸ ὡσαύτως καὶ κατὰ ταὐτά: ἐὰν γὰρ μὴ περὶ τὰ ἄλλα τὸ ὡσαύτως καὶ κατὰ τὰ αὐτά, ἀργεῖ πάντη καὶ τὸ ἐνεργείᾳ καὶ ἡ ἐνέργεια οὐδαμοῦ.",
+   "flags": [
+    {
+     "taylor": "its movement is complete, filling Being complete",
+     "in": "MacKenna",
+     "why": "The Greek has \"filling all substance (οὐσίαν πᾶσαν)\"; the modern version keeps \"substance\", and \"Being\" is MacKenna's."
+    },
+    {
+     "taylor": "all is dead, activity and actuality exist nowhere",
+     "in": "MacKenna",
+     "why": "The Greek says \"all is idle\" (ἀργεῖ πάντη): at rest, without work, not dead."
+    }
+   ],
+   "notes": [
+    "\"To one who divides it the other always appears\": the division of the forms in dialectic, Plato's Sophist (253d-e) and Philebus (16c-17a). Intellect's going through life and living beings: the complete living being of chapter 8."
+   ]
+  },
+  {
+   "seg": "VI.7.13.p6",
+   "chapter": "VI.7.13",
+   "modern": "And it is the others too, so that it is all itself. And if it is itself, it is all; and if not, it is not itself. And if it is all itself, it is also all because it is all things, and there is nothing that does not contribute to all things, and there is nothing of it that is not other, so that, being other, this too may contribute. For if it were not other but the same, it would lessen its substance, not bringing its own nature to the completion of it.",
+   "greek": "ἔστι δὲ καὶ τὰ ἄλλα αὐτός, ὥστε πᾶς αὐτός. καὶ εἴπερ αὐτός, πᾶς, εἰ δὲ μή, οὐκ αὐτός. εἰ δὲ πᾶς αὐτός, καὶ πᾶς, ὅτι τὰ πάντα, καὶ οὐδὲν ἔστιν, ὅ τι μὴ συντελεῖ εἰς τὰ πάντα, οὐδὲν ἔστιν αὐτοῦ, ὅ τι μὴ ἄλλο, ἵνα ἄλλο ὂν καὶ τοῦτο συντελῇ. εἰ γὰρ μὴ ἄλλο, ἀλλὰ ταὐτόν, ἐλαττώσει αὐτοῦ τὴν οὐσίαν ἰδίαν οὐ παρεχόμενον εἰς συντέλειαν αὐτοῦ φύσιν.",
+   "flags": [
+    {
+     "taylor": "If it knew no otherness but was pure identity its essential Being would be the less",
+     "in": "MacKenna",
+     "why": "The Greek says \"if it were not other but the same (ταὐτόν), it would lessen its substance (οὐσίαν)\"; the modern version keeps \"the same\" and \"substance\", and \"identity\" and \"essential Being\" are MacKenna's."
+    }
+   ]
+  },
+  {
+   "seg": "VI.7.14.p1",
+   "chapter": "VI.7.14",
+   "modern": "One can know what intellect is by using intellectual patterns too: that it does not endure to be, as it were in the way of a monad, not other. For what forming principle will you take as a pattern, whether of a plant or of a living being? For if it were something one, and not this one varied, it would not be a forming principle, and what came to be would be matter, the forming principle not having become all, so as to fall into every part of matter and leave nothing of it to be the same. A face, for example, is not one bulk, but there are nostrils and eyes too; and the nose, not being one thing, but other, and another again of it, if it was to be a nose: for if it were simply one, it would be a bulk only.",
+   "greek": "ἔστι δὲ καὶ παραδείγμασι νοεροῖς χρώμενον εἰδέναι οἷόν ἐστι νοῦς, ὡς οὐκ ἀνέχεται οἷον κατὰ μονάδα μὴ ἄλλος εἶναι. τίνα γὰρ καὶ βούλει εἰς παράδειγμα λαβεῖν λόγον εἴτε φυτοῦ εἴτε ζῴου; εἰ γὰρ ἕν τι καὶ μὴ ἓν τοῦτο ποικίλον, οὔτ’ ἂν λόγος εἴη, τό τε γενόμενον ὕλη ἂν εἴη τοῦ λόγου μὴ πάντα γενομένου εἰς τὸ πανταχοῦ τῆς ὕλης ἐμπεσόντα μηδὲν αὐτῆς ἐᾶσαι τὸ αὐτὸ εἶναι: οἷον πρόσωπον οὐκ ὄγκος εἷς, ἀλλὰ καὶ ῥῖνες καὶ ὀφθαλμοί: καὶ ἡ ῥὶς οὐχὶ οὖσα ἕν, ἀλλ’ ἕτερον, τὸ δ’ ἕτερον αὖ πάλιν αὐτῆς, εἰ ἔμελλε ῥὶς εἶναι: ἓν γάρ τι ἁπλῶς οὖσα ὄγκος ἂν ἦν μόνον.",
+   "flags": [
+    {
+     "taylor": "On the nature of the Intellectual-Principle we get light from its manifestations",
+     "in": "MacKenna",
+     "why": "The Greek says one can know what intellect is \"by using intellectual patterns (παραδείγμασι νοεροῖς)\": examples drawn from intellect, a plant's or a living being's forming principle; \"manifestations\" is MacKenna's."
+    },
+    {
+     "taylor": "they show that it demands such diversity as is compatible with its being a monad",
+     "in": "MacKenna",
+     "why": "The Greek says it \"does not endure to be, as it were in the way of a monad (κατὰ μονάδα), not other\": intellect refuses to be a monad; MacKenna turns it the other way."
+    }
+   ],
+   "notes": [
+    "A face not one bulk, and beauty not only in symmetry: I.6.1."
+   ]
+  },
+  {
+   "seg": "VI.7.14.p2",
+   "chapter": "VI.7.14",
+   "modern": "And the unlimited is in intellect in this way, that it is one many, not as one house, but as a forming principle, many in itself, holding in one figure of intellect, as in an outline, outlines within it, and figurings within again, and powers and thoughts, and the division not in a straight line, but always inward, as the natures of living beings are contained in the whole living being, and again others toward the smaller of the living beings and the lesser powers, where it will stop at an indivisible form.",
+   "greek": "καὶ τὸ ἄπειρον οὕτως ἐν νῷ, ὅτι αὐτὸς ἓν πολλά, οὐχ ὡς οἶκος εἷς, ἀλλ’ ὡς λόγος πολὺς ἐν αὑτῷ, ἐν ἑνὶ σχήματι νοῦ οἷον περιγραφῇ ἔχων περιγραφὰς ἐντὸς καὶ σχηματισμοὺς αὖ ἐντὸς καὶ δυνάμεις καὶ νοήσεις καὶ τὴν διαίρεσιν μὴ κατ’ εὐθύ, ἀλλ’ εἰς τὸ ἐντὸς ἀεί, οἷον τοῦ παντὸς ζῴου ἐμπεριεχομένας ζῴων φύσεις, καὶ πάλιν αὖ ἄλλας ἐπὶ τὰ μικρότερα τῶν ζῴων καὶ εἰς τὰς ἐλάττους δυνάμεις, ὅπου στήσεται εἰς εἶδος ἄτομον.",
+   "flags": [
+    {
+     "taylor": "There is infinity in Intellectual-Principle",
+     "in": "MacKenna",
+     "why": "The Greek has \"the unlimited\" (τὸ ἄπειρον); the modern version keeps \"the unlimited\", as in VI.6, and \"infinity\" is MacKenna's."
+    },
+    {
+     "taylor": "all the outlines, all the patterns",
+     "in": "MacKenna",
+     "why": "The Greek has \"figurings\" (σχηματισμούς) within the outlines; the modern version keeps \"pattern\" for παράδειγμα, as in this chapter's first sentence."
+    },
+    {
+     "taylor": "the division is not determined by a boundary but goes ever inward",
+     "in": "MacKenna",
+     "why": "The Greek says the division is \"not in a straight line\" (μὴ κατ’ εὐθύ), as a line is cut into pieces side by side, but always inward."
+    },
+    {
+     "taylor": "where there is a halt at the individual form",
+     "in": "MacKenna",
+     "why": "The Greek has \"an indivisible form\" (εἶδος ἄτομον), the last species that cannot be divided further, not an individual."
+    }
+   ],
+   "notes": [
+    "Division down to the indivisible form: Plato's Phaedrus (277b), Sophist (229d) and Philebus (16d-e); the last species (ἄτομον εἶδος) in Aristotle, Metaphysics Z.12 (1038a15-20) and Parts of animals I.4 (644a24-b7)."
+   ]
+  },
+  {
+   "seg": "VI.7.14.p3",
+   "chapter": "VI.7.14",
+   "modern": "And the division is there among things not poured together, though they are into one; but this is what is called the friendship in the All, not the one in this All: for this one imitates it, being friendship from things that stand apart; but the true friendship is that all should be one and never be separated. But he says that what is in this heaven is separated.",
+   "greek": "ἡ δὲ διαίρεσις ἔγκειται οὐ συγκεχυμένων, καίτοι εἰς ἓν ὄντων, ἀλλ’ ἔστιν ἡ λεγομένη ἐν τῷ παντὶ φιλία τοῦτο, οὑχ ἡ ἐν τῷδε τῷ παντί: μιμεῖται γὰρ αὕτη ἐκ διεστηκότων οὖσα φίλη: ἡ δὲ ἀληθὴς πάντα ἓν εἶναι καὶ μήποτε διακριθῆναι. διακρίνεσθαι δέ φησι τὸ ἐν τῷδε τῷ οὐρανῷ.",
+   "flags": [
+    {
+     "taylor": "this is what is known as the Universal Sympathy",
+     "in": "MacKenna",
+     "why": "The Greek has \"the friendship (φιλία) in the All\", Empedocles' word; \"Sympathy\" is MacKenna's."
+    },
+    {
+     "taylor": "that authentic Sympathy consists in all being a unity and never discriminate",
+     "in": "MacKenna",
+     "why": "MacKenna ends here; the Greek goes on, \"but he says that what is in this heaven is separated\" (διακρίνεσθαι δέ φησι τὸ ἐν τῷδε τῷ οὐρανῷ): Empedocles, whose Strife separates in this world."
+    }
+   ],
+   "notes": [
+    "Love (Φιλότης, Φιλία) that brings all into one and Strife that separates: Empedocles, fragments B17 and B26, and the Sphere (B27-B29); Aristotle, Metaphysics A.4 (985a21-29). Empedocles' exiled soul is cited in IV.8.1."
    ]
   }
  ],
