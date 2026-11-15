@@ -102,21 +102,29 @@ VOLUMES = {
         "enneads": [6],
         # where the treatises end: MacKenna's acknowledgements follow VI.9
         "end": "ACKNOWLEDGEMENTS",
-        # This OCR (the Internet Archive's own scan) is rougher than the others, and is read with four more rules:
+        # This OCR (the Internet Archive's own scan) is rougher than the others, and is read with five more rules:
         #   * an odd page's head is any line of capitals ending in a page number, whatever the OCR made of the
         #     reference before it ("VIS ON THE KINDS OF BEING 3", "TI. 6) ON THE KINDS OF BEING z"); a page number it
         #     cannot read, or reads out of order, is the one after the last;
         #   * the numbers at the foot of a first page are not read (the OCR gives "6" for 1), nor are the printer's
         #     signatures ("B", "Cc"): a line of five characters or fewer standing alone is taken out;
         #   * a chapter number the OCR misread begins its chapter when it is the line given here, in its place;
-        #   * a chapter number the OCR lost (no line at all) begins its chapter at the paragraph given by its first words.
+        #   * a chapter number the OCR lost (no line at all) begins its chapter at the paragraph given by its first words;
+        #   * a line that is not the translator's (a stray number, a library's stamp) is taken out where it is listed.
         "loose_heads": True,
         "foot_numbers": False,
         "drop_short": 5,
         "misread": {"VI.1.3": "on", "VI.1.7": "a.", "VI.1.9": "Q.", "VI.1.11": "ids", "VI.1.12": "z2.",
                     "VI.1.15": "oy", "VI.1.19": "IQ.", "VI.1.21": "2%:", "VI.1.22": "Bi", "VI.1.23": "28s",
-                    "VI.1.24": "243", "VI.1.27": "27;", "VI.1.29": "29. ;", "VI.1.30": "30. ."},
-        "unnumbered": {"VI.1.2": "But are we really obliged", "VI.1.5": "Speech, time, motion"},
+                    "VI.1.24": "243", "VI.1.27": "27;", "VI.1.29": "29. ;", "VI.1.30": "30. .",
+                    # VI.2 (milestone E24)
+                    "VI.2.5": "of", "VI.2.9": "Q.", "VI.2.10": "Io.", "VI.2.11": "oO", "VI.2.12": "52:",
+                    "VI.2.17": "17:", "VI.2.21": "ai.", "VI.2.22": "22;"},
+        "unnumbered": {"VI.1.2": "But are we really obliged", "VI.1.5": "Speech, time, motion",
+                       "VI.2.2": "In asserting that Being is not a unity"},
+        # lines that are not Page's text, taken out wherever they stand: VI.2.1's misread number, under its title; a
+        # library's stamp on p. 51 (VI.2.9); and the printer's signatures G to K that fell inside VI.2's paragraphs
+        "stray": ["x.", "WITH UNIVERSIT Y LIBRARY", "WITHDRAWN", "G", "H", "I", "K"],
     },
 }
 
@@ -305,6 +313,8 @@ def read_volume(vid):
                 continue
         if not s:
             close_para()
+            continue
+        if s in v.get("stray", ()):
             continue
         if (v.get("drop_short") and len(s) <= v["drop_short"] and not lines[i - 2].strip()
                 and (i >= len(lines) or not lines[i].strip())):

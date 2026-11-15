@@ -454,11 +454,37 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   and their "something" (Simplicius, Seneca 58, Sextus), the kind (Topics I.5), act before potency (Metaphysics Θ.8), the
   Stoic principles, body, god, soul and intellect (Diogenes Laertius VII, Cicero Academica I.39), the pantomime, II.4 and
   III.6 on matter, and the "fourth" kind of 29 that may be a slip for third.
-- E24: VI.2 On the kinds of being, second part (7,436). Next. Plotinus' own kinds of the intelligible: being, motion,
-  rest, sameness, difference (22 chapters in the Greek). Vol. V needs work first: tools/mackenna.py reads only VI.2.1 (page
-  40) so far; add VI.2's misread and lost chapter numbers to the volume's lists, as E22 did for VI.1, until all 22 are
-  found on their pages and match the Greek (or use @older). Page translated VI.2 too.
-- E25: VI.3 On the kinds of being, third part, chapters 1-14 (about 4,700).
+- **E24: VI.2 On the kinds of being, second part (7,436) (done).** 22 chapters, 105 paragraphs, 59 flags, 56 notes; VI.2
+  is complete in one milestone (no chapters_done), under a new @treatise block with its summary (the forty-third
+  treatise; Plotinus' own five kinds, after Sophist 254d-255e). Source work first: tools/mackenna.py read only VI.2.1
+  (vol. V p. 40); vol. V's lists now add VI.2's misread numbers ("of" 5, "Q." 9, "Io." 10, "oO" 11, "52:" 12, "17:" 17,
+  "ai." 21, "22;" 22) and its lost 2 ("In asserting that Being is not a unity"), and a fifth rule, "stray", takes out lines
+  that are not Page's: VI.2.1's "x." under the title, a library stamp ("WITH UNIVERSIT Y LIBRARY", "WITHDRAWN", p. 51) and
+  the signatures G, H, I, K inside paragraphs. All 22 of Page's chapters are found on their pages (40-66) and are the
+  Greek's; no @older. The kinds keep fixed names: being, motion, rest, sameness (ταυτότης, "the same"), otherness
+  (ἑτερότης, "the other"), with "difference" kept for διαφορά, the difference that divides a kind; λόγος stays "forming
+  principle" (and "account" where it is one, 4, 7, 16). Page's "Stability", "Identity", "Difference" and
+  "Reason-Principle" are flagged as his. E.g. Page makes the substrate "pseudosubstance" (4) and soul "continuous" (4),
+  has being "contain" one genus and the Parmenides' one being "the individual" (7), has intellect put apart what was
+  together and its act "energy" (8), "the radiance of Being" for contact with it, makes the kinds fall short of being where
+  they do not stand above it (8), calls the one a sixth kind "Admitted that not everything suffices" (9), the one "prior to
+  number" (10), the good "a standard of perfection" and the one "identical with Goodness" (11), qualities "by analogy" for
+  by a shared name (14), time compared with place where it is probably not there (16), "more suitably" for "if you like"
+  (18), "Being has so created Intellect" for being as an intellect that has reasoned (21), Being "served by the
+  domination of Intellect" for "without toil" (21), and "Intellect in our intellect" (22). terms-greek.json is unchanged.
+  Notes on the Timaeus' always-being (27d-28a), the Sophist (244b-245e, 248e-249a, 250a-c, 254b-255e, 258d-e), the
+  Parmenides' one being (142b-143a) and chopped-up substance (144b-e), Aristotle on being not a kind (Metaphysics B.3), on
+  blending (On generation and corruption I.10), "being for a stone" (On the soul III.4), immaterial thinking (430a2-5), the
+  hearth (Phaedrus 247a, Cratylus 401c-d), one not a number (Metaphysics Δ.6, N.1), the Stoics' bodies (Sextus, Seneca),
+  the offshoot (Nicomachean Ethics I.6), good-formed (Republic VI 509a), like numbers (Euclid VII), the complete living
+  being (Timaeus 30c-31b, 39e), the Philebus' unlimited (16e), and the Greek's count of "four" kinds (15, 19).
+- E25: VI.3 On the kinds of being, third part, chapters 1-14 (4,633). Next. The kinds of the perceptible: substance here,
+  and quantity, quality, relation and motion. Vol. V needs work first: tools/mackenna.py reads only VI.3.1-2 (pp. 68-69).
+  In the OCR (lines 3314-5050), "Te" stands under the title (add it to "stray"); the numbers it reads are "2." (3370),
+  "4. ." (3495), "6." (3634), "ie" (3688, likely 7), "8." (3756), "Q." (3817), "10." (3898), "II." (3946), "Iz." (4001),
+  "13." (4052), "14." (4105), and on for E26: "15."-"16.", "<7:" (4322), "18.", "IQ." (4453), "20.", "2." (4594, likely 21),
+  "223" (4678, likely 22), "23."-"28."; 3 and 5 look lost (use "unnumbered" with their first words); "L", "M", "N", "P"
+  are signatures and ";" (3569) is stray. Check each against the Greek's chapter starts; Page translated VI.3 too.
 - E26: VI.3 chapters 15-28 (about 4,700).
 - E27: VI.4 That being, one and the same, is everywhere whole, first part (5,731).
 - E28: VI.5 the same, second part (3,658).
