@@ -128,10 +128,13 @@ VOLUMES = {
                     "VI.4.2": "Be", "VI.4.7": "ye", "VI.4.9": "Q.", "VI.4.10": "10. ,", "VI.4.11": "rt.",
                     "VI.4.12": "pier", "VI.4.15": "TS.",
                     # VI.5 (milestone E28)
-                    "VI.5.2": "Bi", "VI.5.7": "Fi", "VI.5.9": "Q.", "VI.5.11": "Tai", "VI.5.12": "52"},
+                    "VI.5.2": "Bi", "VI.5.7": "Fi", "VI.5.9": "Q.", "VI.5.11": "Tai", "VI.5.12": "52",
+                    # VI.6 (milestone E29)
+                    "VI.6.3": "3,", "VI.6.7": "Ve", "VI.6.9": "Q.", "VI.6.11": "iets", "VI.6.12": "ies", "VI.6.17": "17:"},
         "unnumbered": {"VI.1.2": "But are we really obliged", "VI.1.5": "Speech, time, motion",
                        "VI.2.2": "In asserting that Being is not a unity",
-                       "VI.3.3": "How then do we go to work", "VI.3.5": "These are incontrovertible facts"},
+                       "VI.3.3": "How then do we go to work", "VI.3.5": "These are incontrovertible facts",
+                       "VI.6.5": "What then is the veritable nature of Number"},
         # lines that are not Page's text, taken out wherever they stand: VI.2.1's misread number, under its title; a
         # library's stamp on p. 51 (VI.2.9); and the printer's signatures G to K that fell inside VI.2's paragraphs.
         # VI.3 (E25): "Te" under its title, a smudge at the foot of p. 68 ("—<———— eee"), the signatures L, M, N and P,
@@ -140,8 +143,16 @@ VOLUMES = {
         # VI.4 (E27): the signatures Q (inside VI.4.7, p. 113) and R (inside VI.4.13, p. 121), which follow a line of
         # text and so are not taken out as short lines; "“e" before VI.4.11 stands alone and is.
         # VI.5 (E28): the signature T at the end of VI.5.12 (p. 137), after a line of text.
+        # VI.6 (E29): "x" inside VI.6.14 (p. 154), after a line of text; "U" (p. 145) and the signature "Xi" (p. 161)
+        # stand alone and go as short lines.
+        # treatise headings the OCR misread, read as the heading given: VI.7's (E29), without which VI.7's chapters
+        # 3 to 6 (pp. 166-169) were taken as VI.6's
+        "headings": {"SEVEN:EH, TRACTATE": "SEVENTH TRACTATE"},
+        # running heads whose page number the OCR misread so that it is not taken as one, with their page: p. 151's
+        # (E29), without which the pages of VI.6.14 to 18 came out one too low
+        "heads": {"VI. 6. 13] ON NUMBERS t5t": 151},
         "stray": ["x.", "WITH UNIVERSIT Y LIBRARY", "WITHDRAWN", "G", "H", "I", "K",
-                  "Te", "—<———— eee", "L", "M", "N", "P", ";", "ce)", "Q", "R", "T"],
+                  "Te", "—<———— eee", "L", "M", "N", "P", ";", "ce)", "Q", "R", "T", "x"],
     },
 }
 
@@ -245,6 +256,7 @@ def read_volume(vid):
         raw = lines[i]
         s = raw.strip()
         i += 1
+        s = v.get("headings", {}).get(s, s)
         m = re.fullmatch(r"THE\s+(\w+)\s+ENNEAD", s)
         if m and m.group(1) in ORD:
             close_para()
@@ -277,7 +289,7 @@ def read_volume(vid):
             new_chapter(1)
             after_title = True
             continue
-        p = page_of_head(s)
+        p = v.get("heads", {}).get(s) or page_of_head(s)
         if v.get("loose_heads"):
             m = HEAD_LOOSE.match(s)
             if p is None and m and len(re.findall(r"\b[A-Z]{2,}\b", m.group(1))) >= 3:
