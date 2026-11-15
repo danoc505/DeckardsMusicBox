@@ -329,8 +329,8 @@
   {
    "id": "VI.5",
    "title": "That being, one and the same, is everywhere whole, second part",
-   "status": "to come",
-   "milestone": "E28"
+   "status": "here",
+   "first": "VI.5.1"
   },
   {
    "id": "VI.6",
@@ -1003,6 +1003,25 @@
     "VI.4.14",
     "VI.4.15",
     "VI.4.16"
+   ]
+  },
+  {
+   "id": "VI.5",
+   "title": "That being, one and the same, is everywhere whole, second part",
+   "summary": "The twenty-third treatise in the order of writing, and the second of the two On that being, one and the same, is everywhere whole; VI.4, the twenty-second, is its first part, and ends by saying that the argument must be \"taken up again from the beginning\". Porphyry counts both among the first Plotinus wrote in the six years Porphyry was with him (Life 5). Plotinus starts from a common notion: all men, moved by nature, speak of the god in each of us as one and the same, and this is the surest principle of all, older even than that all things desire the good. Reasoning that borrows its principles from bodies divides being; the argument about being must take principles proper to being, which stays in itself, in no place, and in which the other things share as far as they can. The god present everywhere, the unlimited that never fails, the firsts, seconds and thirds of the intelligible as one sphere hung from one centre, and the centres with their lines show the one in many: the lines do not make the many centres but show them. Man in matter is stamped from one Man like a seal; matter shares in the form of fire without the form leaving itself; one life holds the sphere of the elements, so that all souls are one. Being stays in itself in its right mind, and the other things hang from it, like Love who sleeps at the door; wisdom is common, as in an assembly, and we touch the same good, not streams from it. Time beside eternity, a line circling a point, shows how what is extended runs beside a power that has no extent. Last, the All is present to whoever lets go of the \"so much\" he added to himself: it did not come; we went away, and turned to the contrary, while the cities, earth and heaven turn to it.",
+   "chapters": [
+    "VI.5.1",
+    "VI.5.2",
+    "VI.5.3",
+    "VI.5.4",
+    "VI.5.5",
+    "VI.5.6",
+    "VI.5.7",
+    "VI.5.8",
+    "VI.5.9",
+    "VI.5.10",
+    "VI.5.11",
+    "VI.5.12"
    ]
   }
  ],
@@ -7920,6 +7939,210 @@
      "page": 124,
      "year": 1930,
      "text": "But if that Principle can never fall to evil and we have given a true account of the soul’s entry or presence to body, what are we to say of the periodic Descents and Returns, the punishments, the banishment into animal forms? That teaching we have inherited from those ancient philosophers who have best probed into soul and we must try to show that our own doctrine is accordant with it, or at least not conflicting.\n\nWe have seen that the participation of things here in that higher means not that the soul has gone outside of itself to enter the corporeal, but that the corporeal has approached soul and is now participant in it ; the coming affirmed by the ancients can be only that approach of the body to the higher by which it partakes of life and of soul; this has nothing to do with local entry but is some form of communion ; by the descent and embodiment of current phrasing must be understood not that soul becomes an appanage of body but that it gives out to it something of itself; similarly, the soul’s departure is the complete cessation of that communion.\n\nThe various rankings of the universe will determine various degrees of the communion; soul, ultimate of the Intellectual, will give forth freely to body as being more nearly of the one power and standing closer, as distance holds in that order.\n\nThe soul’s evil will be this association, its good the release. Why ? Because, even unmerged, a soul in any way to be described as attached to this universe is in some degree fallen from the All into a state of partition ; essentially belonging to the All, it no longer directs its act Thither : thus, a man’s knowledge is one whole, but he may guide himself by no more than some single item of it, where his good would lie in living not by some such fragment but by the total of his knowing.\n\nThat One Soul—member of the Intellectual kosmos and there merging what it has of partial into the total—has broken away, so to speak, from the All to the part and to that devotes itself becoming partial with it ; thus fire that might consume everything may be set to ply its all-power upon some trifle. So long as the soul remains utterly unattached it is soul not singled out ; when it has accepted separation—not that of place but that of act determining individualities—it is a part, no longer the soul entire, or at least not entire in the first sense ; when, on the contrary, it exercises no such outward control it is perfectly the All-Soul, the partial in it latent.\n\nAs for the entry into the World of the Shades, if this means into the unseen that is its release; if into some lower place, there is nothing strange in that, since even here the soul is taken to be where the body is, in place with the body.\n\nBut on the dissolution of the body ?\n\nSo long as the image-soul has not been discarded, clearly the higher will be where that is ; if, on the contrary, the higher has been completely emancipated by philosophic discipline, the image-soul may very well go alone to that lower place, the authentic passing uncontaminated into the Intellectual, separated from that image but nonetheless the soul entire.\n\nLet the image—offspring of the individuality—fare as it may, the true soul when it turns its light upon itself, chooses the higher and by that choice blends into the All, neither acting now nor extinct.\n\nBut it is time to return to our main theme :—"
+    }
+   ]
+  },
+  {
+   "id": "VI.5.1",
+   "treatise": "VI.5",
+   "title": "The god in each of us is one",
+   "summary": "A common notion says that what is one and the same is everywhere whole: all men speak of the god in each of us as one and the same. This is the surest principle, older even than that all things desire the good, for that is true only if all things hasten to one. The good of each is to be its own, to be one; so it is not to be sought outside being. We are in being, and it is not apart from us: all beings are one.",
+   "greek_unit": "6.5.1",
+   "greek_part": 49,
+   "older": [
+    {
+     "n": 1,
+     "label": "VI.5, chapter 1",
+     "page": 125,
+     "year": 1930,
+     "text": "The integral omnipresence of a unity numerically identical is in fact universally received ; for all men instinctively affirm the god in each of us to be one, the same in all. It would be taken as certain if no one asked How or sought to bring the conviction to the test of reasoning ; with this effective in their thought, men would be at rest, finding their stay in that oneness and identity, so that nothing would wrench them from this unity. This principle, indeed, is the most solidly established of all, proclaimed by our very souls ; we do not piece it up item by item, but find it within beforehand ; it precedes even the principle by which we affirm unquestionably that all things seek their good; for this universal quest of good depends on the fact that all aim at unity and possess unity and that universally effort is towards unity.\n\nNow this unity in going forth, so far as it may, towards the Other Order must become manifest as multiplicity and in some sense become multiple ; but the primal nature and the appetition of the good, which is appetition of unity, lead back to what is authentically one; to this every form of Being is urged in a movement towards its own reality. For the good to every nature possessing unity is to be self-belonging, to be itself, and that means to be a unity.\n\nIn virtue of that unity the Good may be regarded as truly inherent. Hence the Good is not to be sought outside; it could not have fallen outside of what is; it cannot possibly be found in non-Being ; within Being the Good must lie, since it is never a non-Being.\n\nIf that Good has Being and is within the realm of Being, then it is present, self-contained, in everything: we, therefore, need not look outside of Being; we are in it; yet that Good is not exclusively ours: therefore all beings are one."
+    }
+   ]
+  },
+  {
+   "id": "VI.5.2",
+   "treatise": "VI.5",
+   "title": "Principles proper to being",
+   "summary": "Reasoning that brings in the nature of bodies divides being, and does not believe in its oneness. The argument about being must take principles proper to it, intelligible ones. Becoming is borne about and parcelled out in place; being always is, stays in itself and is in no place. Of becoming we reason from likely things; of being, from its own nature, since the what-it-is is the principle, and with being everything is in its what-it-is.",
+   "greek_unit": "6.5.2",
+   "greek_part": 49,
+   "older": [
+    {
+     "n": 2,
+     "label": "VI.5, chapter 2",
+     "page": 126,
+     "year": 1930,
+     "text": "Now the reasoning faculty which undertakes this problem is not a unity but a thing of parts ; it brings the bodily nature into the enquiry, borrowing its principles from the corporeal: thus it thinks of the Essential Existence as corporeal and as a thing of parts ; it baulks at the unity because it does not start from the appropriate principles. We, however, must be careful to bring the appropriately convincing principles to the discussion of the Unity, of perfect Being : we must hold to the Intellectual principles which alone apply to the Intellectual Order and to Real Being.\n\nOn the one hand there is the unstable, exposed to all sorts of change, distributed in place, not so much Being as Becoming: on the other, there is that which exists eternally, not divided, subject to no change of state, neither coming into being nor falling from it, set in no region or place or support, emerging from nowhere, entering into nothing, fast within itself.\n\nIn dealing with that lower order we would reason from its own nature and the characteristics it exhibits ; thus, on a plausible foundation, we achieve plausible results by a plausible system of deduction: similarly, in dealing with the Intellectual, the only way is to grasp the nature of the essence concerned and so lay the sure foundations of the argument, not forgetfully straying over into that other order but basing our treatment on what is essential to the Nature with which we deal.\n\nIn every entity the essential nature is the governing principle and, as we are told, a sound definition brings to light many even of the concomitants: where the essential nature is the entire being, we must be all the more careful to keep to that, to look to that, to refer all to that."
+    }
+   ]
+  },
+  {
+   "id": "VI.5.3",
+   "treatise": "VI.5",
+   "title": "What stays in itself is in many",
+   "summary": "If being stays the same, does not go out of itself and is in no place, it must always be with itself, not part here and part there, nothing going out of it; for in another it would be affected. So it is in nothing, and the others share in it, as far as they can be present to it. Either we do away with such a nature, or we accept that the one and the same is whole, apart from nothing, with nothing poured or sent out of it; this argument is drawn from the thing itself.",
+   "greek_unit": "6.5.3",
+   "greek_part": 49,
+   "older": [
+    {
+     "n": 3,
+     "label": "VI.5, chapter 3",
+     "page": 127,
+     "year": 1930,
+     "text": "If this principle is the Authentic Existent and holds unchanging identity, does not go forth from itself, is untouched by any process of becoming or, as we have said, by any situation in place, then it must be always self-gathered, never in separation, not partly here and partly there, not giving forth from itself: any such instability would set it in thing after thing or at least in something other than itself: then it would no longer be self-gathered ; nor would it be immune, for anything within which it were lodged would affect it ; immune, it is not in anything. If, then, not standing away from itself, not distributed by part, not taking the slightest change, it is to be in many things while remaining a selfconcentrated entire, there is some way in which it has multipresence ; it is at once self-enclosed and not so: the only way is to recognise that while this principle itself is not lodged in anything, all other things participate in it—all that are apt and in the measure of their aptitude.\n\nThus, we either cancel all that we have affirmed and the principles laid down, and deny the existence of any such Nature, or, that being impossible, we return to our first position :—\n\nThe One, numerically identical, undistributed, an snibtolien entire, yet stands remote from nothing that exists by its side ; but it does not, for that, need to pour itself forth : there is no necessity either that certain portions of it enter into things or again that, while it remains self-abiding, something produced and projected from it enter at various points into that other order. Either would imply something of it remaining there while the emanant is elsewhere : thus separated from what has gone forth, it would experience local division. And would those emanants be, each in itself, whole or part ? If part, the One has lost its nature, that of an entire, as we have already indicated; if whole, then either the whole is broken up to coincide point for point with that in which it is become present or we are admitting that an unbroken identity can be omnipresent. ons This is a reasoning, surely, founded on the thing itself and its essential nature, not introducing anything foreign, anything belonging to the Other Order."
+    }
+   ]
+  },
+  {
+   "id": "VI.5.4",
+   "treatise": "VI.5",
+   "title": "The god everywhere, and the firsts, seconds and thirds",
+   "summary": "All who have a notion of gods say they are everywhere, and reason agrees. Divided, a god would no longer be one, nor everywhere, and would be a body; so every man, in believing in god, already holds that the same is everywhere whole. And the unlimited is what never fails, present to each. What comes after the one is with it and about it, so that whatever shares in what comes after shares in it: the firsts, seconds and thirds of the intelligible are like one sphere hung from one centre.",
+   "greek_unit": "6.5.4",
+   "greek_part": 49,
+   "older": [
+    {
+     "n": 4,
+     "label": "VI.5, chapter 4",
+     "page": 128,
+     "year": 1930,
+     "text": "Then consider this god (in man) whom we cannot think to be absent at some point and present at another. All that have insight into the nature of the divine beings hold the omnipresence of this god and of all the gods, and reason assures us that so it must be.\n\nNow all-pervasion is inconsistent with partition ; that would mean no longer the god throughout but part of the god at one point and part at another ; the god ceases to be one god, just as a mass cut up ceases to be a mass, the parts no longer giving the first total. Further, the god becomes corporeal.\n\nIf all this is impossible, the disputed doctrine presents itself again ; holding the god to pervade the Being of man, we hold the omnipresence of an integral identity.\n\nAgain, if we think of the divine nature as infinite—and certainly it is confined by no bounds—this must mean that it nowhere fails; its presence must reach to everything; at the point to which it does not reach, there it has failed; something exists in which it is not.\n\nNow, admitting any sequent to the absolute unity, that sequent must be bound up with the absolute ; any third will be about that second and move towards it, linked to it as its offspring. In this way all participants in the Later will have share in the First. The Beings of the Intellectual are thus a plurality of firsts and seconds and thirds attached like one sphere to one centre, not separated by interval but mutually present ; where, therefore, the Intellectual tertiaries are present the secondaries and firsts are present too."
+    }
+   ]
+  },
+  {
+   "id": "VI.5.5",
+   "treatise": "VI.5",
+   "title": "The centre and the lines",
+   "summary": "For clearness the account draws many lines from one centre, to show the many that have come to be; but they must be kept together. Where there is no extension, all are centres united in one centre, as if the lines were let go. Add the lines, and each centre is joined to its line yet not cut off from the first centre; the centres seem as many as the lines. The lines do not make the centres but show them: they stand for the things that the intelligible touches and so appears many.",
+   "greek_unit": "6.5.5",
+   "greek_part": 49,
+   "older": [
+    {
+     "n": 5,
+     "label": "VI.5, chapter 5",
+     "page": 129,
+     "year": 1930,
+     "text": "Often for the purpose of exposition—as a help towards stating the nature of the produced multiplicity—we use the example of many lines radiating from one centre; but while we provide for individualisation we must carefully preserve mutual presence. Even in the case of our circle we need not think of separated radii; all may be taken as forming one surface: where there is no distinction even upon the one surface but all is power and reality undifferentiated, all the beings may be thought of as centres uniting at one central centre: we ignore the radial lines and think of their terminals at that centre, where they are at one. Restore the radii; once more we have lines, each touching a generating centre of its own, but that centre remains coincident with the one first centre ; the centres all unite in that first centre and yet remain what they were, so that they are as many as are the lines to which they serve as terminals ; the centres themselves appear as numerous as the lines starting from them and yet all those centres constitute a unity.\n\nThus we may liken the Intellectual Beings in their diversity to many centres coinciding with the one centre and themselves at one in it but appearing multiple on account of the radial lines—lines which do not generate the centres but merely lead to them. The radii, thus, afford a serviceable illustration for the mode of contact by which the Intellectual Unity manifests itself as multiple and multipresent."
+    }
+   ]
+  },
+  {
+   "id": "VI.5.6",
+   "treatise": "VI.5",
+   "title": "Man in many, and the many in Man",
+   "summary": "The intelligibles are many and one, and act toward whole and part with the whole. The part takes the act first as a part, and the whole follows, as Man coming into some man becomes some man while still Man. The man in matter is one Man stamped in many like a seal; but Man itself, and the All, are not in the many: the many are in it, or about it, as soul is the same in every part of the body.",
+   "greek_unit": "6.5.6",
+   "greek_part": 49,
+   "older": [
+    {
+     "n": 6,
+     "label": "VI.5, chapter 6",
+     "page": 130,
+     "year": 1930,
+     "text": "The Intellectual Beings, thus, are multiple and one; in virtue of their infinite nature their unity is a multiplicity, many in one and one over many, a unit-plurality. They act as entire upon entire ; even upon the partial thing they act as entire; but there is the difference that at first the partial accepts this working only partially though the entire enters later. Thus, when Man enters into human form there exists a particular man who, however, is still Man. From the one thing Man— man in the Idea—material man has come to constitute many individual men: the one identical thing is present in multiplicity, in multiimpression, so to speak, from the one seal.\n\nThis does not mean that Man Absolute, or any Absolute, or the Universe in the sense of a Whole, is absorbed by multiplicity ; on the contrary, the multiplicity is absorbed by the Absolute, or rather is bound up with it. There is a difference between the mode in which a colour may be absorbed by a substance entire and that in which the soul of the individual is identically present in every part of the body: it is in this latter mode that Being is omnipresent."
+    }
+   ]
+  },
+  {
+   "id": "VI.5.7",
+   "treatise": "VI.5",
+   "title": "We are those things; the many faces",
+   "summary": "What is ours and we ourselves go up to being and think the intelligibles without images; sharing in true knowledge, we are those things, being in them. Since the others are too, all of us are one. Looking outside, we do not know it, like many faces with one crown turned inward. Whoever could turn round, by himself or pulled by Athena, would see God, himself and the All, and, ceasing to mark himself off, would come to the All without going anywhere.",
+   "greek_unit": "6.5.7",
+   "greek_part": 49,
+   "older": [
+    {
+     "n": 7,
+     "label": "VI.5, chapter 7",
+     "page": 130,
+     "year": 1930,
+     "text": "To Real Being we go back, all that we have and are; to that we return as from that we came. Of what is There we have direct knowledge, not images or even impressions ; and to know without image is to be ; by our part in true knowledge we are those Beings; we do not need to bring them down into ourselves, for we are There among them. Since not only ourselves but all other things also are those Beings, we all are they ; we are they while we are also one with all: therefore we and all things are one.\n\nWhen we look outside of that on which we depend we ignore our unity ; looking outward we see many faces ; look inward and all is the one head. If aman could but be turned about—by his own motion or by the happy pull of Athene—he would see at once God and himself and the All. At first no doubt ali will not be seen as one whole, but when we find no stop at which to declare a limit to our being we cease to rule ourselves out from the total of reality; we reach to the All as a unity— and this not by any stepping forward, but by the fact of being and abiding there where the All has its being."
+    }
+   ]
+  },
+  {
+   "id": "VI.5.8",
+   "treatise": "VI.5",
+   "title": "How matter shares in the form of fire",
+   "summary": "Looking at how matter shares in the forms makes the doctrine easier to believe: the forms do not lie apart with matter far off, or sharing would not be the hardest thing to tell. Illumination is said only because the things in matter are images of archetypes. Matter touches the idea everywhere and takes what it can, the idea staying in itself; the idea of fire, not coming into matter, gives the shape of fire to all of it. One idea shapes all fire, not one part this and another that; many ideas of fire would be absurd.",
+   "greek_unit": "6.5.8",
+   "greek_part": 49,
+   "older": [
+    {
+     "n": 8,
+     "label": "VI.5, chapter 8",
+     "page": 131,
+     "year": 1930,
+     "text": "For my part I am satisfied that anyone considering the mode in which Matter participates in the Ideas will be ready enough to accept this tenet of omnipresence in identity, no longer rejecting it as incredible or even difficult. This because it seems reasonable and imperative to dismiss any notion of the Ideas lying apart with Matter illumined from them as from somewhere above—a meaningless conception, for what have distance and separation to do here ?\n\nThis participation cannot be thought of as elusive or very perplexing ; on the contrary, it is obvious, accessible in many examples.\n\nNote, however, that when we sometimes speak of the Ideas illuminating Matter this is not to suggest the mode in which material light pours down on a material object ; we use the phrase in the sense only that, the material being image while the Ideas are archetypes, the two orders are distinguished somewhat in the manner of illuminant and illuminated. But it is time to be more exact.\n\nWe do not mean that the Idea, locally separate, shows itself in Matter like a reflection in water ; the Matter touches the Idea at every point, though not in a physical contact, and, by dint of neighbourhood —nothing to keep them apart—is able to absorb thence all that lies within its capacity, the Idea itself not penetrating, not approaching, the Matter, but remaining self-locked.\n\nWe take it, then, that the Idea, say of Fire—for we had best deal with Matter as underlying the elements—is not in the Matter. The Ideal Fire, then, remaining apart, produces the form of fire throughout the entire enfired mass. Now let us suppose—and the same method will apply to all the so-called elements—that this Fire in its first material manifestation is a multiple mass. That single Fire is seen producing an image of itself in all the sensible fires; yet it is not spatially separate ; it does not, then, produce that image in the manner of our visible light ;\n\nfor in that case all this sensible fire, supposing that it were a whole of parts (as the analogy would necessitate), must have generated spatial positions out of itself, since the Idea or Form remains in a non-spatial world ; for a principle thus pluralised must first have departed from its own character in order to be present in that many and participate many times in the one same Form.\n\nThe Idea, impartible, gives nothing of itself to the Matter; its unbreaking unity, however, does not prevent it shaping that multiple by its own unity and being present to the entirety of the multiple, bringing it to pattern not by acting part upon part but by presence entire to the object entire. It would be absurd to introduce a multitude of Ideas of Fire, each several fire being shaped by a particular idea; the Ideas of fire would be infinite. Besides, how would these resultant fires be distinct, when fire is a continuous unity ? and if we apply yet another fire to certain matter and produce a greater fire, then the same Idea must be allowed to have functioned in the same way in the new matter as in the old; obviously there is no other Idea."
+    }
+   ]
+  },
+  {
+   "id": "VI.5.9",
+   "treatise": "VI.5",
+   "title": "One maker of the sphere, one life, one soul",
+   "summary": "If the elements are brought in thought into one sphere, it is not made by many, each cutting off a part, but by one cause without parts, the sphere hung from it. One life holds it, and all souls are one, and unlimited. Some called soul a number, some a self-increasing number, because it fails nothing; but the increase is its never failing to be everywhere. The true one is neither composed nor bounded; it has multitude in its power from itself, is held in by one forming principle that it is itself, and stays in its own seat, which the things in place rest on.",
+   "greek_unit": "6.5.9",
+   "greek_part": 49,
+   "older": [
+    {
+     "n": 9,
+     "label": "VI.5, chapter 9",
+     "page": 132,
+     "year": 1930,
+     "text": "The elements in their totality, as they stand produced, may be thought ‘of as one spheric figure ; this cannot be the piecemeal product of many makers each working from some one point on some one portion. There must be one cause; and this must operate as an entire, not by part executing part; otherwise we are brought back to a plurality of makers. The making must be referred to a partless unity, or, more precisely, the making principle must be a partless unity not permeating the sphere but holding it as one dependent thing. In this way the sphere is enveloped by one identical life in which it is inset ; its entire content looks to the one life: thus all the souls are one, a one, however, which yet is infinite.\n\nIt is in this understanding that the soul has been taken to be a numerical principle, while others think of it as in its nature a selfincreasing number ; this latter notion is probably designed to meet the consideration that the soul at no point fails but, retaining its distinctive character, is ample for all, so much so that were the kosmos vaster yet the virtue of soul would still compass it—or rather the kosmos still be sunk in soul entire.\n\nOf course, we must understand this adding of extension not as a literal increase but in the sense that the soul, essentially a unity, becomes adequate to omnipresence; its unity sets it outside of quantitative measurement, the characteristic of that other order which has but a counterfeit unity, an appearance by participation.\n\nThe essential unity is no aggregate to be annulled upon the loss of some one of the constituents ; nor is it held within any allotted limits, for so it would be the less for a set of things, more extensive than itself, outside its scope ; or it must wrench itself asunder in the effort to reach to all; besides, its presence to things would be no longer as whole to all but by part to part ; in vulgar phrase, it does not know where it stands ; dismembered, it no longer performs any one single function.\n\nNow if this principle is to be a true unity—where the unity is of the essence—it must in some way be able to manifest itself as including the contrary nature, that of potential multiplicity, while by the fact that this multiplicity belongs to it not as from without but as from and by itself, it remains authentically one, possessing boundlessness and multiplicity within that unity ; its nature must be such that it can appear as a whole at every point ; this, as encircled by a single self-embracing Reason-Principle, which holds fast about that unity, never breaking with itself but over all the universe remaining what it must be.\n\nThe unity is in this way saved from the local division of the things in which it appears ; and, of course, existing before all that is in place, it could never be founded upon anything belonging to that order of which, on the contrary, it is the foundation; yet, for all that they are based upon it, it does not cease to be wholly self-gathered ; if its fixed seat were shaken, all the rest would fall with the fall of their foundation and stay ; nor could it be so unintelligent as to tear itself apart by such a movement and, secure within its own being, trust itself to the insecurity of place which, precisely, looks to it for safety."
+    }
+   ]
+  },
+  {
+   "id": "VI.5.10",
+   "treatise": "VI.5",
+   "title": "Love at the door; one wisdom, one good",
+   "summary": "Being stays in itself, in its right mind; the other things hang from it, like Love who sleeps at the door, content to share as he can. Its many lovers have it whole, and it suffices for all because it stays. Wisdom too is common and whole to all, as an assembly finds wisdom by coming together; we touch the same good, not streams from it, for the giving there is not by sending. There is one world there, else there would be two perceptible worlds; and nothing crowds it, as the sciences do not crowd the soul.",
+   "greek_unit": "6.5.10",
+   "greek_part": 49,
+   "older": [
+    {
+     "n": 10,
+     "label": "VI.5, chapter 10",
+     "page": 134,
+     "year": 1930,
+     "text": "It remains, then, poised in wisdom within itself ; it-could not enter into any other ; those others look to it and in their longing find it where it is. This is that ‘‘ Love Waiting at the Door,” ever coming up from without, striving towards the beautiful, happy when to the utmost of its power it attains. Even here the lover does not so much possess himself of the beauty he has loved as wait before it; that Beauty is abidingly self-enfolded but its lovers, the Many, loving it as an entire, possess it as an entire when they attain, for it was an entire that they loved. This seclusion does not prevent it sufficing to all, but is the very reason for its adequacy; because it is thus entire for all it can be The Good to all.\n\nSimilarly wisdom is entire to all ; it is one thing ; it is not distributed parcelwise ; it cannot be fixed to place; it is not spread about like a colouring, for it is not corporeal; in any true participation in wisdom there must be one thing acting as unit upon unit. So must it be in our participation in the One; we shall not take our several portions of it, nor you some separate entire and I another. Think of what happens in Assemblies and all kinds of meetings ; the road to sense is the road to unity ; singly the members are far from wise; as they begin to grow together, each, in that true growth, generates wisdom while he recognises it. There is nothing to prevent our intelligences meeting at one centre from their several positions; all one, they seem apart to us as when without looking we touch one object or sound one string with different fingers and think we feel several. Or take our souls in their possession of good ; it is not one good for me and another for you; it is the same for both and not in the sense merely of distinct products of an identical source, the good somewhere above with something streaming from it into us; in any real receiving of good, giver is in contact with taker and gives not as to a recipient outside but to one in intimate contact.\n\nThe Intellectual giving is not an act of transmission; even in the case of corporeal objects, with their local separation, the mutual giving (and taking) is of things of one order and their communication, every effect they produce, is upon their like; what is corporeal in the All acts and is acted upon within itself, nothing external impinging upon it. Now if in body, whose very nature is partition, there is no incursion of the alien, how can there be any in the order in which no partition exists ?\n\nIt is therefore by identification that we see the good and touch it, brought to it by becoming identical with what is of the Intellectual within ourselves. In that realm exists what is far more truly a kosmos of unity ; otherwise there will be two sensible universes, divided into correspondent parts; the Intellectual sphere, if a unity only as this sphere is, will be undistinguishable from it—except, indeed, that it will be less worthy of respect since in the nature of things extension is appropriate in the lower while the Intellectual will have wrought out its own extension with no motive, in a departure from its very character.\n\nAnd what is there to hinder this unification ? There is no question of one member pushing another out as occupying too much space, any more than happens in our own minds where we take in the entire fruit of our study and observation, all uncrowded.\n\nWe may be told that this unification is not possible in Real Beings ; it certainly would not be possible, if the Reals had extension."
+    }
+   ]
+  },
+  {
+   "id": "VI.5.11",
+   "treatise": "VI.5",
+   "title": "Time beside eternity",
+   "summary": "How does what has no extension reach over all body? It is not like a stone, a great cube measured to its bulk and power, but a first nature, unmeasured, all power. So it is outside time: eternity stays and is greater than time, which is like a line that seems to go to infinity but is hung from a point and circles about it. Over against this unlimited power runs a nature hung from it, which shares in it as far as it can. It is present everywhere as the immaterial triangle, not as the triangles in matter, though not all matter takes all form.",
+   "greek_unit": "6.5.11",
+   "greek_part": 49,
+   "older": [
+    {
+     "n": 11,
+     "label": "VI.5, chapter 11",
+     "page": 135,
+     "year": 1930,
+     "text": "But how can the unextended reach over the defined extension of the corporeal ? How can it, so, maintain itself as a unity, an identity ?\n\nThis is a problem often raised and reason calls vehemently for a solution of the difficulties involved. The fact stands abundantly evident but there is still the need of intellectual satisfaction.\n\nWe have, of course, no slight aid to conviction, indeed the very strongest, in the exposition of the character of that principle. It is not like a stone, some vast block lying where it lies, covering the space of its own extension, held within its own limits, having a fixed quantity of mass and of assigned stone-power. It is a First Principle, measureless, not bounded within determined size—such measurement belongs to another order—and therefore it is all-power, nowhere under limit. Being so, it is outside of Time.\n\nTime in its ceaseless onward sliding produces parted interval ; Eternity stands in identity, pre-eminent, vaster by unending power than Time with all the vastness of its seeming progress ; Time is like a radial line running out apparently to infinity but dependent upon that, its centre, which is the pivot of all its movement; as it goes it tells of that centre, but the centre itself is the unmoving principle of all the movement.\n\nTime stands, thus, in analogy with the principle which holds fast in unchanging identity of essence: but that principle is infinite not only in duration but also in power: this infinity of power must also have its counterpart, a principle springing from that infinite power and dependent upon it; this counterpart will, after its own mode, run a course— corresponding to the course of Time—in keeping with that stationary power which is its greater as being its source: and in this too the source is present throughout the full extension of its lower correspondent.\n\nThis secondary of Power, participating as far as it may in that higher, must be identified.\n\nNow the higher power is present integrally but, in the weakness of the recipient material, is not discerned at every point ; it is present as an identity everywhere not in the mode of the material triangle— identical though, in many representations, numerically multiple, but in the mode of the immaterial, ideal triangle which is the source of the material figures. If we are asked why the omnipresence of the immaterial triangle does not entail that of the material figure, we answer that not all Matter enters into the participation necessary; Matter accepts various forms and not all Matter is apt for all form; the First Matter, for example, does not lend itself to all but is for the First Kinds first and for the others in due order, though these, too, are omnipresent."
+    }
+   ]
+  },
+  {
+   "id": "VI.5.12",
+   "treatise": "VI.5",
+   "title": "Let go of the \"so much\"",
+   "summary": "It is present as one life, everywhere in the living thing: a power not of some quantity, unlimited from the depths, boiling over with life. You will not find it in one place or halt where it fails; you will run with it, or give up and fall, looking elsewhere. You came to the All by letting go of \"I am so much\": you were always all, but became less by an addition from non-being. It did not come; you went away, and turned to the contrary. So the gods appear to one among many; and the cities, earth and heaven turn to that one.",
+   "greek_unit": "6.5.12",
+   "greek_part": 49,
+   "older": [
+    {
+     "n": 12,
+     "label": "VI.5, chapter 12",
+     "page": 136,
+     "year": 1930,
+     "text": "To return : How is that Power present to the universe ?\n\nAs a One Life.\n\nConsider the life in any living thing ; it does not reach only to some fixed point, unable to permeate the entire being ; it is omnipresent. If on this again we are asked How, we appeal to the character of this power, not subject to quantity but such that though you divide it mentally for ever you still have the same power, infinite to the core ; in it there is no Matter to make it grow less and less according to the measured mass.\n\nConceive it as a power of an ever-fresh infinity, a principle unfailing, inexhaustible, at no point giving out, brimming over with its own vitality. If you look to some definite spot and seek to fasten on some definite thing, you will not find it. The contrary is your only way ; you cannot pass on to where it is not; you will never halt at a dwindling point where it fails at last and can no longer give ; you will always be able to move with it—better, to be in its entirety—and so seek no further ; denying it, you have strayed away to something of another order and you fall; looking elsewhere you do not see what stands there before you.\n\nBut supposing you do thus “ seek no further,” how do you experience it ?\n\nIn that you have entered into the All, no longer content with the part ; you cease to think of yourself as under limit but, laying all such determination aside, you become an All. No doubt you were always that, but there has been an addition and by that addition you are diminished ; for the addition was not from the realm of Being—you can add nothing to Being—but from non-Being. It is not by some admixture of non-Being that one becomes an entire, but by putting non-Being away. By the lessening of the alien in you, you increase. Cast it aside and there is the All within you; engaged in the alien, you will not find the All. Not that it has to come and so be present to you ; it is you that have turned from it. And turn though you may, you have not severed yourself ; it is there; you are not in some far region: still there before it, you have faced to its contrary.\n\nIt is so with the lesser gods; of many standing in their presence it is often one alone that sees them ; that one alone was alone in the power to see. These are the gods who “in many guises seek our cities’; but there is That Other whom the cities seek, and all the earth and heaven, everywhere with God and in Him, possessing through Him their Being and the Real Beings about them, down to soul and life, all bound to Him and so moving to that unity which by its very lack of extension is infinite."
     }
    ]
   }
@@ -25790,6 +26013,867 @@
    ],
    "notes": [
     "The argument taken up again from the beginning is VI.5, the treatise's second part."
+   ]
+  },
+  {
+   "seg": "VI.5.1.p1",
+   "chapter": "VI.5.1",
+   "modern": "That what is one and the same in number is everywhere at once whole, a common notion says, when all men, moved by their nature, speak of the god in each of us as one and the same. And if no one asked them how, and no one wished to examine their opinion by reasoning, they would lay it down so, and, active in their thought in this way, would come to rest, leaning together on what is one and the same, and they would not wish to be split off from this oneness. And this is the surest principle of all, which our souls, as it were, cry out: not summed up from the particulars, but come before all the particulars, and before that principle which lays down and says that all things desire the good. For that would be true if all things hasten to one, and are one, and the desire is for this one.",
+   "greek": "Τὸ ἓν καὶ ταὐτὸ ἀριθμῷ πανταχοῦ ἅμα ὅλον εἶναι κοινὴ μέν τις ἔννοιά φησιν, ὅταν πάντες κινούμενοι αὐτοφυῶς λέγωσι τὸν ἐν ἑκάστῳ ἡμῶν θεὸν ὡς ἕνα καὶ τὸν αὐτόν. καὶ εἴ τις αὐτοὺς τὸν τρόπον μὴ ἀπαιτοῖ, μηδὲ λόγῳ ἐξετάζειν τὴν δόξαν αὐτῶν ἐθέλοι, οὕτως ἂν καὶ θεῖντο καὶ ἐνεργοῦντες τῇ διανοίᾳ τοῦτο οὕτως ἀναπαύοιντο εἰς ἕν πως συνερείδοντες καὶ ταὐτὸν καὶ οὐδ’ ἂν ἐθέλοιεν ταύτης τῆς ἑνότητος ἀποσχίζεσθαι. καὶ ἔστι πάντων βεβαιοτάτη ἀρχή, ἣν ὥσπερ αἱ ψυχαὶ ἡμῶν φθέγγονται, ἡ οὐκ ἐκ τῶν καθέκαστα συγκεφαλαιωθεῖσα, ἀλλὰ πρὸ τῶν καθέκαστα πάντων προελθοῦσα καὶ πρὸ ἐκείνης τῆς τοῦ ἀγαθοῦ πάντα ὀρέγεσθαι τιθεμένης τε καὶ λεγούσης. οὕτω γὰρ ἂν αὕτη ἀληθὴς εἴη, εἰ τὰ πάντα εἰς ἓν σπεύδοι, καὶ ἓν εἴη, καὶ τούτου ἡ ὄρεξις εἴη.",
+   "flags": [
+    {
+     "taylor": "It would be taken as certain if no one asked How",
+     "in": "MacKenna",
+     "why": "The Greek says that if no one demanded the how of them (τὸν τρόπον), they would lay it down so and rest in it: what is in question is how they hold it, not whether it would be certain."
+    },
+    {
+     "taylor": "for this universal quest of good depends on the fact that all aim at unity",
+     "in": "MacKenna",
+     "why": "The Greek says the principle that all things desire the good \"would be true if\" (οὕτω γὰρ ἂν αὕτη ἀληθὴς εἴη, εἰ) all things hasten to one: a condition of its truth, not a fact it depends on."
+    }
+   ],
+   "notes": [
+    "A \"common notion\" (κοινὴ ἔννοια) is a notion all men have by nature, the Stoics' word for the starting points of knowledge. The god in each of us: Plato's Timaeus (90a), where the highest kind of soul is the daemon god gave each of us.",
+    "That all things desire the good is the first sentence of Aristotle's Nicomachean Ethics (I.1, 1094a2-3), and Plato's Philebus (20d): everything that knows the good hunts it and wants to take hold of it."
+   ]
+  },
+  {
+   "seg": "VI.5.1.p2",
+   "chapter": "VI.5.1",
+   "modern": "For this one, going forth to the other side, as far as it can go forth, would appear many, and in a way would be many; but the ancient nature, and the desire of the good, which is itself, leads to what is really one, and every nature hastens to this, to itself. For this is the good for this one nature: to be its own and to be itself; and this is to be one.",
+   "greek": "τὸ γὰρ ἓν τοῦτο προιὸν μὲν ἐπὶ θάτερα, ἐφ̓ ὅσον προελθεῖν αὐτῷ οἷόν τε, πολλὰ ἂν φανείη τε καί πως καὶ εἴη, ἡ δ’ ἀρχαία φύσις καὶ ἡ ὄρεξις τοῦ ἀγαθοῦ ὅπερ ἐστὶν αὐτοῦ εἰς ἓν ὄντως ἄγει, καὶ ἐπὶ τοῦτο σπεύδει πᾶσα φύσις, ἐφ̓ ἑαυτήν. τοῦτο γάρ ἐστι τὸ ἀγαθὸν τῇ μιᾷ ταύτῃ φύσει τὸ εἶναι αὑτῆς καὶ εἶναι αὑτήν: τοῦτο δ’ ἐστὶ τὸ εἶναι μίαν.",
+   "flags": [
+    {
+     "taylor": "towards the Other Order must become manifest as multiplicity",
+     "in": "MacKenna",
+     "why": "The Greek has \"to the other side\" (ἐπὶ θάτερα), toward what is other; \"the Other Order\" is MacKenna's."
+    },
+    {
+     "taylor": "to this every form of Being is urged in a movement towards its own reality",
+     "in": "MacKenna",
+     "why": "The Greek says \"every nature hastens to this, to itself\" (ἐφ' ἑαυτήν): the good of each nature is itself, and \"form of Being\" and \"reality\" are MacKenna's."
+    }
+   ]
+  },
+  {
+   "seg": "VI.5.1.p3",
+   "chapter": "VI.5.1",
+   "modern": "And in this way the good too would rightly be called one's own; so one must not look for it outside. For where would it be, fallen outside being? Or how could anyone find it in non-being? Plainly it is in being, since it is not itself non-being. And if it is being, and in being, it would be in itself, in each. We have not, then, stood away from being, but we are in it; nor, again, has it stood away from us. All beings, then, are one.",
+   "greek": "οὕτω δὲ καὶ τὸ ἀγαθὸν ὀρθῶς ἂν λέγοιτο οἰκεῖον: διὸ οὐδὲ ἔξω ζητεῖν αὐτὸ δεῖ. ποῦ γὰρ ἂν εἴη ἔξω τοῦ ὄντος περιπεπτωκός; ἢ πῶς ἄν τις ἐν τῷ μὴ ὄντι ἐξεύροι αὐτό; ἀλλὰ δηλονότι ἐν τῷ ὄντι οὐκ ὂν αὐτὸ μὴ ὄν. εἰ δὲ ὂν καὶ ἐν τῷ ὄντι ἐκεῖνο, ἐν ἑαυτῷ ἂν εἴη ἑκάστῳ. οὐκ ἀπέστημεν ἄρα τοῦ ὄντος, ἀλλ’ ἐσμὲν ἐν αὐτῷ, οὐδ’ αὖ ἐκεῖνο ἡμῶν: ἓν ἄρα πάντα τὰ ὄντα.",
+   "flags": [
+    {
+     "taylor": "In virtue of that unity the Good may be regarded as truly inherent",
+     "in": "MacKenna",
+     "why": "The Greek says the good would rightly be called \"one's own\" (οἰκεῖον): what belongs to each, not what is inherent in it."
+    },
+    {
+     "taylor": "yet that Good is not exclusively ours",
+     "in": "MacKenna",
+     "why": "The Greek says \"nor again has it [stood away] from us\" (οὐδ' αὖ ἐκεῖνο ἡμῶν): we are not apart from being, and it is not apart from us; nothing is said of its not being ours alone."
+    }
+   ],
+   "notes": [
+    "\"In being, since it is not itself non-being\": the good as being, and being as one, is the theme of the whole treatise; the Good beyond being (Republic VI 509b) is not yet in view. The same argument from being and non-being opens VI.4.2."
+   ]
+  },
+  {
+   "seg": "VI.5.2.p1",
+   "chapter": "VI.5.2",
+   "modern": "But reasoning, setting out to examine what is said, being not one thing but something divided, and bringing the nature of bodies into the inquiry and taking its principles from there, divided substance, thinking it to be such, and did not believe in its oneness, since it had not made the start of its search from the principles proper to it. But we must take, for the argument about what is one and wholly being, principles proper to persuading of it: that is, intelligible principles of intelligibles, which hold to the true substance.",
+   "greek": "λόγος δὲ ἐπιχειρήσας ἐξέτασιν ποιεῖσθαι τοῦ λεγομένου οὐχ ἕν τι ὤν, ἀλλά τι μεμερισμένον, παραλαμβάνων τε εἰς τὴν ζήτησιν τὴν τῶν σωμάτων φύσιν καὶ ἐντεῦθεν τὰς ἀρχὰς λαμβάνων ἐμέρισέ τε τὴν οὐσίαν τοιαύτην εἶναι νομίσας, καὶ τῇ ἑνότητι ἠπίστησεν αὐτῆς ἅτε μὴ ἐξ ἀρχῶν τῶν οἰκείων τὴν ὁρμὴν τῆς ζητήσεως πεποιημένος. ἡμῖν δὲ ληπτέον εἰς τὸν ὑπὲρ τοῦ ἑνὸς καὶ πάντη ὄντος λόγον οἰκείας εἰς πίστιν ἀρχάς: τοῦτο δ’ ἐστὶ νοητὰς νοητῶν καὶ τῆς ἀληθινῆς οὐσίας ἐχομένας.",
+   "flags": [
+    {
+     "taylor": "thus it thinks of the Essential Existence as corporeal and as a thing of parts",
+     "in": "MacKenna",
+     "why": "The Greek says reasoning \"divided substance\" (ἐμέρισε τὴν οὐσίαν), thinking it such as bodies are; \"Essential Existence\" is MacKenna's for οὐσία, and the modern version keeps \"substance\"."
+    },
+    {
+     "taylor": "we must hold to the Intellectual principles which alone apply to the Intellectual Order",
+     "in": "MacKenna",
+     "why": "The Greek has \"intelligible principles of intelligibles\" (νοητὰς νοητῶν); the modern version keeps \"intelligible\" for νοητός, and \"which alone apply\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "Reasoning (λόγος, in the sense of discursive thought, διάνοια) is \"divided\", because it goes from one thing to another; the error of borrowing principles from bodies is the one VI.4.2 opened with, setting being in the perceptible."
+   ]
+  },
+  {
+   "seg": "VI.5.2.p2",
+   "chapter": "VI.5.2",
+   "modern": "For there is, on the one hand, what is borne about, taking changes of every kind and parcelled out into every place, which it would be fitting to call becoming, not substance; and there is, on the other, being that always is, not parcelled out, holding the same way in the same respects, neither coming to be nor perishing, having no room or place or seat, neither going out from anywhere nor going into anything, but staying in itself. Speaking about the first, one would reason fittingly from that nature and what is thought of it, making likely reasonings through likely things.",
+   "greek": "ἐπεὶ γὰρ τὸ μέν ἐστι πεφορημένον καὶ παντοίας δεχόμενον μεταβολὰς καὶ εἰς πάντα τόπον διειλημμένον, ὃ δὴ γένεσιν ἂν προσήκοι ὀνομάζειν, ἀλλ’ οὐκ οὐσίαν, τὸ δὲ ὂν ἀεί, οὐ διειλημμένον, ὡσαύτως κατὰ ταὐτὰ ἔχον, οὔτε γινόμενον οὔτε ἀπολλύμενον οὐδέ τινα χώραν οὐδὲ τόπον οὐδέ τινα ἕδραν ἔχον οὐδ’ ἐξιόν ποθεν οὐδ’ αὖ εἰσιὸν εἰς ὁτιοῦν, ἀλλ’ ἐν ἑαυτῷ μένον, περὶ μὲν ἐκείνων λέγων ἄν τις ἐξ ἐκείνης τῆς φύσεως καὶ τῶν ὑπὲρ αὐτῆς ἀξιουμένων συλλογίζοιτο ἂν εἰκότως δἰ εἰκότων εἰκότας καὶ τοὺς συλλογισμοὺς ποιούμενος.",
+   "flags": [
+    {
+     "taylor": "On the one hand there is the unstable",
+     "in": "MacKenna",
+     "why": "The Greek has \"what is borne about\" (πεφορημένον), carried this way and that, the world of becoming in motion."
+    },
+    {
+     "taylor": "not so much Being as Becoming",
+     "in": "MacKenna",
+     "why": "The Greek says it would be fitting to call it \"becoming, not substance\" (γένεσιν ... ἀλλ' οὐκ οὐσίαν): not a matter of degree."
+    }
+   ],
+   "notes": [
+    "What always is and has no becoming, and what becomes and never is: Plato's Timaeus (27d-28a). \"Having no room\" (χώρα) recalls the Timaeus' receptacle (52a-b), in which becoming comes to be. Of becoming only a \"likely account\" can be given (Timaeus 29b-d), and here \"likely reasonings through likely things\" (εἰκότως δι' εἰκότων εἰκότας)."
+   ]
+  },
+  {
+   "seg": "VI.5.2.p3",
+   "chapter": "VI.5.2",
+   "modern": "But when someone makes arguments about the intelligibles, he would justly take the nature of the substance he is dealing with and make it the principle of his arguments, not straying aside, as if forgetful, to another nature, but making his study of it from it itself; since everywhere the what-it-is is the principle, and those who define well are said to know most of the accidents too. And with things in whose what-it-is everything belongs, one must all the more hold to this, look to this, and bring everything back to this.",
+   "greek": "ὅταν δ’ αὖ τοὺς περὶ τὼν νοητῶν λόγους τις ποιῆται, λαμβάνων τὴν τῆς οὐσίας φύσιν περὶ ἧς πραγματεύεται τὰς ἀρχὰς τῶν λόγων δικαίως ἂν ποιοῖτο μὴ παρεκβαίνων ὥσπερ ἐπιλελησμένος ἐπ’ ἄλλην φύσιν, ἀλλ’ ἀπ’ αὐτῆς ἐκείνης περὶ αὐτῆς τὴν κατανόησιν ποιούμενος, ἐπειδὴ πανταχοῦ τὸ τί ἐστιν ἀρχή, καὶ τοῖς καλῶς ὁρισαμένοις λέγεται καὶ τῶν συμβεβηκότων τὰ πολλὰ γινώσκεσθαι, οἷς δὲ καὶ πάντα ἐν τῷ τί ἐστιν ὑπάρχει, πολλῷ μᾶλλον ἐν τούτοις ἔχεσθαι δεῖ τούτου, καὶ εἰς τοῦτο βλεπτέον καὶ πρὸς τοῦτο πάντα ἀνενεκτέον.",
+   "flags": [
+    {
+     "taylor": "In every entity the essential nature is the governing principle",
+     "in": "MacKenna",
+     "why": "The Greek says \"the what-it-is (τὸ τί ἐστιν) is the principle\" (ἀρχή), the starting point of the argument; \"governing\" is MacKenna's."
+    },
+    {
+     "taylor": "where the essential nature is the entire being",
+     "in": "MacKenna",
+     "why": "The Greek says \"those in whose what-it-is everything belongs\" (οἷς πάντα ἐν τῷ τί ἐστιν ὑπάρχει): things that have no accidents, whose all is their essence."
+    }
+   ],
+   "notes": [
+    "That a good definition makes known most of the accidents: Aristotle, On the soul I.1 (402b16-403a2), and the what-it-is as the principle of demonstration, Posterior Analytics II.3 (90b24-27) and Metaphysics Z.9 (1034a30-32)."
+   ]
+  },
+  {
+   "seg": "VI.5.3.p1",
+   "chapter": "VI.5.3",
+   "modern": "If, then, this real being holds the same way, and does not stand outside itself, and there is no becoming about it, and it was said not to be in place, it must, being so, always be with itself, and not stand apart from itself, nor have one part of it here and another there, nor anything go out from it: for then it would be in this and in that, and in general in something, and not by itself, nor unaffected; for it would be affected if it were in another, and if it is to be unaffected, it is not in another. If, then, without standing away from itself, without being divided, without undergoing any change at all, it were in many at once, being one whole together with itself, it would have, being the same everywhere with itself, its being in many: and this is to be by itself and again not to be by itself. It remains, then, to say that it is itself in nothing, but the other things share in it, as many as can be present to it, and as far as it is possible for them to be present to it.",
+   "greek": "εἰ δὴ τὸ ὂν ὄντως τοῦτο καὶ ὡσαύτως ἔχει καὶ οὐκ ἐξίσταται αὐτὸ ἑαυτοῦ καὶ γένεσις περὶ αὐτὸ οὐδεμία οὐδ’ ἐν τόπῳ ἐλέγετο εἶναι, ἀνάγκη αὐτὸ οὕτως ἔχον ἀεί τε σὺν αὑτῷ εἶναι, καὶ μὴ διεστάναι ἀφ̓ αὑτοῦ μηδὲ αὐτοῦ τὸ μὲν ὡδί, τὸ δὲ ὡδὶ εἶναι, μηδὲ προιέναι τι ἀπ’ αὐτοῦ: ἤδη γὰρ ἂν ἐν ἄλλῳ καὶ ἄλλῳ εἴη, καὶ ὅλως ἔν τινι εἴη, καὶ οὐκ ἐφ̓ ἑαυτοῦ οὐδ’ ἀπαθές: πάθοι γὰρ ἄν, εἰ ἐν ἄλλῳ: εἰ δ’ ἐν ἀπαθεῖ ἔσται, οὐκ ἐν ἄλλῳ. εἰ οὖν μὴ ἀποστὰν ἑαυτοῦ μηδὲ μερισθὲν μηδὲ μεταβάλλον αὐτὸ μηδεμίαν μεταβολὴν ἐν πολλοῖς ἅμα εἴη ἓν ὅλον ἅμα ἑαυτῷ ὄν, τὸ αὐτὸ ὂν πανταχοῦ ἑαυτῷ τὸ ἐν πολλοῖς εἶναι ἂν ἔχοι: τοῦτο δέ ἐστιν ἐφ̓ ἑαυτοῦ ὂν μὴ αὖ ἐφ̓ ἑαυτοῦ εἶναι. λείπεται τοίνυν λέγειν αὐτὸ μὲν ἐν οὐδενὶ εἶναι, τὰ δ’ ἄλλα ἐκείνου μεταλαμβάνειν, ὅσα δύναται αὐτῷ παρεῖναι, καὶ καθ̓ ὅσον ἐστὶ δυνατὸν αὐτῷ παρεῖναι.",
+   "flags": [
+    {
+     "taylor": "then it must be always self-gathered, never in separation",
+     "in": "MacKenna",
+     "why": "The Greek says it must \"always be with itself\" (σὺν αὑτῷ) and \"not stand apart from itself\" (μὴ διεστάναι ἀφ' αὑτοῦ)."
+    },
+    {
+     "taylor": "all that are apt and in the measure of their aptitude",
+     "in": "MacKenna",
+     "why": "The Greek says the other things share in it, \"as many as can be present to it, and as far as it is possible for them to be present to it\" (ὅσα δύναται αὐτῷ παρεῖναι): they are present to it, not it to them."
+    }
+   ],
+   "notes": [
+    "That the one is not in another, nor in itself, so as to be in nothing at all: Plato's Parmenides (138a-b); that a whole in many would be apart from itself is the difficulty of the Parmenides (131a-c), which VI.4.1 names."
+   ]
+  },
+  {
+   "seg": "VI.5.3.p2",
+   "chapter": "VI.5.3",
+   "modern": "So one must either do away with those hypotheses and principles, saying there is no such nature, or, if this is impossible and there is by necessity such a nature and substance, accept what was said at the start: that what is one and the same in number, not divided but whole, stands away from none of the other things beside it, needing neither to be poured out, nor for some portions to come from it, nor again for it to stay whole in itself while something else that has come from it, leaving it behind, comes to the other things in many places.",
+   "greek": "ἀνάγκη τοίνυν ἢ τὰς ὑποθέσεις καὶ τὰς ἀρχὰς ἐκείνας ἀναιρεῖν μηδεμίαν εἶναι τοιαύτην φύσιν λέγοντας ἤ, εἰ τοῦτ̓ ἔστιν ἀδύνατον καὶ ἔστιν ἐξ ἀνάγκης τοιαύτη φύσις καὶ οὐσία, παραδέχεσθαι τὸ ἐξ ἀρχῆς, τὸ ἓν καὶ ταὐτὸν ἀριθμῷ μὴ μεμερισμένον, ἀλλὰ ὅλον ὄν, τῶν ἄλλων τῶν παῤ αὐτὸ μηδενὸς ἀποστατεῖν οὐδὲν τοῦ χεῖσθαι δεηθὲν οὐδὲ τῷ μοίρας τινὰς ἀπ’ αὐτοῦ ἐλθεῖν μηδ’ αὖ τῷ αὐτὸ μὲν μεῖναι ἐν αὑτῷ ὅλον, ἄλλο δέ τι ἀπ’ αὐτοῦ γεγονὸς καταλελοιπὸς αὐτὸ ἥκειν εἰς τὰ ἄλλα πολλαχῇ.",
+   "flags": [
+    {
+     "taylor": "something produced and projected from it enter at various points into that other order",
+     "in": "MacKenna",
+     "why": "The Greek says \"something else that has come from it, leaving it behind\" (γεγονὸς καταλελοιπὸς αὐτὸ), comes to \"the other things\" (εἰς τὰ ἄλλα); \"projected\" and \"that other order\" are MacKenna's."
+    }
+   ]
+  },
+  {
+   "seg": "VI.5.3.p3",
+   "chapter": "VI.5.3",
+   "modern": "For so the one will be in one place and what has come from it in another, and it will have place, standing apart from what came from it. And again with those, whether each is whole or a part: if a part, it will not keep the nature of the whole, as has been said; if each is whole, either we shall divide each into parts equal to that in which it is, or we shall grant that the same can be whole everywhere. This argument, then, is drawn from the thing itself and its substance, dragging in nothing foreign, nothing from the other nature.",
+   "greek": "ἔσται τε γὰρ οὕτως τὸ μὲν ἄλλοθι, τὸ δ’ ἀπ’ αὐτοῦ ἄλλοθι, καὶ τόπον ἕξει διεστηκὸς ἀπὸ τῶν ἀπ’ αὐτοῦ. καὶ ἐπ’ ἐκείνων αὖ εἰ ἕκαστον ὅλον ἢ μέρος: καὶ εἰ μὲν μέρος, οὐ τὴν τοῦ ὅλου ἀποσώσει φύσιν, ὅπερ δὴ εἴρηται: εἰ δὲ ὅλον ἕκαστον, ἢ ἕκαστον μεριοῦμεν ἴσα μέρη τῷ ἐν ᾧ ἐστιν ἢ ταὐτὸν ὅλον πανταχοῦ συγχωρήσομεν δύνασθαι εἶναι. οὗτος δὴ ὁ λόγος ἐξ αὐτοῦ τοῦ πράγματος καὶ τῆς οὐσίας ἀλλότριον οὐδὲν οὐδ’ ἐκ τῆς ἑτέρας φύσεως ἑλκύσας.",
+   "flags": [
+    {
+     "taylor": "Either would imply something of it remaining there while the emanant is elsewhere",
+     "in": "MacKenna",
+     "why": "The Greek has \"what is from it\" (τὸ ἀπ' αὐτοῦ) elsewhere; \"emanant\" is MacKenna's, a word Plotinus does not use here."
+    },
+    {
+     "taylor": "anything belonging to the Other Order",
+     "in": "MacKenna",
+     "why": "The Greek has \"from the other nature\" (ἐκ τῆς ἑτέρας φύσεως), the nature of bodies of chapter 2."
+    }
+   ],
+   "notes": [
+    "The dilemma of whole and part, the one in many either divided or whole in each, is the Parmenides' (131a-e); VI.4.8 and VI.4.13 meet it with powers and with the two-cubit thing."
+   ]
+  },
+  {
+   "seg": "VI.5.4.p1",
+   "chapter": "VI.5.4",
+   "modern": "See too, if you like, this god: we do not say that he is here and not there. For all who have a notion of gods think it right to say, not only of him but of all the gods, that they are present everywhere, and reason says that it must be laid down so.",
+   "greek": "ἰδὲ δέ, εἰ βούλει, καὶ τόνδε τὸν θεόν: οὐ πῇ μὲν εἶναι, πῇ δ’ οὐκ εἶναί φαμεν. ἔστι γὰρ ἀξιούμενόν τε παρὰ πᾶσι τοῖς ἔννοιαν ἔχουσι θεῶν οὐ μόνον περὶ ἐκείνου, ἀλλὰ καὶ περὶ πάντων λέγειν θεῶν, ὡς πανταχοῦ πάρεισι, καὶ ὁ λόγος δέ φησι δεῖν οὕτω τίθεσθαι.",
+   "flags": [
+    {
+     "taylor": "Then consider this god (in man)",
+     "in": "MacKenna",
+     "why": "The words \"in man\" are MacKenna's: the Greek has only \"this god\" (τόνδε τὸν θεόν), which may be the god in each of us of chapter 1, or the god of this visible world."
+    },
+    {
+     "taylor": "All that have insight into the nature of the divine beings",
+     "in": "MacKenna",
+     "why": "The Greek says \"all who have a notion (ἔννοιαν) of gods\": the common notion of chapter 1 again, not an insight into their nature."
+    }
+   ],
+   "notes": [
+    "The gods present everywhere: Plato's Laws X (899b), \"all things are full of gods\", the saying of Thales (Aristotle, On the soul I.5, 411a8)."
+   ]
+  },
+  {
+   "seg": "VI.5.4.p2",
+   "chapter": "VI.5.4",
+   "modern": "If, then, he is everywhere, he cannot be divided; for then he would no longer himself be everywhere, but each part of him would be here or there, and he himself would no longer be one: as if a magnitude were cut into many, it will perish, and its parts will all no longer be that whole. And besides, he will be a body.",
+   "greek": "εἰ οὖν πανταχοῦ, οὐχ οἷόν τε μεμερισμένον: οὐ γὰρ ἂν ἔτι πανταχοῦ αὐτὸς εἴη, ἀλλ’ ἕκαστον αὐτοῦ μέρος τὸ μὲν ὡδί, τὸ δὲ ὡδὶ ἔσται αὐτός τε οὐχ εἷς ἔτι ἔσται, ὥσπερ εἰ τμηθείη τι μέγεθος εἰς πολλά, ἀπολλύμενόν τε ἔσται καὶ τὰ μέρη πάντα οὐκέτι τὸ ὅλον ἐκεῖνο ἔσται: πρὸς τούτοις δὲ καὶ σῶμα ἔσται.",
+   "flags": [
+    {
+     "taylor": "just as a mass cut up ceases to be a mass",
+     "in": "MacKenna",
+     "why": "The Greek says a magnitude cut into many \"will perish\" (ἀπολλύμενον), and its parts are \"no longer that whole\": what is lost is the whole, not the mass."
+    }
+   ]
+  },
+  {
+   "seg": "VI.5.4.p3",
+   "chapter": "VI.5.4",
+   "modern": "If this is impossible, then again what is disbelieved has shown itself in every human nature, together with thinking there is a god: that the same is everywhere at once whole. Again, if we call that nature unlimited, for surely it is not limited, what else would this mean but that it will not fail? And if it will not fail, it is because it is present to each. For if it cannot be present, it will fail, and there will be somewhere where it is not.",
+   "greek": "εἰ δὴ ταῦτα ἀδύνατα, πάλιν αὖ ἀνεφάνη τὸ ἀπιστούμενον ἐν πάσῃ φύσει ἀνθρώπου ὁμοῦ τῷ θεὸν νομίζειν καὶ πανταχοῦ τὸ αὐτὸ ἅμα ὅλον εἶναι. πάλιν δέ, εἰ ἄπειρον λέγομεν ἐκείνην τὴν φύσιν: οὐ γὰρ δὴ πεπερασμένην: τί ἂν ἄλλο εἴη, ἢ ὅτι οὐκ ἐπιλείψει; εἰ δὲ μὴ ἐπιλείψει, ὅτι πάρεστιν ἑκάστῳ. εἰ γὰρ μὴ δύναται παρεῖναι, ἐπιλείψει τε καὶ ἔσται ὅπου οὔ.",
+   "flags": [
+    {
+     "taylor": "holding the god to pervade the Being of man, we hold the omnipresence of an integral identity",
+     "in": "MacKenna",
+     "why": "The Greek says the disbelieved doctrine \"has shown itself in every human nature, together with thinking there is a god\" (ἐν πάσῃ φύσει ἀνθρώπου ὁμοῦ τῷ θεὸν νομίζειν): every man who believes in a god already holds it; nothing is said of the god pervading man's being."
+    }
+   ],
+   "notes": [
+    "The unlimited (ἄπειρον) here is not the indefinite of matter but what never fails, as in VI.4.4 and VI.5.9: the one \"unlimited by having no magnitude\" of chapter 12."
+   ]
+  },
+  {
+   "seg": "VI.5.4.p4",
+   "chapter": "VI.5.4",
+   "modern": "For even if we were to speak of something else after the one itself, what comes after it is again together with it, about it and toward it, and as it were its offspring, joined to it, so that whatever shares in what comes after it has shared in it too. For since there are many things in the intelligible, firsts and seconds and thirds, hung, as it were, from one centre of one sphere, not parted by intervals but all together with one another, wherever the thirds are present, the seconds and firsts are present too.",
+   "greek": "καὶ γὰρ εἰ λέγοιμεν ἄλλο μετ’ αὐτὸ τὸ ἕν, ὁμοῦ αὖ αὐτῷ καὶ τὸ μετ’ αὐτὸ περὶ ἐκεῖνο καὶ εἰς ἐκεῖνο καὶ αὐτοῦ οἷον γέννημα συναφὲς ἐκείνῳ, ὥστε τὸ μετέχον τοῦ μετ’ αὐτὸ κἀκείνου μετειληφέναι. πολλῶν γὰρ ὄντων τῶν ἐν τῷ νοητῷ, πρώτων τε καὶ δευτέρων καὶ τρίτων, καὶ οἷον σφαίρας μιᾶς εἰς ἓν κέντρον ἀνημμένων, οὐ διαστήμασι διειλημμένων, ἀλλ’ ὄντων ὁμοῦ αὑτοῖς ἁπάντων, ὅπου ἂν παρῇ τὰ τρίτα, καὶ τὰ δεύτερα καὶ τὰ πρῶτα πάρεστι.",
+   "flags": [
+    {
+     "taylor": "any third will be about that second and move towards it",
+     "in": "MacKenna",
+     "why": "The Greek speaks of the second only: what comes after the one is \"about it and toward it\" (περὶ ἐκεῖνο καὶ εἰς ἐκεῖνο), and is like its offspring; the thirds come only in the next sentence."
+    },
+    {
+     "taylor": "where, therefore, the Intellectual tertiaries are present",
+     "in": "MacKenna",
+     "why": "The Greek has \"wherever the thirds are present\" (τὰ τρίτα), the thirds of the intelligible; the modern version keeps \"intelligible\", and \"tertiaries\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "The firsts, seconds and thirds: Plato's Second Letter (312e), \"about the king of all are all things ... second about the second, and third about the third\", which Plotinus reads as the One, intellect and soul (V.1.8)."
+   ]
+  },
+  {
+   "seg": "VI.5.5.p1",
+   "chapter": "VI.5.5",
+   "modern": "For clearness' sake, the account often draws many lines as if from one centre, wishing to lead us to a notion of the multitude that has come to be. But we must say that the things called many have come to be while keeping them all together, as there too, in the circle, one cannot take the lines as marked off, for the plane is one. And where there is not even one extension, as on a plane, but powers and substances without extension, all things might fittingly be said to be centres, united together in one centre, as if they had let go of their lines, the ends of them that lie at the centre; and then all are one.",
+   "greek": "καὶ σαφηνείας μὲν ἕνεκα ὁ λόγος πολλάκις οἷον ἐκ κέντρου ἑνὸς πολλὰς γραμμὰς ποιήσας εἰς ἔννοιαν τοῦ πλήθους τοῦ γενομένου ἐθέλει ἄγειν. δεῖ δὲ τηροῦντας ὁμοῦ πάντα τὰ λεγόμενα πολλὰ γεγονέναι λέγειν, ὡς κἀκεῖ ἐπὶ τοῦ κύκλου οὐκ οὔσας γραμμὰς ἀφωρισμένας ἔστι λαμβάνειν: ἐπίπεδον γὰρ ἕν. οὗ δὲ οὐδὲ κατ’ ἐπίπεδον ἓν διάστημά τι, ἀλλ’ ἀδιάστατοι δυνάμεις καὶ οὐσίαι, πάντα ἂν εἰκότως κατὰ κέντρα λέγοιτο ἐν ἑνὶ ὁμοῦ κέντρῳ ἡνωμένα, οἷον ἀφέντα τὰς γραμμὰς τὰ πέρατα αὐτῶν τὰ πρὸς τῷ κέντρῳ κείμενα, ὅτε δὴ καὶ ἕν ἐστι πάντα.",
+   "flags": [
+    {
+     "taylor": "but while we provide for individualisation we must carefully preserve mutual presence",
+     "in": "MacKenna",
+     "why": "The Greek says that, \"keeping them all together\" (τηροῦντας ὁμοῦ πάντα), we must say that the things called many \"have come to be\"; \"individualisation\" and \"mutual presence\" are MacKenna's."
+    },
+    {
+     "taylor": "all is power and reality undifferentiated",
+     "in": "MacKenna",
+     "why": "The Greek has \"powers and substances without extension\" (ἀδιάστατοι δυνάμεις καὶ οὐσίαι): what they lack is extension, not difference."
+    }
+   ],
+   "notes": [
+    "The centre and the circle as an image of the intelligible: VI.8.18, VI.9.8 and IV.2.1. A centre, being without parts, is one even when many lines meet in it."
+   ]
+  },
+  {
+   "seg": "VI.5.5.p2",
+   "chapter": "VI.5.5",
+   "modern": "Again, if you were to add the lines, they will each fasten on the centres that each left behind, yet each centre will be none the less not cut off from the one first centre, but each will be together with it, and they will be as many as the lines to which they gave themselves as ends; so that they appear as many as the lines they touch, but all of them are one together.",
+   "greek": "πάλιν δέ, εἰ προσθείης τὰς γραμμάς, αἱ μὲν ἐξάψονται τῶν κέντρων αὑτῶν ἃ κατέλιπον ἑκάστη, ἔσται γε μὴν οὐδὲν ἧττον κέντρον ἕκαστον οὐκ ἀποτετμημένον τοῦ ἑνὸς πρώτου κέντρου, ἀλλ’ ὁμοῦ ὄντα ἐκείνῳ ἕκαστον αὖ ἔσται καὶ τοσαῦτα ὅσαι αἱ γραμμαὶ αἷς ἔδοσαν αὑτὰ πέρατα εἶναι ἐκείνων, ὥστε ὅσων μὲν ἐφάπτεται γραμμῶν τοσαῦτα φανῆναι, ἓν δὲ ὁμοῦ πάντα ἐκεῖνα εἶναι.",
+   "flags": [
+    {
+     "taylor": "once more we have lines, each touching a generating centre of its own",
+     "in": "MacKenna",
+     "why": "The Greek says the lines \"will fasten on the centres that each left\" (ἐξάψονται τῶν κέντρων αὑτῶν ἃ κατέλιπον ἑκάστη); \"generating\" is MacKenna's, and the next paragraph denies that the lines generate the centres."
+    }
+   ]
+  },
+  {
+   "seg": "VI.5.5.p3",
+   "chapter": "VI.5.5",
+   "modern": "If, then, we have likened all the intelligibles to many centres brought back to one centre and united, but appearing many because of the lines, the lines not begetting them but showing them, let the lines serve us for the present as analogous to the things which the intelligible nature touches, and so appears to be many and present in many places.",
+   "greek": "εἰ δ’ οὖν κέντροις πολλοῖς ἀπεικάσαμεν πάντα τὰ νοητὰ εἰς ἓν κέντρον ἀναφερομένοις καὶ ἑνουμένοις, πολλὰ δὲ φανεῖσι διὰ τὰς γραμμὰς οὐ τῶν γραμμῶν γεννησασῶν αὐτά, ἀλλὰ δειξασῶν, αἱ γραμμαὶ παρεχέτωσαν ἡμῖν χρείαν ἐν τῷ παρόντι ἀνάλογον εἶναι ὧν ἐφαπτομένη ἡ νοητὴ φύσις πολλὰ καὶ πολλαχοῦ φαίνεται παρεῖναι.",
+   "flags": [
+    {
+     "taylor": "The radii, thus, afford a serviceable illustration for the mode of contact by which the Intellectual Unity manifests itself",
+     "in": "MacKenna",
+     "why": "The Greek says the lines are analogous to \"the things which the intelligible nature touches\" (ὧν ἐφαπτομένη ἡ νοητὴ φύσις): the lines stand for the bodies that receive it, not for a mode of contact."
+    }
+   ]
+  },
+  {
+   "seg": "VI.5.6.p1",
+   "chapter": "VI.5.6",
+   "modern": "For the intelligibles, being many, are one, and, being one, are many by their unlimited nature: many in one and one over many, and all together; and it acts toward the whole with the whole, and toward the part again with the whole. The part takes into itself the first act, as of a part, but the whole follows: as if Man, coming into some man, were to become some man while being still Man.",
+   "greek": "πολλὰ γὰρ ὄντα τὰ νοητὰ ἕν ἐστι, καὶ ἓν ὄντα τῇ ἀπείρῳ φύσει πολλά ἐστι, καὶ πολλὰ ἐν ἑνὶ καὶ ἓν ἐπὶ πολλοῖς καὶ ὁμοῦ πάντα, καὶ ἐνεργεῖ πρὸς τὸ ὅλον μετὰ τοῦ ὅλου, καὶ ἐνεργεῖ πρὸς τὸ μέρος αὖ μετὰ τοῦ ὅλου. δέχεται δὲ τὸ μέρος εἰς αὑτὸ τὸ ὡς μέρους πρῶτον ἐνέργημα, ἀκολουθεῖ δὲ τὸ ὅλον: οἷον εἰ ὁ ἄνθρωπος ἐλθὼν εἰς τόν τινα ἄνθρωπον τὶς ἄνθρωπος γίνοιτο ὢν αὖ ἄνθρωπος.",
+   "flags": [
+    {
+     "taylor": "Thus, when Man enters into human form there exists a particular man",
+     "in": "MacKenna",
+     "why": "The Greek says Man comes \"into some man\" (εἰς τόν τινα ἄνθρωπον), the particular man, and becomes some man (τὶς ἄνθρωπος): there is no human form for it to enter."
+    }
+   ],
+   "notes": [
+    "\"One over many\" (ἓν ἐπὶ πολλοῖς) is the old phrase for the form, set over the many things named after it: Plato's Republic X (596a) and Aristotle's Metaphysics A.9 (990b7-8)."
+   ]
+  },
+  {
+   "seg": "VI.5.6.p2",
+   "chapter": "VI.5.6",
+   "modern": "The man in matter, then, from the one Man of the idea, has made many men who are the same; and one same thing is in many in this way, that it is one thing, as it were stamped like a seal in many.",
+   "greek": "ὁ μὲν οὖν ἄνθρωπος ὁ ἐν τῇ ὕλῃ ἀφ̓ ἑνὸς τοῦ ἀνθρώπου τοῦ κατὰ τὴν ἰδέαν πολλοὺς ἐποίησε τοὺς αὐτοὺς ἀνθρώπους, καὶ ἔστιν ἓν τὸ αὐτὸ ἐν πολλοῖς οὕτως, ὅτι ἐστὶν ἕν τι οἷον ἐνσφραγιζόμενον ἐν πολλοῖς.",
+   "flags": [
+    {
+     "taylor": "material man has come to constitute many individual men",
+     "in": "MacKenna",
+     "why": "The Greek says the man in matter, from the one Man of the idea, \"made many men the same\" (πολλοὺς ἐποίησε τοὺς αὐτοὺς ἀνθρώπους): the form in matter makes them the same, it does not compose them."
+    }
+   ],
+   "notes": [
+    "The seal and the wax: Plato's Theaetetus (191c-d) and Timaeus (50c), where the things that come into the receptacle are \"impressions\" (τυπωθέντα) of what always is; Aristotle's On the soul II.12 (424a17-21)."
+   ]
+  },
+  {
+   "seg": "VI.5.6.p3",
+   "chapter": "VI.5.6",
+   "modern": "But Man itself, and each thing itself, and the whole All, are not in many in this way; rather the many are in it, or rather about it. For the white is everywhere in one way, and the soul of each is the same in every part of the body in another; and it is in this way that being too is everywhere.",
+   "greek": "αὐτὸ δὲ ἄνθρωπος καὶ αὐτὸ ἕκαστον καὶ ὅλον τὸ πᾶν οὐχ οὕτως ἐν πολλοῖς, ἀλλὰ τὰ πολλὰ ἐν αὐτῷ, μᾶλλον δὲ περὶ αὐτό. ἄλλον γὰρ τρόπον τὸ λευκὸν πανταχοῦ καὶ ἡ ψυχὴ ἑκάστου ἐν παντὶ μέρει τοῦ σώματος ἦ αὐτή: οὕτω γὰρ καὶ τὸ ὂν πανταχοῦ.",
+   "flags": [
+    {
+     "taylor": "This does not mean that Man Absolute, or any Absolute, or the Universe in the sense of a Whole, is absorbed by multiplicity",
+     "in": "MacKenna",
+     "why": "The Greek says they are \"not in many in this way\" (οὐχ οὕτως ἐν πολλοῖς), but the many are \"in it, or rather about it\" (περὶ αὐτό); nothing is absorbed."
+    },
+    {
+     "taylor": "There is a difference between the mode in which a colour may be absorbed by a substance entire",
+     "in": "MacKenna",
+     "why": "The Greek has \"the white is everywhere\" (τὸ λευκὸν πανταχοῦ) in one way: the white in each part is the same in form, as in VI.4.1, not absorbed."
+    }
+   ],
+   "notes": [
+    "The white the same in form but not in number, and soul the same in number in foot and hand: VI.4.1."
+   ]
+  },
+  {
+   "seg": "VI.5.7.p1",
+   "chapter": "VI.5.7",
+   "modern": "For what is ours, and we ourselves, are brought back to being, and we go up to it and to what first comes from it, and we think those things, having not images or impressions of them; and if not this, it is because we are those things. If, then, we share in true knowledge, we are those things, not taking them into ourselves, but being ourselves in them. And since the others too, not only we, are those things, we all are those things. So, being together with all, we are those things: we are all, then, one.",
+   "greek": "ἀνάγεται γὰρ καὶ τὸ ἡμέτερον καὶ ἡμεῖς εἰς τὸ ὄν, καὶ ἀναβαίνομέν τε εἰς ἐκεῖνο καὶ τὸ πρῶτον ἀπ’ ἐκείνου, καὶ νοοῦμεν ἐκεῖνα οὐκ εἴδωλα αὐτῶν οὐδὲ τύπους ἔχοντες. εἰ δὲ μὴ τοῦτο, ὄντες ἐκεῖνα. εἰ οὖν ἀληθινῆς ἐπιστήμης μετέχομεν, ἐκεῖνα ἐσμὲν οὐκ ἀπολαβόντες αὐτὰ ἐν ἡμῖν, ἀλλ’ ἡμεῖς ἐν ἐκείνοις ὄντες. ὄντων δὲ καὶ τῶν ἄλλων, οὐ μόνον ἡμῶν, ἐκεῖνα, πάντες ἐσμὲν ἐκεῖνα. ὁμοῦ ἄρα ὄντες μετὰ πάντων ἐσμὲν ἐκεῖνα: πάντα ἄρα ἐσμὲν ἕν.",
+   "flags": [
+    {
+     "taylor": "to that we return as from that we came",
+     "in": "MacKenna",
+     "why": "The Greek says \"we go up to it, and to what first comes from it\" (τὸ πρῶτον ἀπ' ἐκείνου): nothing is said here of whence we came."
+    },
+    {
+     "taylor": "and to know without image is to be",
+     "in": "MacKenna",
+     "why": "The Greek says only \"and if not this, being those things\" (εἰ δὲ μὴ τοῦτο, ὄντες ἐκεῖνα): if we think them without images, it is because we are them."
+    }
+   ],
+   "notes": [
+    "That intellect does not have images or impressions (τύποι) of the intelligibles, but is them: V.5.1-2 and V.3.5. True knowledge is of what really is: Plato's Republic V (477a-478a)."
+   ]
+  },
+  {
+   "seg": "VI.5.7.p2",
+   "chapter": "VI.5.7",
+   "modern": "Looking outside, then, or away from where we are fastened, we do not know that we are one: like many faces that face outward, with one crown of the head turned inward. But if someone could turn round, either by himself or having the luck of being pulled by Athena herself, he will see God and himself and the All. He will not see them at first as the All, but then, having nowhere to set himself and mark off how far he himself goes, he will stop drawing a line round himself to part himself from all being, and will come to the whole All, going forward nowhere, but staying there where the All is founded.",
+   "greek": "ἔξω μὲν οὖν ὁρῶντες ἢ ὅθεν ἐξήμμεθα ἀγνοοῦμεν ἓν ὄντες, οἷον πρόσωπα πολλὰ εἰς τὸ ἔξω κορυφὴν ἔχοντα εἰς τὸ εἴσω μίαν. εἰ δέ τις ἐπιστραφῆναι δύναιτο ἢ παῤ αὑτοῦ ἢ τῆς Ἀθηνᾶς αὐτῆς εὐτυχήσας τῆς ἕλξεως, θεόν τε καὶ αὑτὸν καὶ τὸ πᾶν, ὄψεται: ὄψεται δὲ τὰ μὲν πρῶτα οὐχ ὡς τὸ πᾶν, εἶτ̓ οὐκ ἔχων ὅπῃ αὑτὸν στήσας ὁριεῖται, μέχρι τίνος αὐτός ἐστιν, ἀφεὶς περιγράφειν ἀπὸ τοῦ ὄντος ἅπαντος αὑτὸν εἰς ἅπαν τὸ πᾶν ἥξει προελθὼν οὐδαμοῦ, ἀλλ’ αὐτοῦ μείνας, οὗ ἵδρυται τὸ πᾶν.",
+   "flags": [
+    {
+     "taylor": "looking outward we see many faces ; look inward and all is the one head",
+     "in": "MacKenna",
+     "why": "The Greek says we are \"like many faces\" (οἷον πρόσωπα πολλά), outward, \"having one crown inward\": the faces are ours, a head with many faces, not what we see."
+    },
+    {
+     "taylor": "we cease to rule ourselves out from the total of reality",
+     "in": "MacKenna",
+     "why": "The Greek says he will stop \"drawing a line round himself\" (περιγράφειν αὑτόν) to part himself \"from all being\" (ἀπὸ τοῦ ὄντος ἅπαντος)."
+    }
+   ],
+   "notes": [
+    "Athena pulls Achilles back by his hair, seen by him alone (Iliad I 194-200), the same scene that VI.5.12 recalls; the turn (ἐπιστροφή) is the soul's turning back to what it comes from."
+   ]
+  },
+  {
+   "seg": "VI.5.8.p1",
+   "chapter": "VI.5.8",
+   "modern": "For my part I think that if anyone were to look into matter's sharing in the forms, he would come more to believe what is said, and would no longer disbelieve it as impossible, or be at a loss again. For it is reasonable, I think, and necessary, that the illumination has come into matter, as if from somewhere far off and above, without the forms lying apart and matter far away; let what is said not be empty. For what would the far and the apart be in these things?",
+   "greek": "οἶμαι δὲ ἔγωγε καὶ εἴ τις ἐπισκέψαιτο τὴν τῆς ὕλης τῶν εἰδῶν μετάληψιν, μᾶλλον ἂν εἰς πίστιν ἐλθεῖν τοῦ λεγομένου καὶ μὴ ἂν ἔτι ὡς ἀδυνάτῳ ἀπιστεῖν ἢ αὖ ἀπορεῖν. εὔλογον γὰρ καὶ ἀναγκαῖον, οἶμαι, μὴ κειμένων τῶν εἰδῶν χωρὶς καὶ αὖ τῆς ὕλης πόρρωθεν ἄνωθέν ποθεν τὴν ἔλλαμψιν εἰς αὐτὴν γεγονέναι: μὴ γὰρ ᾖ κενὸν τοῦτο λεγόμενον. τί γὰρ ἂν εἴη τὸ πόρρω ἐν τούτοις καὶ τὸ χωρίς;",
+   "flags": [
+    {
+     "taylor": "a meaningless conception, for what have distance and separation to do here",
+     "in": "MacKenna",
+     "why": "The Greek says it is reasonable and necessary that the illumination has come into matter, \"the forms not lying apart\" (μὴ κειμένων τῶν εἰδῶν χωρίς), lest the word be said emptily: the illumination is kept, without forms lying apart; it is not called meaningless."
+    }
+   ]
+  },
+  {
+   "seg": "VI.5.8.p2",
+   "chapter": "VI.5.8",
+   "modern": "And then sharing would not have been called the thing hardest to tell and most perplexing, but it would have been said most readily, being well known from its patterns. But even if we sometimes say illumination, we shall not mean it as we speak of illuminations of a perceptible thing into a perceptible; but since the things in matter are images, and the forms have the rank of archetypes, and illumination is such as to have what is illuminated apart, we say it so.",
+   "greek": "καὶ οὐκ ἂν τὸ δύσφραστον καὶ τὸ ἀπορώτατον ἦν τὸ τῆς μεταλήψεως λεγόμενον, ἀλλ’ εἴρητο ἂν προ χειρότατα γνώριμον ὂν τοῖ παραδείγμασιν. ἀλλὰ κἂν ἔλλαμψιν λέγωμέν ποτε, οὐχ οὕτως ἐροῦμεν, ὡς ἐπὶ τῶν αἰσθητῶν λέγομεν εἰς αἰσθητὸν τὰς ἐλλάμψεις: ἀλλ’ ἐπεὶ εἴδωλα τὰ ἐν τῇ ὕλῃ, ἀρχετύπων δὲ τάξιν ἔχει τὰ εἴδη, τὸ δὲ τῆς ἐλλάμψεως τοιοῦτον οἷον χωρὶς ἔχειν τὸ ἐλλαμπόμενον, οὕτω λέγομεν.",
+   "flags": [
+    {
+     "taylor": "This participation cannot be thought of as elusive or very perplexing ; on the contrary, it is obvious, accessible in many examples.",
+     "in": "MacKenna",
+     "why": "The Greek is unreal: if the forms lay apart, sharing \"would not have been\" called the hardest thing to tell and most perplexing, but would have been said readily, known from examples (παραδείγμασιν). It was called so, and it is hard: MacKenna has turned it into the claim that it is obvious."
+    }
+   ],
+   "notes": [
+    "Plato's Timaeus (50c) says the things that come into the receptacle are stamped from the beings \"in a way hard to tell and wonderful\" (τρόπον τινὰ δύσφραστον καὶ θαυμαστόν), and that it shares in the intelligible \"in a most perplexing way\" (ἀπορώτατά πῃ, 51a-b). The \"patterns\" (παραδείγματα) here are the examples one would have pointed to."
+   ]
+  },
+  {
+   "seg": "VI.5.8.p3",
+   "chapter": "VI.5.8",
+   "modern": "But now, speaking more exactly, we must not lay it down that the form is apart in place and then the idea is seen in matter as in water; but that matter, touching the idea from every side and again not touching it, has from the form, in every part of itself, by its nearness, as much as it can take, with nothing between, the idea not going through all of it and running over it, but staying in itself.",
+   "greek": "δεῖ δὲ νῦν ἀκριβέστερον λέγοντας μὴ οὕτω τίθεσθαι ὡς χωρὶς ὄντος τόπῳ τοῦ εἴδους εἰθ̓ ὥσπερ ἐν ὕδατι ἐνορᾶσθαι τῇ ὕλῃ τὴν ἰδέαν, ἀλλὰ τὴν ὕλην πανταχόθεν οἷον ἐφαπτομένην καὶ αὖ οὐκ ἐφαπτομένην τῆς ἰδέας κατὰ πᾶν ἑαυτῆς ἴσχειν παρὰ τοῦ εἴδους τῷ πλησιασμῷ ὅσον δύναται λαβεῖν οὐδενὸς μεταξυ ὄντος, οὐ τῆς ἰδέας διὰ πάσης διεξελθούσης καὶ ἐπιδραμούσης, ἀλλ’ ἐν αὑτῇ μενούσης.",
+   "flags": [
+    {
+     "taylor": "the Idea itself not penetrating, not approaching, the Matter",
+     "in": "MacKenna",
+     "why": "The Greek says the idea is \"not going through all of it and running over it\" (οὐ ... διεξελθούσης καὶ ἐπιδραμούσης); \"not approaching\" is MacKenna's, and matter takes what it can \"by its nearness\" (τῷ πλησιασμῷ)."
+    }
+   ],
+   "notes": [
+    "The image in water is the one that VI.4.10 weighed; matter as a mirror, in which the forms appear without being in it: III.6.7, III.6.13."
+   ]
+  },
+  {
+   "seg": "VI.5.8.p4",
+   "chapter": "VI.5.8",
+   "modern": "For if the idea of fire, say, is not in matter (let the argument take the matter that underlies the elements), fire itself, not coming to be in matter, will give the shape of fire through all the matter that has been set on fire. Let the first fire in matter be supposed to have come to be a great mass. The same argument will fit the other so-called elements too.",
+   "greek": "εἰ γὰρ μὴ ἐν τῇ ὕλῃ ἐστὶν οἷον πυρὸς ἡ ἰδέα — τὴν δὲ τοῖς στοιχείοις ὑποβεβλημένην ὁ λόγος λαμβανέτω — αὐτὸ δὴ πῦρ οὐκ ἐγγενόμενον αὐτὸ τῇ ὕλῃ μορφὴν πυρὸς κατὰ πᾶσαν τὴν πυρωθεῖσαν ὕλην παρέξεται. ὄγκος δὲ πολὺς πῦρ τὸ πρῶτον ἔνυλον ὑποκείσθω γενόμενον. ὁ δὲ αὐτὸς λόγος καὶ ἐπὶ τῶν ἄλλων τῶν λεγομένων στοιχείων ἁρμόσει.",
+   "flags": [
+    {
+     "taylor": "The Ideal Fire, then, remaining apart",
+     "in": "MacKenna",
+     "why": "The Greek says \"fire itself, not coming to be in the matter\" (αὐτὸ δὴ πῦρ οὐκ ἐγγενόμενον αὐτὸ τῇ ὕλῃ); \"remaining apart\" is what the chapter denies, since the form is not apart in place."
+    }
+   ],
+   "notes": [
+    "Fire itself, and whether there is a form of fire: Plato's Timaeus (51b-e). The \"so-called elements\" (τὰ λεγόμενα στοιχεῖα): the Timaeus (48b-c) says fire and the rest are not even syllables, let alone letters."
+   ]
+  },
+  {
+   "seg": "VI.5.8.p5",
+   "chapter": "VI.5.8",
+   "modern": "If, then, that one fire is seen in all, giving an image of itself, and is not apart in place, it will not give it as the illumination we see does: for then all this fire in perception would be somewhere, if all of it were many of itself, while the idea itself stays in what has no place, having itself begotten places out of itself; since what is the same, become many, would have had to flee from itself, so as to be many in this way and share many times in the same.",
+   "greek": "εἰ οὖν τὸ ἓν ἐκεῖνο πῦρ ἐν πᾶσι θεωρεῖται παρέχον εἰκόνα ἑαυτοῦ καὶ οὐ τόπῳ χωρὶς ὄν, οὐ παρέξει ὡς ἡ ἔλλαμψις ἡ ὁρωμένη: ἤδη γὰρ ἂν εἴη που πᾶν τοῦτο τὸ πῦρ τὸ ἐν αἰσθήσει, εἰ πᾶν αὐτὸ πολλὰ εἴη ἑαυτοῦ τῆς ἰδέας αὐτῆς μενούσης ἐν ἀτόπῳ αὐτὸ τόπους γεννῆσαν ἐξ αὑτοῦ: ἐπείπερ ἔδει τὸ αὐτὸ πολὺ γενόμενον φυγεῖν ἀφ̓ ἑαυτοῦ, ἵν’ ᾖ πολὺ οὕτως καὶ πολλάκις μεταλάβῃ τοῦ αὐτοῦ.",
+   "flags": [
+    {
+     "taylor": "supposing that it were a whole of parts (as the analogy would necessitate)",
+     "in": "MacKenna",
+     "why": "The parenthesis is MacKenna's; the Greek says only \"if all of it were many of itself\" (εἰ πᾶν αὐτὸ πολλὰ εἴη ἑαυτοῦ)."
+    }
+   ],
+   "notes": [
+    "The illumination we see is sunlight, which goes from a source in one place to things in other places; the form of fire has no place to send from."
+   ]
+  },
+  {
+   "seg": "VI.5.8.p6",
+   "chapter": "VI.5.8",
+   "modern": "And the idea, being unscattered, gave nothing of itself to matter; yet it was not unable, being one, to shape what is not one with its oneness, and to be present to all of it in such a way as not to shape this with one part of itself and that with another, but each and all with all of itself. For it would be absurd to bring in many ideas of fire, so that each fire should be shaped by another idea: so the ideas would be unlimited. Then, how will you divide the fires that come to be, fire being continuous and one? And if we added another fire to this matter, making it greater, we must say that the same idea has done the same things in that part of matter too; for surely not another.",
+   "greek": "καὶ οὐκ ἔδωκε μὲν ἑαυτῆς οὐδὲν τῇ ὕλῃ ἡ ἰδέα ἀσκέδαστος οὖσα, οὐ μὴν ἀδύνατος γέγονεν ἓν οὖσα τὸ μὴ ἓν τῷ ἑνὶ αὐτῆς μορφῶσαι καὶ παντὶ αὐτοῦ οὕτω τοι παρεῖναι, ὡς μὴ ἄλλῳ μὲν μέρει αὑτῆς τόδε, ἄλλῳ δὲ ἄλλο μορφῶσαι, ἀλλὰ παντὶ ἕκαστον καὶ πᾶν. γελοῖον γὰρ πολλὰς ἰδέας πυρὸς ἐπεισφέρειν, ἵν’ ἕκαστον πῦρ ὑφ̓ ἑκάστης ἄλλης, τὸ δὲ ἄλλης, μορφοῖτο: ἄπειροι γὰρ οὕτως ἔσονται αἱ ἰδέαι. εἶτα πῶς καὶ μεριεῖς τὰ γινόμενα συνεχοῦς πυρὸς ἑνὸς ὄντος; καὶ εἰ προσθείημεν τῇ ὕλῃ ταύτῃ ἄλλο πῦρ μεῖζον ποιήσαντες αὐτό, καὶ κατ’ ἐκεῖνο αὖ τὸ μέρος τῆς ὕλης φατέον τὴν αὐτὴν ἰδέαν τὰ αὐτὰ εἰργάσθαι: οὐ γὰρ δὴ ἄλλην.",
+   "flags": [
+    {
+     "taylor": "The Idea, impartible, gives nothing of itself to the Matter",
+     "in": "MacKenna",
+     "why": "The Greek has \"unscattered\" (ἀσκέδαστος): the idea is not dispersed over matter; \"impartible\" is MacKenna's."
+    },
+    {
+     "taylor": "bringing it to pattern not by acting part upon part",
+     "in": "MacKenna",
+     "why": "The Greek has \"to shape\" (μορφῶσαι) \"each and all with all of itself\" (παντὶ ἕκαστον καὶ πᾶν): it shapes each with the whole of itself."
+    }
+   ],
+   "notes": [
+    "That one form is enough, and two would call for a third behind them: Plato's Republic X (597c) on the one bed, and the Parmenides' regress (132a-b)."
+   ]
+  },
+  {
+   "seg": "VI.5.9.p1",
+   "chapter": "VI.5.9",
+   "modern": "And so, if someone were to bring in thought all the elements, once they have come to be, into one spherical shape, one must not say that many make the sphere part by part, each cutting off a part for himself to make, but that the cause of the making is one, making with the whole of itself, not with one part of it making one thing and another another: for so there would again be many, unless you brought the making back to one without parts, or rather unless what makes the sphere were one without parts, not itself poured out into the sphere, but the whole sphere hung from what makes it. And so one life, the same, holds the sphere, the sphere in turn set in one life; and all the things in the sphere go back into one life; and all the souls, then, are one, but one in such a way as to be unlimited too.",
+   "greek": "καὶ τοίνυν εἰ πάντα γενόμενα ἤδη τὰ στοιχεῖα τῷ λόγῳ τις εἰς ἓν σφαιρικὸν σχῆμα ἄγοι, οὐ πολλοὺς φατέον τὴν σφαῖραν ποιεῖν κατὰ μέρη ἄλλον ἄλλῃ ἀποτεμνόμενον αὑτῷ εἰς τὸ ποιεῖν μέρος, ἀλλ’ ἓν εἶναι τὸ αἴτιον τῆς ποιήσεως ὅλῳ ἑαυτῷ ποιοῦν οὐ μέρους αὐτοῦ ἄλλου ἄλλο ποιοῦντος: οὕτω γὰρ ἂν πάλιν πολλοὶ εἶεν, εἰ μὴ εἰς ἓν ἀμερὲς ἀναφέροις τὴν ποίησιν, μᾶλλον δ’ εἰ μὴ ἓν ἀμερὲς τὸ ποιοῦν τὴν σφαῖραν εἴη οὐκ αὐτοῦ χυθέντος εἰς τὴν σφαῖραν τοῦ ποιοῦντος, ἀλλὰ τῆς σφαίρας ὅλης εἰς τὸ ποιοῦν ἀνηρτημένης. καὶ ζωὴ τοίνυν μία τὴν σφαῖραν ἔχει ἡ αὐτὴ τῆς σφαίρας αὖ τεθείσης ἐν ζωῇ μιᾷ: καὶ τὰ ἐν τῇ σφαίρᾳ τοίνυν πάντα εἰς μίαν ζωήν: καὶ πᾶσαι αἱ ψυχαὶ τοίνυν μία, οὕτω δὲ μία, ὡς ἄπειρος αὖ.",
+   "flags": [
+    {
+     "taylor": "or, more precisely, the making principle must be a partless unity not permeating the sphere",
+     "in": "MacKenna",
+     "why": "The Greek says what makes the sphere is \"not poured out into the sphere\" (οὐκ αὐτοῦ χυθέντος εἰς τὴν σφαῖραν), but the sphere is \"hung from\" it (ἀνηρτημένης): it is not spread through it."
+    }
+   ],
+   "notes": [
+    "The world as one sphere made by one maker, with one soul set in its middle and stretched through it: Plato's Timaeus (33b, 34b). That all souls are one: IV.9."
+   ]
+  },
+  {
+   "seg": "VI.5.9.p2",
+   "chapter": "VI.5.9",
+   "modern": "That is why some called it a number, and others said its nature was a number that increases itself, imagining this perhaps, that it fails nothing but reaches to all, staying what it is, and that if the world were larger, its power would not fail to reach all of it too, or rather the world would be in all of it. We must take the \"increasing\", then, not as the word says, but in that, being one, it does not fail to be everywhere: for its oneness is such as not to be of the kind that is measured by how much; that belongs to another nature, which falsely claims the one, and appears one by sharing.",
+   "greek": "διὸ καὶ οἱ μὲν ἀριθμὸν ἔλεγον, οἱ δὲ αὑτὸν αὔξοντα τὴν φύσιν αὐτῆς, φαντασθέντες ταύτῃ ἴσως, ὡς οὐδενὶ ἐπιλείπει, ἀλλ’ ἐπὶ πάντα ἐστὶν ὃ ἔστι μένουσα, καὶ εἰ πλείων ὁ κόσμος ἦν, οὐκ ἂν ἐπέλιπεν ἡ δύναμις μὴ οὐκ ἐπὶ πάντα αὖ ἐλθεῖν, μᾶλλον δὲ τοῦτον ἐν πάσῃ αὐτῇ εἶναι. δεῖ δῆτα λαβεῖν τὸ αὖξον οὐχ ὡς τῷ ῥήματι λέγεται, ἀλλ’ ὅτι οὐκ ἐπιλείπει εἰς τὸ πανταχοῦ ἓν οὖσα: τοιοῦτον γὰρ αὐτῆς τὸ ἓν ὡς μὴ τοιοῦτον εἶναι οἷον μεμετρῆσθαι ὅσον: τοῦτο γὰρ φύσεως ἄλλης τῆς τὸ ἓν ψευδομένης καὶ μεταλήψει ἓν φανταζομένης.",
+   "flags": [
+    {
+     "taylor": "while others think of it as in its nature a selfincreasing number",
+     "in": "MacKenna",
+     "why": "The Greek says others called its nature \"a number increasing itself\" (αὑτὸν αὔξοντα): Xenocrates' \"number that moves itself\", with \"increasing\" for \"moving\", which the next sentences say is not to be taken as the word says."
+    },
+    {
+     "taylor": "the virtue of soul would still compass it",
+     "in": "MacKenna",
+     "why": "The Greek has \"power\" (δύναμις), not virtue; MacKenna's \"virtue\" is the older English sense of power."
+    }
+   ],
+   "notes": [
+    "Xenocrates defined soul as a number that moves itself (ἀριθμὸς αὑτὸν κινῶν): Aristotle, On the soul I.2 (404b27-30) and I.4 (408b32-409a3). Plotinus reads the self-moving as self-increasing, and so as never failing."
+   ]
+  },
+  {
+   "seg": "VI.5.9.p3",
+   "chapter": "VI.5.9",
+   "modern": "But the one that holds to truth is such as neither to be composed of many, lest, if something were taken from it, that whole one should have perished, nor to be marked off by limits, lest, when the other things are fitted to it, it should either be made less, if they are greater, or be torn apart, wishing to go to all; and be present not whole to all, but by parts of itself to parts of them, and, as the saying goes, not know where on earth it is, unable to go to any one completion, being torn apart from itself.",
+   "greek": "τὸ δ’ ἀληθείας ἐχόμενον ἓν οἷον μήτε συγκεῖσθαι ἐκ πολλῶν, ἵνα μὴ ἀφαιρεθέντος τινὸς ἀπ’ αὐτοῦ ἀπολωλὸς ᾖ ἐκεῖνο τὸ ὅλον ἕν, μήτε διειλῆφθαι πέρασιν, ἵνα μὴ ἐναρμοζομένων αὐτῷ τῶν ἄλλων ἢ ἐλαττοῖτο αὐτῶν μειζόνων ὄντων ἢ διασπῷτο βουλόμενον ἐπὶ πάντα ἰέναι, παρῇ τε οὐχ ὅλον πᾶσιν, ἀλλὰ μέρεσιν αὑτοῦ μέρεσιν ἐκείνων, καὶ τὸ λεγόμενον δὴ τοῦτο ἀγνοῇ ὅπου γῆς ἐστιν εἰς μίαν τινὰ συντέλειαν οὐ δυνάμενον ἰέναι ἅτε διεσπασμένον ἑαυτοῦ.",
+   "flags": [
+    {
+     "taylor": "dismembered, it no longer performs any one single function",
+     "in": "MacKenna",
+     "why": "The Greek says it would be \"unable to go to any one completion\" (εἰς μίαν τινὰ συντέλειαν), one whole brought together, not a function."
+    }
+   ],
+   "notes": [
+    "\"Not to know where on earth it is\" (ἀγνοεῖν ὅπου γῆς ἐστιν) is a proverb for being utterly lost; Plato's Theaetetus (174b) has the philosopher who does not know what his neighbour is doing, nor whether he is a man."
+   ]
+  },
+  {
+   "seg": "VI.5.9.p4",
+   "chapter": "VI.5.9",
+   "modern": "If, then, this one is to be truly one, this of which one can predicate one as its substance, it must appear in a way to have the nature contrary to itself, that of multitude, in its power; and by having this multitude not from outside but from itself and out of itself, by this it is really one, and in the one it has being unlimited and multitude. And being such, it appears whole everywhere, having one forming principle that holds itself in, and being itself what holds it in, nowhere standing away from itself, but being in itself everywhere.",
+   "greek": "εἴπερ οὖν ἀληθεύσει τὸ ἓν τοῦτο, καθ̓ οὗ δὴ καὶ κατηγορεῖν ἔστιν ὡς οὐσίαν τὸ ἕν, δεῖ αὐτὸ φανῆναι τρόπον τινὰ τὴν ἐναντίαν αὐτῷ φύσιν ἔχον τὴν τοῦ πλήθους ἐν τῇ δυνάμει, τῷ δὲ μὴ ἔξωθεν αὖ τὸ πλῆθος τοῦτο ἔχειν, ἀλλὰ παῤ αὑτοῦ καὶ ἐξ αὑτοῦ, τούτῳ ἓν ὄντως εἶναι, καὶ ἐν τῷ ἑνὶ ἔχειν τὸ εἶναι ἄπειρόν τε καὶ πλῆθος, τοιοῦτον δὲ ὂν πανταχοῦ ὅλον φαίνεσθαι ἕνα λόγον ἔχον ἑαυτὸν περιέχοντα καὶ τὸν περιέχοντα αὐτὸν εἶναι οὐδαμοῦ αὑτοῦ ἀποστατοῦντα, ἀλλ’ ἐν αὑτῷ πανταχοῦ ὄντα.",
+   "flags": [
+    {
+     "taylor": "this, as encircled by a single self-embracing Reason-Principle",
+     "in": "MacKenna",
+     "why": "The Greek says it has \"one forming principle (λόγον) holding itself in\" and is \"itself what holds it in\" (τὸν περιέχοντα αὐτὸν εἶναι): it is not encircled by something else. \"Reason-Principle\" is MacKenna's for λόγος."
+    },
+    {
+     "taylor": "but over all the universe remaining what it must be",
+     "in": "MacKenna",
+     "why": "The Greek says \"being in itself everywhere\" (ἐν αὑτῷ πανταχοῦ ὄντα); \"the universe\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "The one being that has multitude in it, the one of the Parmenides' second hypothesis (142b-145a), which is many by its parts and unlimited in number."
+   ]
+  },
+  {
+   "seg": "VI.5.9.p5",
+   "chapter": "VI.5.9",
+   "modern": "It is not, then, parted in this way by the place of another: for it was before all things in place, and needed none of them, but they needed it, to be founded. And once they were founded, it did not stand away from its own seat in itself: for if that were moved, they would perish, their base and what supports them perishing; nor again was it so senseless as to leave itself and be torn apart, and, though kept safe in itself, to give itself to place, which cannot be trusted and needs it to be kept safe.",
+   "greek": "οὐ δή ἐστιν αὐτὸ οὕτως ἄλλου τόπῳ διειλημμένον: πρὸ γὰρ τῶν ἐν τόπῳ ἁπάντων ἦν καὶ οὐδὲν ἐδεῖτο αὐτὸ τούτων, ἀλλὰ ταῦτα ἐκείνου, ἵνα ἱδρυθῇ. ἱδρυθέντα δὲ οὐκ ἀπέστησεν ἐκεῖνο τῆς αὐτοῦ ἐν αὑτῷ ἕδρας: κινηθείσης γὰρ ἐκείνης ἀπώλετο ἂν αὐτὰ ἀπολομένης αὐτῶν τῆς βάσεως καὶ τοῦ στηρίζοντος αὐτά, οὐδ’ αὖ ἐκεῖνο οὕτως ἀνόητον ἦν, ὥστε ἀπαλλαγὲν αὐτὸ ἑαυτοῦ διασπασθῆναι καὶ σωζόμενον ἐν ἑαυτῷ ἀπίστῳ δοῦναι ἑαυτὸ τόπῳ τῷ αὐτοῦ πρὸς τὸ σώζεσθαι δεομένῳ.",
+   "flags": [
+    {
+     "taylor": "The unity is in this way saved from the local division of the things in which it appears",
+     "in": "MacKenna",
+     "why": "The Greek says only \"it is not, then, parted in this way by the place of another\" (ἄλλου τόπῳ διειλημμένον)."
+    }
+   ],
+   "notes": [
+    "Being as the seat (ἕδρα) and base of what is in place: VI.4.2, where the world rests on the true All."
+   ]
+  },
+  {
+   "seg": "VI.5.10.p1",
+   "chapter": "VI.5.10",
+   "modern": "It stays, then, in itself, self-controlled, in its right mind, and could not come to be in another; but those other things hang from it, as if they had found by longing where it is. And this is Love who sleeps out at the door, present always from outside, aiming at the beautiful and always content to share in it in this way, as far as he can. For the lover here too is like this, not taking the beauty in, but lying beside it. But it stays by itself.",
+   "greek": "μένει οὖν ἐν ἑαυτῷ σωφρονοῦν καὶ οὐκ ἂν ἐν ἄλλῳ γένοιτο: ἐκεῖνα δὲ τὰ ἄλλα ἀνήρτηται εἰς αὐτὸ ὥσπερ οὗ ἐστι πόθῳ ἐξευρόντα, καὶ οὗτός ἐστιν ὁ θυραυλῶν Ἔρως παρὼν ἔξωθεν ἀεὶ καὶ ἐφιέμενος τοῦ καλοῦ καὶ ἀγαπῶν ἀεὶ οὕτως ὡς δύναται μετασχεῖν. ἐπεὶ καὶ ὁ ἐνταῦθα ἐραστὴς οὐ δεχόμενος τὸ κάλλος, ἀλλὰ παρακείμενος οὕτως ἔχει. τὸ δὲ ἐφ̓ ἑαυτοῦ μένει,",
+   "flags": [
+    {
+     "taylor": "It remains, then, poised in wisdom within itself",
+     "in": "MacKenna",
+     "why": "The Greek has \"self-controlled\" (σωφρονοῦν), in its right mind, against the senseless (ἀνόητον) of the last sentence; \"wisdom\" is the φρονεῖν of the next lines."
+    },
+    {
+     "taylor": "happy when to the utmost of its power it attains",
+     "in": "MacKenna",
+     "why": "The Greek says Love is \"always content\" (ἀγαπῶν ἀεί) to share \"as far as he can\"; nothing is said of attaining."
+    }
+   ],
+   "notes": [
+    "Love \"sleeping in doorways and on roads\", always in need: Plato's Symposium (203c-d), where θυραυλῶν, \"living out at the door\", is said of him. In III.5.9 Plotinus reads him as soul's desire."
+   ]
+  },
+  {
+   "seg": "VI.5.10.p2",
+   "chapter": "VI.5.10",
+   "modern": "And the many lovers of the one, loving it whole, have it whole in this way, when they have it; for it was the whole that was loved. How, then, would it not suffice for all, staying as it is? Indeed it suffices for this reason, that it stays, and it is beautiful because it is whole to all. For wisdom too is whole to all: which is why wisdom is common, not some here and some there; for it would be absurd if wisdom were to need place. And wisdom is not like the white, for wisdom is not of a body; but if we really share in wisdom, it must be one, all of it together with itself in the same. And so from there, not taking portions of it, nor I a whole and you a whole, each torn from the other.",
+   "greek": "καὶ οἱ τοῦ ἑνὸς ἐρασταὶ πολλοὶ ὅλου ἐρῶντες ὅλον ἔχουσιν οὕτως, ὅταν ἔχωσι: τὸ γὰρ ὅλον ἦν τὸ ἐρώμενον. πῶς ἂν οὖν ἐκεῖνο οὐκ ἂν πᾶσιν ἀρκοῖ μένον; ἐπεὶ καὶ διὰ τοῦτο ἀρκεῖ, ὅτι μένει, καὶ καλόν, ὅτι πᾶσιν ὅλον. καὶ γὰρ καὶ τὸ φρονεῖν πᾶσιν ὅλον: διὸ καὶ ξυνὸν τὸ φρονεῖν, οὐ τὸ μὲν ὧδε, τὸ δὲ ὡδὶ ὄν: γελοῖον γάρ, εἰ καὶ τόπου δεόμενον τὸ φρονεῖν ἔσται. καὶ οὐχ οὕτω τὸ φρονεῖν, ὡς τὸ λευκόν: οὐ γὰρ σώματος τὸ φρονεῖν: ἀλλ’ εἴπερ ὄντως μετέχομεν τοῦ φρονεῖν, ἓν δεῖ εἰς τὸ αὐτὸ πᾶν ἑαυτῷ συνεῖναι. καὶ οὕτως ἐκεῖθεν, οὐ μοίρας αὐτοῦ λαβόντες, οὐδὲ ὅλον ἐγώ, ὅλον δὲ καὶ σύ, ἀποσπασθὲν ἑκάτερον ἑκατέρου.",
+   "flags": [
+    {
+     "taylor": "because it is thus entire for all it can be The Good to all",
+     "in": "MacKenna",
+     "why": "The Greek says \"and beautiful, because it is whole to all\" (καὶ καλόν, ὅτι πᾶσιν ὅλον): it is the beautiful, not the Good."
+    },
+    {
+     "taylor": "So must it be in our participation in the One",
+     "in": "MacKenna",
+     "why": "The Greek says only \"and so from there\" (καὶ οὕτως ἐκεῖθεν): the One is not named."
+    }
+   ],
+   "notes": [
+    "\"Wisdom is common\" (ξυνὸν τὸ φρονεῖν): Heraclitus, \"thinking is common to all\" (ξυνόν ἐστι πᾶσι τὸ φρονέειν, fragment B113)."
+   ]
+  },
+  {
+   "seg": "VI.5.10.p3",
+   "chapter": "VI.5.10",
+   "modern": "Assemblies and every gathering imitate this, as men who go to one in wisdom: each apart is weak in wisdom, but each, putting it together into one, has begotten and found wisdom in the gathering and in true understanding. For what will hold intellect apart, so that it is not in the same, one from one man and another from another? But being together, they seem to us not to be together: as if someone, touching the same thing with many fingers, were to think he touched one thing and another, or struck the same string without seeing it. And yet we ought to have kept in mind how we touch the good with our souls too.",
+   "greek": "μιμοῦνται δὲ καὶ ἐκκλησίαι καὶ πᾶσα σύνοδος ὡς εἰς ἓν τῷ φρονεῖν ἰόντων: καὶ χωρὶς ἕκαστος εἰς τὸ φρονεῖν ἀσθενής, συμβάλλων δὲ εἰς ἓν πᾶς ἐν: τῇ συνόδῳ καὶ τῇ ὡς ἀληθῶς συνέσει τὸ φρονεῖν ἐγέννησε καὶ εὗρε. τί γὰρ δὴ καὶ διείρξει, ὡς μὴ ἐν τῷ αὐτῷ εἶναι νοῦν ἀπ’ ἄλλου καὶ ἄλλου; ἀλλ’ ὁμοῦ ὄντες ἡμῖν οὐχ ὁμοῦ δοκοῦσιν εἶναι: οἷον εἴ τις πολλοῖς τοῖς δακτύλοις ἐφαπτόμενος τοῦ αὐτοῦ ἄλλου καὶ ἄλλου ἐφ ʽ??ʼπτεσθαι νομίζοι, ἢ τὴν αὐτὴν χορδὴν μὴ ὁρῶν κρούοι. καίτοι καὶ ταῖς ψυχαῖς ὡς ἐφαπτόμεθα τοῦ ἀγαθοῦ ἐχρῆν ἐνθυμεῖσθαι.",
+   "flags": [
+    {
+     "taylor": "the road to sense is the road to unity",
+     "in": "MacKenna",
+     "why": "MacKenna's; the Greek says only that assemblies imitate it, \"as men who go to one in wisdom\" (ὡς εἰς ἓν τῷ φρονεῖν ἰόντων)."
+    },
+    {
+     "taylor": "as they begin to grow together, each, in that true growth, generates wisdom while he recognises it",
+     "in": "MacKenna",
+     "why": "The Greek says each, \"putting it together into one\" (συμβάλλων δὲ εἰς ἕν), in \"the gathering and the true understanding\" (τῇ συνόδῳ καὶ τῇ ὡς ἀληθῶς συνέσει), has begotten and found wisdom: the word plays on coming together (σύνοδος) and understanding (σύνεσις), and there is no growth."
+    }
+   ],
+   "notes": [
+    "That the many, coming together, may judge better than the few best: Aristotle, Politics III.11 (1281a42-b10). One string struck with many fingers: the same is touched, though the touches are many."
+   ]
+  },
+  {
+   "seg": "VI.5.10.p4",
+   "chapter": "VI.5.10",
+   "modern": "For it is not that I touch one thing and you another, but the same; nor is it the same, with one stream from there coming to me and another to you, so that it is somewhere above and what comes from it here. And the giver gives to those who take, so that they really take; and the giver gives not to strangers, but to its own. For the giving of intellect is not by sending. Since even with bodies set apart from one another in place, the giving of one to another is to its kin, and the giving and the making go to the same; and the bodily part of the All acts and is acted on in itself, and nothing comes into it from outside. If, then, with body, which by nature, as it were, flees from itself, nothing is from outside, how could anything be from outside with a thing that has no extension?",
+   "greek": "οὐ γὰρ ἄλλου μὲν ἐγώ, ἄλλου δὲ σὺ ἐφάπτῃ, ἀλλὰ τοῦ αὐτοῦ, οὐδὲ τοῦ αὐτοῦ μέν, προσελθόντος δ’ ἐμοὶ ῥεύματος ἐκεῖθεν ἄλλου, σοὶ δὲ ἄλλου, ὥστε τὸ μὲν εἶναί που ἄνω, τὰ δὲ παῤ αὐτοῦ ἐνταῦθα: καὶ δίδωσι τὸ διδὸν τοῖς λαμβάνουσιν, ἵνα ὄντως λαμβάνωσι, καὶ δίδωσι τὸ διδὸν οὐ τοῖς ἀλλοτρίοις, ἀλλὰ τοῖς ἑαυτοῦ. ἐπεὶ οὐ πόμπιος ἡ νοερὰ δόσις: ἐπεὶ καὶ ἐν τοῖς διεστηκόσιν ἀπ’ ἀλλήλων τοῖς τόποις σώμασιν ἡ δόσις ἄλλου τῇ ἄλλου συγγενὴς καὶ εἰς τὸ αὐτὸ ἡ δόσις καὶ ἡ ποίησις, καὶ τό γε σωματικὸν τοῦ παντὸς δρᾷ καὶ πάσχει ἐν αὑτῷ καὶ οὐδὲν ἔξωθεν εἰς αὐτό. εἰ δὴ ἐπὶ σώματος οὐδὲν ἔξωθεν τοῦ ἐκ φύσεως οἷον φεύγοντος ἑαυτό, ἐπὶ πράγματος ἀδιαστάτου πῶς τὸ ἔξωθεν;",
+   "flags": [
+    {
+     "taylor": "in any real receiving of good, giver is in contact with taker",
+     "in": "MacKenna",
+     "why": "The Greek says \"the giver gives to those who take, so that they really take\" (ἵνα ὄντως λαμβάνωσι); nothing is said of contact."
+    },
+    {
+     "taylor": "Now if in body, whose very nature is partition",
+     "in": "MacKenna",
+     "why": "The Greek says body by nature \"as it were flees from itself\" (οἷον φεύγοντος ἑαυτό), its parts outside one another."
+    }
+   ],
+   "notes": [
+    "That the All acts on itself and is acted on by itself, nothing coming from outside: Plato's Timaeus (33c-d). Sympathy among the parts of the All: IV.4.32."
+   ]
+  },
+  {
+   "seg": "VI.5.10.p5",
+   "chapter": "VI.5.10",
+   "modern": "Being in the same, then, we see the good and touch it, being together with our own intelligibles. And there is one world there, far more so; or else there will be two perceptible worlds, divided into like parts, and the intelligible sphere, if it is one in the way this one is, will differ in nothing; or it will be more absurd, if this one's bulk is reasonable, being by necessity, while that one, needing nothing, will stretch itself out and stand outside itself. And what hinders it from being one? The one surely does not push the other out by not giving it room; just as we see every lesson and theorem, and all the sciences in general, in the soul, not crowded. But someone will say this is not possible with substances. It would not have been possible, if the true substances were bulks.",
+   "greek": "ἐν τῷ αὐτῷ ἄρα ὄντες καὶ ὁρῶμεν τἀγαθὸν καὶ ἐφαπτόμεθα αὐτοῦ ὁμοῦ ὄντες τοῖς ἡμετέροις νοητοῖς. καὶ κόσμος εἷς πολὺ μᾶλλον ἐκεῖ: ἢ δύο κόσμοι αἰσθητοὶ ἔσονται ὅμοια μεμερισμένοι, καὶ ἡ σφαῖρα ἡ νοητή, εἰ οὕτως ἕν, ὡς αὕτη, οὐδὲν διοίσει, ἢ γελοιοτέρα ἔσται, εἴπερ τῇ μὲν ἐξ ἀνάγκης ὄγκος εὔλογος, ἡ δὲ μηδὲν δεομένη ἐκτενεῖ ἑαυτὴν καὶ ἑαυτῆς ἐκστήσεται. τί δὲ καὶ ἐμπόδιον τοῦ εἰς ἕν; οὐ γὰρ δὴ τὸ ἕτερον ἀπωθεῖ θάτερον τόπον οὐ παρέχον, ὥσπερ οὐδ’ ὁρῶντες πᾶν μάθημα καὶ θεώρημα καὶ ὅλως ἐπιστήμας πάσας ἐπὶ ψυχῆς οὐ στενοχωρουμένας. ἀλλ’ ἐπὶ οὐσιῶν φήσει τις οὐ δυνατόν. ἀλλ’ οὐ δυνατὸν ἦν ἄν, εἴπερ ὄγκοι ἦσαν αἱ ἀληθιναὶ οὐσίαι.",
+   "flags": [
+    {
+     "taylor": "It is therefore by identification that we see the good",
+     "in": "MacKenna",
+     "why": "The Greek says \"being in the same\" (ἐν τῷ αὐτῷ ὄντες) we see the good and touch it."
+    },
+    {
+     "taylor": "brought to it by becoming identical with what is of the Intellectual within ourselves",
+     "in": "MacKenna",
+     "why": "The Greek says \"being together with our own intelligibles\" (ὁμοῦ ὄντες τοῖς ἡμετέροις νοητοῖς); the modern version keeps \"intelligible\"."
+    },
+    {
+     "taylor": "except, indeed, that it will be less worthy of respect",
+     "in": "MacKenna",
+     "why": "The Greek has \"more absurd\" (γελοιοτέρα): an extended intelligible sphere would be laughable, not less respected."
+    }
+   ],
+   "notes": [
+    "The sciences many in one soul, without crowding: IV.9.5 and VI.4.4."
+   ]
+  },
+  {
+   "seg": "VI.5.11.p1",
+   "chapter": "VI.5.11",
+   "modern": "But how does what has no extension reach over beside every body, which has so great a size? And how is it not torn apart, being one and the same? This has often been raised as a difficulty, the argument wishing in its eagerness to stop the mind's perplexity about these things. Now it has already been shown in many ways that it is so; but some encouragements are needed too. And yet the strongest help to persuasion, not the least, was to be taught what that nature is: that it is not like a stone, a great cube, say, lying where it lies, taking up as much room as it is, unable to step beyond its own bounds, measured to so much both in its bulk and in the stone's power, which is bounded together with it in it; but, being a first nature, not measured nor marked off as to how great it must be, for so it would be measured by another, it is all power, nowhere of such a size.",
+   "greek": "ἀλλὰ πῶς τὸ ἀδιάστατον παρήκει παρὰ πᾶν σῶμα μέγεθος τοσοῦτον ἔχον; καὶ πῶς οὐ διασπᾶται ἓν ὂν καὶ ταὐτόν; ὃ πολλάκις ἠπόρηται παύειν τοῦ λόγου τὸ ἄπορον τῆς διανοίας περὶ ταῦτα τῇ προθυμίᾳ βουλομένου. ἀποδέδεικται μὲν οὖν ἤδη πολλαχῇ, ὅτι οὕτως: δεῖ δέ τινων καὶ παραμυθιῶν, καίτοι οὐκ ἐλάχιστον, ἀλλὰ μέγιστον εἰς πειθὼ ἦν ἐκείνη ἡ φύσις οἵα ἐστὶ διδαχθεῖσα, ὅτι οὐκ ἔστιν οἵα λίθος, οἷον κύβος τις μέγας κείμενος οὗ κεῖται τοσοῦτον ἐπέχων, ὅσος ἐστίν, ἐκβαίνειν οὐκ ἔχων τοὺς αὑτοῦ ὅρους μετρηθεὶς ἐπὶ τοσοῦτον καὶ τῷ ὄγκῳ καὶ τῇ συμπεριγραφείσῃ ἐν αὐτῷ τοῦ λίθου δυνάμει: ἀλλὰ οὖσα πρώτη φύσις καὶ οὐ μετρηθεῖσα οὐδὲ ὁρισθεῖσα ὁπόσον δεῖ εἶναι: ταύτῃ γὰρ αὖ ἑτέρα μετρηθήσεται: πᾶσά ἐστι δύναμις οὐδαμοῦ τοσήδε.",
+   "flags": [
+    {
+     "taylor": "The fact stands abundantly evident but there is still the need of intellectual satisfaction",
+     "in": "MacKenna",
+     "why": "The Greek says \"it has been shown in many ways that it is so; but some encouragements (παραμυθιῶν) are needed\": consolations to persuade, not an intellectual satisfaction."
+    },
+    {
+     "taylor": "It is a First Principle, measureless",
+     "in": "MacKenna",
+     "why": "The Greek has \"a first nature\" (πρώτη φύσις), not measured."
+    }
+   ],
+   "notes": [
+    "The encouragement (παραμυθία) that persuades where proof has been given: Plato's Phaedo (70b, 115d), where Socrates' arguments are called a consolation."
+   ]
+  },
+  {
+   "seg": "VI.5.11.p2",
+   "chapter": "VI.5.11",
+   "modern": "So it is not in time either, but outside all time; time scatters itself always toward extension, while eternity stays in the same, holds the mastery, and is greater, by an everlasting power, than time, which seems to go over many things: like a line that seems to go to infinity, hung from a point and running about it, the point appearing in it wherever it runs, the point not running, but the line circling about it.",
+   "greek": "διὸ οὐδ’ ἐν χρόνῳ, ἀλλὰ παντὸς χρόνου ἔξω, τοῦ μὲν χρόνου σκιδναμένου ἀεὶ πρὸς διάστασιν, τοῦ δ’ αἰῶνος ἐν τῷ αὐτῷ μένοντος καὶ κρατοῦντος καὶ πλείονος ὄντος δυνάμει ἀιδίῳ τοῦ ἐπὶ πολλὰ δοκοῦντος ἰέναι χρόνου, οἱονεὶ γραμμῆς εἰς ἄπειρον ἰέναι δοκούσης εἰς σημεῖον ἀνηρτημένης καὶ περὶ αὐτὸ θεούσης πανταχῇ οὗ ἂν δράμῃ τοῦ σημείου αὐτῇ ἐμφανταζομένου αὐτοῦ οὐ θέοντος, ἀλλὰ περὶ αὐτὸ ἐκείνης κυκλουμένης.",
+   "flags": [
+    {
+     "taylor": "Time is like a radial line running out apparently to infinity",
+     "in": "MacKenna",
+     "why": "The Greek says time is like a line that seems to go to infinity, \"hung from a point and running about it\" (περὶ αὐτὸ θεούσης) and \"circling about it\" (κυκλουμένης): a circle round a centre, not a radius running out."
+    },
+    {
+     "taylor": "as it goes it tells of that centre",
+     "in": "MacKenna",
+     "why": "The Greek says the point \"appears in it\" (ἐμφανταζομένου) wherever it runs."
+    }
+   ],
+   "notes": [
+    "Time a moving image of eternity, which stays in one: Plato's Timaeus (37d). Plotinus' own treatise on eternity and time is III.7, where time is the life of soul spread out (III.7.11)."
+   ]
+  },
+  {
+   "seg": "VI.5.11.p3",
+   "chapter": "VI.5.11",
+   "modern": "If, then, time has its analogy toward what stays in the same in substance, and that nature is unlimited not only by being always but also in power, one must set over against this unlimitedness of power a nature that runs beside it, hanging opposite it and depending from it; this nature runs, as it were, equal to time, toward the power that stays, which is greater in making; and that power is present to as much as this nature has been stretched out. What, then, is this nature that shares in that nature as far as it can, that nature being present whole, but not seen whole in all, by the weakness of the underlying thing?",
+   "greek": "εἰ τοίνυν χρόνος πρὸς τὸ ἐν τῷ αὐτῷ μένον ἐν οὐσίᾳ ἔχει τὴν ἀναλογίαν, ἔστι δὲ ἐκείνη ἡ φύσις οὐ μόνον τῷ ἀεὶ ἄπειρος, ἀλλὰ καὶ τῇ δυνάμει, χρὴ καὶ πρὸς ταύτην τὴν ἀπειρίαν τῆς δυνάμεως ἀντιπαραθέουσαν ἀποδοῦναι φύσιν ἀνταιωρουμένην καὶ ἐξηρτημένην ἐκείνης: ταύτης τὰ ἴσα πως τῷ χρόνῳ θεούσης πρὸς μένουσαν δύναμιν πλείω οὖσαν τῷ ποιεῖν ἐκείνη ἐστὶν ὅσον παρετάθη. τίς οὖν αὕτη ἐστὶν ἡ μεταλαμβάνουσα ταύτης τῆς φύσεως καθ̓ ὅσον οἷόν τε αὐτῇ μεταλαβεῖν, πάσης μὲν παρούσης, οὐ παντὶ δὲ πάσης ἐνορωμένης ἀδυναμίᾳ τοῦ ὑποκειμένου;",
+   "flags": [
+    {
+     "taylor": "This secondary of Power, participating as far as it may in that higher, must be identified.",
+     "in": "MacKenna",
+     "why": "The Greek asks a question, \"what, then, is this nature that shares...?\" (τίς οὖν αὕτη ἐστὶν ἡ μεταλαμβάνουσα), which the next sentence answers with what is in matter."
+    }
+   ],
+   "notes": [
+    "The nature that runs beside the unlimited power, as time beside eternity, is the extended world of body; its weakness to receive is the matter that underlies it."
+   ]
+  },
+  {
+   "seg": "VI.5.11.p4",
+   "chapter": "VI.5.11",
+   "modern": "It is present the same everywhere, not as the triangle in matter, which is more than one in number in many things, though the same, but as the immaterial triangle itself, from which the ones in matter come too. Why, then, is there not a triangle in matter everywhere, if the immaterial is everywhere? Because not all matter has shared in it, but one matter has one thing, another another, and not all is fit for all; since not even the first matter, all of it, is fit for all, but for the first of the kinds, and then for others after these; yet it was present to all.",
+   "greek": "πάρεστι δὲ ταὐτὸν πάντη οὐχ ὡς τὸ ἔνυλον τρίγωνον ἐν πολλοῖς πλείω ὂν ἀριθμῷ ταὐτόν, ἀλλ’ ὡς τὸ ἄυλον αὐτό, ἀφ̓ οὗ καὶ τὰ ἐν ὕλῃ. διὰ τί οὖν οὐ πανταχοῦ τρίγωνον ἔνυλον, εἴπερ πανταχοῦ τὸ ἄυλον; ὅτι οὐ πᾶσα μετέσχεν ὕλη, ἀλλὰ ἄλλη ἄλλο τι ἔχει, καὶ οὐ πᾶσα πρὸς πᾶν: ἐπεὶ οὐδὲ ἡ πρώτη πᾶσα πρὸς πᾶν, ἀλλὰ πρὸς τὰ πρῶτα τῶν γενῶν, εἶτ̓ ἐπὶ τούτοις ἄλλα: παρῆν μέντοι παντί.",
+   "flags": [
+    {
+     "taylor": "though these, too, are omnipresent",
+     "in": "MacKenna",
+     "why": "The Greek says \"yet it was present to all\" (παρῆν μέντοι παντί): the immaterial is present to all matter, whatever it takes; it is not that the kinds are everywhere."
+    }
+   ],
+   "notes": [
+    "The first of the kinds and their triangles: the bodies of the four elements built from two triangles in Plato's Timaeus (53c-55c); matter takes the elements first and then the things made of them."
+   ]
+  },
+  {
+   "seg": "VI.5.12.p1",
+   "chapter": "VI.5.12",
+   "modern": "How, then, is it present? As one life: for life in a living thing does not go only so far and then cannot reach to all of it; it is everywhere. And if someone asks again how, let him remember the power: that it is not of some quantity, but, though you divide it in thought to infinity, it always has the same power, unlimited from the depths; for it has no matter in it, so that it should fail along with the size of the bulk, coming to something small.",
+   "greek": "πάρεστιν οὖν πῶς; ὡς ζωὴ μία: οὐ γὰρ μέχρι τινὸς ἐν ζῴῳ ἡ ζωή, εἶτ̓ οὐ δύναται εἰς ἅπαν φθάσαι, ἀλλὰ πανταχοῦ. εἰ δέ τις ζητεῖ πάλιν πῶς, ἀναμνησθήτω τῆς δυνάμεως. ὅτι μὴ ποσή, ἀλλ’ εἰς ἄπειρον διαιρῶν τῇ διανοίᾳ ἀεὶ ἔχει δύναμιν τὴν αὐτὴν βυσσόθεν ἄπειρον: οὐ γὰρ ἐν ἑαυτῇ ἔχει ὕλην, ἵνα τῷ μεγέθει τοῦ ὄγκου συνεπιλείπῃ εἰς μικρὸν ἐλθοῦσα.",
+   "flags": [
+    {
+     "taylor": "To return : How is that Power present to the universe ?",
+     "in": "MacKenna",
+     "why": "The Greek says only \"How, then, is it present?\" (πάρεστιν οὖν πῶς;): \"to return\" and \"the universe\" are MacKenna's."
+    },
+    {
+     "taylor": "we appeal to the character of this power",
+     "in": "MacKenna",
+     "why": "The Greek says \"let him remember the power\" (ἀναμνησθήτω τῆς δυνάμεως), what has been said of it in chapter 11."
+    }
+   ],
+   "notes": [
+    "\"From the depths\" (βυσσόθεν) is a poet's word; life whole in each part of the living body: VI.4.1 and IV.2.1."
+   ]
+  },
+  {
+   "seg": "VI.5.12.p2",
+   "chapter": "VI.5.12",
+   "modern": "If, then, you grasp an ever-flowing unlimitedness in it, a nature untiring and unwearied and in no way falling short, boiling over, as it were, with life in itself, then, whether you fix on some place or gaze at some thing, you will not find it there; the contrary would happen to you. For you will not go past it and beyond, nor again halt at something small, as if it had nothing more to give by failing little by little; but either, able to run with it, or rather coming to be in the All, you will seek nothing more; or, giving up, you will turn aside to something else and fall, not seeing what is present because you look to something else.",
+   "greek": "ἐὰν οὖν λάβῃς ἀέναον ἐν αὐτῇ ἀπειρίαν, φύσιν ἀκάματον καὶ ἄτρυτον καὶ οὐδαμῇ ἐλλείπουσαν, ἐν αὑτῇ οἷον ὑπερζέουσαν ζωῇ, ἤ που ἐπιβαλὼν ἢ πρός τι ἀτενίσας οὐχ εὑρήσεις ἐκεῖ, τοὐναντίον δ’ ἄν σοι γένοιτο: οὐ γὰρ σύ γε ὑπερβήσῃ παρελθὼν οὐδὲ αὖ στήσῃ εἰς μικρὸν ὡς οὐκέτι ἐχούσης διδόναι τῷ κατὰ μικρὸν ἐπιλιπεῖν, ἀλλ’ ἢ συνθεῖν δυνηθείς, μᾶλλον δὲ ἐν τῷ παντὶ γενόμενος, οὐδὲν ἔτι ζητήσεις, ἢ ἀπειπὼν παρεκβήσῃ εἰς ἄλλο καὶ πεσῇ παρὸν οὐκ ἰδὼν τῷ εἰς ἄλλο βλέπειν.",
+   "flags": [
+    {
+     "taylor": "The contrary is your only way",
+     "in": "MacKenna",
+     "why": "The Greek says \"the contrary would happen to you\" (τοὐναντίον δ' ἄν σοι γένοιτο): instead of finding it in one place, you would find it everywhere; MacKenna makes it a way to take."
+    },
+    {
+     "taylor": "denying it, you have strayed away to something of another order and you fall",
+     "in": "MacKenna",
+     "why": "The Greek has \"giving up\" (ἀπειπών), growing weary of the chase, and turning aside \"to something else\" (εἰς ἄλλο)."
+    }
+   ]
+  },
+  {
+   "seg": "VI.5.12.p3",
+   "chapter": "VI.5.12",
+   "modern": "But if you seek nothing more, how will you ever be persuaded of this? Because you went to all, and did not stay in a part of it, nor did you say, \"I am so much\"; letting go of the \"so much\", you have become all, though you were all before too. But because something else was added to you after the all, you became less by the addition: for the addition was not from being (you will add nothing to that), but from non-being. And one who has come to be also from non-being is not all, except when he lets go of non-being.",
+   "greek": "ἀλλ’ εἰ οὐδὲν ἔτι ζητήσεις, πῶς ποτε τοῦτο πείσῃ; ἢ ὅτι παντὶ προσῆλθες καὶ οὐκ ἔμεινας ἐν μέρει αὐτοῦ οὐδ’ εἶπας οὐδὲ σύ ʽτοσοῦτός εἰμἰ, ἀφεὶς δὲ τὸ τοσοῦτον γέγονας πᾶς, καίτοι καὶ πρότερον ἦσθα πᾶς: ἀλλ’ ὅτι καὶ ἄλλο τι προσῆν σοι μετὰ τὸ πᾶν, ἐλάττων ἐγίνου τῇ προσθήκῃ: οὐ γὰρ ἐκ τοῦ ὄντος ἦν ἡ προσθήκη — οὐδὲν γὰρ ἐκείνῳ προσθήσεις — ἀλλὰ τοῦ μὴ ὄντος. γενόμενος δέ τις καὶ ἐκ τοῦ μὴ ὄντος ἐστὶν οὐ πᾶς, ἀλλ’ ὅταν τὸ μὴ ὂν ἀφῇ.",
+   "flags": [
+    {
+     "taylor": "how do you experience it",
+     "in": "MacKenna",
+     "why": "The Greek asks \"how will you be persuaded of this?\" (πῶς ποτε τοῦτο πείσῃ;): the question is of conviction, not of experience."
+    },
+    {
+     "taylor": "you cease to think of yourself as under limit",
+     "in": "MacKenna",
+     "why": "The Greek says you did not say \"I am so much\" (τοσοῦτός εἰμι), and let go of \"the so much\" (τὸ τοσοῦτον)."
+    }
+   ],
+   "notes": [
+    "The addition (προσθήκη) that makes us less is the second man of VI.4.14, who added himself to the man we were there."
+   ]
+  },
+  {
+   "seg": "VI.5.12.p4",
+   "chapter": "VI.5.12",
+   "modern": "You increase yourself, then, by letting go of the other things, and the All is present to you once you have let go; but to you as you are with other things it does not appear. Nor did it come so as to be present; it is you who went away, when it is not present. And if you went away, it was not from it, for it is present, nor did you go anywhere; but, being present, you turned to the contrary.",
+   "greek": "αὔξεις τοίνυν σεαυτὸν ἀφεὶς τὰ ἄλλα καὶ πάρεστί σοι τὸ πᾶν ἀφέντι, μετὰ δὲ ἄλλων ὄντι οὐ φαίνεται, οὐδ’ ἦλθεν, ἵνα παρῇ, ἀλλὰ σὺ ἀπῆλθες ʽὅτε οὐ πάρεστιν̓. εἰ δ’ ἀπῆλθες, οὐκ ἀπ’ αὐτοῦ — αὐτὸ γὰρ πάρεστιν — οὐδέ ποι ἀπῆλθες, ἀλλὰ παρὼν ἐπὶ τὰ ἐναντία ἐστράφης.",
+   "flags": [
+    {
+     "taylor": "By the lessening of the alien in you, you increase",
+     "in": "MacKenna",
+     "why": "The Greek says \"you increase yourself by letting go of the other things\" (ἀφεὶς τὰ ἄλλα): the increase is the self-increasing number of chapter 9, and \"the alien\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "\"Let go of everything\" (ἄφελε πάντα) is the last word of V.3.17; and the soul that \"goes away\" without going anywhere: VI.9.7."
+   ]
+  },
+  {
+   "seg": "VI.5.12.p5",
+   "chapter": "VI.5.12",
+   "modern": "So too the other gods, though many are present, often appear to one alone, because that one alone can see. But these are the gods who, \"taking all kinds of shapes, go about the cities\"; but to that one the cities turn, and all the earth and all the heaven, staying everywhere on him and in him, and having from him their being and the things that really are, down to soul and life, hanging from him and going to one that is unlimited by having no magnitude.",
+   "greek": "οὕτω γὰρ καὶ οἱ ἄλλοι θεοὶ πολλῶν παρόντων ἑνὶ φαίνονται πολλάκις, ὅτι ὁ εἷς ἐκεῖνος μόνος δύναται βλέπειν. ἀλλ’ οὗτοι μὲν οἱ θεοί, ὅτι παντοῖοι τελέθοντες ἐπιστρωφῶσι πόληας, εἰς ἐκεῖνον δὲ αἱ πόλεις ἐπιστρέφονται καὶ πᾶσα γῆ καὶ πᾶς οὐρανός, πανταχοῦ ἐπ’ αὐτοῦ καὶ ἐν αὐτῷ μένοντα καὶ ἔχοντα ἐξ αὐτοῦ τὸ ὂν καὶ τὰ ἀληθῶς ὄντα μέχρι ψυχῆς καὶ ζωῆς ἀνηρτημένα καὶ εἰς ἓν ἰόντα ἀμεγέθει τῷ ἀπείρῳ.",
+   "flags": [
+    {
+     "taylor": "It is so with the lesser gods",
+     "in": "MacKenna",
+     "why": "The Greek has \"the other gods\" (οἱ ἄλλοι θεοί); \"lesser\" is MacKenna's."
+    },
+    {
+     "taylor": "everywhere with God and in Him",
+     "in": "MacKenna",
+     "why": "The Greek says \"on him and in him\" (ἐπ' αὐτοῦ καὶ ἐν αὐτῷ), \"that one\" (ἐκεῖνον); the name \"God\" is MacKenna's."
+    }
+   ],
+   "notes": [
+    "\"The gods, like strangers from abroad, taking all kinds of shapes, go about the cities\": Homer, Odyssey XVII (485-487), quoted in Plato's Republic II (381d). A god seen by one alone: Athena, seen by Achilles only (Iliad I 197-198), as in chapter 7."
    ]
   }
  ],
