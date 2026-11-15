@@ -3,11 +3,11 @@
 Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-theology.txt`. The Workshop's modern English, machine-assisted: drafted with an AI model (Claude) from Thomas Taylor's translation (1816) and not yet checked by a scholar. Taylor's own words are beside every chapter, or one tap away.
 
 - Made from: Taylor's English (1816), Project Gutenberg's transcription; no Greek of the Theology is on the site.
-- Chapters done: 108 of 169 in Proclus' six books (I.1 to IV.39).
-- Paragraphs: 341, one for each of Taylor's in those chapters.
-- Words: 103,050 modern, 112,362 of Taylor's (183,113 in all six books).
-- Sentences (each can be marked in the reader): 4,141.
-- Flags (hard places, or where Taylor's English misleads): 160.
+- Chapters done: 119 of 170 in Proclus' six books (I.1 to V.11).
+- Paragraphs: 378, one for each of Taylor's in those chapters.
+- Words: 111,586 modern, 121,637 of Taylor's (183,111 in all six books).
+- Sentences (each can be marked in the reader): 4,440.
+- Flags (hard places, or where Taylor's English misleads): 180.
 - Problems found: 0.
 
 ## The books and chapters
@@ -18,7 +18,7 @@ Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-
 | II | 12 | 12 |
 | III | 28 | 28 |
 | IV | 39 | 39 |
-| V | 38 | 0 |
+| V | 39 | 11 |
 | VI | 23 | 0 |
 
 ## Flags
@@ -185,6 +185,26 @@ Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-
 | IV.37.p1 | But the third, as they say, to the saviour | A proverb from the Greek drinking custom: the third libation was poured to Zeus the Saviour, so "the third, to the saviour" meant "third time lucky", the last and best. Plato uses it (the Philebus 66d, the Republic IX 583b). |
 | IV.39.p1 | one of the deities of the unknown triad carried in the first of the worlds | The Chaldean Oracles' worlds: the empyrean (of fire), the aethereal and the material, divided again into seven (one empyrean, three aethereal, three material). The "gods who hold together" (Synocheis) and the "rulers of initiation" (teletarchs) are Chaldean names, set by Proclus in these orders. |
 | IV.39.p1 | the wing of fire | A Chaldean image: the soul's "wing of fire" that carries it up. Taylor's footnote supplies "the mixed" in the Greek he translated. |
+| V.1.p3 | the marriages which are celebrated by fables | The "sacred marriages" of the myths (Kronos and Rhea, Zeus and Hera), which Proclus reads as the joining of a fatherly god with a life-giving goddess. Taylor's footnote corrects "intellectual" to "intelligible" in the Greek he translated. |
+| V.2.p2 | the undefiled deities | The "undefiled" (amiantoi) or "unbending" gods, whom Proclus identifies with the Kouretes (V.3). |
+| V.2.p3 | The sphere also which is there, is the intellectual order | Parmenides' being "like a well-rounded sphere" (frag. 8.43), which Proclus takes as the image of intellect; see IV.38. |
+| V.2.p5 | when they denominate the heptad light according to intellect | Pythagorean names of numbers: the seven was called "motherless" and "virgin" (Athena), and was linked with light (phōs) and intellect. |
+| V.3.p2 | the Saturnian bonds which Socrates mentions in the Cratylus | The Cratylus 403e-404a: Pluto binds souls with "the strongest bond", desire, and does not let them go; Socrates jokes that even Kronos is bound there. In Hesiod Zeus binds Kronos after his victory. Taylor's footnote supplies, from Portus' Latin, the missing words "one by the intelligible power of the intellectuals". |
+| V.3.p3 | celebrating the armed sports of the Curetes, and their rhythmical dance | The Laws VII 796b: "the armed games of the Kouretes" in Crete. In the myth the Kouretes danced in arms round the infant Zeus, clashing their shields so that Kronos would not hear him cry; Orpheus makes them his guards. |
+| V.3.p4 | the fabulous exections, both the Saturnian and the Celestial | Hesiod, Theogony 154-182: Kronos castrates Ouranos; in the Orphic poems Zeus does the same to Kronos. The Republic II 377e-378a: such tales should be told, if at all, only to a few, after a great sacrifice; the Euthyphro 5e-6a. |
+| V.4.p2 | symbols of the assimilative | The "assimilative" (aphomoiōtikoi) gods, who make things like, are Proclus' name for the ruling gods above the world (Book VI); the "liberated" gods come after them. |
+| V.5.p4 | the illustrious Amelius | Amelius, Plotinus' pupil, read Timaeus 39e ("intellect sees the Forms in the living being that is") as naming three intellects or three Craftsmen: one that is, one that has, and one that sees. Proclus discusses this at length in his Commentary on the Timaeus. |
+| V.7.p3 | nor as the first man with us is alone earth-begotten | The Statesman 271a-b: in the age of Kronos men were born from the earth, old, and grew younger; Proclus reads the earth-born as souls raised from earthly bodies. Taylor's footnote corrects "visible" to "unseen" in the Greek he translated. |
+| V.8.p1 | he is said to feed them distributedly | The Statesman 271e, 272b: the god "pastured" (enemen) men; Proclus hears in nemein both "to pasture" and "to distribute". |
+| V.8.p2 | having made many and blessed discursive energies in the kingdom of Saturn | The Phaedrus' "many blessed sights and paths (diexodoi)" again (247a); see IV.4. Taylor's footnote corrects "above the heaven" to "beneath the heaven" in the Greek he translated. |
+| V.9.p1 | the three kings mentioned in the Gorgias | The Gorgias 523a: "Zeus, Poseidon and Pluto divided the rule when they took it over from their father". Proclus reads the three sons of Kronos as one undivided rule shared out. |
+| V.9.p2 | law is the distribution of intellect | Laws IV 714a: Plato derives nomos (law) from nous (intellect), "the distribution (dianomē) of intellect". |
+| V.10.p1 | as the Barbarians say | "The barbarians" are the Chaldeans: Proclus' usual name for the Chaldean Oracles' theology. |
+| V.10.p3 | the source of the unallured Gods | Taylor's "unallured" renders a Chaldean word for the undefiled gods (ameiliktoi, "unsoftened", that nothing can win over). Taylor's footnote corrects a word of the Greek he translated. |
+| V.11.p1 | the immutable guard of the Gods | The Kouretes, whom Rhea produces to guard the infant Zeus (V.3). |
+| V.11.p2 | he himself denominates the causes of the subsistence of all the Gods, fontal fluxions | The Cratylus 402a-d: Rhea and Kronos are "names of streams"; Homer's "Ocean, origin of the gods, and mother Tethys"; Tethys from "what leaps and filters", "the name of a spring". |
+| V.11.p4 | the gift of nature | Proclus may mean grain, Demeter's gift (see the next paragraph): the Cratylus 404b derives Demeter's name from "giving as a mother" the gift of food. |
+| V.11.p5 | he refers the whole of a legitimate life to the union of Ceres and Proserpine | Proclus' reading of the Laws (perhaps VI 782b, on Demeter's gifts); Plato does not name the "law-giving" goddesses there. Thesmophoros, "law-bringer", was a title of Demeter and Persephone. Taylor's footnote supplies "from" in the Greek he translated. |
 
 ## The fixed renderings
 

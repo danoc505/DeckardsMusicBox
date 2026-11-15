@@ -913,8 +913,19 @@ Daniel: "Lets move over to modernizing Proclus Theology of Plato". The Enneads' 
   even, before the Forms; against Plotinus' number before the living being itself; the one and many, whole and parts,
   limited and unlimited (the Synocheis, the heaven's back, depth and arch); extremes, the perfect and shape (the
   teletarchs); and the Chaldean worlds they explain. 31 paragraphs, 14 flags.
-- T13 to T16: Book V (40,018): the intellectual gods, Kronos, Rhea, Zeus, the Craftsman. Chapter 26 has no heading in
-  Gutenberg's text: find it first.
+- **T13: Book V, chapters 1-11 (9,275) (done).** First, Book V's chapter 26: Gutenberg prints its heading "CHAPTER ΧΧVῚ."
+  with two Greek Chis and an Iota with varia, so the reader merged it into chapter 25; `taylor()` now reads it (a test
+  checks it). Then: the intellectual gods and their hebdomad (three fathers, three undefiled Kouretes, the god who
+  separates) and seven hebdomads, read also from the Timaeus' world soul; Kronos, "pure intellect", his bonds, his
+  castration and the myths Plato keeps for the few; the Statesman's age of Kronos; the three kings of the Gorgias and
+  Kronos' law; his agelessness (Orpheus' verses); Rhea, the life-giving mother, who as Demeter bears Persephone.
+  37 paragraphs, 20 flags.
+- T14: Book V, chapters 12-18 (8,703): Zeus the Craftsman, the third father; against three Craftsmen; the Timaeus'
+  speech of the Craftsman to the young gods.
+- T15: Book V, chapters 19-28 (~10,400): the Craftsman's second speech; Zeus in the Cratylus, Gorgias, Protagoras,
+  Critias, Statesman and Laws; the living being itself in Zeus; the unknown Craftsman.
+- T16: Book V, chapters 29-39 (~11,800): the mixing bowl and the life-giving sources; the undefiled gods; the
+  intellectual gods in the Parmenides.
 - T17 to T19: Book VI (30,733): the ruling (assimilative) gods, the liberated gods. Chapter 10 has no heading: find it first.
 - Then, if Daniel wants it, Taylor's own Book VII (74,323 words, made from Proclus on the Timaeus), and Proclus' Greek.
 

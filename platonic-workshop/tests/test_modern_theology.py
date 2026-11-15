@@ -54,6 +54,15 @@ class TaylorsText(unittest.TestCase):
         self.assertTrue(BOOKS["III"]["chapters"][6]["paras"][0]["text"].startswith("Again therefore, the mystic doctrine"))
         self.assertTrue(all(c["head"] for c in BOOKS["III"]["chapters"]))
 
+    def test_book_five_chapter_twenty_six_is_read_despite_its_greek_letters(self):
+        # Gutenberg prints "CHAPTER ΧΧVῚ." with two Greek Chis and an Iota with varia.
+        self.assertEqual([c["n"] for c in BOOKS["V"]["chapters"]], list(range(1, 40)))
+        five = {c["n"]: c for c in BOOKS["V"]["chapters"]}
+        self.assertEqual(len(five[25]["paras"]), 5)
+        self.assertEqual(len(five[26]["paras"]), 2)
+        self.assertTrue(five[26]["paras"][0]["text"].startswith("It will remain, therefore, that we should make mention of what is written in the Laws"))
+        self.assertFalse(any("CHAPTER" in p["text"] for c in BOOKS["V"]["chapters"] for p in c["paras"]))
+
     def test_taylors_chapter_headings(self):
         heads = mt.chapter_heads()
         self.assertTrue(heads["I.1"].startswith("The Preface, in which the scope of the treatise is unfolded"))
@@ -78,10 +87,10 @@ class Files(unittest.TestCase):
 
     def test_books_one_and_two_and_book_three_chapters_one_to_eighteen_each_with_a_title_and_a_summary(self):
         d = load()
-        self.assertEqual([c["id"] for c in d["chapters"]], [f"I.{n}" for n in range(1, 30)] + [f"II.{n}" for n in range(1, 13)] + [f"III.{n}" for n in range(1, 29)] + [f"IV.{n}" for n in range(1, 40)])
-        self.assertEqual([t["id"] for t in d["treatises"]], ["I", "II", "III", "IV"])
+        self.assertEqual([c["id"] for c in d["chapters"]], [f"I.{n}" for n in range(1, 30)] + [f"II.{n}" for n in range(1, 13)] + [f"III.{n}" for n in range(1, 29)] + [f"IV.{n}" for n in range(1, 40)] + [f"V.{n}" for n in range(1, 12)])
+        self.assertEqual([t["id"] for t in d["treatises"]], ["I", "II", "III", "IV", "V"])
         self.assertTrue(all(c["title"] and c["summary"] and c["taylor_head"] for c in d["chapters"]))
-        self.assertEqual(len(d["paragraphs"]), 341)
+        self.assertEqual(len(d["paragraphs"]), 378)
         self.assertTrue(d["paragraphs"][0]["modern"].startswith("Pericles, dearest of my friends"))
 
     def test_every_paragraph_of_taylor_has_a_modern_version_in_order(self):
@@ -96,7 +105,7 @@ class Files(unittest.TestCase):
         d = load()
         taylor = {f"{c['id']}.p{x['n']}": x["text"] for c in d["chapters"] for x in c["taylor"]}
         flags = [(p["seg"], f) for p in d["paragraphs"] for f in p.get("flags", [])]
-        self.assertGreaterEqual(len(flags), 160)
+        self.assertGreaterEqual(len(flags), 180)
         for seg, f in flags:
             self.assertIn(f["taylor"], taylor[seg], seg)
             self.assertTrue(f["why"], seg)
