@@ -878,8 +878,10 @@ Daniel: "Lets move over to modernizing Proclus Theology of Plato". The Enneads' 
   many (the Parmenides' hypotheses turned into proofs), from the kinds of principle (not body, not a power in bodies, not
   moved, not being), and from what all things share and the limits of the series of causes. 29 paragraphs, 11 flags (e.g.
   Taylor's "causally" for "by chance", and a sentence of II.3 where his English says "more perfect" for "less perfect").
-- T6: Book II, chapters 4-12 (12,799): the first principle above intellect; the ascent by analogy and by negation; its names;
-  the Republic's sun; the first king of the Second Letter; the first hypothesis of the Parmenides.
+- **T6: Book II, chapters 4-12 (12,799) (done; Book II complete).** Against Origen the Platonist, who stopped at
+  intellect; the two ways up to the first (analogy and negation) and its two names (the Good and the One); the Republic's sun
+  and the monad in every order; the Second Letter's king of all and its three sayings; the first hypothesis of the
+  Parmenides, its denials taken order by order. 38 paragraphs, 19 flags (e.g. "unhyparctic", "adyta", "Titannically").
 - T7 to T9: Book III (28,027): the henads, limit and the unlimited, the intelligible gods. Gutenberg's text runs chapters 3-9
   together (no headings for 4-8, which Taylor's table of contents names): T7 must find and mark them.
 - T10 to T12: Book IV (28,882): the intelligible and intellectual gods (the Phaedrus' place above the heaven).

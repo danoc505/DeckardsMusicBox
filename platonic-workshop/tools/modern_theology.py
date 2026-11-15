@@ -74,15 +74,17 @@ ABOUT = ("A modern English version of Proclus' Theology of Plato (fifth century)
          "Greek is not yet on the site (the only free edition, Portus' of 1618, is a scan whose Greek OCR is badly garbled), so "
          "this version cannot yet be checked against the Greek; a flag marks a place where Taylor's English is hard or unclear, "
          "with his words. Taylor's footnotes are kept under his words. The chapters and their numbers are Taylor's (his "
-         "headings are in his table of contents); the short titles and summaries are the Workshop's. So far: all of Book I, and Book II, "
-         "chapters 1-3. Book I, chapters 1-8: Proclus' preface and its praise of Plato and his heirs, how the work will proceed and what its hearer needs, who "
+         "headings are in his table of contents); the short titles and summaries are the Workshop's. So far: Books I and II. "
+         "Book I, chapters 1-8: Proclus' preface and its praise of Plato and his heirs, how the work will proceed and what its hearer needs, who "
          "a theologian is in Plato's sense, the four ways Plato teaches about the gods, which dialogues hold his theology, and "
          "why the Parmenides holds all of it; chapters 9-12, against the merely logical reading of the Parmenides, and Syrianus' "
          "reading of its hypotheses as the orders of the gods; chapters 13-17, the Laws' three rules (the gods exist, provide "
          "for all things and cannot be bribed) and the Republic's axioms, beginning with the gods' goodness and the nature of evil; chapters 18-29, the gods' unchangeableness, simplicity and truth, "
          "the Phaedrus' beautiful, wise and good, faith, truth and love, the Phaedo's divine, immortal and intelligible, the "
          "unbegotten, father and mother causes, and the divine names. Book II, chapters 1-3: three arguments that the "
-         "first principle is the One itself, beyond being and beyond all multitude.")
+         "first principle is the One itself, beyond being and beyond all multitude; chapters 4-12, against Origen, the two "
+         "ways up (analogy and negation) and the two names (the One and the Good), the Republic's sun, the Second Letter's "
+         "king of all, and the first hypothesis of the Parmenides as a hymn of denials.")
 
 LINE = re.compile(r"^@(book|ch|p)\b\s*(.*)$")
 ROMAN = {"I": 1, "V": 5, "X": 10, "L": 50}

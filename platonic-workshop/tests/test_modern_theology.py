@@ -68,12 +68,12 @@ class Files(unittest.TestCase):
         self.assertIn("Project Gutenberg", d["taylor_source"])
         self.assertIn("not yet on the site", d["about"])
 
-    def test_book_one_and_book_two_chapters_one_to_three_each_with_a_title_and_a_summary(self):
+    def test_books_one_and_two_each_with_a_title_and_a_summary(self):
         d = load()
-        self.assertEqual([c["id"] for c in d["chapters"]], [f"I.{n}" for n in range(1, 30)] + ["II.1", "II.2", "II.3"])
+        self.assertEqual([c["id"] for c in d["chapters"]], [f"I.{n}" for n in range(1, 30)] + [f"II.{n}" for n in range(1, 13)])
         self.assertEqual([t["id"] for t in d["treatises"]], ["I", "II"])
         self.assertTrue(all(c["title"] and c["summary"] and c["taylor_head"] for c in d["chapters"]))
-        self.assertEqual(len(d["paragraphs"]), 150)
+        self.assertEqual(len(d["paragraphs"]), 188)
         self.assertTrue(d["paragraphs"][0]["modern"].startswith("Pericles, dearest of my friends"))
 
     def test_every_paragraph_of_taylor_has_a_modern_version_in_order(self):
@@ -88,7 +88,7 @@ class Files(unittest.TestCase):
         d = load()
         taylor = {f"{c['id']}.p{x['n']}": x["text"] for c in d["chapters"] for x in c["taylor"]}
         flags = [(p["seg"], f) for p in d["paragraphs"] for f in p.get("flags", [])]
-        self.assertGreaterEqual(len(flags), 59)
+        self.assertGreaterEqual(len(flags), 78)
         for seg, f in flags:
             self.assertIn(f["taylor"], taylor[seg], seg)
             self.assertTrue(f["why"], seg)
