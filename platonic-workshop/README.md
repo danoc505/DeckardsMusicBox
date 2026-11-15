@@ -541,7 +541,7 @@ animals), peoples and places (Airs, waters, places), the identity of indiscernib
 Egyptians' signs, the craftsman who admired his work (Timaeus 37c-d), Zeus' procession (Phaedrus 246e-247a), and Hesiod's
 Ouranos, Kronos and Zeus read as the One, intellect and soul.
 **VI.1, On the kinds of being, first part, chapters 1-15** (E22), beside MacKenna's vol. V (1930, the Sixth Ennead), brought
-in for it: 15 of the treatise's 30 chapters (the rest are E23's), 76 paragraphs, 31 flags. The volume's own Acknowledgements
+in for it: 15 of the treatise's 30 chapters, 76 paragraphs, 31 flags. The volume's own Acknowledgements
 say that B. S. Page translated VI.1 to VI.3 for it, so the older English here is Page's, and the flags say so. Among them
 "the Supreme" for the intelligibles, the things that most are; numbers that measure from outside where the Greek finds it
 strange that they measure from inside; "the total figure" for the multitude the soul counts; "posterior" and "prior" for the
@@ -552,6 +552,15 @@ their pages. The notes give Aristotle's Categories throughout, the survey of pre
 prior and posterior (Metaphysics B.3), the Heraclids and "from one" (Metaphysics Γ.2), voice as a blow (On the soul II.8),
 the Phaedo's causes, the soul's three parts, Delphi the navel, the senses of "in" (Physics IV.3), and motion among the
 Sophist's greatest kinds.
+**VI.1, chapters 16-30** (E23), beside Page's English in vol. V: being acted on, having and lying, and then the Stoics'
+four kinds; 72 paragraphs, 23 flags, which complete the treatise. The forming principle (λόγος) keeps its one name, and
+Page's "Reason-Principle", "rational law" and "Seminal Principles" for it are flagged as his. Among the other flags, "faculty
+of thought" for thought, "emotion" for the movement that follows a cut, "aimless" for free-standing, "Possession" and
+"Situation" for having and lying, "Qualities, States" for the Stoics' qualified and disposed, "the living form" for the
+living being, and the scan's "wails" for his "walks". The notes give motion as incomplete act (Physics III.2, Metaphysics
+Θ.6), "as if change did not happen all at once" (Physics I.3), one motion of agent and patient (Physics III.3), the ways
+of having (Categories 15), the Stoics' four and their "something" (Simplicius, Seneca, Sextus), act before potency
+(Metaphysics Θ.8), and the Stoic principles, body, god and soul (Diogenes Laertius VII).
 **III.8, On nature, contemplation and the One, and III.9, Various considerations** (E14), beside MacKenna's vol. II: 14
 chapters, 41 paragraphs, 70 flags, among them his "the Highest" for intellect that began as one and unrolled itself,
 "pregnant" for weighed down, the living principle "brother ... to that which gives mere shape" where it is brother to
@@ -638,7 +647,7 @@ hyphened terms such as "Sense-Perception" kept; not proofread). The master copy 
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: VI.1 On the kinds of being, first part, chapters 16-30, beside vol. V (E23).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: VI.2 On the kinds of being, second part, beside vol. V (E24).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,

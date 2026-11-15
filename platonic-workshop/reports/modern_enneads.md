@@ -6,12 +6,12 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 - Porphyry's Life of Plotinus: Volkmann's own Greek (vol. I, 1883), proofread from the scan (`sources/neoplatonists/proofread/porphyry-life-plotinus.txt`).
 - Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny, III.2 On providence, first part, III.3 On providence, second part, III.4 On the daemon allotted to us, III.5 On love, III.8 On nature, contemplation and the One, III.9 Various considerations, IV.1 On the being of the soul, first part, IV.4 On difficulties about the soul, second part, IV.5 On difficulties about the soul, third part, or on sight, IV.6 On perception and memory, IV.8 On the descent of the soul into bodies, IV.9 Whether all souls are one, V.4 How what comes after the first comes from it, and on the One, V.5 That the intelligibles are not outside intellect, and on the Good, V.7 Whether there are forms of individuals, V.8 On intelligible beauty, VI.1 On the kinds of being, first part.
 - The whole Enneads: 33 treatises here, 15 beside Taylor (milestone 27), 7 to come.
-- Chapters: 315, each with a short title and a summary.
-- Paragraphs: 985, each with its Greek.
-- Words: 128,587 modern, 96,976 Greek, 161,979 in MacKenna's English of the same chapters.
-- Sentences (each can be marked in the reader): 4,514.
-- Flags (where MacKenna and the Greek differ, or the Greek is hard): 866.
-- Notes (Plato's, Aristotle's and Homer's places, hard readings): 621.
+- Chapters: 330, each with a short title and a summary.
+- Paragraphs: 1057, each with its Greek.
+- Words: 134,537 modern, 101,630 Greek, 168,588 in MacKenna's English of the same chapters.
+- Sentences (each can be marked in the reader): 4,771.
+- Flags (where MacKenna and the Greek differ, or the Greek is hard): 889.
+- Notes (Plato's, Aristotle's and Homer's places, hard readings): 649.
 - Problems found: 0.
 
 ## Flags
@@ -884,6 +884,29 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | VI.1.13.p6 | as in this case something acts in time | The Greek speaks of "making one thing be in another" (τῷ ἕτερον ἐν ἑτέρῳ ποιεῖν), putting it there, not of acting: the next chapter lists the many ways of being "in". |
 | VI.1.14.p1 | The Academy and the Lyceum are places, and parts of Place | Page leaves out the chapter's first words, "where, as in the Lyceum and in the Academy", the category and its example as the school gives them. |
 | VI.1.15.p2 | But Motion is a distinct genus | The Greek says "motion is one kind of the things that are" (ἓν γένος ἡ κίνησις τῶν ὄντων), one of the kinds of being, as in Plato's Sophist. |
+| VI.1.16.p2 | a moving man has motion and a cutter cuts before there is any question of Quantity | The Greek says "the one moving has already moved, and the one cutting has already cut" (ἤδη κεκίνηται ... ἤδη ἔτεμε); the question of quantity is Page's. |
+| VI.1.16.p3 | Our critic, it is true, may find support in that principle of proportion | The Greek says "the analogy too bears witness to this" (μαρτυρεῖ δὲ τούτῳ καὶ ἡ ἀναλογία) and names no critic: what follows from it, as the next paragraph says, is an absurdity for those who set act apart from motion. |
+| VI.1.17.p3 | Why not bisect the unity, Motion | The Greek divides "being moved" (τὸ κινεῖσθαι), the kind that would be set beside motion as acting is set beside action, not motion itself. |
+| VI.1.18.p2 | together with the faculty of thought | The Greek has "as thought (νόησις) is", the thinking, not a faculty; so too the perception set beside the perceptible is perception (αἴσθησις). |
+| VI.1.19.p4 | the distinct emotion supervening | The Greek says "another movement (κίνημα) that comes upon it"; pain is its example, not an emotion. |
+| VI.1.19.p9 | Suppose this Passion to be treated as of itself producing pain | The Greek supposes someone who acts "so as to cause pain" (ὥστε λυπεῖν), an agent who means to hurt, not a passion. |
+| VI.1.20.p4 | produced by its Reason-Principle | "Reason-Principle", the term of MacKenna's volumes, which Page kept, renders λόγος, the forming principle, as the Workshop calls it throughout. In the Greek the forming principle whitens, and the swan is whitened as it comes to be. |
+| VI.1.20.p6 | seeing that the Act of the agent passes into him (and becomes his Act) | The words in brackets are Page's: the Greek says only that the agent's act "goes into him" (εἰς αὐτὸν ἰούσης). |
+| VI.1.21.p1 | Surely we must look for it in cases where the patient remains without Act | The Greek asks it as a question (ἀλλ’ ἆρα ... ;), which the cases that follow answer against. |
+| VI.1.21.p1 | Imagine a case where an agent improves | In the Greek it is the thing acted on that "became better" while the act "had the worse": being acted on can be better than acting. |
+| VI.1.21.p5 | there is the passivity which tends to alteration for better or for worse | The Greek's two kinds are becoming worse and becoming better, with "or neither" (ἢ οὐδέτερον) added after; Page joins the two into one and makes "neither" the second. |
+| VI.1.22.p1 | whether the motion be aimless | The Greek's word is "free-standing" (ἀπόλυτον), a motion that does not go into another, as walking does not; nothing is said of an aim. |
+| VI.1.22.p3 | involve the possession of the powers respectively to walk and to think | The Greek says they "have walking" and "have thought" (ἔχει βάδισιν ... νόησιν), the motions themselves, not powers. |
+| VI.1.22.p4 | but remains selfgathered | The Greek says only that thinking goes "not into the thing thought, but about it" (οὐ ... εἰς αὐτὸ τὸ νοούμενον, ἀλλὰ περὶ αὐτοῦ); that it "remains selfgathered" is Page's. |
+| VI.1.22.p5 | if a man as he wails produces footprints | "Wails" is the scan's misreading of Page's "walks": the Greek is "walking" (βαδίζων). |
+| VI.1.23.p1 | As for Possession | The Greek names the category "having" (τὸ ἔχειν); Aristotle's examples are "has shoes on, is armed" (Categories 4, 2a3). |
+| VI.1.24.p1 | There remains Situation | The Greek's category is "lying" (τὸ κεῖσθαι); Aristotle's examples are "is lying, is sitting" (Categories 4, 2a2-3). |
+| VI.1.25.p1 | Substrates, Qualities, States, and Relative States | The Greek names "qualified things" (ποιά), not qualities, and things "disposed in some way" (πὼς ἔχοντα) and "disposed in some way relative to something" (πρός τί πως ἔχοντα): the Stoics' four are ways a body is, not abstractions. |
+| VI.1.26.p2 | a principle and a rational law (logos) | "Rational law" is Page's for λόγος, the forming principle, as the Workshop calls it throughout. |
+| VI.1.26.p4 | by participation and in an accidental mode | The Greek says "by a coming together" (κατὰ σύμβασιν), the joining of parts into one; "by accident" (κατὰ συμβεβηκός) is the word Plotinus uses after, and explains. |
+| VI.1.27.p5 | the living form | The Greek has "the living being" (τὸ ζῷον), the animal, not its form. |
+| VI.1.29.p3 | even their Seminal Principles (Logoi) | The Greek says only "the forming principles" (οἱ λόγοι); "Seminal" is Page's, after the Stoics' seminal principles (σπερματικοὶ λόγοι). |
+| VI.1.30.p5 | or even supposed the Composite to be the Authentic Existent | The Greek has only "or both together" (τὸ συναμφότερον), principles both bodies and bodiless; "the Authentic Existent" is Page's. |
 
 ## The plan, in Porphyry's order
 
@@ -935,7 +958,7 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | V.7 | Whether there are forms of individuals | done here |
 | V.8 | On intelligible beauty | done here |
 | V.9 | On intellect, the forms and being | done beside Taylor (milestone 27) |
-| VI.1 | On the kinds of being, first part | done here, chapters 1-15 of 30 |
+| VI.1 | On the kinds of being, first part | done here |
 | VI.2 | On the kinds of being, second part | to come (E24) |
 | VI.3 | On the kinds of being, third part | to come (E25-E26) |
 | VI.4 | That being, one and the same, is everywhere whole, first part | to come (E27) |

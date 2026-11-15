@@ -6287,3 +6287,372 @@ Is the kind, then, acting, or action, from which acting comes, as it is quality,
 @p
 @greek διὰ τί γὰρ ποιότης μὲν
 For why should quality be one thing about substance, and quantity one, and the relative one, because of the relation of one thing to another, while motion, which is about substance, will not be something too, and one kind?
+
+@ch VI.1.16 | Motion, an incomplete act, and timeless
+If motion is an incomplete act, act can be the kind and motion a species under it. Motion is incomplete not because it is not act, but because it goes on again towards a work beyond it: walking is walking from the start, and only motion over so much needs time. Act is timeless, and so is motion simply; time comes in with how long it lasts, and change too is agreed to happen all at once.
+
+@p
+If someone says that motion is an incomplete act, nothing would prevent us from ranking act first and placing motion under it as a species, because it is incomplete: we would predicate act of it, and add "incomplete". For "incomplete" is said of it not because it is not an act at all. It is an act altogether, but it also has the "again".
+!note "An incomplete act" (ἐνέργεια ἀτελής) is Aristotle's account of motion (Physics III.2, 201b31-33; Metaphysics Θ.6, 1048b28-30; On the soul III.7, 431a6-7).
+
+@p
+@greek καὶ τὸ πάλιν, οὐχ
+It goes on again, not in order to arrive at act, for it is act already, but in order to work out something other than itself, which comes after it. And then it is not the motion that is completed, but the thing it aimed at. Walking, for instance, was walking from the start. If one had to cover a stade and had not yet covered it, what was lacking was lacking not to the walking, nor to the motion, but to the walking of so much: it was walking, however much of it there was, and already motion. At any rate, the one who is moving has already moved, and the one who is cutting has already cut. And as what is called act does not need time, neither does motion, but only motion over so much; and if act is in the timeless, so is motion, motion as such.
+!flag a moving man has motion and a cutter cuts before there is any question of Quantity | The Greek says "the one moving has already moved, and the one cutting has already cut" (ἤδη κεκίνηται ... ἤδη ἔτεμε); the question of quantity is Page's.
+!note That whatever is moving has already moved is Aristotle's (Physics VI.6, 236b32-237a17); in Metaphysics Θ.6 (1048b23-35) he uses the opposite test, that one is not at the same time walking and having walked, to set motions apart from acts such as seeing.
+
+@p
+@greek εἰ δ’ ὅτι τὸ συνεχὲς
+But if it is in time at any rate because it has taken on continuity, then seeing too, which does not break off from seeing, would be in continuity and in time. The analogy bears witness to this too, the argument which says that one can always take any motion whatever and find no beginning, neither of the time in which and from which it began, nor of the motion itself, but can divide it back towards its start; so that a motion just begun would have been moving from an unlimited time, and would itself be unlimited towards its beginning.
+!flag Our critic, it is true, may find support in that principle of proportion | The Greek says "the analogy too bears witness to this" (μαρτυρεῖ δὲ τούτῳ καὶ ἡ ἀναλογία) and names no critic: what follows from it, as the next paragraph says, is an absurdity for those who set act apart from motion.
+!note Aristotle: there is no first part of a motion, nor of the time in which it moves, since both are divisible without end (Physics VI.5-6, 236a7-b18). Seeing is complete at any moment, unlike a motion (Nicomachean Ethics X.4, 1174a14-b9).
+
+@p
+@greek τοῦτο γὰρ συμβαίνει διὰ τὸ
+This follows from setting act apart from motion, and saying that act comes about in the timeless while motion needs time. They are forced to call not only motion of so much a quantity, but its very nature, though they themselves agree that quantity is present to it by accident, if it lasts a day or any amount of time.
+
+@p
+@greek ὥσπερ οὖν ἐνέργεια ἐν ἀχρόνῳ
+As act, then, is in the timeless, so nothing prevents motion too from having begun in the timeless, while time comes in by its having gone on for so long. For changes too are agreed to come about in the timeless, when it is said: "as if change did not also happen all at once". If change, then, why not motion too? Change is taken here not as having changed: it did not need the having changed.
+!note "As if change did not happen all at once" is Aristotle's against Melissus (Physics I.3, 186a15-16).
+
+@ch VI.1.17 | Act and motion are not relatives
+Act is of what is potentially active and motion of what can move, but that does not make them relatives: whatever has a reality of its own has a nature before any relation, or everything would be relative. If action is put among the relatives and acting made a kind, being moved should be the kind, divided into acting and being acted on.
+
+@p
+If someone says that neither act nor motion needs a kind of its own, but brings them back to the relative, because act is of what is potentially active and motion of what is potentially able to move, we must say this. Relatives the relation itself begot; they are not merely said in relation to something else. But when there is some reality, even if it is of something else or in relation to something else, it has been allotted the nature that comes before the relative. So act and motion, and state too, though they are of something else, are not robbed of being, and of being thought of, by themselves, before being relative. Otherwise everything will be relative: for anything at all has some relation to anything, as is the case with the soul too.
+!note Aristotle counts state, disposition, perception, knowledge and position among the relatives (Categories 7, 6b2-6).
+
+@p
+@greek αὐτή τε ἡ
+And action itself, and acting: why will they not be brought back to the relative? For they will in any case be either motion or act.
+
+@p
+@greek εἰ δὲ τὴν μὲν ποίησιν
+But if they bring action back to the relative and set acting down as one kind, why do they not also bring motion back to the relative and set being moved down as one kind, and divide being moved, as one, in two, into the species of acting and being acted on, instead of calling acting one kind and being acted on another, as they do now?
+!flag Why not bisect the unity, Motion | The Greek divides "being moved" (τὸ κινεῖσθαι), the kind that would be set beside motion as acting is set beside action, not motion itself.
+!note For Aristotle the motion of what acts and of what is acted on is one, as teaching and learning are one (Physics III.3, 202a13-b22).
+
+@ch VI.1.18 | Acts and motions within acting
+Within acting, are some things acts, all at once, and others motions, in time? Are all actions relative to being acted on, or are some free-standing, as walking and speaking? Thinking may be relative to the intelligible as perception is to the perceptible, but perceiving, like walking, has besides its relation its being an act or an affection.
+
+@p
+We must look further. Will they say that within acting some things are acts and some motions, calling acts those that are all at once, and motions those such as cutting, since cutting is in time? Or are all of them motions, or with motion? And are all actions relative to being acted on, or are some free-standing too, such as walking and speaking? And are all those relative to being acted on motions, and the free-standing ones acts, or is each found in both? Walking, at any rate, being free-standing, they would call a motion; and thinking, which has nothing acted on, an act too, I suppose. Or else we must not even call thinking and walking acting. But if they are not in acting, we must say where they are.
+
+@p
+@greek τάχα δὲ τὸ νοεῖν
+Perhaps thinking is relative to the intelligible, as thought is; for perception too is relative to the perceptible. But if there too they make perception relative to the perceptible, why is perceiving itself no longer relative to the perceptible? And perception, which is directed to another, has a relation to it, but it has something besides the relation: being either an act or an affection. If, then, the affection, beside being of something and by something, is something else, so is the act. And walking, which itself has being of something (of feet) and by something, has being a motion. So thought too, beside being relative, would have being either a motion or an act.
+!flag together with the faculty of thought | The Greek has "as thought (νόησις) is", the thinking, not a faculty; so too the perception set beside the perceptible is perception (αἴσθησις).
+!note Knowledge and perception are relatives, of the known and the perceived (Categories 7, 6b2-6; Metaphysics Δ.15, 1021a29-b3).
+
+@ch VI.1.19 | Life, cutting and pain
+Living and happiness take a complete time, like motions, so motion is one kind, with its divisions. The cutting from the cutter and in the cut is one motion; being acted on lies in what comes after, such as pain. Writing, or walking on the earth, acts on nothing. Even one who means to hurt makes something which then makes the pain; and hearing is not an affection, though being pained is.
+
+@p
+We must look into whether some acts too will seem incomplete if they do not take on time, so as to come to the same as motions: living, for instance, and life. For each one's living is in a complete time, and happiness is an act not in what has no parts, but such as they claim motion to be. So both must be called motions, and motion one thing and one kind, as we observe that beside the quantity and the quality in substance there is motion too, which is about it.
+!note Happiness is an act of the soul "in a complete life" (Aristotle, Nicomachean Ethics I.7, 1098a16-20; I.10, 1101a14-16).
+
+@p
+@greek καί, εἰ βούλει
+And, if you like, some motions are of the body and some of the soul; or some are from the things themselves, and others come into them from others; or some are out of themselves and others out of others: and those out of themselves are actions, whether into others or free-standing, and those out of others are affections.
+
+@p
+@greek καίτοι καὶ αἱ εἰς ἄλλα
+And yet the motions into others are the same as those out of others: the cutting, both that from the cutter and that in the thing cut, is one, but cutting and being cut are different.
+
+@p
+@greek τάχα δὲ οὐδὲ μία
+Perhaps the cutting from the cutter and that in the thing cut are not even one. Cutting is this: that from such an act and motion another motion comes about in the thing cut, succeeding it. Or perhaps the difference is not in being cut itself, but in another movement that comes upon it, such as feeling pain: for being acted on lies in this.
+!flag the distinct emotion supervening | The Greek says "another movement (κίνημα) that comes upon it"; pain is its example, not an emotion.
+
+@p
+@greek τί οὖν, εἰ μή τι ἀλγεῖ
+What, then, if nothing feels pain? What else is there but the act of the agent, which is in this thing? For so too is what is called acting in this way; and so acting is twofold, the one not coming about in another, the other in another. And it is no longer that one thing is acting and the other being acted on: acting in another has made people think there are two, acting and being acted on.
+
+@p
+@greek οἷον καὶ τὸ γράφειν
+So writing too, though it is in another, does not call for being acted on, because it makes nothing else in the tablet beyond the act of the writer, nothing like pain. And if someone says the tablet has been written on, he is not speaking of being acted on.
+
+@p
+@greek καὶ ἐπὶ τοῦ βαδίζειν
+In walking too, though there is the earth one walks on, no one adds that it has been acted on. But when someone treads on a living body, one thinks of being acted on, of what comes after, reckoning the pain, not the walking; or one would have thought of it before as well.
+
+@p
+@greek οὕτω καὶ ἐπὶ πάντων
+So in all cases, as far as acting goes, we must speak of one thing together with what is called being acted on, its opposite. But what is called being acted on is what comes about later, not the opposite, as being burned is to burning: rather, burning and being burned being one, what comes about upon it, pain or something else, such as withering.
+
+@p
+@greek τί οὖν, εἴ τις αὐτὸ τοῦτο
+What, then, if someone did this very thing so as to cause pain? Is not one acting and the other acted on, two things from one act? Or in the act there is no longer the will to cause pain; rather, he makes something else, through which he causes pain, and this, coming about in the one who will feel pain, being one and the same, has made something other, the feeling of pain.
+!flag Suppose this Passion to be treated as of itself producing pain | The Greek supposes someone who acts "so as to cause pain" (ὥστε λυπεῖν), an agent who means to hurt, not a passion.
+
+@p
+@greek τί οὖν; αὐτὸ τὸ ἓν γενόμενον
+What then? This one thing that has come about, before it causes pain, or if it causes no pain at all, is it not an affection of that into which it comes, as hearing is? Or hearing is not an affection, nor is perceiving at all; but being pained is coming to be in an affection, and this is not opposite to acting.
+
+@ch VI.1.20 | Rubbing, the swan and the learner
+If being acted on is other than acting, it is not in the same kind, unless both are motion, as alteration is motion in quality. What acts may be acted on too, and one motion can be action from one side and affection on the other. But is the swan acted on when its forming principle whitens it, or the copper when the tin makes it better? The learner takes in another's act, yet learning, like seeing, lies in apprehending.
+
+@p
+But let it not be opposite: still, being other than acting, it is not in the same kind as action. Or, if both are motion, they are in the same kind, as alteration is motion in respect of quality.
+!note Alteration is change in respect of quality (Aristotle, Physics V.2, 226a26-29).
+
+@p
+@greek ἆῤ οὖν, ὅταν μὲν ἀπὸ τοῦ
+Is it, then, that when alteration goes out from the qualified, it is action and acting, while the thing itself is unaffected? Or, if it is unaffected, it will be in acting; but if, while acting on another, as in striking, it is also acted on, it no longer acts. Or nothing prevents what acts from being acted on too.
+
+@p
+@greek εἰ οὖν κατ’ αὐτὸ τὸ πάσχειν
+If, then, it is in respect of being acted on itself, as in rubbing, why is it acting rather than being acted on? Or it is acted on because it is rubbed in return. Shall we then say, because it is moved in return, that there are two motions about it? And how two? Rather, one. And how is the same one both action and affection? Or it is action in being from one thing, and affection in being into another, being the same.
+
+@p
+@greek ἀλλὰ ἄλλην
+But shall we say it is another motion? Then how does it dispose the one acted on otherwise, altering it, while the agent is unaffected by it? For how could what acts in another be affected by it? Is it, then, the motion's being in another that makes being acted on, which was not being acted on in the agent? But if the forming principle of the swan whitens, and the swan coming to be is whitened, shall we say it is acted on in going to its substance? And if it were whitened later, when it has come to be? And if one thing makes grow and another grows, is what grows acted on? Or is affection only in the qualified?
+!flag produced by its Reason-Principle | "Reason-Principle", the term of MacKenna's volumes, which Page kept, renders λόγος, the forming principle, as the Workshop calls it throughout. In the Greek the forming principle whitens, and the swan is whitened as it comes to be.
+
+@p
+@greek ἀλλ’ εἰ τὸ μὲν καλὸν ποιοῖ
+But if one thing makes beautiful and another is beautified, is what is beautified acted on? If, then, what beautifies became worse, or even vanished, as tin does, while the other became better, as copper does, shall we say the copper is acted on, and the tin acts?
+!note Bronze is copper alloyed with tin: the tin is lost in the alloy, and the copper is made harder and finer.
+
+@p
+@greek τὸν δὲ μανθάνοντα
+And how is the learner acted on, when the act of the agent goes into him? Or how could it be an affection, being one? It is not itself an affection, but the one who has it will be acted on, since some being acted on is taken in. Nor is it by his not having acted: for learning, which lies in apprehending and recognizing, is not like being struck, any more than seeing is.
+!flag seeing that the Act of the agent passes into him (and becomes his Act) | The words in brackets are Page's: the Greek says only that the agent's act "goes into him" (εἰς αὐτὸν ἰούσης).
+!note Teaching and learning are one motion, in the learner (Aristotle, Physics III.3, 202b5-22).
+
+@ch VI.1.21 | How to tell being acted on
+Not by an act from another, which the receiver makes its own, nor by its being worse: an act can be base and an affection fine. Not by direction either, since thinking and anger start within. Desires that follow intellect may be actions, those that drag us affections; being acted on is an alteration one does not help, which does not lead to substance. The bronze heated for a statue is acted on and made better, so being acted on is of two kinds.
+
+@p
+How, then, shall we recognize being acted on? Not, surely, by the act that comes from another, if the one who received the act took it over and made it his own. But is it where there is no act, only affection? What, then, if the thing became better, while the act had the worse? Or if someone acted from vice and ruled over another without restraint? Or nothing prevents an act from being base and an affection fine.
+!flag Surely we must look for it in cases where the patient remains without Act | The Greek asks it as a question (ἀλλ’ ἆρα ... ;), which the cases that follow answer against.
+!flag Imagine a case where an agent improves | In the Greek it is the thing acted on that "became better" while the act "had the worse": being acted on can be better than acting.
+
+@p
+@greek τίνι οὖν διοριοῦμεν
+By what, then, shall we mark them off? By this, that the one goes from itself into another, and the other is from another, in another? What, then, if it is from itself but not into another, as thinking and holding an opinion are? And being heated from oneself, when one has reasoned, or has been angered from an opinion, with nothing coming in from outside? Or acting, whether it is in itself or goes into something else, is a movement from itself.
+
+@p
+@greek ἡ οὖν ἐπιθυμία
+What, then, is appetite, and all desire? Or desire is moved by the desirable, unless one will not allow that it is moved from it, but only that it has been roused after it. Then how does it differ from having been struck, or pushed and knocked down?
+!note The desirable moves without being moved (Aristotle, On the soul III.10, 433b10-18; Metaphysics Λ.7, 1072a26-27).
+
+@p
+@greek ἀλλ’ ἆρα διαιρετέον
+But should we divide the desires, calling those that follow intellect actions, and those that drag us affections; and say that being acted on is not by its being from another or from oneself (for something might fail within itself), but that when a thing, contributing nothing itself, undergoes an alteration that does not lead to substance, one that puts it out of itself towards the worse, or not towards the better, it has in such an alteration affection and being acted on?
+
+@p
+@greek ἀλλ’ εἰ τὸ θερμαίνεσθαι
+But if being heated is getting heat, and it contributes to the substance of one thing and not of another, the same will be both acted on and not acted on. And how is being heated not twofold? Or being heated, when it contributes to substance, will contribute to it even then while another is acted on: the bronze, for instance, is heated and acted on, but the substance is the statue, which was not itself heated, except by accident. If, then, the bronze becomes more beautiful from being heated, or as it is heated, nothing prevents our saying it is acted on: for being acted on is twofold, the one in becoming worse, the other in becoming better, or neither.
+!flag there is the passivity which tends to alteration for better or for worse | The Greek's two kinds are becoming worse and becoming better, with "or neither" (ἢ οὐδέτερον) added after; Page joins the two into one and makes "neither" the second.
+
+@ch VI.1.22 | One motion, acting and being acted on
+Being acted on is having in oneself a motion of alteration; acting is having a motion from oneself, free-standing or ending in another, while staying unaffected. So the same motion is acting from one side and being acted on from the other, and both look like relatives. Providence and thinking are not actions, for thinking goes not into its object but is about it; action comes to acts by accident, as footprints to walking.
+
+@p
+So being acted on comes about by having in oneself a motion of altering in some way; and acting, then, is having in oneself a motion that is free-standing, from oneself, or one that sets out from what is called the agent and ends in another. There is motion in both; but the difference that divides acting from being acted on keeps acting, in so far as it is acting, unaffected, while being acted on lies in being disposed otherwise than before, the substance of what is acted on gaining nothing towards substance; rather, when some substance comes to be, what is acted on is something else.
+!flag whether the motion be aimless | The Greek's word is "free-standing" (ἀπόλυτον), a motion that does not go into another, as walking does not; nothing is said of an aim.
+
+@p
+@greek γίνεται τοίνυν τὸ αὐτὸ
+So the same thing comes to be acting in one relation and being acted on in another. Seen beside this one, it will be acting, being the same motion; seen beside that one, being acted on, because these are disposed so. So both are likely to be relatives, at least where acting is relative to being acted on: "if beside this one, the same thing is acting; if beside that one, being acted on". And each is seen not by itself but with the agent and the patient: "this one moves, and that one is moved", and each is two categories. And "this one gives motion to that one, and that one takes it", so that there is a taking and a giving, and relatives.
+
+@p
+@greek ἢ εἰ ἔχοι ὁ λαβών
+Or, if the one who took it has it, as it is said to have colour, why does it not also have motion? And a free-standing motion, such as that of walking, has walking; and thinking has thought.
+!flag involve the possession of the powers respectively to walk and to think | The Greek says they "have walking" and "have thought" (ἔχει βάδισιν ... νόησιν), the motions themselves, not powers.
+
+@p
+@greek ἐπισκεπτέον δέ, εἰ τὸ προνοεῖν
+We must look into whether exercising providence is acting, and whether being provided for is being acted on: for providence goes into another and is about another. Or exercising providence is not acting either, even if the thinking is about another, nor is that being acted on. Nor is thinking acting: for it is not into the thing thought, but about it. It is not action at all; nor must we call all acts actions, or say that they make something: action belongs to them by accident.
+!flag but remains selfgathered | The Greek says only that thinking goes "not into the thing thought, but about it" (οὐ ... εἰς αὐτὸ τὸ νοούμενον, ἀλλὰ περὶ αὐτοῦ); that it "remains selfgathered" is Page's.
+
+@p
+@greek τί οὖν; εἰ βαδίζων
+What then? If someone walking made footprints, do we not say he has made them? We do, but it is from his being that something else came. Or he made them by accident, and the act was by accident, because he was not looking to this; since we speak of acting in lifeless things too, as "fire heats" and "the drug acted". But enough of these.
+!flag if a man as he wails produces footprints | "Wails" is the scan's misreading of Page's "walks": the Greek is "walking" (βαδίζων).
+
+@ch VI.1.23 | Having
+Having is said in many ways, of magnitude, colour, a son or a father, and possessions; why make a category of shoes and arms alone, and not of burning or burying them? If quality, quantity and parts are not "had" because they have their own categories, neither are arms, which are substances. "He is armed" is not simple, a statue has things in another way, and so rare a thing hardly makes a kind.
+
+@p
+As for having: if having is said in many ways, why will not all the ways of having be brought back to this category? So quantity too, because it has magnitude, and quality, because it has colour, and the father and such things, because he has a son, and the son, because he has a father; and possessions in general.
+!flag As for Possession | The Greek names the category "having" (τὸ ἔχειν); Aristotle's examples are "has shoes on, is armed" (Categories 4, 2a3).
+!note Aristotle lists the ways of having: a state or quality, a quantity, what is about the body, a part, what is in a vessel, a possession, a wife or husband (Categories 15, 15b17-32).
+
+@p
+@greek εἰ δὲ τὰ μὲν ἄλλα
+But if the others belong in those categories, and only arms and shoes and what is about the body here, one might ask first why, and why having them makes one other category, while burning them or cutting or burying or throwing them away makes not another, or others. If it is because they are put around one, then if a cloak lies on a couch there will be another category, and another if someone is covered. But if it is by the holding itself and the having, plainly all the other things said by having must be brought back to having too, wherever the having is: for what is had will make no difference.
+
+@p
+@greek εἰ μέντοι ποιότητα
+If, however, we must not speak of having a quality, because quality has been named already, nor of having a quantity, because quantity has, nor of having parts, because substance has been named, why speak of having arms, when substance, in which they are, has been named? For a shoe and arms are substance. And how in general is "this man has arms" simple, and of one category? For this is what "being armed" means.
+
+@p
+@greek ἔπειτα πότερον ἐπὶ ζῶντος
+Then, is it only of a living thing, or also if it is a statue that has these things? For each seems to have them in a different way, and perhaps by the same name only; since "stands" too is not the same of both. Further, how is it reasonable that what is found in few things should have another category of its own, as a kind?
+
+@ch VI.1.24 | Lying
+Lying, as lying back or sitting, is found in few things, and is always said with a shape: but shape and place have been named, so it joins two categories. Sitting is an act or an affection; lying back is lying up, and if it is a relative, so is the one lying back.
+
+@p
+As for lying: this too is found in few things, lying back and sitting. And yet they are not said simply to lie, but "how they lie", and "it lies in such a shape". The shape is another thing; and since lying means nothing but "is in a place", and the shape and the place have been named, why must two categories be joined into one?
+!flag There remains Situation | The Greek's category is "lying" (τὸ κεῖσθαι); Aristotle's examples are "is lying, is sitting" (Categories 4, 2a2-3).
+
+@p
+@greek ἔπειτα, εἰ μὲν τὸ κάθηται
+Then, if "sits" means an act, it must be ranked among the acts; if an affection, under having been acted on, or being acted on. And "lies back" is nothing but "lies up", as there is "lies down" and "lies between". And since lying back is among the relatives, why is the one lying back not there too? For since the right is there, so is the one on the right, and the one on the left. So much for these.
+!note Aristotle counts lying, standing and sitting as positions, and position among the relatives (Categories 7, 6b11-14).
+
+@ch VI.1.25 | The Stoics' four kinds, and their "something"
+The Stoics divide into substrates, qualified, disposed and relatively disposed, with "something" over all; but their "something" fits neither bodies nor the bodiless, has no differences, and is either being or not being. They rank matter, their first principle, with what comes after it, though prior and posterior cannot share a kind; they count principles, not the things that are; and they should have called matter substance and the rest its affections.
+
+@p
+Against those who set down four kinds and divide fourfold, into substrates, qualified things, things disposed in some way, and things disposed in some way relative to something, and who set something common over them and take in all things in one kind, one could say much about their taking something common, one kind over all. For this "something" of theirs makes no sense and has no account, and it does not fit bodiless things and bodies alike; and they have left no differences by which to divide the "something". And this "something" is either being or not being. If it is being, it is one of the species; if not being, being is not being. And there are countless other objections.
+!flag Substrates, Qualities, States, and Relative States | The Greek names "qualified things" (ποιά), not qualities, and things "disposed in some way" (πὼς ἔχοντα) and "disposed in some way relative to something" (πρός τί πως ἔχοντα): the Stoics' four are ways a body is, not abstractions.
+!note The Stoics' four kinds are substrate, qualified, disposed and relatively disposed (Simplicius, On the Categories 66.32-67.8). Over them they set "something" (τι), which takes in bodies and bodiless things such as the sayable, void, place and time (Seneca, Letters 58.15; Sextus Empiricus, Against the mathematicians X.218).
+
+@p
+@greek ταῦτα μὲν οὖν ἐν τῷ παρόντι
+These, then, we must let be for now, and look at the division itself. Ranking substrates first, and here putting matter before the others, they rank what they take to be the first principle together with what comes after their principle.
+
+@p
+@greek καὶ πρῶτον μὲν τὰ πρότερα
+First, they bring the prior into one with the posterior, when it is not possible for one thing to be prior and another posterior in the same kind. For among things where there is a prior and a posterior, the posterior gets its being from the prior; but among things under the same kind, each has its being equally from the kind, if the kind is to be what is predicated of the species in the "what it is". And they themselves will say, I suppose, that the others have their being from matter.
+!note A kind is "what is predicated in the what-it-is of many things that differ in species" (Aristotle, Topics I.5, 102a31-32). On prior and posterior, see chapter 1.
+
+@p
+@greek ἔπειτα τὸ ὑποκείμενον ἓν
+Then, counting the substrate as one, they do not count the things that are, but look for principles of the things that are; and to speak of principles is different from speaking of the things themselves.
+
+@p
+@greek εἰ δὲ ὂν μὲν μόνον
+If they say that matter alone is being, and the others are affections of matter, they should not have set one kind over being and the others. It would rather have been better for them to call the one substance and the others affections, and divide these.
+!note For the Stoics the two principles are the active, god, the reason in matter, and the passive, matter without quality (Diogenes Laertius VII.134); both are bodies, for nothing bodiless can act or be acted on (Cicero, Academica I.39).
+
+@p
+@greek τὸ δὲ καὶ λέγειν
+And to call some things substrates and others the rest, when the substrate is one and has no difference, except in being divided, as a mass into parts! And yet not even in being divided, since they call substance continuous: it would have been better to speak of the substrate, in the singular.
+
+@ch VI.1.26 | Matter cannot come first
+To put the potential before the act is the strangest thing: the potential cannot bring itself to act, matter does not beget form. Their god, a body of matter and form, comes after matter, unless he is a bodiless forming principle. Matter as body is many, its resistance is a quality, its three dimensions and its unity come from elsewhere. They should have begun from the one and the massless, and looked for the one that is not one by accident.
+
+@p
+In general, to rank first of all what is potential, and not to rank act before potency, is altogether the strangest thing. For the potential could never come to act if the potential held the first place of rank among the things that are: it will not bring itself. Either what is in act must be before it, and then this is no longer the principle; or, if they say they are together, they will put the principles among chances. Then, if they are together, why do they not rank that one first? And why is this one more being, and not that one? And if that one comes later, how? For matter does not beget form, the unqualified the qualified, nor does act come from the potential: for what is in act would have been in it already, and it would be simple no longer.
+!note Act is prior to potency (Aristotle, Metaphysics Θ.8, 1049b4-1050a3; Λ.6, 1071b22-26).
+
+@p
+@greek καὶ ὁ θεὸς δεύτερος
+And their god comes second to matter: for he too is a body, made of matter and form. And where does he get the form from? But if he is without having matter, being of the nature of a principle and a forming principle, god would be bodiless, and what makes would be bodiless. And if he is without matter but composite in substance, as being a body, they will bring in another matter, god's.
+!flag a principle and a rational law (logos) | "Rational law" is Page's for λόγος, the forming principle, as the Workshop calls it throughout.
+
+@p
+@greek ἔπειτα πῶς ἀρχὴ ἡ ὕλη
+Then, how is matter a principle, being body? There is no body that is not many, and every body is from matter and quality. If this body is so in some other way, they call matter body by the same name only. If what is common to body is being extended in three dimensions, they are speaking of the mathematical body; if three dimensions with resistance, they are not speaking of one thing. Then, resistance is a quality, or comes from quality. And where does the resistance come from? Where does the extension in three dimensions come from, or who extended it? For matter is not in the account of the three-dimensional, nor the three-dimensional in the account of matter. If, then, it has shared in magnitude, it would be simple no longer.
+!note Body as what is extended in three dimensions (Diogenes Laertius VII.135); "with resistance" is added in other reports of the Stoics. Plotinus argues against matter as body in II.4, On matter (chapter 1, and chapters 8-12).
+
+@p
+@greek ἔπειτα πόθεν ἡ ἕνωσις
+Then, where does its unity come from? It is not unity itself, but one by sharing in oneness. They should have reckoned that it is not possible to rank mass before all things, but the massless and the one; and, beginning from the one, to end in the many, and from what has no magnitude to come to magnitudes, if there cannot be many without there being one, nor magnitude without what has no magnitude; since magnitude is one not by being one itself, but by sharing in the one, and by a coming together. What is first and properly must be before what is by a coming together: else how is there the coming together? And they should have looked for the manner of the coming together: perhaps they would have found the one that is not one by accident. By "by accident" I mean what is not one of itself, but from another.
+!flag by participation and in an accidental mode | The Greek says "by a coming together" (κατὰ σύμβασιν), the joining of parts into one; "by accident" (κατὰ συμβεβηκός) is the word Plotinus uses after, and explains.
+
+@ch VI.1.27 | A substrate needs something outside it
+They have put the shapeless, lifeless and dark in the place of honour, and brought in god for appearance's sake, as matter disposed in some way. A substrate is relative to what acts on it from outside; if matter becomes all things itself, like a dancer, it is no substrate, and the rest are nothing. They who blame those who make substances from what is not substance make the cosmos no substance, and the living being get its substance from matter, not from soul.
+
+@p
+They should also, in another way, have kept the principle of all things in honour, and not set up as principle the shapeless, the passive, what has no share in life and is without thought, the dark and the indefinite, and referred substance itself to this. For their god is brought in for the sake of appearances, getting his being from matter, composite and later, or rather matter disposed in some way.
+!note "Matter disposed in some way" (ὕλη πως ἔχουσα) turns the Stoics' third kind against their god: for them god is the reason in matter, which pervades it (Diogenes Laertius VII.134, 147).
+
+@p
+@greek ἔπειτα εἰ ὑποκείμενον
+Then, if it is a substrate, there must be something else which, acting on it from outside, makes it underlie what is sent into it from that other. But if god were himself in matter, a substrate himself and come to be with it, he will no longer make matter a substrate, nor be a substrate himself with matter. For of what will they be substrates, when what would make them substrates is no longer there, and everything has been used up in what is called the substrate? For the substrate is relative, not to what is in it, but to what acts into it as it lies there. And the substrate underlies in relation to what is not substrate; if so, to what is outside; so this would have been left out.
+
+@p
+@greek εἰ δὲ οὐδὲν δέονται
+But if they need nothing else from outside, and it can itself become all things by taking on shapes, like one who makes himself everything in the dance, it would no longer be a substrate, but itself all things. For as the dancer is not a substrate for his figures, since they are his act, so neither will what they call matter be a substrate for all things, if the others come from it. Rather, the others will not be at all, if they are matter disposed in some way, as the dancer is disposed in some way when he has his figures.
+!note The dancer is the pantomime of the Roman theatre, who played every part of a story alone, by gesture.
+
+@p
+@greek εἰ δὲ τὰ ἄλλα οὐκ ἔσται
+And if the others will not be, this will not be a substrate at all, nor the matter of the things that are, but, being matter only, by that very fact not even matter: for matter is relative. The relative is relative to another, and of the same kind, as double to half, not substance to double. How is being relative to not being, except by accident? But what is by itself, and matter, is being relative to being. For if it is a potency of what is going to be, and that is not substance, neither would it be substance. So it turns out that they, who blame those who make substances out of what are not substances, themselves make what is not substance out of substance: for the cosmos, in so far as it is cosmos, is not substance.
+
+@p
+@greek ἄτοπον δὲ τὴν μὲν ὕλην
+It is strange that matter, the substrate, should be substance, while bodies are no more substances, and the cosmos still less, except only in so far as a part of it is substance; and that the living being should get its substance not from soul but from matter only, and soul be an affection of matter, and later.
+!flag the living form | The Greek has "the living being" (τὸ ζῷον), the animal, not its form.
+
+@p
+@greek παρὰ τίνος οὖν ἔσχεν
+From what, then, did matter get its being ensouled, and soul its reality at all? How does matter at one time become bodies, and another part of it soul? For even if form came to it from elsewhere, soul would never come about by a quality coming to matter, but lifeless bodies. And if something moulds it and makes soul, the soul that makes will be before the soul that comes to be.
+!note For the Stoics the soul is a body, a warm breath (Diogenes Laertius VII.156-157); Plotinus argues against this in IV.7, On the immortality of the soul (chapters 2-8).
+
+@ch VI.1.28 | Perception as their guide
+Enough against so plain an absurdity: they put what is not as what most is, and the last first, because they trusted perception. Fearing that bodies change into one another, they took what remains under them for being, as one might take place; but remaining is not what makes being, as a shadow that stays is not more real than its body. They trust the senses and posit what the senses cannot catch, and their intellect ranks matter above itself.
+
+@p
+But since there are many things to be said against this hypothesis, we must stop here, lest it be strange in its turn to contend against so plain a strangeness, showing that they rank what is not as what most is, and the last first. The cause is that perception became their guide, and was trusted for the setting down of principles and of the rest.
+
+@p
+@greek τὰ γὰρ σώματα νομίσαντες
+For, believing bodies to be the things that are, and then fearing their change into one another, they thought that what remains under them was what is; as if someone were to think that place, rather than bodies, was what is, because place does not perish. And yet place too remains for them; they should not have taken what remains in any way at all for what is, but should first have seen what must belong to what truly is, things by whose being there it also has remaining always.
+!note The Stoics' matter remains through every change of the elements into one another (Diogenes Laertius VII.150).
+
+@p
+@greek οὐδὲ γὰρ, εἰ σκιὰ
+For not even if a shadow always remained, following something else as it is altered, would it be more than that thing. And the perceptible, with the substrate and many other things, would by its multitude be what is, as the whole, rather than one of the things in it. And if it is the whole, how could that, a mere base, be what is?
+
+@p
+@greek πάντων τε θαυμαστότατον
+Most wonderful of all, they who are assured of each thing by perception set down as being what perception cannot catch. For they do not rightly give it resistance either: that is a quality. If they say they grasp it by intellect, it is a strange intellect that ranks matter before itself, and has given being to it, not to itself. Since intellect, then, is not, for them, how could it be trustworthy when it speaks of things more sovereign than itself, and in no way akin to it? But about this nature and the substrates enough has been said elsewhere as well.
+!note "Elsewhere": II.4, On matter, and III.6, On the impassibility of the bodiless (chapters 6-19).
+
+@ch VI.1.29 | The qualified, and matter that speaks
+If the qualified are other than the substrates, they must be simple and bodiless; if composite, the division is strange. If they are qualified matter, the forming principles are of matter and form and no longer forming principles; if matter disposed in some way, they belong in another kind. What is disposed on matter is either being, and bodiless, or nothing, and only matter is. Then matter must be the one that says so, as their intellect.
+
+@p
+Their qualified things must be other than the substrates, and they say so: otherwise they would not have counted them second. If, then, they are other, they must be simple too; if so, not composite; if so, they must not have matter, in so far as they are qualified; if so, they must be bodiless and active: for matter, for them, underlies to be acted on.
+
+@p
+@greek εἰ δὲ σύνθετα
+But if they are composite, first the division is strange, setting simple and composite against each other and these under one kind, and then putting the one in the other of the two species: as if someone dividing knowledge called one grammar, and the other grammar and something else.
+
+@p
+@greek εἰ δὲ τὰ ποιὰ ὕλην ποιὰν
+If they say the qualified things are qualified matter, then first their forming principles will be enmattered: they will not come to be in matter and make something composite, but before the composite they make they will themselves be of matter and form. So they themselves are not forms or forming principles. If they say the forming principles are nothing but matter disposed in some way, they will plainly call the qualified things disposed in some way, and must rank them in the fourth kind. If this relation is another, what is the difference? Plainly, being disposed in some way is more a reality here; and yet, if it is not a reality there too, why do they count it as one kind or species? For being and not being cannot be under the same.
+!flag even their Seminal Principles (Logoi) | The Greek says only "the forming principles" (οἱ λόγοι); "Seminal" is Page's, after the Stoics' seminal principles (σπερματικοὶ λόγοι).
+!note The disposed are the Stoics' third kind (chapter 30 calls them third); the Greek's "fourth" here may be a slip, or count from the "something" over all.
+
+@p
+@greek ἀλλὰ τί τοῦτο τὸ ἐπὶ τῇ ὕλῃ
+But what is this which is disposed in some way upon matter? It is either being or not being. If being, it is certainly bodiless; if not being, it is said in vain, and there is matter only, and the qualified is nothing. Nor is the disposed anything: it is still more not being. And what they named fourth, much more so.
+
+@p
+@greek μόνον ὂν ἄρα ὕλη
+Matter, then, alone is being. Who, then, says this? Not matter itself, surely. Unless it is matter after all: for intellect is matter disposed in some way (though "disposed in some way" is an empty addition), so matter says these things and grasps them. And if it spoke sensibly, it would be a wonder how it thinks and does the works of soul, having neither intellect nor soul. But if it spoke senselessly, setting itself down as what it is not and cannot be, to what should we ascribe this senselessness? To it, if it spoke itself. But as it is, it does not speak; and the one who speaks, speaks with much from it, being wholly its, even if he has soul only, in ignorance of himself and of the power that can speak the truth about such things.
+!note For the Stoics intellect too is a body, the ruling part of the soul, breath disposed in some way (Diogenes Laertius VII.159).
+
+@ch VI.1.30 | The disposed and the relatively disposed
+All things are disposed about matter, so the disposed are no third kind; and what is one about three cubits and white, when and where, yesterday and the Lyceum, time, acting and being acted on? The relative is a question of its own, but it comes after the things related, and cannot share their kind. The other views of the things that are, and of their principles, can be taken one by one, with the ancients' criticisms of them.
+
+@p
+Among the disposed things, it is perhaps strange to set the disposed third, or whatever rank they have, since all things are disposed in some way about matter. But they will say there is a difference among the disposed: matter is disposed in some way thus and so in one way, and in another way in the disposed; and further, the qualified are disposed in some way about matter, while the properly disposed are disposed about the qualified. But since the qualified themselves are nothing but matter disposed in some way, the disposed in turn run back, for them, to matter, and will be about matter.
+
+@p
+@greek πῶς δὲ ἓν τό πως ἔχον
+And how is the disposed one, when there is much difference among them? How do "three cubits long" and "white" come into one, when the one is of quantity and the other of quality? How do "when" and "where"? How, in general, are "yesterday" and "last year", "in the Lyceum" and "in the Academy", disposed in some way? And how, in general, is time disposed in some way? For neither it nor the things in time are, nor the things in place, nor place itself.
+!note "Two cubits, three cubits" are Aristotle's examples of quantity, "white" of quality (Categories 4, 1b28-29); for "when" and "where", see chapters 13 and 14.
+
+@p
+@greek τὸ δὲ ποιεῖν πῶς πως ἔχον
+And how is acting disposed in some way? For the one acting is not disposed in some way, but rather acting in some way, or not disposed at all, but acting only; and the one acted on is not disposed in some way, but rather acted on in some way, or simply acted on so. Perhaps the disposed would fit only lying and having; and for having, not "disposed in some way", but "having".
+
+@p
+@greek τὸ δὲ πρός τι εἰ μὲν
+As for the relative, if they did not set it under one with the others, there would be another question, for us to ask whether they give any reality to such relations, since in many places they do not. Further, it is strange to rank a thing that comes upon things already there in the same kind with those that were before it: there must first be one and two, for there to be a half and a double.
+
+@p
+@greek περὶ δὲ τῶν ὅσοι ἄλλως
+As for those who have set down the things that are, or the principles of the things that are, in other ways, unlimited or limited in number, bodies or bodiless, or both together, one may inquire about each of them apart, taking in too what the ancients said against their opinions.
+!flag or even supposed the Composite to be the Authentic Existent | The Greek has only "or both together" (τὸ συναμφότερον), principles both bodies and bodiless; "the Authentic Existent" is Page's.
+!note The ancients' criticisms are Aristotle's above all (Physics I.2-9; Metaphysics A.3-10), with whose survey the treatise began (chapter 1). VI.2 turns from the kinds others gave to Plotinus' own kinds of the intelligible.

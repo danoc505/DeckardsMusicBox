@@ -34,7 +34,7 @@ async function run(b, viewport, touch, first) {
   const head = await p.$eval(".tg-read", (e) => e.innerText);
   check(/Modern English, the Workshop's own/.test(head) && /machine-assisted/i.test(head) && /not yet checked by a scholar/.test(head), `${tag}: labelled as the Workshop's own and machine-assisted`);
   check(/checked against Stephen MacKenna's translation \(1917, 1921, 1924, 1926, 1930\)/.test(head), `${tag}: and as checked against MacKenna, vols. I to V`);
-  check(await p.$$eval(".tg-mod", (es) => es.length) === 315 && await p.$$eval(".tg-mod .ms-sum", (es) => es.length) === 315, `${tag}: the Life, I.1, I.4 to I.9, II.1 to II.3, II.5 to II.8, III.1 to III.5, III.8, III.9, IV.1, IV.4 to IV.6, IV.8, IV.9, V.4, V.5, V.7, V.8 and VI.1.1-15, three hundred and fifteen chapters, each with its gist`);
+  check(await p.$$eval(".tg-mod", (es) => es.length) === 330 && await p.$$eval(".tg-mod .ms-sum", (es) => es.length) === 330, `${tag}: the Life, I.1, I.4 to I.9, II.1 to II.3, II.5 to II.8, III.1 to III.5, III.8, III.9, IV.1, IV.4 to IV.6, IV.8, IV.9, V.4, V.5, V.7, V.8 and VI.1, three hundred and thirty chapters, each with its gist`);
   // Porphyry's Life comes first (E5), with Volkmann's proofread Greek and MacKenna's flags.
   check(await p.$eval(".tg-mod", (e) => e.id) === "mc-Life.1", `${tag}: the Life comes first (E5)`);
   check(/Life, chapter 3\. /.test(await p.$eval("#mc-Life\\.3", (e) => e.textContent)), `${tag}: the Life's chapters are headed as such`);
@@ -105,7 +105,11 @@ async function run(b, viewport, touch, first) {
     && /VI\.1\.14\. Where/.test(await p.$eval("#mc-VI\\.1\\.14", (e) => e.textContent))
     && /MacKenna: “the Supreme they overlooked/.test(await p.$eval("#mp-VI\\.1\\.1\\.p4", (e) => e.textContent))
     && /MacKenna: “restricting the term Quantities to Ideal-Forms and powers/.test(await p.$eval("#mp-VI\\.1\\.10\\.p6", (e) => e.textContent)), `${tag}: VI.1.1-15 are here, with their flags (E22)`);
-  check(/chapters 1-15 of 30 so far/.test(await p.$eval("#toc", (e) => e.textContent)), `${tag}: VI.1 is marked as partly done (E22)`);
+  check(/VI\.1\.20\. Rubbing, the swan and the learner/.test(await p.$eval("#mc-VI\\.1\\.20", (e) => e.textContent))
+    && /VI\.1\.30\. The disposed and the relatively disposed/.test(await p.$eval("#mc-VI\\.1\\.30", (e) => e.textContent))
+    && /MacKenna: “if a man as he wails produces footprints/.test(await p.$eval("#mp-VI\\.1\\.22\\.p5", (e) => e.textContent))
+    && /MacKenna: “even their Seminal Principles \(Logoi\)/.test(await p.$eval("#mp-VI\\.1\\.29\\.p3", (e) => e.textContent)), `${tag}: VI.1.16-30 are here, with their flags (E23)`);
+  check(!/chapters 1-15 of 30 so far/.test(await p.$eval("#toc", (e) => e.textContent)), `${tag}: VI.1 is no longer marked as partly done (E23)`);
   check(/I\.1\.7\. The light of the soul/.test(await p.$eval("#mc-I\\.1\\.7", (e) => e.textContent)), `${tag}: chapters are headed by number and title`);
   check(/^Pleasures and pains, fears and boldness/.test(await p.$eval("#mp-I\\.1\\.1\\.p1 .mp-text", (e) => e.textContent)), `${tag}: the modern English of I.1.1`);
   check(await p.$$eval(".tg-mod .mp-flag", (es) => es.length) >= 10, `${tag}: flags where MacKenna and the Greek differ`);
@@ -139,7 +143,7 @@ async function run(b, viewport, touch, first) {
   // Side by side.
   await p.click('[data-nm-mode="both"]');
   await p.waitForSelector(".mod-both .tg-tcol");
-  check(await p.$$eval(".tg-tcol", (es) => es.length) === 315, `${tag}: side by side, MacKenna beside every chapter`);
+  check(await p.$$eval(".tg-tcol", (es) => es.length) === 330, `${tag}: side by side, MacKenna beside every chapter`);
   if (viewport.width >= 1024) {
     const cols = await p.$eval("#mc-I\\.1\\.3 .tg-cols", (e) => [...e.children].map((c) => Math.round(c.getBoundingClientRect().left)));
     check(cols.length === 2 && cols[1] > cols[0] + 100, `${tag}: in two columns`);
