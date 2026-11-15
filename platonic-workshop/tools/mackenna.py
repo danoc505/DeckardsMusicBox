@@ -134,7 +134,9 @@ VOLUMES = {
                     # VI.7 chapters 1-14 (milestone E30)
                     "VI.7.2": "a", "VI.7.7": "We", "VI.7.10": "IO.", "VI.7.11": "ris &", "VI.7.12": "12:",
                     # VI.7 chapters 15-28 (milestone E31)
-                    "VI.7.17": "17s", "VI.7.19": "9g.", "VI.7.21": "21s", "VI.7.22": "228", "VI.7.27": "ay."},
+                    "VI.7.17": "17s", "VI.7.19": "9g.", "VI.7.21": "21s", "VI.7.22": "228", "VI.7.27": "ay.",
+                    # VI.7 chapters 29-42 (milestone E32)
+                    "VI.7.35": "35:", "VI.7.41": "Al."},
         "unnumbered": {"VI.1.2": "But are we really obliged", "VI.1.5": "Speech, time, motion",
                        "VI.2.2": "In asserting that Being is not a unity",
                        "VI.3.3": "How then do we go to work", "VI.3.5": "These are incontrovertible facts",
@@ -154,19 +156,22 @@ VOLUMES = {
         # of text.
         # VI.7 (E31): the signatures "2B" (inside VI.7.18, p. 185) and "2C" (inside VI.7.27, p. 193), each after a
         # line of text.
+        # VI.7 (E32): the signatures "2D" (inside VI.7.34, p. 201) and "2E" (inside VI.7.40, p. 210), each after a
+        # line of text.
         # treatise headings the OCR misread, read as the heading given: VI.7's (E29), without which VI.7's chapters
         # 3 to 6 (pp. 166-169) were taken as VI.6's
         "headings": {"SEVEN:EH, TRACTATE": "SEVENTH TRACTATE"},
         # running heads whose page number the OCR misread so that it is not taken as one, with their page: p. 151's
         # (E29), without which the pages of VI.6.14 to 18 came out one too low; p. 172's "BEOTINUS" (E30), which
         # otherwise stood inside VI.7.8's text and put the pages of VI.7.9 to 14 one too low; p. 188's "188 © PLOTINUS"
-        # (E31), which otherwise stood inside VI.7.20's text and put the pages of VI.7.21 on one too low
-        "heads": {"VI. 6. 13] ON NUMBERS t5t": 151, "172 BEOTINUS": 172, "188 © PLOTINUS": 188},
+        # (E31), which otherwise stood inside VI.7.20's text and put the pages of VI.7.21 on one too low; p. 204's "204 PEOTINGS" (E32),
+        # which otherwise stood inside VI.7.35's text and put the pages of VI.7.36 on one too low
+        "heads": {"VI. 6. 13] ON NUMBERS t5t": 151, "172 BEOTINUS": 172, "188 © PLOTINUS": 188, "204 PEOTINGS": 204},
         # lines of a treatise's title that the OCR gave small letters, read as the title's, as printed: the second line
         # of VI.7's (E30), without which it ran into VI.7.1's first paragraph
         "title_lines": {"Upon THE GoopD": "UPON THE GOOD"},
         "stray": ["x.", "WITH UNIVERSIT Y LIBRARY", "WITHDRAWN", "G", "H", "I", "K",
-                  "Te", "—<———— eee", "L", "M", "N", "P", ";", "ce)", "Q", "R", "T", "x", "Z", "2A", "2B", "2C"],
+                  "Te", "—<———— eee", "L", "M", "N", "P", ";", "ce)", "Q", "R", "T", "x", "Z", "2A", "2B", "2C", "2D", "2E"],
     },
 }
 

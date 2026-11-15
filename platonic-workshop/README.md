@@ -657,6 +657,22 @@ a sentence of chapter 25 not in the Greek, the regret left out of 26, and the go
 says it is not set in the akin. The notes give the Republic's good-formed and its sun, the Cratylus' Kronos, the Philebus'
 limit, mixture and pleasure, Aristotle's homonyms and what all things aim at, the Phaedrus' wings, Cicero on beauty, the
 Stoics' indifferents and οἰκείωσις, and the Lysis on the like and the akin.
+**VI.7, chapters 29-42** (E32), beside MacKenna's own English in vol. V: 14 chapters, 60 paragraphs, 134 flags, under
+the treatise block of E30; VI.7 is now complete. The man not struck by the Good; pleasure in the mixed life a metaphor;
+the soul that loves the Good and is suspicious of beauty here; the formless maker of beauty, beauty above beauty; the
+lover who rises to the more shapeless; alone with the alone; the house and its master, and intellect drunk with nectar;
+the greatest study and the wave of intellect; and against those who make the first think: not even "is", nor "I am
+good", the first standing in solemnity beyond thinking, thinking a help to the lesser, and all about the king of all.
+`tools/mackenna.py` now reads two more misread numbers, p. 204's head and two signatures, so all forty-two chapters are
+found (29 to 42 on pp. 196-211). "Substance", "intelligible", "virtue", "justice" and "self-control" are kept; λόγος is
+the argument or the account throughout, and MacKenna's "essence", "Being", "Intellectual", "Sophrosyny" and "reason" are
+flagged as his. Among the other flags, the isolated made a candidate for the good where the Greek denies it, Nature
+"flashed into being", the soul affirming "that she is, herself" where she says "it is that one", the quester made the
+radiance that is the Good, "repose" for standing in solemnity, and the first "a manifold" where the Greek says it is
+neither two nor more. The notes give Aristotle's desire to know, pleasure's bloom and thinking of thinking, the
+Philebus' mixture and tickling, the Phaedrus' lovers and wings, the Symposium's "suddenly", the Republic's greatest study
+and beyond substance, Alcinous' three ways, Odysseus on the wave, the Sophist's standing in solemnity, the Parmenides'
+one without an account, and Letter II's king of all.
 **III.8, On nature, contemplation and the One, and III.9, Various considerations** (E14), beside MacKenna's vol. II: 14
 chapters, 41 paragraphs, 70 flags, among them his "the Highest" for intellect that began as one and unrolled itself,
 "pregnant" for weighed down, the living principle "brother ... to that which gives mere shape" where it is brother to
@@ -743,7 +759,7 @@ hyphened terms such as "Sense-Perception" kept; not proofread). The master copy 
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: VI.7 chapters 29-42, beside vol. V (E32).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: VI.8, On free will and the will of the One, beside vol. V (E33).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,
