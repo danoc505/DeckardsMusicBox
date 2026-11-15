@@ -74,7 +74,7 @@ ABOUT = ("A modern English version of Proclus' Theology of Plato (fifth century)
          "Greek is not yet on the site (the only free edition, Portus' of 1618, is a scan whose Greek OCR is badly garbled), so "
          "this version cannot yet be checked against the Greek; a flag marks a place where Taylor's English is hard or unclear, "
          "with his words. Taylor's footnotes are kept under his words. The chapters and their numbers are Taylor's (his "
-         "headings are in his table of contents); the short titles and summaries are the Workshop's. So far: Books I to IV. "
+         "headings are in his table of contents); the short titles and summaries are the Workshop's. So far: Books I to IV, and Book V, chapters 1-11. "
          "Book I, chapters 1-8: Proclus' preface and its praise of Plato and his heirs, how the work will proceed and what its hearer needs, who "
          "a theologian is in Plato's sense, the four ways Plato teaches about the gods, which dialogues hold his theology, and "
          "why the Parmenides holds all of it; chapters 9-12, against the merely logical reading of the Parmenides, and Syrianus' "
@@ -87,7 +87,7 @@ ABOUT = ("A modern English version of Proclus' Theology of Plato (fifth century)
          "king of all, and the first hypothesis of the Parmenides as a hymn of denials. Book III, chapters 1-8: the henads "
          "after the One, shared by being, life, intellect, soul and body, and the two principles after the One, limit and the "
          "unlimited; chapters 9-18, the mixed, first being, and the three intelligible triads, in the Philebus and in the "
-         "Timaeus (the one, eternity, and the living being itself); chapters 19-28, the four intelligible Forms, the Sophist's one being, whole and all, father, power and intellect, the marks of the good, the wise and the beautiful, the three triads in the Parmenides (the one being, the whole, unlimited multitude), and a hymn to the intelligible gods. Book IV, chapters 1-13: the intelligible and intellectual gods, their three triads, the Phaedrus' heaven (not the visible one), the place above the heaven and the arch beneath it, the way up as in the mysteries, and the denials and affirmations of the place above the heaven; chapters 14-26, science, temperance and justice, the plain of truth, the meadow, nectar and ambrosia, Adrastia, the gods who hold together (the heaven's back, depth and arch, Ouranos in the Cratylus), and the arch beneath the heaven and the perfecting gods, the teletarchs; chapters 27-39, the same three triads in the Parmenides: number (feminine difference, monads, dyads and triads, odd and even), the one and many, whole and parts, limited and unlimited, and extremes, the perfect and shape, with the Chaldean worlds they explain.")
+         "Timaeus (the one, eternity, and the living being itself); chapters 19-28, the four intelligible Forms, the Sophist's one being, whole and all, father, power and intellect, the marks of the good, the wise and the beautiful, the three triads in the Parmenides (the one being, the whole, unlimited multitude), and a hymn to the intelligible gods. Book IV, chapters 1-13: the intelligible and intellectual gods, their three triads, the Phaedrus' heaven (not the visible one), the place above the heaven and the arch beneath it, the way up as in the mysteries, and the denials and affirmations of the place above the heaven; chapters 14-26, science, temperance and justice, the plain of truth, the meadow, nectar and ambrosia, Adrastia, the gods who hold together (the heaven's back, depth and arch, Ouranos in the Cratylus), and the arch beneath the heaven and the perfecting gods, the teletarchs; chapters 27-39, the same three triads in the Parmenides: number (feminine difference, monads, dyads and triads, odd and even), the one and many, whole and parts, limited and unlimited, and extremes, the perfect and shape, with the Chaldean worlds they explain. Book V, chapters 1-11: the intellectual gods, their hebdomad (three fathers, three undefiled Kouretes, and the god who separates) and its seven hebdomads; Kronos, pure intellect, his bonds and his castration, the life under Kronos in the Statesman, his law, his agelessness; and Rhea, the life-giving mother, who is also Demeter.")
 
 LINE = re.compile(r"^@(book|ch|p)\b\s*(.*)$")
 ROMAN = {"I": 1, "V": 5, "X": 10, "L": 50}
@@ -151,7 +151,9 @@ def taylor():
                      and any("Theology of Plato" in x for x in lines[k - 8:k]))
         book = chap = None
         for line in lines[start:]:
-            s = line.strip().replace("Χ", "X").replace("Ι", "I")   # Gutenberg's text has a Greek Chi in "CHAPTER Χ."
+            # Gutenberg's text has Greek look-alikes in two headings: a Chi in "CHAPTER Χ." (Book I), and two Chis and an
+            # Iota with varia in "CHAPTER ΧΧVῚ." (Book V).
+            s = line.strip().replace("Χ", "X").replace("Ι", "I").replace("\u1fda", "I")
             if s in stops or s.startswith("*** END"):
                 break
             m = re.fullmatch(r"BOOK ([IVX]+)\.", s)
@@ -217,7 +219,7 @@ def chapter_heads():
                 book = m.group(1)
                 k += 1
                 continue
-            m = re.fullmatch(r"CHAPTER ([IVXL]+)\.", s.replace("Χ", "X"))
+            m = re.fullmatch(r"CHAPTER ([IVXL]+)\.", s.replace("Χ", "X").replace("\u1fda", "I"))
             if m and book:
                 cid = f"{book}.{roman(m.group(1))}"
                 body = []
