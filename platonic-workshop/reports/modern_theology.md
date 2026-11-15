@@ -3,18 +3,18 @@
 Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-theology.txt`. The Workshop's modern English, machine-assisted: drafted with an AI model (Claude) from Thomas Taylor's translation (1816) and not yet checked by a scholar. Taylor's own words are beside every chapter, or one tap away.
 
 - Made from: Taylor's English (1816), Project Gutenberg's transcription; no Greek of the Theology is on the site.
-- Chapters done: 17 of 164 in Proclus' six books (I.1 to I.17).
-- Paragraphs: 91, one for each of Taylor's in those chapters.
-- Words: 21,301 modern, 22,926 of Taylor's (183,113 in all six books).
-- Sentences (each can be marked in the reader): 776.
-- Flags (hard places, or where Taylor's English misleads): 31.
+- Chapters done: 29 of 164 in Proclus' six books (I.1 to I.29).
+- Paragraphs: 121, one for each of Taylor's in those chapters.
+- Words: 30,770 modern, 33,234 of Taylor's (183,113 in all six books).
+- Sentences (each can be marked in the reader): 1,172.
+- Flags (hard places, or where Taylor's English misleads): 48.
 - Problems found: 0.
 
 ## The books and chapters
 
 | Book | Taylor's chapters | Done here |
 |---|---:|---:|
-| I | 29 | 17 |
+| I | 29 | 29 |
 | II | 12 | 0 |
 | III | 23 | 0 |
 | IV | 39 | 0 |
@@ -56,6 +56,23 @@ Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-
 | I.17.p1 | for that which is primarily good will not be the second after the Gods | The point is that nothing can be good first and yet below the gods: whatever is good first is itself divine, so the gods are the causes of all good. |
 | I.17.p3 | For evil itself is even beyond that which in no respect whatever has an existence | Proclus means that evil "itself", evil without any good, would be even less than nothing; so it cannot exist, as the Good is above what wholly is. Taylor's footnotes supply "cause" and correct "darken" in the Greek he translated. |
 | I.17.p4 | there are precedaneous productive principles of evil in nature | Taylor's "precedaneous" (going before, original) and "productive principles" (logoi): Proclus denies that evil has forming principles in nature or patterns in intellect, against those, like the Gnostics and the Manichaeans, or a reading of the Laws' "evil soul" (896e), who posit a cause of evil. |
+| I.18.p1 | the first demiurgus the best of causes | Timaeus 29a: the world is the most beautiful of things that have come to be, and its maker the best of causes. Proclus' point is that each god is "best" in his own order, though the intelligible pattern is above the Craftsman. |
+| I.18.p3 | precedaneous causes | Taylor's "precedaneous" means going before: the causes prior to bodies, from which bodies get their being. |
+| I.18.p4 | when speaking of the intelligible subjections | Taylor's "subjections" seems to mean the levels set below the intelligible (soul below intellect, intellect below the intelligible). The place in Plotinus is not certain; compare III.8.8 and V.3. |
+| I.19.p2 | various phantasms are hurled forth before the presence of them | In the rites, apparitions were believed to appear before a god shows himself; Proclus explains them as lights of the gods mixed with what receives them, not as the gods' own shapes. |
+| I.20.p1 | For the first parts do not admit of a truth of this kind | The "first parts" of speech are names and words taken alone, which are neither true nor false; in the Cratylus (385c) Socrates says that if a statement is true, its parts, down to names, are true too. |
+| I.22.p1 | is educed by us according to a projecting energy, and an adhesion of the dianoetic power | Taylor's "projecting energy" (epibolē) is the mind's reaching towards an object; "dianoetic power" is discursive reasoning (dianoia). The desirable, Proclus says, cannot be grasped by either. |
+| I.22.p3 | the primary and most principal fountain and vestal seat of things | Taylor's "vestal seat" is the hearth (hestia), the fixed centre of a household or city; Proclus uses it for the firm seat from which all things proceed. |
+| I.24.p1 | the intelligible place of survey | That is, the "place above the heavens" of the Phaedrus (247c), where the souls see true being; Proclus places the first beauty there, in the intelligible order. |
+| I.24.p2 | denominating it the delicate | In the Symposium (204c) Phaedrus' word is "delicate" (habron): "what is lovable is truly beautiful, delicate, perfect and most blessed". Proclus gives the delicate, the bright and the loved as the three signs of beauty. |
+| I.24.p3 | walking on the extremities of its feet | From the Symposium (195d), where Agathon says Love is delicate and walks not on the earth but "on the softest things"; Proclus' image is of beauty treading lightly, scarcely touching what it moves. |
+| I.25.p1 | neither gnostically | Taylor's "gnostically" means by way of knowledge (gnōsis); Proclus means that the good is reached by a faith beyond knowing, not by an act of knowledge. |
+| I.26.p2 | but at the same time is that which participates and that which is participated; of which the latter is a God, but the former is divine | Taylor's "latter" and "former" are the wrong way round for his own order of words: what is shared (the henad) is a god, and what shares in it (being) is divine. The modern English follows the sense. |
+| I.26.p2 | Whether however, prior to the participated unities, there is something which is separate and participated | Taylor's "and participated" should be "and not participated", as the sense requires: the question is whether there is an unshared henad (the One) before the shared ones. |
+| I.26.p3 | the series of beings ends in the one itself | "Ends" in the sense of having its summit there: going upward, the series of beings ends in the One. |
+| I.26.p4 | a renovated immortality | The Statesman 270a: the universe receives from its maker "a renewed (or acquired) immortality"; its body does not hold itself together, but is renewed by its cause. |
+| I.27.p3 | in the Orphic writings, indeed, the first cause is on this account denominated Time | In the Orphic theogony the first principle is Chronos, Time; Proclus takes the name as a symbol of order by cause, not of a beginning in time. |
+| I.27.p3 | some posterior to Plato perceiving, have indefinitely shown that the whole heaven is unbegotten | Proclus seems to mean Aristotle (On the Heavens I.10-12), who holds that the heaven is unbegotten and imperishable. "Indefinitely" means without qualifying in what sense. |
 
 ## The fixed renderings
 
