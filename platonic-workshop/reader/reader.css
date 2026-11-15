@@ -1051,10 +1051,11 @@ ins.neo-corr { text-decoration: none; background: var(--accent-soft); border-bot
 .tg-mod .neo-unit-n { margin-top: .4em; }
 .tg-tay { padding: 8px 12px; border-left: 3px solid var(--faint); background: var(--panel); border-radius: 0 8px 8px 0; font-size: .95em; }
 .tg-tay p { margin: 4px 0; line-height: 1.5; }
-.tg-tay-box { margin: 4px 0 8px; }
+.tg-tay-box, .tg-mk-box { margin: 4px 0 8px; }
 .mp-greek .neo-tei { font-family: var(--greek); line-height: 1.6; margin: 4px 0; }
 @container (min-width: 700px) {
-  .mod-both .tg-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 22px; align-items: start; }
+  .mod-both .tg-cols, .mod-mackenna .tg-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 22px; align-items: start; }
 }
-.mod-both .tg-tcol { margin-top: 8px; }
-.mod-both .tg-mod .mp { display: block; }
+.mod-both .tg-tcol, .mod-mackenna .tg-tcol { margin-top: 8px; }
+.mod-both .tg-mod .mp, .mod-mackenna .tg-mod .mp { display: block; }
+.tg-tay + .tg-tay { margin-top: 8px; }

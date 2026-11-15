@@ -49,9 +49,10 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   thread (about 2,500 to 7,500 Greek words). Run the tests that touch the files changed (the full suite can take over 25 minutes).
 - The next one to do is always the first milestone below not marked done.
 - **Where it stands (November 15, 2026):** E1 to E33 are done, so the Life and all thirty-nine treatises not Taylor's are in
-  modern English (489 chapters) and none is "to come". What is left of the Enneads is E34, which is optional (MacKenna's
-  English beside the fifteen done with Taylor). After the Enneads, Daniel's order goes on to Aristotle's Metaphysics from
-  Book Λ (35m7, in milestone 35 below).
+  modern English (489 chapters) and none is "to come". What is left of the Enneads is E34 (MacKenna's English beside the
+  fifteen done with Taylor, and their flags checked against him), which Daniel asked for; E34a, MacKenna beside every
+  chapter, is done, and the flags (E34b to E34j) follow. After the Enneads, Daniel's order goes on to Aristotle's
+  Metaphysics from Book Λ (35m7, in milestone 35 below).
 
 ### The milestones (Greek words in brackets)
 
@@ -747,8 +748,40 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   the circle and centre (V.1.11, VI.9.8), the transparent (On the soul II.7), the due and the timely (Statesman 284e),
   beyond substance (Republic VI 509b), activity complete in itself (Metaphysics Θ.6, Θ.8), the powers of opposites
   (Metaphysics Θ.2, Θ.5) and "take away all things" (V.3.17).
-- E34 (optional): MacKenna's English beside the fifteen done with Taylor too, and their flags checked against him, so that the
-  whole Enneads read the same way.
+- **E34: MacKenna's English beside the fifteen done with Taylor too, and their flags checked against him, so that the whole
+  Enneads read the same way.** Asked for by Daniel (November 15, 2026: "Yes we want that in the program"). Done in parts, one
+  pull request each:
+  - **E34a: MacKenna beside every chapter (done).** `tools/modern_neo.py` sets MacKenna's chapter of the same number beside
+    each of the 190 chapters of `plotinus.txt` (`plotinus.json`'s `older`, in the shape `enneads.json` gives it), and checks
+    that every chapter has one; the reader of Taylor's Plotinus (`#neo-en/taylor-plotinus/<part>`) gets a fourth way to read,
+    "Beside MacKenna" (the modern English and his, chapter by chapter), and a "MacKenna's words" button under every chapter in
+    the other ways; the Enneads page lists Taylor's fifteen as "beside Taylor and MacKenna". The format gains `!mackenna
+    <MacKenna's words> | <why>`, a flag checked word for word against his chapter, shown as "MacKenna differs". Source work in
+    `tools/mackenna.py`, for the chapters the OCR lost or misread in Taylor's treatises (the other nine were already right):
+    vol. II "misread" II.9.11 "n.", "title_lines" for II.9's second and third title lines (in small letters, they ran into
+    chapter 1), "stray" the "V" at the end of II.9.16; vol. III "misread" IV.3.31 "3*." and IV.7.10 to 15 ("10. (15.)",
+    printed with Creuzer's numbers; MacKenna's 8 holds his "8, A." to "8, E.", all Volkmann's 8), "unnumbered" IV.3.14, 15
+    and 17; vol. IV "misread" V.9.7 "....", "unnumbered" V.3.17 and V.9.13; vol. V "misread" VI.9.2 "2", 3 "3. ;", 7 "aE",
+    9 "Q.", 10 "IO." and 11 "be". The "misread", "unnumbered" and "title_lines" lines are now compared with their spaces
+    made single (vols. II to IV's OCR puts two between words). No other treatise's chapters moved. Each repaired chapter's
+    start was checked against the Greek's. `plotinus.json` is now just under 2 MB and will pass it with the flags; the website
+    carries the modern English whatever its size (PR 85), so its test now only keeps it under 4 MB.
+  - **E34b to E34j: the flags against MacKenna**, a treatise or two at a time, in Porphyry's order, each about 5,000 to
+    10,000 Greek words: read MacKenna's chapter beside the Greek and the modern English, and add a `!mackenna` flag wherever
+    he adds to the Greek or misses it, as E1 to E33 did; the Taylor flags stay, and the modern English is not changed. E34b
+    I.2, I.3, II.4 (7,450); E34c II.9 (7,228); E34d III.6 (7,534); E34e III.7, IV.2 (7,062); E34f IV.3 (9,800); E34g IV.7,
+    V.2 (6,225); E34h V.1, V.6 (5,260); E34i V.3 (6,372); E34j V.9, VI.9 (7,730).
+  - **E34b: I.2, I.3, II.4 (done, in the same pull request as E34a).** 51 flags against MacKenna (21, 13, 17). E.g. in I.2
+    "God and Demi-God" for a god and a daemon, "matter of discipline" for right action, the Supreme denied to be justice
+    itself where the Greek says justice itself is not a virtue, "Dutifulness" and, as in Taylor, "Immateriality" for the
+    intellect's justice and sameness, "Contemplative-Wisdom" for practical wisdom, "the Good" for good men, and the goodness
+    "before the impurity" where the Greek has before the purification (Taylor's slip too); in I.3 "metaphysician" for the
+    philosopher, "initiation" for the leading up, the soul "severed" from beauty where it cannot grasp it apart from
+    bodies, the analysis that goes "into the particulars" where it goes back to the principle, and "the Understanding" for
+    practical wisdom; in II.4 "a meeting-ground" for first things by chance, "the present existence" of the forms for
+    "taking for now", "our reasoning" for intellect, "Primal Matter (of the Intelligible)" for the first matter under
+    bodies, Anaximander and Democritus named in brackets, "sizeless" elements, "Absence" for matter, the One's power left
+    out, and the chapter end of II.4.5 left out.
 
 ## The current focus (November 13, 2026, asked for by Daniel): Aristotle, beginning with the Metaphysics
 

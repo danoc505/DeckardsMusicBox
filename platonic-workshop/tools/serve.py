@@ -1168,6 +1168,9 @@ class Library:
                 tre = {t["id"]: t for t in mod["treatises"]}
                 first = next(c["modern"][0] for c in chapters if c.get("modern"))
                 modern = {k: mod[k] for k in ("text", "title", "by", "machine_assisted", "label", "made_from", "about", "source", "links")}
+                if "older" in mod:
+                    # Enneads milestone E34: MacKenna's English of each chapter is beside Taylor's (chapter["modern"][k]["older"])
+                    modern["older"] = mod["older"]
                 modern["treatise"] = tre.get(first["treatise"])
                 modern["marks"] = self.mine.modern_marks(mod["text"])
         n_parts = w["n_parts"]

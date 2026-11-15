@@ -440,7 +440,7 @@ and his note that Aristotle "cannot be serious" against the Forms in X.10. The n
 Proclus on the One beyond being, Proclus on the Form as cause, not one more member of its species). Taylor's chapters are
 Bekker's. Next, when the Aristotle work resumes: Book Λ (35m7).
 
-**The Enneads in modern English (milestones E1 to E34): Porphyry's Life of Plotinus and all thirty-nine treatises not Taylor's done (E1 to E33); E34 is optional (November 2026).** The rest of Plotinus,
+**The Enneads in modern English (milestones E1 to E34): Porphyry's Life of Plotinus and all thirty-nine treatises not Taylor's done (E1 to E33); E34, MacKenna beside Taylor's fifteen, under way (November 2026).** The rest of Plotinus,
 the thirty-nine treatises Taylor did not translate, is being put into plain modern English a treatise or two at a time, in
 Porphyry's order, as milestone 27 did for Taylor's fifteen: made from Volkmann's Greek, chapter by chapter, every idea kept,
 and checked against the older English beside it, here **Stephen MacKenna's** (1917-1930, made from the same Greek; public
@@ -689,6 +689,13 @@ be afraid" to set the first activity without substance. The notes give Aristotle
 it is to be, activity and the powers of opposites, the Meno's right opinion, the Republic's masterless virtue and beyond
 substance, the Gorgias' will, Hesiod's chaos, the Laws on nature and chance, the Timaeus' best maker and the Statesman's
 due and timely.
+**MacKenna beside Taylor's fifteen** (E34a): the fifteen treatises milestone 27 put into modern English beside Taylor's
+English now have MacKenna's English of every chapter too, so the whole Enneads can be read beside his. In Taylor's
+Plotinus, "Beside MacKenna" sets his chapter beside the modern English, and "MacKenna's words" opens it under any chapter;
+Taylor's English stays where it was. `tools/mackenna.py` now finds the chapters the scans' OCR lost or misread in II.9,
+IV.3, IV.7, V.3, V.9 and VI.9. Flags against MacKenna (`!mackenna`, shown as "MacKenna differs") are added a treatise or
+two at a time (E34b to E34j); E34b, with E34a, flags I.2, I.3 and II.4 (51 flags), among them his "Demi-God" for a daemon,
+"metaphysician" for the philosopher and "a meeting-ground" for first things that would be there by chance.
 **III.8, On nature, contemplation and the One, and III.9, Various considerations** (E14), beside MacKenna's vol. II: 14
 chapters, 41 paragraphs, 70 flags, among them his "the Highest" for intellect that began as one and unrolled itself,
 "pregnant" for weighed down, the living principle "brother ... to that which gives mere shape" where it is brother to

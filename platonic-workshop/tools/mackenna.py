@@ -62,6 +62,13 @@ VOLUMES = {
         "enneads": [3, 2],
         # where the treatises end: MacKenna's note on the order of the tractates follows II.9
         "end": "NOTE  ON  THE  ORDER  OF  THE  TRACTATES  OF  THE",
+        # Taylor's treatises beside MacKenna (Enneads milestone E34): II.9's chapter 11, whose number the OCR read "n.",
+        # and the second and third lines of II.9's title, in small letters, which ran into its first chapter
+        "misread": {"II.9.11": "n."},
+        # a stray "V" at the end of II.9.16 (p. 239), which stands only there
+        "stray": ["V"],
+        "title_lines": {"the Kosmos Itself to be Evil : [Generally Quoted as": "the Kosmos Itself to be Evil : [Generally Quoted as",
+                        '"Against the Gnostics"]': '"Against the Gnostics"]'},
     },
     # vol. III (Enneads milestone E15): the Fourth Ennead
     "mackenna-1924": {
@@ -76,6 +83,15 @@ VOLUMES = {
         # chapter numbers the OCR lost (a blank line where the scan prints "15."): the next number begins its chapter,
         # and the lost chapter's text stays with the one before it (the modern English names both with @older)
         "lost": ["IV.4.15", "IV.4.17", "IV.4.31", "IV.4.38", "IV.4.41"],
+        # Taylor's treatises beside MacKenna (Enneads milestone E34): chapter numbers the OCR misread, in their place
+        # (IV.3.31's "3*."; IV.7's last six, printed with Creuzer's numbers after them, "10. (15.)"), and IV.3's chapters
+        # whose numbers it lost altogether (no line at all), begun at the paragraph given by its first words. MacKenna's
+        # IV.7.8 holds the five sections he prints as "8, A." to "8, E." (Henry and Schwyzer's 8.1 to 8.5), which are all
+        # Volkmann's chapter 8; his 9 to 15 are Volkmann's.
+        "misread": {"IV.3.31": "3*.", "IV.7.10": "10. (15.)", "IV.7.11": "ii. (16.)", "IV.7.12": "12. (17.)",
+                    "IV.7.13": "13. (18.) .<:•.*:-••", "IV.7.14": "14. (19.)", "IV.7.15": "15. (20.)"},
+        "unnumbered": {"IV.3.14": "Thus it comes about that this kosmos", "IV.3.15": "The souls peering forth from the Intellectual",
+                       "IV.3.17": "Various considerations explain why the Souls"},
     },
     # vol. IV (Enneads milestone E20): the Fifth Ennead
     "mackenna-1926": {
@@ -89,6 +105,11 @@ VOLUMES = {
         "end": "ACKNOWLEDGEMENTS",
         # the OCR lost V.8's last number, 13 (two blank lines before "The God fettered"): its text stays with his 12
         "lost": ["V.8.13"],
+        # Taylor's treatises beside MacKenna (Enneads milestone E34): V.9.7, whose number the OCR read "....", and V.3.17
+        # and V.9.13, whose numbers it lost, begun at the paragraph given by its first words
+        "misread": {"V.9.7": "...."},
+        "unnumbered": {"V.3.17": "But what can it be which is loftier",
+                       "V.9.13": "It remains to decide whether only"},
     },
     # vol. V (Enneads milestone E22): the Sixth Ennead
     "mackenna-1930": {
@@ -139,7 +160,9 @@ VOLUMES = {
                     "VI.7.35": "35:", "VI.7.41": "Al.",
                     # VI.8 (milestone E33)
                     "VI.8.3": "RS", "VI.8.4": "as", "VI.8.7": "5", "VI.8.9": "Q.", "VI.8.10": "I0.", "VI.8.11": "PE",
-                    "VI.8.12": "ie.", "VI.8.17": "Ls", "VI.8.21": "ati"},
+                    "VI.8.12": "ie.", "VI.8.17": "Ls", "VI.8.21": "ati",
+                    # VI.9, beside Taylor's (milestone E34)
+                    "VI.9.2": "2", "VI.9.3": "3. ;", "VI.9.7": "aE", "VI.9.9": "Q.", "VI.9.10": "IO.", "VI.9.11": "be"},
         "unnumbered": {"VI.1.2": "But are we really obliged", "VI.1.5": "Speech, time, motion",
                        "VI.2.2": "In asserting that Being is not a unity",
                        "VI.3.3": "How then do we go to work", "VI.3.5": "These are incontrovertible facts",
@@ -176,8 +199,8 @@ VOLUMES = {
         # one too low
         "heads": {"VI. 6. 13] ON NUMBERS t5t": 151, "172 BEOTINUS": 172, "188 © PLOTINUS": 188, "204 PEOTINGS": 204,
                   "VE 8.35) -FREE-WILL ANDUPHEOWILL OF THE ONE 229": 229},
-        # lines of a treatise's title that the OCR gave small letters, read as the title's, as printed: the second line
-        # of VI.7's (E30), without which it ran into VI.7.1's first paragraph
+        # lines of a treatise's title that the OCR gave small letters (or that are printed so), read as the title's: the
+        # second line of VI.7's (E30), without which it ran into VI.7.1's first paragraph
         "title_lines": {"Upon THE GoopD": "UPON THE GOOD"},
         "stray": ["x.", "WITH UNIVERSIT Y LIBRARY", "WITHDRAWN", "G", "H", "I", "K",
                   "Te", "—<———— eee", "L", "M", "N", "P", ";", "ce)", "Q", "R", "T", "x", "Z", "2A", "2B", "2C", "2D", "2E", "2G"],
@@ -303,8 +326,9 @@ def read_volume(vid):
             j = i
             while j < end and j < i + 4:
                 x = lines[j].strip()
-                x = v.get("title_lines", {}).get(x, x)
-                if x and (chapter_number(x) is not None or re.search(r"[a-z]", x)):
+                known = v.get("title_lines", {}).get(re.sub(r"\s+", " ", x))
+                x = known or x
+                if x and not known and (chapter_number(x) is not None or re.search(r"[a-z]", x)):
                     break
                 if x:
                     title = f"{title} {re.sub(r'\s+', ' ', x)}"
@@ -351,8 +375,9 @@ def read_volume(vid):
             continue
         t = treatises[-1]
         nxt = f"{t['id']}.{t['chapters'][-1]['n'] + 1}"
-        if s and (v.get("misread", {}).get(nxt) == s or
-                  (not para and nxt in v.get("unnumbered", {}) and s.startswith(v["unnumbered"][nxt]))):
+        one = re.sub(r"\s+", " ", s)      # vols. II to IV's OCR puts two spaces between words
+        if s and (v.get("misread", {}).get(nxt) == one or
+                  (not para and nxt in v.get("unnumbered", {}) and one.startswith(v["unnumbered"][nxt]))):
             after_title = False
             new_chapter(t["chapters"][-1]["n"] + 1)
             if nxt in v.get("unnumbered", {}):
