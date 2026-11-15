@@ -3,11 +3,11 @@
 Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-theology.txt`. The Workshop's modern English, machine-assisted: drafted with an AI model (Claude) from Thomas Taylor's translation (1816) and not yet checked by a scholar. Taylor's own words are beside every chapter, or one tap away.
 
 - Made from: Taylor's English (1816), Project Gutenberg's transcription; no Greek of the Theology is on the site.
-- Chapters done: 32 of 164 in Proclus' six books (I.1 to II.3).
-- Paragraphs: 150, one for each of Taylor's in those chapters.
-- Words: 39,005 modern, 42,654 of Taylor's (183,113 in all six books).
-- Sentences (each can be marked in the reader): 1,575.
-- Flags (hard places, or where Taylor's English misleads): 59.
+- Chapters done: 41 of 164 in Proclus' six books (I.1 to II.12).
+- Paragraphs: 188, one for each of Taylor's in those chapters.
+- Words: 50,853 modern, 55,453 of Taylor's (183,113 in all six books).
+- Sentences (each can be marked in the reader): 1,996.
+- Flags (hard places, or where Taylor's English misleads): 78.
 - Problems found: 0.
 
 ## The books and chapters
@@ -15,7 +15,7 @@ Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-
 | Book | Taylor's chapters | Done here |
 |---|---:|---:|
 | I | 29 | 29 |
-| II | 12 | 3 |
+| II | 12 | 12 |
 | III | 23 | 0 |
 | IV | 39 | 0 |
 | V | 38 | 0 |
@@ -84,6 +84,25 @@ Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-
 | II.3.p4 | the summits of inferiors are conjoined with the boundaries of superiors | A rule of Proclus' system (Elements of Theology 147): the highest member of each lower order is joined to the lowest member of the order above. |
 | II.3.p6 | as some say, who generate things more excellent from things subordinate | Proclus seems to mean the old physicists, and the Pythagoreans and Speusippus as Aristotle reports them (Metaphysics XII.7, 1072b; XIV.4-5), who held that the good and the beautiful come at the end, not the beginning. |
 | II.3.p7 | that which is best if it receives another addition through that which is inferior will be more perfect than that which does not abide in the best | Taylor's English says the opposite of what the argument needs: what is best, if mixed with something lower, will be less perfect than what remains purely in the best. The modern English follows the argument. |
+| II.4.p1 | Origen, who was a partaker of the same erudition with Plotinus | This is Origen the Platonist, a fellow pupil of Plotinus under Ammonius Saccas, not the Christian Origen. He wrote a treatise "That the King is the only Maker", which Proclus takes as making intellect the first principle. |
+| II.4.p1 | because the one is perfectly unhyparctic | Taylor's "unhyparctic" means without hyparxis, without any existence of its own. |
+| II.4.p3 | permanency or motion | Taylor's "permanency" is rest (stasis): the Sophist's kinds, rest and motion, both are, but neither is being itself (250a-c). "Rest" here means remaining still. |
+| II.5.p1 | nor defining the sameness in words analogously, and words in habitudes, endeavour to calumniate this anagogic progression | The sense seems to be: let no one object that analogy only finds a sameness of words or of relations (habitudes), and so slander this way that leads up (anagogic) to the first. |
+| II.6.p2 | neither by intellectual injection, [or projection] | Taylor's "injection" and "projection" render epibolē, the mind's reaching out to its object. Things are united to the One not by any act of knowing. |
+| II.7.p2 | imitates the primogenial cause of itself | Taylor's "primogenial" means first-born, original; Proclus means that the sun imitates the Good, its own cause. |
+| II.7.p4 | to the superessential unities of intelligibles and the first essences | Proclus seems to mean the henads at the summit of the intelligible order, beyond being, and the first beings that hang from them. |
+| II.7.p5 | from the name of idea | That is, from the name of a Form (idea): the Good is named after the Form of the good, though it is beyond the Forms. |
+| II.7.p6 | as the most splendid of being | Republic VI 518c: the Good is "the brightest of being" (to phanotaton tou ontos), which the soul must learn to bear to look at. |
+| II.8.p5 | but you will not speak it | Proclus' distinction: we can speak about the first, from what comes after it, but never say what it is. |
+| II.8.p5 | superessential torches | Taylor's "torches" are the lights or flames of the gods (a Chaldean image): their summits, beyond being, by which they touch the first. |
+| II.9.p4 | the fountain of the beautiful | Plotinus (VI.7.32-33, I.6.9) calls the Good "the source and principle of beauty", beyond beauty itself. |
+| II.10.p2 | does not begin his negations from the Gods that are united to the first | That is, the first denial ("the One is not many", 137c) answers not to the highest gods (the intelligible gods, united to the One) but to the order where multitude first appears; the denials of being at the end (141e) return to the highest. |
+| II.11.p1 | beyond the first adyta | The adyta are the innermost shrines of a temple, which only priests may enter; Proclus sets the One beyond even the first, the intelligible gods. |
+| II.11.p1 | Titannically divide the intellect that is in us | In the Orphic myth the Titans tore the child Dionysus to pieces; the Neoplatonists read this as the dividing of the one intellect into many, and of the soul into the body. |
+| II.12.p1 | in the summit of the first intellectual Gods, and in the intelligible place of survey | Proclus' "intellectual gods" here are the intelligible and at the same time intellectual gods, the middle rank between the intelligible and the intellectual (Book IV); "the place of vision" is the Phaedrus' plain above the heavens, which he puts at their summit. |
+| II.12.p5 | For if the one and the same differ only in name, the many will not be in consequence of participating of sameness with each other | The argument (Parmenides 139d-e): if being the same were being one, then whatever is the same as something would be one with it, and the many, being the same as each other, would be one. The modern English follows the sense. |
+| II.12.p8 | younger and at the same time older both than themselves and other things | The Parmenides 140e-141d: the One is neither older nor younger, nor the same age, nor in time at all. Proclus reads these as the marks of divine souls, which live in time but in circles, always returning to their beginning. |
+| II.12.p9 | asserting that the one is above essence, and being characterized by the one | The Parmenides 141e-142a: the One does not share in being, and so "is not even one"; Proclus reads this as setting the One above the one being, the summit of the intelligible gods. Taylor's footnote corrects the Greek he translated ("to the gods"). |
 
 ## The fixed renderings
 
