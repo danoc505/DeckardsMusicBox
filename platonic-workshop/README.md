@@ -440,7 +440,7 @@ and his note that Aristotle "cannot be serious" against the Forms in X.10. The n
 Proclus on the One beyond being, Proclus on the Form as cause, not one more member of its species). Taylor's chapters are
 Bekker's. Next, when the Aristotle work resumes: Book Λ (35m7).
 
-**The Enneads in modern English (milestones E1 to E34): Porphyry's Life of Plotinus, I.1 and I.4 to I.9 done; the current focus (November 2026).** The rest of Plotinus,
+**The Enneads in modern English (milestones E1 to E34): Porphyry's Life of Plotinus and all thirty-nine treatises not Taylor's done (E1 to E33); E34 is optional (November 2026).** The rest of Plotinus,
 the thirty-nine treatises Taylor did not translate, is being put into plain modern English a treatise or two at a time, in
 Porphyry's order, as milestone 27 did for Taylor's fifteen: made from Volkmann's Greek, chapter by chapter, every idea kept,
 and checked against the older English beside it, here **Stephen MacKenna's** (1917-1930, made from the same Greek; public
@@ -673,6 +673,22 @@ neither two nor more. The notes give Aristotle's desire to know, pleasure's bloo
 Philebus' mixture and tickling, the Phaedrus' lovers and wings, the Symposium's "suddenly", the Republic's greatest study
 and beyond substance, Alcinous' three ways, Odysseus on the wave, the Sophist's standing in solemnity, the Parmenides'
 one without an account, and Letter II's king of all.
+**VI.8, On free will and the will of the One** (E33), beside MacKenna's own English in vol. V: 21 chapters, 77
+paragraphs, 189 flags, under a treatise block of its own; the last of the thirty-nine. What "up to us" means, and why
+it is not spirit, appetite or reckoning but will, right reason and intellect; virtue free in its inner activity, not in
+the deeds forced on it, so that the immaterial is the free; then the "bold argument" that the first happened to be as
+it is, answered: nothing happened to it, it is not even "thus", it is master of itself, its will and its substance are
+one, it made itself, is love of itself, the centre of the circle and the cause of the cause, not made but maker, and
+alone truly free. `tools/mackenna.py` now reads nine misread numbers, chapter 2's lost one, p. 229's head and a
+signature, so all twenty-one chapters are found (pp. 212-236). "Up to us", "self-determination", "voluntary", "will",
+"forming principle", "substance" and "existence" are kept, and MacKenna's "freedom", "self-disposal", "reason",
+"Reason-Principle", "essence" and "Essential Existence" are flagged as his. Among the other flags, "the voluntary" where
+the Greek has "up to us", "independence" for liberality, "rash thinking" for the bold argument, "attribute" for accident,
+"its own Author" for "has made itself", "before all time" for before eternity, and a denial where the Greek says "do not
+be afraid" to set the first activity without substance. The notes give Aristotle on the voluntary, choice, chance, what
+it is to be, activity and the powers of opposites, the Meno's right opinion, the Republic's masterless virtue and beyond
+substance, the Gorgias' will, Hesiod's chaos, the Laws on nature and chance, the Timaeus' best maker and the Statesman's
+due and timely.
 **III.8, On nature, contemplation and the One, and III.9, Various considerations** (E14), beside MacKenna's vol. II: 14
 chapters, 41 paragraphs, 70 flags, among them his "the Highest" for intellect that began as one and unrolled itself,
 "pregnant" for weighed down, the living principle "brother ... to that which gives mere shape" where it is brother to
@@ -759,7 +775,8 @@ hyphened terms such as "Sense-Perception" kept; not proofread). The master copy 
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: VI.8, On free will and the will of the One, beside vol. V (E33).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP. With VI.8 (E33) none is to come: the
+Life and the thirty-nine are all here, 489 chapters; what is left is E34, optional (MacKenna's English beside Taylor's fifteen).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,

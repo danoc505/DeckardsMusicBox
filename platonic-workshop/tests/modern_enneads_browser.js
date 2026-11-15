@@ -34,7 +34,7 @@ async function run(b, viewport, touch, first) {
   const head = await p.$eval(".tg-read", (e) => e.innerText);
   check(/Modern English, the Workshop's own/.test(head) && /machine-assisted/i.test(head) && /not yet checked by a scholar/.test(head), `${tag}: labelled as the Workshop's own and machine-assisted`);
   check(/checked against Stephen MacKenna's translation \(1917, 1921, 1924, 1926, 1930\)/.test(head), `${tag}: and as checked against MacKenna, vols. I to V`);
-  check(await p.$$eval(".tg-mod", (es) => es.length) === 468 && await p.$$eval(".tg-mod .ms-sum", (es) => es.length) === 468, `${tag}: the Life, I.1, I.4 to I.9, II.1 to II.3, II.5 to II.8, III.1 to III.5, III.8, III.9, IV.1, IV.4 to IV.6, IV.8, IV.9, V.4, V.5, V.7, V.8, VI.1 to VI.7, four hundred and sixty-eight chapters, each with its gist`);
+  check(await p.$$eval(".tg-mod", (es) => es.length) === 489 && await p.$$eval(".tg-mod .ms-sum", (es) => es.length) === 489, `${tag}: the Life, I.1, I.4 to I.9, II.1 to II.3, II.5 to II.8, III.1 to III.5, III.8, III.9, IV.1, IV.4 to IV.6, IV.8, IV.9, V.4, V.5, V.7, V.8, VI.1 to VI.8, four hundred and eighty-nine chapters, each with its gist`);
   // Porphyry's Life comes first (E5), with Volkmann's proofread Greek and MacKenna's flags.
   check(await p.$eval(".tg-mod", (e) => e.id) === "mc-Life.1", `${tag}: the Life comes first (E5)`);
   check(/Life, chapter 3\. /.test(await p.$eval("#mc-Life\\.3", (e) => e.textContent)), `${tag}: the Life's chapters are headed as such`);
@@ -145,6 +145,10 @@ async function run(b, viewport, touch, first) {
     && /MacKenna: “and the truth she affirms, that she is, herself/.test(await p.$eval("#mp-VI\\.7\\.34\\.p3", (e) => e.textContent))
     && /MacKenna: “It is no duality but, rather, a manifold/.test(await p.$eval("#mp-VI\\.7\\.41\\.p2", (e) => e.textContent)), `${tag}: VI.7.29-42 are here, with MacKenna's own flags (E32)`);
   check(!/chapters 1-28 of 42 so far/.test(await p.$eval("#toc", (e) => e.textContent)), `${tag}: VI.7 is no longer marked as partly done (E32)`);
+  check(/VI\.8\.1\. What do we mean by "up to us"\?/.test(await p.$eval("#mc-VI\\.8\\.1", (e) => e.textContent))
+    && /VI\.8\.21\. It could not have made itself otherwise/.test(await p.$eval("#mc-VI\\.8\\.21", (e) => e.textContent))
+    && /MacKenna: “Can there be question as to whether the gods have voluntary action/.test(await p.$eval("#mp-VI\\.8\\.1\\.p1", (e) => e.textContent))
+    && /MacKenna: “Let no one suspect us of asserting that the first Activity is without Essence/.test(await p.$eval("#mp-VI\\.8\\.20\\.p2", (e) => e.textContent)), `${tag}: VI.8 is here, with MacKenna's own flags (E33)`);
   check(!/chapters 1-14 of 42 so far/.test(await p.$eval("#toc", (e) => e.textContent)), `${tag}: no longer chapters 1-14 (E30)`);
   check(!/chapters 1-15 of 30 so far/.test(await p.$eval("#toc", (e) => e.textContent)), `${tag}: VI.1 is no longer marked as partly done (E23)`);
   check(/I\.1\.7\. The light of the soul/.test(await p.$eval("#mc-I\\.1\\.7", (e) => e.textContent)), `${tag}: chapters are headed by number and title`);
@@ -160,9 +164,10 @@ async function run(b, viewport, touch, first) {
   check(await p.$$eval('#toc a[href="#neo-modern/enneads/I.1.1"]', (es) => es.length) === 1, `${tag}: I.1 links here`);
   check(await p.$$eval('#toc a[href="#neo-en/taylor-plotinus/0"]', (es) => es.length) === 1 && await p.$$eval('#toc a[href="#neo-en/taylor-plotinus/14"]', (es) => es.length) === 1,
     `${tag}: Taylor's treatises link to his English with the modern beside it`);
-  check(await p.$$eval("#toc .enn-later", (es) => es.length) === 1, `${tag}: the other one is to come`);
+  check(await p.$$eval("#toc .enn-later", (es) => es.length) === 0 && await p.$$eval("#toc .enn-here", (es) => es.length) === 40, `${tag}: none is to come: the Life and the thirty-nine not Taylor's are all here (E33)`);
   await p.click(".enn-all summary");
-  check(/to come, E33/.test(await p.$eval(".enn-all", (e) => e.textContent)), `${tag}: the whole Enneads names the milestone of each one to come`);
+  const all = await p.$eval(".enn-all", (e) => e.textContent);
+  check(!/to come/.test(all) && /the other thirty-nine are all done here, beside MacKenna's/.test(all), `${tag}: the whole Enneads says that the other thirty-nine are all done, with no "to come, E33"`);
   await wide("the Enneads in modern English");
 
   // The Greek of a paragraph, linking to its chapter in Volkmann's text.
@@ -180,7 +185,7 @@ async function run(b, viewport, touch, first) {
   // Side by side.
   await p.click('[data-nm-mode="both"]');
   await p.waitForSelector(".mod-both .tg-tcol");
-  check(await p.$$eval(".tg-tcol", (es) => es.length) === 468, `${tag}: side by side, MacKenna beside every chapter`);
+  check(await p.$$eval(".tg-tcol", (es) => es.length) === 489, `${tag}: side by side, MacKenna beside every chapter`);
   if (viewport.width >= 1024) {
     const cols = await p.$eval("#mc-I\\.1\\.3 .tg-cols", (e) => [...e.children].map((c) => Math.round(c.getBoundingClientRect().left)));
     check(cols.length === 2 && cols[1] > cols[0] + 100, `${tag}: in two columns`);

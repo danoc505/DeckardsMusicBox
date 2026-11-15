@@ -136,12 +136,16 @@ VOLUMES = {
                     # VI.7 chapters 15-28 (milestone E31)
                     "VI.7.17": "17s", "VI.7.19": "9g.", "VI.7.21": "21s", "VI.7.22": "228", "VI.7.27": "ay.",
                     # VI.7 chapters 29-42 (milestone E32)
-                    "VI.7.35": "35:", "VI.7.41": "Al."},
+                    "VI.7.35": "35:", "VI.7.41": "Al.",
+                    # VI.8 (milestone E33)
+                    "VI.8.3": "RS", "VI.8.4": "as", "VI.8.7": "5", "VI.8.9": "Q.", "VI.8.10": "I0.", "VI.8.11": "PE",
+                    "VI.8.12": "ie.", "VI.8.17": "Ls", "VI.8.21": "ati"},
         "unnumbered": {"VI.1.2": "But are we really obliged", "VI.1.5": "Speech, time, motion",
                        "VI.2.2": "In asserting that Being is not a unity",
                        "VI.3.3": "How then do we go to work", "VI.3.5": "These are incontrovertible facts",
                        "VI.6.5": "What then is the veritable nature of Number",
-                       "VI.7.9": "Admitted, then—it will be said—for the nobler forms of life"},
+                       "VI.7.9": "Admitted, then—it will be said—for the nobler forms of life",
+                       "VI.8.2": "A cardinal question is where"},
         # lines that are not Page's text, taken out wherever they stand: VI.2.1's misread number, under its title; a
         # library's stamp on p. 51 (VI.2.9); and the printer's signatures G to K that fell inside VI.2's paragraphs.
         # VI.3 (E25): "Te" under its title, a smudge at the foot of p. 68 ("—<———— eee"), the signatures L, M, N and P,
@@ -158,6 +162,8 @@ VOLUMES = {
         # line of text.
         # VI.7 (E32): the signatures "2D" (inside VI.7.34, p. 201) and "2E" (inside VI.7.40, p. 210), each after a
         # line of text.
+        # VI.8 (E33): the signature "2G" (inside VI.8.12, p. 225), after a line of text; "2F" (p. 217) and "2H" (p. 233)
+        # stand alone and go as short lines.
         # treatise headings the OCR misread, read as the heading given: VI.7's (E29), without which VI.7's chapters
         # 3 to 6 (pp. 166-169) were taken as VI.6's
         "headings": {"SEVEN:EH, TRACTATE": "SEVENTH TRACTATE"},
@@ -165,13 +171,16 @@ VOLUMES = {
         # (E29), without which the pages of VI.6.14 to 18 came out one too low; p. 172's "BEOTINUS" (E30), which
         # otherwise stood inside VI.7.8's text and put the pages of VI.7.9 to 14 one too low; p. 188's "188 © PLOTINUS"
         # (E31), which otherwise stood inside VI.7.20's text and put the pages of VI.7.21 on one too low; p. 204's "204 PEOTINGS" (E32),
-        # which otherwise stood inside VI.7.35's text and put the pages of VI.7.36 on one too low
-        "heads": {"VI. 6. 13] ON NUMBERS t5t": 151, "172 BEOTINUS": 172, "188 © PLOTINUS": 188, "204 PEOTINGS": 204},
+        # which otherwise stood inside VI.7.35's text and put the pages of VI.7.36 on one too low; p. 229's (E33), whose
+        # reference and title the OCR misread, which otherwise stood inside VI.8.14's text and put the pages of VI.8.15 on
+        # one too low
+        "heads": {"VI. 6. 13] ON NUMBERS t5t": 151, "172 BEOTINUS": 172, "188 © PLOTINUS": 188, "204 PEOTINGS": 204,
+                  "VE 8.35) -FREE-WILL ANDUPHEOWILL OF THE ONE 229": 229},
         # lines of a treatise's title that the OCR gave small letters, read as the title's, as printed: the second line
         # of VI.7's (E30), without which it ran into VI.7.1's first paragraph
         "title_lines": {"Upon THE GoopD": "UPON THE GOOD"},
         "stray": ["x.", "WITH UNIVERSIT Y LIBRARY", "WITHDRAWN", "G", "H", "I", "K",
-                  "Te", "—<———— eee", "L", "M", "N", "P", ";", "ce)", "Q", "R", "T", "x", "Z", "2A", "2B", "2C", "2D", "2E"],
+                  "Te", "—<———— eee", "L", "M", "N", "P", ";", "ce)", "Q", "R", "T", "x", "Z", "2A", "2B", "2C", "2D", "2E", "2G"],
     },
 }
 

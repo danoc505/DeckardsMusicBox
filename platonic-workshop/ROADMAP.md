@@ -48,6 +48,10 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   starts in a fresh thread, which reads only this section and the README's section on the Enneads. Each is sized for one fresh
   thread (about 2,500 to 7,500 Greek words). Run the tests that touch the files changed (the full suite can take over 25 minutes).
 - The next one to do is always the first milestone below not marked done.
+- **Where it stands (November 15, 2026):** E1 to E33 are done, so the Life and all thirty-nine treatises not Taylor's are in
+  modern English (489 chapters) and none is "to come". What is left of the Enneads is E34, which is optional (MacKenna's
+  English beside the fifteen done with Taylor). After the Enneads, Daniel's order goes on to Aristotle's Metaphysics from
+  Book Λ (35m7, in milestone 35 below).
 
 ### The milestones (Greek words in brackets)
 
@@ -706,26 +710,43 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   not even one (Parmenides 141e-142a), the greatest kinds (Sophist 254d-255e), standing in solemnity (Sophist 248e-249a),
   beyond substance (Republic VI 509b), "know yourself" (Alcibiades I 128e-130e), no account of the one (Parmenides 142a)
   and the king of all (Letter II 312e).
-- E33: VI.8 On free will and the will of the One (7,771 Greek words, 21 chapters). Next. Pp. 212-236 of vol. V,
-  MacKenna's own English (flags say "MacKenna"). VI.8 is the last treatise not yet done; it is done whole in E33 under its
-  own @treatise block (the thirty-ninth in the order of writing, Life 5), unless it is too long for one thread, in which
-  case split it over E33 (chapters 1-11) and E33b (12-21) and change PLAN to "E33-E33b". Source work first:
-  tools/mackenna.py finds only VI.8.1 (p. 212); 2 on run on in 1. In the OCR (lines 9802-10928, before "NINTH TRACTATE"),
-  "5.", "6.", "8.", "13." to "16.", "18.", "19." and "20." read as they are; candidates for vol. V's "misread", each to
-  check against the Greek's chapter start: "RS" (9916) for 2 ("All this calls for examination"), "as" (9950) for 3 ("It
-  will be asked how act rising from desire can be voluntary"), "Q." (10224) for 9, "I0." (10292) for 10, "PE" (10346)
-  for 11 ("But this Unoriginating, what is it ?"), "ie." (10395) for 12, "Ls" (10684) for 17 ("Or consider it another
-  way"), "ati" (10881) for 21 ("Could He then have made Himself otherwise"); 4 and 7 have no line of their own that was
-  found (7 may follow the head "VI. 8. 7] FREE-WILL AND THE WILL OF THE ONE 219" at 10114, where a "5" stands; 4 is
-  likely inside a paragraph near 9950-10001), so look for them by the Greek. "2F" (10066), "2G" (10419) and "2H" (10767)
-  are signatures: list them in "stray" if they stand after a line of text. Check the running heads for misread page
-  numbers (as E30-E32's "BEOTINUS", "© PLOTINUS", "PEOTINGS"), so that no chapter's page comes out one too low, and that
-  21 ends before "NINTH TRACTATE" (10928). Setup: git fetch origin main, branch, cd platonic-workshop, python3
-  tools/fetch_sources.py first1k-neoplatonists, python3 tools/modern_enneads.py --check, python3 -m unittest
-  tests.test_modern_enneads. Tests: with VI.8 done, all thirty-nine treatises not Taylor's are here and none is "to come":
-  every milestone assert on c["VI.8"]["milestone"] == "E33" (in the E15 to E32 checks) becomes c["VI.8"]["status"] ==
-  "here" (or is dropped); PLAN keeps "E33"; the browser test counts 468 + 21 = 489 chapters, finds no "#toc .enn-later"
-  (0) and no "to come, E33"; check what the reader then says in place of the "to come" line.
+- **E33: VI.8 On free will and the will of the One (7,771) (done).** 77 paragraphs, 189 flags, 77 notes, under its own
+  @treatise block (the thirty-ninth in the order of writing, Life 5); done whole in one thread, so PLAN keeps "E33" and there
+  is no E33b. With VI.8 the Life and all thirty-nine treatises not Taylor's are here (489 chapters) and none is "to come":
+  the reader's whole-Enneads note now says "the other thirty-nine are all done here, beside MacKenna's". MacKenna's own
+  English, so the flags say "MacKenna". Source work: the OCR's chapter lines are one later than the notes guessed: "RS"
+  (9916) is 3 ("All this calls for examination", the Greek's διὸ σκεπτέον) and "as" (9950) is 4; 2 has no line and begins
+  at its first words ("A cardinal question is where", vol. V's "unnumbered"); 7 is the "5" under p. 219's head; vol. V's
+  "misread" adds "RS" 3, "as" 4, "5" 7, "Q." 9, "I0." 10, "PE" 11, "ie." 12, "Ls" 17 and "ati" 21. "heads" reads p. 229's
+  "VE 8.35) -FREE-WILL ANDUPHEOWILL OF THE ONE 229", which otherwise stood inside VI.8.14's text and put the pages of 15 on
+  one too low; "stray" takes out the signature "2G" (inside 12, p. 225), while "2F" and "2H" stand alone and go as short
+  lines. All 21 chapters are found on pp. 212-236, their starts are the Greek's, and 21 ends before "NINTH TRACTATE" (on
+  "thing and something added", the Greek's αὐτὸ καὶ ἄλλο); p. 237's head inside 21 is taken out. No other chapter's page in
+  the volume moved. Fixed names: "up to us" for τὸ ἐφ’ ἡμῖν (MacKenna's "freedom", "self-disposal", "voluntary action"
+  flagged, 1, 3, 5), "self-determination" for τὸ αὐτεξούσιον, "voluntary" for ἑκούσιον, "will" for βούλησις and θέλησις,
+  "forming principle" for λόγος (his "reason" and "Reason-Principle" flagged, 10, 15, 17, 18), with λόγος as reason
+  (right reason, 3; measured by reason, 6), the argument (13) or the account (11, 13) where it is that, "substance" for
+  οὐσία (his "essence", "Essential Existence", "reality", "Being" flagged, 4, 8, 10, 12, 19, 20, 21), "existence" for
+  ὑπόστασις, "the Good", "intellect", "intelligible" (his "Intellectual", 11), "good-formed" (15), "pattern" (14).
+  E.g. MacKenna puts "the voluntary" where the Greek has "up to us" (1), "lust or rage" for spirit and appetite and
+  "malpractice" for drugs (2), "proposals" for premises (3), "independence" for liberality (5), "we read" for Plato's "he
+  says" and "sacrifices" for gives up (6), "rash thinking drawn from another order" for the bold argument (7), "attribute"
+  for accident and "automatic action" for the spontaneous (8), "Thus He has happened not to be" where the Greek denies the
+  happening (11), the first's having no substance left out and "liberator" for free-maker (12), "its own Author" for "has
+  made itself" (13), "God" named where the Greek does not name him (11, 14, 16, 21), "before all time"
+  for before eternity (20), a denial ("Let no one suspect us of asserting that the first Activity is without Essence")
+  where the Greek says "do not be afraid" to set it without substance (20), and "does not lessen Him" where the Greek warns
+  of not having taken away enough (21). terms-greek.json is unchanged. Notes on the voluntary and ignorance (Nicomachean
+  Ethics III.1, V.8), children and beasts (III.1-2), knowledge dragged like a slave (Protagoras 352b-c), right opinion tied
+  by the cause (Meno 97a-98a), the appetites in sleep (Republic IX 571c-572b), the free man for his own sake (Metaphysics
+  A.2), virtue without a master (Republic X 617e), the virtues of habit (Republic VII 518d-e), the will of the good (Gorgias
+  467c-468c), the fine for which the brave man dies (Nicomachean Ethics III.7, IX.8), chance and the spontaneous (Physics
+  II.4-6), the four questions (Posterior Analytics II.1-2), chaos and place (Theogony 116, Physics IV.1, Timaeus 52a-b),
+  nature and chance (Laws X 889a-d), the best does the finest (Timaeus 29e-30b), what it is to be (Metaphysics Z.6), love the
+  lover (Symposium 203c-204c), the great plant (III.8.10), waking (Metaphysics Λ.7), choice (Nicomachean Ethics III.2-3),
+  the circle and centre (V.1.11, VI.9.8), the transparent (On the soul II.7), the due and the timely (Statesman 284e),
+  beyond substance (Republic VI 509b), activity complete in itself (Metaphysics Θ.6, Θ.8), the powers of opposites
+  (Metaphysics Θ.2, Θ.5) and "take away all things" (V.3.17).
 - E34 (optional): MacKenna's English beside the fifteen done with Taylor too, and their flags checked against him, so that the
   whole Enneads read the same way.
 
