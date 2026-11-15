@@ -10,7 +10,7 @@ Written by `tools/modern_neo.py` from `sources/translations/modern/*.txt`. The W
 - Paragraphs: 395, each with its Greek.
 - Words: 82,178 modern, 64,661 Greek, 109,957 in Taylor's English of the same chapters, 97,125 in MacKenna's (Enneads milestone E34).
 - Sentences (each can be marked in the reader): 2,953.
-- Flags (where Taylor and the Greek differ, or the Greek is hard): 329; where MacKenna and the Greek differ: 114.
+- Flags (where Taylor and the Greek differ, or the Greek is hard): 329; where MacKenna and the Greek differ: 117.
 - Problems found: 0.
 
 ### Flags
@@ -370,6 +370,7 @@ Written by `tools/modern_neo.py` from `sources/translations/modern/*.txt`. The W
 | V.1.4.p2 | Conformably to this, Aristotle also, in his Metaphysics says of intellect | Taylor's footnotes (on Aristotle, Metaphysics XII.7, 1072b, "it is active by having", and on a correction of the Greek) are printed into his text in the scan. |
 | V.1.4.p3 | in order that it mav be intellective and intelligible | The scan's "mav" is "may". |
 | V.1.5.p1 | This exuberant God, therefore, exists in the soul which is here | The Greek has "this god is many" (πολύς), many-in-one, not "exuberant". |
+| V.1.5.p1 | MacKenna: intellection (the Act of the Dyad) is vision occupied upon The One | The Greek says "intellection is sight seeing, and the two are one" (ἔστι γὰρ ἡ νόησις ὅρασις ὁρῶσα καὶ ἄμφω τὸ ἕν): sight and its seeing make one thing; MacKenna makes "the One" the object of the vision. |
 | V.1.6.p1 | since we shall then be able to pray to him properly , when we approach by ourselves alone to the alone | Taylor is close; the Greek has "alone to the alone" (μόνους πρὸς μόνον), the phrase that ends the Enneads (VI.9.11). |
 | V.1.6.p1 | and quietly abiding in an eminence beyond all things | The Greek says it is God who stays quiet beyond all things, in the inner part of the temple; Taylor gives this to the beholder. |
 | V.1.6.p2 | in consequence of that prior cause being converted to itself | Taylor is close; the Greek says the second comes to be with the One "always turned towards itself", that is, the One, not "that prior cause" of the moving thing. |
@@ -384,6 +385,7 @@ Written by `tools/modern_neo.py` from `sources/translations/modern/*.txt`. The W
 | V.1.9.p1 | Heraclitus, also, knew an eternal and intelligible one. For he says, that bodies are always rising into existence | The Greek does not say Heraclitus "says" this; it is Plotinus' reason, that bodies always come to be and flow. |
 | V.1.10.p2 | Concerning our soul, likewise, concealing his meaning, he says, in the Phaedrus, that it sometimes hides its head in the heavens, and sometimes elevates it beyond them | The Greek says only that "we lift our head to the top"; the rest is Taylor's. |
 | V.1.10.p2 | He also indicates that we should elevate the remaining [i. e. the irrational] form of the soul | Taylor's bracket is his own; and "should likewise be engaged in an employment of this kind" is not in the Greek, which ends on the part that shapes the body and is busy about it. |
+| V.1.10.p2 | MacKenna: to holding our rank, to use of our thinking | The Greek says the separation is made "by not inclining, and by the images, and by estrangement from the body" (τῇ μὴ νεύσει καὶ ταῖς φαντασίαις καὶ τῇ ἀλλοτριότητι): by not leaning down to the body and its images; it says nothing of using our thinking. |
 | V.1.11.p1 | They receive him, however, as something different from themselves | The Greek says God is seen in each thing able to receive him "as another self", as if each had him for its own. |
 | V.1.12.p1 | and are not a part of the soul, but the whole soul | Taylor is right; the Greek says it is because "we" are the whole soul, not just its highest part, that we notice only what reaches perception. |
 | V.1.12.p1 | each of the psychical animals in us | The Greek has "each of the things of the soul" (τῶν ψυχικῶν), its powers, not "animals". |
@@ -426,6 +428,7 @@ Written by `tools/modern_neo.py` from `sources/translations/modern/*.txt`. The W
 | V.6.3.p1 | imparticipable or exempt one, is not consubsistent with any thing | Taylor's footnote (with its reference to his Proclus) is printed into the middle of his sentence in the scan, which goes on, after it, "things. For since that which is simple". |
 | V.6.4.p1 | [with a light derived from the good] | Taylor's bracket is his own; the Greek says only that intellect, brought into the soul, colours it. |
 | V.6.5.p1 | For looking to the good, it intellectually sees it | The Greek says that, looking to the good, intellect thinks itself; Taylor makes the good what it sees. |
+| V.6.5.p1 | MacKenna: this moves towards itself while its sequent is moved | The Greek says the Good came to be and moved the other towards itself (ἐκίνησε πρὸς αὑτό), and that other was moved and saw; the Good moves something else, it does not itself move towards itself. |
 | V.6.6.p1 | how this twofold nature subsists in every thing which is more clearly intellective | Taylor moves "more clearly" to "intellective"; the Greek says one would see this better by grasping more clearly how the double nature belongs to all that thinks. |
 | V.6.6.p1 | Instead of ov yevei here, it is necessary to read | Taylor's footnote on the Greek text is printed into his sentence about man and the thought of man in the scan. |
 | V.9.1.p1 | a more ample discussion of Ideas than is contained in this treatise | Taylor's footnote (pointing to his Parmenides and his Aristotle) is printed into the middle of his sentence in the scan, which goes on, after it, "them, who pretend to a greater share of reason". |
