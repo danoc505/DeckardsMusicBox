@@ -8,7 +8,7 @@ Written by `tools/modern_neo.py` from `sources/translations/modern/*.txt`. The W
 - Treatises: I.2 On the virtues, I.3 On dialectic, II.4 On matter, II.9 Against the Gnostics, III.6 On the impassibility of things without body, III.7 On eternity and time, IV.2 On the essence of the soul, IV.3 On difficulties about the soul (I), IV.7 On the immortality of the soul, V.1 On the three principal hypostases, V.2 On the generation and order of things after the first, V.3 On the knowing hypostases, and what is beyond, V.6 That what is beyond being does not think, V.9 On intellect, the forms, and being, VI.9 On the good, or the One.
 - Chapters: 190, every one of the treatises', each with a short title and a summary.
 - Paragraphs: 395, each with its Greek.
-- Words: 82,178 modern, 64,661 Greek, 109,957 in Taylor's English of the same chapters, 97,125 in MacKenna's (Enneads milestone E34).
+- Words: 82,178 modern, 64,661 Greek, 109,957 in Taylor's English of the same chapters, 97,121 in MacKenna's (Enneads milestone E34).
 - Sentences (each can be marked in the reader): 2,953.
 - Flags (where Taylor and the Greek differ, or the Greek is hard): 329; where MacKenna and the Greek differ: 118.
 - Problems found: 0.
