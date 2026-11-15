@@ -4,14 +4,14 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 
 - Made from: Volkmann's Greek (Leipzig, 1883-1884), as First1KGreek gives it; checked against MacKenna's English (1917, 1921, 1924, 1926, 1930; the Internet Archive's OCR of the printed volumes, read by rule (tools/mackenna.py), not proofread).
 - Porphyry's Life of Plotinus: Volkmann's own Greek (vol. I, 1883), proofread from the scan (`sources/neoplatonists/proofread/porphyry-life-plotinus.txt`).
-- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny, III.2 On providence, first part, III.3 On providence, second part, III.4 On the daemon allotted to us, III.5 On love, III.8 On nature, contemplation and the One, III.9 Various considerations, IV.1 On the being of the soul, first part, IV.4 On difficulties about the soul, second part, IV.5 On difficulties about the soul, third part, or on sight, IV.6 On perception and memory, IV.8 On the descent of the soul into bodies, IV.9 Whether all souls are one, V.4 How what comes after the first comes from it, and on the One, V.5 That the intelligibles are not outside intellect, and on the Good, V.7 Whether there are forms of individuals, V.8 On intelligible beauty, VI.1 On the kinds of being, first part.
-- The whole Enneads: 33 treatises here, 15 beside Taylor (milestone 27), 7 to come.
-- Chapters: 330, each with a short title and a summary.
-- Paragraphs: 1057, each with its Greek.
-- Words: 134,537 modern, 101,630 Greek, 168,588 in MacKenna's English of the same chapters.
-- Sentences (each can be marked in the reader): 4,771.
-- Flags (where MacKenna and the Greek differ, or the Greek is hard): 889.
-- Notes (Plato's, Aristotle's and Homer's places, hard readings): 649.
+- Treatises done here: Porphyry, On the life of Plotinus and the order of his books, I.1 What is the living being, and what is the human being?, I.4 On happiness, I.5 Whether happiness grows with time, I.6 On beauty, I.7 On the first good and the other goods, I.8 What evils are, and where they come from, I.9 On going out of life, II.1 On the heaven, II.2 On the movement of the heaven, II.3 Whether the stars are causes, II.5 On what is potential and what is actual, II.6 On substance, or on quality, II.7 On complete blending, II.8 On sight, or why distant things look small, III.1 On destiny, III.2 On providence, first part, III.3 On providence, second part, III.4 On the daemon allotted to us, III.5 On love, III.8 On nature, contemplation and the One, III.9 Various considerations, IV.1 On the being of the soul, first part, IV.4 On difficulties about the soul, second part, IV.5 On difficulties about the soul, third part, or on sight, IV.6 On perception and memory, IV.8 On the descent of the soul into bodies, IV.9 Whether all souls are one, V.4 How what comes after the first comes from it, and on the One, V.5 That the intelligibles are not outside intellect, and on the Good, V.7 Whether there are forms of individuals, V.8 On intelligible beauty, VI.1 On the kinds of being, first part, VI.2 On the kinds of being, second part.
+- The whole Enneads: 34 treatises here, 15 beside Taylor (milestone 27), 6 to come.
+- Chapters: 352, each with a short title and a summary.
+- Paragraphs: 1162, each with its Greek.
+- Words: 143,998 modern, 109,066 Greek, 179,059 in MacKenna's English of the same chapters.
+- Sentences (each can be marked in the reader): 5,104.
+- Flags (where MacKenna and the Greek differ, or the Greek is hard): 948.
+- Notes (Plato's, Aristotle's and Homer's places, hard readings): 705.
 - Problems found: 0.
 
 ## Flags
@@ -907,6 +907,65 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | VI.1.27.p5 | the living form | The Greek has "the living being" (τὸ ζῷον), the animal, not its form. |
 | VI.1.29.p3 | even their Seminal Principles (Logoi) | The Greek says only "the forming principles" (οἱ λόγοι); "Seminal" is Page's, after the Stoics' seminal principles (σπερματικοὶ λόγοι). |
 | VI.1.30.p5 | or even supposed the Composite to be the Authentic Existent | The Greek has only "or both together" (τὸ συναμφότερον), principles both bodies and bodiless; "the Authentic Existent" is Page's. |
+| VI.2.1.p2 | And do both the sets of categories we have been examining imply | The Greek has only "on the one side ... on the other" (ἐπὶ μὲν τῶν ἑτέρων ... ἐπὶ δὲ τῶν ἑτέρων), the principles and the kinds; nothing here of the two sets of categories examined in VI.1. |
+| VI.2.1.p3 | these questions become imperative, once we are satisfied as to the number of genera | The Greek says we must look into these questions "first setting out" (πρότερον εἰς μέσον θέντας) what number of kinds we speak of, and how: the number is the first task, not a condition already met. |
+| VI.2.1.p5 | implying that the nature of True Being has been quite misapprehended | The Greek says Plato showed "them" (αὐτοῖς) that what truly is is something else; nothing here of a misapprehension. |
+| VI.2.2.p1 | the number may well be infinite | The Greek asks "is it some number? Or unlimited?" (ἆρα ἀριθμόν τινα; ἢ ἄπειρον), and leaves it a question; Page answers it. |
+| VI.2.2.p4 | that there are genera as distinct from principles of Being | The Greek agrees that there are kinds "and moreover" (καὶ προσέτι) principles of substance: the same things are kinds and principles, as the chapter has argued, not kinds distinct from principles. |
+| VI.2.2.p4 | it would be more plausible to dispense with their separate existence | The Greek says it would be much more reasonable "to bring them under one" (ὑφ’ ἕν): the objection is that one kind over them would be the likelier view. |
+| VI.2.2.p6 | we are not predicating the Absolute Whiteness | The Greek says only that he does not call it "just what white is" (ὅπερ λευκόν), white in its essence; Page's capitals make it a Platonic form. Being said of each thing would be said by accident, not as its kind. |
+| VI.2.3.p5 | for thus we shall also discover their causes | The Greek says "so too the how" (οὕτω γὰρ καὶ τὸ πῶς): knowing how many the kinds are will show how they are one and many; nothing here of their causes. |
+| VI.2.4.p1 | the pseudosubstance, the quantity, the quality | The Greek says "something like substance" (οἷον οὐσία): the substrate of a body is called substance only loosely, since perceptible substance is not substance in the proper sense (VI.3.2-8); Page's "pseudo" makes it false. |
+| VI.2.4.p3 | single, continuous, without extension | The Greek's words are "one, without extension, without magnitude, most simple" (μίαν, ἀδιάστατον, ἀμεγέθη, ἁπλούστατον); "continuous" is Page's, and a word for bodies. |
+| VI.2.5.p3 | the Reason-Principles of the things of process | VI.1 and VI.2 keep λόγος as "the forming principle", the principle in soul that forms what comes to be; "Reason-Principle" is Page's word for it, after MacKenna. |
+| VI.2.6.p2 | One, in the sense of being one Reason-Principle | λόγος here too is the forming principle; "Reason-Principle" is Page's. |
+| VI.2.6.p3 | its purpose is the Act of the Intellect | The Greek says only "so that it may think" (ἵνα νοήσῃ): thinking needs the many; nothing here of the act of intellect as a purpose. |
+| VI.2.7.p3 | Being, then, containing many species, has but one genus | The Greek says being "has many species and is one kind" (εἴδη πολλὰ καὶ ἓν γένος): being is itself the kind, not something that has one. |
+| VI.2.7.p3 | in the individual they may be mutually exclusive | The Greek speaks of "the one being" (ἐπὶ τοῦ ἑνὸς ὄντος) of Plato's Parmenides, where each part "had the other" (εἶχε θάτερον); Page makes it the individual, and the having exclusion. |
+| VI.2.7.p4 | single Reason-Principle—these are characteristics of the higher sphere | Here λόγος is the account a thing keeps, as what is always the same keeps one, not the forming principle; "Reason-Principle" is Page's. |
+| VI.2.8.p2 | how it puts apart things that were together | The Greek says "how it stands apart, being together" (ὡς διέστηκεν ὁμοῦ ὄντα): the things in intellect are distinct while together; Page makes intellect part what was together. "Stands in itself" and "stands apart" (ἕστηκεν, διέστηκεν) are one word, as rest and otherness will be found in it. |
+| VI.2.8.p3 | Now in the Act of Intellect there are energy and motion | The Greek says "in its thinking" (ἐν τῷ νοεῖν) are the act (ἐνέργεια) and the motion; Page puts "Act" for the thinking and "energy" for the act. |
+| VI.2.8.p3 | Intellect bridges the dualism (of agent and patient) | The two that are joined are the seeing and what is seen, the act and being; "agent and patient" is Page's. |
+| VI.2.8.p4 | the Form-Idea has Stability, since it is the goal of Intellect | The Greek says the form, at rest, is "the limit" (πέρας) of intellect, its boundary, not its goal. |
+| VI.2.8.p5 | We have caught the radiance of Being | The Greek says "having come into contact" (ἐν προσβολῇ) with the nature of being: a touch or approach of thought; "radiance" is Page's. |
+| VI.2.8.p5 | found Being to contain Difference | The kind is ἑτερότης, "otherness", Plato's "the other" (θάτερον) of the Sophist; the modern version keeps "otherness" and "the other" for it, and "difference" for διαφορά, the difference that divides a kind into species. |
+| VI.2.8.p5 | do we not see in this amalgamation Identity emerging | ταυτότης is "sameness", Plato's "the same" (ταὐτόν); Page's "Identity". |
+| VI.2.8.p6 | the thing of Sense has, it is clear, a particular identity | The Greek says only that "each" (ἕκαστον) of the later things is a certain same and a certain other; "the thing of Sense" is Page's, and the later things are first the intelligible species. |
+| VI.2.8.p7 | they do not even attain to its level | The Greek says they "do not stand above it" (οὐδὲ ἐπαναβέβηκεν αὐτῷ), nor are prior to being, as a kind would be over its species; Page reverses it, as if they fell short of being. |
+| VI.2.9.p3 | The mind accepts: differences of Being | The Greek says "intellect" (ὁ νοῦς) accepts it; the modern version keeps "intellect" for νοῦς throughout. |
+| VI.2.9.p5 | Admitted that not everything suffices to produce a genus | The Greek's objector says the one is not the kind "of all things, but one thing by itself, like the others" (μὴ πάντων ... ἀλλὰ ἕν τι ἐφ’ ἑαυτοῦ, ὥσπερ τὰ ἄλλα): a sixth kind beside the five. |
+| VI.2.10.p2 | The unit is prior to number; yet number it must be | The Greek says "the one is not a number" (οὐ γὰρ ἀριθμὸς τὸ ἕν); nothing here of its being prior. |
+| VI.2.11.p1 | especially the dividing of the genera Being and unity | The Greek asks about the division "and in general that of the kinds" (καὶ ὅλως ὁ τῶν γενῶν), and whether each division is the same; Page narrows it to being and unity. |
+| VI.2.11.p4 | related not so much to Being as to a standard of perfection | The Greek says the one in each thing "looks to the good" (πρὸς ἀγαθὸν βλέπειν); "a standard of perfection" and "perfection" are Page's for the good, here and in what follows. |
+| VI.2.11.p5 | Unity is thus identical with Goodness | The Greek says only "so it is with the good too" (οὕτω γὰρ καὶ τὸ ἀγαθόν): the good, like the one, is origin and goal; Page makes them identical. |
+| VI.2.11.p7 | not however in the same sense as for things of the physical order | The Greek says "not in the same way, but otherwise" (οὐχ ὡσαύτως δέ, ἀλλὰ ἄλλως), and names no physical order. |
+| VI.2.12.p1 | Just as all other inanimates find their perfection in their unity | The Greek says only that the question "is common to the other soulless things too" (κοινὸν τοῦτο), and gives no answer here. |
+| VI.2.12.p1 | but perfection does exist in such things, for example in a circle | The Greek's second case is the point "in other things, as in a circle" (εἰ δ’ ἐν ἄλλοις, οἷον ἐν κύκλῳ), the point that is not by itself; Page joins it to the first. |
+| VI.2.13.p1 | in number the posterior is divided from the prior | The Greek says "the later comes from the earlier" (τὸ ὕστερον παρὰ τοῦ προτέρου); nothing here of a division. |
+| VI.2.13.p2 | for it contains within itself number, line and surface | The Greek says magnitude is "number in this" (ἀριθμὸς ἐν τῷδε), and the line "a sort of two", the plane "three": magnitude is number in something, the line and the plane numbered two and three. |
+| VI.2.13.p4 | or that number belongs to the genus Stability | The Greek says number belongs to "what stands still" (ἑστώτων), not to the kind rest; and it joins the two thoughts ("and number ...") rather than setting them against each other. |
+| VI.2.14.p2 | the qualities may be detached from the common core around which they are found to group themselves | The Greek says "a certain commonness will be seen in them" (κοινότης τις ἐν αὐταῖς): something common among the qualities themselves, which would make quality a kind; Page makes it a core they gather round. |
+| VI.2.14.p3 | are only by analogy called qualities | The Greek says "by a shared name only" (ὁμωνύμως), not by analogy. |
+| VI.2.14.p3 | he is, on the contrary, Substance in a higher degree before he arrives at differentiation | The Greek says he is substance "from above" (ἄνωθεν), already, before coming to the difference: higher up the division, from the kind down, not in a higher degree. |
+| VI.2.15.p2 | If Motion is the Act of Substance, and Being and the Primaries in general are its Act | The Greek says being and the first things "are act" (ἐνέργεια δὲ τὸ ὂν), not the act of substance: motion is the act of being, and being is itself act. |
+| VI.2.16.p1 | Apparently it has less claim than even Place | The Greek says "more likely, perhaps, not" (μᾶλλον δὲ ἴσως οὔ): time is probably not there at all; Page compares it with place. |
+| VI.2.17.p2 | but as a constituent | The Greek says being is good "in itself" (ἐν αὐτῷ), not as a quality; "constituent" is Page's. |
+| VI.2.17.p3 | If however we must make goodness a genus as well (as a transcendent source) | Page's parenthesis is not in the Greek: the good set down as a kind would be the good in being, later than substance, not the good beyond. |
+| VI.2.18.p1 | none the less Motion by being directed towards Absolute Beauty | The Greek says "if the act is toward that" (πρὸς ἐκεῖνο), the beautiful thing seen, which moves us; "Absolute Beauty" is Page's. |
+| VI.2.18.p2 | or perhaps more suitably under Stability | The Greek says "if you like" (εἰ δὲ βούλει), not "more suitably": either will do. |
+| VI.2.18.p3 | Intelligence, since it connotes intelligent Being and comprises the total of existence | The Greek's νοῦς is "intellect", as Page himself has it in the same sentence ("the true Intelligence (or Intellect)"), and it is "being that thinks" (ὂν νοοῦν), composite of all the kinds. |
+| VI.2.19.p3 | the particular intellect, Intellect as such being found identical with Being | The Greek says "each intellect" (νοῦν ... ἕκαστον) is what is from all the beings, and that being and substance, set down as intellect, are before all of them as their species and parts; "Intellect as such" is Page's. |
+| VI.2.20.p2 | we find that what subsists in the particulars must be maintained from the totality | The Greek says the particular intellects are "filled from all" (ἐκ πάντων πληρωθέντας): completed from all the kinds. |
+| VI.2.20.p3 | all are latent in it | The Greek says all are "at rest" (ἥσυχα) in it: still, not hidden. |
+| VI.2.21.p1 | while, in virtue of its Reason-Principle, remaining a unity | The modern version keeps λόγος as "forming principle"; "Reason-Principle" is Page's. |
+| VI.2.21.p2 | so that they are infinite, infinity, Magnitude-Absolute | The Greek says "the great" (τὸ μέγα); Page's capitals make it a form. The great is the first of the things Plotinus will see coming forth, as magnitude. |
+| VI.2.21.p3 | Identity; coming in with Difference, creates equality | The Greek says sameness, "being present" (συνοῦσα), makes equality; Page has it come in "with Difference", the kind that makes inequality. |
+| VI.2.21.p4 | may itself be regarded as one great and perfect Reason-Principle | λόγος is "forming principle" here too; "Reason-Principle" is Page's, for the forming principles and for the one great one alike. |
+| VI.2.21.p5 | we conclude that Being has so created Intellect | The Greek says one would think "being, an intellect that had reasoned" (τὸ ὂν νοῦν λελογισμένον), had made things so: being is the intellect that seems to have reasoned, not the maker of intellect. |
+| VI.2.21.p6 | it is obvious that Being is best served by the domination of Intellect | The Greek says it would be at its best "without toil" (ἀμογητί), lying in accord with intellect; nothing here of domination. |
+| VI.2.22.p1 | There is Intellect in our intellect also | The Greek says "our intellect, having them in itself" (ὁ νοῦς ἡμῶν ἔχων ἐν αὑτῷ), the forms, sees them better in what is before it; nothing here of an intellect within our intellect. |
+| VI.2.22.p2 | has bound up with it the principle of Difference | The Greek says "the nature of the other" (τὴν τοῦ θατέρου φύσιν), Plato's phrase in the Sophist (258d-e) and the Timaeus (35a); the kind is otherness, as in chapter 8. |
+| VI.2.22.p5 | the other powers imposed by the particular Reason-Principle | The Greek says only "according to the forming principle" (κατὰ λόγον), or "in due proportion"; "particular", and the parenthesis on the being ensouled, are Page's. |
 
 ## The plan, in Porphyry's order
 
@@ -959,7 +1018,7 @@ Written by `tools/modern_enneads.py` from `sources/translations/modern/enneads.t
 | V.8 | On intelligible beauty | done here |
 | V.9 | On intellect, the forms and being | done beside Taylor (milestone 27) |
 | VI.1 | On the kinds of being, first part | done here |
-| VI.2 | On the kinds of being, second part | to come (E24) |
+| VI.2 | On the kinds of being, second part | done here |
 | VI.3 | On the kinds of being, third part | to come (E25-E26) |
 | VI.4 | That being, one and the same, is everywhere whole, first part | to come (E27) |
 | VI.5 | That being, one and the same, is everywhere whole, second part | to come (E28) |
