@@ -616,6 +616,21 @@ centres, our many faces what we see, the soul's "virtue" for its power, the beau
 "the lesser gods". The notes give the Second Letter's firsts, seconds and thirds, the Timaeus on sharing "hard to tell",
 Xenocrates' self-moving number, the Symposium's Love at the door, Heraclitus' "thinking is common", and the Odyssey's gods
 who go about the cities.
+**VI.6, On numbers** (E29), beside MacKenna's own English in vol. V: 18 chapters, 72 paragraphs, 155 flags, under a new
+treatise block (the thirty-fourth in the order of writing). Multitude as a standing away from the one, the unlimited that
+flees limit and is caught from outside, Plato's days and nights and his true number, justice a statue in intellect, being,
+intellect and the complete living being, number that divided being (being number united, the beings number unrolled,
+intellect number moving in itself), the substantial number and the number of units, the one as no affection of the soul
+nor a relation, one by the presence of the one and two by the dyad, man two and virtue four, the line itself and the
+first figures, and number there bounded, all measures and so all beautiful. `tools/mackenna.py` now reads VI.7's misread
+heading, so VI.7 no longer lends VI.6 four of its chapters, and finds all 18 chapters (pp. 138-160), reading six misread
+numbers, the unnumbered 5, p. 151's head and a stray "x". "Forming principle", "substance", "otherness" and "sameness"
+are kept, and MacKenna's "Henads" and "Reason" are flagged as his. Among the other flags, "Matter" where the Greek has the
+unlimited, the town multiplied in thought left out, the statue in intellect left out, and the infinite line in the
+intelligible given as Plotinus' view where the Greek asks it, with the line there "not quantitative" where the Greek says
+it would be. The notes give the Pythagorean opposites, the Philebus' limit and measure, the Epinomis' days and nights, the
+Republic's true number, Aristotle's substantial and monadic number, the Phaedo's two by joining and splitting, the
+Timaeus' soul of number and harmony and its figures of the elements, and Parmenides' one being.
 **III.8, On nature, contemplation and the One, and III.9, Various considerations** (E14), beside MacKenna's vol. II: 14
 chapters, 41 paragraphs, 70 flags, among them his "the Highest" for intellect that began as one and unrolled itself,
 "pregnant" for weighed down, the living principle "brother ... to that which gives mere shape" where it is brother to
@@ -702,7 +717,7 @@ hyphened terms such as "Sense-Perception" kept; not proofread). The master copy 
 treatises; each treatise's chapters from the first, in order; every paragraph's Greek found in its chapter, so all of it is
 covered; every flag's words found in MacKenna's chapter; the fixed renderings) and writes `enneads.json` and
 [`reports/modern_enneads.md`](reports/modern_enneads.md). `reader/neo.js`, `tests/test_modern_enneads.py`,
-`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: VI.6 On numbers, beside vol. V (E29).
+`tests/modern_enneads_browser.js`. The plan, one milestone per thread, is in the ROADMAP; next: VI.7 How the many forms came to be, and on the Good, chapters 1-14, beside vol. V (E30).
 
 **Aristotle, milestone A1: the Metaphysics and the Nicomachean Ethics: done.** Aristotle has a shelf of his own in the Library
 (`#metaphysics`, `#nicomachean-ethics`), read in the same reader as the dialogues, at Bekker's pages and columns (980a: page 980,

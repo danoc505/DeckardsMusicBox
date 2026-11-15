@@ -584,24 +584,54 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   (Heraclitus B113), the many judging together (Politics III.11), the consolation (Phaedo 70b, 115d), time and eternity
   (Timaeus 37d, III.7), the elements' triangles (Timaeus 53c-55c) and the gods going about the cities (Odyssey XVII
   485-487, Republic II 381d).
-- E29: VI.6 On numbers (6,963). Next. 18 chapters, pp. 138-161 of vol. V, MacKenna's own English (flags say "MacKenna").
-  VI.6 is the thirty-fourth treatise in the order of writing and has no @treatise block yet: add one with a summary (on
-  number and the unlimited: whether multitude is a falling away from the one, number in the intelligible before the
-  beings, the decad, the monad and the unit, and the "infinite number"; Life 5). Source work first: tools/mackenna.py
-  finds only VI.6.1 and 2, and gives VI.6 chapters 3-6 that are VI.7's (pp. 166-169), because the head of VI.7 reads
-  "SEVEN:EH, TRACTATE" (7548) and is not taken as a treatise heading; read it (VI.7 should then begin on p. 162) and check
-  that VI.6.18 ends "For Being alone has Being in its own right." In the OCR (plotinusononegoo0005step_djvu.txt), "2.",
-  "4.", "6.", "8.", "10.", "13.", "14.", "15.", "16." and "18." read as they are; candidates for "misread": "3," (6539)
-  for 3, "Ve" (6766) for 7, "Q." (6839) for 9, "17:" (7395) for 17, and "iets" (6984, p. 149) and "ies" (7032, p. 150) for
-  11 and 12 (p. 149's head says 12, so check against the Greek which is which, or whether 11 is lost). No number for 5 was
-  found between 4 (6612) and 6 (6712); p. 143's head says 6, so 5 may be lost ("lost" list) or unnumbered (find its first
-  words from the Greek). Candidates for "stray": "U" (6818), "x" (7173, after a line of text) and "Xi" (7530, the
-  signature); "»" (6596) likely goes as a short line; "Tests" (6574) and "fro ?" (6577) are inside MacKenna's text. Check
-  each chapter start against the Greek. Setup: git fetch origin main, branch, cd platonic-workshop, python3
-  tools/fetch_sources.py first1k-neoplatonists, python3 tools/modern_enneads.py --check, python3 -m unittest
-  tests.test_modern_enneads. Tests: the E28 check looks at [31:36]; the milestone asserts move to VI.7 ("E30"); the
-  browser test counts 408 + 18 = 426 chapters, enn-later 2 and "to come, E30".
-- E30: VI.7 How the many forms came to be, and on the Good, chapters 1-14 (about 4,800).
+- **E29: VI.6 On numbers (6,963) (done).** 72 paragraphs, 155 flags, 64 notes, under a new @treatise block with its
+  summary (the thirty-fourth treatise in the order of writing, Life 5). MacKenna's own English, so the flags say
+  "MacKenna". Source work: tools/mackenna.py found only VI.6.1 and 2 and gave VI.6 four chapters of VI.7's; vol. V now
+  has "headings", which reads VI.7's "SEVEN:EH, TRACTATE" (7548) as "SEVENTH TRACTATE", so VI.7 begins on p. 162; "misread"
+  adds "3," 3, "Ve" 7, "Q." 9, "iets" 11, "ies" 12 and "17:" 17 (11 and 12 checked against the Greek: p. 149's head says
+  12, but 12 begins on p. 150); "unnumbered" begins 5 at "What then is the veritable nature of Number" (p. 142); a new
+  "heads" reads p. 151's head "VI. 6. 13] ON NUMBERS t5t", without which the pages of 14-18 came out one too low; "stray"
+  takes out "x" inside VI.6.14 (p. 154), and "U" (p. 145) and the signature "Xi" (p. 161) go as short lines. All 18
+  chapters are found on their pages (138-160), their starts are the Greek's, and no other chapter's page in the volume moved.
+  VI.6.18 does not end with p. 161's "For Being alone has Being in its own right.": it runs on to the top of p. 162 and
+  ends "but Being is sufficient to itself", as the Greek ends (τὸ δὲ εἶναι αὔταρκες ἑαυτῷ). "Tests" and "fro ?" stay
+  (MacKenna's text, in VI.6.3). Fixed names: "forming principle" for λόγος (11), "substance" for οὐσία, "intelligible",
+  "otherness" and "sameness" (4, 9), "self-control" (15), "virtue", "wisdom" for both φρόνησις and σοφία (18), "units" for
+  ἑνάδες where MacKenna has "Henads"; MacKenna's "Reason", "Real-Being", "Essence", "Ideas" and "Intellectual-Principle"
+  are flagged as his. E.g. MacKenna makes the opening question a suggestion (1), the grief of magnitude real where the
+  Greek's is contrary to fact (1), drops the town multiplied in thought (2), says "Matter" where the Greek has the
+  unlimited (3), multitude "evil" where it is worse (3), the statue in intellect left out (6), the one thought "subsequent
+  to a precedent duality" (9), "it is certain" where the Greek asks (9), the infinite line in the intelligible given as
+  Plotinus' view where the Greek asks it, and the line there "not quantitative" where the Greek says it would be (17), and
+  the good sought "through" being where it is sought after it (18). terms-greek.json is unchanged. Notes on the
+  Pythagorean opposites (Metaphysics A.5), the Philebus' limit and unlimited (24a-25b) and measure (64d-65a), Plato's
+  days and nights (Epinomis 978b-979a, Timaeus 47a) and true number (Republic VII 529d), knowledge the same as the thing
+  (On the soul III.4), justice's face (Nicomachean Ethics V.1), the complete living being (Timaeus 30c-31b, 39e), the
+  substantial and monadic number (Metaphysics M.6-M.7), the tetractys (Golden Verses), the aviary (Theaetetus 198a-199b),
+  the Stoics' concepts (SVF I.65), recollection (Phaedo 74a-75a), two by joining and splitting (Phaedo 96e-97b, 101b-c),
+  continuous and discrete quantity (Categories 6), the soul's number and harmony (Timaeus 36e-37a, Xenocrates), the four
+  virtues (Republic IV), the unlimited potential (Physics III), the elements' figures (Timaeus 55d-56b) and Parmenides'
+  one being (B8).
+- E30: VI.7 How the many forms came to be, and on the Good, chapters 1-14 (about 4,800). Next. Pp. 162-185 or so of vol.
+  V, MacKenna's own English (flags say "MacKenna"). VI.7 is the thirty-eighth treatise in the order of writing (Life 5)
+  and has no @treatise block yet: add one with a summary of the whole (VI.7 is done over E30 to E32, so the block keeps
+  chapters_done until E32), on why the senses were given, intellect holding all the forms and living beings, the reasons
+  in the forms ("the why" with the what), the lower living beings there, the many as one, and the Good beyond intellect
+  that makes it shine. Source work first: since E29 VI.7 is a treatise of its own (p. 162), but tools/mackenna.py finds
+  only VI.7.1. Its title reads over two lines, "How THE MULTIPLICITY OF THE IDEAL-FORMS CAME INTO BEING AND" and "Upon THE
+  GoopD" (7552-7553); the second has small letters, so it is not taken into the title and runs into VI.7.1's first
+  paragraph: read it as the title's (or list it in "stray") and check that VI.7.1 begins "God, or some one of the gods".
+  In the OCR, "3.", "4.", "5.", "6.", "8.", "13." and "14." read as they are; candidates for "misread": "a" (7640) for 2
+  (before "Thus we have even here the means of knowing"), "We" (7926) for 7 ("But if it is by becoming evil"), "IO."
+  (8096) for 10 (the chapter pattern does not take "IO."), "ris &" (8126) for 11 ("The very heavens, patently multiple"),
+  "12:" (8227) for 12. No number for 9 was found: it is likely unnumbered at "Admitted, then—it will be said—for the
+  nobler forms of life" (8023). "Z" (7892) and the signatures "2A" (8251) stand alone and go as short lines. Check each
+  start against the Greek. Setup: git fetch origin main, branch, cd platonic-workshop, python3 tools/fetch_sources.py
+  first1k-neoplatonists, python3 tools/modern_enneads.py --check, python3 -m unittest tests.test_modern_enneads. Tests:
+  the E29 check looks at [31:37] and its VI.7 status becomes "here" with chapters_done; the milestone asserts stay on VI.7
+  ("E30-E32") until E32 but check chapters_done (14 of 42), as IV.4 did over E15-E17; the browser test counts 426 + 14 =
+  440 chapters, enn-later 1 (VI.8; VI.7 is partly here), and "to come, E33" if the reader names VI.8's milestone, or E31
+  for VI.7's rest (look at how IV.4 was shown in E15).
 - E31: VI.7 chapters 15-28 (about 4,800).
 - E32: VI.7 chapters 29-42 (about 4,800).
 - E33: VI.8 On free will and the will of the One (7,778).
