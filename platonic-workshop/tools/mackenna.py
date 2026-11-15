@@ -123,7 +123,10 @@ VOLUMES = {
                     # VI.3 chapters 1-14 (milestone E25)
                     "VI.3.4": "4. .", "VI.3.7": "ie", "VI.3.9": "Q.", "VI.3.12": "Iz.",
                     # VI.3 chapters 15-28 (milestone E26)
-                    "VI.3.17": "<7:", "VI.3.19": "IQ.", "VI.3.21": "2.", "VI.3.22": "223", "VI.3.25": "25. |"},
+                    "VI.3.17": "<7:", "VI.3.19": "IQ.", "VI.3.21": "2.", "VI.3.22": "223", "VI.3.25": "25. |",
+                    # VI.4 (milestone E27)
+                    "VI.4.2": "Be", "VI.4.7": "ye", "VI.4.9": "Q.", "VI.4.10": "10. ,", "VI.4.11": "rt.",
+                    "VI.4.12": "pier", "VI.4.15": "TS."},
         "unnumbered": {"VI.1.2": "But are we really obliged", "VI.1.5": "Speech, time, motion",
                        "VI.2.2": "In asserting that Being is not a unity",
                        "VI.3.3": "How then do we go to work", "VI.3.5": "These are incontrovertible facts"},
@@ -132,13 +135,15 @@ VOLUMES = {
         # VI.3 (E25): "Te" under its title, a smudge at the foot of p. 68 ("—<———— eee"), the signatures L, M, N and P,
         # and a ";" between VI.3.4 and 5 (p. 74); each of these lines stands only there in the treatises.
         # VI.3 (E26): "ce)" inside VI.3.21, which stands only there.
+        # VI.4 (E27): the signatures Q (inside VI.4.7, p. 113) and R (inside VI.4.13, p. 121), which follow a line of
+        # text and so are not taken out as short lines; "“e" before VI.4.11 stands alone and is.
         "stray": ["x.", "WITH UNIVERSIT Y LIBRARY", "WITHDRAWN", "G", "H", "I", "K",
-                  "Te", "—<———— eee", "L", "M", "N", "P", ";", "ce)"],
+                  "Te", "—<———— eee", "L", "M", "N", "P", ";", "ce)", "Q", "R"],
     },
 }
 
 NUM = r"[0-9ioIlO]{1,3}"     # a page number, as the OCR reads it ("io8", "IOI")
-HEAD_EVEN = re.compile(rf"^({NUM})[\s:.,]+PLOT[I1]NUS\s*$")     # vol. IV's OCR reads some "PLOT1NUS"
+HEAD_EVEN = re.compile(rf"^({NUM})[\s:.,]+PLOT[I1]NUS\*?\s*$")     # vol. IV's OCR reads some "PLOT1NUS"; vol. V's p. 118 "PLOTINUS*"
 HEAD_LIFE = re.compile(rf"^PORPHYRY\s+({NUM})\s*$")       # the odd pages of Porphyry's Life
 HEAD_ODD = re.compile(rf"^[^\]\s][^\]]{{0,14}}\]\s+([^a-z0-9]+?)\s+({NUM})\s*$")    # the title in capitals, then the page
 FOOT_NUM = re.compile(r"^(\d{1,3})\s*$")
@@ -151,7 +156,7 @@ def as_number(s):
     return int(s) if s.isdigit() else None
 
 
-HEAD_LOOSE = re.compile(r"^(?:\S.{0,15}?\s+)?([A-Z][A-Z'’,:;.()\- ]{8,}?)\s+(\S{1,3})\s*$")   # vol. V's odd heads
+HEAD_LOOSE = re.compile(r"^(?:\S.{0,15}?\s+)?([A-Z][A-Z'’,:;.()\- ]{8,}?)\s+(\S{1,4})\s*$")   # vol. V's odd heads ("oper", E27)
 HEAD_BLURRED = re.compile(r"^(\S{1,4}\s+)?PLOT[I1]NUS\s*$")   # an even page's head whose number the OCR lost ("lib", "|gS", none)
 
 

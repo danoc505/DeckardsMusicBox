@@ -527,22 +527,49 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   the heavens I.2, IV.3-4, Laws X 893c-d), combination and the void (On generation and corruption I.1-2, I.10, Physics
   IV.9), nature, art and choice (Physics II.1, Metaphysics Z.7), stillness as privation (Physics V.2, V.6), and the
   relatives (Categories 7, Metaphysics Δ.15).
-- E27: VI.4 That being, one and the same, is everywhere whole, first part (5,731). Next. 16 chapters, pp. 106-124 of
-  vol. V. MacKenna translated VI.4 himself (Page translated only VI.1-3), so the flags say "MacKenna", not "Page"; the
-  volume's "translator" stays "Stephen MacKenna and B. S. Page". VI.4 needs a new @treatise block and summary (the
-  twenty-second treatise in the order of writing, Life 4-5; the omnipresence of being, with VI.5 its second part).
-  Vol. V needs work first: tools/mackenna.py finds only VI.4.1. In the OCR (plotinusononegoo0005step_djvu.txt), "3.",
-  "4.", "5.", "6.", "8.", "13.", "14." and "16." read as they are; candidates for "misread": "Be" (5102) for 2, "ye"
-  (5383) for 7, "Q." (5497) for 9, "10. ," (5558) for 10, "rt." (5600) for 11, "pier" (5638) for 12 and "TS." (5792) for
-  15; candidates for "stray": "Q" (5386, inside 7), "“e" (5597, before 11) and "R" (5742, inside 13). Chapter 1 begins
-  at 5054 (its "2" there is the misread 1, under the title). Check each line first (they may be caught by drop_short
-  already), and check each chapter start against the Greek: 7 "Let us consider once more", 11 "Still, this integral
-  omnipresence admitted", 12 "Think of a sound passing through the air", 15 "But how did this intruder find entrance".
-  Setup: git fetch origin main, branch, cd platonic-workshop, python3 tools/fetch_sources.py first1k-neoplatonists,
-  python3 tools/modern_enneads.py --check, python3 -m unittest tests.test_modern_enneads. Tests: the E26 check looks at
-  [31:34]; the milestone asserts move to VI.5 ("E28"); the browser test counts 380 + 16 = 396 chapters, enn-later 4 and
-  "to come, E28".
-- E28: VI.5 the same, second part (3,658).
+- **E27: VI.4 That being, one and the same, is everywhere whole, first part (5,731) (done).** 64 paragraphs, 68 flags, 43
+  notes, under a new @treatise block with its summary (the twenty-second treatise in the order of writing, Life 5; VI.5,
+  the twenty-third, is its second part). MacKenna translated VI.4 himself, so the flags say "MacKenna"; the volume's
+  "translator" stays "Stephen MacKenna and B. S. Page". Source work first: tools/mackenna.py found only VI.4.1; vol. V's
+  "misread" now adds "Be" 2, "ye" 7, "Q." 9, "10. ," 10, "rt." 11, "pier" 12 and "TS." 15, and "stray" takes out the
+  signatures Q (inside 7, p. 113) and R (inside 13, p. 121), which follow a line of text; "“e" before 11 and the "2" under
+  the title already went as short lines. Two running heads were missed, which put chapters 10-16 a page early: p. 117's
+  "VI. 4. 10) OMNIPRESENCE OF AUTHENTIC EXISTENT oper" (HEAD_LOOSE now takes a page of up to four characters) and p.
+  118's "118 PLOTINUS*" (HEAD_EVEN now takes the asterisk); no other chapter's page in the volume moved. All 16 chapters
+  are found on their pages (106-124) and their starts are the Greek's; no @older. Fixed names: "forming principle" for
+  λόγος (11; the word in the voice is "word", 12, 15), "otherness" for ἑτερότης (4, 11), "sameness" for ταυτότης (12),
+  "substance" for οὐσία, "intelligible" for νοητός; MacKenna's "Reason-Principle", "differentiation", "Intellectual
+  Order" and "Intelligence" are flagged as his. E.g. MacKenna makes the white on two parts "the Form, White" where it is the
+  same in form (1), the world and its original "side by side" where it is the original's imitation, and place "an
+  envelope" where it is the limit of the surrounding body (2), a power "emanant" (3), the souls' not being made strangers
+  their not being "set in opposition" (4), the hand "hand-long" (7), the luminous body "body lit" and the obstacles to the
+  sun's light "refraction" (7), the powers "identical" with the first where they are like it (9), perceiving together
+  "consciousness" (9), the images in water and mirrors denied where they are the proper ones (10), the clouded "opaque"
+  (11), the speaker "the silent" (12), the bulk "the universe" holding "one soul" (13), our first state a lost simplicity
+  where the voice is an image of the second man's coming (14), the trace of soul in the body "soul entire" (15), entries
+  into animals a "banishment", soul giving "freely" where it gives more often (16), and "the All-Soul" and a "choice" where
+  the Greek has all and an inclination (16). terms-greek.json is unchanged. Notes on the Timaeus' soul divided about bodies
+  (35a), the Parmenides' day and sail (131a-c), the same in form and in number (Topics I.7), place (Physics IV.4), the
+  world as image (Timaeus 30c-31b, 92c), being, life and intellect (Sophist 248e-249a), "being draws near to being"
+  (Parmenides B8.25), one power over sight and hearing (Theaetetus 184b-186a, On the soul III.2), the Good beyond substance
+  (Republic VI 509b), the painter (Republic X), otherness of being (Sophist 256d-259b), the medium of sight (On the soul
+  II.7), addition (Phaedo 96d-101c), points and the continuum (Physics VI.1), "who are we?" (Alcibiades I 129e-130c), the
+  voice a blow (Timaeus 67b), the city and soul (Republic IV, VIII, IX), the periods and judgements (Phaedrus, Republic X,
+  Timaeus, Phaedo), the release (Phaedo 64c, 67a-d), Hades and the unseen (Phaedo 80d, Gorgias 493b, Cratylus 403a) and
+  Heracles' image (Odyssey XI 601-604).
+- E28: VI.5 That being, one and the same, is everywhere whole, second part (3,658). Next. 12 chapters, pp. 125-137 of vol.
+  V, MacKenna's own English again (flags say "MacKenna"). VI.5 is the twenty-third treatise in the order of writing and has
+  no @treatise block yet: add one with a summary (the second part of VI.4's argument, "taken up again from the beginning";
+  the one in many as the centre and the radii, the common notion that God is in each of us; Life 5). In the OCR
+  (plotinusononegoo0005step_djvu.txt), "3.", "4.", "5.", "6.", "8." and "10." read as they are; candidates for "misread":
+  "Bi" (5956) for 2, "Fi" (6128) for 7, "Q." (6215) for 9, "Tai" (6346) for 11 and "52" (6400) for 12. Chapter 1 begins at
+  5917 ("T;" under the title, the misread 1, which drop_short likely takes out already). Candidates for "stray": "T" (6453,
+  the signature at the end of VI.5.12, after a line of text), and "Ss ’" (6100, likely dropped as a short line); "not."
+  (6063) is MacKenna's text, the end of a sentence. The running heads of pp. 126-138 all read (p. 131's "VI. 5. 8}" ends in
+  a brace; check it is taken). VI.6 begins on p. 138. Check each chapter start against the Greek. Setup: git fetch origin
+  main, branch, cd platonic-workshop, python3 tools/fetch_sources.py first1k-neoplatonists, python3 tools/modern_enneads.py
+  --check, python3 -m unittest tests.test_modern_enneads. Tests: the E27 check looks at [31:35]; the milestone asserts move
+  to VI.6 ("E29"); the browser test counts 396 + 12 = 408 chapters, enn-later 3 and "to come, E29".
 - E29: VI.6 On numbers (6,963).
 - E30: VI.7 How the many forms came to be, and on the Good, chapters 1-14 (about 4,800).
 - E31: VI.7 chapters 15-28 (about 4,800).
