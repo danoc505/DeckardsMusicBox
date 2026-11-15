@@ -699,7 +699,8 @@ two at a time (E34b to E34j); E34b, with E34a, flags I.2, I.3 and II.4 (51 flags
 (17 flags), among them "a thousand cubic feet" for cubits, and takes out page headings of the scans that stood inside
 paragraphs; E34d flags III.6 (18 flags), among them "a drawing" for a line and "Melody" for the attunement of strings; E34e flags III.7 and IV.2 (16 flags), among them eternity "a unity including
 interval", and takes out printer's signatures that ran into paragraphs; E34f flags IV.3 (7 flags), among them
-Epimetheus refusing the gift that Prometheus refuses in the Greek, and takes out 13 more misread running heads.
+Epimetheus refusing the gift that Prometheus refuses in the Greek, and takes out 13 more misread running heads; E34g
+flags IV.7 and V.2 (5 flags), among them "coherence" for the atoms' mere juxtaposition.
 **III.8, On nature, contemplation and the One, and III.9, Various considerations** (E14), beside MacKenna's vol. II: 14
 chapters, 41 paragraphs, 70 flags, among them his "the Highest" for intellect that began as one and unrolled itself,
 "pregnant" for weighed down, the living principle "brother ... to that which gives mere shape" where it is brother to

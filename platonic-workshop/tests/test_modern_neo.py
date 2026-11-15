@@ -190,10 +190,10 @@ class Files(unittest.TestCase):
             self.assertIn(modern_neo.norm(f["taylor"]), ch[cid], seg)
             self.assertGreaterEqual(len(f["taylor"].split()), 3, seg)
             self.assertTrue(f["why"].strip(), seg)
-        done = {"I.2", "I.3", "II.4", "II.9", "III.6", "III.7", "IV.3"}       # E34b to E34f
-        per = {t: sum(1 for _, cid, _ in flags if cid.rsplit(".", 1)[0] == t) for t in done}
-        # MacKenna keeps closer to the Greek in IV.3 than elsewhere: 7 flags in its 32 chapters.
-        self.assertTrue(all(n >= 7 for n in per.values()), per)
+        # The fewest each checked treatise has (E34b to E34g): MacKenna keeps closer to the Greek in IV.3, IV.7 and V.2.
+        least = {"I.2": 10, "I.3": 10, "II.4": 10, "II.9": 10, "III.6": 10, "III.7": 10, "IV.2": 2, "IV.3": 7, "IV.7": 4, "V.2": 1}
+        per = {t: sum(1 for _, cid, _ in flags if cid.rsplit(".", 1)[0] == t) for t in least}
+        self.assertTrue(all(per[t] >= n for t, n in least.items()), per)
         by = {seg: [f["taylor"] for s, _, f in flags if s == seg] for seg, _, _ in flags}
         # E.g. his "Demi-God" for the daemon (I.2.6), "metaphysician" for the philosopher (I.3.1), "a meeting-ground"
         # for the first things that would be by chance (II.4.2).
@@ -212,6 +212,9 @@ class Files(unittest.TestCase):
         # E34f: Epimetheus refusing the gift for Prometheus (IV.3.14), the gods made Reason-Principles (IV.3.11).
         self.assertIn("gift by after-thought, Epimetheus", by["IV.3.14.p1"])
         self.assertIn("These Beings (the Reason-Principles of this sphere) are divine", by["IV.3.11.p2"])
+        # E34g: "coherence" for the atoms' mere juxtaposition (IV.7.3), "partly" for sometimes in body (IV.7.13).
+        self.assertIn("as much as by the very coherence of the constituents", by["IV.7.3.p1"])
+        self.assertIn("As a whole it is partly in body, partly outside", by["IV.7.13.p1"])
 
 
 @unittest.skipUnless(FIRST1K.exists(), "run python3 tools/fetch_sources.py first")
