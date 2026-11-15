@@ -74,8 +74,8 @@ ABOUT = ("A modern English version of Proclus' Theology of Plato (fifth century)
          "Greek is not yet on the site (the only free edition, Portus' of 1618, is a scan whose Greek OCR is badly garbled), so "
          "this version cannot yet be checked against the Greek; a flag marks a place where Taylor's English is hard or unclear, "
          "with his words. Taylor's footnotes are kept under his words. The chapters and their numbers are Taylor's (his "
-         "headings are in his table of contents); the short titles and summaries are the Workshop's. So far: Books I and II, and Book III, "
-         "chapters 1-18. Book I, chapters 1-8: Proclus' preface and its praise of Plato and his heirs, how the work will proceed and what its hearer needs, who "
+         "headings are in his table of contents); the short titles and summaries are the Workshop's. So far: Books I, II and III. "
+         " Book I, chapters 1-8: Proclus' preface and its praise of Plato and his heirs, how the work will proceed and what its hearer needs, who "
          "a theologian is in Plato's sense, the four ways Plato teaches about the gods, which dialogues hold his theology, and "
          "why the Parmenides holds all of it; chapters 9-12, against the merely logical reading of the Parmenides, and Syrianus' "
          "reading of its hypotheses as the orders of the gods; chapters 13-17, the Laws' three rules (the gods exist, provide "
@@ -87,7 +87,7 @@ ABOUT = ("A modern English version of Proclus' Theology of Plato (fifth century)
          "king of all, and the first hypothesis of the Parmenides as a hymn of denials. Book III, chapters 1-8: the henads "
          "after the One, shared by being, life, intellect, soul and body, and the two principles after the One, limit and the "
          "unlimited; chapters 9-18, the mixed, first being, and the three intelligible triads, in the Philebus and in the "
-         "Timaeus (the one, eternity, and the living being itself).")
+         "Timaeus (the one, eternity, and the living being itself); chapters 19-28, the four intelligible Forms, the Sophist's one being, whole and all, father, power and intellect, the marks of the good, the wise and the beautiful, the three triads in the Parmenides (the one being, the whole, unlimited multitude), and a hymn to the intelligible gods.")
 
 LINE = re.compile(r"^@(book|ch|p)\b\s*(.*)$")
 ROMAN = {"I": 1, "V": 5, "X": 10, "L": 50}
