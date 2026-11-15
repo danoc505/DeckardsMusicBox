@@ -75,7 +75,7 @@ async function run(b, viewport, touch, first) {
     await p.click('#mp-I\\.2\\.p1 .ms[data-k="1"]');
     await p.click('#mp-I\\.2\\.p1 [data-mk-save="reads badly"]');
     await p.waitForSelector("#mp-I\\.2\\.p1 .ms-marked");
-    check(/Your marks \(1\)/.test(await p.$eval("#toc", (e) => e.innerText)), `${tag}: the mark is listed in the contents column`);
+    check(/Your marks \(1\)/i.test(await p.$eval("#toc", (e) => e.textContent)), `${tag}: the mark is listed in the contents column`);
     await p.reload();
     await p.waitForSelector(".tg-mod");
     check(await p.$$eval("#mp-I\\.2\\.p1 .ms-marked", (es) => es.length) === 1, `${tag}: the mark is kept`);
