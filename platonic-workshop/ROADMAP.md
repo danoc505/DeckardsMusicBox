@@ -891,7 +891,11 @@ Daniel: "Lets move over to modernizing Proclus Theology of Plato". The Enneads' 
   limit and the unlimited twofold (before being and in it); proportion, truth and beauty; the three intelligible triads
   (being, life, intellect); the Timaeus' one, eternity and living being itself. 22 paragraphs, 12 flags (e.g. Taylor's
   "animal itself" for the living being itself, "Vesta", "patefactions", "concauses").
-- T9: Book III, chapters 19-28 (10,649): the intelligible triads in the Sophist and the Parmenides, and the one being.
+- **T9: Book III, chapters 19-28 (10,649) (done; Book III complete).** The four intelligible Forms; the Sophist's one
+  being, whole and all; father, power and intellect; the marks of the good, the wise and the beautiful; the Parmenides'
+  three intelligible triads (the one being, the whole, unlimited multitude), the three in common, how one Form makes gods,
+  daemons and mortals; a hymn to the intelligible gods. 25 paragraphs, 11 flags (e.g. "habitude", "primogenial",
+  "synonimous", "proteleia"). Parmenides' lowercase "the one" (a part of the one being) keeps a `:the one` exception.
 - T10 to T12: Book IV (28,882): the intelligible and intellectual gods (the Phaedrus' place above the heaven).
 - T13 to T16: Book V (40,018): the intellectual gods, Kronos, Rhea, Zeus, the Craftsman. Chapter 26 has no heading in
   Gutenberg's text: find it first.

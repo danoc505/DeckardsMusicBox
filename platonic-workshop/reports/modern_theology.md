@@ -3,11 +3,11 @@
 Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-theology.txt`. The Workshop's modern English, machine-assisted: drafted with an AI model (Claude) from Thomas Taylor's translation (1816) and not yet checked by a scholar. Taylor's own words are beside every chapter, or one tap away.
 
 - Made from: Taylor's English (1816), Project Gutenberg's transcription; no Greek of the Theology is on the site.
-- Chapters done: 59 of 169 in Proclus' six books (I.1 to III.18).
-- Paragraphs: 232, one for each of Taylor's in those chapters.
-- Words: 66,516 modern, 72,831 of Taylor's (183,113 in all six books).
-- Sentences (each can be marked in the reader): 2,620.
-- Flags (hard places, or where Taylor's English misleads): 101.
+- Chapters done: 69 of 169 in Proclus' six books (I.1 to III.28).
+- Paragraphs: 257, one for each of Taylor's in those chapters.
+- Words: 76,246 modern, 83,480 of Taylor's (183,113 in all six books).
+- Sentences (each can be marked in the reader): 3,050.
+- Flags (hard places, or where Taylor's English misleads): 112.
 - Problems found: 0.
 
 ## The books and chapters
@@ -16,7 +16,7 @@ Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-
 |---|---:|---:|
 | I | 29 | 29 |
 | II | 12 | 12 |
-| III | 28 | 18 |
+| III | 28 | 28 |
 | IV | 39 | 0 |
 | V | 38 | 0 |
 | VI | 23 | 0 |
@@ -126,6 +126,17 @@ Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-
 | III.16.p1 | The dæmoniacal Aristotle | "Daemonic" as high praise: Aristotle, On the Heavens I.9 (279a), calls eternity (aiōn) "immortal and divine", from which "being and life" depend for all things. |
 | III.18.p1 | eternity is the cause of never-failing life, of unwearied power, and unsluggish energy | From the Chaldean Oracles (frag. 49 and 59 are related), where Aion is a god who gives unfailing life and power. Taylor's footnote supplies "time" in the Greek he translated. |
 | III.18.p3 | If, however, truth is indeed the first, beauty the second, and symmetry the third | In the Philebus (65a-66b) the order of goods is measure, proportion and beauty, then truth (intellect); Proclus means here the order in the third mixture's list, where truth comes before beauty and proportion. |
+| III.19.p2 | the cause of air-wandering and volant animals | Timaeus 40a: the four kinds are the heavenly race of gods, the winged kind "that travels in the air", the kind that lives in water, and the kind "that walks on land". Proclus takes them as kinds of gods first, then of daemons and mortals. |
+| III.20.p3 | the proteleia of the mysteries of the Parmenides | The proteleia were the preliminary rites before an initiation; the Sophist prepares for the Parmenides as these did for the mysteries. |
+| III.21.p4 | being inspired by the Nymphs | In the Phaedrus (238c-d, 241e) Socrates says he is possessed by the Nymphs of the place where he speaks. |
+| III.22.p1 | that when it appeared astonished the intellectual Gods, and made them admire their father, as Orpheus says | From the Orphic theogony: when Phanes, the first-born, appeared, the gods marvelled at the light; Proclus sets Phanes at the end of the intelligible order. |
+| III.23.p1 | some say it is, in the first hypothesis, concerning God and the Gods | Proclus' Commentary on the Parmenides (VI-VII) reviews earlier readings: some (perhaps Origen, or Amelius) took the first hypothesis to be about the first God and the gods, others about the intelligible gods. Taylor's footnote corrects a word of the Greek he translated. |
+| III.23.p2 | with a divine head pursued these sacred paths | A Homeric phrase ("with the head inspired"); Proclus means that he followed Syrianus as an initiate follows the guide, with the highest part of the soul. |
+| III.24.p1 | the habitude which is the middle of both | Taylor's "habitude" is relation (schesis): the link between the one and being, which Proclus identifies with power. |
+| III.26.p2 | flowing according to the Oracle | A Chaldean phrase for the procession of the intelligible into multitude. |
+| III.26.p2 | this triad, according to Parmenides, is primogenial | Taylor's "primogenial" is first-born (prōtogonos): Proclus links the third intelligible triad with Phanes, called Protogonos in the Orphic poems. |
+| III.27.p4 | all things which subsist according to one form are not synonimous | Taylor's "synonimous" is Aristotle's term (Categories 1a): things that share both a name and its definition. Proclus means that gods, daemons and mortals share a Form's name but not in the same sense. Taylor's footnote corrects "unlimitedness" to "difficulty" in the Greek he translated. |
+| III.27.p5 | according to the one being indeed of being which is one, he constitutes the genera of dæmons, but according to being which is one, the mortal genera | Proclus' scheme, hard to follow in any language: each part of the one being, "the one" and "being", is again "one being" and "being that is one"; the parts in which the one rules give gods and angels, those in which being rules give daemons and mortals. Taylor's footnote supplies "cause" in the Greek he translated. |
 
 ## The fixed renderings
 
