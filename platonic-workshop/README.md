@@ -867,7 +867,7 @@ not print, each cited by its own numbers: the Constitution of the Athenians in K
 (42.1), with Kenyon's English beside it (Project Gutenberg); the Letters (Hercher, 1873) by letter; and the Divisions
 (Mutschmann, 1906) in both his texts, Diogenes Laertius' and the codex Marcianus', by his numbers (Diogenes 5, Marcianus 58).
 
-**Proclus' Theology of Plato in modern English (the T milestones): Books I and II done (T1-T6, November 2026).**
+**Proclus' Theology of Plato in modern English (the T milestones): Books I and II and Book III, chapters 1-8, done (T1-T7, November 2026).**
 Proclus' account of the gods as Plato teaches them, in six books, is being put into plain modern English, a few chapters at a
 time, at `#neo-modern/proclus-theology` (linked from the Neoplatonists' shelf). No Greek of it is on the site (the only free
 edition, Portus' of 1618, is a scan whose Greek OCR is badly garbled), so it is made from Thomas Taylor's translation (1816),

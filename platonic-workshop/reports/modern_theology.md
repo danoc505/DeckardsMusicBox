@@ -3,11 +3,11 @@
 Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-theology.txt`. The Workshop's modern English, machine-assisted: drafted with an AI model (Claude) from Thomas Taylor's translation (1816) and not yet checked by a scholar. Taylor's own words are beside every chapter, or one tap away.
 
 - Made from: Taylor's English (1816), Project Gutenberg's transcription; no Greek of the Theology is on the site.
-- Chapters done: 41 of 164 in Proclus' six books (I.1 to II.12).
-- Paragraphs: 188, one for each of Taylor's in those chapters.
-- Words: 50,853 modern, 55,453 of Taylor's (183,113 in all six books).
-- Sentences (each can be marked in the reader): 1,996.
-- Flags (hard places, or where Taylor's English misleads): 78.
+- Chapters done: 49 of 169 in Proclus' six books (I.1 to III.8).
+- Paragraphs: 210, one for each of Taylor's in those chapters.
+- Words: 58,598 modern, 64,157 of Taylor's (183,113 in all six books).
+- Sentences (each can be marked in the reader): 2,282.
+- Flags (hard places, or where Taylor's English misleads): 89.
 - Problems found: 0.
 
 ## The books and chapters
@@ -16,7 +16,7 @@ Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-
 |---|---:|---:|
 | I | 29 | 29 |
 | II | 12 | 12 |
-| III | 23 | 0 |
+| III | 28 | 8 |
 | IV | 39 | 0 |
 | V | 38 | 0 |
 | VI | 23 | 0 |
@@ -103,6 +103,17 @@ Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-
 | II.12.p5 | For if the one and the same differ only in name, the many will not be in consequence of participating of sameness with each other | The argument (Parmenides 139d-e): if being the same were being one, then whatever is the same as something would be one with it, and the many, being the same as each other, would be one. The modern English follows the sense. |
 | II.12.p8 | younger and at the same time older both than themselves and other things | The Parmenides 140e-141d: the One is neither older nor younger, nor the same age, nor in time at all. Proclus reads these as the marks of divine souls, which live in time but in circles, always returning to their beginning. |
 | II.12.p9 | asserting that the one is above essence, and being characterized by the one | The Parmenides 141e-142a: the One does not share in being, and so "is not even one"; Proclus reads this as setting the One above the one being, the summit of the intelligible gods. Taylor's footnote corrects the Greek he translated ("to the gods"). |
+| III.1.p1 | the inartificial theory of Plato | Taylor's "inartificial" seems to mean unlaboured, natural (atechnos): Plato's account of the gods comes not from art or contrivance, but from the things themselves. |
+| III.2.p2 | it contains in one the reasons, [i.e. productive principles] of all things | Taylor's "reasons" and "productive principles" are logoi, the forming principles that nature holds and spreads into bodies. |
+| III.2.p3 | possess a less extended power of signification | Taylor's "signification" seems to mean reach or scope: the further causes are from the first, the fewer things they extend to. Compare Elements of Theology 56-62. |
+| III.3.p2 | connects the one with being, surveys all things about the one | Proclus means the one being of the Parmenides' second hypothesis (142b), "if one is", from which all the orders of gods are drawn. Taylor's two footnotes correct "one" to "being" and "present" to "leading" in the Greek he translated. |
+| III.3.p3 | But neither shall we be persuaded by Parmenides who produces the one together with being | The sense required is the opposite: "Nor shall we be persuaded otherwise by Parmenides", or "We shall not fail to be persuaded": Proclus is calling on the second hypothesis, which joins one and being, as evidence that the henads are shared by beings. Taylor's footnote corrects "unlike" to "like" in the Greek he translated. |
+| III.5.p1 | their luciform vehicles | The soul's "vehicle of light" (augoeides ochēma), the subtle body of light that, for the later Platonists, the soul has always, before it takes on the material body. Taylor's footnote corrects the Greek he translated here ("light-formed" for "self-formed"). |
+| III.5.p2 | in the souls of the more excellent genera | The "more excellent kinds" are the angels, daemons and heroes, set between the gods and human souls. |
+| III.6.p3 | the orectic powers | Taylor's "orectic" means of appetite or desire (orexis). |
+| III.6.p6 | the former as being moved and standing still at one and the same time, and the latter as being motion and permanency | That is, intellect is moved and at rest, while life is motion and rest themselves. Taylor's "permanency" here is rest (stasis). |
+| III.8.p1 | nor in reality is that which is the first the one; for, as has been frequently said, it is better than the one | Proclus means that the first principle is beyond even the name "one"; the one that is the principle of being is limit, the first after the first. |
+| III.8.p2 | by restitutions and periods | Taylor's "restitutions" are returns (apokatastaseis): the soul's, and the heaven's, coming back round to the same state at the end of each period. |
 
 ## The fixed renderings
 
