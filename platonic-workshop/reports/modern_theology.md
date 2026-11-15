@@ -3,11 +3,11 @@
 Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-theology.txt`. The Workshop's modern English, machine-assisted: drafted with an AI model (Claude) from Thomas Taylor's translation (1816) and not yet checked by a scholar. Taylor's own words are beside every chapter, or one tap away.
 
 - Made from: Taylor's English (1816), Project Gutenberg's transcription; no Greek of the Theology is on the site.
-- Chapters done: 95 of 169 in Proclus' six books (I.1 to IV.26).
-- Paragraphs: 310, one for each of Taylor's in those chapters.
-- Words: 94,028 modern, 102,650 of Taylor's (183,113 in all six books).
-- Sentences (each can be marked in the reader): 3,725.
-- Flags (hard places, or where Taylor's English misleads): 146.
+- Chapters done: 108 of 169 in Proclus' six books (I.1 to IV.39).
+- Paragraphs: 341, one for each of Taylor's in those chapters.
+- Words: 103,050 modern, 112,362 of Taylor's (183,113 in all six books).
+- Sentences (each can be marked in the reader): 4,141.
+- Flags (hard places, or where Taylor's English misleads): 160.
 - Problems found: 0.
 
 ## The books and chapters
@@ -17,7 +17,7 @@ Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-
 | I | 29 | 29 |
 | II | 12 | 12 |
 | III | 28 | 28 |
-| IV | 39 | 26 |
+| IV | 39 | 39 |
 | V | 38 | 0 |
 | VI | 23 | 0 |
 
@@ -171,6 +171,20 @@ Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-
 | IV.23.p2 | our fathers and grandfathers | Proclus' teachers (Syrianus) and their teachers (Iamblichus, Theodorus), in the succession of the Platonic school. Taylor's brackets supply the end of the first sentence, which is broken off in the Greek. |
 | IV.24.p2 | betake themselves to entelechias | Aristotle's entelecheia, "being-at-the-end", the actual completeness of a thing (his definition of soul in On the Soul II.1); Proclus means the Peripatetics, who find perfection only in forms in their subjects. |
 | IV.24.p4 | Teletarchs | "Rulers of initiation" (teletarchai), the Chaldean name for the gods of this third triad. |
+| IV.27.p2 | The negation therefore says that the one is not a whole | The Parmenides 137c-d: in the first hypothesis the One "is not a whole" and "is not many"; in the second (142d, 143a) the one being is a whole and is many. Proclus' rule is that each denial in the first denies of the One what the second affirms of an order of gods. Taylor's footnote corrects a word of the Greek he translated. |
+| IV.28.p1 | the third God was father and mother | In the Orphic theogony Phanes, whom Proclus sets at the third intelligible triad (the living being itself), is male and female at once. |
+| IV.29.p1 | the two coordinations | The two "columns" (systoichiai) of opposites in the Pythagorean table (Aristotle, Metaphysics I.5, 986a): limit and unlimited, odd and even, one and many, and so on, the better column and the worse. Taylor's footnote supplies "brings out" in the Greek he translated. |
+| IV.29.p3 | the Muses in Plato | The Republic VIII 546a-d: the Muses' riddle of the "perfect number" that holds the period of a divine generated thing, and the "geometrical number" that rules better and worse births. Taylor's footnote corrects "intellectual" to "intelligible" in the Greek he translated. |
+| IV.29.p4 | there are indeed superessential numbers, but there are not superessential forms | The henads, the gods, are numbers beyond being (Proclus, Elements of Theology, props. 113-118); the Forms all belong to being. Taylor's footnote corrects "beneath the heaven" to "heavenly" in the Greek he translated. |
+| IV.31.p2 | the oddly-odd, the evenly-even and the evenly-odd | The Parmenides 143e-144a: "even times even, odd times odd, even times odd, odd times even", products of two and three. Proclus maps them on limit, power and being. Taylor's footnote supplies "the evenly odd" in the Greek he translated. |
+| IV.32.p1 | Plotinus admits that number is prior to animal itself | Plotinus VI.6.8-9 (On Numbers): number, "the base and place of beings", comes after being but before the living being itself, which is "a numbered living being". |
+| IV.34.p1 | unknown according to a discursive energy | Taylor's "discursive energy" here is step-by-step reasoning (dianoia), unlike the "discursive energies" of the Phaedrus in IV.4. |
+| IV.34.p2 | the most venerable of divine operations | Theurgy: the Chaldean rites, which used numbers (and stones, plants and names) for their hidden sympathy with the gods. Taylor's footnote corrects "each other" to "other things" in the Greek he translated. |
+| IV.34.p3 | a divine generated nature | The Republic VIII 546b: "for a divine generated thing there is a period which a perfect number holds". Taylor's footnote says Plato means every body that moves in an everlasting circle, as the heavens do. |
+| IV.35.p3 | those who think that all the conclusions of the second hypothesis are concerning intellect | Plotinus and Porphyry, among others, took the second hypothesis' "one that is" as Intellect, the second hypostasis, rather than the whole series of the gods. Taylor's footnote corrects "everlastingness" to "character" in the Greek he translated. |
+| IV.37.p1 | But the third, as they say, to the saviour | A proverb from the Greek drinking custom: the third libation was poured to Zeus the Saviour, so "the third, to the saviour" meant "third time lucky", the last and best. Plato uses it (the Philebus 66d, the Republic IX 583b). |
+| IV.39.p1 | one of the deities of the unknown triad carried in the first of the worlds | The Chaldean Oracles' worlds: the empyrean (of fire), the aethereal and the material, divided again into seven (one empyrean, three aethereal, three material). The "gods who hold together" (Synocheis) and the "rulers of initiation" (teletarchs) are Chaldean names, set by Proclus in these orders. |
+| IV.39.p1 | the wing of fire | A Chaldean image: the soul's "wing of fire" that carries it up. Taylor's footnote supplies "the mixed" in the Greek he translated. |
 
 ## The fixed renderings
 
