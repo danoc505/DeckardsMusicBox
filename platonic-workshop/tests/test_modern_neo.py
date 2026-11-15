@@ -172,6 +172,11 @@ class Files(unittest.TestCase):
             self.assertNotRegex(o["text"], r"\]\s+[A-Z][A-Z ,'’-]{8,}\s+\S{1,4}|PLOT[I1]NUS|GNOSTICS\"", cid)
         self.assertIn("in which you exist ?", ch["II.9.9"]["text"])
         self.assertEqual(ch["II.9.10"]["page"], 229)
+        # E34e: nor any printer's signature ("2 F" began II.9.2, "Q" stood inside III.7.11).
+        for cid, o in ch.items():
+            self.assertNotRegex(o["text"], r"(^|\s)2 ?[A-Z1](\s|$)", cid)
+        self.assertTrue(ch["II.9.2"]["text"].startswith("Therefore we must affirm"))
+        self.assertIn("in differentiation of Life ;", ch["III.7.11"]["text"])
 
     def test_flags_against_mackenna_quote_him_and_say_why(self):
         # Enneads milestone E34b on: where MacKenna and the Greek differ, a flag quotes his words, found in his chapter.
@@ -182,7 +187,7 @@ class Files(unittest.TestCase):
             self.assertIn(modern_neo.norm(f["taylor"]), ch[cid], seg)
             self.assertGreaterEqual(len(f["taylor"].split()), 3, seg)
             self.assertTrue(f["why"].strip(), seg)
-        done = {"I.2", "I.3", "II.4", "II.9", "III.6"}       # E34b, E34c, E34d
+        done = {"I.2", "I.3", "II.4", "II.9", "III.6", "III.7"}       # E34b to E34e
         per = {t: sum(1 for _, cid, _ in flags if cid.rsplit(".", 1)[0] == t) for t in done}
         self.assertTrue(all(n >= 10 for n in per.values()), per)
         by = {seg: [f["taylor"] for s, _, f in flags if s == seg] for seg, _, _ in flags}
@@ -197,6 +202,9 @@ class Files(unittest.TestCase):
         # E34d: "a drawing" for a geometer's line (III.6.9), "Melody" for the attunement of the strings (III.6.4).
         self.assertIn("A drawing does not cease to be a drawing for being coloured", by["III.6.9.p1"])
         self.assertIn("it is as if Melody itself plucked the strings", by["III.6.4.p3"])
+        # E34e: eternity "a unity including interval" (III.7.2), "imparted" for without parts (IV.2.1).
+        self.assertIn("a unity including interval", by["III.7.2.p2"])
+        self.assertIn("it is imparted and impartible", by["IV.2.1.p2"])
 
 
 @unittest.skipUnless(FIRST1K.exists(), "run python3 tools/fetch_sources.py first")

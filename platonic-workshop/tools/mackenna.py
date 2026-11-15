@@ -51,6 +51,9 @@ VOLUMES = {
         # numbered as Volkmann numbers them, from its first chapter number (after MacKenna's note on the dates)
         "life": {"heading": r"PORPHYRY:\s+ON\s+THE\s+LIFE\s+OF\s+PLOTINUS\s+AND",
                  "title": "Porphyry: On the Life of Plotinus and the Arrangement of his Work"},
+        # the printer's signatures, standing alone on a line, that ran into the paragraphs around them (E34e): "M"
+        # (inside I.6.3) and "R"
+        "stray": ["M", "R"],
     },
     # vol. II (Enneads milestone E7): MacKenna prints the Third Ennead first, then the Second
     "mackenna-1921": {
@@ -69,8 +72,10 @@ VOLUMES = {
         "heads": {"Hi.  6.  iaj      THE  IMPASSIVITY  OF  THE  UNEMBODIED  83": 83, "ill.  7.  9]  TIME  AND  ETERNITY  in": 111,
                   'H.9.iol  "AGAINST  THE  GNOSTICS"  229': 229},
         "misread": {"II.9.11": "n."},
-        # a stray "V" at the end of II.9.16 (p. 239), which stands only there
-        "stray": ["V"],
+        # a stray "V" at the end of II.9.16 (p. 239), which stands only there; and the printer's signatures, standing
+        # alone on a line, that ran into the paragraphs around them (E34e): "Q" (inside III.7.11), "2 D" (II.5.5), "2 E"
+        # (II.7.1), "2 F", "2 G", "2 H" and "2 I" (II.9.2, 8, 13 and 18), with "2 A" and "2 B"
+        "stray": ["V", "Q", "2  A", "2  B", "2  D", "2  E", "2  F", "2  G", "2  H", "2 1"],
         "title_lines": {"the Kosmos Itself to be Evil : [Generally Quoted as": "the Kosmos Itself to be Evil : [Generally Quoted as",
                         '"Against the Gnostics"]': '"Against the Gnostics"]'},
     },
@@ -95,6 +100,9 @@ VOLUMES = {
         # running heads the OCR misread so that they were not taken as heads and stood inside a paragraph (E34c), with
         # their page: IV.3.3's (p. 11) and IV.5.5's (p. 111)
         "heads": {"IV.  3.  3]  PROBLEMS  OF  THE  SOUL  n": 11, "IV.  5.  6]  PROBLEMS  OF  THE  SOUL  in": 111},
+        # the printer's signatures, standing alone on a line, that ran into the paragraphs around them (E34e): "M" (inside
+        # IV.4.29), "Q" and "B"
+        "stray": ["M", "Q", "B"],
         "misread": {"IV.3.31": "3*.", "IV.7.10": "10. (15.)", "IV.7.11": "ii. (16.)", "IV.7.12": "12. (17.)",
                     "IV.7.13": "13. (18.) .<:•.*:-••", "IV.7.14": "14. (19.)", "IV.7.15": "15. (20.)"},
         "unnumbered": {"IV.3.14": "Thus it comes about that this kosmos", "IV.3.15": "The souls peering forth from the Intellectual",
@@ -121,6 +129,9 @@ VOLUMES = {
                   "V.  3.  ii]  THE  KNOWING  HYPOSTASES": 33, "V.  3.  i5]  THE  KNOWING  HYPOSTASES": 39,
                   "V.  5-2]  THE   NATURE   OF   THE   GOOD": 49, ".     56  PLOTINUS": 56,
                   "V.8.2]  ON   THE   INTELLECTUAL   BEAUTY": 75, "V.  9.  n]  THE   INTELLECTUAL-PRINCIPLE": 99},
+        # the printer's signatures, standing alone on a line, that ran into the paragraphs around them (E34e): "M" (inside
+        # V.8.7) and "N" (inside V.5.6)
+        "stray": ["M", "N"],
         "misread": {"V.9.7": "...."},
         "unnumbered": {"V.3.17": "But what can it be which is loftier",
                        "V.9.13": "It remains to decide whether only"},
