@@ -3,11 +3,11 @@
 Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-theology.txt`. The Workshop's modern English, machine-assisted: drafted with an AI model (Claude) from Thomas Taylor's translation (1816) and not yet checked by a scholar. Taylor's own words are beside every chapter, or one tap away.
 
 - Made from: Taylor's English (1816), Project Gutenberg's transcription; no Greek of the Theology is on the site.
-- Chapters done: 126 of 170 in Proclus' six books (I.1 to V.18).
-- Paragraphs: 404, one for each of Taylor's in those chapters.
-- Words: 119,531 modern, 130,340 of Taylor's (183,111 in all six books).
-- Sentences (each can be marked in the reader): 4,771.
-- Flags (hard places, or where Taylor's English misleads): 186.
+- Chapters done: 136 of 170 in Proclus' six books (I.1 to V.28).
+- Paragraphs: 437, one for each of Taylor's in those chapters.
+- Words: 129,048 modern, 140,555 of Taylor's (183,111 in all six books).
+- Sentences (each can be marked in the reader): 5,059.
+- Flags (hard places, or where Taylor's English misleads): 200.
 - Problems found: 0.
 
 ## The books and chapters
@@ -18,7 +18,7 @@ Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-
 | II | 12 | 12 |
 | III | 28 | 28 |
 | IV | 39 | 39 |
-| V | 39 | 18 |
+| V | 39 | 28 |
 | VI | 23 | 0 |
 
 ## Flags
@@ -211,6 +211,20 @@ Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-
 | V.14.p5 | at one time indeed, divides the world into five parts | Timaeus 55c-d: the five regular solids, or five possible worlds; or the world's five elements (fire, air, water, earth, and the heavens). Taylor's footnote supplies "as wholes" in the Greek he translated. |
 | V.17.p3 | matter is generated from some one of the Gods situated above the demiurgus | Timaeus 30a: the Craftsman "took over all that was visible, not at rest but moving without tune or order". Proclus holds that matter comes from the unlimited, in the first intelligible triad, not from the Craftsman. |
 | V.18.p4 | a renovated immortality | The Statesman 270a: the world "receives a renewed immortality" from the Craftsman. Timaeus 41b: "you are not immortal nor wholly indissoluble, yet you will not be dissolved nor meet the fate of death, having my will as a greater bond". |
+| V.19.p1 | who admit that partial are the same with whole souls | Plotinus (IV.3.1-8) and others held that our souls and the world soul are of one kind; Iamblichus and Proclus rank them in different orders. Taylor's footnote corrects a word of the Greek he translated. |
+| V.20.p2 | figure and morphe | Morphē, "form" in the sense of outward shape. Taylor's footnote says morphe belongs to the colour, shape and size of surfaces. Another of his footnotes corrects a participle in the Greek he translated. |
+| V.21.p2 | he may not be accused of the vices of each of them | Timaeus 42d: the Craftsman laid down all these laws "so that he might be blameless for the evil of each of them later". |
+| V.22.p1 | That the name of his father who is called Jupiter is beautifully posited | The Cratylus 395e-396b. "His father" is the father of Tantalus, as Taylor's footnote says: Socrates is going up the line of Pelops, Tantalus and Zeus. Zeus' name in the oblique cases is Dia and Zēna; Socrates hears "through (dia) whom life (zēn)". |
+| V.22.p3 | the duad sits with him | The Chaldean Oracles (frag. 8): "the dyad sits by him", of the second, making intellect. Taylor's footnote corrects "ill-formed" to "two-formed" in the Greek he translated. |
+| V.23.p3 | the Saturnian triad, and which distributes the dominion of the father | The three sons of Kronos who divide the world (the Gorgias 523a): Zeus, Poseidon and Pluto. If the world were Zeus, it could not be only-begotten and also shared among three. Taylor's footnote corrects "differs" to "refers" in the Greek he translated. |
+| V.24.p1 | the furies of earth, and the necessities of nature, as some one of the Gods says | A Chaldean Oracle (frag. 135?): Taylor's "furies of earth" are its "dogs of the earth", the daemons of the material world. The Workshop keeps Taylor's words and does not guess further. |
+| V.24.p3 | through Themis | Themis, "right" or "ordinance", in the Orphic poems the counsellor who sits beside Zeus. The Republic IX 592b: "a pattern laid up in heaven". |
+| V.24.p4 | the Titanic genera | The Titans: in the Orphic myth they tore the child Dionysus apart, and from their ashes men were made. Proclus reads them as the gods of divided making, below Zeus' whole making. |
+| V.25.p2 | the intelligible is nutriment, as it is said by the Gods themselves | The Chaldean Oracles (frag. 17?): "the intelligible is food for the one who thinks". Taylor's footnote corrects "perfecting" to "generation-producing" in the Greek he translated. |
+| V.25.p4 | nor again, that two certain Gods convolve it whose decisions are contrary to each other | The Statesman 269e-270a: the world is not turned "by two gods thinking opposite things". Taylor's footnotes correct "and for" to "for not" and "in others" to "in each other" in the Greek he translated. |
+| V.27.p1 | others afford an hypostasis to it after the demiurgus | Longinus held that the Forms come after the Craftsman; Porphyry and Plotinus set the living being itself before him or within him (Proclus, Commentary on the Timaeus I.322-323). |
+| V.28.p3 | the triad of the sons of Saturn | Zeus, Poseidon and Pluto (Hades), the "demiurgic triad" of Book VI, set under the one Craftsman. Taylor's footnote corrects "best" to "inexpressible" in the Greek he translated. |
+| V.28.p4 | the demiurgus is prior to all-perfect animal | Proclus seems to grant the objection here (the best before the most beautiful), though he has ranked the living being itself above the Craftsman; he takes up the question again in V.29. Taylor's footnote corrects "inexpressible" to "best" in the Greek he translated. |
 
 ## The fixed renderings
 

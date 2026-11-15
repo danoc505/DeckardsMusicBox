@@ -924,8 +924,11 @@ Daniel: "Lets move over to modernizing Proclus Theology of Plato". The Enneads' 
   other order; against three Craftsmen (the monad before the triad); "intellect" simply; "maker and father" and how the
   two names differ; his goodness, the pattern in him, his power and his "reasoning"; his speech to the young gods.
   26 paragraphs, 6 flags.
-- T15: Book V, chapters 19-28 (10,215): the Craftsman's second speech; Zeus in the Cratylus, Gorgias, Protagoras,
-  Critias, Statesman and Laws; the living being itself in Zeus; the unknown Craftsman.
+- **T15: Book V, chapters 19-28 (10,215) (done).** The Craftsman's second speech, to divided souls; the Craftsman in
+  sum, and why he is Zeus; Zeus as Craftsman in the Critias, the Cratylus (Dia and Zena), the Philebus (kingly soul and
+  kingly intellect), the Protagoras (political science), the Statesman (the two circuits) and the Laws (proportion, "the
+  judgement of Zeus"); the living being itself and Zeus, each in the other; why the Craftsman is "hard to find".
+  33 paragraphs, 14 flags.
 - T16: Book V, chapters 29-39 (11,823): the mixing bowl and the life-giving sources; the undefiled gods; the
   intellectual gods in the Parmenides.
 - T17 to T19: Book VI (30,733): the ruling (assimilative) gods, the liberated gods. Chapter 10 has no heading: find it first.
