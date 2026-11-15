@@ -3,11 +3,11 @@
 Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-theology.txt`. The Workshop's modern English, machine-assisted: drafted with an AI model (Claude) from Thomas Taylor's translation (1816) and not yet checked by a scholar. Taylor's own words are beside every chapter, or one tap away.
 
 - Made from: Taylor's English (1816), Project Gutenberg's transcription; no Greek of the Theology is on the site.
-- Chapters done: 119 of 170 in Proclus' six books (I.1 to V.11).
-- Paragraphs: 378, one for each of Taylor's in those chapters.
-- Words: 111,586 modern, 121,637 of Taylor's (183,111 in all six books).
-- Sentences (each can be marked in the reader): 4,440.
-- Flags (hard places, or where Taylor's English misleads): 180.
+- Chapters done: 126 of 170 in Proclus' six books (I.1 to V.18).
+- Paragraphs: 404, one for each of Taylor's in those chapters.
+- Words: 119,531 modern, 130,340 of Taylor's (183,111 in all six books).
+- Sentences (each can be marked in the reader): 4,771.
+- Flags (hard places, or where Taylor's English misleads): 186.
 - Problems found: 0.
 
 ## The books and chapters
@@ -18,7 +18,7 @@ Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-
 | II | 12 | 12 |
 | III | 28 | 28 |
 | IV | 39 | 39 |
-| V | 39 | 11 |
+| V | 39 | 18 |
 | VI | 23 | 0 |
 
 ## Flags
@@ -205,6 +205,12 @@ Written by `tools/modern_theology.py` from `sources/translations/modern/proclus-
 | V.11.p2 | he himself denominates the causes of the subsistence of all the Gods, fontal fluxions | The Cratylus 402a-d: Rhea and Kronos are "names of streams"; Homer's "Ocean, origin of the gods, and mother Tethys"; Tethys from "what leaps and filters", "the name of a spring". |
 | V.11.p4 | the gift of nature | Proclus may mean grain, Demeter's gift (see the next paragraph): the Cratylus 404b derives Demeter's name from "giving as a mother" the gift of food. |
 | V.11.p5 | he refers the whole of a legitimate life to the union of Ceres and Proserpine | Proclus' reading of the Laws (perhaps VI 782b, on Demeter's gifts); Plato does not name the "law-giving" goddesses there. Thesmophoros, "law-bringer", was a title of Demeter and Persephone. Taylor's footnote supplies "from" in the Greek he translated. |
+| V.12.p2 | the division of wholes into three | Perhaps the three sons of Kronos of the Gorgias (Zeus, Poseidon and Pluto), who divide the world among them: the "demiurgic triad" Proclus discusses in V.14 and Book VI. |
+| V.13.p1 | How does he speak to all the junior demiurgi at once? | Timaeus 41a-d: the Craftsman's speech to "the young gods", who are to make mortal living beings. Taylor's footnote corrects a word of the Greek he translated ("was said there"). |
+| V.14.p1 | those interpreters of Plato, who do not make one fabrication but many | Amelius (see V.5) made three Craftsmen; Theodorus of Asine also divided the making. Proclus discusses them in his Commentary on the Timaeus. |
+| V.14.p5 | at one time indeed, divides the world into five parts | Timaeus 55c-d: the five regular solids, or five possible worlds; or the world's five elements (fire, air, water, earth, and the heavens). Taylor's footnote supplies "as wholes" in the Greek he translated. |
+| V.17.p3 | matter is generated from some one of the Gods situated above the demiurgus | Timaeus 30a: the Craftsman "took over all that was visible, not at rest but moving without tune or order". Proclus holds that matter comes from the unlimited, in the first intelligible triad, not from the Craftsman. |
+| V.18.p4 | a renovated immortality | The Statesman 270a: the world "receives a renewed immortality" from the Craftsman. Timaeus 41b: "you are not immortal nor wholly indissoluble, yet you will not be dissolved nor meet the fate of death, having my will as a greater bond". |
 
 ## The fixed renderings
 
