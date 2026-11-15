@@ -920,11 +920,13 @@ Daniel: "Lets move over to modernizing Proclus Theology of Plato". The Enneads' 
   castration and the myths Plato keeps for the few; the Statesman's age of Kronos; the three kings of the Gorgias and
   Kronos' law; his agelessness (Orpheus' verses); Rhea, the life-giving mother, who as Demeter bears Persephone.
   37 paragraphs, 20 flags.
-- T14: Book V, chapters 12-18 (8,703): Zeus the Craftsman, the third father; against three Craftsmen; the Timaeus'
-  speech of the Craftsman to the young gods.
-- T15: Book V, chapters 19-28 (~10,400): the Craftsman's second speech; Zeus in the Cratylus, Gorgias, Protagoras,
+- **T14: Book V, chapters 12-18 (8,703) (done).** Zeus the Craftsman, the third intellectual father; why he can be no
+  other order; against three Craftsmen (the monad before the triad); "intellect" simply; "maker and father" and how the
+  two names differ; his goodness, the pattern in him, his power and his "reasoning"; his speech to the young gods.
+  26 paragraphs, 6 flags.
+- T15: Book V, chapters 19-28 (10,215): the Craftsman's second speech; Zeus in the Cratylus, Gorgias, Protagoras,
   Critias, Statesman and Laws; the living being itself in Zeus; the unknown Craftsman.
-- T16: Book V, chapters 29-39 (~11,800): the mixing bowl and the life-giving sources; the undefiled gods; the
+- T16: Book V, chapters 29-39 (11,823): the mixing bowl and the life-giving sources; the undefiled gods; the
   intellectual gods in the Parmenides.
 - T17 to T19: Book VI (30,733): the ruling (assimilative) gods, the liberated gods. Chapter 10 has no heading: find it first.
 - Then, if Daniel wants it, Taylor's own Book VII (74,323 words, made from Proclus on the Timaeus), and Proclus' Greek.
