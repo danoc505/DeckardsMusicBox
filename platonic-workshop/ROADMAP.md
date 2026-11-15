@@ -863,10 +863,12 @@ Daniel: "Lets move over to modernizing Proclus Theology of Plato". The Enneads' 
   that it is patchwork, and the answer: the Parmenides holds it all; the two kinds of opponents on the Parmenides. 35
   paragraphs, 13 flags (e.g. Taylor's "for a time" for "in time", "passive one" for the Sophist's being that has the one as
   an affection, "uniform" for one-like, "precedaneous", "orgies").
-- T2: Book I, chapters 9-12 (6,805): against the logical reading of the Parmenides; the hypotheses as principles; Syrianus'
-  reading of the hypotheses and the divine orders in the second.
-- T3: Book I, chapters 13-17 (8,593): the common rules about the gods in the Laws (they exist, they provide, they cannot be
-  bribed), and the Republic's axioms, beginning with the gods' goodness.
+- **T2: Book I, chapters 9-12 (6,805) (done).** Against the logical reading of the Parmenides; the hypotheses as principles;
+  Syrianus' reading of the hypotheses and the divine orders in the second. 31 paragraphs, 9 flags.
+- **T3: Book I, chapters 13-17 (8,593) (done, with T2 in one PR).** The common rules about the gods in the Laws (they exist,
+  the argument from motion up to the henads; they provide, without labour; they cannot be bribed), and the Republic's axioms,
+  beginning with the gods' goodness and where evil comes from. 25 paragraphs, 9 flags (e.g. "adumbrant" good, "Ixion",
+  "precedaneous productive principles of evil").
 - T4: Book I, chapters 18-29 (10,308): the gods' immutability, simplicity and truth; the Phaedrus' good, wise and beautiful;
   the Phaedo's axioms; father and mother causes; the divine names (the Cratylus).
 - T5: Book II, chapters 1-3 (9,420): the first principle, beyond being, argued from the one and the many.
