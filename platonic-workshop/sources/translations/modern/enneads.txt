@@ -7564,3 +7564,403 @@ But if, because we call the triangle and the square qualified, we shall set them
 @greek ἔτι πᾶν ἐπίπεδον πεπερασμένον
 Again, every plane is limited, for no plane can be unlimited. Again, as when I take quality about substance I call it substantial quality, so too, and much more, when I take the figures, I take differences of quantity. Then, if we do not take these as differences of magnitudes, of what shall we set them down as differences? And if they are differences of magnitudes, the different magnitudes that come from the differences must be ranked in their species.
 !flag disposed to see in figures or shapes (qualitative) varieties of Quantity | The Greek has "differences of quantity" (ποσότητος διαφοράς), the same word as the differences of substance; "(qualitative)" and "varieties" are Page's.
+
+@ch VI.3.15 | Equal and unequal, like and unlike
+Equal and unequal are proper to quantity, though magnitudes are called like too, and likeness there may be meant otherwise than in quality; differences that complete a thing are ranked with it. Then quality: what is called substance here is perhaps rather a quality, as a portrait is called Socrates, while the forming principle is the something, and is itself an image of the truest forming principle of man.
+
+@p
+But how are equal and unequal proper to quantity? For triangles are said to be like. Or magnitudes too are said to be like, and what is called likeness does not do away with like and unlike being in quantity: for perhaps here, in magnitudes, the like is meant otherwise, and not as in the quality. Then, if he said that equal and unequal are proper to quantity, he did not do away with predicating "like" of some things too; but if he said that like and unlike are proper to the quality, what is said in quantity must, as we said, be taken otherwise. And if the like is the same in both, we must look in these too for other properties of each kind, of quantity and of quality.
+!flag Triangles, it is significant, are said to be similar rather than equal | The Greek says only that "triangles are said to be like" (ὅμοια γὰρ τρίγωνα λέγεται), as an objection to Aristotle's rule; "rather than equal" is Page's.
+!flag if we are told that equality and inequality are characteristic of Quantity | The Greek has "if he said" (εἰ ἴδιον εἶπε), Aristotle, whose two rules are being weighed; Page leaves him out.
+!note "He" is Aristotle: equal and unequal are most proper to quantity (Categories 6, 6a26-35), like and unlike to quality (Categories 8, 11a15-19). Like triangles are those with equal angles and sides in proportion (Euclid, Elements VI, definition 1).
+
+@p
+@greek ἢ λεκτέον, τὸ ὅμοιον
+Or we must say that the like is said in quantity too, in so far as the differences are in it; and in general, that we must rank the differences that complete a thing with that of which they are differences, above all when the difference is a difference of that alone. If in one thing it completes the substance and in another it does not, we must rank it with what it completes, and where it does not complete, take it only by itself. And by completing the substance I mean not substance simply, but such and such a substance, the "such and such" receiving an addition that is not substantial.
+!flag similarity is predicable of Quantity only in so far as Quantity possesses (qualitative) differences | The Greek says "in so far as the differences are in it" (καθόσον αἱ διαφοραὶ ἐν αὐτῷ), the differences of quantity, the figures of chapter 14; "(qualitative)" is Page's.
+
+@p
+@greek κἀκεῖνο δὲ ἐπισημαντέον
+This too should be marked: we call triangles and squares equal, and so with all figures, plane and solid; so let equal and unequal be set down as proper to quantity. Whether like and unlike belong to quality must be looked into.
+!flag we predicate equality of triangles, rectangles, and figures generally | The Greek has "triangles and squares" (τρίγωνα καὶ τετράγωνα), the four-angled figures; "rectangles" is Page's.
+
+@p
+@greek περὶ δὲ τοῦ ποιοῦ ἐλέχθη
+About quality it was said that, mixed with others, with matter and quantity, it brings about the completion of perceptible substance; and that this so-called substance is perhaps this thing made of many, not a something but rather a quality; and that the forming principle, of fire for instance, signifies rather the something, while the shape it produces is rather a quality. So the forming principle of man is the being a something, while what is brought to completion in the nature of body, being an image of the forming principle, is rather a sort of quality: as if, Socrates being the man who is seen, his portrait in a painting, which is colours and pigments, were called Socrates. So too, since there is a forming principle by which Socrates is Socrates, it is not the perceptible Socrates that should be called Socrates, but colours and shapes that are imitations of those in the forming principle; and this forming principle in its turn stands in the same way to the truest forming principle, that of man. So much for this.
+!flag Thus, for the essence of fire we must look to the Reason-Principle | The Greek has "the forming principle" (ὁ λόγος), which "signifies rather the something" (τὸ τί); "Reason-Principle" is Page's name for it, here and below.
+!flag but we apply the name Socrates to the Socrates we see | The Greek says the reverse: it is "not the perceptible Socrates" (οὐ τὸν αἰσθητὸν Σωκράτην) but colours and shapes, imitations of those in the forming principle, that the name is given to, as to the portrait.
+!note The something (τὸ τί) and the such (τὸ ποιόν) are Plato's pair (Letter VII 343b-c) and Aristotle's (Metaphysics Z.1, 1028a10-18); Plotinus asks in II.6 whether perceptible substance is only qualities. The painting on a shadow was chapter 8 here; the image of an image is the painter's in Republic X (597e-598b).
+
+@ch VI.3.16 | Qualities here and there
+Each of the things about substance here that shows the such, not the something, the quantity or motion, is quality here: bodily beauty, which shares only a name with beauty there. The arts that work on bodies with perceptible instruments, geometry and arithmetic as practised here, and the civic virtues are ranked in quality here; their pure forms go there, as Plato says of music and astronomy. Soul is not ranked in substance here: its affections towards body are given to quality, and soul without them is given back to where it comes from.
+
+@p
+Each of the things about what is called substance, taken apart from the others, is quality, the quality that is in these, signifying not the something, nor the quantity, nor motion, but showing the character, the such-and-such and the of-what-sort: beauty and ugliness, for instance, the beauty and ugliness on a body. For beauty here and there are so only by a shared name, and so too, then, is the quality: since black and white too are other there.
+!flag This beauty—need we say ?—is identical in name only with Intellectual Beauty | The Greek says that beauty here and there is "homonymous" (ὁμώνυμον), sharing a name, as the kinds of chapter 1 did; Page's words agree, but "identical" is his.
+!note Beauty here and the intelligible beauty: I.6 and V.8. The shared name is that of chapter 1 (ὁμώνυμον, Categories 1, 1a1-6).
+
+@p
+@greek ἀλλὰ τὸ ἐν τῷ σπέρματι
+But the beauty in the seed, and in such a forming principle: is it the same as the beauty that appears, or does it share only the name? And is it to be assigned to the things there or to the things here? And the ugliness that is about the soul? For that the beauty there is other is already clear. But if it is in this quality, then virtue too is among the qualities here. Or some virtues are among the qualities here, and others among those there.
+!flag But the beauty in the germ, in the particular Reason-Principle | The Greek has "in such a forming principle" (τῷ τοιούτῳ λόγῳ), the seed's forming principle; "Reason-Principle" is Page's name for it.
+!note The virtues that order life here and those that purify the soul and turn it there: I.2.1-7.
+
+@p
+@greek ἐπεὶ καὶ τὰς τέχνας
+For one might also wonder about the arts, which are forming principles, whether they are among the qualities here: for even if they are forming principles in matter, their matter is the soul. But when they are with matter too, they are here in some way: singing to the lyre, for instance; for it is about strings, and the song, which is perceptible sound, is in some way a part of the art, unless one were to set these down as acts, not parts. But in any case they are perceptible acts; for the beauty in body too is bodiless, but, being perceptible, we gave it to the things about body and of body.
+!flag It may even be doubted whether the arts, as Reason-Principles | The Greek calls the arts "forming principles" (λόγους οὔσας); "Reason-Principles" is Page's name for them.
+!flag Take the case of lyrical music | The Greek's κιθαρῳδία is singing to the lyre (the cithara), whose song is perceptible sound about the strings; not lyric poetry.
+
+@p
+@greek γεωμετρίαν δὲ καὶ ἀριθμητικὴν
+Geometry and arithmetic we set down as twofold: the kind practised in this way must be ranked in this quality here, while the kind that is the soul's own study must be ranked there, towards the intelligible. And Plato says the same of the musical art and of astronomy.
+!flag they necessarily belong to that other world in close proximity to the Intellectual | The Greek ranks them "there, towards the intelligible" (πρὸς τὸ νοητὸν ἐκεῖ), with it; "in close proximity" is Page's.
+!note Plato's two arithmetics and geometries, of the many and of the philosophers: Philebus (56d-57a); arithmetic for the sake of knowing, not of trade, geometry, astronomy and harmonics turned to the intelligible: Republic (VII 525b-531c).
+
+@p
+@greek τὰς τοίνυν τέχνας
+The arts, then, that have to do with bodies and use perceptible instruments and perception, even if they are dispositions of soul, must be ranked in this quality here, since they belong to a soul that bends downwards.
+!flag attendant upon its apostasy | The Greek says they belong to a soul "bending downward" (κάτω νευούσης); "apostasy" is Page's, here and below.
+
+@p
+@greek καὶ δὴ καὶ τὰς πρακτικὰς
+And nothing prevents the practical virtues too from being here, those that act so as to have their acting in civic life: those that do not separate the soul by leading it towards the things there, but act well here, setting this before them as what they choose first, and not as something necessary. So the beauty in the seed too, and much more the black and the white in it, are among these.
+!flag their manifestation makes for beauty in this world, a beauty regarded not as necessary but as desirable | The Greek says that these virtues "act well here" (ἐνταῦθα τὸ καλῶς ἐνεργοῦσι), setting this acting well before them as their first aim, "not as necessary"; Page makes it a beauty in the world.
+!note The civic virtues, which make us orderly here, and the virtues that separate the soul: I.2.1-3; the popular and civic virtue of the Phaedo (82a-b). The practical virtues act "politically", in the life of the city.
+
+@p
+@greek τί οὖν; καὶ τὴν ψυχὴν
+What then? Shall we rank such a soul too, in which these forming principles are, in the substance here? Or we did not call even these bodies; but because the forming principles are about body and are makings of bodies, we set them in the quality here.
+!flag on the ground that they are connected with body and are activities of body | The Greek calls the forming principles "makings of bodies" (σωμάτων ποιήσεις), what makes bodies; not activities of body.
+
+@p
+@greek οὐσίαν δὲ αἰσθητὴν
+Having set down perceptible substance as what is made of all that has been named, we shall in no way rank bodiless substance in it. And saying that the qualities are all bodiless, we counted them in it as affections that have bent down here, and as forming principles of a soul: for the affection, divided in two, into what it is about and what it is in, we gave to quality, which is not bodily but is about body. But we did not go on to give the soul to this substance, since we had already given its affection towards body to quality; and the soul, thought of without the affection and the forming principle, we have given back to where it comes from, leaving here no substance that is in any way intelligible.
+!flag being affections arising within Soul | The Greek calls them affections "that have bent down here" (πάθη ὄντα νενευκότα τῇδε); they are not said to arise within soul.
+!flag torn between two worlds by their objects and their abode | The Greek divides the affection into "what it is about and what it is in" (εἴς τε τὸ περὶ ὅ ἐστι καὶ ἐν ᾧ ἐστιν); "torn between two worlds" is Page's.
+!note The Stoics held that qualities are bodies; Plotinus holds them bodiless (VI.1.29). The soul given back to the intelligible is the soul set aside in chapter 1.
+
+@ch VI.3.17 | How quality is to be divided
+Qualities may be divided into those of soul and of body, or, if all souls go there, by the senses. But by what differences is quality itself to be divided into species, and from what kind? Not by the sense organs, nor by drawing the sight together and parting it; things unseen, such as the sciences, are divided by their powers, but perceptible qualities? White differs from black, but by what is the question.
+
+@p
+If, then, this is how it seems, we must divide the qualities into those of soul and those of body, as being qualities of body. But if someone wants all souls to be there, it is possible to divide the qualities here by the senses: some through the eyes, some through the ears, others through touch, taste and smell, and, if there are differences of these, colours to sights, sounds to hearings, and so with the other senses; and sounds, in so far as they are qualified, into sweet, rough and smooth.
+!flag sounds may also be classified qualitatively as sweet, harsh, soft | The Greek's third quality of sound is "smooth" (λεῖον), set against "rough" (τραχύ); not "soft".
+!note Aristotle gives qualities of soul and of body alike: states such as knowledge and virtue, and affective qualities such as sweetness and whiteness (Categories 8, 8b26-9b9).
+
+@p
+@greek ἐπεὶ δὲ τὰς διαφορὰς τὰς περὶ τὴν οὐσίαν
+But since we divide the differences about substance by qualities, and acts and actions too, as fine or ugly, and in general as of such a sort (for quantity comes into the differences that make species seldom or nowhere), and quantity too by qualities proper to it, one might be at a loss how to divide quality too into species, using what differences, and from what kind. For to divide it by itself is absurd, as if someone were to call the differences of substance substances again.
+
+@p
+@greek τίνι οὖν τὸ λευκὸν
+By what, then, do white and black differ? By what do colours in general differ from tastes and the qualities of touch? If by the different sense organs, the difference is not in the subjects. But within the same sense, how? If because one draws the sight together and another parts it, or one parts the tongue and draws it together: first, it is disputed of the affections themselves whether they are partings and drawings together; then, he has not said what they differ by.
+!flag some colours integrate, others disintegrate the vision | The Greek speaks of what "draws together" (συγκριτικόν) and what "parts" (διακριτικόν) the sight, Plato's and Aristotle's words for black and white; "integrate" and "disintegrate" are Page's, here and in chapter 25.
+!note White parts the sight and black draws it together: Plato's Timaeus (67d-e), and Aristotle, Metaphysics Ι.7 (1057b8-9); the tastes that draw the tongue together and part it: Timaeus (65c-66c).
+
+@p
+@greek εἰ δέ τις λέγοι οἷς δύνανται
+If someone were to say: by what they can do (and by what they can do is not unreasonable), perhaps we must say this: that things that are not seen, such as the sciences, are to be divided by what they can do; but these, being perceptible, why by what they produce? And in the sciences too, when we divide them by what they can do, and in general when we set the powers of the soul apart as other by what they produce, we can grasp their differences by reason, looking not only at what they are about but also at their forming principles. Or the arts we shall have by their forming principles and their theorems; but the qualities on body, how? Or there too, with the forming principles that differ, one might ask how they are other. For white plainly differs from black; but by what, is what we are asking.
+!flag but also to their Reason-Principles | The Greek has "their forming principles" (λόγους αὐτῶν), here and in the next sentence; "Reason-Principles" is Page's.
+!note A power is known by what it is set over and what it brings about: Plato's Republic (V 477c-d); the powers of the soul are marked off by their acts and their objects: Aristotle, On the soul II.4 (415a16-22).
+
+@ch VI.3.18 | No differences of differences
+There are no differences of differences, nor qualities of qualities: where there is nothing outside to divide by, as with leek-green and pale yellow, perception and intellect say that things are other but give no account, and the otherness in intellect needs no otherness. Some qualities, such as colours and the arts, may be differences of other things; sweet and bitter as useful and harmful are divided by relation; five exceeds three by two but does not differ by it. The virtues divided by what they are about have differences that are not qualities.
+
+@p
+But all these difficulties show that we must look for differences of the other things, by which we shall separate each from the others, but that differences of differences are both impossible and unreasonable. For there cannot be substances of substances, nor quantities of quantities, nor qualities of qualities, nor differences of differences; but we must, where it is possible, divide by what is outside, or by what produces, or by such things; and where not even these are to be had, as with leek-green against pale yellow, since they say these come from white and black, what would one say?
+!flag as in distinguishing dark-green from pale-green | The Greek has "leek-green against pale yellow" (πράσινον ὠχροῦ), two colours said to come from white and black; not two greens.
+!note The colours mixed from one another: Plato's Timaeus (68b-d); from white and black in ratios: Aristotle, On sense and the sensibles 3 (439b18-440b23).
+
+@p
+@greek ἀλλὰ γάρ, ὅτι ἕτερα
+Perception or intellect will say that they are other, and will give no account of it: perception because the account is not its business, only to give different reports; intellect because in its own direct grasps it is simple, and does not use accounts everywhere, so as to say of each that it is this. And there is in its motions an otherness that separates the one from the other, and does not itself need otherness.
+!flag there is in the movements of intelligence a diversity which separates one object from another, making further differentiation unnecessary | The Greek has "otherness" (ἑτερότης), the kind of VI.2, which "does not itself need otherness"; "diversity" and "differentiation" are Page's.
+!note The motions of intellect and the otherness in them are those of VI.2.7-8; that intellect knows simply, by direct grasp (ἐπιβολή), without reasoning: V.8.6.
+
+@p
+@greek αἱ τοίνυν ποιότητες πότερα
+Are all qualities, then, differences, or not? Whiteness, and colours in general, and the qualities of touch and taste, might be differences of other things while being species themselves; but grammar and music, how? Or by making one soul grammatical and another musical, and above all if they are so by nature, so that they become differences that make species.
+!note A man is called grammatical after grammar, as the qualified is named after its quality (Aristotle, Categories 8, 10a27-b11).
+
+@p
+@greek καὶ εἰ εἴη τις διαφορὰ
+And we must ask whether there might be a difference from this kind, or from another too; and if from this kind, it would be of things from the same kind, qualities of qualities, for instance. For virtue and vice are, the one a state of such a sort, the other of such a sort; so that, the states being qualities, their differences are qualities: unless someone were to say that the state without the difference is not a quality, and that the difference makes the quality.
+!flag Virtue and vice are two states differing in quality | The Greek says that virtue is "a state of such a sort" and vice "of such a sort" (ἡ μὲν ἕξις τοιάδε, ἡ δὲ τοιάδε): the "such" is the difference that would be a quality.
+!note Virtue and vice are states (ἕξεις), the first species of quality: Categories 8 (8b27-35); Nicomachean Ethics II.5 (1105b19-1106a13).
+
+@p
+@greek ἀλλ’ εἰ τὸ γλυκὺ ὠφέλιμον
+But if the sweet is beneficial and the bitter harmful, this divides by relation, not by quality. And what if the sweet is thick and the astringent thin? "Thick" perhaps does not say what the sweet is, but what the sweetness is in; and the same account holds of the astringent. So we must consider whether a quality is never a difference of a quality, as substance is not of substance, nor quantity of quantity. Or five differs from three by two. Or rather it exceeds it by two, but is not said to differ: for how could it differ by two in the three? Nor would a motion differ from a motion by a motion, nor would one find it in the other kinds.
+!flag hardly reveals the essence but merely the cause of sweetness | The Greek says that "thick" names not what the sweet is (τὸ τί ἦν) but "that in which the sweetness is" (ᾧ ἡ γλυκύτης), its subject; "cause" is Page's.
+!note Explaining tastes by the thick and thin, the shapes and sizes of what makes them, is the atomists' way (Theophrastus, On the senses 65-67, on Democritus); "what it was to be" (τὸ τί ἦν εἶναι) is Aristotle's phrase for the essence (Metaphysics Z.4).
+
+@p
+@greek ἐπὶ δὲ τῆς ἀρετῆς καὶ κακίας
+With virtue and vice, whole must be taken against whole, and in this way they will differ by themselves. And as for the difference from the same kind, quality, and not from another: if someone divides by one virtue's being about pleasures and another about angers, and one about getting in the harvest and another about spending, and accepts that they are well defined in this way, it is clear that there can be differences that are not qualities.
+!flag if we proceed on the principle that virtue is bound up with pleasure, vice with lust | The Greek divides the virtues among themselves, "one about pleasures, another about angers, one about getting in the harvest, another about spending" (τὴν μὲν περὶ ἡδονάς, τὴν δὲ περὶ ὀργάς); no vice is named.
+!note Temperance is about pleasures, gentleness about anger, liberality about getting and spending (Aristotle, Nicomachean Ethics III.10, IV.5, IV.1); such virtues are divided by what they are about, which is not a quality.
+
+@ch VI.3.19 | The qualified, negations, privations and affections
+The qualified are ranked with quality, by going up to what they are named after. "Not white" is a quality if it means another colour; a negation is a sound or a relative, and negations, like affirmations, are better not counted. Privations of qualities are qualities; naked and clothed are ways of being in relation. An affection while one is being affected is a motion, and a quality when it stays; reddening is a motion, being red a quality, unless only states are qualities and not dispositions.
+
+@p
+With quality, as was decided, we must rank also the qualified things that are so by qualities, in so far as quality is about them, not bringing in the things themselves, so that there are not two categories, but going up from them to that from which they are named.
+!note Quality is "that by which things are called qualified" (Aristotle, Categories 8, 8b25); the qualified are named from it, as the just from justice (10a27-b11). The qualified as against the substrates: VI.1.29.
+
+@p
+@greek τὸ δὲ οὐ λευκόν
+"Not white", if it signifies another colour, is a quality. But if it were only a negation, or a counting out of things, it would be nothing, unless a sound, or a name, or an account, which is itself a thing that comes about: and if a sound, a sort of motion; if a name or an account, a relative, in so far as they signify. But if the counting by kinds is not only of things, but must also take in what is said and what signifies, and of what kind each is significant, we shall say that some of them only make plain the things set down, and others do away with them. Yet it is perhaps better not to count the negations with the things, as we do not count the affirmations either, because they are compound.
+!flag if a name or definition, it is a relative | The Greek's λόγος here is an account, spoken words that signify, beside the sound and the name; "definition" is Page's.
+!flag it would be better, in view of their composite nature, not to include the negations in the same genus as the affirmations | The Greek says it is better not to count the negations, "as we do not count the affirmations either" (τάς τε καταφάσεις μὴ συναριθμοῦντας), both being compound; Page sets the one against the other.
+!note Words said without combination, such as "man" or "runs", signify one of the categories; affirmation and negation come about only by combination (Aristotle, Categories 4, 2a4-10, and On interpretation 1, 16a9-18).
+
+@p
+@greek τὰς δὲ στερήσεις πῶς
+And the privations, how? If the things of which they are privations are qualities, they too are qualities, as toothless or blind. But the naked man and the clothed man are neither of them qualified, but rather in some way disposed: in a relation, then, to something else.
+!flag on the other hand, are neither of them qualities but states | The Greek says they are "rather in some way disposed" (μᾶλλόν πως ἔχων), in relation to another; "states" is Page's word, which he gives to the ἕξεις at the end of the chapter.
+!note Privation and having, as blindness and sight, toothlessness and teeth: Categories 10 (12a26-34); having clothes is one of the ways of having (Categories 15, 15b17-24). "In some way disposed" is the Stoics' third kind (πως ἔχον), weighed in VI.1.30.
+
+@p
+@greek πάθος δὲ τὸ μὲν ἐν τῷ πάσχειν
+As for affection: the affection that is in being affected still is not a quality, but a sort of motion; that in having been affected, and keeping the affection now that it remains, is a quality; and if a thing no longer has the affection, but is said to have been affected, it has been moved. And this is the same as "was in motion". But we must think only of the motion, taking away the time; for it is not fitting to bring in even the now. "Well" and words of that sort must be brought back to the one notion of the kind.
+!flag Such is the theory | No such words are in the Greek: Plotinus' own conclusion follows at once, that only the motion must be thought of, without the time.
+!note Affections that pass quickly are not qualities but affections (Categories 8, 9b28-10a10); whatever has been moved, and the "has moved" of the perfect, Physics VI.6 (236b32-237a17). Time is set aside here as in VI.1.16, where the motion is thought of apart from its "how long".
+
+@p
+@greek εἰ δὲ τὸ μὲν ἐρυθριᾶν
+We must look into whether blushing is to be brought back to the qualified, and the red man not. Becoming red is rightly not brought back to it: for the one becoming red is affected, or in general moved. But if he is no longer becoming red, but is already red, why is he not qualified? For one is not qualified by time. Or by what is it to be defined? By being such: and in calling him red we call him qualified. Or else, in this way, we shall call only the states qualities, and no longer the dispositions. And so the hot is not what is being heated, and the sick is not what is being brought into sickness.
+!flag We shall accordingly maintain that states alone, and not dispositions, constitute qualities | The Greek offers this as a consequence to be weighed: "or else, in this way, we shall call only the states qualities" (ἢ οὕτως τὰς ἕξεις μόνας ποιότητας ἐροῦμεν); Plotinus does not assert it.
+!note Those who blush from shame are not called red, while those who are red by nature are qualified: Categories 8 (9b19-33); states, which last, and dispositions, which are easily moved: Categories 8 (8b26-9a13).
+
+@ch VI.3.20 | Contraries, and the more and less
+Has every quality a contrary? The mean is contrary to the extremes among the virtues, but the colours between are not so. Contraries are not those that differ most, since that already takes in the intermediates, and health and sickness have none; perhaps they are what have nothing the same in form, within quality. The more is in the things that share in qualities; there each quality is whole.
+
+@p
+We must see whether there is not, for every quality, some other quality contrary to it. For in virtue and vice even the mean seems to be contrary to the extremes; but with the colours, those between are not so.
+!note Not every quality has a contrary: there is none to red or yellow (Aristotle, Categories 8, 10b12-25); the mean is opposed to both extremes (Nicomachean Ethics II.8, 1108b11-1109a19).
+
+@p
+@greek εἰ μὲν οὖν, ὅτι μίξεις
+If, then, it is because the intermediates are mixtures of the extremes, we should not have set them against one another, but only white and black, and the others are compositions. Or we set them against one another because in each of the intermediates we see some one other colour, even if it is to be seen as coming from a composition. Or because contraries not only differ, but differ most. But differing most seems to be taken from having already set down these intermediates: for if one took this arrangement away, by what would one define the most? Or because grey is nearer to white than black is: and this is reported by sight; and with the tastes likewise; hot, cold, and between them what is neither.
+!flag Contrariety however demands that there be some one distinct quality in the intermediates | The Greek gives a reason for setting the intermediates against one another, "because we see some one other colour in each" (τῷ μίαν τινὰ ἄλλην... ἀντιτίθεμεν); contrariety makes no demand.
+!flag taste may be our judge when we have hot, cold and no intermediate | The Greek has "what is neither, between them" (τὸ μηδέτερον μεταξύ): the lukewarm is the intermediate.
+!note Contraries are what differ most within the same kind: Aristotle, Categories 6 (6a17-18) and Metaphysics Ι.4 (1055a3-33); the colours between white and black are mixtures of these (On sense and the sensibles 3).
+
+@p
+@greek ἀλλ’ ὅτι μὲν οὕτως
+That we are used to suppose so is clear; but perhaps someone might grant us this, and yet say that white and yellow, and anything against anything, are all wholly other than one another in like manner, and, being other qualities, are contraries. For it is not by there being others between them that they are contraries: health and sickness, at any rate, have nothing that has fallen between them, and are contraries. Or it is because the things that come from each have the greatest divergence. And how can one say "greatest" when there are no lesser ones in the means? So with health and sickness one cannot say "greatest". The contrary, then, must be defined by something else, not by the greatest.
+!flag White and yellow are entirely different from each other | The Greek gives this as what someone might say against the usual view, "perhaps someone might grant us this, and yet say" (τάχα δ’ ἄν τις ἡμῖν συγχωροῖ ταῦτα); Page makes it the argument's own conclusion.
+!note Health and sickness have no intermediate, white and black have: Aristotle, Categories 10 (11b38-12a25).
+
+@p
+@greek εἰ δὲ τῷ πολλῷ
+If by "much": if "much" stands for "more" against "less", the immediate contraries will again escape; and if simply much, once it is granted that each stands far off by nature, we must not measure the distance by the more.
+
+@p
+@greek ἀλλ’ ἐπισκεπτέον, πῶς τὸ ἐναντίον
+But we must look into how the contrary is. Are things that have some likeness (I mean not by kind, nor at all by being mixed with other things, their shapes, so to speak, more or less) not contraries, while those that have nothing the same in their form are contraries? And we must add: in the kind quality. For from this come the immediate contraries, which have nothing that makes for likeness, there being no others that, as it were, play both sides and have likeness to one another, while some alone do not have it. If so, the colours that have something in common would not be contraries. But nothing will prevent, not every colour from being contrary to every other in this way, but one to another; and likewise with the tastes. So much for working through these difficulties.
+!flag they differ in degree but are not contraries | The Greek's "more or less" (ἢ πλείονα ἢ ἐλάττονα) belongs to the mixing that is ruled out, "by being mixed with other things, their shapes, so to speak, more or less"; Page makes such things differ in degree.
+
+@p
+@greek περὶ δὲ τοῦ μᾶλλον
+About the more: it seemed that it is in the things that share in qualities, but health itself and justice were in doubt. If each of these has a latitude, we must give the more to the states themselves too; but there each is the whole, and does not have the more.
+!flag If indeed these qualities possess an extension quite apart from their participants | The Greek says "if each of them has a latitude" (πλάτος), a range within which it can be more or less; "quite apart from their participants" is Page's.
+!note Whether justice and health themselves admit the more and the less is disputed: Aristotle, Categories 8 (10b26-11a5). The latitude of health was a physicians' word.
+
+@ch VI.3.21 | Motion: a kind of its own
+Is motion a kind? It goes into no other kind: not substance or quality, not acting or being acted on, which go into it, nor relation, since, though it is of something, it is something first. Is change before it? Then coming to be would be a change and not a motion; but coming to be is a species of its own, as when an animal takes a form. Or change may rather be a species, and alteration a motion that displaces.
+
+@p
+About motion, whether it must be set down as a kind, one might consider it this way: first, whether it is not right to bring it back into another kind; then, whether nothing above it is predicated of it in what it is; then, whether, taking many differences, it will make species. Into what kind could one bring it? For it is neither the substance nor the quality of the things that have it. Nor, again, into acting, for there are many motions in being acted on too; nor into being acted on, because many motions are actings: rather, actings and beings-acted-on go into it.
+!flag These conditions satisfied, we may consider the nature of the genus to which we shall refer it | The Greek's question "into what kind could one bring it?" (εἰς ποῖόν τις γένος αὐτὴν ἀνάξει;) belongs to the first test, whether motion goes back into another kind; Page makes it a further step.
+!note A kind is predicated "in what it is" and is divided by differences into species (Aristotle, Topics I.5, 102a31-35; IV.2, 122b12-17). Acting and being acted on were brought back to motion in VI.1.17-22.
+
+@p
+@greek οὐδ’ αὖ εἰς τὸ πρός τι
+Nor, again, would it rightly go into relation because motion is of something and not by itself: for in that way quality too would be in relation, for quality is of something and in something; and quantity likewise. If it is said that those are something, even if they are of something, and are called the one quality and the other quantity by what each is, then in the same way, since motion too, even if it is of something, is something before being of something, we would have to take what it is by itself. For in general we must set down as relative not what is something and then is of another, but what the relation begets, there being nothing else besides the relation by which it is so called: the double, for instance, in so far as it is called double, which took its coming to be and its existence in being compared with the cubit's length, and, nothing being thought of before this, had its being called double, and its being double, in being compared with another.
+!flag takes birth and actuality in juxtaposition with a yard | The Greek has "the cubit's length" (τὸ πηχυαῖον), Aristotle's example of a quantity; Page makes it a yard.
+!note "Two cubits long" is Aristotle's example of quantity, "double" and "half" of the relative (Categories 4, 1b28-29; 7, 6a39-b2); what the relation begets is the relative of VI.1.6-9.
+
+@p
+@greek τί οὖν ἐστι τοῦτο
+What, then, is this thing that, being of another, is something, so that it can also be of another, as quality, quantity and substance are? Or first we must establish that nothing before it is predicated of it as its kind.
+
+@p
+@greek ἀλλ’ εἰ τὴν μεταβολὴν
+But if someone were to say that change is before motion: first, either he is saying the same thing, or, by calling that a kind, he will make another kind besides those named before; then it is clear that he will set motion down as a species, and set something else against motion, coming to be perhaps, calling that a change too, but not a motion. Why, then, is coming to be not a motion? If it is because what is coming to be is not yet, and motion is not about what is not, then plainly coming to be would not be a change either. If it is because coming to be is nothing but a sort of alteration and growth, since coming to be is of things that are being altered and are growing, he is taking what comes before the coming to be. But we must take coming to be in these as another species: for coming to be, and becoming, is not in being altered in the way of being affected, as being heated or whitened; for when these have come about, coming to be simply may not yet have come about, but only this itself, the having been altered; but it is when an animal or a plant comes to be, when it takes some form.
+!flag the antecedents of becoming are being confused with becoming itself | The Greek says he "takes what comes before the coming to be" (τὰ πρὸ τῆς γενέσεως λαμβάνει), the alteration and growth before it; Page's words agree, but "confused" is his.
+!note Coming to be and passing away are changes but not motions, since what is not cannot be moved: Aristotle, Physics V.1 (225a20-b9); Categories 14 counts six kinds of motion, coming to be and passing away among them (15a13-14). "Coming to be simply" (ἁπλῶς γένεσις) is Aristotle's, for the coming to be of a substance (On generation and corruption I.3, 317a32-b5).
+
+@p
+@greek εἴποι δ’ ἄν τις τὴν μεταβολὴν
+One might say that it fits better to set change down as a species than motion, because the word "change" means one thing in place of another, while "motion" has also the moving away from one's own, as change of place has; and if someone does not want this, then learning and playing the lyre, or in general motion from a state. So alteration would rather be a species of motion, being a motion that displaces.
+!flag we must accept as types of Motion knowledge and musical performance | The Greek has "learning and playing the lyre" (ἡ μάθησις καὶ ἡ κιθάρισις), motions from a state (ἀφ’ ἕξεως); knowledge is the state, not the motion.
+!note "Every motion displaces what is moved" (Aristotle, Physics IV.12, 221b3; On the soul I.3, 406b12-13); change (μεταβολή) as the wider word, of which motion is a part: Physics V.1 (225a34-b3).
+
+@ch VI.3.22 | What motion is
+Motion, in outline, is the way from potency into what a thing is said to be able for: the statue, the walking, the dance. Some motions leave a form behind, others none; motion is a waking form among forms that stand, and may be called the life of bodies, sharing only a name with the motions of intellect and soul. What is common to all motions is a thing's never staying in the same, always otherness, and so time is always other; and the going forward from potency into act.
+
+@p
+But let what is meant by alteration be the same as motion, in that something other follows upon motion. What, then, must we call motion? Let motion be, to speak in outline, the way from potency into that which a thing is said to be able for. For one thing is potentially because it could come into some form, as a potential statue, and another because it could come into act, as what can walk: when the one goes forward into a statue, the going forward is motion; and when the other is walking, the walking itself is motion; and dancing, in what can dance, when it dances.
+!flag on the ground that Motion itself results in difference | The Greek says that "something other" (τὸ ἄλλο) follows on motion; "difference" is kept in the modern version for διαφορά.
+!note Motion is the act of the potential, as such: Aristotle, Physics III.1 (201a10-11), with the bronze that is potentially a statue (201a29-b5); Plotinus took up "incomplete act" in VI.1.16.
+
+@p
+@greek καὶ ἐπὶ μέν τινι κινήσει
+Upon one kind of motion another form follows, which the motion has worked; the other, being as it were the simple form of the potency, has nothing after it once the motion has stopped. So if someone were to call motion a waking form, set against the other forms, which stand, in that they stay and it does not, and a cause to the other forms when something comes to be after it, he would not be absurd. And if someone were to call this motion, the one we are now speaking of, the life of bodies, he would not be absurd either: for this motion must be called homonymous with the motions of intellect and soul.
+!flag regarded Motion as a dynamic Form in opposition to the other Forms which are static | The Greek calls motion "a waking form" (εἶδος ἐγρηγορός), set against forms that "stand" (ἑστηκόσιν), in that they stay and it does not; "dynamic" and "static" are Page's.
+!flag To proceed to identify this bodily motion with life would however be unwarrantable | The Greek says the reverse: if one were to call this motion "the life of bodies", "he would not be absurd either" (οὐκ ἂν ἄτοπος εἴη); the next words, that it shares only a name with the motions of intellect and soul, give the reason.
+!note Motion is "like a sort of life for all the things that are put together by nature" (Aristotle, Physics VIII.1, 250b14-15). The motion of intellect, one of the five kinds of the intelligible: VI.2.7-8.
+
+@p
+@greek ὅτι δὲ γένος ἐστίν
+That it is a kind one might be convinced no less by its not being easy, or even possible, to grasp by a definition. But how is it a form, when the motion is towards the worse, or when the motion is one of being affected? Or it is alike: as if the heating from the sun made some things grow and led others into the contrary; and in so far as motion is something common, it is the same in both, and has its apparent difference from its subjects. Is healing, then, the same as falling sick? Or in so far as it is motion, it is the same; but by what will they differ? By their subjects, or by something else too? But this later, when we look into alteration; now we must consider what is the same in every motion. For so it would be a kind. Or it would be said in many ways, and so it will be like being.
+!note Motion is hard to grasp, since it is neither potency nor act simply: Aristotle, Physics III.2 (201b24-202a3). What is said in many ways is not a kind, as being is not (Metaphysics Γ.2; VI.1.1-3).
+
+@p
+@greek πρὸς δὲ τὴν ἀπορίαν
+To the difficulty, perhaps this: those motions that lead into what is according to nature, or are at work in the things that are according to nature, are to be as it were forms, as has been said; while the leadings into what is against nature are to be set down by analogy with what they lead to.
+
+@p
+@greek ἀλλὰ τί τὸ κοινὸν ἐπί τε ἀλλοιώσεως
+But what is common to alteration, growth and coming to be, and to their contraries, and to change of place too, by which these are all motions? Or it is each thing's not being in the same in which it was before, nor keeping still, nor being in complete quiet, but, so long as motion is there, always having its leading towards another; and the other, by its not staying in the same: for motion perishes when there is no other. So otherness too is not in having come to be in the other and staying there, but is always otherness. Whence time too is always other, because motion makes it: for it is motion measured, not staying; so it runs along with it, as if riding on something carried along.
+!flag never acquiescing in Identity but always courting Difference | The Greek has "the other, by not staying in the same" (τὸ ἕτερον τῷ οὐκ ἐν τῷ αὐτῷ μένειν); "Identity" and "Difference" are Page's names for the same and the other.
+!flag in the sense of being itself perpetual difference | The Greek has "always otherness" (ἀεὶ ἑτερότης), the kind of VI.2; the modern version keeps "difference" for διαφορά.
+!flag Time is the measure of unceasing Motion | The Greek says that time "is motion measured, not staying" (μεμετρημένη γὰρ κίνησις οὐ μένουσα); Page makes it Aristotle's measure of motion, which Plotinus rejects in III.7.
+!note Aristotle: time is the number of motion (Physics IV.11, 219b1-2); Plotinus argues in III.7.8-13 that time is not the measure of motion but the life of soul in a motion of passage. Motion is other than the same and the other, and shares in both: Plato's Sophist (256a-b).
+
+@p
+@greek κοινὸν δὲ πᾶσι τὸ ἐκ δυνάμεως
+Common to all is that each is a going forward and a leading from potency and the potential into act: for everything that is moved with any motion whatever was there before, able to do or undergo this, and comes to do it in being moved.
+
+@ch VI.3.23 | Where motion is, and its kinds
+Motion here comes into things from another and shakes them awake, so that they hold together by an image of life. It is not the things moved: walking is the act about the feet, unseen, seen only in the feet's changing places. It is neither cut off from the agent nor in it, but goes from it into the other like a breath. The powers that walk, heat, build, take away, beget, destroy and heal make the kinds of motion, which take their character from what they are from and through, and what they are in.
+
+@p
+And the motion about perceptible things is sent into them from another, shaking, driving, waking and pushing the things that have taken a share in it, so that they do not sleep or stay in sameness, so that by this unquiet and, as it were, busyness they may be held together by an image of life.
+!flag that they may neither rest nor preserve their identity | The Greek says "that they do not sleep, nor be in sameness" (μὴ εὕδειν μηδ’ ἐν ταυτότητι εἶναι); "identity" is Page's word for ταυτότης.
+!note The busyness (πολυπραγμοσύνη) is the word for meddling in Republic IV (433a-434c). The image of life is the life of bodies of chapter 22.
+
+@p
+@greek δεῖ δὲ οὐ τὰ κινούμενα
+We must not think that the things moved are the motion: for the feet are not the walking, but the act about the feet, coming from a potency. Since the potency is invisible, one can only see the feet acting: not feet simply, as if they were still, but now with something else, which is invisible, but which, because it is with something else, is seen incidentally, in our seeing the feet having now one place and now another, and not being still. And alteration we see from what is altered, because the quality is not the same.
+
+@p
+@greek ἐν τίνι οὖν ἡ κίνησις
+In what, then, is the motion, when one thing moves another, and when a thing goes from the potency within it into act? In the mover? Then how will what is moved and affected share in it? In what is moved? Why, then, does it not stay, once it has come? Or it must be neither cut off from the agent nor in it, but from it and into the other, not cut off in the other, but from the one into the other, like a breath into something else.
+!flag when there is one thing that moves and another that passes from an inherent potentiality to actuality | The Greek asks about two cases, "when another moves it, and when it goes from the potency within it into act" (ὅταν ἄλλο κινῇ, καὶ ὅταν δὲ ἐκ τῆς ἐνούσης δυνάμεως εἰς ἐνέργειαν ἴῃ); Page makes them two parties to one motion.
+!note Motion is in what is moved, the act of the mover in the moved: Aristotle, Physics III.3 (202a13-b22). Plotinus weighed this in VI.1.22.
+
+@p
+@greek ὅταν μὲν οὖν ἡ δύναμις
+When, then, the power of moving is a power of walking, it pushes, as it were, and has made the other change its place continually; when it is a power of heating, it has heated; and when the power takes matter and builds it into a nature, there is growth; and when another power takes away, there is diminution of what can undergo taking away, as it diminishes. When the begetting nature is at work, there is coming to be; when this is powerless, and the power that can destroy prevails, there is destruction, not the destruction in what has already come about, but that in what is under way. And healing in the same way, when the power that can make health is at work and prevails, and falling sick when the contrary power makes the contraries. So it turns out that motion is so not only by the things it is in, but also by those from which and through which it is; and that the property of motion is to be a motion qualified, and such, in such things.
+!flag when another potentiality demolishes the structure, the result is decay | The Greek has "diminution" (μείωσις), the contrary of growth (αὔξησις), "of what can undergo taking away"; not decay.
+!flag not the destruction of what already exists, but that which intervenes upon the road to existence | The Greek has destruction "not that in what has already come about, but that in what is under way" (οὐχ ἡ ἐν τῷ ἤδη γεγονότι, ἀλλ’ ἡ ἐν τῷ πορευομένῳ): the motion is the destroying, still going on.
+!note Growth and diminution, coming to be and destruction, alteration and change of place: the six motions of Aristotle, Categories 14 (15a13-14).
+
+@ch VI.3.24 | Change of place
+How do motion up and down, in a circle and in a straight line differ? The power that pushes is one, unless up and down are lightness and heaviness; but moving to one's own place is common to all, so the difference comes from outside. The circle differs from the straight line by the figure of the course, unless it is mixed; change of place is one, taking its differences from outside.
+
+@p
+About motion in place: if moving upwards is contrary to moving downwards, and motion in a circle will differ from motion in a straight line, how is the difference to be found, as between throwing over one's head and under one's feet? For the pushing power is one: unless someone were to say that the power pushing upwards is one and that pushing downwards another, and that the downward course is otherwise than the upward, above all if things move by nature, if the one is lightness and the other heaviness.
+!flag in which case the up-motion constitutes lightness, the down-motion heaviness | The Greek says "if the one is lightness and the other heaviness" (εἰ ἡ μὲν κουφότης εἴη, ἡ δὲ βαρύτης): the powers that move are lightness and heaviness, not the motions.
+!note The light moves up and the heavy down, each to its own place: Aristotle, On the heavens IV.3-4 (310a16-311a29).
+
+@p
+@greek ἀλλὰ κοινὸν καὶ τὸ αὐτὸ
+But moving into its own place is common and the same, so that here the difference is perhaps from outside things. As for the circle and the straight line, if they ran round in a circle just as they run on a straight line, how is it other? Or by the figure of the course: unless someone were to call motion in a circle mixed, as not being wholly motion, nor displacing altogether. But it seems that change of place is wholly some one motion, taking its differences from outside.
+!flag in this tendency we seem to have the differentia which separates locomotion from the other species | The Greek says that moving to its own place is common to these motions, "so that here the difference perhaps comes from outside things" (ὥστε ἐνταῦθα κινδυνεύειν παρὰ τὰ ἔξω τὴν διαφορὰν γίνεσθαι); Page makes it the difference of change of place.
+!flag not involving a complete surrender of identity | The Greek says "nor displacing altogether" (οὐδὲ πάντη ἐξισταμένην), the displacing of chapter 21; nothing of sameness is named.
+!note The simple motions are in a straight line and in a circle, the rest mixed of these (Aristotle, On the heavens I.2, 268b17-26); the circle turns in one place, as if at rest (Plato's Laws X 893c-d); Plotinus on the heaven's circling in II.2.1.
+
+@ch VI.3.25 | Combination and separation
+Are combination and separation motions of their own? As coming near and withdrawing, they are motions in place; but blending and mixing, and the coming together into one, follow on change of place without following of necessity, as growth does. Nor is alteration to be brought back to them, as if dense and rare, and wine mixed with water, were only combined and separated: that would need a void, and would do away with colours and qualities, and learning is not a combining.
+
+@p
+How combination and separation stand must be looked into. Are they motions other than those named, coming to be and destruction, growth and wasting, change of place, alteration? Or must they be brought back to these? Or must some of these be set down as combinations and separations? If, then, combination has this, the approach of one thing to another and its coming near, and separation again a withdrawing backwards, one would call them motions in place, speaking of two things moving towards one, or withdrawing from one another.
+!flag The nature of integration and disintegration calls for scrutiny | The Greek has "combination and separation" (σύγκρισις, διάκρισις), the gathering and parting of the elements; "integration" and "disintegration" are Page's.
+!note Those who made coming to be and passing away combination and separation, Empedocles, Anaxagoras and the atomists: Aristotle, On generation and corruption I.1-2 (314a1-317a31) and Metaphysics A.3-4 (984a8-16, 985b4-20).
+
+@p
+@greek εἰ δὲ σύγκρασίν τινα
+But if they mean a sort of blending, mixture and fusion, and a coming together into one, the one that happens in the coming together, not in having already come together, to which of the motions named would one bring these back? Change of place will begin it, but what comes about upon it would be something other: as one would find with growth too, that change of place begins it and the motion in quantity comes upon it. So here too being moved in place leads, but being combined, or again separated, does not follow of necessity: when there is an intertwining of the things that met, they are combined, and when they are split by the meeting, they are separated.
+
+@p
+@greek πολλαχοῦ δ’ ἂν καὶ διακρινομένων
+And often, too, when things are separated, change of place would follow, or come about at the same time, while another affection is thought of about the things separated, not in their being moved in place; and in combination too another affection, a standing together, follows, other than the change of place.
+
+@p
+@greek ἆῤ οὖν ταύτας μὲν
+Are we, then, to take these by themselves, and bring alteration back to them? For what has become dense has been altered, and this is the same as "has been combined"; and what has become rare, again, has been altered, and this is the same as "has been separated"; and when wine and water are mixed, each has become other than it was before, and this is combination, which has made the alteration.
+!flag Are we then to posit a new species for these two motions, adding to them, perhaps, alteration | The Greek asks whether we are to take these by themselves "and bring alteration back to them" (τὴν δὲ ἀλλοίωσιν εἰς ταύτας ἀνακτέον), making alteration a combining or separating; not adding it to them.
+!note A drop of wine in much water is not mixed but changes into water (Aristotle, On generation and corruption I.10, 328a23-28); here the mixture of the two makes each other than it was.
+
+@p
+@greek ἢ φατέον καὶ ἐνταῦθα
+Or we must say that here too combinations and separations lead some alterations, but that these are other than combinations or separations: for neither are the other alterations of this sort, nor are rarefaction and condensation combination and separation, or made of these at all; for in that way one would accept a void too. And with blackness or whiteness, how? If someone disputes over these, first he does away with the colours, and perhaps with the qualities, or most of them, or rather all of them: for if he were to call every alteration, which we call change in quality, combination and separation, what comes about is nothing, only things lying near together and standing apart. Then learning and being taught, how are they combinations?
+!note The rare and the dense explained by the void between bodies: Aristotle, Physics IV.9 (216b22-217b20); colours as arrangement and position, Democritus' account (On generation and corruption I.2, 315b33-316a14). On learning as a change, not a combining: VI.1.20.
+
+@ch VI.3.26 | The species of motion
+Change of place may be divided by up and down, straight and circle, by the motions of the ensouled and the soulless, and these by walking, swimming and flight; or by according to nature and against nature, which are not differences from outside; or into motions by nature, by art and by choice.
+
+@p
+About these we must look, and inquire again now into the motions said by species, change of place for instance: whether they are not to be divided by up and down, straight and circle, as has been asked, or by the motion of the ensouled and of the soulless (for their motion is not alike), and these again by walking, swimming and flight.
+!flag whether the organic motion should be distinguished from the inorganic | The Greek has the motion "of the ensouled and the soulless" (ἐμψύχων καὶ ἀψύχων); "organic" is Page's.
+
+@p
+@greek ἢ καὶ τῷ φύσει γε
+Or one might perhaps divide each species by its being according to nature and against nature; but these are not differences of motions from outside. Or these differences produce them, and they could not be without them; and nature seems to be their principle. Or some are by nature, some by art, some by choice: by nature growths and wastings; by art building houses and building ships; by choice inquiring, learning, taking part in the city's life, in general speaking and acting. And again about growth, alteration and coming to be: by nature or against nature, or in general by their subjects.
+!flag It may indeed be the case that motions create these differences | The Greek has it the other way: "these produce them" (ποιητικαὶ τούτων αὗται), the differences, according to nature and against it, produce the motions, which could not be without them.
+!note Nature is a principle of motion in what it is in (Aristotle, Physics II.1, 192b13-23); things come to be by nature, by art or of themselves (Metaphysics Z.7, 1032a12-13); choice (προαίρεσις): Nicomachean Ethics III.2.
+
+@ch VI.3.27 | Rest and stillness
+Rest is better given to the intelligible, and stillness looked for here. Here nothing stands, but moves more slowly; stillness is only the negation of a motion, of place for instance, and so no kind, while motion brings something and works on its subject. There rest is no negation of motion, for it is while motion is, and what stands there stands by rest; here a thing is still by an absence. Nor is health or sickness a rest.
+
+@p
+About rest, which is set against motion, or stillness, what must we say? Is it too to be set down as one kind, or to be brought back into one of the kinds named? Perhaps it is better to give rest to the things there, and to look for stillness here.
+!flag whether it be Stability or Rest | The Greek has "rest" (στάσις), the kind of VI.2, and "stillness" (ἠρεμία); "Stability" is Page's name for rest, and his "Rest" is the stillness.
+!note Rest is one of the five kinds of the intelligible, after Plato's Sophist (254d-255e): VI.2.7-8. Aristotle calls stillness (ἠρεμία) the privation of motion in what is of a nature to be moved (Physics V.2, 226b12-16).
+
+@p
+@greek τὴν οὖν ἠρεμίαν ταύτην
+This stillness, then, we must first ask what it is. If it appeared to be the same as rest, one would not rightly look for it here, where nothing stands, but what seems to stand is moving with a slower motion. But if we were to say that stillness is other than rest, in that rest is about what is wholly unmoved, and stillness about what stands, but is of a nature to be moved, when it is not moved: if one meant by being still coming to be still, it is a motion not yet stopped, but present; and if he means the stillness that is no longer about what is moved, we must first ask whether there is anything here that is not moved.
+!flag the apparently stable has merely a less strenuous motion | The Greek says that what seems to stand is moving with "a slower motion" (σχολαιοτέρᾳ τῇ κινήσει); "less strenuous" is Page's.
+!note That everything here is always moving is the flux of the Theaetetus (152d-e, 181c-183b).
+
+@p
+@greek εἰ δὲ μὴ πάσας
+But if it is not possible for a thing to be moved with all the motions, but there must be some motions it is not moved with, so that one can say that this is the thing being moved, what else must we call what is not moved in place, but is still with respect to this motion, than that it is not moved? Stillness, then, will be a negation of being moved; and this is not in a kind. And it is still with respect to nothing other than this motion, change of place for instance: so what it means is the taking away of this.
+
+@p
+@greek εἰ δέ τις λέγοι: διὰ τί
+If someone were to say: why shall we not call motion a negation of rest? Because, we shall say, motion comes bringing something, and is something else, at work and pushing the subject as it were, working countless things in it and destroying it; while each thing's stillness is nothing besides the thing, but signifies only that it has no motion.
+!flag why not regard Motion as the negation of Stability | The Greek has "a negation of rest" (ἀπόφασιν τῆς στάσεως); "Stability" is Page's name for rest.
+!flag giving it a thousand forms and destroying them all | The Greek says that motion is "working countless things in it and destroying it" (μυρία ἐργαζόμενον αὐτὸ καὶ φθεῖρον), the subject; "forms" is Page's.
+
+@p
+@greek τί οὖν οὐ καὶ ἐπὶ τῶν νοητῶν
+Why, then, did we not call rest among the intelligibles too a negation of motion? Because one cannot call rest there a doing away with motion, since it is not when motion has stopped, but while that is, this is too; and what stands there is not a thing of a nature to be moved that stands in so far as it is not moved, but in so far as rest has taken hold of it, it stands, and in so far as it is moving, it will always move: so it both stands by rest and moves by motion. But here a thing is moved by motion, and is still by an absence, deprived of the motion owed to it.
+!flag what is of a nature to move is not stationary because the Stability of that realm is motionless | The Greek says that what stands there is not "a thing of a nature to be moved, standing in so far as it is not moved", but stands "in so far as rest has taken hold of it" (καθ’ ὃ στάσις κατείληφεν); Page has rest itself motionless, and calls it "Stability".
+!note The real is both at rest and in motion, and rest and motion are both, and are each other than the other: Plato's Sophist (249c-d, 250a-c, 255e); VI.2.7.
+
+@p
+@greek ἔπειτα δὲ ὁρᾶν δεῖ
+Then we must see what this rest itself is that is called rest here: in sickness and health, for instance. The one being healed is moved, and so, when he goes from sickness into health, he is being healed. What form of stillness, then, shall we set against this healing? If what it is from, that is sickness, but not rest; if what it is into, that is health, which is not the same as rest. If someone were to say that health or sickness is a sort of rest, he will say that health and sickness are species of rest; which is absurd. And if he says that rest is an accident of health, health before the rest will not be health. But about these, let each think as seems good to him.
+!flag What we have to observe is the essential character of this Sensible counterpart of Stability | The Greek has "the rest itself that is called rest here" (ἡ στάσις αὐτὴ ἡ ἐνταῦθα λεγομένη): Plotinus uses the word "rest" here himself; "Sensible counterpart" and "Stability" are Page's.
+!flag It may be declared that health or sickness is indeed some form of Stability | The Greek has "a sort of rest" (τινὰ στάσιν); "Stability" is Page's, here and in the next sentence.
+!note Motion from sickness to health and the rest opposed to it: Aristotle, Physics V.6 (229b23-230a18).
+
+@ch VI.3.28 | Acting and being acted on, and the relatives
+Acting and being acted on are motions, and some motions are absolute; the other so-called kinds go back into these. The relative is a relation of one to another, both together at once; substance is relative only as a part, a cause, a principle or an element. The relatives may be divided as the ancients divided them. So much for these kinds.
+
+@p
+It has been said that acting and being acted on are to be called motions, and that one can call some of the motions absolute, others actings and others beings-acted-on. And about the other so-called kinds, that they go into these; and about the relative, that it is a relation of one thing to another, and that both are together at once; and that the relative, when a relation of substance makes it, will not be relative as substance, but either as a part, such as a hand or a head, or as a cause, a principle or an element.
+!note Acting and being acted on: chapter 21 and VI.1.17-22; the other kinds, "when", "where", position and having, were brought back to these in chapter 3 and VI.1.13-14 and 23-24. Relatives are together by nature (Aristotle, Categories 7, 7b15-22); whether a hand or a head is a relative: Categories 7 (8a13-b21).
+
+@p
+@greek ἔστι δὲ καὶ τὰ πρός τι διαιρεῖν
+The relatives can also be divided, as the ancients divided them: some as productive, some as measures, some in excess and defect, and some as in general separating by likenesses and differences. And about these kinds, so much.
+!flag We may also adopt the ancient division of relatives into creative principles | The Greek has "as productive" (ὡς ποιητικά), the agent relative to what it acts on; "creative principles" is Page's.
+!flag Our investigation into the kinds of Being is now complete | The Greek says only "and about these kinds, so much" (καὶ περὶ μὲν τούτων τῶν γενῶν ταῦτα), the kinds of the perceptible; Page closes the whole of the three treatises.
+!note Aristotle divides relatives into those of number, excess and defect, those of acting and being acted on, and the measurable to the measure, with the same, the like and the equal among them (Metaphysics Δ.15, 1020b26-1021b11). Plotinus weighed the relatives in VI.1.6-9.

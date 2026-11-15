@@ -500,14 +500,48 @@ Daniel: "Ok lets put a pause to this and move over to the Enniads, translating i
   (Physics I.1), the elements' contraries (On generation and corruption II.3), great and small (Categories 6, 5b14-29),
   Heraclitus' apes (B82, Hippias Major 289a-b), no down in the All (Timaeus 62c-63e), the third increase (Republic VII
   528a-b) and figure as quality (Categories 8).
-- E26: VI.3 chapters 15-28 (4,673). Next. Equal and unequal, quality and its kinds and contraries (15-20), and motion,
-  alteration, change of place, combination and separation, rest, acting and being acted on (21-28). Vol. V needs work
-  first: tools/mackenna.py finds VI.3.15 and 16, and 16 runs on to the end of the treatise. In the OCR, add to "misread":
-  "<7:" (4322) for 17, "IQ." (4453) for 19, "2." (4594) for 21, "223" (4678) for 22 and "25. |" (4849) for 25; "15.",
-  "16.", "18.", "20.", "23.", "24." and "26."-"28." read as they are. Add "ce)" (4654, inside VI.3.21) to "stray" (it stands
-  only there); N and P are there already. Check each against the Greek's chapter starts; the VI.3 summary already covers
-  chapters 15-28. When VI.3 is complete, the browser test's "chapters 1-14 of 28 so far" check becomes its absence.
-- E27: VI.4 That being, one and the same, is everywhere whole, first part (5,731).
+- **E26: VI.3 On the kinds of being, third part, chapters 15-28 (4,673) (done).** 65 paragraphs, 64 flags, 48 notes; VI.3
+  is complete (no chapters_done; the summary already covered 15-28). Source work first: tools/mackenna.py found VI.3.15-16,
+  with 16 running on to the end of the treatise; vol. V's "misread" now adds "<7:" 17, "IQ." 19, "2." 21, "223" 22 and
+  "25. |" 25, and "stray" takes out "ce)" inside 21. All 28 of Page's chapters are found on their pages (68-106) and their
+  starts are the Greek's; no @older. Fixed names as in VI.2 and VI.3.1-14: "otherness" for ἑτερότης, "sameness" for
+  ταυτότης, "difference" only for διαφορά, "forming principle" for λόγος (and "account" for the spoken λόγος, 18-19); in
+  27 "rest" stays στάσις and ἠρεμία, the rest of what can move, is "stillness". Page's "Stability", "Identity",
+  "Difference" and "Reason-Principle" are flagged as his. E.g. Page adds "rather than equal" to like triangles and leaves
+  out Aristotle (15), gives the name Socrates to the perceptible Socrates where the Greek denies it (15), makes the soul's
+  bending down "apostasy" and the forming principles "activities of body" for makings of bodies (16), "integrate" and
+  "disintegrate" for drawing together and parting the sight (17, 25), leek-green and pale yellow two greens and the
+  otherness in intellect "diversity" (18), the virtues' objects vices (18), the disposed "states" (19), states alone as
+  qualities asserted where it is weighed (19), the more "quite apart from their participants" for a latitude (20), the
+  cubit a yard and learning "knowledge" (21), motion a "dynamic Form" for a waking form, and calling it the life of bodies
+  "unwarrantable" where the Greek says it would not be absurd (22), time "the measure" of motion for motion measured (22),
+  diminution "decay" (23), the common moving to one's own place the difference of change of place where the Greek puts the
+  difference outside (24), alteration "added" to combination where it is brought back to it (25), the differences made by
+  the motions where they make them (26), rest "motionless" there (27), and "the kinds of Being" for these kinds (28).
+  terms-greek.json is unchanged. Notes on equal and like (Categories 6, 8), the something and the such (Letter VII,
+  Metaphysics Z.1), the two arithmetics (Philebus 56d-57a, Republic VII 525b-531c), white parting the sight (Timaeus 67d-e,
+  Metaphysics Ι.7), powers known by their acts (Republic V 477c-d, On the soul II.4), the colours from white and black (On
+  sense 3), Democritus' tastes (Theophrastus), privation and having (Categories 10, 15), blushing and states (Categories
+  8), contraries (Categories 10, Metaphysics Ι.4), coming to be not a motion (Physics V.1), motion as act of the potential
+  (Physics III.1-3), the life of bodies (Physics VIII.1), time as number of motion against III.7, the simple motions (On
+  the heavens I.2, IV.3-4, Laws X 893c-d), combination and the void (On generation and corruption I.1-2, I.10, Physics
+  IV.9), nature, art and choice (Physics II.1, Metaphysics Z.7), stillness as privation (Physics V.2, V.6), and the
+  relatives (Categories 7, Metaphysics Δ.15).
+- E27: VI.4 That being, one and the same, is everywhere whole, first part (5,731). Next. 16 chapters, pp. 106-124 of
+  vol. V. MacKenna translated VI.4 himself (Page translated only VI.1-3), so the flags say "MacKenna", not "Page"; the
+  volume's "translator" stays "Stephen MacKenna and B. S. Page". VI.4 needs a new @treatise block and summary (the
+  twenty-second treatise in the order of writing, Life 4-5; the omnipresence of being, with VI.5 its second part).
+  Vol. V needs work first: tools/mackenna.py finds only VI.4.1. In the OCR (plotinusononegoo0005step_djvu.txt), "3.",
+  "4.", "5.", "6.", "8.", "13.", "14." and "16." read as they are; candidates for "misread": "Be" (5102) for 2, "ye"
+  (5383) for 7, "Q." (5497) for 9, "10. ," (5558) for 10, "rt." (5600) for 11, "pier" (5638) for 12 and "TS." (5792) for
+  15; candidates for "stray": "Q" (5386, inside 7), "“e" (5597, before 11) and "R" (5742, inside 13). Chapter 1 begins
+  at 5054 (its "2" there is the misread 1, under the title). Check each line first (they may be caught by drop_short
+  already), and check each chapter start against the Greek: 7 "Let us consider once more", 11 "Still, this integral
+  omnipresence admitted", 12 "Think of a sound passing through the air", 15 "But how did this intruder find entrance".
+  Setup: git fetch origin main, branch, cd platonic-workshop, python3 tools/fetch_sources.py first1k-neoplatonists,
+  python3 tools/modern_enneads.py --check, python3 -m unittest tests.test_modern_enneads. Tests: the E26 check looks at
+  [31:34]; the milestone asserts move to VI.5 ("E28"); the browser test counts 380 + 16 = 396 chapters, enn-later 4 and
+  "to come, E28".
 - E28: VI.5 the same, second part (3,658).
 - E29: VI.6 On numbers (6,963).
 - E30: VI.7 How the many forms came to be, and on the Good, chapters 1-14 (about 4,800).

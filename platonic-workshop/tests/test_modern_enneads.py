@@ -247,14 +247,16 @@ class MacKennaVolumeV(unittest.TestCase):
         for junk in ("WITHDRAWN", "UNIVERSIT", "elements. G Suppose", "that H its", "which K produce", "x. We"):
             self.assertNotIn(junk, text)
 
-    def test_vi_3_its_first_fourteen_chapters_and_pages(self):
+    def test_vi_3_its_twenty_eight_chapters_and_pages(self):
         # Milestone E25: the OCR misread four of VI.3's first fourteen chapter numbers ("4. ." for 4, "ie" for 7, "Q." for
         # 9, "Iz." for 12) and lost two (3 and 5); "Te" under the title, a smudge, the signatures L and M and a ";" are
-        # taken out. Chapters 15-28 are E26's.
+        # taken out. Milestone E26: it misread five more ("<7:" for 17, "IQ." for 19, "2." for 21, "223" for 22, "25. |"
+        # for 25), and "ce)" inside 21 is taken out.
         self.assertEqual(self.t["VI.3"]["page"], 68)
-        self.assertEqual([c["n"] for c in self.t["VI.3"]["chapters"]][:14], list(range(1, 15)))
-        self.assertEqual([c["page"] for c in self.t["VI.3"]["chapters"]][:14],
-                         [68, 69, 71, 72, 74, 75, 76, 78, 79, 81, 82, 83, 84, 85])
+        self.assertEqual([c["n"] for c in self.t["VI.3"]["chapters"]], list(range(1, 29)))
+        self.assertEqual([c["page"] for c in self.t["VI.3"]["chapters"]],
+                         [68, 69, 71, 72, 74, 75, 76, 78, 79, 81, 82, 83, 84, 85,
+                          87, 88, 90, 91, 93, 94, 96, 98, 100, 101, 102, 103, 104, 106])
         ch = {c["id"]: c for c in self.t["VI.3"]["chapters"]}
         self.assertTrue(ch["VI.3.1"]["paras"][0].startswith("We have now explained our conception of Reality"))
         self.assertTrue(ch["VI.3.2"]["paras"][0].startswith("Our first observations must be directed"))
@@ -269,6 +271,20 @@ class MacKennaVolumeV(unittest.TestCase):
         for junk in ("Te We", "eee", "to L which", "action. : ;", "the M qualification", "Body; the particular Form acts as a M"):
             self.assertNotIn(junk, text)
         self.assertIn("all other things proceed and to which they owe their existence", text)
+        self.assertTrue(ch["VI.3.15"]["paras"][0].startswith("How far is it true that equality and inequality"))
+        self.assertTrue(ch["VI.3.16"]["paras"][0].startswith("When each of the entities bound up with the pseudo-substance"))
+        self.assertTrue(ch["VI.3.16"]["paras"][-1].endswith("no substance which is in any sense Intellectual."))
+        self.assertTrue(ch["VI.3.17"]["paras"][0].startswith("This procedure, if approved"))
+        self.assertTrue(ch["VI.3.19"]["paras"][0].startswith("With Quality we have undertaken to group"))
+        self.assertTrue(ch["VI.3.21"]["paras"][0].startswith("The claim of Motion to be established as a genus"))
+        self.assertTrue(ch["VI.3.22"]["paras"][0].startswith("But suppose that we identify alteration with Motion"))
+        self.assertTrue(ch["VI.3.25"]["paras"][0].startswith("The nature of integration and disintegration"))
+        self.assertTrue(ch["VI.3.27"]["paras"][0].startswith("What view are we to take of that which is opposed to Motion"))
+        self.assertTrue(ch["VI.3.28"]["paras"][-1].endswith("Our investigation into the kinds of Being is now complete."))
+        late = " ".join(p for k in range(15, 29) for p in ch[f"VI.3.{k}"]["paras"])
+        for junk in ("<7:", "IQ.", "223", "25. |", "ce)"):
+            self.assertNotIn(junk, late)
+        self.assertIn("confused with becoming itself. Yet becoming", late)
 
 
 class MacKennaVolumeII(unittest.TestCase):
@@ -1315,18 +1331,18 @@ class Files(unittest.TestCase):
 
     def test_milestone_e25_on_the_kinds_of_being_third_part_chapters_1_to_14(self):
         d = load()
-        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][31:], ["VI.1", "VI.2", "VI.3"])
-        self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "VI.3"], [f"VI.3.{k}" for k in range(1, 15)])
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][31:34], ["VI.1", "VI.2", "VI.3"])
+        self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "VI.3"][:14], [f"VI.3.{k}" for k in range(1, 15)])
         t = {t["id"]: t for t in d["treatises"]}
-        # VI.3 is done over E25 and E26: chapters 1 to 14 of 28 so far. Its summary covers the whole treatise.
-        self.assertEqual((t["VI.3"]["chapters_done"], t["VI.3"]["chapters_all"]), (14, 28))
+        # VI.3 is done over E25 and E26, complete since E26: no chapters_done. Its summary covers the whole treatise.
+        self.assertNotIn("chapters_done", t["VI.3"])
         self.assertEqual(t["VI.3"]["title"], "On the kinds of being, third part")
         self.assertIn("forty-fourth treatise in the order of writing", t["VI.3"]["summary"])
         self.assertIn("a painting on a shadow", t["VI.3"]["summary"])
         self.assertIn("(chapters 21 to 28)", t["VI.3"]["summary"])
         c = {c["id"]: c for c in d["contents"]}
         self.assertEqual(c["VI.3"]["status"], "here")
-        self.assertEqual((c["VI.3"]["chapters_done"], c["VI.3"]["chapters_all"]), (14, 28))
+        self.assertNotIn("chapters_done", c["VI.3"])
         self.assertEqual(c["VI.4"]["milestone"], "E27")
         ch = {c["id"]: c for c in d["chapters"]}
         # Page's chapters in MacKenna's vol. V (1930) are the Greek's, once their numbers are read (tools/mackenna.py).
@@ -1385,7 +1401,7 @@ class Files(unittest.TestCase):
         for word in ("forming principle", "otherness", "the same and the other", "rest", "becoming", "not in a subject"):
             self.assertIn(word, mod)
         self.assertNotRegex(mod.lower(), r"reason-principle|rational principle|stability|identity")
-        ours = [s for s in flags if s.startswith("VI.3.")]
+        ours = [s for s in flags if s.startswith("VI.3.") and int(s.split(".")[2]) <= 14]
         self.assertEqual(len(ours), 55)
         self.assertGreaterEqual(sum(len(flags[s]) for s in ours), 39)
         notes = " ".join(n for p in d["paragraphs"] if p["chapter"].startswith("VI.3.") for n in p.get("notes", []))
@@ -1395,6 +1411,103 @@ class Files(unittest.TestCase):
                       "Categories 5, 2a11-19", "Physics I.1", "On generation and corruption II.3", "Categories 6, 5b14-29",
                       "Heraclitus (fragment B82 Diels-Kranz)", "Hippias Major (289a-b)", "Timaeus (62c-63e)",
                       "Republic (VII 528a-b)", "Categories 8, 10a11-16"):
+            self.assertIn(place, notes)
+
+    def test_milestone_e26_on_the_kinds_of_being_third_part_chapters_15_to_28(self):
+        d = load()
+        self.assertEqual([t["id"] for t in d["treatises"] if t["id"] != "Life"][31:], ["VI.1", "VI.2", "VI.3"])
+        self.assertEqual([c["id"] for c in d["chapters"] if c["treatise"] == "VI.3"], [f"VI.3.{k}" for k in range(1, 29)])
+        t = {t["id"]: t for t in d["treatises"]}
+        # VI.3 is complete: no chapters_done; the summary already covered chapters 15 to 28; VI.4 is still E27's.
+        self.assertNotIn("chapters_done", t["VI.3"])
+        self.assertIn("(chapters 15 to 20)", t["VI.3"]["summary"])
+        self.assertIn("(chapters 21 to 28)", t["VI.3"]["summary"])
+        c = {c["id"]: c for c in d["contents"]}
+        self.assertEqual(c["VI.3"]["status"], "here")
+        self.assertNotIn("chapters_done", c["VI.3"])
+        self.assertEqual(c["VI.4"]["milestone"], "E27")
+        ch = {c["id"]: c for c in d["chapters"]}
+        # Page's chapters in MacKenna's vol. V (1930) are the Greek's, once their numbers are read (tools/mackenna.py).
+        for cid in [f"VI.3.{k}" for k in range(15, 29)]:
+            self.assertEqual([(o["n"], o["year"]) for o in ch[cid]["older"]], [(int(cid.split(".")[2]), 1930)])
+        self.assertEqual([(o["n"], o["page"]) for o in ch["VI.3.15"]["older"]], [(15, 87)])
+        self.assertEqual([(o["n"], o["page"]) for o in ch["VI.3.28"]["older"]], [(28, 106)])
+        para = {p["seg"]: p for p in d["paragraphs"]}
+        self.assertTrue(para["VI.3.15.p1"]["greek"].startswith("ἀλλὰ πῶς ἴδιον τοῦ ποσοῦ τὸ ἴσον καὶ ἄνισον;"))
+        self.assertTrue(para["VI.3.28.p2"]["greek"].endswith("καὶ περὶ μὲν τούτων τῶν γενῶν ταῦτα."))
+        self.assertIn("it is not the perceptible Socrates that should be called Socrates", para["VI.3.15.p4"]["modern"])
+        self.assertIn("since they belong to a soul that bends downwards", para["VI.3.16.p5"]["modern"])
+        self.assertIn("one draws the sight together and another parts it", para["VI.3.17.p3"]["modern"])
+        self.assertIn("as with leek-green against pale yellow", para["VI.3.18.p1"]["modern"])
+        self.assertIn("an otherness that separates the one from the other", para["VI.3.18.p2"]["modern"])
+        self.assertIn("one about getting in the harvest and another about spending", para["VI.3.18.p6"]["modern"])
+        self.assertIn("rather in some way disposed", para["VI.3.19.p3"]["modern"])
+        self.assertIn("health and sickness, at any rate, have nothing that has fallen between them", para["VI.3.20.p3"]["modern"])
+        self.assertIn("compared with the cubit's length", para["VI.3.21.p2"]["modern"])
+        self.assertIn("being a motion that displaces", para["VI.3.21.p5"]["modern"])
+        self.assertIn("the way from potency into that which a thing is said to be able for", para["VI.3.22.p1"]["modern"])
+        self.assertIn("a waking form", para["VI.3.22.p2"]["modern"])
+        self.assertIn("the life of bodies, he would not be absurd either", para["VI.3.22.p2"]["modern"])
+        self.assertIn("is always otherness", para["VI.3.22.p5"]["modern"])
+        self.assertIn("like a breath into something else", para["VI.3.23.p3"]["modern"])
+        self.assertIn("the difference is perhaps from outside things", para["VI.3.24.p2"]["modern"])
+        self.assertIn("and bring alteration back to them?", para["VI.3.25.p4"]["modern"])
+        self.assertIn("some are by nature, some by art, some by choice", para["VI.3.26.p2"]["modern"])
+        self.assertIn("give rest to the things there, and to look for stillness here", para["VI.3.27.p1"]["modern"])
+        self.assertIn("is still by an absence", para["VI.3.27.p5"]["modern"])
+        self.assertIn("as the ancients divided them", para["VI.3.28.p2"]["modern"])
+        flags = {s: p.get("flags", []) for s, p in para.items()}
+        # Page makes the perceptible Socrates the one called Socrates, the soul's bending down "apostasy", leek-green and
+        # pale yellow two greens, the otherness in intellect "diversity", the virtues' objects vices, the "disposed"
+        # "states", the cubit a yard, the life of bodies "unwarrantable", the difference of change of place its own, the
+        # combinations "integration", alteration added to them where it is brought back to them; he keeps "Stability",
+        # "Identity", "Difference" and "Reason-Principle" for rest, the same, the other and the forming principle.
+        self.assertTrue(any("Aristotle" in f["why"] for f in flags["VI.3.15.p1"]))
+        self.assertTrue(any("not the perceptible Socrates" in f["why"] for f in flags["VI.3.15.p4"]))
+        self.assertTrue(any("Reason-Principle" in f["why"] for f in flags["VI.3.15.p4"]))
+        self.assertTrue(any("apostasy" in f["why"] for f in flags["VI.3.16.p5"]))
+        self.assertTrue(any("makings of bodies" in f["why"] for f in flags["VI.3.16.p7"]))
+        self.assertTrue(any("draws together" in f["why"] for f in flags["VI.3.17.p3"]))
+        self.assertTrue(any("leek-green" in f["why"] for f in flags["VI.3.18.p1"]))
+        self.assertTrue(any("otherness" in f["why"] for f in flags["VI.3.18.p2"]))
+        self.assertTrue(any("no vice is named" in f["why"] for f in flags["VI.3.18.p6"]))
+        self.assertTrue(any("in some way disposed" in f["why"] for f in flags["VI.3.19.p3"]))
+        self.assertTrue(any("does not assert it" in f["why"] for f in flags["VI.3.19.p5"]))
+        self.assertTrue(any("latitude" in f["why"] for f in flags["VI.3.20.p6"]))
+        self.assertTrue(any("cubit" in f["why"] for f in flags["VI.3.21.p2"]))
+        self.assertTrue(any("learning and playing the lyre" in f["why"] for f in flags["VI.3.21.p5"]))
+        self.assertTrue(any("he would not be absurd either" in f["why"] for f in flags["VI.3.22.p2"]))
+        self.assertTrue(any("Identity" in f["why"] and "Difference" in f["why"] for f in flags["VI.3.22.p5"]))
+        self.assertTrue(any("measure of motion" in f["why"] for f in flags["VI.3.22.p5"]))
+        self.assertTrue(any("sameness" in f["why"] for f in flags["VI.3.23.p1"]))
+        self.assertTrue(any("diminution" in f["why"] for f in flags["VI.3.23.p4"]))
+        self.assertTrue(any("from outside things" in f["why"] for f in flags["VI.3.24.p2"]))
+        self.assertTrue(any("integration" in f["why"] for f in flags["VI.3.25.p1"]))
+        self.assertTrue(any("bring alteration back to them" in f["why"] for f in flags["VI.3.25.p4"]))
+        self.assertTrue(any("ensouled" in f["why"] for f in flags["VI.3.26.p1"]))
+        self.assertTrue(any("Stability" in f["why"] and "stillness" in f["why"] for f in flags["VI.3.27.p1"]))
+        self.assertTrue(any("rest has taken hold of it" in f["why"] for f in flags["VI.3.27.p5"]))
+        self.assertTrue(any("kinds of the perceptible" in f["why"] for f in flags["VI.3.28.p2"]))
+        # The fixed names: "forming principle" for λόγος, "otherness" for ἑτερότης, "sameness", "rest" for στάσις and
+        # "stillness" for ἠρεμία; no "reason-principle", "stability" or "identity" of our own.
+        mod = " ".join(p["modern"] for p in d["paragraphs"] if p["chapter"] in [f"VI.3.{k}" for k in range(15, 29)])
+        for word in ("forming principle", "otherness", "sameness", "rest", "stillness", "combination and separation"):
+            self.assertIn(word, mod)
+        self.assertNotRegex(mod.lower(), r"reason-principle|rational principle|stability|identity")
+        ours = [s for s in flags if s.startswith("VI.3.") and int(s.split(".")[2]) >= 15]
+        self.assertEqual(len(ours), 65)
+        self.assertGreaterEqual(sum(len(flags[s]) for s in ours), 60)
+        notes = " ".join(n for p in d["paragraphs"] if p["chapter"] in [f"VI.3.{k}" for k in range(15, 29)]
+                         for n in p.get("notes", []))
+        for place in ("Categories 6, 6a26-35", "Categories 8, 11a15-19", "Republic (VII 525b-531c)", "Philebus (56d-57a)",
+                      "Timaeus (67d-e)", "Metaphysics Ι.7 (1057b8-9)", "Republic (V 477c-d)", "On the soul II.4",
+                      "On sense and the sensibles 3", "Theophrastus, On the senses 65-67", "Categories 8 (9b19-33)",
+                      "Categories 10 (11b38-12a25)", "Metaphysics Ι.4 (1055a3-33)", "Physics V.1 (225a20-b9)",
+                      "Physics IV.12, 221b3", "Physics III.1 (201a10-11)", "Physics VIII.1, 250b14-15",
+                      "Physics IV.11, 219b1-2", "Sophist (256a-b)", "Physics III.3 (202a13-b22)", "Categories 14",
+                      "On the heavens I.2", "Laws X 893c-d", "On generation and corruption I.10",
+                      "Physics IV.9", "Physics II.1, 192b13-23", "Physics V.2, 226b12-16", "Theaetetus (152d-e, 181c-183b)",
+                      "Physics V.6", "Metaphysics Δ.15"):
             self.assertIn(place, notes)
 
     def test_the_life_greek_is_proofread(self):
