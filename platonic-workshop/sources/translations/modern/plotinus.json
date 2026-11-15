@@ -4951,7 +4951,14 @@
    "seg": "III.6.1.p1",
    "chapter": "III.6.1",
    "modern": "We say that perceptions are not affections, but activities and judgments about affections. The affections happen in something else, in the body, say, of a certain kind; the judgment happens in the soul, and it is not an affection, for then another judgment would be needed, and we would go up and up without end. Even so we would still have a difficulty here: whether judgment, as judgment, has nothing of what it judges. If it had an imprint, it has been affected. We might also speak of the so-called imprints, and show that the way they come about is quite different from what is supposed, the same as with thoughts, which are activities too, able to know without being affected. In short, our argument and our aim is not to subject the soul to changes and alterations of the kind that bodies undergo when they are heated or chilled. We ought also to look at what is called its affective part, and ask whether we shall grant that this too is unchanging, or allow it alone to be affected. But that comes later; first we must look into the difficulties about the earlier ones.",
-   "greek": "Τὰς αἰσθήσεις οὐ πάθη λέγοντες εἶναι, ἐνεργείας δὲ περὶ τὰ παθήματα καὶ κρίσεις, τῶν μὲν παθῶν περὶ ἄλλο γινομένων, οἷον τὸ σῶμα φέρε τὸ τοιόνδε, τῆς δὲ κρίσεως περὶ τὴν ψυχὴν οὐ πάθους οὔσης — ἄλλην γὰρ αὖ ἔδει κρίσιν γίνεσθαι καὶ ἐπαναβαίνειν ἀεὶ εἰς ἄπειρον — εἴχομεν ἂν οὐδὲν ἧττον καὶ ἐνταῦθα ἀπορίαν, εἰ ἡ κρίσις ᾗ κρίσις οὐδὲν ἔχει τοῦ κρινομένου. ἤ, εἰ τύπον ἔχοι, πέπονθεν. ἦν δ’ ὅμως λέγειν καὶ περὶ τῶν καλουμένων τυπώσεων, ὡς ὁ τρόπος ὅλως ἕτερος ἢ ὡς ὑπείληπται, ὁποῖος καὶ ἐπὶ τῶν νοήσεων ἐνεργειῶν καὶ τούτων οὐσῶν γινώσκειν δ’ ἄνευ τοῦ παθεῖν τι δυναμένων: καὶ ὅλως ὁ λόγος ἡμῖν καὶ τὸ βούλημα μὴ ὑποβαλεῖν τροπαῖς καὶ ἀλλοιώσεσι τὴν ψυχὴν τοιαύταις, ὁποῖαι αἱ θερμάνσεις καὶ ψύξεις σωμάτων. καὶ τὸ παθητικὸν δὲ λεγόμενον αὐτῆς ἔδει ἰδεῖν καὶ ἐπισκέψασθαι, πότερα καὶ τοῦτο ἄτρεπτον δώσομεν, ἢ τούτῳ μόνῳ τὸ πάσχειν συγχωρήσομεν. ἀλλὰ τοῦτο μὲν ὕστερον, περὶ δὲ τῶν προτέρων τὰς ἀπορίας ἐπισκεπτέον."
+   "greek": "Τὰς αἰσθήσεις οὐ πάθη λέγοντες εἶναι, ἐνεργείας δὲ περὶ τὰ παθήματα καὶ κρίσεις, τῶν μὲν παθῶν περὶ ἄλλο γινομένων, οἷον τὸ σῶμα φέρε τὸ τοιόνδε, τῆς δὲ κρίσεως περὶ τὴν ψυχὴν οὐ πάθους οὔσης — ἄλλην γὰρ αὖ ἔδει κρίσιν γίνεσθαι καὶ ἐπαναβαίνειν ἀεὶ εἰς ἄπειρον — εἴχομεν ἂν οὐδὲν ἧττον καὶ ἐνταῦθα ἀπορίαν, εἰ ἡ κρίσις ᾗ κρίσις οὐδὲν ἔχει τοῦ κρινομένου. ἤ, εἰ τύπον ἔχοι, πέπονθεν. ἦν δ’ ὅμως λέγειν καὶ περὶ τῶν καλουμένων τυπώσεων, ὡς ὁ τρόπος ὅλως ἕτερος ἢ ὡς ὑπείληπται, ὁποῖος καὶ ἐπὶ τῶν νοήσεων ἐνεργειῶν καὶ τούτων οὐσῶν γινώσκειν δ’ ἄνευ τοῦ παθεῖν τι δυναμένων: καὶ ὅλως ὁ λόγος ἡμῖν καὶ τὸ βούλημα μὴ ὑποβαλεῖν τροπαῖς καὶ ἀλλοιώσεσι τὴν ψυχὴν τοιαύταις, ὁποῖαι αἱ θερμάνσεις καὶ ψύξεις σωμάτων. καὶ τὸ παθητικὸν δὲ λεγόμενον αὐτῆς ἔδει ἰδεῖν καὶ ἐπισκέψασθαι, πότερα καὶ τοῦτο ἄτρεπτον δώσομεν, ἢ τούτῳ μόνῳ τὸ πάσχειν συγχωρήσομεν. ἀλλὰ τοῦτο μὲν ὕστερον, περὶ δὲ τῶν προτέρων τὰς ἀπορίας ἐπισκεπτέον.",
+   "flags": [
+    {
+     "taylor": "In our theory, feelings are not states",
+     "in": "MacKenna",
+     "why": "The Greek begins with \"sense-perceptions\" (τὰς αἰσθήσεις): they are not affections but activities and judgements about affections; MacKenna's \"feelings\" blurs the perceptions with the affections they judge."
+    }
+   ]
   },
   {
    "seg": "III.6.1.p2",
@@ -4989,6 +4996,11 @@
     {
      "taylor": "And is not the epithymetic 1 part likewise",
      "why": "Taylor keeps the Greek word (epithymētikon): the part of the soul that desires."
+    },
+    {
+     "taylor": "So, the initiative faculty ; is it not, itself, altered",
+     "in": "MacKenna",
+     "why": "The Greek part is τὸ θυμοειδές, the \"spirited\" part of Plato's Republic, seat of anger and courage; \"initiative\" is MacKenna's word for it through the treatise."
     }
    ]
   },
@@ -5016,6 +5028,11 @@
     {
      "taylor": "the body, (that we may not err in our conceptions) being as it were contained in the soul",
      "why": "Taylor's words are near the Greek; the warning \"not to be misled by words\" belongs to the word \"holds\", that the soul \"holds\" the body."
+    },
+    {
+     "taylor": "So in pleasure, the elation is mental, but makes itself felt in the body ; the purely mental phase has not reached the point of sensation",
+     "in": "MacKenna",
+     "why": "The Greek says the \"diffusion\" (διάχυσις) of pleasure, which reaches perception, is in the body, and what is in the soul \"is no longer an affection\" (οὐκέτι πάθος); MacKenna puts the elation in the mind."
     }
    ]
   },
@@ -5023,7 +5040,14 @@
    "seg": "III.6.3.p2",
    "chapter": "III.6.3",
    "modern": "Again, desire: its source is in the soul and is hidden; what goes out from there, perception knows. For when we say the soul is moved in desires, reasonings and opinions, we do not mean that it does these things while being shaken, but that the movements come from it. When we call life a movement, we do not mean an alteration: the activity of each part according to nature is a life that does not leave itself. The heads of the matter are enough. If we grant that activities, lives and longings are not alterations, nor memories imprints sealed in, nor imaginings like stamps in wax, we must grant that in all that are called affections and movements the soul stays the same in its substrate and substance; and that virtue and vice do not come to be in it as black and white or hot and cold do in a body, but in the way that has been said, for both, and in general for all opposites.",
-   "greek": "ἐπεὶ καὶ τὸ τῆς ἐπιθυμίας ἐπὶ μὲν τῆς ψυχῆς τῆς ἀρχῆς οὔσης τοῦ ἐπιθυμεῖν λανθάνον ἐστίν, ἐκεῖθεν δὲ τὸ προελθὸν ἡ αἴσθησις ἔγνω. καὶ γὰρ ὅταν λέγωμεν κινεῖσθαι αὐτὴν ἐν ἐπιθυμίαις, ἐν λογισμοῖς, ἐν δόξαις, οὐ σαλευομένην αὐτὴν λέγομεν ταῦτα ποιεῖν, ἀλλ’ ἐξ αὐτῆς γινεσθαι τὰς κινήσεις. ἐπεὶ καὶ τὸ ζῆν κίνησιν λέγοντες οὐκ ἀλλοιοῦμεν, ἑκάστου δὲ μορίου ἡ ἐνέργεια ἡ κατὰ φύσιν ζωὴ οὐκ ἐξιστᾶσα. κεφάλαιον δὲ ἱκανόν: εἰ τὰς ἐνεργείας καὶ τὰς ζωὰς καὶ τὰς ὀρέξεις οὐκ ἀλλοιώσεις συγχωροῦμεν καὶ τὰς μνήμας οὐ τύπους ἐναποσφραγιζομένους οὐδὲ τὰς φαντασίας ὡς ἐν κηρῷ τυπώσεις, συγχωρητέον πανταχοῦ ἐν πᾶσι τοῖς λεγομένοις πάθεσι καὶ κινήσεσι τὴν ψυχὴν ὡσαύτως ἔχειν τῷ ὑποκειμένῳ καὶ τῇ οὐσίᾳ καὶ τὴν ἀρετὴν καὶ τὴν κακίαν μὴ ὡς τὸ μέλαν καὶ τὸ λευκὸν περὶ τὸ σῶμα γίγνεσθαι ἢ τὸ θερμὸν καὶ τὸ ψυχρόν, ἀλλ’ ὃν εἴρηται τρόπον ἐπ’ ἄμφω περὶ πάνθ̓ ὅλως τὰ ἐναντία γίγνεσθαι."
+   "greek": "ἐπεὶ καὶ τὸ τῆς ἐπιθυμίας ἐπὶ μὲν τῆς ψυχῆς τῆς ἀρχῆς οὔσης τοῦ ἐπιθυμεῖν λανθάνον ἐστίν, ἐκεῖθεν δὲ τὸ προελθὸν ἡ αἴσθησις ἔγνω. καὶ γὰρ ὅταν λέγωμεν κινεῖσθαι αὐτὴν ἐν ἐπιθυμίαις, ἐν λογισμοῖς, ἐν δόξαις, οὐ σαλευομένην αὐτὴν λέγομεν ταῦτα ποιεῖν, ἀλλ’ ἐξ αὐτῆς γινεσθαι τὰς κινήσεις. ἐπεὶ καὶ τὸ ζῆν κίνησιν λέγοντες οὐκ ἀλλοιοῦμεν, ἑκάστου δὲ μορίου ἡ ἐνέργεια ἡ κατὰ φύσιν ζωὴ οὐκ ἐξιστᾶσα. κεφάλαιον δὲ ἱκανόν: εἰ τὰς ἐνεργείας καὶ τὰς ζωὰς καὶ τὰς ὀρέξεις οὐκ ἀλλοιώσεις συγχωροῦμεν καὶ τὰς μνήμας οὐ τύπους ἐναποσφραγιζομένους οὐδὲ τὰς φαντασίας ὡς ἐν κηρῷ τυπώσεις, συγχωρητέον πανταχοῦ ἐν πᾶσι τοῖς λεγομένοις πάθεσι καὶ κινήσεσι τὴν ψυχὴν ὡσαύτως ἔχειν τῷ ὑποκειμένῳ καὶ τῇ οὐσίᾳ καὶ τὴν ἀρετὴν καὶ τὴν κακίαν μὴ ὡς τὸ μέλαν καὶ τὸ λευκὸν περὶ τὸ σῶμα γίγνεσθαι ἢ τὸ θερμὸν καὶ τὸ ψυχρόν, ἀλλ’ ὃν εἴρηται τρόπον ἐπ’ ἄμφω περὶ πάνθ̓ ὅλως τὰ ἐναντία γίγνεσθαι.",
+   "flags": [
+    {
+     "taylor": "but that, in all this relation, matter and spirit are exactly and comprehensively contraries",
+     "in": "MacKenna",
+     "why": "The Greek says only that virtue and vice come about \"in the way described\" for both, and so for all contraries; matter and spirit are not named."
+    }
+   ]
   },
   {
    "seg": "III.6.4.p1",
@@ -5034,6 +5058,11 @@
     {
      "taylor": "Unexpected fear, however, when it accedes, will be found to originate from opinion",
      "why": "The Greek says the fear is \"outside the opinion\", in another part, though it comes from the opinion above it; it does not say \"unexpected\"."
+    },
+    {
+     "taylor": "the desiring faculty in its effort to shape things to its choice",
+     "in": "MacKenna",
+     "why": "The Greek names only the passions of the spirited and the desiring parts (τὸ θυμοειδὲς καὶ τὸ ἐπιθυμοῦν); \"its effort to shape things to its choice\" is MacKenna's."
     }
    ]
   },
@@ -5046,6 +5075,11 @@
     {
      "taylor": "For these effects are not in the psychical part ; since if they were, we should not say that they are corporeal",
      "why": "The Greek says that if these were in the soul's part, we would have to call that part bodily; Taylor reverses it."
+    },
+    {
+     "taylor": "since the only transmitting principle, oppressed by sensation, jarred out of itself",
+     "in": "MacKenna",
+     "why": "The Greek says the sender would be \"held by the affection (πάθει) and beside itself\"; sensation is not named."
     }
    ]
   },
@@ -5058,6 +5092,11 @@
     {
      "taylor": "It is requisite, how- mity it is conjoined with sense",
      "why": "Taylor's chapter, as the scan gives it, has one of his footnotes printed into the text here, breaking the word \"however\" (\"See my Introduction to ... Aristotle's treatise On the Soul\"). It is Taylor's, not Plotinus'."
+    },
+    {
+     "taylor": "it is as if Melody itself plucked the strings",
+     "in": "MacKenna",
+     "why": "The Greek word is ἁρμονία, the \"attunement\" of the strings (as in the Phaedo), not a melody; MacKenna's \"Melody\" and \"Melodic Principle\" run through the passage."
     }
    ]
   },
@@ -5082,6 +5121,11 @@
     {
      "taylor": "lest it should be suffocated in flesh",
      "why": "The Greek says the separation is complete when the lower soul is not on a spirit muddied by gluttony and \"a mass of impure flesh\"; \"suffocated\" is Taylor's."
+    },
+    {
+     "taylor": "no longer bound to the flesh by the chains of sensuality and of multiplicity",
+     "in": "MacKenna",
+     "why": "The Greek says the lower soul is separate when it does not ride \"on a turbid spirit (πνεῦμα) from gluttony\" and a mass of impure flesh, but on something thin, \"so as to be carried quietly on it\"; the chains, and the sovereignty that follows, are MacKenna's."
     }
    ],
    "notes": [
@@ -5139,6 +5183,18 @@
    "chapter": "III.6.7",
    "modern": "We must return to the matter that underlies, and to what are said to be in it; from these it will be known that it is not, and that matter is free from affection. It is incorporeal, since body comes later and is composite, and matter with something else makes body. It got the same name, \"incorporeal\", because both being and matter are other than bodies. It is not soul, nor intellect, nor life, nor form, nor rational principle, nor limit, for it is unlimitedness; nor a power, for what does it make? Falling outside all these, it could not rightly take even the name of being; it might fairly be called not-being, and not as motion is not-being, or rest, but truly not-being: an image and phantom of bulk, a longing for existence; standing, but not at rest; invisible in itself, escaping whoever wants to see it, coming to be when one does not look, and not seen when one gazes at it; always showing opposites in itself, small and great, less and more, falling short and exceeding; an image that does not stay, and cannot flee either. It has not even the strength for that, since it has taken no strength from intellect, but has come to be in the lack of all being.",
    "greek": "ἀλλ’ ἐπανιτέον ἐπί τε τὴν ὕλην τὴν ὑποκειμένην, καὶ τὰ ἐπὶ τῇ ὕλῃ εἶναι λεγόμενα, ἐξ ὧν τό τε μὴ εἶναι αὐτὴν καὶ τὸ τῆς ὕλης ἀπαθὲς γνωσθήσεται. ἔστι μὲν οὖν ἀσώματος, ἐπείπερ τὸ σῶμα ὕστερον καὶ σύνθετον καὶ αὐτὴ μετ’ ἄλλου ποιεῖ σῶμα. οὕτω γὰρ τοῦ ὀνόματος τετύχηκε τοῦ αὐτοῦ κατὰ τὸ ἀσώματον, ὅτι ἑκάτερον τό τε ὂν ἥ τε ὕλη ἕτερον τῶν σωμάτων. οὔτε δὲ ψυχὴ οὖσα οὔτε νοῦς οὔτε ζωὴ οὔτε εἶδος οὔτε λόγος οὔτε πέρας: ἀπειρία γάρ: οὔτε δύναμις: τί γὰρ καὶ ποιεῖ; ἀλλὰ ταῦτα ὑπερεκπεσοῦσα πάντα οὐδὲ τὴν τοῦ ὄντος προσηγορίαν ὀρθῶς ἂν δέχοιτο, μὴ ὂν δ’ ἂν εἰκότως λέγοιτο, καὶ οὐχ ὥσπερ κίνησις μὴ ὂν ἢ στάσις μὴ ὄν, ἀλλὰ ἀληθινῶς μὴ ὄν, εἴδωλον καὶ φάντασμα ὄγκου καὶ ὑποστάσεως ἔφεσις καὶ ἑστηκὸς οὐκ ἐν στάσει καὶ ἀόρατον καθ̓ αὑτὸ καὶ φεῦγον τὸν βουλόμενον ἰδεῖν, καὶ ὅταν τις μὴ ἴδῃ γιγνόμενον, ἀτενίσαντι δὲ οὐχ ὁρώμενον, καὶ τὰ ἐναντία ἀεὶ ἐφ̓ ἑαυτοῦ φανταζόμενον, μικρὸν καὶ μέγα καὶ ἧττον καὶ μᾶλλον, ἐλλεῖπόν τε καὶ ὑπερέχον, εἴδωλον οὐ μένον οὐδ’ αὖ φεύγειν δυνάμενον: οὐδὲ γὰρ οὐδὲ τοῦτο ἰσχύει ἅτε μὴ ἰσχὺν παρὰ νοῦ λαβόν, ἀλλ’ ἐν ἐλλείψει τοῦ ὄντος παντὸς γενόμενον.",
+   "flags": [
+    {
+     "taylor": "Thus it is included among incorporeal things in the sense that body is something that is neither Real-Being nor Matter",
+     "in": "MacKenna",
+     "why": "The Greek says matter has the same name \"incorporeal\" as Being because \"each of them, Being and matter, is other than bodies\"; MacKenna's sentence turns it round."
+    },
+    {
+     "taylor": "this in the sense not of movement (away from Being) or station (in Not-Being)",
+     "in": "MacKenna",
+     "why": "The Greek says matter is not-being \"not as movement or rest is not-being\" (in Plato's Sophist, each is not the other kinds), but truly not-being; MacKenna's brackets misread the comparison."
+    }
+   ],
    "notes": [
     "Motion and rest are \"not-being\" in the sense of the Sophist (256d-e), as other than being; matter is not-being in another, truer sense."
    ]
@@ -5179,6 +5235,11 @@
     {
      "taylor": "But is not matter [it may be said] co-passive",
      "why": "Taylor's words in square brackets are his own; the Greek asks the question in Plotinus' own voice."
+    },
+    {
+     "taylor": "but the very notion of Substance implies that any and every thing present in it has some action upon it",
+     "in": "MacKenna",
+     "why": "The Greek word is ὑποκείμενον, the \"subject\" or substrate, not substance (οὐσία): whatever is in a subject is present to it so as to give it something of itself."
     }
    ]
   },
@@ -5191,6 +5252,11 @@
     {
      "taylor": "Nor does a stone, when it becomes cold, possess any thing besides frigidity",
      "why": "The Greek asks \"what does a stone that has become cold have from the cold, while it stays a stone?\": nothing that makes it other than a stone."
+    },
+    {
+     "taylor": "A drawing does not cease to be a drawing for being coloured",
+     "in": "MacKenna",
+     "why": "The Greek asks \"what would a line (γραμμή) suffer from colour? Nor the surface, I think, but perhaps the body beneath\": a geometer's line, not a drawing."
     }
    ]
   },
@@ -5203,6 +5269,11 @@
     {
      "taylor": "many of them act on each other, or rather are contrarily affected",
      "why": "The Greek says that most of the qualities will not act on one another, only those that are opposed; Taylor reverses it."
+    },
+    {
+     "taylor": "A thing can be hurt only by something related to it",
+     "in": "MacKenna",
+     "why": "The Greek says what is harmed is \"not harmed by any chance thing\", and what is affected is affected by its contraries; \"related to it\" is the opposite of the point."
     }
    ]
   },
@@ -5257,6 +5328,13 @@
    "chapter": "III.6.12",
    "modern": "Plato, thinking this about matter, does not take sharing to be a form coming into a substrate and giving it shape, so that one composite comes about from things that change together, are as it were mixed together and affected together. He wants to show that he does not mean this, and how matter could have the forms while remaining unaffected, and he looks for a pattern of unaffected sharing; and since it is not easy to teach in another way what things, by their presence, most of all keep the substrate the same, he raises many difficulties, hastening to what he wants, and wishing besides to show the emptiness of existence in the things we perceive, and how large the room is for the merely likely. So he supposes that matter makes the feelings of living bodies by figures, while it has none of these feelings itself, and so shows that it stays, letting us infer that it is not affected or altered by the figures either.",
    "greek": "ὁ δέ γε Πλάτων τοῦτο νοῶν περὶ αὐτῆς καὶ τὴν μετάληψιν οὐχ ὡς ἐν ὑποκειμένῳ εἴδους γενομένου καὶ μορφὴν διδόντος, ὥστε ἓν σύνθετον γενέσθαι συντραπέντων καὶ οἷον συγκραθέντων καὶ συμπαθόντων, τιθέμενος, ὅτι μὴ οὕτω λέγει παραστῆσαι βουλόμενος, καὶ πῶς ἂν αὐτὴ ἀπαθὴς μένουσα ἔχοι τὰ εἴδη, ἀπαθοῦς μεταλήψεως ζητῶν παράδειγμα, ἄλλον τρόπον οὐ ῥᾴδιον ὂν διδάξαι ἃ μάλιστα παρόντα σώζει τὸ ὑποκείμενον ταὐτὸν εἶναι, ὑπέστη πολλὰς ἀπορίας σπεύδων ἐφ̓ ὃ βούλεται καὶ προσέτι παραστῆσαι θέλων τὸ ἐν τοῖς αἰσθητοῖς κενὸν τῆς ὑποστάσεως καὶ τὴν χώραν τοῦ εἰκότος οὖσαν πολλήν. τὴν οὖν ὕλην σχήμασιν ὑποθέμενος τὰ πάθη ποιεῖν τοῖς ἐμψύχοις σώμασιν οὐδὲν αὐτὴν ἔχουσαν τούτων τῶν παθημάτων τὸ μένον αὐτῆς ταύτῃ ἐνδείκνυται διδοὺς συλλογίζεσθαι, ὡς οὐδὲ παρὰ τῶν σχημάτων ἔχει τὸ πάσχειν αὐτὴ καὶ ἀλλοιοῦσθαι.",
+   "flags": [
+    {
+     "taylor": "he therefore devises a metaphor for participation without modification (patternless wax, alone taking a clear impression)",
+     "in": "MacKenna",
+     "why": "The Greek says Plato sought \"an example of participation without affection\" (ἀπαθοῦς μεταλήψεως ... παράδειγμα); the wax in MacKenna's brackets is not in this passage."
+    }
+   ],
    "notes": [
     "In the Timaeus (53c-56c) the elements are made of geometrical figures, triangles and solids; the sensations of hot and cold, hard and soft, come from the shapes of their parts (61d-64a)."
    ]
@@ -5266,6 +5344,13 @@
    "chapter": "III.6.12",
    "modern": "For these bodies, which take one shape after another, one might perhaps say that alteration happens, calling the change of shape alteration by the same name. But matter has no shape or size: how could one call the presence of shape in any way alteration, even by the same name? If, then, someone said here \"colour by convention, and the rest by convention\", because the underlying nature has nothing as it is thought to have, he would not be out of keeping with the argument. But how does it have them, if even \"as shapes\" does not please? The supposition gives a hint, as far as can be, of its freedom from affection, and of the seeming presence of images that are not present.",
    "greek": "τοῖς μὲν γὰρ σώμασι τούτοις ἐξ ἑτέρου σχήματος ἕτερον σχῆμα δεχομένοις τάχα ἄν τις ἀλλοίωσιν λέγοι γίγνεσθαι τὴν τοῦ σχήματος μεταβολὴν ὁμώνυμον τὴν ἀλλοίωσιν εἶναι λέγων: τῆς δὲ ὕλης οὐδὲν σχῆμα ἐχούσης οὐδὲ μέγεθος πῶς ἄν τις τὴν τοῦ σχήματος ὁπωσοῦν παρουσίαν ἀλλοίωσιν εἶναι κἂν ὁμωνύμως λέγοι; εἴ τις οὖν ἐνταῦθα τὸ ʽνόμῳ χροιὴ καὶ τὰ ἄλλα νόμᾠ λέγοι τῷ τὴν φύσιν τὴν ὑποκειμένην μηδὲν οὕτως ἔχειν, ὡς νομίζεται, οὐκ ἂν ἄτοπος εἴη τοῦ λόγου. ἀλλὰ πῶς ἔχει, εἰ μηδὲ τὸ ὡς σχήματα ἀρέσκει; ἀλλ’ ἔχει ἔνδειξιν ἡ ὑπόθεσις ὡς οἷόν τε τῆς ἀπαθείας καὶ τῆς οἷον εἰδώλων οὐ παρόντων δοκούσης παρουσίας.",
+   "flags": [
+    {
+     "taylor": "On this point if one must have",
+     "in": "MacKenna",
+     "why": "The Greek quotes Democritus, \"by convention colour, and the rest by convention\" (νόμῳ χροιή), to say that the substrate has nothing in the way it is supposed to; MacKenna's \"a rule for thick and thin\" loses the quotation."
+    }
+   ],
    "notes": [
     "\"Colour by convention\" is from Democritus (fragment 9 and 125, Diels-Kranz): only atoms and the void are real."
    ]
@@ -5327,6 +5412,11 @@
     {
      "taylor": "What then* matter not existing, would nothing have a subsistence ? Nothing except beings",
      "why": "The Greek answers \"not even an image, if there were no mirror\"; \"Nothing except beings\" is Taylor's own answer."
+    },
+    {
+     "taylor": "The union with Poros, Possession",
+     "in": "MacKenna",
+     "why": "In the Symposium myth Poros is \"Resource\", the way through; the Greek plays on it: Poverty lies not with Being nor with Koros, \"fullness\", but with a \"resourceful\" thing (εὐμήχανῳ), the cleverness of the image."
     }
    ],
    "notes": [
@@ -5342,6 +5432,11 @@
     {
      "taylor": "but impeding progression like some repercussive seat",
      "why": "Taylor's words are near the Greek, a seat that \"pushes away\" what comes to it; the image is of a burning-glass, which gathers the fire outside itself."
+    },
+    {
+     "taylor": "an outside thing belonging in any degree to Real-Being",
+     "in": "MacKenna",
+     "why": "The Greek says that whatever is \"in any way outside\" Being (ἔξω ὂν αὐτοῦ) cannot fail altogether to share in Being, since Being makes beings; MacKenna turns \"outside\" into \"belonging\"."
     }
    ]
   },
@@ -5414,6 +5509,11 @@
     {
      "taylor": "nothing else [besides matter] is able to receive this magnitude",
      "why": "The Greek says that \"the other\", matter, cannot contain the great, but will have it only as an image; Taylor's bracket makes matter the only thing that can."
+    },
+    {
+     "taylor": "this Principle comes from the source of Magnitude",
+     "in": "MacKenna",
+     "why": "The Greek says \"since it comes from a great father\" (παρὰ μεγάλου πατρὸς), an image MacKenna replaces with his bracketed gloss."
     }
    ]
   },

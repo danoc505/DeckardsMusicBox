@@ -182,7 +182,7 @@ class Files(unittest.TestCase):
             self.assertIn(modern_neo.norm(f["taylor"]), ch[cid], seg)
             self.assertGreaterEqual(len(f["taylor"].split()), 3, seg)
             self.assertTrue(f["why"].strip(), seg)
-        done = {"I.2", "I.3", "II.4", "II.9"}       # E34b, E34c
+        done = {"I.2", "I.3", "II.4", "II.9", "III.6"}       # E34b, E34c, E34d
         per = {t: sum(1 for _, cid, _ in flags if cid.rsplit(".", 1)[0] == t) for t in done}
         self.assertTrue(all(n >= 10 for n in per.values()), per)
         by = {seg: [f["taylor"] for s, _, f in flags if s == seg] for seg, _, _ in flags}
@@ -194,6 +194,9 @@ class Files(unittest.TestCase):
         # E34c: his "cubic feet" for cubits (II.9.9), and God, not the world, knowing its order (II.9.9).
         self.assertIn("one man were told that he stands a thousand cubic feet", by["II.9.9.p3"])
         self.assertIn("The Universe has need of Him, and He knows its ordering", by["II.9.9.p4"])
+        # E34d: "a drawing" for a geometer's line (III.6.9), "Melody" for the attunement of the strings (III.6.4).
+        self.assertIn("A drawing does not cease to be a drawing for being coloured", by["III.6.9.p1"])
+        self.assertIn("it is as if Melody itself plucked the strings", by["III.6.4.p3"])
 
 
 @unittest.skipUnless(FIRST1K.exists(), "run python3 tools/fetch_sources.py first")
