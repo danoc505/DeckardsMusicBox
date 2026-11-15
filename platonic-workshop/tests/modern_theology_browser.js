@@ -35,18 +35,18 @@ async function run(b, viewport, touch, first) {
   const head = await p.$eval(".tg-read", (e) => e.innerText);
   check(/Modern English, the Workshop's own/.test(head) && /machine-assisted/i.test(head) && /not yet checked by a scholar/.test(head), `${tag}: labelled as the Workshop's own and machine-assisted`);
   check(/Made from Thomas Taylor's translation \(1816\)/.test(head), `${tag}: says it is made from Taylor's English`);
-  check(await p.$$eval(".tg-mod .ms-sum", (es) => es.length) === 49, `${tag}: each of the forty-nine chapters has its gist`);
+  check(await p.$$eval(".tg-mod .ms-sum", (es) => es.length) === 59, `${tag}: each of the fifty-nine chapters has its gist`);
   check(await p.$eval("#mc-I\\.1 h4", (e) => /^Book I, chapter 1\./.test(e.textContent)), `${tag}: chapters are named by book and chapter`);
   check(await p.$eval("#mp-I\\.1\\.p1 .mp-text", (e) => /^Pericles, dearest of my friends/.test(e.textContent)), `${tag}: the modern English of I.1`);
   check(await p.$$eval(".tg-mod .mp-greek", (es) => es.length) === 0, `${tag}: no Greek box, since there is no Greek yet`);
-  check(await p.$$eval(".tg-mod .mp-flag", (es) => es.length) >= 89, `${tag}: flags quoting Taylor`);
+  check(await p.$$eval(".tg-mod .mp-flag", (es) => es.length) >= 101, `${tag}: flags quoting Taylor`);
   check(await p.$$eval(".tg-mod .tm-en", (es) => es.length) > 20, `${tag}: key words are underlined for the Term tab`);
   check(/henads/.test(await p.$eval("#mp-I\\.3\\.p3", (e) => e.textContent)), `${tag}: Taylor's "unities" are henads`);
   await wide("the Theology in modern English");
 
   // The contents of all six books, those to come named by Taylor's headings.
   check(/Book VI/.test(await p.$eval("#toc", (e) => e.innerText)), `${tag}: the contents column lists all six books`);
-  check(await p.$$eval(".enn-all .enn-here", (es) => es.length) === 49 && await p.$$eval(".enn-all .enn-later", (es) => es.length) > 100, `${tag}: all six books, Books I-II and III.1-8 done`);
+  check(await p.$$eval(".enn-all .enn-here", (es) => es.length) === 59 && await p.$$eval(".enn-all .enn-later", (es) => es.length) > 100, `${tag}: all six books, Books I-II and III.1-18 done`);
 
   // Taylor's English of a chapter, one tap away, with his notes.
   await p.click("#mc-I\\.1 [data-tg-tay]");
@@ -56,7 +56,7 @@ async function run(b, viewport, touch, first) {
   // Side by side.
   await p.click('[data-nm-mode="both"]');
   await p.waitForSelector(".mod-both .tg-tcol");
-  check(await p.$$eval(".tg-tcol", (es) => es.length) === 49, `${tag}: side by side, Taylor beside every chapter`);
+  check(await p.$$eval(".tg-tcol", (es) => es.length) === 59, `${tag}: side by side, Taylor beside every chapter`);
   if (viewport.width >= 1024) {
     const cols = await p.$eval("#mc-I\\.1 .tg-cols", (e) => [...e.children].map((c) => Math.round(c.getBoundingClientRect().left)));
     check(cols.length === 2 && cols[1] > cols[0] + 100, `${tag}: in two columns`);
