@@ -874,7 +874,10 @@ Daniel: "Lets move over to modernizing Proclus Theology of Plato". The Enneads' 
   divine, immortal and intelligible, one-like, indissoluble and always the same; the unbegotten; father and mother causes; the
   divine names (the Cratylus). 30 paragraphs, 17 flags (e.g. Taylor's "latter" and "former" the wrong way round, and
   "participated" for "unparticipated", in I.26).
-- T5: Book II, chapters 1-3 (9,420): the first principle, beyond being, argued from the one and the many.
+- **T5: Book II, chapters 1-3 (9,420) (done).** The first principle, beyond being, argued three ways: from the one and the
+  many (the Parmenides' hypotheses turned into proofs), from the kinds of principle (not body, not a power in bodies, not
+  moved, not being), and from what all things share and the limits of the series of causes. 29 paragraphs, 11 flags (e.g.
+  Taylor's "causally" for "by chance", and a sentence of II.3 where his English says "more perfect" for "less perfect").
 - T6: Book II, chapters 4-12 (12,799): the first principle above intellect; the ascent by analogy and by negation; its names;
   the Republic's sun; the first king of the Second Letter; the first hypothesis of the Parmenides.
 - T7 to T9: Book III (28,027): the henads, limit and the unlimited, the intelligible gods. Gutenberg's text runs chapters 3-9

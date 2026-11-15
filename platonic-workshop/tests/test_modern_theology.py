@@ -68,12 +68,12 @@ class Files(unittest.TestCase):
         self.assertIn("Project Gutenberg", d["taylor_source"])
         self.assertIn("not yet on the site", d["about"])
 
-    def test_book_one_chapters_one_to_twenty_nine_each_with_a_title_and_a_summary(self):
+    def test_book_one_and_book_two_chapters_one_to_three_each_with_a_title_and_a_summary(self):
         d = load()
-        self.assertEqual([c["id"] for c in d["chapters"]], [f"I.{n}" for n in range(1, 30)])
-        self.assertEqual([t["id"] for t in d["treatises"]], ["I"])
+        self.assertEqual([c["id"] for c in d["chapters"]], [f"I.{n}" for n in range(1, 30)] + ["II.1", "II.2", "II.3"])
+        self.assertEqual([t["id"] for t in d["treatises"]], ["I", "II"])
         self.assertTrue(all(c["title"] and c["summary"] and c["taylor_head"] for c in d["chapters"]))
-        self.assertEqual(len(d["paragraphs"]), 121)
+        self.assertEqual(len(d["paragraphs"]), 150)
         self.assertTrue(d["paragraphs"][0]["modern"].startswith("Pericles, dearest of my friends"))
 
     def test_every_paragraph_of_taylor_has_a_modern_version_in_order(self):
@@ -82,13 +82,13 @@ class Files(unittest.TestCase):
             mine = [p["seg"] for p in d["paragraphs"] if p["chapter"] == c["id"]]
             self.assertEqual(mine, [f"{c['id']}.p{k}" for k in range(1, len(c["taylor"]) + 1)], c["id"])
             self.assertEqual([x["text"] for x in c["taylor"]],
-                             [x["text"] for x in next(t for t in BOOKS["I"]["chapters"] if t["id"] == c["id"])["paras"]])
+                             [x["text"] for x in next(t for t in BOOKS[c["id"].split(".")[0]]["chapters"] if t["id"] == c["id"])["paras"]])
 
     def test_flags_quote_taylor_word_for_word_and_say_why(self):
         d = load()
         taylor = {f"{c['id']}.p{x['n']}": x["text"] for c in d["chapters"] for x in c["taylor"]}
         flags = [(p["seg"], f) for p in d["paragraphs"] for f in p.get("flags", [])]
-        self.assertGreaterEqual(len(flags), 48)
+        self.assertGreaterEqual(len(flags), 59)
         for seg, f in flags:
             self.assertIn(f["taylor"], taylor[seg], seg)
             self.assertTrue(f["why"], seg)
